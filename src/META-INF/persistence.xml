@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="seploc">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		<!-- <class>inclusao de classes aqui</class>  -->
+
+		<properties>
+
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<!--<property name="hibernate.connection.username" value="admin" />  -->
+
+			<property name="hibernate.connection.username" value="root" />
+
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.password" value="" />
+
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/sadba" />
+
+			<!--
+				<property name="hibernate.connection.url"
+				value="jdbc:mysql://10.200.221.202:3306/sadba" />
+			-->
+			<property name="hibernate.connection.timeout" value="10" />
+			<property name="hibernate.show_sql" value="true" />
+		</properties>
+	</persistence-unit>
+</persistence>
