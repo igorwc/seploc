@@ -3,6 +3,21 @@
     <wb-module deploy-name="seploc">
         <wb-resource deploy-path="/" source-path="/WebContent"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/commons-logging-1.0.4.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/freemarker-2.3.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/ognl-2.6.11.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/struts2-core-2.0.14.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/xwork-2.0.7.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/antlr-2.7.6.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -12,16 +27,10 @@
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/commons-collections-3.1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/commons-logging-1.0.4.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/dom4j-1.6.1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/ejb3-persistence.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/freemarker-2.3.8.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/hibernate-annotations.jar">
@@ -42,6 +51,12 @@
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/javassist-3.9.0.GA.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/jsf-api.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/jsf-impl.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/jstl-api-1.2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -54,19 +69,10 @@
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/mysql-connector-java-5.1.11-bin.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/ognl-2.6.11.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/slf4j-api-1.5.11.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/slf4j-nop-1.5.11.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/struts2-core-2.0.14.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/xwork-2.0.7.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="seploc"/>
