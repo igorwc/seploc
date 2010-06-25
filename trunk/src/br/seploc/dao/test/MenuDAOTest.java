@@ -1,11 +1,15 @@
 package br.seploc.dao.test;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import br.seploc.dao.MenuDAO;
 import br.seploc.pojos.Menu;
-import junit.framework.TestCase;
 
-public class MenuDAOTest extends TestCase {
+public class MenuDAOTest {
 
+	@Test
 	public void testAdicionaMenu() {
 		MenuDAO dao = new MenuDAO();
 		Menu menu = new Menu();
@@ -26,7 +30,7 @@ public class MenuDAOTest extends TestCase {
 		assertEquals("arquivo.jpg", menu.getImagem());
 		assertEquals('Z', menu.getCodMenu().charValue());
 	}
-
+	@Test
 	public void testAlteraMenu() {
 		MenuDAO dao = new MenuDAO();
 		Menu menu = dao.recupera('Z');
@@ -39,14 +43,14 @@ public class MenuDAOTest extends TestCase {
 		assertEquals("Criar2", menu.getRotulo());
 		assertEquals("teste.zip", menu.getArquivo());
 	}
-
+	@Test
 	public void testRecuperaInteger() {
 		MenuDAO dao = new MenuDAO();
 		Menu menu = dao.recupera('A');
 		assertNotNull(menu);
 		assertEquals("requisicao.jpg", menu.getImagem());
 	}
-
+	@Test
 	public void testRemove() throws Exception {
 		MenuDAO dao = new MenuDAO();
 		Menu menu = dao.recupera('Z');
@@ -56,7 +60,7 @@ public class MenuDAOTest extends TestCase {
 		menu = dao.recupera('Z');
 		assertNull(menu);
 	}
-
+	@Test
 	public void testGetLista() {
 		fail("Not yet implemented");
 	}

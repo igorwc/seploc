@@ -8,6 +8,8 @@
 		<!-- <class>inclusao de classes aqui</class>  -->
 		<class>br.seploc.pojos.Menu</class>
 		<class>br.seploc.pojos.Cobrador</class>
+		<class>br.seploc.pojos.Papel</class>
+		<class>br.seploc.pojos.Entrega</class>
 
 		<properties>
 
