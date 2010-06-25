@@ -17,13 +17,15 @@ import javax.persistence.Version;
 
 @Entity(name = "tbl_cobrador")
 @SqlResultSetMapping(name = "Cobrador.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Cobrador.class))
-@NamedNativeQueries( { @NamedNativeQuery(name = "Cobrador.RetornaCobradores", query = " SELECT intCodCobr, vcrNome, "
-		+ "vcrFoneCon, tspVersao " + "FROM tbl_cobrador c", resultSetMapping = "Cobrador.implicit")
-
-// ,@NamedNativeQuery(name = "Status.FiltraStatus", query =
-// "SELECT s.STS_ID, s.DESCRICAO FROM Status s "
-// + " WHERE s.DESCRICAO like :STATUS", resultSetMapping = "Status.implicit"),
-// @NamedNativeQuery(name = "Status.ContaStatus", query =
+@NamedNativeQueries( {
+		@NamedNativeQuery(name = "Cobrador.RetornaCobradores", query = " SELECT intCodCobr, vcrNome, "
+				+ "vcrFoneCon, tspVersao " + "FROM tbl_cobrador c", resultSetMapping = "Cobrador.implicit")
+		,
+		@NamedNativeQuery(name = "Cobrador.FiltraCobradores", query = " SELECT c.intCodCobr, c.vcrNome, "
+				+ "c.vcrFoneCon, c.tspVersao "
+				+ "FROM tbl_cobrador c"
+				+ " WHERE c.vcrNome like :nome", resultSetMapping = "Cobrador.implicit")
+// , @NamedNativeQuery(name = "Status.ContaStatus", query =
 // "SELECT  count(*) FROM Status s ", resultSetMapping = "Status.implicit"),
 // @NamedNativeQuery(name = "Status.BuscaPorNome", query =
 // "SELECT * FROM Status s where "
@@ -38,10 +40,9 @@ public class Cobrador implements Serializable {
 	private static final long serialVersionUID = -2529422977775910092L;
 
 	@Id
-//	@Column(name = "intCodCobr")
-	@GeneratedValue(generator = "cob_id",strategy=GenerationType.TABLE)
-	@TableGenerator(name = "cob_id", table = "ID_GEN", allocationSize=1,
-			pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "COB_GEN")
+	// @Column(name = "intCodCobr")
+	@GeneratedValue(generator = "cob_id", strategy = GenerationType.TABLE)
+	@TableGenerator(name = "cob_id", table = "ID_GEN", allocationSize = 1, pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "COB_GEN")
 	private Integer intCodCobr;
 
 	@Column(name = "vcrNome", nullable = false)

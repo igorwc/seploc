@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.Query;
 
 import br.seploc.pojos.Cobrador;
-import br.seploc.pojos.Menu;
 import br.seploc.util.GenericDAO;
 
 public class CobradorDAO extends GenericDAO<Cobrador> {
@@ -14,7 +13,7 @@ public class CobradorDAO extends GenericDAO<Cobrador> {
 	public void adiciona(Cobrador t) {
 		em.getTransaction().begin();
 		em.merge(t);
-		em.getTransaction().commit();		
+		em.getTransaction().commit();
 	}
 
 	@Override
@@ -31,6 +30,16 @@ public class CobradorDAO extends GenericDAO<Cobrador> {
 		return cobrador;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Cobrador> recuperaPorNome(String nome) {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Cobrador.FiltraCobradores")
+				.setParameter("nome", "%" + nome + "%");
+		
+		em.getTransaction().commit();
+		return (List<Cobrador>) q.getResultList();
+	}
+
 	@Override
 	public Cobrador remove(Integer id) throws Exception {
 		em.getTransaction().begin();
@@ -40,13 +49,13 @@ public class CobradorDAO extends GenericDAO<Cobrador> {
 
 		return cobrador;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List<Menu> getLista() {
+	public List<Cobrador> getLista() {
 		em.getTransaction().begin();
 		Query q = em.createNamedQuery("Cobrador.RetornaCobradores");
 		em.getTransaction().commit();
-		return (List<Menu>) q.getResultList();
+		return (List<Cobrador>) q.getResultList();
 	}
 
 }
