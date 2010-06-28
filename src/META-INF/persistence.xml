@@ -45,10 +45,6 @@
 
 			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/seploc" />
 
-			<!--
-				<property name="hibernate.connection.url"
-				value="jdbc:mysql://10.200.221.202:3306/sadba" />
-			-->
 			<property name="hibernate.connection.timeout" value="10" />
 			<property name="hibernate.show_sql" value="true" />
 		</properties>
