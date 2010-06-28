@@ -1,0 +1,26 @@
+--carga
+
+INSERT INTO tbl_menu2 (intMenu, vcrMenu, vcrAcao, intMenuPai, intNivelX, intNivelY) VALUES
+(1, 'Seploc', '#', null, 1, 0),
+(2, 'Cadastros', '#', null, 2, 0),
+(3, 'Atendimento', '#', null, 3, 0),
+(4, 'Relatórios', '#', null, 4, 0),
+(5, 'Sair', '#', null, 5, 0),
+(6, 'Papeis', '#', 2, 0, 1),
+(7, 'Projetos', '#', 2, 0, 2),
+(8, 'Clientes', '#', 2, 0, 3),
+(9, 'Entregas', '#', 2, 0, 4),
+(10, 'Opcionais', '#', 2, 0, 5),
+(11, 'Entregadores', '#', 2, 0, 6),
+(12, 'Usuários', '#', 2, 0, 7),
+(13, 'Balcão', '#', 3, 0, 1),
+(14, 'Cliente', '#', 3, 0, 2),
+(15, 'Grupos Acesso', '#', 1, 0, 1),
+(16, 'Associar Usuário', '#', 1, 0, 2);
+
+-- consulta
+select intMenuPai,vcrMenu,vcrAcao, intNivelX, intNivelY 
+from tbl_menu2 
+where chrHabilitado='S'
+group by intMenuPai, intNivelY, intNivelX, vcrMenu,vcrAcao;
+
