@@ -28,3 +28,8 @@ ul#icons span.ui-icon {
 	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 }
+
+.error { 
+	font-weight: bold;
+	color: red;
+}
