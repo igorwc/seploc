@@ -37,7 +37,9 @@
   </tr>
   <!-- TOPO -->
   <tr align="right">
-	<td colspan="3">Bem-vindo, <ui:insert name="topo">Gustavo Marinho</ui:insert> &nbsp;&nbsp;</td>
+  <ui:insert name="msgUser">
+	<td colspan="3">Bem-vindo, <ui:insert name="topo">#{login.userName}</ui:insert> &nbsp;&nbsp;</td>
+  </ui:insert>
   </tr>  
   <!-- MENU -->
   <tr>

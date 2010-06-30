@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	 xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:c="http://java.sun.com/jstl/core"
+      template="masterpage.xhtml">
+      <ui:define name="menu"/>
+      <ui:define name="msgUser"/>
+       
+	<ui:define name="conteudo">
+		<center><f:view>
+			<h:form prependId="false">
+				<h:panelGrid columns="2">
+					<h:outputLabel value="User Name" for="un" />
+					<h:inputText id="username" value="#{login.userName}" 
+					                           required="true"
+					                           requiredMessage="Login deve ser informado">
+					                           <f:validateLength minimum="1"/>
+					</h:inputText> 
+					                           
+					<h:outputLabel value="Password" for="pw" />
+					<h:inputSecret id="passwd" value="#{login.password}" />
+				</h:panelGrid>
+				<h:messages errorClass="error" layout="table"/>
+				<h:commandButton value="Login" action="#{login.validateLogin}" />
+			</h:form>
+		</f:view></center>
+	</ui:define>
+</ui:composition>
