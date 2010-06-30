@@ -109,11 +109,11 @@ CREATE TABLE IF NOT EXISTS `tbl_fonecli` (
 -- Estrutura da tabela `tbl_grupoacesso`
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_grupoacesso` (
-  `intGrupoAcesso` int(1) NOT NULL DEFAULT '0',
-  `vcrGrupoMenu` varchar(100) NOT NULL DEFAULT '',
+CREATE TABLE IF NOT EXISTS `tbl_grupo` (
+  `intGrupo` int(1) NOT NULL DEFAULT '0',
+  `vcrGrupo` varchar(100) NOT NULL DEFAULT '',  
   `tspVersao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`intGrupoAcesso`,`vcrGrupoMenu`)
+  PRIMARY KEY (`intGrupo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -124,9 +124,9 @@ create table tbl_grupomenu(
   `intMenu`       int(2) not null,
  `chrEscrita` char(1) default 'S' not null,
 primary key (intMenu),
-  CONSTRAINT GRP_MENU_FK FOREIGN KEY (intMenu)  
+  CONSTRAINT GRMN_MENU_FK FOREIGN KEY (intMenu)  
   REFERENCES TBL_MENU(intMenu),
-  CONSTRAINT GRP_ACESS_FK FOREIGN KEY (intGrupoAcesso)  
+  CONSTRAINT GRMN_GRP_FK FOREIGN KEY (intGrupoAcesso)  
   REFERENCES TBL_grupoacesso(intGrupoAcesso)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -144,17 +144,6 @@ intNivelX     int(2) not null,
 intNivelY     int(2) not null,
 primary key (intMenu)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*
-CREATE TABLE IF NOT EXISTS `tbl_menu` (
-  `chrCodMenu` char(1) NOT NULL DEFAULT '',
-  `vcrImagem` varchar(100) NOT NULL DEFAULT '',
-  `vcrArquivo` varchar(100) NOT NULL DEFAULT '',
-  `vcrRotulo` varchar(100) NOT NULL DEFAULT '',
-  `vcrComentario` varchar(100) DEFAULT NULL,
-  `vcrTextoAlt` varchar(100) DEFAULT NULL,
-  `tspVersao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`chrCodMenu`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;*/
 
 -- --------------------------------------------------------
 
