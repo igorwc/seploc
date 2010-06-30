@@ -116,11 +116,35 @@ CREATE TABLE IF NOT EXISTS `tbl_grupoacesso` (
   PRIMARY KEY (`intGrupoAcesso`,`vcrGrupoMenu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Estrutura da tabela `tbl_GRUPO_menu`
+--
+create table tbl_grupomenu(
+ `intGrupoAcesso` int(1) NOT NULL,
+  `intMenu`       int(2) not null,
+ `chrEscrita` char(1) default 'S' not null,
+primary key (intMenu),
+  CONSTRAINT GRP_MENU_FK FOREIGN KEY (intMenu)  
+  REFERENCES TBL_MENU(intMenu),
+  CONSTRAINT GRP_ACESS_FK FOREIGN KEY (intGrupoAcesso)  
+  REFERENCES TBL_grupoacesso(intGrupoAcesso)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 --
 -- Estrutura da tabela `tbl_menu`
 --
-
+create table tbl_menu(
+intMenu       int(2) not null,
+vcrMenu       varchar(60) not null,
+vcrAcao       varchar(100),
+intMenuPai    int(2),
+chrHabilitado char(1) default 'S' not null,
+intNivelX     int(2) not null,
+intNivelY     int(2) not null,
+primary key (intMenu)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*
 CREATE TABLE IF NOT EXISTS `tbl_menu` (
   `chrCodMenu` char(1) NOT NULL DEFAULT '',
   `vcrImagem` varchar(100) NOT NULL DEFAULT '',
@@ -130,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `tbl_menu` (
   `vcrTextoAlt` varchar(100) DEFAULT NULL,
   `tspVersao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`chrCodMenu`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;*/
 
 -- --------------------------------------------------------
 
@@ -295,17 +319,17 @@ CREATE TABLE IF NOT EXISTS `tbl_linhareq` (
 --
 
 CREATE TABLE IF NOT EXISTS `tbl_reqservopcionais` (
-  `intNumReq` varchar(8) NOT NULL DEFAULT '',
+  `intNumReq` int(8) NOT NULL ,
   `intCodOp` int(8) NOT NULL DEFAULT '0',
-  `vcrCod` varchar(4) NOT NULL DEFAULT '',
-  `intQuant` int(4) NOT NULL DEFAULT '0',
+  `vcrCod` varchar(4) NOT NULL DEFAULT ' ',
+  `intQuant` int(4) NOT NULL ,
   `tspVersao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`intNumReq`,`intCodOp`),
   CONSTRAINT REQSEROP_REQSERV_FK FOREIGN KEY (intNumReq)
   REFERENCES TBL_REQSERV(intNumReq),
   CONSTRAINT REQSEROP_OPRQSV_FK FOREIGN KEY (vcrCod)
   REFERENCES TBL_OPCIONAISREQSERV(vcrCod)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
 
 -- --------------------------------------------------------
 
