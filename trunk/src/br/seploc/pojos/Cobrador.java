@@ -1,19 +1,9 @@
 package br.seploc.pojos;
 
 import java.io.Serializable;
+import javax.persistence.*;
 import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityResult;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.SqlResultSetMapping;
-import javax.persistence.TableGenerator;
-import javax.persistence.Version;
+import java.util.Set;
 
 @Entity(name = "tbl_cobrador")
 @SqlResultSetMapping(name = "Cobrador.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Cobrador.class))
@@ -36,109 +26,94 @@ import javax.persistence.Version;
 // "where s.STS_ID = :status and s.STS_ID in (select EVDE_STS_ID from evolucao_demanda e)")
 })
 public class Cobrador implements Serializable {
-
-	private static final long serialVersionUID = -2529422977775910092L;
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	// @Column(name = "intCodCobr")
 	@GeneratedValue(generator = "cob_id", strategy = GenerationType.TABLE)
 	@TableGenerator(name = "cob_id", table = "ID_GEN", allocationSize = 1, pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "COB_GEN")
-	private Integer intCodCobr;
+	@Column(name="intCodCobr")
+	private Integer codCobrador;
 
-	@Column(name = "vcrNome", nullable = false)
-	private String nome;
-	@Column(name = "vcrFoneCon", nullable = true)
-	private String fone;
-	@Column(name = "tspVersao")
 	@Version
+	@Column(name="tspVersao")
 	private Timestamp versao;
 
-	public Cobrador() {
-		super();
-		// TODO Auto-generated constructor stub
+	@Column(name="vcrFoneCon")
+	private String foneContato;
+
+	@Column(name="vcrNome")
+	private String nome;
+
+	//bi-directional many-to-one association to RequisicaoServico
+	@OneToMany(mappedBy="tblCobrador")
+	private Set<RequisicaoServico> tblReqservs;
+
+	//bi-directional many-to-one association to TblSaidamotoqueiro
+	@OneToMany(mappedBy="tblCobrador")
+	private Set<TblSaidamotoqueiro> tblSaidamotoqueiros;
+
+	//bi-directional many-to-one association to StatusCobranca
+	@OneToMany(mappedBy="tblCobrador")
+	private Set<StatusCobranca> tblStatuscobrancas;
+
+    public Cobrador() {
+    }
+
+	public Integer getCodCobrador() {
+		return this.codCobrador;
 	}
 
-	public Cobrador(Integer intCodCobr, String nome, String fone,
-			Timestamp versao) {
-		this.setIntCodCobr(intCodCobr);
-		this.setNome(nome);
-		this.setFone(fone);
-		this.setVersao(versao);
-	}
-
-	public Cobrador(Integer intCodCobr, String nome, String fone) {
-		this.setIntCodCobr(intCodCobr);
-		this.setNome(nome);
-		this.setFone(fone);
-	}
-
-	public Integer getIntCodCobr() {
-		return intCodCobr;
-	}
-
-	public void setIntCodCobr(Integer intCodCobr) {
-		this.intCodCobr = intCodCobr;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getFone() {
-		return fone;
-	}
-
-	public void setFone(String fone) {
-		this.fone = fone;
+	public void setCodCobrador(Integer codCobrador) {
+		this.codCobrador = codCobrador;
 	}
 
 	public Timestamp getVersao() {
-		return versao;
+		return this.versao;
 	}
 
 	public void setVersao(Timestamp versao) {
 		this.versao = versao;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getFoneContato() {
+		return this.foneContato;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((intCodCobr == null) ? 0 : intCodCobr.hashCode());
-		return result;
+	public void setFoneContato(String foneContato) {
+		this.foneContato = foneContato;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Cobrador other = (Cobrador) obj;
-		if (intCodCobr == null) {
-			if (other.intCodCobr != null)
-				return false;
-		} else if (!intCodCobr.equals(other.intCodCobr))
-			return false;
-		return true;
+	public String getNome() {
+		return this.nome;
 	}
 
-	@Override
-	public String toString() {
-		return "Cobrador [" + (fone != null ? "fone=" + fone + ", " : "")
-				+ (intCodCobr != null ? "intCodCobr=" + intCodCobr + ", " : "")
-				+ (nome != null ? "nome=" + nome : "") + "]";
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
+	public Set<RequisicaoServico> getTblReqservs() {
+		return this.tblReqservs;
+	}
+
+	public void setTblReqservs(Set<RequisicaoServico> tblReqservs) {
+		this.tblReqservs = tblReqservs;
+	}
+	
+	public Set<TblSaidamotoqueiro> getTblSaidamotoqueiros() {
+		return this.tblSaidamotoqueiros;
+	}
+
+	public void setTblSaidamotoqueiros(Set<TblSaidamotoqueiro> tblSaidamotoqueiros) {
+		this.tblSaidamotoqueiros = tblSaidamotoqueiros;
+	}
+	
+	public Set<StatusCobranca> getTblStatuscobrancas() {
+		return this.tblStatuscobrancas;
+	}
+
+	public void setTblStatuscobrancas(Set<StatusCobranca> tblStatuscobrancas) {
+		this.tblStatuscobrancas = tblStatuscobrancas;
+	}
+	
 }
