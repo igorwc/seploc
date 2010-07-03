@@ -8,9 +8,10 @@
 		<class>br.seploc.pojos.Menu</class>
 		<class>br.seploc.pojos.GrupoMenu</class>
 		<class>br.seploc.pojos.GrupoMenuPK</class>
+		<class>br.seploc.pojos.Usuario</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes><!--
 		
-	 	<class>br.seploc.pojos.Usuario</class>
+	 	
 		<class>br.seploc.pojos.StatusCobrancaPK</class>
 		<class>br.seploc.pojos.StatusCobranca</class>
 		<class>br.seploc.pojos.SaidaMotoqueiro</class>
