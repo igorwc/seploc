@@ -2,128 +2,139 @@ package br.seploc.pojos;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityResult;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Version;
 
-@Entity(name = "tbl_menu")
+@Entity
+@Table(name = "tbl_menu")
 @SqlResultSetMapping(name = "Menu.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Menu.class))
 @NamedNativeQueries( {
-		@NamedNativeQuery(name = "Menu.RetornaMenus", query = " SELECT m.vcrImagem, m.vcrArquivo, m.vcrRotulo, " +
-				                                              " m.vcrComentario, m.vcrTextoAlt, m.tspVersao, m.chrCodMenu " +
-				                                              "FROM tbl_menu m", resultSetMapping = "Menu.implicit")
-				                                              
-//		,@NamedNativeQuery(name = "Status.FiltraStatus", query = "SELECT s.STS_ID, s.DESCRICAO FROM Status s "
-//				+ " WHERE s.DESCRICAO like :STATUS", resultSetMapping = "Status.implicit"),
-//		@NamedNativeQuery(name = "Status.ContaStatus", query = "SELECT  count(*) FROM Status s ", resultSetMapping = "Status.implicit"),
-//		@NamedNativeQuery(name = "Status.BuscaPorNome", query = "SELECT * FROM Status s where "
-//				+ "s.DESCRICAO = :status", resultSetMapping = "Status.implicit")
-// ,@NamedNativeQuery(name = "Status.ContaEvolucoesStatus", query =
-// "SELECT count(*) FROM Status s"
-// +
-// "where s.STS_ID = :status and s.STS_ID in (select EVDE_STS_ID from evolucao_demanda e)")
+		@NamedNativeQuery(name = "Menu.RetornaMenus", query = " SELECT * "
+				+ "FROM tbl_menu m", resultSetMapping = "Menu.implicit"),
+		@NamedNativeQuery(name = "Menu.RetornaMenusRaizes", query = "SELECT * "
+				+ "FROM tbl_menu " + "WHERE intMenupai IS NULL", resultSetMapping = "Menu.implicit")
 })
 public class Menu implements Serializable {
-
-	private static final long serialVersionUID = 4664257764918539236L;
+	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "chrCodMenu", nullable = false)
-	private Character codMenu;
+	@GeneratedValue(generator = "menu_id", strategy = GenerationType.TABLE)
+	@TableGenerator(name = "menu_id", table = "ID_GEN", allocationSize = 1, pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "MENU_GEN")
+	@Column(name = "intMenu")
+	private Integer codMenu;
 
-	@Column(name = "vcrImagem", nullable = false)
-	private String imagem;
+	@Column(name = "chrHabilitado")
+	private String habilitado;
 
-	@Column(name = "vcrArquivo", nullable = false)
-	private String arquivo;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "intMenupai", referencedColumnName = "intMenu")
+	private Menu menuPai;
 
-	@Column(name = "vcrRotulo", nullable = false)
-	private String rotulo;
+	@Column(name = "intNivelX")
+	private Integer nivelX;
 
-	@Column(name = "vcrComentario", nullable = false)
-	private String comentario;
+	@Column(name = "intNivelY")
+	private Integer nivelY;
 
-	@Column(name = "vcrTextoAlt")
-	private String textoAlt;
-
-	@Column(name = "tspVersao")
 	@Version
+	@Column(name = "tspVersao")
 	private Timestamp versao;
 
+	@Column(name = "vcrAcao")
+	private String acao;
+
+	@Column(name = "vcrMenu")
+	private String menu;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
+	private List<GrupoMenu> grupoMenus;
+
+	@OneToMany(mappedBy = "menuPai", fetch = FetchType.LAZY)
+	private List<Menu> menusFilhos;
+
 	public Menu() {
+		this.grupoMenus = new ArrayList<GrupoMenu>();
+		this.menusFilhos = new ArrayList<Menu>();
 	}
 
-	public Menu(Character codMenu, String imagem, String arquivo,
-			String rotulo, String comentario, String textoAlt) {
-		this.setCodMenu(codMenu);
-		this.setImagem(imagem);
-		this.setArquivo(arquivo);
-		this.setRotulo(rotulo);
-		this.setComentario(comentario);
-		this.setTextoAlt(textoAlt);
+	public Menu(Integer codMenu, String habilitado, Menu menuPai,
+			Integer nivelX, Integer nivelY, String acao, String menu) {
+		this();
+		this.codMenu = codMenu;
+		this.habilitado = habilitado;
+		this.menuPai = menuPai;
+		this.nivelX = nivelX;
+		this.nivelY = nivelY;
+		this.acao = acao;
+		this.menu = menu;
 	}
 
-	public Menu(Character codMenu, String imagem, String arquivo,
-			String rotulo, String comentario) {
-		this.setCodMenu(codMenu);
-		this.setImagem(imagem);
-		this.setArquivo(arquivo);
-		this.setRotulo(rotulo);
-		this.setComentario(comentario);
+	public Menu(String habilitado, Menu menuPai, Integer nivelX,
+			Integer nivelY, String acao, String menu) {
+		this();
+		this.habilitado = habilitado;
+		this.menuPai = menuPai;
+		this.nivelX = nivelX;
+		this.nivelY = nivelY;
+		this.acao = acao;
+		this.menu = menu;
 	}
 
-	public Character getCodMenu() {
+	public Integer getCodMenu() {
 		return codMenu;
 	}
 
-	public void setCodMenu(Character codMenu) {
+	public void setCodMenu(Integer codMenu) {
 		this.codMenu = codMenu;
 	}
 
-	public String getImagem() {
-		return imagem;
+	public String getHabilitado() {
+		return habilitado;
 	}
 
-	public void setImagem(String imagem) {
-		this.imagem = imagem;
+	public void setHabilitado(String habilitado) {
+		this.habilitado = habilitado;
 	}
 
-	public String getArquivo() {
-		return arquivo;
+	public Menu getMenuPai() {
+		return menuPai;
 	}
 
-	public void setArquivo(String arquivo) {
-		this.arquivo = arquivo;
+	public void setMenuPai(Menu menuPai) {
+		this.menuPai = menuPai;
 	}
 
-	public String getRotulo() {
-		return rotulo;
+	public Integer getNivelX() {
+		return nivelX;
 	}
 
-	public void setRotulo(String rotulo) {
-		this.rotulo = rotulo;
+	public void setNivelX(Integer nivelX) {
+		this.nivelX = nivelX;
 	}
 
-	public String getComentario() {
-		return comentario;
+	public Integer getNivelY() {
+		return nivelY;
 	}
 
-	public void setComentario(String comentario) {
-		this.comentario = comentario;
-	}
-
-	public String getTextoAlt() {
-		return textoAlt;
-	}
-
-	public void setTextoAlt(String textoAlt) {
-		this.textoAlt = textoAlt;
+	public void setNivelY(Integer nivelY) {
+		this.nivelY = nivelY;
 	}
 
 	public Timestamp getVersao() {
@@ -132,6 +143,38 @@ public class Menu implements Serializable {
 
 	public void setVersao(Timestamp versao) {
 		this.versao = versao;
+	}
+
+	public String getAcao() {
+		return acao;
+	}
+
+	public void setAcao(String acao) {
+		this.acao = acao;
+	}
+
+	public String getMenu() {
+		return menu;
+	}
+
+	public void setMenu(String menu) {
+		this.menu = menu;
+	}
+
+	public List<GrupoMenu> getGrupoMenus() {
+		return grupoMenus;
+	}
+
+	public void setGrupoMenus(List<GrupoMenu> grupoMenus) {
+		this.grupoMenus = grupoMenus;
+	}
+
+	public List<Menu> getMenusFilhos() {
+		return menusFilhos;
+	}
+
+	public void setMenusFilhos(List<Menu> menusFilhos) {
+		this.menusFilhos = menusFilhos;
 	}
 
 	public static long getSerialversionuid() {
@@ -171,12 +214,23 @@ public class Menu implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Menu [" + (arquivo != null ? "arquivo=" + arquivo + ", " : "")
-				+ (codMenu != null ? "codMenu=" + codMenu + ", " : "")
-				+ (comentario != null ? "comentario=" + comentario + ", " : "")
-				+ (imagem != null ? "imagem=" + imagem + ", " : "")
-				+ (rotulo != null ? "rotulo=" + rotulo + ", " : "")
-				+ (textoAlt != null ? "textoAlt=" + textoAlt : "") + "]";
+
+		return "[ " + (codMenu != null ? " " + codMenu + ", " : "")
+				+ (menu != null ? " " + menu + " ]" : "");
 	}
 
+	public String toStringComFilhos() {
+		String retorno;
+		if (this.getMenusFilhos().size() == 0)
+			return "[ " + (codMenu != null ? " " + codMenu + ", " : "")
+					+ (menu != null ? " " + menu + " ]" : "");
+		else {
+			retorno = "[ " + (codMenu != null ? " " + codMenu + ", " : "")
+					+ (menu != null ? " " + menu + " ]" : "");
+			for (Menu item : this.getMenusFilhos()) {
+				retorno += "\n\t" + item;
+			}
+			return retorno;
+		}
+	}
 }
