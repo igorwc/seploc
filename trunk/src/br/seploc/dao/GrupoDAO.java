@@ -6,22 +6,21 @@ import javax.persistence.Query;
 
 import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.dao.exceptions.RecordNotFound;
-import br.seploc.pojos.Menu;
+import br.seploc.pojos.Grupo;
 import br.seploc.util.GenericDAO;
 
-
-public class MenuDAO extends GenericDAO<Menu> {
+public class GrupoDAO extends GenericDAO<Grupo>{
 
 	@Override
-	public void adiciona(Menu t) {
+	public void adiciona(Grupo t) {
 		em.getTransaction().begin();
 		em.merge(t);
 		em.getTransaction().commit();
-
+		
 	}
 
 	@Override
-	public Menu altera(Menu t) {
+	public Grupo altera(Grupo t) {
 		em.getTransaction().begin();
 		em.merge(t);
 		em.getTransaction().commit();
@@ -29,71 +28,58 @@ public class MenuDAO extends GenericDAO<Menu> {
 	}
 
 	@Override
-	public Menu recupera(Integer id) {
-		Menu menu = em.find(Menu.class, id);
-		return menu;
+	public Grupo recupera(Integer id) {
+		Grupo grupo = em.find(Grupo.class, id);
+		return grupo;
 	}
 
 	@Override
-	public Menu remove(Integer id) throws Exception {
+	public Grupo remove(Integer id) throws Exception {
 		em.getTransaction().begin();
-		Menu menu = em.find(Menu.class, id);
-		if(menu == null){
+		Grupo grupo = em.find(Grupo.class, id);
+		if(grupo == null){
 			em.getTransaction().rollback();
-			throw new RecordNotFound("Menu Inexistente");
+			throw new RecordNotFound("Grupo Inexistente");
 		}else {
 
 			if (verificaFilhos(id)) {
 				em.getTransaction().rollback();
 				throw new ParentDeleteException(
-						"Menu tem registros depedentes...");
+						"Grupo tem registros depedentes...");
 			} else {
-				em.remove(menu);
+				em.remove(grupo);
 			}
 		}
 		em.getTransaction().commit();
 
-		return menu;
+		return grupo;
 	}
-	
 	private boolean verificaFilhos(Integer id) throws ParentDeleteException {
 		Number contagemGrupoMenu = 0;
-		
+//		Number contagemUsuario = 0;
 		Query q = em.createQuery(
 				"SELECT count(gm.grupo) FROM br.seploc.pojos.GrupoMenu gm"
-						+ " where gm.menu.codMenu = :menu").setParameter(
-				"menu", id);
+						+ " where gm.grupo.codGrupo = :grupo").setParameter(
+				"grupo", id);
 		contagemGrupoMenu = (Number) q.getSingleResult();
-
+		
+		/*em.createQuery(
+				"SELECT count(u.grupo) FROM br.seploc.pojos.Usuario u"
+						+ " where u.grupo.codGrupo = :grupo").setParameter(
+				"grupo", id);
+		contagemUsuario = (Number) q.getSingleResult();*/
 		if (contagemGrupoMenu.intValue() != 0)
 			return true;
-
+//		if (contagemUsuario.intValue() != 0)
+//			return true;
 		return false;
 	}
-
-	@SuppressWarnings("unchecked")
-	public List<Menu> getLista() {
-		em.getTransaction().begin();
-		Query q = em.createNamedQuery("Menu.RetornaMenus");
-		em.getTransaction().commit();
-		return (List<Menu>) q.getResultList();
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Menu> getMenusRaiz(){
-		em.getTransaction().begin();
-		Query q = em.createNamedQuery("Menu.RetornaMenusRaizes");
-		em.getTransaction().commit();
-		return (List<Menu>) q.getResultList();
-	}
 	
-	
-	public static void main(String[] args){
-		MenuDAO dao = new MenuDAO();
-		List<Menu> lista = dao.getLista();
-		
-		for(Menu item : lista){
-			System.out.println(item);
-		}
+	@SuppressWarnings("unchecked")
+	public List<Grupo> getLista() {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Grupo.RetornaGrupos");
+		em.getTransaction().commit();
+		return (List<Grupo>) q.getResultList();
 	}
 }
