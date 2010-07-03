@@ -26,7 +26,8 @@ public static EntityManagerFactory create() {
             if (emf == null)  
                 emf = Persistence.createEntityManagerFactory("seploc");  
         }catch(Exception e){  
-            System.out.println("Não conseguiu acesar o Banco no metodo create() "+e);  
+            System.out.println("Não conseguiu acesar o Banco no metodo create() "+e);
+            e.printStackTrace();
         }  
         return emf;   
     }  
@@ -36,7 +37,8 @@ public EntityManager getManager() {
             emf = create();  
             em  = emf.createEntityManager();  
         }catch(Exception e){  
-            System.out.println("Não conseguiu acesar o Banco no metodo getManager() "+e);  
+            System.out.println("Não conseguiu acesar o Banco no metodo getManager() "+e); 
+            e.printStackTrace();
         }  
         return em;    
     }
