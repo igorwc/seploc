@@ -5,16 +5,16 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
 
-@Entity(name = "tbl_cobrador")
-@SqlResultSetMapping(name = "Cobrador.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Cobrador.class))
-@NamedNativeQueries( {
-		@NamedNativeQuery(name = "Cobrador.RetornaCobradores", query = " SELECT intCodCobr, vcrNome, "
-				+ "vcrFoneCon, tspVersao " + "FROM tbl_cobrador c", resultSetMapping = "Cobrador.implicit")
-		,
-		@NamedNativeQuery(name = "Cobrador.FiltraCobradores", query = " SELECT c.intCodCobr, c.vcrNome, "
-				+ "c.vcrFoneCon, c.tspVersao "
-				+ "FROM tbl_cobrador c"
-				+ " WHERE c.vcrNome like :nome", resultSetMapping = "Cobrador.implicit")
+//@Entity(name = "tbl_cobrador")
+//@SqlResultSetMapping(name = "Cobrador.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Cobrador.class))
+//@NamedNativeQueries( {
+//		@NamedNativeQuery(name = "Cobrador.RetornaCobradores", query = " SELECT intCodCobr, vcrNome, "
+//				+ "vcrFoneCon, tspVersao " + "FROM tbl_cobrador c", resultSetMapping = "Cobrador.implicit")
+//		,
+//		@NamedNativeQuery(name = "Cobrador.FiltraCobradores", query = " SELECT c.intCodCobr, c.vcrNome, "
+//				+ "c.vcrFoneCon, c.tspVersao "
+//				+ "FROM tbl_cobrador c"
+//				+ " WHERE c.vcrNome like :nome", resultSetMapping = "Cobrador.implicit")
 // , @NamedNativeQuery(name = "Status.ContaStatus", query =
 // "SELECT  count(*) FROM Status s ", resultSetMapping = "Status.implicit"),
 // @NamedNativeQuery(name = "Status.BuscaPorNome", query =
@@ -24,10 +24,10 @@ import java.util.Set;
 // "SELECT count(*) FROM Status s"
 // +
 // "where s.STS_ID = :status and s.STS_ID in (select EVDE_STS_ID from evolucao_demanda e)")
-})
+//})
 public class Cobrador implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+/*
 	@Id
 	// @Column(name = "intCodCobr")
 	@GeneratedValue(generator = "cob_id", strategy = GenerationType.TABLE)
@@ -46,16 +46,16 @@ public class Cobrador implements Serializable {
 	private String nome;
 
 	//bi-directional many-to-one association to RequisicaoServico
-	@OneToMany(mappedBy="tblCobrador")
-	private Set<RequisicaoServico> tblReqservs;
-
-	//bi-directional many-to-one association to TblSaidamotoqueiro
-	@OneToMany(mappedBy="tblCobrador")
-	private Set<TblSaidamotoqueiro> tblSaidamotoqueiros;
-
-	//bi-directional many-to-one association to StatusCobranca
-	@OneToMany(mappedBy="tblCobrador")
-	private Set<StatusCobranca> tblStatuscobrancas;
+//	@OneToMany(mappedBy="tblCobrador")
+//	private Set<RequisicaoServico> tblReqservs;
+//
+//	//bi-directional many-to-one association to TblSaidamotoqueiro
+//	@OneToMany(mappedBy="tblCobrador")
+//	private Set<TblSaidamotoqueiro> tblSaidamotoqueiros;
+//
+//	//bi-directional many-to-one association to StatusCobranca
+//	@OneToMany(mappedBy="tblCobrador")
+//	private Set<StatusCobranca> tblStatuscobrancas;
 
     public Cobrador() {
     }
@@ -92,28 +92,28 @@ public class Cobrador implements Serializable {
 		this.nome = nome;
 	}
 
-	public Set<RequisicaoServico> getTblReqservs() {
-		return this.tblReqservs;
-	}
-
-	public void setTblReqservs(Set<RequisicaoServico> tblReqservs) {
-		this.tblReqservs = tblReqservs;
-	}
-	
-	public Set<TblSaidamotoqueiro> getTblSaidamotoqueiros() {
-		return this.tblSaidamotoqueiros;
-	}
-
-	public void setTblSaidamotoqueiros(Set<TblSaidamotoqueiro> tblSaidamotoqueiros) {
-		this.tblSaidamotoqueiros = tblSaidamotoqueiros;
-	}
-	
-	public Set<StatusCobranca> getTblStatuscobrancas() {
-		return this.tblStatuscobrancas;
-	}
-
-	public void setTblStatuscobrancas(Set<StatusCobranca> tblStatuscobrancas) {
-		this.tblStatuscobrancas = tblStatuscobrancas;
-	}
-	
-}
+//	public Set<RequisicaoServico> getTblReqservs() {
+//		return this.tblReqservs;
+//	}
+//
+//	public void setTblReqservs(Set<RequisicaoServico> tblReqservs) {
+//		this.tblReqservs = tblReqservs;
+//	}
+//	
+//	public Set<TblSaidamotoqueiro> getTblSaidamotoqueiros() {
+//		return this.tblSaidamotoqueiros;
+//	}
+//
+//	public void setTblSaidamotoqueiros(Set<TblSaidamotoqueiro> tblSaidamotoqueiros) {
+//		this.tblSaidamotoqueiros = tblSaidamotoqueiros;
+//	}
+//	
+//	public Set<StatusCobranca> getTblStatuscobrancas() {
+//		return this.tblStatuscobrancas;
+//	}
+//
+//	public void setTblStatuscobrancas(Set<StatusCobranca> tblStatuscobrancas) {
+//		this.tblStatuscobrancas = tblStatuscobrancas;
+//	}
+//	
+*/}

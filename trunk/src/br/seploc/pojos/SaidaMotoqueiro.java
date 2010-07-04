@@ -17,11 +17,11 @@ import javax.persistence.TemporalType;
  * The persistent class for the tbl_saidamotoqueiro database table.
  * 
  */
-@Entity
-@Table(name="tbl_saidamotoqueiro")
+//@Entity
+//@Table(name="tbl_saidamotoqueiro")
 public class SaidaMotoqueiro implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+/*
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE)
 	private int intNumSaida;
@@ -118,5 +118,5 @@ public class SaidaMotoqueiro implements Serializable {
 	public void setVcrObs(String vcrObs) {
 		this.vcrObs = vcrObs;
 	}
-
+*/
 }

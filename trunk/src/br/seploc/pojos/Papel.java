@@ -12,61 +12,76 @@ import javax.persistence.Id;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
+import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Version;
 
-@Entity(name = "tbl_papel")
+@Entity
+@Table(name = "tbl_papel")
 @SqlResultSetMapping(name = "Papel.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Papel.class))
-@NamedNativeQueries( { @NamedNativeQuery(name = "Papel.RetornaPapeis", query = " SELECT p.intCodPap, p.vcrNome, "
-		+ "p.dblImpMono, p.dblImpColor, p.dblImpShade, p.tspVersao "
-		+ "FROM tbl_papel p", resultSetMapping = "Papel.implicit") })
+		@NamedNativeQueries( { 
+			@NamedNativeQuery(name = "Papel.RetornaPapeis", 
+					query = " SELECT p.intCodPap, p.vcrNome, "
+							+ "p.dblImpMono, p.dblImpColor, p.dblImpShade, p.tspVersao "
+							+ "FROM tbl_papel p", resultSetMapping = "Papel.implicit"),
+			@NamedNativeQuery(name = "Papel.ContaPapelLinhaRequisicao", 
+					query = " SELECT count(*) as contagem "
+							+ "FROM tbl_papel p "
+							+ "WHERE intCodPap in (" 
+							                      +"SELECT intCodPap " 
+							                      +"FROM tbl_linhareq lr " 
+							                      +"WHERE lr = :codPapel " 
+							+")", resultSetMapping = "Papel.implicit"),
+			@NamedNativeQuery(name = "Papel.RetornaPapeisPorNome", 
+					query = " SELECT p.intCodPap, p.vcrNome, "
+			     			+ "p.dblImpMono, p.dblImpColor, p.dblImpShade, p.tspVersao "
+							+ "FROM tbl_papel p where p.vcrNome like :nome ", resultSetMapping = "Papel.implicit"),
+		})
 public class Papel implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 697520411748021115L;
 	@Id
-	// @Column(name = "intCodCobr")
 	@GeneratedValue(generator = "papel_id", strategy = GenerationType.TABLE)
 	@TableGenerator(name = "papel_id", table = "ID_GEN", initialValue = 1, allocationSize = 1, pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "PAPEL_GEN")
-	private Integer intCodPap;
-	@Column(name = "vcrNome", nullable = true)
+	@Column(name = "intCodPap")
+	private Integer codPapel;
+
+	@Column(name = "vcrNome")
 	private String nome;
-	@Column(name = "dblImpMono", nullable = true)
-	private Double impMono;
-	@Column(name = "dblImpColor", nullable = true)
-	private Double impColor;
-	@Column(name = "dblImpShade", nullable = true)
-	private Double impShade;
-	@Column(name = "tspVersao")
+
+	@Column(name = "dblImpMono")
+	private Double ImpMono;
+
+	@Column(name = "dblImpColor")
+	private Double ImpColor;
+
+	@Column(name = "dblImpShade")
+	private Double ImpShade;
+
 	@Version
+	@Column(name = "tspVersao")
 	private Timestamp versao;
 
-	public Papel(String nome, Double impMono, Double impColor, Double impShade) {
-		this.nome = (nome == null) ? "" : nome;
-		;
-		this.impMono = impMono;
-		this.impColor = impColor;
-		this.impShade = impShade;
-	}
-
-	public Papel(Integer intCodPap, String nome, Double impMono,
-			Double impColor, Double impShade) {
-		this.intCodPap = intCodPap;
-		this.nome = (nome == null) ? "" : nome;
-		this.impMono = impMono;
-		this.impColor = impColor;
-		this.impShade = impShade;
-	}
+	// @OneToMany(mappedBy="tblPapel")
+	// private Set<LinhaReq> tblLinhareqs;
 
 	public Papel() {
-
 	}
 
-	public Integer getIntCodPap() {
-		return intCodPap;
+	public Papel(String nome, Double impMono,
+			Double impColor, Double impShade) {
+		this.nome = nome;
+		ImpMono = impMono;
+		ImpColor = impColor;
+		ImpShade = impShade;
 	}
 
-	public void setIntCodPap(Integer intCodPap) {
-		this.intCodPap = intCodPap;
+	public Integer getCodPapel() {
+		return codPapel;
+	}
+
+	public void setCodPapel(Integer codPapel) {
+		this.codPapel = codPapel;
 	}
 
 	public String getNome() {
@@ -78,27 +93,27 @@ public class Papel implements Serializable {
 	}
 
 	public Double getImpMono() {
-		return impMono;
+		return ImpMono;
 	}
 
 	public void setImpMono(Double impMono) {
-		this.impMono = impMono;
+		ImpMono = impMono;
 	}
 
 	public Double getImpColor() {
-		return impColor;
+		return ImpColor;
 	}
 
 	public void setImpColor(Double impColor) {
-		this.impColor = impColor;
+		ImpColor = impColor;
 	}
 
 	public Double getImpShade() {
-		return impShade;
+		return ImpShade;
 	}
 
 	public void setImpShade(Double impShade) {
-		this.impShade = impShade;
+		ImpShade = impShade;
 	}
 
 	public Timestamp getVersao() {
@@ -109,16 +124,13 @@ public class Papel implements Serializable {
 		this.versao = versao;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((impColor == null) ? 0 : impColor.hashCode());
+				+ ((ImpColor == null) ? 0 : ImpColor.hashCode());
+		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
 		return result;
 	}
 
@@ -131,10 +143,15 @@ public class Papel implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Papel other = (Papel) obj;
-		if (impColor == null) {
-			if (other.impColor != null)
+		if (ImpColor == null) {
+			if (other.ImpColor != null)
 				return false;
-		} else if (!impColor.equals(other.impColor))
+		} else if (!ImpColor.equals(other.ImpColor))
+			return false;
+		if (versao == null) {
+			if (other.versao != null)
+				return false;
+		} else if (!versao.equals(other.versao))
 			return false;
 		return true;
 	}
@@ -142,11 +159,11 @@ public class Papel implements Serializable {
 	@Override
 	public String toString() {
 		return "Papel ["
-				+ (impColor != null ? "impColor=" + impColor + ", " : "")
-				+ (impMono != null ? "impMono=" + impMono + ", " : "")
-				+ (impShade != null ? "impShade=" + impShade + ", " : "")
-				+ (intCodPap != null ? "intCodPap=" + intCodPap + ", " : "")
-				+ (nome != null ? "nome=" + nome : "") + "]";
+				+ (codPapel != null ? "codPapel=" + codPapel + ", " : "")
+				+ (nome != null ? "nome=" + nome + ", ": "")
+				+ (ImpColor != null ? "ImpColor=" + ImpColor + ", " : "")
+				+ (ImpMono != null ? "ImpMono=" + ImpMono + ", " : "")
+				+ (ImpShade != null ? "ImpShade=" + ImpShade : "") + "]";
 	}
 
 }

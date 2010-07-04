@@ -1,28 +1,27 @@
 package br.seploc.pojos;
 
 import java.io.Serializable;
-
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
 /**
  * The primary key class for the tbl_reqservopcionais database table.
  * 
  */
 //@Embeddable
-public class ReqServOpcionaisPK implements Serializable {
+public class ReqServicosOpcionaisPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
-/*
-	private String intNumReq;
+
+/*	private int intNumReq;
 
 	private int intCodOp;
 
-    public ReqServOpcionaisPK() {
+    public ReqServicosOpcionaisPK() {
     }
-	public String getIntNumReq() {
+	public int getIntNumReq() {
 		return this.intNumReq;
 	}
-	public void setIntNumReq(String intNumReq) {
+	public void setIntNumReq(int intNumReq) {
 		this.intNumReq = intNumReq;
 	}
 	public int getIntCodOp() {
@@ -36,12 +35,12 @@ public class ReqServOpcionaisPK implements Serializable {
 		if (this == other) {
 			return true;
 		}
-		if (!(other instanceof ReqServOpcionaisPK)) {
+		if (!(other instanceof ReqServicosOpcionaisPK)) {
 			return false;
 		}
-		ReqServOpcionaisPK castOther = (ReqServOpcionaisPK)other;
+		ReqServicosOpcionaisPK castOther = (ReqServicosOpcionaisPK)other;
 		return 
-			this.intNumReq.equals(castOther.intNumReq)
+			(this.intNumReq == castOther.intNumReq)
 			&& (this.intCodOp == castOther.intCodOp);
 
     }
@@ -49,7 +48,7 @@ public class ReqServOpcionaisPK implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + this.intNumReq.hashCode();
+		hash = hash * prime + this.intNumReq;
 		hash = hash * prime + this.intCodOp;
 		
 		return hash;

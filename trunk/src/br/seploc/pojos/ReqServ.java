@@ -16,11 +16,11 @@ import javax.persistence.TemporalType;
  * The persistent class for the tbl_reqserv database table.
  * 
  */
-@Entity
-@Table(name="tbl_reqserv")
+//@Entity
+//@Table(name="tbl_reqserv")
 public class ReqServ implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+/*
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE)
 	private int intNumreq;
@@ -136,5 +136,5 @@ public class ReqServ implements Serializable {
 	public void setVcrCnpj(String vcrCnpj) {
 		this.vcrCnpj = vcrCnpj;
 	}
-
+*/
 }

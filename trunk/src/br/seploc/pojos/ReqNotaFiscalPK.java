@@ -8,11 +8,11 @@ import javax.persistence.Embeddable;
  * The primary key class for the tbl_reqnotafiscal database table.
  * 
  */
-@Embeddable
+//@Embeddable
 public class ReqNotaFiscalPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
-
+/*
 	private int intNumNota;
 
 	private int intNumReq;
@@ -53,5 +53,5 @@ public class ReqNotaFiscalPK implements Serializable {
 		hash = hash * prime + this.intNumReq;
 		
 		return hash;
-    }
+    }*/
 }

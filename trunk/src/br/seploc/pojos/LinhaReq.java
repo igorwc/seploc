@@ -1,39 +1,56 @@
 package br.seploc.pojos;
 
 import java.io.Serializable;
-
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 
 /**
  * The persistent class for the tbl_linhareq database table.
  * 
  */
-@Entity
-@Table(name="tbl_linhareq")
+//@Entity
+//@Table(name="tbl_linhareq")
 public class LinhaReq implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+/*
 	@EmbeddedId
 	private LinhaReqPK id;
 
-	private double dblDimensao;
+	@Column(name="dblDimensao")
+	private Double dimensao;
 
-	private double dblFormato;
+	@Column(name="dblFormato")
+	private Double formato;
 
-	private double dblValorSubUnit;
+	@Column(name="dblValorSubUnit")
+	private Double valorSubUnit;
 
-	private double dblValorUnit;
+	@Column(name="dblValorUnit")
+	private Double valorUnit;
 
-	private int intCodPap;
+	@Column(name="intQuant")
+	private Integer quant;
 
-	private int intQuant;
+	@Version
+	@Column(name="tspVersao")
+	private Timestamp versao;
 
-	private String vcrImpressao;
+	@Column(name="vcrImpressao")
+	private String impressao;
 
-	private String vcrNomeArq;
+	@Column(name="vcrNomeArq")
+	private String nomeArquivo;
+
+	//bi-directional many-to-one association to RequisicaoServico
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="intNumreq")
+	private RequisicaoServico tblReqserv;
+
+	//bi-directional many-to-one association to Papel
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="intCodPap")
+	private Papel tblPapel;
 
     public LinhaReq() {
     }
@@ -46,68 +63,84 @@ public class LinhaReq implements Serializable {
 		this.id = id;
 	}
 	
-	public double getDblDimensao() {
-		return this.dblDimensao;
+	public Double getDimensao() {
+		return this.dimensao;
 	}
 
-	public void setDblDimensao(double dblDimensao) {
-		this.dblDimensao = dblDimensao;
+	public void setDimensao(Double dimensao) {
+		this.dimensao = dimensao;
 	}
 
-	public double getDblFormato() {
-		return this.dblFormato;
+	public Double getFormato() {
+		return this.formato;
 	}
 
-	public void setDblFormato(double dblFormato) {
-		this.dblFormato = dblFormato;
+	public void setFormato(Double formato) {
+		this.formato = formato;
 	}
 
-	public double getDblValorSubUnit() {
-		return this.dblValorSubUnit;
+	public Double getValorSubUnit() {
+		return this.valorSubUnit;
 	}
 
-	public void setDblValorSubUnit(double dblValorSubUnit) {
-		this.dblValorSubUnit = dblValorSubUnit;
+	public void setValorSubUnit(Double valorSubUnit) {
+		this.valorSubUnit = valorSubUnit;
 	}
 
-	public double getDblValorUnit() {
-		return this.dblValorUnit;
+	public Double getValorUnit() {
+		return this.valorUnit;
 	}
 
-	public void setDblValorUnit(double dblValorUnit) {
-		this.dblValorUnit = dblValorUnit;
+	public void setValorUnit(Double valorUnit) {
+		this.valorUnit = valorUnit;
 	}
 
-	public int getIntCodPap() {
-		return this.intCodPap;
+	public Integer getQuant() {
+		return this.quant;
 	}
 
-	public void setIntCodPap(int intCodPap) {
-		this.intCodPap = intCodPap;
+	public void setQuant(Integer quant) {
+		this.quant = quant;
 	}
 
-	public int getIntQuant() {
-		return this.intQuant;
+	public Timestamp getVersao() {
+		return this.versao;
 	}
 
-	public void setIntQuant(int intQuant) {
-		this.intQuant = intQuant;
+	public void setVersao(Timestamp versao) {
+		this.versao = versao;
 	}
 
-	public String getVcrImpressao() {
-		return this.vcrImpressao;
+	public String getImpressao() {
+		return this.impressao;
 	}
 
-	public void setVcrImpressao(String vcrImpressao) {
-		this.vcrImpressao = vcrImpressao;
+	public void setImpressao(String impressao) {
+		this.impressao = impressao;
 	}
 
-	public String getVcrNomeArq() {
-		return this.vcrNomeArq;
+	public String getNomeArquivo() {
+		return this.nomeArquivo;
 	}
 
-	public void setVcrNomeArq(String vcrNomeArq) {
-		this.vcrNomeArq = vcrNomeArq;
+	public void setNomeArquivo(String nomeArquivo) {
+		this.nomeArquivo = nomeArquivo;
 	}
 
+	public RequisicaoServico getTblReqserv() {
+		return this.tblReqserv;
+	}
+
+	public void setTblReqserv(RequisicaoServico tblReqserv) {
+		this.tblReqserv = tblReqserv;
+	}
+	
+	public Papel getTblPapel() {
+		return this.tblPapel;
+	}
+
+	public void setTblPapel(Papel tblPapel) {
+		this.tblPapel = tblPapel;
+	}
+*/	
 }

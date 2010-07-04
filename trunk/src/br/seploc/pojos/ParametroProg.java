@@ -1,56 +1,67 @@
 package br.seploc.pojos;
 
 import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 
 /**
  * The persistent class for the tbl_parametroprog database table.
  * 
  */
-@Entity
-@Table(name="tbl_parametroprog")
-public class ParametroProg implements Serializable{
+//@Entity
+//@Table(name="tbl_parametroprog")
+public class ParametroProg implements Serializable  {
 	private static final long serialVersionUID = 1L;
-
+	/*
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE)
-	private String vcrCodParametro;
+	@Column(name="vcrCodParametro")
+	private String codParametro;
 
-	private String vcrDescricao;
+	@Version
+	@Column(name="tspVersao")
+	private Timestamp versao;
 
-	private String vcrValor;
+	@Column(name="vcrDescricao")
+	private String descricao;
+
+	@Column(name="vcrValor")
+	private String valor;
 
     public ParametroProg() {
     }
 
-	public String getVcrCodParametro() {
-		return this.vcrCodParametro;
+	public String getCodParametro() {
+		return this.codParametro;
 	}
 
-	public void setVcrCodParametro(String vcrCodParametro) {
-		this.vcrCodParametro = vcrCodParametro;
+	public void setCodParametro(String codParametro) {
+		this.codParametro = codParametro;
 	}
 
-	public String getVcrDescricao() {
-		return this.vcrDescricao;
+	public Timestamp getVersao() {
+		return this.versao;
 	}
 
-	public void setVcrDescricao(String vcrDescricao) {
-		this.vcrDescricao = vcrDescricao;
+	public void setVersao(Timestamp versao) {
+		this.versao = versao;
 	}
 
-	public String getVcrValor() {
-		return this.vcrValor;
+	public String getDescricao() {
+		return this.descricao;
 	}
 
-	public void setVcrValor(String vcrValor) {
-		this.vcrValor = vcrValor;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
+	public String getValor() {
+		return this.valor;
+	}
+
+	public void setValor(String valor) {
+		this.valor = valor;
+	}
+*/
 }

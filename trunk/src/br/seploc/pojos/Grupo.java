@@ -49,11 +49,14 @@ public class Grupo implements Serializable {
 	private Timestamp versao;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "grupo")
-	// "id.grupo")
 	private List<GrupoMenu> grupoMenus;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "grupo")
+	private List<Usuario> usuarios;
 
 	public Grupo() {
 		setGrupoMenus(new ArrayList<GrupoMenu>());
+		setUsuarios(new ArrayList<Usuario>());
 	}
 
 	public Grupo(String nomeGrupo) {
@@ -103,6 +106,14 @@ public class Grupo implements Serializable {
 
 	public void setNomeGrupo(String nomeGrupo) {
 		this.nomeGrupo = nomeGrupo;
+	}
+
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 
 	@Override
