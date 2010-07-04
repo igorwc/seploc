@@ -28,8 +28,17 @@ ul#icons span.ui-icon {
 	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 }
-
 .error { 
 	font-weight: bold;
 	color: red;
+}
+.login {		
+	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;	
+}
+.loginTable {
+	background-image: url('../imgs/cadeado_bg.jpg');
+	border: 0px solid black;
+	width:500px;
+	height:450px;	
 }
