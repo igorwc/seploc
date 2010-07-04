@@ -9,6 +9,9 @@
 		<class>br.seploc.pojos.GrupoMenu</class>
 		<class>br.seploc.pojos.GrupoMenuPK</class>
 		<class>br.seploc.pojos.Usuario</class>
+		<class>br.seploc.pojos.FoneCliente</class>
+		<class>br.seploc.pojos.Cliente</class>
+		<class>br.seploc.pojos.Papel</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes><!--
 		
 	 	
@@ -23,7 +26,6 @@
 		<class>br.seploc.pojos.ReqNotaFiscalPK</class>
 		<class>br.seploc.pojos.Projeto</class>
 		<class>br.seploc.pojos.ParametroProg</class>
-		<class>br.seploc.pojos.Papel</class>
 		<class>br.seploc.pojos.OpcionaisReqServ</class>
 		<class>br.seploc.pojos.LinhaReqPK</class>
 		<class>br.seploc.pojos.LinhaReq</class>
