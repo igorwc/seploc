@@ -1,9 +1,18 @@
 package br.seploc.pojos;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Version;
 
 /**
  * The persistent class for the tbl_clientes database table.
@@ -72,13 +81,11 @@ public class Cliente implements Serializable {
 	@OneToOne(mappedBy = "cliente", fetch = FetchType.LAZY)
 	private FoneCliente foneCliente;
 
-	/*
-	 * 
-	 * // @OneToMany(mappedBy="tblCliente") // private List<Projeto>
-	 * tblProjetos;
-	 * 
-	 * // @OneToMany(mappedBy="tblCliente") // private List<RequisicaoServico>
-	 * tblReqservs;
-	 */
+	
+	 @OneToMany(mappedBy="cliente")
+	 private List<Projeto> projetos;
+	  
+	 @OneToMany(mappedBy="cliente") 
+	 private List<RequisicaoServico> requisicoes;
 
 }

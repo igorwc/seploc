@@ -2,6 +2,7 @@ package br.seploc.pojos;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
@@ -62,8 +64,8 @@ public class Papel implements Serializable {
 	@Column(name = "tspVersao")
 	private Timestamp versao;
 
-	// @OneToMany(mappedBy="tblPapel")
-	// private Set<LinhaReq> tblLinhareqs;
+	 @OneToMany(mappedBy="papel")
+	 private List<LinhaRequisicao> linhaRequisicao;
 
 	public Papel() {
 	}
