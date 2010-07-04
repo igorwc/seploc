@@ -16,7 +16,7 @@ public class GrupoDAO extends GenericDAO<Grupo>{
 		em.getTransaction().begin();
 		em.merge(t);
 		em.getTransaction().commit();
-		
+		 
 	}
 
 	@Override

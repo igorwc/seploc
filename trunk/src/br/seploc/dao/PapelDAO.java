@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import br.seploc.dao.exceptions.ParentDeleteException;
+import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Papel;
 import br.seploc.util.GenericDAO;
 
@@ -12,7 +14,7 @@ public class PapelDAO extends GenericDAO<Papel> {
 	@Override
 	public void adiciona(Papel t) {
 		em.getTransaction().begin();
-		em.merge(t);
+		em.persist(t);
 		em.getTransaction().commit();
 
 	}
@@ -35,17 +37,46 @@ public class PapelDAO extends GenericDAO<Papel> {
 	public Papel remove(Integer id) throws Exception {
 		em.getTransaction().begin();
 		Papel papel = em.find(Papel.class, id);
-		if (papel != null)
-			em.remove(papel);
+		if(papel == null){
+			em.getTransaction().rollback();
+			throw new RecordNotFound("Papel não cadastrado");
+		}else {
+
+			if (verificaFilhos(id)) {
+				em.getTransaction().rollback();
+				throw new ParentDeleteException(
+						"Papel tem registros depedentes...");
+			} else {
+				em.remove(papel);
+			}
+		}
 		em.getTransaction().commit();
 
 		return papel;
 	}
-
+	private boolean verificaFilhos(Integer id) throws ParentDeleteException {
+		Number contagemPapel = 0; //TODO Implementar 
+//		Query q = em.createNativeQuery("SELECT count(lr.papel) FROM br.seploc.pojos.LinhaRequisicao lr"
+//						+ " where lr.papel.codPapel = :codPapel").setParameter(
+//				"codPapel", id);
+//		contagemPapel = (Number) q.getSingleResult();
+//		if (contagemPapel.intValue() != 0)
+//			return true;
+		return false;
+	}
 	@SuppressWarnings("unchecked")
 	public List<Papel> getLista() {
 		em.getTransaction().begin();
 		Query q = em.createNamedQuery("Papel.RetornaPapeis");
+		em.getTransaction().commit();
+		return (List<Papel>) q.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Papel> getListaPapelPorNome(String nome) {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Papel.RetornaPapeisPorNome").setParameter(
+				"nome", "%"+nome+"%");;
 		em.getTransaction().commit();
 		return (List<Papel>) q.getResultList();
 	}
