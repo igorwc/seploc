@@ -33,26 +33,30 @@
 <table border="0" align="center" cellspacing="0" width="100%">
   <!-- LOGO -->
   <tr align="center" id="topo">
-	<td><img src="imgs/logo_seploc.png" height="60px"/></td>
+	<td colspan="2"><img src="imgs/logo_seploc.png" height="60px"/></td>
   </tr>
   <!-- TOPO -->
-  <tr align="right">
+  <tr>
   <ui:insert name="msgUser">
-	<td colspan="3">Bem-vindo, <ui:insert name="topo">#{login.userName}</ui:insert> &nbsp;&nbsp;</td>
+    <td align="left">&nbsp;&nbsp;<ui:insert name="taxinomia">
+    	Seploc <img src="imgs/ponto.png"/> 
+    	Principal
+    </ui:insert></td>
+	<td align="right">Bem-vindo, <ui:insert name="topo">#{login.userName}</ui:insert> &nbsp;&nbsp;</td>
   </ui:insert>
   </tr>  
   <!-- MENU -->
   <tr>
-    <td>
+    <td colspan="2">
       <ui:insert name="menu">
-        <br /><br /><br />
+        <br /><br />
 		<!--======================== menu ========================-->
 		<style type="text/css">
 		* { margin:0;
 		    padding:0;
 		}
 		div#menu {
-		    top:75px;
+		    top:80px;
 		    left:0px;
 		    width:100%;
 		}
@@ -128,14 +132,14 @@
   </tr>
   <!-- CONTEUDO -->
   <tr>
-    <td>
+    <td colspan="2">          
       <ui:insert name="conteudo"></ui:insert>
       <br/>Copyright &copy; 2001 <a href="http://apycom.com/">Apycom jQuery Menus</a>
     </td>
   </tr>
   <!-- RODAPE -->
   <tr id="rodape">
-    <td align="center">
+    <td  colspan="2" align="center">
       <ui:insert name="rodape">
       	<span id="dt"></span> <span id="ur"></span>
       </ui:insert>
