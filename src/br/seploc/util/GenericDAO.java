@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 
+import br.seploc.dao.exceptions.LoginInsertException;
+
 
 public abstract class GenericDAO<T> {
 	@PersistenceContext(unitName = "seploc")
@@ -14,7 +16,7 @@ public abstract class GenericDAO<T> {
 		em = PersistenceServiceFactory.getInstance().getManager(); 
 	}
 
-	public abstract void adiciona(T t);
+	public abstract void adiciona(T t) throws LoginInsertException;
 
 	public abstract T recupera(Integer id);
 
