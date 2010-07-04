@@ -11,21 +11,26 @@
        
 	<ui:define name="conteudo">
 		<center><f:view>
+			<h:panelGrid columns="2" styleClass="loginTable">
+			<h:graphicImage alt="cadeado" url="imgs/cadeado.gif"></h:graphicImage>
 			<h:form prependId="false">
-				<h:panelGrid columns="2">
+			<br/><br/>			
+				<h:panelGrid columns="2" styleClass="login">
 					<h:outputLabel value="User Name" for="un" />
 					<h:inputText id="username" value="#{login.userName}" 
 					                           required="true"
-					                           requiredMessage="Login deve ser informado">
+					                           requiredMessage="Login deve ser informado"
+					                            size="20">
 					                           <f:validateLength minimum="1"/>
 					</h:inputText> 
 					                           
 					<h:outputLabel value="Password" for="pw" />
-					<h:inputSecret id="passwd" value="#{login.password}" />
+					<h:inputSecret id="passwd" value="#{login.password}" size="21"/>
 				</h:panelGrid>
 				<h:messages errorClass="error" layout="table"/>
-				<h:commandButton value="Login" action="#{login.validateLogin}" />
+				<h:commandButton value="Entrar" action="#{login.validateLogin}" />
 			</h:form>
+			</h:panelGrid>
 		</f:view></center>
 	</ui:define>
 </ui:composition>
