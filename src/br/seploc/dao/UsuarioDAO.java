@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import br.seploc.dao.exceptions.LoginInsertException;
 import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Usuario;
@@ -12,9 +13,15 @@ import br.seploc.util.GenericDAO;
 public class UsuarioDAO extends GenericDAO<Usuario> {
 
 	@Override
-	public void adiciona(Usuario t) {
+	public void adiciona(Usuario t) throws LoginInsertException {
 		em.getTransaction().begin();
-		em.merge(t);
+		Usuario user = recupera(t.getLogin());
+		if (user == null)
+			em.persist(t);
+		else{
+			em.getTransaction().rollback();
+			throw new LoginInsertException("Login já em uso");
+		}
 		em.getTransaction().commit();
 	}
 
@@ -71,9 +78,24 @@ public class UsuarioDAO extends GenericDAO<Usuario> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Usuario> getListaUsariosPorGrupo() {
+	public List<Usuario> getListaUsariosPorGrupo(Integer codGrupo) {
 		em.getTransaction().begin();
-		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorGrupo");
+		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorGrupo").setParameter("grupo", codGrupo.intValue());
+		em.getTransaction().commit();
+		return (List<Usuario>) q.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Usuario> getListaUsariosPorNome(String nome) {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorNome").setParameter("nome", "%" + nome + "%");
+		em.getTransaction().commit();
+		return (List<Usuario>) q.getResultList();
+	}
+	@SuppressWarnings("unchecked")
+	public List<Usuario> getListaUsariosPorLogin(String login) {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorNome").setParameter("login", "%" + login + "%");
 		em.getTransaction().commit();
 		return (List<Usuario>) q.getResultList();
 	}
