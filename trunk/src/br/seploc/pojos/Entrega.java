@@ -1,25 +1,39 @@
 package br.seploc.pojos;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
+import javax.persistence.Version;
 
 
 /**
  * The persistent class for the tbl_entrega database table.
  * 
  */
-//@Entity
-//@Table(name="tbl_entrega")
+@Entity
+@Table(name="tbl_entrega")
 public class Entrega implements Serializable {
 	private static final long serialVersionUID = 1L;
-/*
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
+	@GeneratedValue(generator = "entrega_id", strategy = GenerationType.TABLE)
+	@TableGenerator(name = "entrega_id", table = "ID_GEN", allocationSize = 1, initialValue=1,
+			pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "ENTREGA_GEN")
 	@Column(name="intCodEnt")
 	private Integer codEntrega;
 
+	@Column(name="vcrLocal")
+	private String local;
+	
 	@Column(name="dblPreco")
 	private Double preco;
 
@@ -27,54 +41,7 @@ public class Entrega implements Serializable {
 	@Column(name="tspVersao")
 	private Timestamp versao;
 
-	@Column(name="vcrLocal")
-	private String local;
+	@OneToMany(mappedBy="entrega")
+	private List<RequisicaoServico> reqServico;
 
-	//bi-directional many-to-one association to RequisicaoServico
-//	@OneToMany(mappedBy="tblEntrega")
-//	private Set<RequisicaoServico> tblReqservs;
-
-    public Entrega() {
-    }
-
-	public Integer getCodEntrega() {
-		return this.codEntrega;
-	}
-
-	public void setCodEntrega(Integer codEntrega) {
-		this.codEntrega = codEntrega;
-	}
-
-	public Double getPreco() {
-		return this.preco;
-	}
-
-	public void setPreco(Double preco) {
-		this.preco = preco;
-	}
-
-	public Timestamp getVersao() {
-		return this.versao;
-	}
-
-	public void setVersao(Timestamp versao) {
-		this.versao = versao;
-	}
-
-	public String getLocal() {
-		return this.local;
-	}
-
-	public void setLocal(String local) {
-		this.local = local;
-	}
-
-//	public Set<RequisicaoServico> getTblReqservs() {
-//		return this.tblReqservs;
-//	}
-//
-//	public void setTblReqservs(Set<RequisicaoServico> tblReqservs) {
-//		this.tblReqservs = tblReqservs;
-//	}
-//	
-*/}
+  }

@@ -2,121 +2,70 @@ package br.seploc.pojos;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 
 /**
  * The persistent class for the tbl_saidamotoqueiro database table.
  * 
  */
-//@Entity
-//@Table(name="tbl_saidamotoqueiro")
+@Entity
+@Table(name="tbl_saidamotoqueiro")
 public class SaidaMotoqueiro implements Serializable {
 	private static final long serialVersionUID = 1L;
-/*
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE)
-	private int intNumSaida;
+	@Column(name="intNumSaida")
+	private Integer numSaida;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "intCodCobr", referencedColumnName = "intCodCobr")
+	private Cobrador cobrador;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "intNumReq", referencedColumnName = "intNumReq")
+	private RequisicaoServico reqServico;
+    
+    @Temporal( TemporalType.DATE)
+    @Column(name="datDataCobr")
+	private Date dataCobranca;
 
     @Temporal( TemporalType.DATE)
-	private Date datDataCobr;
+    @Column(name="datDataPag")
+	private Date dataPagamento;
 
-    @Temporal( TemporalType.DATE)
-	private Date datDataPag;
+    @Temporal( TemporalType.TIME)
+    @Column(name="horCobranca")
+	private Time horaCobranca;
 
-	private Time horCobranca;
+    @Temporal( TemporalType.TIME)
+    @Column(name="horPagamen")
+	private Time horaPagamento;
 
-	private Time horPagamen;
+    @Column(name="vcrCliente")
+	private String descCliente;
 
-	private int intCodCobr;
+    @Column(name="vcrObs")
+	private String observacoes;
+    
+	@Version
+	@Column(name="tspVersao")
+	private Timestamp versao;
 
-	private int intNumReq;
-
-	private String vcrCliente;
-
-	private String vcrObs;
-
-    public SaidaMotoqueiro() {
-    }
-
-	public int getIntNumSaida() {
-		return this.intNumSaida;
-	}
-
-	public void setIntNumSaida(int intNumSaida) {
-		this.intNumSaida = intNumSaida;
-	}
-
-	public Date getDatDataCobr() {
-		return this.datDataCobr;
-	}
-
-	public void setDatDataCobr(Date datDataCobr) {
-		this.datDataCobr = datDataCobr;
-	}
-
-	public Date getDatDataPag() {
-		return this.datDataPag;
-	}
-
-	public void setDatDataPag(Date datDataPag) {
-		this.datDataPag = datDataPag;
-	}
-
-	public Time getHorCobranca() {
-		return this.horCobranca;
-	}
-
-	public void setHorCobranca(Time horCobranca) {
-		this.horCobranca = horCobranca;
-	}
-
-	public Time getHorPagamen() {
-		return this.horPagamen;
-	}
-
-	public void setHorPagamen(Time horPagamen) {
-		this.horPagamen = horPagamen;
-	}
-
-	public int getIntCodCobr() {
-		return this.intCodCobr;
-	}
-
-	public void setIntCodCobr(int intCodCobr) {
-		this.intCodCobr = intCodCobr;
-	}
-
-	public int getIntNumReq() {
-		return this.intNumReq;
-	}
-
-	public void setIntNumReq(int intNumReq) {
-		this.intNumReq = intNumReq;
-	}
-
-	public String getVcrCliente() {
-		return this.vcrCliente;
-	}
-
-	public void setVcrCliente(String vcrCliente) {
-		this.vcrCliente = vcrCliente;
-	}
-
-	public String getVcrObs() {
-		return this.vcrObs;
-	}
-
-	public void setVcrObs(String vcrObs) {
-		this.vcrObs = vcrObs;
-	}
-*/
+  
 }
