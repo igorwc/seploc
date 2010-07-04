@@ -1,18 +1,17 @@
 package br.seploc.pojos;
 
 import java.io.Serializable;
-
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
 /**
  * The primary key class for the tbl_linhareq database table.
  * 
  */
-@Embeddable
+//@Embeddable
 public class LinhaReqPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
-
+/*
 	private int intNumLin;
 
 	private int intNumreq;
@@ -53,5 +52,5 @@ public class LinhaReqPK implements Serializable {
 		hash = hash * prime + this.intNumreq;
 		
 		return hash;
-    }
+    }*/
 }

@@ -11,12 +11,12 @@ import javax.persistence.Table;
  * The persistent class for the tbl_reqservopcionais database table.
  * 
  */
-@Entity
-@Table(name="tbl_reqservopcionais")
+//@Entity
+//@Table(name="tbl_reqservopcionais")
 public class ReqServOpcionais implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
+	/*@EmbeddedId
 	private ReqServOpcionaisPK id;
 
 	private int intQuant;
@@ -49,5 +49,5 @@ public class ReqServOpcionais implements Serializable{
 	public void setVcrCod(String vcrCod) {
 		this.vcrCod = vcrCod;
 	}
-
+*/
 }

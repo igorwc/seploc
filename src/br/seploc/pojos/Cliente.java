@@ -2,181 +2,83 @@ package br.seploc.pojos;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
+import java.sql.Timestamp;
+import java.util.Set;
 
 /**
  * The persistent class for the tbl_clientes database table.
  * 
  */
+
 @Entity
-@Table(name="tbl_clientes")
+@Table(name = "tbl_clientes")
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
-	private String vcrCnpj;
+	@Column(name = "vcrCnpj")
+	private String cnpj;
+	
+	@Column(name = "vcrRazao")
+	private String razao;
+	
+	@Column(name = "vcrCpf")
+	private String cpf;
 
-	private int intBalcao;
+	@Column(name = "vcrEnder")
+	private String endereco;
+	
+	@Column(name = "vcrBairro")
+	private String bairro;
 
-	private int intEntregaPadrao;
+	@Column(name = "vcrCidade")
+	private String cidade;
+	
+	@Column(name = "vcrEstado")
+	private String estado;
 
-	private int intPapelPadrao;
+	@Column(name = "vcrCep")
+	private String cep;
+	
+	@Column(name = "vcrEmail")
+	private String email;
 
-    @Lob()
-	private String txtobs;
+	@Column(name = "vcrInscricao")
+	private String inscricao;
+	
+	@Column(name = "intBalcao")
+	private Integer balcao;
+	
+	@Column(name = "vcrFantasia")
+	private String fantasia;
+	
+	@Lob()
+	@Column(name = "txtobs")
+	private String obs;
+	
+	@Column(name = "vcrMapa")
+	private String mapa;
+	
+	@Column(name = "intEntregaPadrao")
+	private Integer entregaPadrao;
+	
+	@Column(name = "intPapelPadrao")
+	private Integer papelPadrao;
 
-	private String vcrBairro;
+	@Version
+	@Column(name = "tspVersao")
+	private Timestamp versao;
 
-	private String vcrCep;
+	@OneToOne(mappedBy = "cliente", fetch = FetchType.LAZY)
+	private FoneCliente foneCliente;
 
-	private String vcrCidade;
-
-	private String vcrCpf;
-
-	private String vcrEmail;
-
-	private String vcrEnder;
-
-	private String vcrEstado;
-
-	private String vcrFantasia;
-
-	private String vcrInscricao;
-
-	private String vcrMapa;
-
-	private String vcrRazao;
-
-    public Cliente() {
-    }
-
-	public String getVcrCnpj() {
-		return this.vcrCnpj;
-	}
-
-	public void setVcrCnpj(String vcrCnpj) {
-		this.vcrCnpj = vcrCnpj;
-	}
-
-	public int getIntBalcao() {
-		return this.intBalcao;
-	}
-
-	public void setIntBalcao(int intBalcao) {
-		this.intBalcao = intBalcao;
-	}
-
-	public int getIntEntregaPadrao() {
-		return this.intEntregaPadrao;
-	}
-
-	public void setIntEntregaPadrao(int intEntregaPadrao) {
-		this.intEntregaPadrao = intEntregaPadrao;
-	}
-
-	public int getIntPapelPadrao() {
-		return this.intPapelPadrao;
-	}
-
-	public void setIntPapelPadrao(int intPapelPadrao) {
-		this.intPapelPadrao = intPapelPadrao;
-	}
-
-	public String getTxtobs() {
-		return this.txtobs;
-	}
-
-	public void setTxtobs(String txtobs) {
-		this.txtobs = txtobs;
-	}
-
-	public String getVcrBairro() {
-		return this.vcrBairro;
-	}
-
-	public void setVcrBairro(String vcrBairro) {
-		this.vcrBairro = vcrBairro;
-	}
-
-	public String getVcrCep() {
-		return this.vcrCep;
-	}
-
-	public void setVcrCep(String vcrCep) {
-		this.vcrCep = vcrCep;
-	}
-
-	public String getVcrCidade() {
-		return this.vcrCidade;
-	}
-
-	public void setVcrCidade(String vcrCidade) {
-		this.vcrCidade = vcrCidade;
-	}
-
-	public String getVcrCpf() {
-		return this.vcrCpf;
-	}
-
-	public void setVcrCpf(String vcrCpf) {
-		this.vcrCpf = vcrCpf;
-	}
-
-	public String getVcrEmail() {
-		return this.vcrEmail;
-	}
-
-	public void setVcrEmail(String vcrEmail) {
-		this.vcrEmail = vcrEmail;
-	}
-
-	public String getVcrEnder() {
-		return this.vcrEnder;
-	}
-
-	public void setVcrEnder(String vcrEnder) {
-		this.vcrEnder = vcrEnder;
-	}
-
-	public String getVcrEstado() {
-		return this.vcrEstado;
-	}
-
-	public void setVcrEstado(String vcrEstado) {
-		this.vcrEstado = vcrEstado;
-	}
-
-	public String getVcrFantasia() {
-		return this.vcrFantasia;
-	}
-
-	public void setVcrFantasia(String vcrFantasia) {
-		this.vcrFantasia = vcrFantasia;
-	}
-
-	public String getVcrInscricao() {
-		return this.vcrInscricao;
-	}
-
-	public void setVcrInscricao(String vcrInscricao) {
-		this.vcrInscricao = vcrInscricao;
-	}
-
-	public String getVcrMapa() {
-		return this.vcrMapa;
-	}
-
-	public void setVcrMapa(String vcrMapa) {
-		this.vcrMapa = vcrMapa;
-	}
-
-	public String getVcrRazao() {
-		return this.vcrRazao;
-	}
-
-	public void setVcrRazao(String vcrRazao) {
-		this.vcrRazao = vcrRazao;
-	}
+	/*
+	 * 
+	 * // @OneToMany(mappedBy="tblCliente") // private List<Projeto>
+	 * tblProjetos;
+	 * 
+	 * // @OneToMany(mappedBy="tblCliente") // private List<RequisicaoServico>
+	 * tblReqservs;
+	 */
 
 }

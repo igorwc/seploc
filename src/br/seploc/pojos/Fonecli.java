@@ -13,11 +13,11 @@ import javax.persistence.Table;
  * The persistent class for the tbl_fonecli database table.
  * 
  */
-@Entity
-@Table(name="tbl_fonecli")
+//@Entity
+//@Table(name="tbl_fonecli")
 public class Fonecli implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+/*
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE)
 	private String vcrCnpj;
@@ -72,5 +72,5 @@ public class Fonecli implements Serializable {
 	public void setVcrFoneRes(String vcrFoneRes) {
 		this.vcrFoneRes = vcrFoneRes;
 	}
-
+*/
 }

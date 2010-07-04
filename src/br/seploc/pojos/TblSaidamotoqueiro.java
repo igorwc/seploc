@@ -8,16 +8,18 @@ import java.util.Date;
 
 
 /**
- * The persistent class for the tbl_statuscobranca database table.
+ * The persistent class for the tbl_saidamotoqueiro database table.
  * 
  */
 //@Entity
-//@Table(name="tbl_statuscobranca")
-public class StatusCobranca implements Serializable {
+//@Table(name="tbl_saidamotoqueiro")
+public class TblSaidamotoqueiro implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-//	@EmbeddedId
-//	private StatusCobrancaPK id;
+//	@Id
+//	@GeneratedValue(strategy=GenerationType.TABLE)
+//	@Column(name="intNumSaida")
+//	private Integer numSaida;
 //
 //    @Temporal( TemporalType.DATE)
 //	@Column(name="datDataCobr")
@@ -30,31 +32,40 @@ public class StatusCobranca implements Serializable {
 //	@Column(name="horCobranca")
 //	private Time horaCobranca;
 //
+//	@Column(name="horPagamen")
+//	private Time horaPagamento;
+//
 //	@Version
 //	@Column(name="tspVersao")
 //	private Timestamp versao;
+//
+//	@Column(name="vcrCliente")
+//	private String cliente;
+//
+//	@Column(name="vcrObs")
+//	private String obs;
+//
+//	//bi-directional many-to-one association to RequisicaoServico
+//	@ManyToOne(fetch=FetchType.LAZY)
+//	@JoinColumn(name="intNumReq")
+//	private RequisicaoServico tblReqserv;
 //
 //	//bi-directional many-to-one association to Cobrador
 //	@ManyToOne(fetch=FetchType.LAZY)
 //	@JoinColumn(name="intCodCobr")
 //	private Cobrador tblCobrador;
 //
-//	//bi-directional many-to-one association to RequisicaoServico
-////	@ManyToOne(fetch=FetchType.LAZY)
-////	@JoinColumn(name="intNumreq")
-////	private RequisicaoServico tblReqserv;
-//
-//    public StatusCobranca() {
+//    public TblSaidamotoqueiro() {
 //    }
 //
-//	public StatusCobrancaPK getId() {
-//		return this.id;
+//	public Integer getNumSaida() {
+//		return this.numSaida;
 //	}
 //
-//	public void setId(StatusCobrancaPK id) {
-//		this.id = id;
+//	public void setNumSaida(Integer numSaida) {
+//		this.numSaida = numSaida;
 //	}
-//	
+//
 //	public Date getDataCobranca() {
 //		return this.dataCobranca;
 //	}
@@ -79,6 +90,14 @@ public class StatusCobranca implements Serializable {
 //		this.horaCobranca = horaCobranca;
 //	}
 //
+//	public Time getHoraPagamento() {
+//		return this.horaPagamento;
+//	}
+//
+//	public void setHoraPagamento(Time horaPagamento) {
+//		this.horaPagamento = horaPagamento;
+//	}
+//
 //	public Timestamp getVersao() {
 //		return this.versao;
 //	}
@@ -87,6 +106,30 @@ public class StatusCobranca implements Serializable {
 //		this.versao = versao;
 //	}
 //
+//	public String getCliente() {
+//		return this.cliente;
+//	}
+//
+//	public void setCliente(String cliente) {
+//		this.cliente = cliente;
+//	}
+//
+//	public String getObs() {
+//		return this.obs;
+//	}
+//
+//	public void setObs(String obs) {
+//		this.obs = obs;
+//	}
+//
+//	public RequisicaoServico getTblReqserv() {
+//		return this.tblReqserv;
+//	}
+//
+//	public void setTblReqserv(RequisicaoServico tblReqserv) {
+//		this.tblReqserv = tblReqserv;
+//	}
+//	
 //	public Cobrador getTblCobrador() {
 //		return this.tblCobrador;
 //	}
@@ -94,13 +137,5 @@ public class StatusCobranca implements Serializable {
 //	public void setTblCobrador(Cobrador tblCobrador) {
 //		this.tblCobrador = tblCobrador;
 //	}
-//	
-////	public RequisicaoServico getTblReqserv() {
-////		return this.tblReqserv;
-////	}
-////
-////	public void setTblReqserv(RequisicaoServico tblReqserv) {
-////		this.tblReqserv = tblReqserv;
-////	}
 	
 }

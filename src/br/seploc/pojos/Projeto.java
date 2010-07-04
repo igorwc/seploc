@@ -1,56 +1,76 @@
 package br.seploc.pojos;
 
 import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Set;
 
 
 /**
  * The persistent class for the tbl_projetos database table.
  * 
  */
-@Entity
-@Table(name="tbl_projetos")
-public class Projeto implements Serializable {
+//@Entity
+//@Table(name="tbl_projetos")
+public class Projeto implements Serializable  {
 	private static final long serialVersionUID = 1L;
-
+/*
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE)
-	private int intCodProj;
+	@Column(name="intCodProj")
+	private Integer codProj;
 
-	private String vcrCnpj;
+	@Version
+	@Column(name="tspVersao")
+	private Timestamp versao;
 
-	private String vcrProjeto;
+	@Column(name="vcrProjeto")
+	private String projeto;
+
+	//bi-directional many-to-one association to Cliente
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="vcrCnpj")
+	private Cliente tblCliente;
+
+//	//bi-directional many-to-one association to RequisicaoServico
+//	@OneToMany(mappedBy="tblProjeto")
+//	private Set<RequisicaoServico> tblReqservs;
 
     public Projeto() {
     }
 
-	public int getIntCodProj() {
-		return this.intCodProj;
+	public Integer getCodProj() {
+		return this.codProj;
 	}
 
-	public void setIntCodProj(int intCodProj) {
-		this.intCodProj = intCodProj;
+	public void setCodProj(Integer codProj) {
+		this.codProj = codProj;
 	}
 
-	public String getVcrCnpj() {
-		return this.vcrCnpj;
+	public Timestamp getVersao() {
+		return this.versao;
 	}
 
-	public void setVcrCnpj(String vcrCnpj) {
-		this.vcrCnpj = vcrCnpj;
+	public void setVersao(Timestamp versao) {
+		this.versao = versao;
 	}
 
-	public String getVcrProjeto() {
-		return this.vcrProjeto;
+	public String getProjeto() {
+		return this.projeto;
 	}
 
-	public void setVcrProjeto(String vcrProjeto) {
-		this.vcrProjeto = vcrProjeto;
+	public void setProjeto(String projeto) {
+		this.projeto = projeto;
 	}
 
+	public Cliente getTblCliente() {
+		return this.tblCliente;
+	}
+
+	public void setTblCliente(Cliente tblCliente) {
+		this.tblCliente = tblCliente;
+	}
+	
+
+*/	
 }

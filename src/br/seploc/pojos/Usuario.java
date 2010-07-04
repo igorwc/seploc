@@ -43,18 +43,23 @@ import br.seploc.util.DesEncrypter;
 		@NamedNativeQuery(name = "Usuario.RetornaUsuariosPorGrupo", query = " SELECT * "
 				+ "FROM tbl_usuario u "
 				+ "where intGrupo = :grupo", resultSetMapping = "Usuario.implicit"), 
-				@NamedNativeQuery(name = "Usuario.RetornaRequisicoesPorUsuario", query = " SELECT * "
-					+ "FROM tbl_usuario u "
-					+ "where vcrLogin in " 
-					                   + "(SELECT vcrLogin FROM tbl_reqservusuario " 
-					                   + " WHERE vcrLogin = :login)", resultSetMapping = "Usuario.implicit") 
+		@NamedNativeQuery(name = "Usuario.RetornaRequisicoesPorUsuario", query = " SELECT * "
+				+ "FROM tbl_usuario u "
+				+ "where vcrLogin in " 
+					             + "(SELECT vcrLogin FROM tbl_reqservusuario " 
+					             + " WHERE vcrLogin = :login)", resultSetMapping = "Usuario.implicit"),
+		@NamedNativeQuery(name = "Usuario.RetornaUsuariosPorNome", query = " SELECT * "
+					    				+ "FROM tbl_usuario u "
+					    				+ "where vcrNome like :nome", resultSetMapping = "Usuario.implicit"),
+		@NamedNativeQuery(name = "Usuario.RetornaUsuariosPorLogin", query = " SELECT * "
+				+ "FROM tbl_usuario u "
+				+ "where vcrNome like :vcrLogin", resultSetMapping = "Usuario.implicit")
 })
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(generator = "usua_id", strategy = GenerationType.TABLE)
-	@TableGenerator(name = "usua_id", table = "ID_GEN", allocationSize = 1, initialValue = 1, pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "USUA_GEN")
+//	@GeneratedValue(generator = "usua_id", strategy = GenerationType.)
 	@Column(name = "vcrLogin")
 	private String login;
 
@@ -88,11 +93,41 @@ public class Usuario implements Serializable {
 			Integer permissao, String ipMaquina, Timestamp versao, Grupo grupo) {
 		this.login = login;
 		this.nome = nome;
-		this.password = password;
+		this.setPassword(password);
 		this.cpf = cpf;
 		this.permissao = permissao;
 		this.ipMaquina = ipMaquina;
 		this.versao = versao;
+		this.grupo = grupo;
+	}
+	
+	
+
+	public Usuario(String login, String nome, String password, String cpf) {
+		this.login = login;
+		this.nome = nome;
+		this.setPassword(password);
+		this.cpf = cpf;
+	}
+
+	public Usuario(String login, String nome, String password, String cpf,
+			Integer permissao, String ipMaquina) {
+		this.login = login;
+		this.nome = nome;
+		this.setPassword(password);
+		this.cpf = cpf;
+		this.permissao = permissao;
+		this.ipMaquina = ipMaquina;
+	}
+
+	public Usuario(String login, String nome, String password, String cpf,
+			Integer permissao, String ipMaquina, Grupo grupo) {
+		this.login = login;
+		this.nome = nome;
+		this.setPassword(password);
+		this.cpf = cpf;
+		this.permissao = permissao;
+		this.ipMaquina = ipMaquina;
 		this.grupo = grupo;
 	}
 

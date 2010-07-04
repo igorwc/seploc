@@ -1,17 +1,16 @@
 package br.seploc.pojos;
 
 import java.io.Serializable;
-
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
 /**
  * The primary key class for the tbl_reqservusuario database table.
  * 
  */
-@Embeddable
+//@Embeddable
 public class ReqServUsuarioPK implements Serializable {
 	//default serial version id, required for serializable classes.
-	private static final long serialVersionUID = 1L;
+/*	private static final long serialVersionUID = 1L;
 
 	private String vcrLogin;
 
@@ -53,5 +52,5 @@ public class ReqServUsuarioPK implements Serializable {
 		hash = hash * prime + this.intNumReq;
 		
 		return hash;
-    }
+    }*/
 }

@@ -2,6 +2,7 @@ package br.seploc.pojos;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -9,21 +10,38 @@ import java.util.Date;
  * The persistent class for the tbl_reqservusuario database table.
  * 
  */
-@Entity
-@Table(name="tbl_reqservusuario")
-public class ReqServUsuario implements Serializable {
+//@Entity
+//@Table(name="tbl_reqservusuario")
+public class ReqServUsuario implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
+/*	@EmbeddedId
 	private ReqServUsuarioPK id;
 
     @Temporal( TemporalType.DATE)
-	private Date datData;
+	@Column(name="datData")
+	private Date data;
 
     @Temporal( TemporalType.DATE)
-	private Date datdataAlter;
+	@Column(name="datdataAlter")
+	private Date dataAlteracao;
 
-	private String vcrLoginAlter;
+	@Version
+	@Column(name="tspVersao")
+	private Timestamp versao;
+
+	@Column(name="vcrLoginAlter")
+	private String loginAlteracao;
+
+	//bi-directional many-to-one association to Usuario
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="vcrLogin")
+	private Usuario tblUsuario;
+
+	//bi-directional many-to-one association to RequisicaoServico
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="intNumReq")
+	private RequisicaoServico tblReqserv;
 
     public ReqServUsuario() {
     }
@@ -36,28 +54,52 @@ public class ReqServUsuario implements Serializable {
 		this.id = id;
 	}
 	
-	public Date getDatData() {
-		return this.datData;
+	public Date getData() {
+		return this.data;
 	}
 
-	public void setDatData(Date datData) {
-		this.datData = datData;
+	public void setData(Date data) {
+		this.data = data;
 	}
 
-	public Date getDatdataAlter() {
-		return this.datdataAlter;
+	public Date getDataAlteracao() {
+		return this.dataAlteracao;
 	}
 
-	public void setDatdataAlter(Date datdataAlter) {
-		this.datdataAlter = datdataAlter;
+	public void setDataAlteracao(Date dataAlteracao) {
+		this.dataAlteracao = dataAlteracao;
 	}
 
-	public String getVcrLoginAlter() {
-		return this.vcrLoginAlter;
+	public Timestamp getVersao() {
+		return this.versao;
 	}
 
-	public void setVcrLoginAlter(String vcrLoginAlter) {
-		this.vcrLoginAlter = vcrLoginAlter;
+	public void setVersao(Timestamp versao) {
+		this.versao = versao;
 	}
 
+	public String getLoginAlteracao() {
+		return this.loginAlteracao;
+	}
+
+	public void setLoginAlteracao(String loginAlteracao) {
+		this.loginAlteracao = loginAlteracao;
+	}
+
+	public Usuario getTblUsuario() {
+		return this.tblUsuario;
+	}
+
+	public void setTblUsuario(Usuario tblUsuario) {
+		this.tblUsuario = tblUsuario;
+	}
+	
+	public RequisicaoServico getTblReqserv() {
+		return this.tblReqserv;
+	}
+
+	public void setTblReqserv(RequisicaoServico tblReqserv) {
+		this.tblReqserv = tblReqserv;
+	}
+*/	
 }
