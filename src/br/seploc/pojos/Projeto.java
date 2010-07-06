@@ -1,41 +1,135 @@
 package br.seploc.pojos;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
+import javax.persistence.Version;
 
-/**
- * The persistent class for the tbl_projetos database table.
- * 
-// */
 @Entity
 @Table(name="tbl_projetos")
 public class Projeto implements Serializable  {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
-	@Column(name="intCodProj")
+	@GeneratedValue(generator = "projeto_id", strategy = GenerationType.TABLE)
+	@TableGenerator(name = "projeto_id", table = "ID_GEN", 
+			        allocationSize = 1, initialValue = 1, pkColumnName = "NOME_ID", 
+			        valueColumnName = "VAL_ID", pkColumnValue = "PROJETO_GEN")
+	@Column(name = "intCodProj")
 	private Integer codProj;
-	
-	@Column(name="vcrProjeto")
+
+	@Column(name = "vcrProjeto", nullable = false)
 	private String projeto;
-	
+
 	@Version
-	@Column(name="tspVersao")
+	@Column(name = "tspVersao")
 	private Timestamp versao;
 
-
-
-	//bi-directional many-to-one association to Cliente
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="vcrCnpj")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "IntClientId", referencedColumnName = "IntClientId", nullable = false)
 	private Cliente cliente;
 
-//	//bi-directional many-to-one association to RequisicaoServico
-//	@OneToMany(mappedBy="tblProjeto")
-//	private Set<RequisicaoServico> tblReqservs;
+	@OneToMany(mappedBy = "projeto", fetch = FetchType.LAZY)
+	private List<RequisicaoServico> requisicoes;
+
+	public Projeto() {
+		setRequisicoes(new ArrayList<RequisicaoServico>());
+	}
+
+	public Projeto(String projeto) {
+		this.projeto = projeto;
+	}
+
+	public Integer getCodProj() {
+		return codProj;
+	}
+
+	public void setCodProj(Integer codProj) {
+		this.codProj = codProj;
+	}
+
+	public String getProjeto() {
+		return projeto;
+	}
+
+	public void setProjeto(String projeto) {
+		this.projeto = projeto;
+	}
+
+	public Timestamp getVersao() {
+		return versao;
+	}
+
+	public void setVersao(Timestamp versao) {
+		this.versao = versao;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public List<RequisicaoServico> getRequisicoes() {
+		return requisicoes;
+	}
+
+	public void setRequisicoes(List<RequisicaoServico> requisicoes) {
+		this.requisicoes = requisicoes;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codProj == null) ? 0 : codProj.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Projeto other = (Projeto) obj;
+		if (codProj == null) {
+			if (other.codProj != null)
+				return false;
+		} else if (!codProj.equals(other.codProj))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Projeto ["
+				+ (codProj != null ? "codProj=" + codProj + ", " : "")
+				+ (projeto != null ? "projeto=" + projeto : "") + "]";
+	}
+
 
 }
