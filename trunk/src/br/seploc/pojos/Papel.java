@@ -2,11 +2,14 @@ package br.seploc.pojos;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityResult;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,11 +47,13 @@ public class Papel implements Serializable {
 
 	@Id
 	@GeneratedValue(generator = "papel_id", strategy = GenerationType.TABLE)
-	@TableGenerator(name = "papel_id", table = "ID_GEN", initialValue = 1, allocationSize = 1, pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "PAPEL_GEN")
+	@TableGenerator(name = "papel_id", table = "ID_GEN", initialValue = 1, 
+			        allocationSize = 1, pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", 
+			        pkColumnValue = "PAPEL_GEN")
 	@Column(name = "intCodPap")
 	private Integer codPapel;
 
-	@Column(name = "vcrNome")
+	@Column(name = "vcrNome", nullable = false)
 	private String nome;
 
 	@Column(name = "dblImpMono")
@@ -64,14 +69,21 @@ public class Papel implements Serializable {
 	@Column(name = "tspVersao")
 	private Timestamp versao;
 
-	 @OneToMany(mappedBy="papel")
-	 private List<LinhaRequisicao> linhaRequisicao;
+	@OneToMany(mappedBy = "papel", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	private List<LinhaRequisicao> linhaRequisicao;
 
+	@OneToMany(mappedBy = "papelPadrao", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	private List<Cliente> clientes;
+
+	
+	
 	public Papel() {
+		setLinhaRequisicao(new ArrayList<LinhaRequisicao>());
+		setClientes(new ArrayList<Cliente>());
 	}
 
-	public Papel(String nome, Double impMono,
-			Double impColor, Double impShade) {
+	public Papel(String nome, Double impMono, Double impColor, Double impShade) {
+		this();
 		this.nome = nome;
 		ImpMono = impMono;
 		ImpColor = impColor;
@@ -126,46 +138,25 @@ public class Papel implements Serializable {
 		this.versao = versao;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((ImpColor == null) ? 0 : ImpColor.hashCode());
-		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
-		return result;
+	public List<LinhaRequisicao> getLinhaRequisicao() {
+		return linhaRequisicao;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Papel other = (Papel) obj;
-		if (ImpColor == null) {
-			if (other.ImpColor != null)
-				return false;
-		} else if (!ImpColor.equals(other.ImpColor))
-			return false;
-		if (versao == null) {
-			if (other.versao != null)
-				return false;
-		} else if (!versao.equals(other.versao))
-			return false;
-		return true;
+	public void setLinhaRequisicao(List<LinhaRequisicao> linhaRequisicao) {
+		this.linhaRequisicao = linhaRequisicao;
 	}
 
-	@Override
-	public String toString() {
-		return "Papel ["
-				+ (codPapel != null ? "codPapel=" + codPapel + ", " : "")
-				+ (nome != null ? "nome=" + nome + ", ": "")
-				+ (ImpColor != null ? "ImpColor=" + ImpColor + ", " : "")
-				+ (ImpMono != null ? "ImpMono=" + ImpMono + ", " : "")
-				+ (ImpShade != null ? "ImpShade=" + ImpShade : "") + "]";
+	public List<Cliente> getClientes() {
+		return clientes;
 	}
 
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	
 }

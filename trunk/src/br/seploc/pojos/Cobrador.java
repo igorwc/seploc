@@ -2,6 +2,7 @@ package br.seploc.pojos;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -40,35 +41,140 @@ import javax.persistence.Version;
  "where s.STS_ID = :status and s.STS_ID in (select EVDE_STS_ID from evolucao_demanda e)")
 })
 public class Cobrador implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	// @Column(name = "intCodCobr")
 	@GeneratedValue(generator = "cob_id", strategy = GenerationType.TABLE)
-	@TableGenerator(name = "cob_id", table = "ID_GEN", allocationSize = 1, initialValue=1,
-			pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "COB_GEN")
-	@Column(name="intCodCobr")
+	@TableGenerator(name = "cob_id", table = "ID_GEN", allocationSize = 1, 
+			        initialValue = 1, pkColumnName = "NOME_ID", 
+			        valueColumnName = "VAL_ID", pkColumnValue = "COBRADOR_GEN")
+	@Column(name = "intCodCobr")
 	private Integer codCobrador;
 
-	@Column(name="vcrNome")
+	@Column(name = "vcrNome", nullable = false, length = 60)
 	private String nome;
-	
-	@Column(name="vcrFoneCon")
+
+	@Column(name = "vcrFoneCon", length = 20)
 	private String foneContato;
 
 	@Version
-	@Column(name="tspVersao")
+	@Column(name = "tspVersao")
 	private Timestamp versao;
 
-	
-	@OneToMany(mappedBy="cobrador")
-	private List<RequisicaoServico> requisicoes;
+	@OneToMany(mappedBy = "cobrador")
+	private List<SaidaMotoqueiro> saidaMotoqueiros;
 
-
-	@OneToMany(mappedBy="cobrador")
-	private List<SaidaMotoqueiro> saidamotoqueiros;
-//
-	@OneToMany(mappedBy="cobrador")
+	@OneToMany(mappedBy = "cobrador")
 	private List<StatusCobranca> statusCobrancas;
 
-  }
+	public Cobrador() {
+		setSaidaMotoqueiros(new ArrayList<SaidaMotoqueiro>());
+		setStatusCobrancas(new ArrayList<StatusCobranca>());
+	}
+
+	
+	public Cobrador(String nome, String foneContato) {
+		this();
+		this.nome = nome;
+		this.foneContato = foneContato;
+	}
+
+
+	public Integer getCodCobrador() {
+		return codCobrador;
+	}
+
+	public void setCodCobrador(Integer codCobrador) {
+		this.codCobrador = codCobrador;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getFoneContato() {
+		return foneContato;
+	}
+
+	public void setFoneContato(String foneContato) {
+		this.foneContato = foneContato;
+	}
+
+	public Timestamp getVersao() {
+		return versao;
+	}
+
+	public void setVersao(Timestamp versao) {
+		this.versao = versao;
+	}
+
+	public List<SaidaMotoqueiro> getSaidaMotoqueiros() {
+		return saidaMotoqueiros;
+	}
+
+	public void setSaidaMotoqueiros(List<SaidaMotoqueiro> saidaMotoqueiros) {
+		this.saidaMotoqueiros = saidaMotoqueiros;
+	}
+
+	public List<StatusCobranca> getStatusCobrancas() {
+		return statusCobrancas;
+	}
+
+	public void setStatusCobrancas(List<StatusCobranca> statusCobrancas) {
+		this.statusCobrancas = statusCobrancas;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((codCobrador == null) ? 0 : codCobrador.hashCode());
+		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cobrador other = (Cobrador) obj;
+		if (codCobrador == null) {
+			if (other.codCobrador != null)
+				return false;
+		} else if (!codCobrador.equals(other.codCobrador))
+			return false;
+		if (versao == null) {
+			if (other.versao != null)
+				return false;
+		} else if (!versao.equals(other.versao))
+			return false;
+		return true;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Cobrador ["
+				+ (codCobrador != null ? "codCobrador=" + codCobrador + ", "
+						: "")
+				+ (foneContato != null ? "foneContato=" + foneContato + ", "
+						: "") + (nome != null ? "nome=" + nome : "") + "]";
+	}
+
+}

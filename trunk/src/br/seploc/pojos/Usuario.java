@@ -2,6 +2,7 @@ package br.seploc.pojos;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -20,19 +21,6 @@ import javax.persistence.Version;
 
 import br.seploc.util.DesEncrypter;
 
-/**
- * The persistent class for the tbl_usuario database table.
- * 
- */
-/*
- * CREATE TABLE IF NOT EXISTS tbl_usuario ( vcrLogin varchar(30) NOT NULL
- * DEFAULT '', vcrPassword varchar(30) DEFAULT NULL, vcrCpf varchar(20) NOT NULL
- * DEFAULT '', intPermissao int(1) NOT NULL DEFAULT '0', vcrIpMaquina
- * varchar(20) DEFAULT NULL, intGrupo int(1) DEFAULT NULL, vcrNome varchar(100)
- * DEFAULT NULL, tspVersao timestamp NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY
- * (vcrLogin), KEY USUA_GRP_FK (intGrupo) ) ENGINE=InnoDB DEFAULT
- * CHARSET=latin1;
- */
 @Entity
 @Table(name = "tbl_usuario")
 @SqlResultSetMapping(name = "Usuario.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Usuario.class))
@@ -58,41 +46,42 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-//	@GeneratedValue(generator = "usua_id", strategy = GenerationType.)
-	@Column(name = "vcrLogin")
+	@Column(name = "vcrLogin", length=30)
 	private String login;
 
-	@Column(name = "vcrNome")
-	private String nome;
-
-	@Column(name = "vcrPassword")
+	@Column(name = "vcrPassword", length=30)
 	private String password;
-
-	@Column(name = "vcrCpf")
+	
+	@Column(name = "vcrCpf", length = 20)
 	private String cpf;
 
 	@Column(name = "intPermissao")
 	private Integer permissao;
 
-	@Column(name = "vcrIpMaquina")
+	@Column(name = "vcrIpMaquina", length=20)
 	private String ipMaquina;
-
-	@Version
-	@Column(name = "tspVersao")
-	private Timestamp versao;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "intGrupo", referencedColumnName = "intGrupo")
 	private Grupo grupo;
+	
+	@Version
+	@Column(name = "tspVersao")
+	private Timestamp versao;
+	
+	@Column(name = "vcrNome", length=100)
+	private String nome;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<ReqServUsuario> reqServUsuario;
 	
 	public Usuario() {
+		setReqServUsuario(new ArrayList<ReqServUsuario>());
 	}
 
 	public Usuario(String login, String nome, String password, String cpf,
 			Integer permissao, String ipMaquina, Timestamp versao, Grupo grupo) {
+		this();
 		this.login = login;
 		this.nome = nome;
 		this.setPassword(password);
@@ -258,6 +247,14 @@ public class Usuario implements Serializable {
 				+ (nome != null ? "nome=" + nome : "") + "]"
 				+ (ipMaquina != null ? "ipMaquina=" + ipMaquina + ", " : "")
 				+ (grupo != null ? "grupo=" + grupo + ", " : "");
+	}
+
+	public void setReqServUsuario(List<ReqServUsuario> reqServUsuario) {
+		this.reqServUsuario = reqServUsuario;
+	}
+
+	public List<ReqServUsuario> getReqServUsuario() {
+		return reqServUsuario;
 	}
 
 	

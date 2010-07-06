@@ -4,98 +4,53 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
-/**
- * The persistent class for the tbl_fonecli database table.
- * 
- */
 @Entity
-@Table(name="tbl_fonecli")
-public class FoneCliente implements Serializable  {
+@Table(name = "tbl_fonecli")
+public class FoneCliente implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String vcrCnpj;
+	private Integer IntClientId;
 
-	@Version
-	@Column(name="tspVersao")
-	private Timestamp versao;
-
-	@Column(name="vcrCelular")
-	private String celular;
-
-	@Column(name="vcrFax")
-	private String fax;
-
-	@Column(name="vcrFoneCom")
-	private String foneComercial;
-
-	@Column(name="vcrFoneRes")
+	@Column(name = "vcrFoneRes")
 	private String foneResidencial;
 
-	//bi-directional one-to-one association to Cliente
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="vcrCnpj",nullable=false)
+	@Column(name = "vcrFoneCom")
+	private String foneComercial;
+
+	@Column(name = "vcrFax")
+	private String fax;
+
+	@Column(name = "vcrCelular")
+	private String celular;
+
+	@Version
+	@Column(name = "tspVersao")
+	private Timestamp versao;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "IntClientId", nullable = false)
 	private Cliente cliente;
+
 	
 	public FoneCliente() {
 	}
 
-	
-	
-	public FoneCliente(String vcrCnpj, String celular, String fax,
-			String foneComercial, String foneResidencial, Cliente cliente) {
-		this.vcrCnpj = vcrCnpj;
-		this.celular = celular;
-		this.fax = fax;
-		this.foneComercial = foneComercial;
+	public Integer getIntClientId() {
+		return IntClientId;
+	}
+
+	public void setIntClientId(Integer intClientId) {
+		IntClientId = intClientId;
+	}
+
+	public String getFoneResidencial() {
+		return foneResidencial;
+	}
+
+	public void setFoneResidencial(String foneResidencial) {
 		this.foneResidencial = foneResidencial;
-		this.cliente = cliente;
-	}
-
-
-
-	public FoneCliente(String vcrCnpj, String celular, String fax,
-			String foneComercial, String foneResidencial) {
-		this.vcrCnpj = vcrCnpj;
-		this.celular = celular;
-		this.fax = fax;
-		this.foneComercial = foneComercial;
-		this.foneResidencial = foneResidencial;
-	}
-
-
-
-	public String getVcrCnpj() {
-		return vcrCnpj;
-	}
-
-	public void setVcrCnpj(String vcrCnpj) {
-		this.vcrCnpj = vcrCnpj;
-	}
-
-	public Timestamp getVersao() {
-		return versao;
-	}
-
-	public void setVersao(Timestamp versao) {
-		this.versao = versao;
-	}
-
-	public String getCelular() {
-		return celular;
-	}
-
-	public void setCelular(String celular) {
-		this.celular = celular;
-	}
-
-	public String getFax() {
-		return fax;
-	}
-
-	public void setFax(String fax) {
-		this.fax = fax;
 	}
 
 	public String getFoneComercial() {
@@ -106,12 +61,28 @@ public class FoneCliente implements Serializable  {
 		this.foneComercial = foneComercial;
 	}
 
-	public String getFoneResidencial() {
-		return foneResidencial;
+	public String getFax() {
+		return fax;
 	}
 
-	public void setFoneResidencial(String foneResidencial) {
-		this.foneResidencial = foneResidencial;
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+
+	public Timestamp getVersao() {
+		return versao;
+	}
+
+	public void setVersao(Timestamp versao) {
+		this.versao = versao;
 	}
 
 	public Cliente getCliente() {
@@ -126,5 +97,51 @@ public class FoneCliente implements Serializable  {
 		return serialVersionUID;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((IntClientId == null) ? 0 : IntClientId.hashCode());
+		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FoneCliente other = (FoneCliente) obj;
+		if (IntClientId == null) {
+			if (other.IntClientId != null)
+				return false;
+		} else if (!IntClientId.equals(other.IntClientId))
+			return false;
+		if (versao == null) {
+			if (other.versao != null)
+				return false;
+		} else if (!versao.equals(other.versao))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "FoneCliente ["
+				+ (IntClientId != null ? "IntClientId=" + IntClientId + ", "
+						: "")
+				+ (celular != null ? "celular=" + celular + ", " : "")
+				+ (foneComercial != null ? "foneComercial=" + foneComercial
+						+ ", " : "")
+				+ (foneResidencial != null ? "foneResidencial="
+						+ foneResidencial : "") + "]";
+	}
+
+	
+	
 	
 }
