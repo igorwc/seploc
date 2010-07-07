@@ -7,7 +7,7 @@ import javax.persistence.Query;
 import br.seploc.pojos.Cobrador;
 import br.seploc.util.GenericDAO;
 
-public class CobradorDAO extends GenericDAO<Cobrador> {
+public class CobradorDAO extends GenericDAO<Cobrador, Integer> {
 
 	@Override
 	public void adiciona(Cobrador t) {
@@ -56,6 +56,18 @@ public class CobradorDAO extends GenericDAO<Cobrador> {
 		Query q = em.createNamedQuery("Cobrador.RetornaCobradores");
 		em.getTransaction().commit();
 		return (List<Cobrador>) q.getResultList();
+	}
+
+	@Override
+	protected boolean verificaFilhos(Integer id) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected void ajustaPojo(Cobrador pojo) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

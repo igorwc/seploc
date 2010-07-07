@@ -35,4 +35,10 @@ public class EntregaDAO extends GenericDAO<Entrega,Integer> {
 		return false;
 	}
 
+	@Override
+	protected void ajustaPojo(Entrega pojo) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

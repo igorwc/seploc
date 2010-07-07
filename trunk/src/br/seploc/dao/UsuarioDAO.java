@@ -10,7 +10,7 @@ import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Usuario;
 import br.seploc.util.GenericDAO;
 
-public class UsuarioDAO extends GenericDAO<Usuario> {
+public class UsuarioDAO extends GenericDAO<Usuario, String> {
 
 	@Override
 	public void adiciona(Usuario t) throws LoginInsertException {
@@ -18,7 +18,7 @@ public class UsuarioDAO extends GenericDAO<Usuario> {
 		Usuario user = recupera(t.getLogin());
 		if (user == null)
 			em.persist(t);
-		else{
+		else {
 			em.getTransaction().rollback();
 			throw new LoginInsertException("Login já em uso");
 		}
@@ -33,17 +33,20 @@ public class UsuarioDAO extends GenericDAO<Usuario> {
 		return t;
 	}
 
+	@Override
 	public Usuario recupera(String id) {
 		Usuario usuario = em.find(Usuario.class, id);
 		return usuario;
 	}
+
+	@Override
 	public Usuario remove(String id) throws Exception {
 		em.getTransaction().begin();
 		Usuario usuario = em.find(Usuario.class, id);
-		if(usuario == null){
+		if (usuario == null) {
 			em.getTransaction().rollback();
 			throw new RecordNotFound("Usuario Inexistente");
-		}else {
+		} else {
 
 			if (verificaFilhos(id)) {
 				em.getTransaction().rollback();
@@ -57,18 +60,20 @@ public class UsuarioDAO extends GenericDAO<Usuario> {
 
 		return usuario;
 	}
-	private boolean verificaFilhos(String id) throws ParentDeleteException {
-//		Number contagemReqUsuario = 0; //TODO Implementar 
-//		Query q = em.createQuery(
-//				"SELECT count(rsu.usuario) FROM br.seploc.pojos.ReqServUsuario rsu"
-//						+ " where rsu.usuario.login = :login").setParameter(
-//				"grupo", id);
-//		contagemReqUsuario = (Number) q.getSingleResult();
-//		if (contagemReqUsuario.intValue() != 0)
-//			return true;
+
+	@Override
+	protected boolean verificaFilhos(String id) throws ParentDeleteException {
+		// Number contagemReqUsuario = 0; //TODO Implementar
+		// Query q = em.createQuery(
+		// "SELECT count(rsu.usuario) FROM br.seploc.pojos.ReqServUsuario rsu"
+		// + " where rsu.usuario.login = :login").setParameter(
+		// "grupo", id);
+		// contagemReqUsuario = (Number) q.getSingleResult();
+		// if (contagemReqUsuario.intValue() != 0)
+		// return true;
 		return false;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getLista() {
 		em.getTransaction().begin();
@@ -76,47 +81,47 @@ public class UsuarioDAO extends GenericDAO<Usuario> {
 		em.getTransaction().commit();
 		return (List<Usuario>) q.getResultList();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getListaUsariosPorGrupo(Integer codGrupo) {
 		em.getTransaction().begin();
-		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorGrupo").setParameter("grupo", codGrupo.intValue());
+		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorGrupo")
+				.setParameter("grupo", codGrupo.intValue());
 		em.getTransaction().commit();
 		return (List<Usuario>) q.getResultList();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getListaUsariosPorNome(String nome) {
 		em.getTransaction().begin();
-		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorNome").setParameter("nome", "%" + nome + "%");
+		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorNome")
+				.setParameter("nome", "%" + nome + "%");
 		em.getTransaction().commit();
 		return (List<Usuario>) q.getResultList();
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getListaUsariosPorLogin(String login) {
 		em.getTransaction().begin();
-		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorNome").setParameter("login", "%" + login + "%");
+		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorNome")
+				.setParameter("login", "%" + login + "%");
 		em.getTransaction().commit();
 		return (List<Usuario>) q.getResultList();
 	}
+
 	public List<Usuario> getListaRequisicoesPorUsuario() {
-		//TODO Implementar
-//		em.getTransaction().begin();
-//		Query q = em.createNamedQuery("Usuario.RetornaRequisicoesPorUsuario");
-//		em.getTransaction().commit();
-//		return (List<Usuario>) q.getResultList();
+		// TODO Implementar
+		// em.getTransaction().begin();
+		// Query q =
+		// em.createNamedQuery("Usuario.RetornaRequisicoesPorUsuario");
+		// em.getTransaction().commit();
+		// return (List<Usuario>) q.getResultList();
 		return null;
 	}
 
 	@Override
-	public Usuario recupera(Integer id) {
-		Usuario usuario = em.find(Usuario.class, id);
-		return usuario;
-	}
-
-	@Override
-	public Usuario remove(Integer id) {
-
-		return null;
+	protected void ajustaPojo(Usuario pojo) {
+		// TODO Auto-generated method stub
+		
 	}
 }

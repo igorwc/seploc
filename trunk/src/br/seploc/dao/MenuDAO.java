@@ -10,7 +10,7 @@ import br.seploc.pojos.Menu;
 import br.seploc.util.GenericDAO;
 
 
-public class MenuDAO extends GenericDAO<Menu> {
+public class MenuDAO extends GenericDAO<Menu, Integer> {
 
 	@Override
 	public void adiciona(Menu t) {
@@ -56,7 +56,7 @@ public class MenuDAO extends GenericDAO<Menu> {
 		return menu;
 	}
 	
-	private boolean verificaFilhos(Integer id) throws ParentDeleteException {
+	protected boolean verificaFilhos(Integer id) throws ParentDeleteException {
 		Number contagemGrupoMenu = 0;
 		
 		Query q = em.createQuery(
@@ -86,14 +86,10 @@ public class MenuDAO extends GenericDAO<Menu> {
 		em.getTransaction().commit();
 		return (List<Menu>) q.getResultList();
 	}
-	
-	
-	public static void main(String[] args){
-		MenuDAO dao = new MenuDAO();
-		List<Menu> lista = dao.getLista();
+
+	@Override
+	protected void ajustaPojo(Menu pojo) {
+		// TODO Auto-generated method stub
 		
-		for(Menu item : lista){
-			System.out.println(item);
-		}
 	}
 }

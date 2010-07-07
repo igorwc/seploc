@@ -11,7 +11,7 @@ import br.seploc.pojos.GrupoMenuPK;
 import br.seploc.pojos.Menu;
 import br.seploc.util.GenericDAO;
 
-public class GrupoMenuDAO extends GenericDAO<GrupoMenu>{
+public class GrupoMenuDAO extends GenericDAO<GrupoMenu, GrupoMenuPK>{
 
 	@Override
 	public void adiciona(GrupoMenu t) {
@@ -29,8 +29,9 @@ public class GrupoMenuDAO extends GenericDAO<GrupoMenu>{
 	}
 
 	@Override
-	public GrupoMenu recupera(Integer id) {
-		return null;
+	public GrupoMenu recupera(GrupoMenuPK id) {
+		GrupoMenu grupoMenu = em.find(GrupoMenu.class, id);
+		return grupoMenu;
 	}
 
 	public GrupoMenu recupera(Integer MenuId, Integer GrupoId) {
@@ -44,15 +45,9 @@ public class GrupoMenuDAO extends GenericDAO<GrupoMenu>{
 	}
 	
 	@Override
-	public GrupoMenu remove(Integer id) throws Exception {
-		return null;
-	}
-	
-	
-	public GrupoMenu remove(Integer MenuId, Integer GrupoId) throws Exception {
+	public GrupoMenu remove(GrupoMenuPK id) throws Exception {
 		em.getTransaction().begin();
-		GrupoMenuPK grupoMenuPK = new GrupoMenuPK(MenuId, GrupoId);
-		GrupoMenu grupoMenu = em.find(GrupoMenu.class, grupoMenuPK);
+		GrupoMenu grupoMenu = em.find(GrupoMenu.class, id);
 		if(grupoMenu == null){
 			em.getTransaction().rollback();
 			throw new RecordNotFound("Associação Inexistente");
@@ -61,6 +56,14 @@ public class GrupoMenuDAO extends GenericDAO<GrupoMenu>{
 		em.remove(grupoMenu);
 		em.getTransaction().commit();
 
+		return grupoMenu;
+	}
+	
+	
+	public GrupoMenu remove(Integer MenuId, Integer GrupoId) throws Exception {
+		em.getTransaction().begin();
+		GrupoMenuPK grupoMenuPK = new GrupoMenuPK(MenuId, GrupoId);
+		GrupoMenu grupoMenu = remove(grupoMenuPK);
 		return grupoMenu;
 	}
 	
@@ -94,6 +97,18 @@ public class GrupoMenuDAO extends GenericDAO<GrupoMenu>{
 		Query q = em.createNamedQuery("GrupoMenu.RetornaPorGrupo").setParameter("GRUPO", grupo.getCodGrupo().intValue());
 		em.getTransaction().commit();
 		return (List<GrupoMenu>) q.getResultList();
+	}
+
+	@Override
+	protected boolean verificaFilhos(GrupoMenuPK id) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected void ajustaPojo(GrupoMenu pojo) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
