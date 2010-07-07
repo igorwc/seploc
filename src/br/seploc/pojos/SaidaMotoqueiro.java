@@ -3,6 +3,7 @@ package br.seploc.pojos;
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -19,11 +20,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
-
-/**
- * The persistent class for the tbl_saidamotoqueiro database table.
- * 
- */
 @Entity
 @Table(name="tbl_saidamotoqueiro")
 public class SaidaMotoqueiro implements Serializable {
@@ -53,11 +49,11 @@ public class SaidaMotoqueiro implements Serializable {
     @Column(name="datDataPag")
 	private Date dataPagamento;
 
-    @Temporal( TemporalType.TIME)
+//    @Temporal( TemporalType.TIME)
     @Column(name="horCobranca")
 	private Time horaCobranca;
 
-    @Temporal( TemporalType.TIME)
+//    @Temporal( TemporalType.TIME)
     @Column(name="horPagamen")
 	private Time horaPagamento;
 

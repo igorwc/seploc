@@ -11,7 +11,8 @@ public class FoneCliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private Integer IntClientId;
+	@Column(name = "intClienteId")
+	private Integer clientId;
 
 	@Column(name = "vcrFoneRes")
 	private String foneResidencial;
@@ -30,7 +31,7 @@ public class FoneCliente implements Serializable {
 	private Timestamp versao;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "IntClientId", nullable = false)
+	@JoinColumn(name = "intClienteId", nullable = false)
 	private Cliente cliente;
 
 	
@@ -38,11 +39,11 @@ public class FoneCliente implements Serializable {
 	}
 
 	public Integer getIntClientId() {
-		return IntClientId;
+		return clientId;
 	}
 
 	public void setIntClientId(Integer intClientId) {
-		IntClientId = intClientId;
+		clientId = intClientId;
 	}
 
 	public String getFoneResidencial() {
@@ -102,7 +103,7 @@ public class FoneCliente implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((IntClientId == null) ? 0 : IntClientId.hashCode());
+				+ ((clientId == null) ? 0 : clientId.hashCode());
 		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
 		return result;
 	}
@@ -116,10 +117,10 @@ public class FoneCliente implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		FoneCliente other = (FoneCliente) obj;
-		if (IntClientId == null) {
-			if (other.IntClientId != null)
+		if (clientId == null) {
+			if (other.clientId != null)
 				return false;
-		} else if (!IntClientId.equals(other.IntClientId))
+		} else if (!clientId.equals(other.clientId))
 			return false;
 		if (versao == null) {
 			if (other.versao != null)
@@ -132,7 +133,7 @@ public class FoneCliente implements Serializable {
 	@Override
 	public String toString() {
 		return "FoneCliente ["
-				+ (IntClientId != null ? "IntClientId=" + IntClientId + ", "
+				+ (clientId != null ? "clientId=" + clientId + ", "
 						: "")
 				+ (celular != null ? "celular=" + celular + ", " : "")
 				+ (foneComercial != null ? "foneComercial=" + foneComercial

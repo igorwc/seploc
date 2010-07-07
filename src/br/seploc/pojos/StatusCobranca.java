@@ -1,11 +1,19 @@
 package br.seploc.pojos;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import java.sql.Timestamp;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.Version;
 
 
 @Entity
@@ -16,15 +24,15 @@ public class StatusCobranca implements Serializable {
 	@EmbeddedId
 	private StatusCobrancaPK id;
 
-    @Temporal( TemporalType.DATE)
+//    @Temporal( TemporalType.DATE)
 	@Column(name="datDataCobr")
 	private Date dataCobranca;
 
-    @Temporal( TemporalType.DATE)
+//    @Temporal( TemporalType.DATE)
 	@Column(name="datDataPag")
 	private Date dataPagamento;
 
-    @Temporal( TemporalType.TIME)
+//    @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="horCobranca")
 	private Time horaCobranca;
 

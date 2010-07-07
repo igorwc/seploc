@@ -41,7 +41,7 @@ public class Projeto implements Serializable  {
 	private Timestamp versao;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "IntClientId", referencedColumnName = "IntClientId", nullable = false)
+	@JoinColumn(name = "intClienteId", referencedColumnName = "intClienteId", nullable = false)
 	private Cliente cliente;
 
 	@OneToMany(mappedBy = "projeto", fetch = FetchType.LAZY)
