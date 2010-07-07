@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -56,7 +57,7 @@ public class RequisicaoServico implements Serializable {
 	@Column(name = "tspVersao")
 	private Timestamp versao;
 
-	@OneToMany(mappedBy = "reqServico")
+	@OneToMany(mappedBy = "reqServico", cascade={CascadeType.MERGE,CascadeType.PERSIST})
 	private List<LinhaRequisicao> linhaRequisicao;
 
 	@ManyToOne(fetch = FetchType.EAGER)

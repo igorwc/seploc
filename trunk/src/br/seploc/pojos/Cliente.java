@@ -20,13 +20,15 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Version;
 
-/**
- * The persistent class for the tbl_clientes database table.
- * 
- */
-
 @Entity
 @Table(name = "tbl_clientes")
+//@SqlResultSetMapping(name = "Cliente.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Cliente.class))
+//@NamedNativeQueries( {
+//		@NamedNativeQuery(name = "Cliente.RetornaClientes", query = " SELECT * "
+//				+ "FROM tbl_clientes c", resultSetMapping = "Cliente.implicit"),
+//		@NamedNativeQuery(name = "Cliente.BuscaClientes", query = " SELECT * "
+//					+ "FROM tbl_clientes c where vcrRazao like :nome", resultSetMapping = "Cliente.implicit")
+//})
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -35,10 +37,10 @@ public class Cliente implements Serializable {
 	@TableGenerator(name = "cliente_id", table = "ID_GEN", 
 			        allocationSize = 1, initialValue = 1, pkColumnName = "NOME_ID", 
 			        valueColumnName = "VAL_ID", pkColumnValue = "CLIENTE_GEN")
-	@Column(name = "IntClientId")
+	@Column(name = "intClienteId")
 	private Integer idCliente;
 	
-	@Column(name = "vcrCnpj", nullable = false)
+	@Column(name = "vcrCnpj") // Caso o cliente seja PF, o cpf deve ser replicado aqui?
 	private String cnpj;
 
 	@Column(name = "vcrRazao", nullable = false)
@@ -347,8 +349,8 @@ public class Cliente implements Serializable {
 	@Override
 	public String toString() {
 		return "Cliente ["
+		        + (idCliente != null ? "idCliente=" + idCliente + ", " : "")
 				+ (fantasia != null ? "fantasia=" + fantasia + ", " : "")
-				+ (idCliente != null ? "idCliente=" + idCliente + ", " : "")
 				+ (razao != null ? "razao=" + razao : "") + "]";
 	}
 

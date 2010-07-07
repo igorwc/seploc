@@ -23,22 +23,12 @@ import javax.persistence.Version;
 @Table(name = "tbl_cobrador")
 @SqlResultSetMapping(name = "Cobrador.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Cobrador.class))
 @NamedNativeQueries( {
-		@NamedNativeQuery(name = "Cobrador.RetornaCobradores", query = " SELECT intCodCobr, vcrNome, "
-				+ "vcrFoneCon, tspVersao " + "FROM tbl_cobrador c", resultSetMapping = "Cobrador.implicit")
+		@NamedNativeQuery(name = "Cobrador.RetornaCobradores", query = " SELECT * " +
+				"FROM tbl_cobrador c", resultSetMapping = "Cobrador.implicit")
 		,
-		@NamedNativeQuery(name = "Cobrador.FiltraCobradores", query = " SELECT c.intCodCobr, c.vcrNome, "
-				+ "c.vcrFoneCon, c.tspVersao "
+		@NamedNativeQuery(name = "Cobrador.FiltraCobradores", query = " SELECT * "
 				+ "FROM tbl_cobrador c"
 				+ " WHERE c.vcrNome like :nome", resultSetMapping = "Cobrador.implicit")
- , @NamedNativeQuery(name = "Status.ContaStatus", query =
- "SELECT  count(*) FROM Status s ", resultSetMapping = "Status.implicit"),
- @NamedNativeQuery(name = "Status.BuscaPorNome", query =
- "SELECT * FROM Status s where "
- + "s.DESCRICAO = :status", resultSetMapping = "Status.implicit")
- ,@NamedNativeQuery(name = "Status.ContaEvolucoesStatus", query =
- "SELECT count(*) FROM Status s"
- +
- "where s.STS_ID = :status and s.STS_ID in (select EVDE_STS_ID from evolucao_demanda e)")
 })
 public class Cobrador implements Serializable {
 

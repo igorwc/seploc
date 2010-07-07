@@ -29,17 +29,16 @@ import javax.persistence.Version;
 					query = " SELECT p.intCodPap, p.vcrNome, "
 							+ "p.dblImpMono, p.dblImpColor, p.dblImpShade, p.tspVersao "
 							+ "FROM tbl_papel p", resultSetMapping = "Papel.implicit"),
-			@NamedNativeQuery(name = "Papel.ContaPapelLinhaRequisicao", 
-					query = " SELECT count(*) as contagem "
-							+ "FROM tbl_papel p "
-							+ "WHERE intCodPap in (" 
-							                      +"SELECT intCodPap " 
-							                      +"FROM tbl_linhareq lr " 
-							                      +"WHERE lr = :codPapel " 
-							+")", resultSetMapping = "Papel.implicit"),
+//			@NamedNativeQuery(name = "Papel.ContaPapelLinhaRequisicao", 
+//					query = " SELECT count(*) as contagem "
+//							+ "FROM tbl_papel p "
+//							+ "WHERE intCodPap in (" 
+//							                      +"SELECT intCodPap " 
+//							                      +"FROM tbl_linhareq lr " 
+//							                      +"WHERE lr = :codPapel " 
+//							+")", resultSetMapping = "Papel.implicit"),
 			@NamedNativeQuery(name = "Papel.RetornaPapeisPorNome", 
-					query = " SELECT p.intCodPap, p.vcrNome, "
-			     			+ "p.dblImpMono, p.dblImpColor, p.dblImpShade, p.tspVersao "
+					query = " SELECT * "
 							+ "FROM tbl_papel p where p.vcrNome like :nome ", resultSetMapping = "Papel.implicit"),
 		})
 public class Papel implements Serializable {
