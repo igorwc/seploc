@@ -57,11 +57,11 @@ public class GrupoDAO extends GenericDAO<Grupo,Integer>{
 	protected boolean verificaFilhos(Integer id) throws ParentDeleteException {
 		Number contagemGrupoMenu = 0;
 //		Number contagemUsuario = 0;
-		Query q = em.createQuery(
-				"SELECT count(gm.grupo) FROM br.seploc.pojos.GrupoMenu gm"
-						+ " where gm.grupo.codGrupo = :grupo").setParameter(
-				"grupo", id);
-		contagemGrupoMenu = (Number) q.getSingleResult();
+//		Query q = em.createQuery(
+//				"SELECT count(gm.grupo) FROM br.seploc.pojos.GrupoMenu gm"
+//						+ " where gm.grupo.codGrupo = :grupo").setParameter(
+//				"grupo", id);
+//		contagemGrupoMenu = (Number) q.getSingleResult();
 		
 		/*em.createQuery(
 				"SELECT count(u.grupo) FROM br.seploc.pojos.Usuario u"

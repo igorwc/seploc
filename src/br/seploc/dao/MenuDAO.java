@@ -59,11 +59,11 @@ public class MenuDAO extends GenericDAO<Menu, Integer> {
 	protected boolean verificaFilhos(Integer id) throws ParentDeleteException {
 		Number contagemGrupoMenu = 0;
 		
-		Query q = em.createQuery(
-				"SELECT count(gm.grupo) FROM br.seploc.pojos.GrupoMenu gm"
-						+ " where gm.menu.codMenu = :menu").setParameter(
-				"menu", id);
-		contagemGrupoMenu = (Number) q.getSingleResult();
+//		Query q = em.createQuery(
+//				"SELECT count(gm.grupo) FROM br.seploc.pojos.GrupoMenu gm"
+//						+ " where gm.menu.codMenu = :menu").setParameter(
+//				"menu", id);
+//		contagemGrupoMenu = (Number) q.getSingleResult();
 
 		if (contagemGrupoMenu.intValue() != 0)
 			return true;
