@@ -38,8 +38,12 @@ public EntityManager getManager() {
             em  = emf.createEntityManager();  
         }catch(Exception e){  
             System.out.println("Não conseguiu acesar o Banco no metodo getManager() "+e); 
-            e.printStackTrace();
+//            e.printStackTrace();
+            e.printStackTrace(System.out);
         }  
         return em;    
     }
+ public static void main(String[] args){
+	 EntityManager em = PersistenceServiceFactory.getInstance().getManager();
+ }
 }

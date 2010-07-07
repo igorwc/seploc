@@ -14,7 +14,7 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 	@Override
 	public void adiciona(Cliente t) throws Exception {
 		em.getTransaction().begin();
-		ajustaPojo(t);
+//		ajustaPojo(t);
 		em.merge(t);
 		em.getTransaction().commit();
 
@@ -62,14 +62,14 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 		return (List<Cliente>) q.getResultList();
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Cliente> getClientesPorNome(String nome) {
-		em.getTransaction().begin();
-		Query q = em.createNamedQuery("Cliente.BuscaClientes").setParameter(
-				"nome", "%" + nome + "%");
-		em.getTransaction().commit();
-		return (List<Cliente>) q.getResultList();
-	}
+//	@SuppressWarnings("unchecked")
+//	public List<Cliente> getClientesPorNome(String nome) {
+//		em.getTransaction().begin();
+//		Query q = em.createNamedQuery("Cliente.BuscaClientes").setParameter(
+//				"nome", "%" + nome + "%");
+//		em.getTransaction().commit();
+//		return (List<Cliente>) q.getResultList();
+//	}
 	@Override
 	protected void ajustaPojo(Cliente c) {
 		if(c.getRazao() == null) c.setRazao(c.getFantasia());
