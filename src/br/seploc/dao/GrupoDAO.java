@@ -9,7 +9,7 @@ import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Grupo;
 import br.seploc.util.GenericDAO;
 
-public class GrupoDAO extends GenericDAO<Grupo>{
+public class GrupoDAO extends GenericDAO<Grupo,Integer>{
 
 	@Override
 	public void adiciona(Grupo t) {
@@ -34,7 +34,7 @@ public class GrupoDAO extends GenericDAO<Grupo>{
 	}
 
 	@Override
-	public Grupo remove(Integer id) throws Exception {
+	public Grupo remove(Integer id) throws RecordNotFound,ParentDeleteException {
 		em.getTransaction().begin();
 		Grupo grupo = em.find(Grupo.class, id);
 		if(grupo == null){
@@ -54,7 +54,7 @@ public class GrupoDAO extends GenericDAO<Grupo>{
 
 		return grupo;
 	}
-	private boolean verificaFilhos(Integer id) throws ParentDeleteException {
+	protected boolean verificaFilhos(Integer id) throws ParentDeleteException {
 		Number contagemGrupoMenu = 0;
 //		Number contagemUsuario = 0;
 		Query q = em.createQuery(
@@ -81,5 +81,11 @@ public class GrupoDAO extends GenericDAO<Grupo>{
 		Query q = em.createNamedQuery("Grupo.RetornaGrupos");
 		em.getTransaction().commit();
 		return (List<Grupo>) q.getResultList();
+	}
+
+	@Override
+	protected void ajustaPojo(Grupo pojo) {
+		// TODO Auto-generated method stub
+		
 	}
 }
