@@ -1,20 +1,82 @@
 package br.seploc.dao.test;
 
 import static org.junit.Assert.fail;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import br.seploc.dao.ClienteDAO;
 import br.seploc.pojos.Cliente;
+import br.seploc.pojos.FoneCliente;
 
 public class ClienteDAOTest {
 
 	@Test
-	public final void testAdicionaCliente() {
-		fail("Not yet implemented"); // TODO
+	public final void testAdicionaCliente() throws Exception {
+		ClienteDAO dao = new ClienteDAO();
+		Cliente c = new Cliente();
+		c.setCnpj("123456789-0001/12");
+		c.setFantasia("Empresa Fantasia");
+		c.setBairro("Bairro Fantastico");
+		c.setBalcao(0);
+		c.setCep("52060-000");
+		c.setCidade("Hellcife");
+		c.setEmail("empresa@empresa.com.br");
+		c.setEndereco("R. das Creoulas");
+		c.setEstado("PE");
+		
+		dao.adiciona(c);
+		
+		c = null;
+		c = dao.recupera(2);
+		Assert.assertNotNull(c);
+		Assert.assertTrue(c.getCnpj().equals("123456789-0001/12"));
+		Assert.assertTrue(c.getCep().equals("52060-000"));
+		Assert.assertTrue(c.getRazao().equals("Empresa Fantasia"));
+		System.out.println(c);
 	}
-
+	@Test
+	public final void testAdicionaClienteComTelefone() throws Exception {
+		ClienteDAO dao = new ClienteDAO();
+		Cliente c = new Cliente();
+		FoneCliente fc = new FoneCliente();
+		c.setCnpj("123456789-1111/12");
+		c.setFantasia("Empresa Fantasia2");
+		c.setBairro("Bairro Fantastico2");
+		c.setCep("52060-1111");
+		c.setCidade("Recifilis");
+		c.setEmail("empresa2@empresa2.com.br");
+		c.setEndereco("R. das Morenas");
+		c.setEstado("PE");
+		
+		fc.setCelular("9999-9999");
+		fc.setCliente(c);
+		fc.setFax("111-11111");
+		fc.setFoneComercial("2222-2222");
+		fc.setFoneResidencial("3333-3333");
+		c.setFoneCliente(fc);
+		dao.adiciona(c);
+		
+		c = null;
+		List<Cliente> lista = dao.getClientesPorNome("Fantasia2");
+		Assert.assertNotNull(lista);
+//		Assert.assertTrue(lista.size() == 1);
+		c = lista.get(0);
+		Assert.assertTrue(c.getCnpj().equals("123456789-1111/12"));
+		Assert.assertTrue(c.getCep().equals("52060-1111"));
+		Assert.assertTrue(c.getRazao().equals("Empresa Fantasia2"));
+		Assert.assertNotNull(c.getFoneCliente());
+		fc = c.getFoneCliente();
+		Assert.assertTrue(fc.getFoneComercial().equals("2222-2222"));
+		System.out.println(c);
+	}
 	@Test
 	public final void testAlteraCliente() {
 		fail("Not yet implemented"); // TODO
@@ -32,17 +94,62 @@ public class ClienteDAOTest {
 
 	@Test
 	public final void testRemoveInteger() {
+		String sql = "insert into  seploc2.id_gen(nome_id, val_id)"+
+		"values(\'CLIENTE_GEN22\', 2)";
+		executaSQL(sql);
 		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
 	public final void testGetLista() {
-		fail("Not yet implemented"); // TODO
+		ClienteDAO dao = new ClienteDAO();
+		List<Cliente> c = dao.getLista();
+		
+		Assert.assertNotNull(c);
+		Assert.assertTrue(c.size() == 2);
+		
+		for(Cliente cc : c){
+			System.out.println(cc);
+		}
 	}
 
 	@Test
 	public final void testGetClientesPorNome() {
-		fail("Not yet implemented"); // TODO
+		ClienteDAO dao = new ClienteDAO();
+		List<Cliente> c = dao.getClientesPorNome("Wan");
+		
+		Assert.assertNotNull(c);
+		Assert.assertTrue(c.size() == 1);
+		
+		for(Cliente cc : c){
+			System.out.println(cc);
+		}
+		
 	}
 
+	private Connection getConnection() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			System.out.println("Conectando ao banco");
+			return DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/seploc2", "root", "");
+		} catch (ClassNotFoundException e) {
+			throw new SQLException(e.getMessage());
+		}
+	}
+	
+	public void executaSQL(String sql) {
+		
+		try {
+			Connection connection = getConnection();
+			Statement stmt = connection.createStatement();
+			// executa
+			stmt.execute(sql);
+			stmt.close();
+		} catch (SQLException e) {
+			System.err.println("Entrou aqui");
+			throw new RuntimeException(e);
+			
+		}
+	}
 }
