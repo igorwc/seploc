@@ -5,8 +5,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,21 +16,24 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Version;
 
 @Entity
 @Table(name = "tbl_clientes")
-//@SqlResultSetMapping(name = "Cliente.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Cliente.class))
-//@NamedNativeQueries( {
-//		@NamedNativeQuery(name = "Cliente.RetornaClientes", query = " SELECT * "
-//				+ "FROM tbl_clientes c", resultSetMapping = "Cliente.implicit"),
-//		@NamedNativeQuery(name = "Cliente.BuscaClientes", query = " SELECT * "
-//					+ "FROM tbl_clientes c where vcrRazao like :nome", resultSetMapping = "Cliente.implicit")
-//})
+@SqlResultSetMapping(name = "Cliente.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Cliente.class))
+@NamedNativeQueries( {
+		@NamedNativeQuery(name = "Cliente.RetornaClientes", query = " SELECT * "
+				+ "FROM tbl_clientes c", resultSetMapping = "Cliente.implicit"),
+		@NamedNativeQuery(name = "Cliente.BuscaClientes", query = " SELECT * "
+					+ "FROM tbl_clientes c where vcrRazao like :nome", resultSetMapping = "Cliente.implicit")
+})
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -95,7 +100,7 @@ public class Cliente implements Serializable {
 	@Column(name = "tspVersao")
 	private Timestamp versao;
 	
-	@OneToOne(mappedBy = "cliente", fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "cliente", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	private FoneCliente foneCliente;
 
 	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
