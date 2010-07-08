@@ -1,21 +1,74 @@
 package br.seploc.dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import javax.persistence.Query;
 
+import br.seploc.dao.exceptions.FieldNotNullException;
 import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Cliente;
+import br.seploc.pojos.FoneCliente;
 import br.seploc.util.GenericDAO;
-
+ 
 public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 
+	private Connection getConnection() throws SQLException {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			System.out.println("Conectando ao banco");
+			return DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/seploc2", "root", "");
+		} catch (ClassNotFoundException e) {
+			throw new SQLException(e.getMessage());
+		}
+	}
+	
+	private void executaSQL(String sql) {
+		
+		try {
+			Connection connection = getConnection();
+			Statement stmt = connection.createStatement();
+			// executa
+			stmt.execute(sql);
+			stmt.close();
+		} catch (SQLException e) {
+			System.err.println("Entrou aqui");
+			throw new RuntimeException(e);
+			
+		}
+	}
 	@Override
-	public void adiciona(Cliente t) throws Exception {
+	public void  adiciona(Cliente t) throws Exception {
 		em.getTransaction().begin();
-//		ajustaPojo(t);
-		em.merge(t);
+		ajustaPojo(t);
+//		em.persist(t);
+		if(t.getFoneCliente() == null)
+			em.persist(t);
+		else{
+			FoneCliente fc = t.getFoneCliente();
+			fc.setCliente(null);
+			t.setFoneCliente(null);
+			em.persist(t);
+			em.getTransaction().commit();
+			t = em.find(Cliente.class,t.getIdCliente());
+			t.setFoneCliente(fc);
+			fc.setCliente(t);
+			fc.setIntClientId(t.getIdCliente());
+			altera(t); return;
+		}
+		em.getTransaction().commit();
+
+	}
+	
+	public void  adicionaOriginal(Cliente t) throws Exception {
+		em.getTransaction().begin();
+		ajustaPojo(t);
+		em.persist(t);
 		em.getTransaction().commit();
 
 	}
@@ -62,16 +115,24 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 		return (List<Cliente>) q.getResultList();
 	}
 
-//	@SuppressWarnings("unchecked")
-//	public List<Cliente> getClientesPorNome(String nome) {
-//		em.getTransaction().begin();
-//		Query q = em.createNamedQuery("Cliente.BuscaClientes").setParameter(
-//				"nome", "%" + nome + "%");
-//		em.getTransaction().commit();
-//		return (List<Cliente>) q.getResultList();
-//	}
+	 @SuppressWarnings("unchecked")
+	 public List<Cliente> getClientesPorNome(String nome) {
+	 em.getTransaction().begin();
+	 Query q = em.createNamedQuery("Cliente.BuscaClientes").setParameter(
+	 "nome", "%" + nome + "%"); 
+	 em.getTransaction().commit();
+	 return (List<Cliente>) q.getResultList();
+	 }
 	@Override
-	protected void ajustaPojo(Cliente c) {
-		if(c.getRazao() == null) c.setRazao(c.getFantasia());
+	protected void ajustaPojo(Cliente c) throws FieldNotNullException {
+		if (c.getFantasia() == null)
+			throw new FieldNotNullException("Nome Fantasia não pode ser nulo");
+		if (c.getRazao() == null)
+			c.setRazao(c.getFantasia());
+		if(c.getBalcao() == null)
+			c.setBalcao(0);
+		if(c.getFoneCliente() != null){
+			c.getFoneCliente().setIntClientId(c.getIdCliente());
+		}
 	}
 }
