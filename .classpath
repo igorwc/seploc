@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/antlr-2.7.6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-codec-1.4.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-collections-3.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ejb3-persistence.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate-annotations.jar"/>
@@ -42,5 +41,16 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/richfaces-api-3.3.3.Final.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/richfaces-impl-3.3.3.Final.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/richfaces-impl-jsf2-3.3.3.Final.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/richfaces-ui-3.3.3.Final.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-digester-1.8.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jhighlight-1.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/myfaces-api-1.2.5.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/myfaces-impl-1.2.5.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
