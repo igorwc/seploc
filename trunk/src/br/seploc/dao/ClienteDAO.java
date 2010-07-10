@@ -14,7 +14,7 @@ import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.FoneCliente;
 import br.seploc.util.GenericDAO;
- 
+
 public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 
 	private Connection getConnection() throws SQLException {
@@ -43,29 +43,7 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 		}
 	}
 	@Override
-	public void  adiciona(Cliente t) throws Exception {
-		em.getTransaction().begin();
-		ajustaPojo(t);
-//		em.persist(t);
-		if(t.getFoneCliente() == null)
-			em.persist(t);
-		else{
-			FoneCliente fc = t.getFoneCliente();
-			fc.setCliente(null);
-			t.setFoneCliente(null);
-			em.persist(t);
-			em.getTransaction().commit();
-			t = em.find(Cliente.class,t.getIdCliente());
-			t.setFoneCliente(fc);
-			fc.setCliente(t);
-			fc.setIntClientId(t.getIdCliente());
-			altera(t); return;
-		}
-		em.getTransaction().commit();
-
-	}
-	
-	public void  adicionaOriginal(Cliente t) throws Exception {
+	public synchronized void  adiciona(Cliente t) throws Exception {
 		em.getTransaction().begin();
 		ajustaPojo(t);
 		em.persist(t);
@@ -119,7 +97,7 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 	 public List<Cliente> getClientesPorNome(String nome) {
 	 em.getTransaction().begin();
 	 Query q = em.createNamedQuery("Cliente.BuscaClientes").setParameter(
-	 "nome", "%" + nome + "%"); 
+	 "nome", "%" + nome + "%");
 	 em.getTransaction().commit();
 	 return (List<Cliente>) q.getResultList();
 	 }
@@ -131,8 +109,5 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 			c.setRazao(c.getFantasia());
 		if(c.getBalcao() == null)
 			c.setBalcao(0);
-		if(c.getFoneCliente() != null){
-			c.getFoneCliente().setIntClientId(c.getIdCliente());
-		}
 	}
 }
