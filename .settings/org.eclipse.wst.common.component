@@ -108,6 +108,12 @@
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/oscache-2.3.2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/myfaces-api-1.2.5.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/seploc/WebContent/WEB-INF/lib/myfaces-impl-1.2.5.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="seploc"/>
         <property name="java-output-path" value="/seploc/build/classes"/>
     </wb-module>
