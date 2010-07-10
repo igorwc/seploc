@@ -100,7 +100,8 @@ public class Cliente implements Serializable {
 	@Column(name = "tspVersao")
 	private Timestamp versao;
 	
-	@OneToOne(mappedBy = "cliente", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToOne(mappedBy = "cliente", fetch = FetchType.EAGER, cascade = 
+			CascadeType.ALL )
 	private FoneCliente foneCliente;
 
 	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
