@@ -1,7 +1,5 @@
 package br.seploc.dao.test;
 
-import static org.junit.Assert.fail;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -31,9 +29,9 @@ public class ClienteDAOTest {
 		c.setEmail("empresa@empresa.com.br");
 		c.setEndereco("R. das Creoulas");
 		c.setEstado("PE");
-		
+
 		dao.adiciona(c);
-		
+
 		c = null;
 		c = dao.recupera(2);
 		Assert.assertNotNull(c);
@@ -42,20 +40,21 @@ public class ClienteDAOTest {
 		Assert.assertTrue(c.getRazao().equals("Empresa Fantasia"));
 		System.out.println(c);
 	}
+
 	@Test
 	public final void testAdicionaClienteComTelefone() throws Exception {
 		ClienteDAO dao = new ClienteDAO();
 		Cliente c = new Cliente();
 		FoneCliente fc = new FoneCliente();
 		c.setCnpj("123456789-1111/12");
-		c.setFantasia("Empresa Fantasia2");
+		c.setFantasia("Empresa Fantasia23");
 		c.setBairro("Bairro Fantastico2");
 		c.setCep("52060-1111");
 		c.setCidade("Recifilis");
 		c.setEmail("empresa2@empresa2.com.br");
 		c.setEndereco("R. das Morenas");
 		c.setEstado("PE");
-		
+
 		fc.setCelular("9999-9999");
 		fc.setCliente(c);
 		fc.setFax("111-11111");
@@ -63,52 +62,70 @@ public class ClienteDAOTest {
 		fc.setFoneResidencial("3333-3333");
 		c.setFoneCliente(fc);
 		dao.adiciona(c);
-		
+
 		c = null;
-		List<Cliente> lista = dao.getClientesPorNome("Fantasia2");
+		List<Cliente> lista = dao.getClientesPorNome("Fantasia23");
 		Assert.assertNotNull(lista);
-//		Assert.assertTrue(lista.size() == 1);
+		// Assert.assertTrue(lista.size() == 1);
 		c = lista.get(0);
 		Assert.assertTrue(c.getCnpj().equals("123456789-1111/12"));
 		Assert.assertTrue(c.getCep().equals("52060-1111"));
-		Assert.assertTrue(c.getRazao().equals("Empresa Fantasia2"));
+		Assert.assertTrue(c.getRazao().equals("Empresa Fantasia23"));
 		Assert.assertNotNull(c.getFoneCliente());
 		fc = c.getFoneCliente();
 		Assert.assertTrue(fc.getFoneComercial().equals("2222-2222"));
 		System.out.println(c);
 	}
+
 	@Test
 	public final void testAlteraCliente() {
-		fail("Not yet implemented"); // TODO
+
+		ClienteDAO dao = new ClienteDAO();
+		Cliente c = null;
+		List<Cliente> lista = dao.getClientesPorNome("Fantasia23");
+		c = lista.get(0);
+		c.setBairro("Torre");
+		c.getFoneCliente().setCelular("8888-8888");
+		
+		dao.altera(c);
+		c = null;
+		lista = dao.getClientesPorNome("Fantasia23");
+		c = lista.get(0);
+		Assert.assertTrue(c.getBairro().equals("Torre"));
+		Assert.assertTrue(c.getFoneCliente().getCelular().equals("8888-8888"));
 	}
 
 	@Test
 	public final void testRecuperaInteger() {
 		ClienteDAO dao = new ClienteDAO();
 		Cliente c = dao.recupera(1);
-		
-//		Assert.assertNotNull(c);
-//		Assert.assertTrue(c.getRazao().toUpperCase().startsWith("IGOR"));
+
+		// Assert.assertNotNull(c);
+		// Assert.assertTrue(c.getRazao().toUpperCase().startsWith("IGOR"));
 		System.out.println(c);
 	}
 
 	@Test
-	public final void testRemoveInteger() {
-		String sql = "insert into  seploc2.id_gen(nome_id, val_id)"+
-		"values(\'CLIENTE_GEN22\', 2)";
-		executaSQL(sql);
-		fail("Not yet implemented"); // TODO
+	public final void testRemoveInteger() throws Exception {
+		ClienteDAO dao = new ClienteDAO();
+		Cliente c = null;
+		List<Cliente> lista = dao.getClientesPorNome("Fantasia23");
+		c = lista.get(0);
+		dao.remove(c.getIdCliente());
+		lista = dao.getClientesPorNome("Fantasia23");
+		Assert.assertTrue(lista.isEmpty());
+		
 	}
 
 	@Test
 	public final void testGetLista() {
 		ClienteDAO dao = new ClienteDAO();
 		List<Cliente> c = dao.getLista();
-		
+
 		Assert.assertNotNull(c);
 		Assert.assertTrue(c.size() == 2);
-		
-		for(Cliente cc : c){
+
+		for (Cliente cc : c) {
 			System.out.println(cc);
 		}
 	}
@@ -117,14 +134,14 @@ public class ClienteDAOTest {
 	public final void testGetClientesPorNome() {
 		ClienteDAO dao = new ClienteDAO();
 		List<Cliente> c = dao.getClientesPorNome("Wan");
-		
+
 		Assert.assertNotNull(c);
 		Assert.assertTrue(c.size() == 1);
-		
-		for(Cliente cc : c){
+
+		for (Cliente cc : c) {
 			System.out.println(cc);
 		}
-		
+
 	}
 
 	private Connection getConnection() throws SQLException {
@@ -137,9 +154,9 @@ public class ClienteDAOTest {
 			throw new SQLException(e.getMessage());
 		}
 	}
-	
+
 	public void executaSQL(String sql) {
-		
+
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -149,7 +166,7 @@ public class ClienteDAOTest {
 		} catch (SQLException e) {
 			System.err.println("Entrou aqui");
 			throw new RuntimeException(e);
-			
+
 		}
 	}
 }

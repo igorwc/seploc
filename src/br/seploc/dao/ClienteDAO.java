@@ -1,9 +1,5 @@
 package br.seploc.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -17,36 +13,24 @@ import br.seploc.util.GenericDAO;
 
 public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 
-	private Connection getConnection() throws SQLException {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			System.out.println("Conectando ao banco");
-			return DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/seploc2", "root", "");
-		} catch (ClassNotFoundException e) {
-			throw new SQLException(e.getMessage());
-		}
-	}
-	
-	private void executaSQL(String sql) {
-		
-		try {
-			Connection connection = getConnection();
-			Statement stmt = connection.createStatement();
-			// executa
-			stmt.execute(sql);
-			stmt.close();
-		} catch (SQLException e) {
-			System.err.println("Entrou aqui");
-			throw new RuntimeException(e);
-			
-		}
-	}
+
 	@Override
-	public synchronized void  adiciona(Cliente t) throws Exception {
+	public void  adiciona(Cliente t) throws Exception {
 		em.getTransaction().begin();
 		ajustaPojo(t);
-		em.persist(t);
+		if (t.getFoneCliente() == null){
+		em.persist(t);}
+		else{
+			FoneCliente fc = t.getFoneCliente();
+			t.setFoneCliente(null);
+			fc.setCliente(null);
+			em.persist(t);
+			t.setFoneCliente(fc);
+			fc.setCliente(t);
+			fc.setIntClientId(t.getIdCliente());
+			em.merge(t);
+			
+		}
 		em.getTransaction().commit();
 
 	}
@@ -73,11 +57,21 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 			em.getTransaction().rollback();
 			throw new RecordNotFound("Cliente Inexistente");
 		} else {
-			em.remove(cliente);
+			if (verificaFilhos(id)) {
+				em.getTransaction().rollback();
+				throw new ParentDeleteException(
+						"Cliente tem registros depedentes...");
+			} else {
+				em.remove(cliente);
+			}
 		}
 		em.getTransaction().commit();
 
 		return cliente;
+	}
+	public Cliente remove(Cliente c) throws Exception {
+		remove(c.getIdCliente());
+		return c;
 	}
 
 	@Override
