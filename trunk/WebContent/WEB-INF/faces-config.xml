@@ -5,7 +5,7 @@
       http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
 	version="2.0">
 
-
+<name>seploc</name>
 	<managed-bean>
 		<managed-bean-name>login</managed-bean-name>
 		<managed-bean-class>br.seploc.mbeans.Login</managed-bean-class>
@@ -23,7 +23,7 @@
 		<navigation-case>
 			<from-outcome>principal</from-outcome>
 				<to-view-id>
-					/principal.jsf
+					/principal.xhtml
 				</to-view-id>
 		</navigation-case>
 	</navigation-rule>
