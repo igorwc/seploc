@@ -1,5 +1,7 @@
 package br.seploc.dao;
 
+import java.util.List;
+
 import br.seploc.pojos.Entrega;
 import br.seploc.util.GenericDAO;
 
@@ -39,6 +41,12 @@ public class EntregaDAO extends GenericDAO<Entrega,Integer> {
 	protected void ajustaPojo(Entrega pojo) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Entrega> getLista() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

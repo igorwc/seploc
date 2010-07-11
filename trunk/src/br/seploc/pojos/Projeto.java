@@ -4,23 +4,41 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Version;
 
 @Entity
 @Table(name="tbl_projetos")
+@SqlResultSetMapping(name = "Projeto.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Projeto.class))
+@NamedNativeQueries( {
+		@NamedNativeQuery(name = "Projeto.RetornaProjetos", query = " SELECT * "
+				+ "FROM tbl_projetos p", resultSetMapping = "Projeto.implicit"),
+		@NamedNativeQuery(name = "Projeto.BuscaProjetosPorNome", query = " SELECT * "
+					+ "FROM tbl_projetos p where vcrProjeto like :nome", resultSetMapping = "Projeto.implicit"),
+		@NamedNativeQuery(name = "Projeto.ListaProjetosPorCliente", query = " SELECT * "
+					+ "FROM tbl_projetos p where intClienteId = :cliente", resultSetMapping = "Projeto.implicit")
+})
+//@NamedQueries({
+//	@NamedQuery(name="Projeto.ListaProjetosPorCliente", query="select p " +
+//			                                                  "from br.seploc.pojos.Projeto " +
+//			                                                  "where p.cliente.idCliente = :codCliente ")
+//})
+
 public class Projeto implements Serializable  {
 	
 	private static final long serialVersionUID = 1L;
