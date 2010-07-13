@@ -13,14 +13,13 @@ import br.seploc.util.GenericDAO;
 
 public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 
-
 	@Override
-	public void  adiciona(Cliente t) throws Exception {
+	public void adiciona(Cliente t) throws Exception {
 		em.getTransaction().begin();
 		ajustaPojo(t);
-		if (t.getFoneCliente() == null){
-		em.persist(t);}
-		else{
+		if (t.getFoneCliente() == null) {
+			em.persist(t);
+		} else {
 			FoneCliente fc = t.getFoneCliente();
 			t.setFoneCliente(null);
 			fc.setCliente(null);
@@ -29,7 +28,7 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 			fc.setCliente(t);
 			fc.setIntClientId(t.getIdCliente());
 			em.merge(t);
-			
+
 		}
 		em.getTransaction().commit();
 
@@ -69,6 +68,7 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 
 		return cliente;
 	}
+
 	public Cliente remove(Cliente c) throws Exception {
 		remove(c.getIdCliente());
 		return c;
@@ -76,6 +76,15 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 
 	@Override
 	protected boolean verificaFilhos(Integer id) throws ParentDeleteException {
+		Number contagemProjetos = 0;
+
+		Query q = em.createQuery(
+				"SELECT count(p.cliente) FROM br.seploc.pojos.Projeto p"
+						+ " where p.cliente.idCliente = :clienteID").setParameter(
+				            "clienteID", id);
+		contagemProjetos = (Number) q.getSingleResult();
+		if (contagemProjetos.intValue() != 0)
+			return true;
 		return false;
 	}
 
@@ -87,21 +96,22 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> {
 		return (List<Cliente>) q.getResultList();
 	}
 
-	 @SuppressWarnings("unchecked")
-	 public List<Cliente> getClientesPorNome(String nome) {
-	 em.getTransaction().begin();
-	 Query q = em.createNamedQuery("Cliente.BuscaClientes").setParameter(
-	 "nome", "%" + nome + "%");
-	 em.getTransaction().commit();
-	 return (List<Cliente>) q.getResultList();
-	 }
+	@SuppressWarnings("unchecked")
+	public List<Cliente> getClientesPorNome(String nome) {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Cliente.BuscaClientes").setParameter(
+				"nome", "%" + nome + "%");
+		em.getTransaction().commit();
+		return (List<Cliente>) q.getResultList();
+	}
+
 	@Override
 	protected void ajustaPojo(Cliente c) throws FieldNotNullException {
 		if (c.getFantasia() == null)
 			throw new FieldNotNullException("Nome Fantasia não pode ser nulo");
 		if (c.getRazao() == null)
 			c.setRazao(c.getFantasia());
-		if(c.getBalcao() == null)
+		if (c.getBalcao() == null)
 			c.setBalcao(0);
 	}
 }

@@ -9,28 +9,36 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import br.seploc.dao.exceptions.FieldNotNullException;
+
 @Entity
 @Table(name = "tbl_reqserv")
+@SqlResultSetMapping(name = "RequisicaoServico.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Cliente.class))
+@NamedNativeQueries( { @NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoes", query = " SELECT * "
+		+ "FROM tbl_reqserv", resultSetMapping = "RequisicaoServico.implicit") })
 public class RequisicaoServico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(generator = "reqserv_id", strategy = GenerationType.TABLE)
-	@TableGenerator(name = "reqserv_id", table = "ID_GEN", allocationSize = 1, initialValue=1,
-			pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "REQ_SERV_GEN")
+	@TableGenerator(name = "reqserv_id", table = "ID_GEN", allocationSize = 1, initialValue = 1, pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "REQ_SERV_GEN")
 	@Column(name = "intNumreq")
 	private Integer numReq;
 
@@ -57,10 +65,11 @@ public class RequisicaoServico implements Serializable {
 	@Column(name = "tspVersao")
 	private Timestamp versao;
 
-	@OneToMany(mappedBy = "reqServico", cascade={CascadeType.MERGE,CascadeType.PERSIST})
+	@OneToMany(mappedBy = "reqServico", cascade = { CascadeType.MERGE,
+			CascadeType.PERSIST })
 	private List<LinhaRequisicao> linhaRequisicao;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "intCodProj", referencedColumnName = "intCodProj", nullable = false)
 	private Projeto projeto;
 
@@ -68,11 +77,11 @@ public class RequisicaoServico implements Serializable {
 	@JoinColumn(name = "intCodEnt", referencedColumnName = "intCodEnt")
 	private Entrega entrega;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "intCodCobr", referencedColumnName = "intCodCobr")
-	private Cobrador cobrador;
+	// @ManyToOne(fetch = FetchType.EAGER)
+	// @JoinColumn(name = "intCodCobr", referencedColumnName = "intCodCobr")
+	// private Cobrador cobrador;
 
-	@OneToMany(mappedBy = "reqServico")
+	@OneToMany(mappedBy = "reqServico", cascade = CascadeType.MERGE)
 	private List<ReqServicosOpcionais> opcionais;
 
 	@OneToMany(mappedBy = "reqServico")
@@ -92,7 +101,6 @@ public class RequisicaoServico implements Serializable {
 		setLinhaRequisicao(new ArrayList<LinhaRequisicao>());
 	}
 
-	
 	public Integer getNumReq() {
 		return numReq;
 	}
@@ -181,13 +189,13 @@ public class RequisicaoServico implements Serializable {
 		this.entrega = entrega;
 	}
 
-	public Cobrador getCobrador() {
-		return cobrador;
-	}
-
-	public void setCobrador(Cobrador cobrador) {
-		this.cobrador = cobrador;
-	}
+	// public Cobrador getCobrador() {
+	// return cobrador;
+	// }
+	//
+	// public void setCobrador(Cobrador cobrador) {
+	// this.cobrador = cobrador;
+	// }
 
 	public List<ReqServicosOpcionais> getOpcionais() {
 		return opcionais;
@@ -225,7 +233,6 @@ public class RequisicaoServico implements Serializable {
 		return serialVersionUID;
 	}
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -233,7 +240,6 @@ public class RequisicaoServico implements Serializable {
 		result = prime * result + ((numReq == null) ? 0 : numReq.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -252,12 +258,10 @@ public class RequisicaoServico implements Serializable {
 		return true;
 	}
 
-
 	@Override
 	public String toString() {
 		return "RequisicaoServico ["
 				+ (numReq != null ? "numReq=" + numReq : "") + "]";
 	}
 
-   
 }

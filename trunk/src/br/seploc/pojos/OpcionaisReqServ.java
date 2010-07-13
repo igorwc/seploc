@@ -7,16 +7,27 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Version;
 
 @Entity
 @Table(name = "tbl_opcionaisreqserv")
+@SqlResultSetMapping(name = "OpcionaisReqServ.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.OpcionaisReqServ.class))
+@NamedNativeQueries( {
+		@NamedNativeQuery(name = "OpcionaisReqServ.RetornaOpcionais", query = " SELECT * "
+				+ "FROM tbl_opcionaisreqserv op", resultSetMapping = "OpcionaisReqServ.implicit"),
+		@NamedNativeQuery(name = "OpcionaisReqServ.BuscaOpcionaisPorNome", query = " SELECT * "
+					+ "FROM tbl_opcionaisreqserv p where vcrNomeItem like :nome", resultSetMapping = "OpcionaisReqServ.implicit")
+})
 public class OpcionaisReqServ implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -51,8 +62,6 @@ public class OpcionaisReqServ implements Serializable {
 		this.nomeItem = nomeItem;
 		this.valorItem = valorItem;
 	}
-
-
 
 	public Integer getCodOpReqServ() {
 		return codOpReqServ;

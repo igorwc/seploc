@@ -70,7 +70,15 @@ public class ProjetoDAO extends GenericDAO<br.seploc.pojos.Projeto, Integer> {
 
 	@Override
 	protected boolean verificaFilhos(Integer id) throws Exception {
-		// TODO Auto-generated method stub
+		Number contagemRequisicoes = 0;
+
+		Query q = em.createQuery(
+				"SELECT count(rs.projeto) FROM br.seploc.pojos.RequisicaoServico rs"
+						+ " where rs.projeto.codProj = :projetoID").setParameter(
+				            "projetoID", id);
+		contagemRequisicoes = (Number) q.getSingleResult();
+		if (contagemRequisicoes.intValue() != 0)
+			return true;
 		return false;
 	}
 

@@ -10,6 +10,7 @@ import org.junit.Test;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.exceptions.FieldNotNullException;
+import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.Projeto;
 
@@ -54,8 +55,14 @@ public class ProjetoDAOTest {
 	}
 
 	@Test
-	public final void testAlteraProjeto() {
-		fail("Not yet implemented"); // TODO
+	public final void testAlteraProjeto() throws Exception {
+		ProjetoDAO dao = new ProjetoDAO();
+		Projeto p = dao.recupera(101);
+		p.setProjeto("Projeto 223");
+		dao.altera(p);
+		p = null;
+		p = dao.recupera(101);
+		Assert.assertTrue(p.getProjeto().equals("Projeto 223"));
 	}
 
 	@Test
@@ -71,13 +78,23 @@ public class ProjetoDAOTest {
 	}
 
 	@Test
-	public final void testRemoveInteger() {
-		fail("Not yet implemented"); // TODO
+	public final void testRemoveParentDeleteException() {
+		ProjetoDAO dao = new ProjetoDAO();
+		try {
+			dao.remove(1);
+		} catch (Exception e) {
+			Assert.assertTrue(e instanceof ParentDeleteException);
+			System.err.println(e.getMessage());
+		}
 	}
 
 	@Test
-	public final void testRemoveProjeto() {
-		fail("Not yet implemented"); // TODO
+	public final void testRemoveProjeto() throws Exception {
+		ProjetoDAO dao = new ProjetoDAO();
+		dao.remove(100);
+		
+		Projeto p = dao.recupera(100);
+		Assert.assertNull(p);
 	}
 
 	@Test

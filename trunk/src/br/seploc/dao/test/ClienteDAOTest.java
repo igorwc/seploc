@@ -11,6 +11,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import br.seploc.dao.ClienteDAO;
+import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.FoneCliente;
 
@@ -99,9 +100,6 @@ public class ClienteDAOTest {
 	public final void testRecuperaInteger() {
 		ClienteDAO dao = new ClienteDAO();
 		Cliente c = dao.recupera(1);
-
-		// Assert.assertNotNull(c);
-		// Assert.assertTrue(c.getRazao().toUpperCase().startsWith("IGOR"));
 		System.out.println(c);
 	}
 
@@ -114,6 +112,25 @@ public class ClienteDAOTest {
 		dao.remove(c.getIdCliente());
 		lista = dao.getClientesPorNome("Fantasia23");
 		Assert.assertTrue(lista.isEmpty());
+		
+	}
+	
+	@Test
+	public final void testRemoveParentDeleteException()  {
+		ClienteDAO dao = new ClienteDAO();
+		Cliente c =  dao.recupera(22);
+				
+		try{
+			dao.remove(c.getIdCliente());
+		c =  dao.recupera(22);
+		Assert.assertNull(c);
+		
+		c = dao.recupera(23);
+		dao.remove(c.getIdCliente());
+		}catch(Exception e){
+			Assert.assertTrue(e instanceof ParentDeleteException);
+		}
+		
 		
 	}
 
