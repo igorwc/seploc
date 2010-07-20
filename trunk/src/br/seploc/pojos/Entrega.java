@@ -7,11 +7,15 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Version;
@@ -19,6 +23,13 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name = "tbl_entrega")
+@SqlResultSetMapping(name = "Entrega.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Entrega.class))
+@NamedNativeQueries( {
+		@NamedNativeQuery(name = "Entrega.RetornaEntregas", query = " SELECT * "
+				+ "FROM tbl_entrega e", resultSetMapping = "Entrega.implicit"),
+		@NamedNativeQuery(name = "Entrega.BuscaEntregas", query = " SELECT * "
+					+ "FROM tbl_entrega e where vcrLocal like :nome", resultSetMapping = "Entrega.implicit")
+})
 public class Entrega implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

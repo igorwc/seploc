@@ -5,12 +5,24 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
 @Entity
 @Table(name = "tbl_parametroprog")
+@SqlResultSetMapping(name = "ParametroProg.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.ParametroProg.class))
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "ParametroProg.RetornaParametros", query = "SELECT * "
+				+ "FROM  tbl_parametroprog "
+				, resultSetMapping = "ParametroProg.implicit"),
+		@NamedNativeQuery(name = "ParametroProg.BuscaParametro", query = "SELECT * "
+				+ "FROM  tbl_parametroprog "
+				+ "WHERE UPPER( vcrCodParametro ) = UPPER( :CODIGO )", resultSetMapping = "ParametroProg.implicit") })
 public class ParametroProg implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,7 +41,6 @@ public class ParametroProg implements Serializable {
 	@Column(name = "tspVersao")
 	private Timestamp versao;
 
-	
 	public ParametroProg() {
 	}
 
