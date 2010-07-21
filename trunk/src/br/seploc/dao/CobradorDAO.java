@@ -4,7 +4,10 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import br.seploc.dao.exceptions.ParentDeleteException;
+import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Cobrador;
+import br.seploc.pojos.Entrega;
 import br.seploc.util.GenericDAO;
 
 public class CobradorDAO extends GenericDAO<Cobrador, Integer> {
@@ -44,7 +47,18 @@ public class CobradorDAO extends GenericDAO<Cobrador, Integer> {
 	public Cobrador remove(Integer id) throws Exception {
 		em.getTransaction().begin();
 		Cobrador cobrador = em.find(Cobrador.class, id);
-		em.remove(cobrador);
+		if (cobrador == null) {
+			em.getTransaction().rollback();
+			throw new RecordNotFound("Cobrador Inexistente");
+		} else {
+			if (verificaFilhos(id)) {
+				em.getTransaction().rollback();
+				throw new ParentDeleteException(
+						"O registro do cobrador tem registros dependentes...");
+			} else {
+				em.remove(cobrador);
+			}
+		}
 		em.getTransaction().commit();
 
 		return cobrador;
@@ -60,7 +74,23 @@ public class CobradorDAO extends GenericDAO<Cobrador, Integer> {
 
 	@Override
 	protected boolean verificaFilhos(Integer id) throws Exception {
-		// TODO Auto-generated method stub
+		Number contagemStatusCobranca = 0;
+		Number contagemSaidaMotoqueiros = 0;
+
+		Query q = em.createQuery(
+				"SELECT count(sm.cobrador) FROM br.seploc.pojos.SaidaMotoqueiro sm"
+						+ " where sm.cobrador.codCobrador = :cobradorID").setParameter(
+				            "cobradorID", id);
+		contagemSaidaMotoqueiros = (Number) q.getSingleResult();
+		
+		q = em.createQuery(
+				"SELECT count(sc.cobrador) FROM br.seploc.pojos.StatusCobranca sc"
+						+ " where sc.cobrador.codCobrador = :cobradorID").setParameter(
+				            "cobradorID", id);
+		contagemStatusCobranca = (Number) q.getSingleResult();
+//		System.out.println("Entregas: "+contagemRequisicoes.intValue());
+		if (contagemSaidaMotoqueiros.intValue() != 0 || contagemStatusCobranca.intValue() != 0)
+			return true;
 		return false;
 	}
 
