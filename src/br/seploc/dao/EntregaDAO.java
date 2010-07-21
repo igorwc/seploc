@@ -67,13 +67,13 @@ public class EntregaDAO extends GenericDAO<Entrega,Integer> {
 						+ " where c.entregaPadrao.codEntrega = :EntregaID").setParameter(
 				            "EntregaID", id);
 		contagemClientes = (Number) q.getSingleResult();
-		System.out.println("Clientes: "+contagemClientes.intValue());
+//		System.out.println("Clientes: "+contagemClientes.intValue());
 		q = em.createQuery(
 				"SELECT count(rs.entrega) FROM br.seploc.pojos.RequisicaoServico rs"
 						+ " where rs.entrega.codEntrega = :EntregaID").setParameter(
 				            "EntregaID", id);
 		contagemRequisicoes = (Number) q.getSingleResult();
-		System.out.println("Entregas: "+contagemRequisicoes.intValue());
+//		System.out.println("Entregas: "+contagemRequisicoes.intValue());
 		if (contagemClientes.intValue() != 0 || contagemRequisicoes.intValue() != 0)
 			return true;
 		return false;

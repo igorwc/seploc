@@ -1,12 +1,14 @@
 package br.seploc.dao.test;
 
-import static org.junit.Assert.*;
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import br.seploc.dao.ParametroProgDAO;
 import br.seploc.dao.exceptions.PrimaryKeyException;
+import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.ParametroProg;
 
 public class ParametroProgDAOTest {
@@ -45,7 +47,7 @@ public class ParametroProgDAOTest {
 	public void testAlteraParametroProg() throws Exception {
 		ParametroProgDAO dao = new ParametroProgDAO();
 		ParametroProg p = dao.recupera("teste1");
-		p.setDescricao("teste de novo");
+		p.setDescricao("teste de novo22223");
 		
 		dao.altera(p);
 		
@@ -53,18 +55,42 @@ public class ParametroProgDAOTest {
 		p = dao.recupera("teste1");
 		Assert.assertNotNull(p);
 		Assert.assertTrue(p.getCodParametro().equals("teste1"));
-		Assert.assertTrue(p.getDescricao().equals("teste de novo"));
+		Assert.assertTrue(p.getDescricao().equals("teste de novo22223"));
 		Assert.assertTrue(p.getValor().equals("tesla1"));
 	}
 
 	@Test
 	public void testRemoveString() {
-		fail("Not yet implemented");
+		ParametroProgDAO dao = new ParametroProgDAO();
+		try {
+			dao.remove("1");
+			ParametroProg p = dao.recupera("1");
+			Assert.assertNull(p);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
+	public void testRemoveRecordNotFound() {
+		ParametroProgDAO dao = new ParametroProgDAO();
+		try {
+			dao.remove("teseeeee");
+		} catch (Exception e) {
+			// RecordNotFound
+			Assert.assertTrue(e instanceof RecordNotFound);
+			System.err.println(e.getMessage());
+		}
+	}
+	@Test
 	public void testGetLista() {
-		fail("Not yet implemented");
+		ParametroProgDAO dao = new ParametroProgDAO();
+		List<ParametroProg> lista = dao.getLista();
+		Assert.assertTrue(lista.size() == 4);
+		for (ParametroProg p : lista){
+			System.out.println(p);
+		}
 	}
 
 	@Test

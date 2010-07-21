@@ -12,9 +12,7 @@ import br.seploc.util.GenericDAO;
 
 public class ParametroProgDAO extends GenericDAO<ParametroProg, String> {
 
-	private final int ALTERANDO = 1;
-	private final int INSERINDO = 0;
-	
+
 	@Override
 	public void adiciona(ParametroProg t) throws Exception {
 		em.getTransaction().begin();
@@ -35,7 +33,7 @@ public class ParametroProgDAO extends GenericDAO<ParametroProg, String> {
 	public ParametroProg altera(ParametroProg t) throws Exception {
 
 		em.getTransaction().begin();
-		ajustaPojoUpdate(t);
+		ajustaPojo(t);
 		em.merge(t);
 		em.getTransaction().commit();
 		return t;
@@ -49,6 +47,7 @@ public class ParametroProgDAO extends GenericDAO<ParametroProg, String> {
 			em.getTransaction().rollback();
 			throw new RecordNotFound("Parametro Inexistente");
 		}
+		em.remove(parametro);
 		em.getTransaction().commit();
 
 		return parametro;
@@ -73,33 +72,18 @@ public class ParametroProgDAO extends GenericDAO<ParametroProg, String> {
 	protected void ajustaPojo(ParametroProg pojo) throws Exception {
 		// em.getTransaction().begin();
 		Query q = em.createNamedQuery("ParametroProg.BuscaParametro")
-				.setParameter("CODIGO",pojo.getCodParametro());
+				.setParameter("CODIGO", pojo.getCodParametro());
 		// em.getTransaction().commit();
 		try {
-//			ParametroProg resultado = (ParametroProg)
-			q.getSingleResult();
-			
+			// ParametroProg resultado = (ParametroProg)
+			ParametroProg p = (ParametroProg) q.getSingleResult();
+			if (p != null && pojo.getVersao() != null
+					&& (p.getVersao().getTime() == pojo.getVersao().getTime()))
+				return;
 		} catch (NoResultException e) {
 			return;
 		}
 		throw new PrimaryKeyException("Código de Programa já existente");
 
 	}
-	protected void ajustaPojoUpdate(ParametroProg pojo) throws Exception {
-		// em.getTransaction().begin();
-		Query q = em.createNamedQuery("ParametroProg.BuscaParametro")
-				.setParameter("CODIGO",pojo.getCodParametro());
-		// em.getTransaction().commit();
-		try {
-			List<ParametroProg> resultado = (List<ParametroProg>)
-			q.getResultList();
-			
-			if(resultado )
-		} catch (NoResultException e) {
-			return;
-		}
-		throw new PrimaryKeyException("Código de Programa já existente");
-
-	}
-
 }
