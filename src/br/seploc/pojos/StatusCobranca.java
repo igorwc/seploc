@@ -121,6 +121,7 @@ public class StatusCobranca implements Serializable {
 
 	public void setCobrador(Cobrador cobrador) {
 		this.cobrador = cobrador;
+		this.id.setIntCodCobr(cobrador.getCodCobrador());
 	}
 
 	public RequisicaoServico getReqServico() {
