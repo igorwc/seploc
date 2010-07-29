@@ -140,7 +140,7 @@ public class ClienteDAOTest {
 		List<Cliente> c = dao.getLista();
 
 		Assert.assertNotNull(c);
-		Assert.assertTrue(c.size() == 2);
+		Assert.assertTrue(c.size() == 6);
 
 		for (Cliente cc : c) {
 			System.out.println(cc);

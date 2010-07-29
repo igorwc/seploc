@@ -27,4 +27,8 @@
 				</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<!-- configuracao do facelets -->
+ <application>
+  <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+ </application>
 </faces-config>
