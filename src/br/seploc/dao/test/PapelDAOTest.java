@@ -16,13 +16,13 @@ public class PapelDAOTest {
 	@Test
 	public final void testAdicionaPapel() {
 		PapelDAO dao = new PapelDAO();
-		Papel papel = new Papel("A7", 1.2,2.3,4.5);
+		Papel papel = new Papel("A3", 2.2,2.3,4.5);
 		dao.adiciona(papel);
-		List<Papel> lista = dao.getListaPapelPorNome("A7");
+		List<Papel> lista = dao.getListaPapelPorNome("A3");
 		boolean teste = false;
 		for(Papel p : lista){
 			System.out.println(p);
-			if(p.getNome().equals("A7")){
+			if(p.getNome().equals("A3")){
 				teste = true;
 				papel = p;
 			}

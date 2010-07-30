@@ -1,33 +1,43 @@
 <?xml version="1.0"?>
-<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-      http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
-	version="2.0">
-
-<name>seploc</name>
-	<managed-bean>
-		<managed-bean-name>login</managed-bean-name>
-		<managed-bean-class>br.seploc.mbeans.Login</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-	<navigation-rule>
-		<from-view-id>/login.jsf</from-view-id>
-		<navigation-case>
-			<from-outcome>login</from-outcome>
-			<to-view-id>
-				/login.jsf
-			</to-view-id>
-			<redirect />
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>principal</from-outcome>
-				<to-view-id>
-					/principal.xhtml
-				</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	<!-- configuracao do facelets -->
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee        http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+ <name>seploc</name>
+ <managed-bean>
+  <managed-bean-name>login</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.Login</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <!-- Cadastro Papel -->
+ <managed-bean>
+  <managed-bean-name>papelDAOBean</managed-bean-name>
+  <managed-bean-class>br.seploc.dao.PapelDAO</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>papelBean22</managed-bean-name>
+  <managed-bean-class>br.seploc.pojos.Papel</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>papelBean</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.PapelBean</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <!-- Fim  Cadastro Papel -->
+ <navigation-rule>
+  <from-view-id>/login.jsf</from-view-id>
+  <navigation-case>
+   <from-outcome>login</from-outcome>
+   <to-view-id>/login.jsf</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>principal</from-outcome>
+   <to-view-id>/principal.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <!-- configuracao do facelets -->
  <application>
   <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
  </application>
