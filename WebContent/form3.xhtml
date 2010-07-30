@@ -30,7 +30,7 @@
 </style> 
 
    <f:view>  
-       <h:form id="cadPapel" enctype="UTF-8" prependId="false">  
+       <h:form id="cadPapel" enctype="UTF-8" prependId="false" >  
  
            <rich:simpleTogglePanel switchType="papel"  
                label="Papel">
@@ -86,6 +86,7 @@
                   <a4j:commandButton value="Salvar"
                   action="#{papelBean.cadastra}"
                   reRender="papelList"
+                  bypassUpdates="true"
                    >
                   </a4j:commandButton>                              
                   <a4j:commandButton 
