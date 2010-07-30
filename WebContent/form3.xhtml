@@ -39,6 +39,10 @@
                <rich:panel header="Cadastro do Papel" style="width: 450px">
                  
                  <table	border="0">
+                 <tr>
+					<td colspan="3"> <h:outputText id="tese" value="Adicionado com Sucesso!!" styleClass="texto" rendered="false"/> </td>
+					
+					</tr>
 					<tr>
 					<td><h:outputText value="Nome Papel: " styleClass="texto"/></td>
 					<td><h:inputText value="#{papelBean.papel.nome}" 
@@ -81,11 +85,11 @@
                   <br/>
                   <a4j:commandButton value="Salvar"
                   action="#{papelBean.cadastra}"
-                  reRender="papelList" >
+                  reRender="papelList"
+                   >
                   </a4j:commandButton>                              
-                  <a4j:commandButton value="Limpar"
-                  action="#{papelBean.limpar}"
-                  reRender="cadPapel"/>
+                  <a4j:commandButton 
+                  type="reset"  value="Limpar"   />
                </rich:panel>
                </center>
                <rich:dataTable value="#{papelDAOBean.lista}" var="papel"    
