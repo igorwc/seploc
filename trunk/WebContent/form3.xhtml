@@ -3,7 +3,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:rich="http://richfaces.org/rich">
+      xmlns:rich="http://richfaces.org/rich" >
 <style type="text/css">  
 .row1 {   
     background-color: #EDEBEB;   
@@ -22,10 +22,15 @@
 	color: #00008B;
 	
 }  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+}
 </style> 
 
    <f:view>  
-       <h:form id="cadPapel">  
+       <h:form id="cadPapel" enctype="UTF-8" prependId="false">  
  
            <rich:simpleTogglePanel switchType="papel"  
                label="Papel">
@@ -36,29 +41,54 @@
                  <table	border="0">
 					<tr>
 					<td><h:outputText value="Nome Papel: " styleClass="texto"/></td>
-					<td><h:inputText value="" >
-                           <f:validateLength minimum="5" maximum="30" />
+					<td><h:inputText value="#{papelBean.papel.nome}" 
+									required="true"
+									requiredMessage="O nome deve ser informado"
+									 validatorMessage="O nome do Papel deve ter 5 caracteres no minimo"
+									 id="nomePapel">
+                           <f:validateLength minimum="5" maximum="30"  />
+                           
+                           <rich:ajaxValidator event="onkeyup" />
+                           
                         </h:inputText></td>
+                    <td><rich:message for="nomePapel" styleClass="error"/></td>
 					</tr>
 					<tr>
-					<td><h:outputText value="Impressão Mono (R$): " styleClass="texto"/></td>
-					<td><h:inputText value="" id="mono"/></td>
+					<td><h:outputText value="Impressao Mono (R$): " styleClass="texto"/></td>
+					<td><h:inputText value="#{papelBean.papel.impMono}" 
+					                 id="mono"
+					                 converterMessage="Amount must be a number"
+					                 validatorMessage="O valor deve ser um numero">
+					          <f:convertNumber maxFractionDigits="2" type="number" />
+					           <f:converter converterId="javax.faces.Double" id="javax.faces.Double"/>
+
+					          <rich:ajaxValidator event="onkeyup"/>
+					     </h:inputText>
+					</td>
+					<td><rich:message for="mono" styleClass="error"/> </td>
 					</tr>
 					<tr>
-					<td><h:outputText value="Impressão Color (R$): " styleClass="texto"/></td>
-					<td><h:inputText value="" id="color"/></td>
+					<td><h:outputText value="Impressao Color (R$): " styleClass="texto"/></td>
+					<td><h:inputText value="#{papelBean.papel.impColor}" id="color"/></td>
+					<td> </td>
 					</tr>
 					<tr>
-					<td><h:outputText value="Impressão Shade (R$): " styleClass="texto"/></td>
-					<td><h:inputText value="" id="shade"/></td>
+					<td><h:outputText value="Impressao Shade (R$): " styleClass="texto"/></td>
+					<td><h:inputText value="#{papelBean.papel.impShade}" id="shade"/></td>
+					<td> </td>
 					</tr>					
 				  </table> 
                   <br/>
-                  <a4j:commandButton value="Salvar"/>                              
-                  <a4j:commandButton value="Limpar"/>
+                  <a4j:commandButton value="Salvar"
+                  action="#{papelBean.cadastra}"
+                  reRender="papelList" >
+                  </a4j:commandButton>                              
+                  <a4j:commandButton value="Limpar"
+                  action="#{papelBean.limpar}"
+                  reRender="cadPapel"/>
                </rich:panel>
                </center>
-               <rich:dataTable value="#{PapelListBean.dataList}" var="papel"    
+               <rich:dataTable value="#{papelDAOBean.lista}" var="papel"    
                    rowClasses="row1, row2" id="papelList" rows="5"  
                    columnClasses="300,50,50,50"  
                    onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
@@ -96,16 +126,15 @@
                    </rich:column>  
   
                    <rich:column styleClass="col1">  
-                       <h:outputText value="#{papel.mono}"/>  
+                       <h:outputText value="#{papel.impMono}"/>  
                    </rich:column>  
   
                    <rich:column styleClass="col1">  
-                       <h:outputText value="#{
-                      papel.color}" />  
+                       <h:outputText value="#{papel.impColor}" />  
                    </rich:column>  
   
                    <rich:column styleClass="col1">  
-                       <h:outputText value="#{papel.shade}" />  
+                       <h:outputText value="#{papel.impShade}" />  
                    </rich:column>  
   
                </rich:dataTable>  
@@ -114,7 +143,7 @@
                      <h:outputText value="Primeiro" style="font-size:11pt"/>
                   </f:facet>
                   <f:facet name="last">
-                     <h:outputText value="Último" style="font-size:11pt"/>
+                     <h:outputText value="Ultimo" style="font-size:11pt"/>
                   </f:facet>               
                </rich:datascroller>  
            </rich:simpleTogglePanel>  
