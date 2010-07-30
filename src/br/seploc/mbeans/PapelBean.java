@@ -32,14 +32,11 @@ public class PapelBean {
 	
 	public void cadastra(){
 		papelDAO.adiciona(papel);
-		papel = new Papel();
 	}
 	public List<Papel> getLista() {
 		return papelDAO.getLista();
 	}
-	public void limpar(){
-		papel = new Papel();
-	}
+
 	
 	
 }
