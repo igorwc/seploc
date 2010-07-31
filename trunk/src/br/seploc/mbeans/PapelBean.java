@@ -16,11 +16,14 @@ public class PapelBean {
 	public PapelBean() {
 		papel = new Papel();
 		papelDAO = new PapelDAO();
+		System.out.println("criou bean papel");
 	}
 	public Papel getPapel() {
+		System.out.println("get papel");
 		return papel;
 	}
 	public void setPapel(Papel papel) {
+		System.out.println("set papel");
 		this.papel = papel;
 	}
 	public PapelDAO getPapelDAO() {
@@ -31,7 +34,9 @@ public class PapelBean {
 	}
 	
 	public void cadastra(){
+		System.out.println("cadastra papel");
 		papelDAO.adiciona(papel);
+		papel = new Papel();
 	}
 	public List<Papel> getLista() {
 		return papelDAO.getLista();
