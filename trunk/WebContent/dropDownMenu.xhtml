@@ -23,22 +23,22 @@
             <rich:dropDownMenu>
                 <f:facet name="label"> 
                     <h:panelGroup>
-                        <h:graphicImage value="/images/icons/copy.gif" styleClass="pic"/>
+                        <h:graphicImage value="/imgs/icons/copy.gif" styleClass="pic"/>
                         <h:outputText value="File"/>
                     </h:panelGroup>
                 </f:facet>
                 <rich:menuItem submitMode="ajax" value="New"
-                    action="#{ddmenu.doNew}" icon="/images/icons/create_doc.gif">
+                    action="#{ddmenu.doNew}" icon="/imgs/icons/create_doc.gif">
                 </rich:menuItem>
                 <rich:menuItem submitMode="ajax" value="Open"
-                    action="#{ddmenu.doOpen}" icon="/images/icons/open.gif" />
+                    action="#{ddmenu.doOpen}" icon="/imgs/icons/open.gif" />
                 <rich:menuGroup value="Save As...">
                     <rich:menuItem submitMode="ajax" value="Save" 
-                        action="#{ddmenu.doSave}" icon="/images/icons/save.gif" />
+                        action="#{ddmenu.doSave}" icon="/imgs/icons/save.gif" />
                     <rich:menuItem submitMode="ajax" value="Save All"
                         action="#{ddmenu.doSaveAll}">
                         <f:facet name="icon">
-                            <h:graphicImage value="/images/icons/save_all.gif" />
+                            <h:graphicImage value="/imgs/icons/save_all.gif" />
                         </f:facet>
                     </rich:menuItem>
                 </rich:menuGroup>
