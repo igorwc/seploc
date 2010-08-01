@@ -33,15 +33,52 @@ public class PapelBean {
 		this.papelDAO = papelDAO;
 	}
 	
-	public void cadastra(){
+	public void cadastra() {
 		System.out.println("cadastra papel");
-		papelDAO.adiciona(papel);
+		if (papel.getCodPapel() == null || papel.getCodPapel() == 0)
+			papelDAO.adiciona(papel);
+		else {
+			Papel temp;
+			temp = papelDAO.recupera(papel.getCodPapel());
+			if (temp != null) {
+				temp.setNome(papel.getNome());
+				temp.setImpColor(papel.getImpColor());
+				temp.setImpMono(papel.getImpMono());
+				temp.setImpShade(papel.getImpShade());
+				papelDAO.altera(temp);
+			}
+
+		}
 		papel = new Papel();
+	}
+	
+	public void apaga(){
+		System.out.println("apaga papel");
+		try {
+			papelDAO.remove(papel.getCodPapel());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		papel = new Papel();
+	}
+	
+	public void editar(){
+		System.out.println("edita papel");
+		try {
+			papel =  papelDAO.recupera(papel.getCodPapel());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public List<Papel> getLista() {
 		return papelDAO.getLista();
 	}
 
-	
+	public void limpar(){
+		System.out.println("limpa papel");
+		papel = new Papel();
+	}
 	
 }
