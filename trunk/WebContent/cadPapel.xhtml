@@ -3,7 +3,9 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:rich="http://richfaces.org/rich">
+      xmlns:rich="http://richfaces.org/rich"
+      template="masterpage.xhtml">
+<ui:define name="conteudo"> 
 <style type="text/css">  
 .row1 {   
     background-color: #EDEBEB;   
@@ -32,9 +34,8 @@
 
    <f:view>  
    	   <h:form id="cadPapel" enctype="UTF-8" prependId="false" >
-        
            <rich:simpleTogglePanel switchType="client" opened="true" 
-               label="Papel">
+               label="Papel" >
 			   <!-- Formulario -->
 			   <center>
                <rich:panel header="Cadastro do Papel" style="width: 600px">
@@ -189,5 +190,5 @@
            </rich:simpleTogglePanel>  
        </h:form>  
    </f:view>  
-
+</ui:define>
 </ui:composition>
