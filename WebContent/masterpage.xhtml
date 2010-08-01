@@ -1,17 +1,11 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"      
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
-      xmlns:t="http://myfaces.apache.org/tomahawk"
-      xmlns:c="http://java.sun.com/jstl/core">      
+      xmlns:ui="http://java.sun.com/jsf/facelets">      
       
 <head>
- <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />  
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  
 <title>
 <ui:insert name="titulo">SEPLOC</ui:insert>
 </title>
@@ -20,7 +14,7 @@
   
   <!-- CSS -->
   <link type="text/css" href="css/start/jquery-ui-1.8.custom.css" rel="stylesheet"/>
-  <link type="text/css" href="css/menu.css" rel="stylesheet" />
+  <link type="text/css" href="css/app.menu.css" rel="stylesheet" />
   <link type="text/css" href="css/seploc.css" rel="stylesheet" />
 
   <!-- JS -->    
@@ -50,84 +44,6 @@
   <tr>
     <td colspan="2">
       <ui:insert name="menu">
-        <br /><br />
-		<!--======================== menu ========================-->
-		<style type="text/css">
-		* { margin:0;
-		    padding:0;
-		}
-		div#menu {
-		    top:80px;
-		    left:0px;
-		    width:100%;
-		}
-		
-		td {
-		    font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-			top: 0;
-			left: 0;
-			color: #124456;
-			font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-			font-size: 12px;	
-			line-height: 150%;
-		}
-		
-		</style>	
-		<div id="menu">
-		    <ul class="menu">
-		        <li><a href="#" class="parent"><span>Seploc</span></a>
-		            <div><ul>
-		                <li><a href="#"><span>Grupos de Acesso</span></a></li>
-		                <li><a href="#"><span>Associar usu�rio</span></a></li>
-		                <li><a href="#"><span>Par�metros</span></a></li>				
-		                <li><a href="#"><span>Sobre</span></a></li>
-		            </ul></div>
-		        </li>
-		        <li><a href="#" class="parent"><span>Cadastros</span></a>
-		            <div><ul>
-		                <li><a href="#"><span>Papeis</span></a></li>
-		                <li><a href="#"><span>Projetos</span></a></li>
-		                <li><a href="#"><span>Clientes</span></a></li>
-		                <li><a href="#"><span>Entregas</span></a></li>
-		                <li><a href="#"><span>Opcionais</span></a></li>
-		                <li><a href="#"><span>Entregadores</span></a></li>
-		                <li><a href="#"><span>Usu�rios</span></a></li>
-		            </ul></div>
-		        </li>
-		        <li><a href="#" class="parent"><span>Atendimento</span></a>
-		            <div><ul>
-		                <li><a href="#"><span>Balcao</span></a></li>
-		                <li><a href="#"><span>Cliente</span></a></li>
-		            </ul></div>		
-				</li>
-		        <li><a href="#" class="parent"><span>Relat�rios</span></a>
-		            <div><ul>
-		                <li><a href="#" class="parent"><span>Financeiros</span></a>
-							<div><ul>
-								<li><a href="#"><span>Requisicoes Balcao</span></a></li>
-								<li><a href="#"><span>Requisicoes Cliente</span></a></li>
-							</ul></div>				
-						</li>
-		                <li><a href="#" class="parent"><span>Gerenciais</span></a>
-							<div><ul>
-								<li><a href="#"><span>Requisicoes Balcao</span></a></li>
-								<li><a href="#"><span>Requisicoes Cliente</span></a></li>
-								<li><a href="#"><span>Requisicoes Plotadores</span></a></li>
-							</ul></div>					
-						</li>
-						<li><a href="#" class="parent"><span>Estatisticos</span></a>
-							<div><ul>
-								<li><a href="#"><span>Mensal</span></a></li>
-								<li><a href="#"><span>Anual</span></a></li>
-								<li><a href="#"><span>Periodo</span></a></li>
-							</ul></div>					
-						</li>
-		            </ul></div>		
-				</li>		
-		        <li class="last"><a href="#"><span>Sair</span></a></li>
-		    </ul>
-		</div>
-		<!--======================== fim menu ========================-->      
       </ui:insert>
     </td>
   </tr>
@@ -135,7 +51,9 @@
   <tr>
     <td colspan="2">          
       <ui:insert name="conteudo"></ui:insert>
-      <br/>Copyright &copy; 2001 <a href="http://apycom.com/">Apycom jQuery Menus</a>
+        <!--======================= inicio conteudo ========================-->
+
+		<!--======================== fim conteudo ========================-->
     </td>
   </tr>
   <!-- RODAPE -->
