@@ -9,22 +9,24 @@
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
  <!-- Cadastro Papel -->
- <managed-bean>
-  <managed-bean-name>papelDAOBean</managed-bean-name>
-  <managed-bean-class>br.seploc.dao.PapelDAO</managed-bean-class>
-  <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>
- <managed-bean>
-  <managed-bean-name>papelBean22</managed-bean-name>
-  <managed-bean-class>br.seploc.pojos.Papel</managed-bean-class>
-  <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>
- <managed-bean>
+  <managed-bean>
   <managed-bean-name>papelBean</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.PapelBean</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
- <!-- Fim  Cadastro Papel -->
+ <!-- Cadastro Opcional -->
+ <managed-bean>
+  <managed-bean-name>opcionalBean</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.OpcionalBean</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <!-- Cadastro Entrega -->
+ <managed-bean>
+  <managed-bean-name>entregaBean</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.EntregaBean</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <!-- Fim dos Cadastros -->
  <navigation-rule>
   <from-view-id>/login.jsf</from-view-id>
   <navigation-case>
