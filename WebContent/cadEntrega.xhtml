@@ -22,6 +22,13 @@
 	color: #00008B;
 	
 }  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
 </style> 
 
    <f:view>  
@@ -35,7 +42,7 @@
                  
                  <table	border="0">
                     <tr>
-					<td colspan="2"><h:outputText id="tese" value="Adicionado com Sucesso!!" styleClass="texto" rendered="false"/></td>					
+					<td colspan="2"><h:outputText id="tese" value="Adicionado com Sucesso!!" styleClass="texto" rendered="false" /></td>					
 					</tr>                 
 					<tr>
 					<td><h:outputText value="Local Entrega: " styleClass="texto"/></td>
@@ -46,7 +53,9 @@
 									 id="localEntrega">
                            <f:validateLength minimum="5" maximum="20" />                           
                            <rich:ajaxValidator event="onkeyup" />                           
-                        </h:inputText></td>                    
+                        </h:inputText>
+                        <h:inputHidden value="#{entregaBean.entrega.codEntrega}" />
+                    </td>                    
 					</tr>
 					<tr>
 					<td colspan="2"><rich:message for="localEntrega" styleClass="error"/></td>
@@ -67,13 +76,17 @@
 					</tr>
 				  </table> 
                   <br/>
-                  <a4j:commandButton value="Salvar"/>                              
-                  <a4j:commandButton value="Limpar"/>
+					<a4j:commandButton value="Salvar" 
+					    action="#{entregaBean.cadastra}"
+						reRender="entregaList,cadEntrega,tese" />
+					<a4j:commandButton value="Limpar" type="reset" 
+                   action="#{entregaBean.limpar}"
+                   reRender="entregaList" />
                </rich:panel>
                </center>
                <rich:dataTable value="#{entregaBean.lista}" var="entrega"    
-                   rowClasses="row1, row2" id="entregaList" rows="4"  
-                   columnClasses="400,50,25,25" 
+                   rowClasses="row1, row2" id="entregaList" rows="10"  
+                   columnClasses="400,50,50" 
                    onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
                    onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
                    width="500"
@@ -81,7 +94,7 @@
                    <f:facet name="header">  
                        <rich:columnGroup>  
   
-                           <rich:column colspan="4">  
+                           <rich:column colspan="3">  
                                <h:outputText value="Entregas Cadastrados" />  
                            </rich:column>  
   
@@ -94,27 +107,34 @@
                            </rich:column>  
                            
                            <rich:column/>  
-                                 
-                           <rich:column/>  
                            
                        </rich:columnGroup>  
                    </f:facet>  
   
                    <rich:column>  
-		               <h:outputText value="#{entregaBean.local}" />  
+		               <h:outputText value="#{entrega.local}" />  
                    </rich:column>  
   
                    <rich:column styleClass="col1">  
-                       <h:outputText value="#{entregaBean.preco}"/>  
+                       <h:outputText value="#{entrega.preco}"/>  
                    </rich:column>  
   
-                   <rich:column styleClass="col1">  
-                       <h:graphicImage value="imgs/editar.png" title="Editar" alt="Editar"/>  
-                   </rich:column>  
-
-                   <rich:column styleClass="col1">  
-                       <h:graphicImage value="imgs/apagar.png" title="Apagar" alt="Apagar"/>  
-                   </rich:column>  
+                   <rich:column styleClass="col1">
+						<a4j:commandLink ajaxSingle="true" id="editlink" 
+						    reRender="cadEntrega" action="#{entregaBean.editar}" >
+							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{entrega.codEntrega}"
+								target="#{entregaBean.entrega.codEntrega}" />
+						</a4j:commandLink>
+						<rich:toolTip for="editlink" value="Editar Registro" />
+						<a4j:commandLink ajaxSingle="true" id="deletelink"
+							reRender="entregaList" action="#{entregaBean.apagar}">
+							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{entrega.codEntrega}"
+								target="#{entregaBean.entrega.codEntrega}" />
+						</a4j:commandLink>
+						<rich:toolTip for="deletelink" value="Apagar Registro" />
+					</rich:column> 
                        
                </rich:dataTable>  
                <rich:datascroller for="entregaList" maxPages="3" >
