@@ -2,8 +2,6 @@ package br.seploc.mbeans;
 
 import java.util.List;
 
-import javax.persistence.Query;
-
 import br.seploc.dao.PapelDAO;
 import br.seploc.pojos.Papel;
 
