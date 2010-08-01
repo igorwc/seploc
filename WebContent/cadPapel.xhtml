@@ -52,7 +52,9 @@
 									 id="nomePapel">
                            <f:validateLength minimum="2" maximum="20" />                           
                            <rich:ajaxValidator event="onkeyup" />                           
-                        </h:inputText></td>                    
+                        </h:inputText>
+                        <h:inputHidden value="#{papelBean.papel.codPapel}" />
+                    </td>                    
 					</tr>
 					<tr>
 					<td colspan="2"><rich:message for="nomePapel" styleClass="error"/></td>
@@ -103,9 +105,11 @@
                   <br/>
                   <a4j:commandButton value="Salvar"
                   action="#{papelBean.cadastra}"
-                  reRender="papelList"
-                  bypassUpdates="true" />                                              
-                  <a4j:commandButton value="Limpar" type="reset" />
+                  reRender="papelList,cadPapel"
+                  />                                              
+                  <a4j:commandButton value="Limpar" type="reset" 
+                   action="#{papelBean.limpar}"
+                   reRender="papelList" />
                </rich:panel>
                </center>
                <rich:dataTable value="#{papelBean.lista}" var="papel"    
@@ -118,7 +122,7 @@
                    <f:facet name="header">  
                        <rich:columnGroup>  
   
-                           <rich:column colspan="6">  
+                           <rich:column colspan="5">  
                                <h:outputText value="Papeis Cadastrados" />  
                            </rich:column>  
   
@@ -160,15 +164,22 @@
                    <rich:column styleClass="col1">  
                        <h:outputText value="#{papel.impShade}" />  
                    </rich:column>  
-
-                   <rich:column styleClass="col1">  
-                       <h:graphicImage value="imgs/editar.png" title="Editar" alt="Editar"/>  
-                   </rich:column>  
-
-                   <rich:column styleClass="col1">  
-                       <h:graphicImage value="imgs/apagar.png" title="Apagar" alt="Apagar"/>  
-                   </rich:column>  
-  
+                   <rich:column styleClass="col1">
+						<a4j:commandLink ajaxSingle="true" id="editlink" 
+						    reRender="cadPapel" action="#{papelBean.editar}" >
+							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{papel.codPapel}"
+								target="#{papelBean.papel.codPapel}" />
+						</a4j:commandLink>
+						<rich:toolTip for="editlink" value="Edit" />
+						<a4j:commandLink ajaxSingle="true" id="deletelink"
+							reRender="papelList" action="#{papelBean.apaga}">
+							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{papel.codPapel}"
+								target="#{papelBean.papel.codPapel}" />
+						</a4j:commandLink>
+						<rich:toolTip for="deletelink" value="Delete" />
+					</rich:column>  
                </rich:dataTable>  
                <rich:datascroller for="papelList" maxPages="3" >
                   <f:facet name="first">
