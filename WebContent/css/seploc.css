@@ -1,24 +1,8 @@
-ul#icons {
-	margin: 0; 
-	padding: 0;
-}
-ul#icons li {
-	margin: 2px; 
-	position: relative; 
-	padding: 4px 0; 
-	cursor: pointer; 
-	float: left;  
-	list-style: none;
-}
-ul#icons span.ui-icon {
-	float: left; 
-	margin: 0 4px;
-}
 #topo {
 	background: url(../imgs/bg.png);
 }
 #rodape {
-	background: transparent url(images/menu_m.png) repeat-x scroll 0 0;
+	background: transparent url(../imgs/rodape.png) repeat-x scroll 0 0;
 }
 #ur {    
 	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
@@ -27,6 +11,11 @@ ul#icons span.ui-icon {
 #dt {    
 	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	font-size: 12px;
+}
+.texto {    
+	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
 }
 .error { 
 	font-weight: bold;
