@@ -2,7 +2,11 @@
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets">      
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich">      
       
 <head>
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  
@@ -13,52 +17,107 @@
   <link rel="shortcut icon" href="imgs/favicon.ico"/>
   
   <!-- CSS -->
-  <link type="text/css" href="css/start/jquery-ui-1.8.custom.css" rel="stylesheet"/>
   <link type="text/css" href="css/app.menu.css" rel="stylesheet" />
   <link type="text/css" href="css/seploc.css" rel="stylesheet" />
 
   <!-- JS -->    
- <!-- <script type="text/javascript" src="js/jquery-1.4.2.js"></script>    
-  <script type="text/javascript" src="js/app.jquery.js"></script>    
-  <script type="text/javascript" src="js/app.menu.js"></script>
-  <script type="text/javascript" src="js/app.util.js"></script> -->   
+  <script type="text/javascript" src="js/app.util.js"></script>    
   
 </head>
-<body onload="UR_Start();showData()"> 
+<body onload="UR_Start();showData()" topmargin="0"> 
 <table border="0" align="center" cellspacing="0" width="100%">
   <!-- LOGO -->
   <tr align="center" id="topo">
-	<td colspan="2"><img src="imgs/logo_seploc.png" height="60px"/></td>
+	<td colspan="2"><img src="imgs/logo_seploc.png" height="40px"/></td>
   </tr>
   <!-- TOPO -->
-  <tr>
-  <ui:insert name="msgUser">
-    <td align="left">&nbsp;&nbsp;<ui:insert name="taxinomia">
+  <tr>  
+    <td align="left" class="texto">&nbsp;&nbsp;<ui:insert name="taxinomia">
     	Seploc <img src="imgs/ponto.png"/> 
     	Principal
     </ui:insert></td>
-	<td align="right">Bem-vindo, <ui:insert name="topo">#{login.userName}</ui:insert> &nbsp;&nbsp;</td>
-  </ui:insert>
+	<td align="right" class="texto">Bem-vindo, <ui:insert name="topo">#{login.userName}</ui:insert> &nbsp;&nbsp;</td>
   </tr>  
   <!-- MENU -->
   <tr>
     <td colspan="2">
       <ui:insert name="menu">
-      </ui:insert>
+      
+			<f:view>
+				<h:form>
+					<rich:toolBar>
+					
+					    <!-- MENU SEPLOC -->
+						<rich:dropDownMenu>
+							<f:facet name="label">
+								<h:panelGroup>
+									<h:graphicImage value="/imgs/icons/copy.gif" styleClass="pic" />
+									<h:outputText value="Seploc" />
+								</h:panelGroup>
+							</f:facet>
+							<rich:menuItem submitMode="ajax" value="New" action="#"
+								icon="/imgs/icons/create_doc.gif">
+							</rich:menuItem>
+							<rich:menuItem submitMode="ajax" value="Open" action="#"
+								icon="/imgs/icons/open.gif" />
+							<rich:menuGroup value="Save As...">
+								<rich:menuItem submitMode="ajax" value="Save" action="#"
+									icon="/imgs/icons/save.gif" />
+								<rich:menuItem submitMode="ajax" value="Save All" action="#">
+									<f:facet name="icon">
+										<h:graphicImage value="/imgs/icons/save_all.gif" />
+									</f:facet>
+								</rich:menuItem>
+							</rich:menuGroup>
+							<rich:menuItem submitMode="ajax" value="Close" action="#" />
+							<rich:menuSeparator id="menuSeparator11" />
+							<rich:menuItem submitMode="ajax" value="Exit" action="#" />
+						</rich:dropDownMenu>
+
+						<!-- MENU ATENDIMENTO -->						
+						<rich:dropDownMenu>
+							<f:facet name="label">
+								<h:panelGroup>								
+									<h:outputText value="Atendimento" />
+								</h:panelGroup>
+							</f:facet>
+							<rich:menuItem submitMode="ajax" value="Cliente Balcão" action="#" />
+							<rich:menuItem submitMode="ajax" value="Cliente Cadastrado" action="#" />
+							<rich:menuItem submitMode="ajax" value="Listar Requisições" action="#" />
+						</rich:dropDownMenu>
+
+						<!-- MENU CADASTRO -->						
+						<rich:dropDownMenu>
+							<f:facet name="label">
+								<h:panelGroup>												
+									<h:outputText value="Cadastros" />
+								</h:panelGroup>
+							</f:facet>
+							<rich:menuItem submitMode="ajax" value="Papel" action="cadPapel.jsf" />
+							<rich:menuItem submitMode="ajax" value="Opcional" action="cadOpcional.jsf" />
+							<rich:menuItem submitMode="ajax" value="Entrega" action="cadEntrega.jsf" />							
+							<rich:menuItem submitMode="ajax" value="Cobrador" action="cadCobrador.jsf" />
+							<rich:menuItem submitMode="ajax" value="Usuário" action="cadUsuario.jsf" />
+							<rich:menuItem submitMode="ajax" value="Cliente" action="cadCliente.jsf" />
+							<rich:menuItem submitMode="ajax" value="Projeto" action="cadProjeto.jsf" />
+						</rich:dropDownMenu>
+
+					</rich:toolBar>
+				</h:form>
+			</f:view>
+
+		</ui:insert>
     </td>
   </tr>
   <!-- CONTEUDO -->
   <tr>
     <td colspan="2">          
       <ui:insert name="conteudo"></ui:insert>
-        <!--======================= inicio conteudo ========================-->
-
-		<!--======================== fim conteudo ========================-->
     </td>
   </tr>
   <!-- RODAPE -->
   <tr id="rodape">
-    <td  colspan="2" align="center">
+    <td  colspan="2" align="center" class="texto">
       <ui:insert name="rodape">
       	<span id="dt"></span> <span id="ur"></span>
       </ui:insert>
