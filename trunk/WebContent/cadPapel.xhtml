@@ -49,23 +49,38 @@
                  
                  <table	border="0">
                     <tr>
-					<td colspan="2"><h:outputText id="tese" value="Adicionado com Sucesso!!" styleClass="texto" rendered="false"/></td>					
+					<td colspan="2"><h:outputText id="papelSucesso" value="Adicionado com Sucesso!!" styleClass="texto" rendered="#{papelBean.sucesso} == 1">
+					     <f:facet name="errorMarker">
+                            <h:graphicImage  value="/imgs/icons/enabled.gif" />  
+                         </f:facet>
+                    </h:outputText>
+					<h:outputText id="papelErro" value="Adicionado com Sucesso!!" styleClass="texto" rendered="#{papelBean.sucesso} == -1">
+					     <f:facet name="errorMarker">
+                            <h:graphicImage  value="/imgs/icons/error.gif" />  
+                         </f:facet>
+                    </h:outputText>
+                    <rich:messages for="cadPapel"  >
+                    <f:facet name="successMarker">
+                            <h:graphicImage  value="/imgs/icons/enabled.gif" />  
+                         </f:facet>
+                    </rich:messages> 
+					</td>					
 					</tr>                 
 					<tr>
 					<td><h:outputText value="Nome Papel: " styleClass="texto"/></td>
 					<td><h:inputText value="#{papelBean.papel.nome}" 
 									 required="true"
 									 requiredMessage="O nome deve ser informado"
-									 validatorMessage="O nome do Papel deve ter 2 letras no mínimo"
+									 validator="#{papelBean.validateNome}" 
 									 id="nomePapel">
-                           <f:validateLength minimum="2" maximum="20" />                           
-                           <rich:ajaxValidator event="onkeyup" />                           
+                           <!--  <f:validateLength minimum="2" maximum="20" />   -->                              
+                             <rich:ajaxValidator event="onkeyup"  />                            
                         </h:inputText>
                         <h:inputHidden value="#{papelBean.papel.codPapel}" />
                     </td>                    
 					</tr>
 					<tr>
-					<td colspan="2"><rich:message for="nomePapel" styleClass="error"/></td>
+					<td colspan="2"><rich:message for="nomePapel" styleClass="error" /></td>
 					</tr>
 					<tr>
 					<td><h:outputText value="Impressão Mono (R$): " styleClass="texto"/></td>
@@ -113,7 +128,7 @@
                   <br/>
                   <a4j:commandButton value="Salvar"
                   action="#{papelBean.cadastra}"
-                  reRender="papelList,cadPapel"
+                  reRender="papelList,cadPapel,papelSucesso"
                   />                                              
                   <a4j:commandButton value="Limpar" type="reset" 
                    action="#{papelBean.limpar}"
