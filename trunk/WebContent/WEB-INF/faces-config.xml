@@ -33,6 +33,15 @@
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
  <!-- Fim dos Cadastros -->
+ 
+ <!-- Conversores -->
+ <converter>
+    <converter-id>SeplocCurrencyConverter</converter-id>
+    <converter-class> br.seploc.converters.SeplocCurrencyConverter</converter-class>
+</converter>
+<!-- Fim dos Conversores -->
+ 
+<!-- Regras Navegação -->
  <navigation-rule>
   <from-view-id>/login.jsf</from-view-id>
   <navigation-case>

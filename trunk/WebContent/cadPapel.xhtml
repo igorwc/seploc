@@ -40,8 +40,19 @@
 }
 </style> 
 
+
+
    <f:view>  
    	   <h:form id="cadPapel" enctype="UTF-8" prependId="false" >
+   	       <script type="text/javascript" >
+  (function($){
+    // call setMask function on the document.ready event
+       $j(function(){
+    	   $j('.seploccurrency').setMask();
+      }
+    );
+  })(jQuery);
+</script>
            <rich:panel header="Papel">
 			   <!-- Formulario -->
 			   <center>
@@ -87,9 +98,20 @@
 					<td><h:inputText value="#{papelBean.papel.impMono}" 
 					                 id="mono"
 					                 converterMessage="valor deve ser um número."
-					                 validatorMessage="valor deve ser um número.">
-					          <f:convertNumber maxFractionDigits="2" type="number" />
-					          <f:converter converterId="javax.faces.Double" id="javax.faces.Double"/>
+					                 validatorMessage="valor deve ser um número."
+					                 alt="signed-decimal"
+					                 styleClass="seploccurrency"
+					                 onfocus="$j(function(){
+					                   $j(this).setMask();
+					                   }
+					                   )">
+					      <!--     <f:convertNumber maxFractionDigits="2" type="number" /> -->
+					          <f:converter converterId="SeplocCurrencyConverter" />
+					      <!--        <rich:jQuery selector=".seploccurrency" 
+					          query="$j(function(){
+					                   $j(this).setMask();
+					                   }
+					                   )" timing="onload" />-->
 					          <rich:ajaxValidator event="onkeyup"/>
 					     </h:inputText></td>					
 					</tr>
