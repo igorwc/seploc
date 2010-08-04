@@ -43,7 +43,7 @@ public class PapelBean {
 		System.out.println("cadastra papel");
 		if (papel.getCodPapel() == null || papel.getCodPapel() == 0) {
 			papelDAO.adiciona(papel);
-			sucesso = 1;
+//			sucesso = 1;
 		}
 		else {
 			Papel temp;
@@ -55,10 +55,10 @@ public class PapelBean {
 				temp.setImpShade(papel.getImpShade());
 				papelDAO.altera(temp);
 				sucesso = 1;
-				FacesMessage message = new FacesMessage("Adicionado com sucesso!");
-				message.setSeverity(FacesMessage.SEVERITY_INFO);
+//				FacesMessage message = new FacesMessage("Adicionado com sucesso!");
+//				message.setSeverity(FacesMessage.SEVERITY_INFO);
 //				message.setSummary("Nome Inválido");
-				throw new ValidatorException(message);
+//				throw new ValidatorException(message);
 			}
 
 		}
