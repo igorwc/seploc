@@ -58,13 +58,13 @@ public class PapelDAO extends GenericDAO<Papel, Integer> {
 	@Override
 	protected boolean verificaFilhos(Integer id) throws ParentDeleteException {
 		Number contagemPapel = 0; // TODO Implementar
-		// Query q =
-		// em.createNativeQuery("SELECT count(lr.papel) FROM br.seploc.pojos.LinhaRequisicao lr"
-		// + " where lr.papel.codPapel = :codPapel").setParameter(
-		// "codPapel", id);
-		// contagemPapel = (Number) q.getSingleResult();
-		// if (contagemPapel.intValue() != 0)
-		// return true;
+		 Query q =
+		 em.createQuery("SELECT count(lr.papel) FROM br.seploc.pojos.LinhaRequisicao lr"
+		 + " where lr.papel.codPapel = :codPapel").setParameter(
+		 "codPapel", id);
+		 contagemPapel = (Number) q.getSingleResult();
+		 if (contagemPapel.intValue() != 0)
+		 return true;
 		return false;
 	}
 
