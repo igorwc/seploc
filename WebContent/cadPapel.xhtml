@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
 <ui:composition xmlns="http://www.worg/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -45,38 +46,19 @@
    <f:view>  
    	   <h:form id="cadPapel" enctype="UTF-8" prependId="false" >
    	       <script type="text/javascript" >
-  (function($){
-    // call setMask function on the document.ready event
-       $j(function(){
-    	   $j('.seploccurrency').setMask();
-      }
-    );
-  })(jQuery);
-</script>
+             (function($){
+                  $j(function(){
+    	              $j('.seploccurrency').setMask();
+                     }
+                   );
+              })(jQuery);  
+           </script>
            <rich:panel header="Papel">
 			   <!-- Formulario -->
 			   <center>
                <rich:panel header="Cadastro do Papel" style="width: 600px">
                  
-                 <table	border="0">
-                    <tr>
-					<td colspan="2"><h:outputText id="papelSucesso" value="Adicionado com Sucesso!!" styleClass="texto" rendered="#{papelBean.sucesso} == 1">
-					     <f:facet name="errorMarker">
-                            <h:graphicImage  value="/imgs/icons/enabled.gif" />  
-                         </f:facet>
-                    </h:outputText>
-					<h:outputText id="papelErro" value="Adicionado com Sucesso!!" styleClass="texto" rendered="#{papelBean.sucesso} == -1">
-					     <f:facet name="errorMarker">
-                            <h:graphicImage  value="/imgs/icons/error.gif" />  
-                         </f:facet>
-                    </h:outputText>
-                    <rich:messages for="cadPapel"  >
-                    <f:facet name="successMarker">
-                            <h:graphicImage  value="/imgs/icons/enabled.gif" />  
-                         </f:facet>
-                    </rich:messages> 
-					</td>					
-					</tr>                 
+                 <table	border="0">               
 					<tr>
 					<td><h:outputText value="Nome Papel: " styleClass="texto"/></td>
 					<td><h:inputText value="#{papelBean.papel.nome}" 
@@ -94,24 +76,14 @@
 					<td colspan="2"><rich:message for="nomePapel" styleClass="error" /></td>
 					</tr>
 					<tr>
-					<td><h:outputText value="ImpressÃ£o Mono (R$): " styleClass="texto"/></td>
+					<td><h:outputText value="Impressão Mono (R$): " styleClass="texto"/></td>
 					<td><h:inputText value="#{papelBean.papel.impMono}" 
 					                 id="mono"
-					                 converterMessage="valor deve ser um nÃºmero."
-					                 validatorMessage="valor deve ser um nÃºmero."
-					                 alt="signed-decimal"
-					                 styleClass="seploccurrency"
-					                 onfocus="$j(function(){
-					                   $j(this).setMask();
-					                   }
-					                   )">
-					      <!--     <f:convertNumber maxFractionDigits="2" type="number" /> -->
+					                 converterMessage="valor deve ser um número."
+					                 validatorMessage="valor deve ser um número."
+					                 alt="signed-decimal" 
+					                 styleClass="seploccurrency">
 					          <f:converter converterId="SeplocCurrencyConverter" />
-					      <!--        <rich:jQuery selector=".seploccurrency" 
-					          query="$j(function(){
-					                   $j(this).setMask();
-					                   }
-					                   )" timing="onload" />-->
 					          <rich:ajaxValidator event="onkeyup"/>
 					     </h:inputText></td>					
 					</tr>
@@ -119,13 +91,14 @@
 					<td colspan="2"><rich:message for="mono" styleClass="error"/> </td>
 					</tr>
 					<tr>
-					<td><h:outputText value="ImpressÃ£o Color (R$): " styleClass="texto"/></td>
+					<td><h:outputText value="Impressão Color (R$): " styleClass="texto"/></td>
 					<td><h:inputText value="#{papelBean.papel.impColor}" 
 					                 id="color"
-					                 converterMessage="valor deve ser um nÃºmero"
-					                 validatorMessage="valor deve ser nÃºmero.">
-					          <f:convertNumber maxFractionDigits="2" type="number" />
-					          <f:converter converterId="javax.faces.Double" id="javax.faces.Double"/>
+					                 converterMessage="valor deve ser um número"
+					                 validatorMessage="valor deve ser número."
+					                 alt="signed-decimal" 
+					                 styleClass="seploccurrency">
+					          <f:converter converterId="SeplocCurrencyConverter" />
 					          <rich:ajaxValidator event="onkeyup"/>
 					     </h:inputText></td>
 					</tr>
@@ -133,13 +106,14 @@
 					<td colspan="2"><rich:message for="color" styleClass="error"/> </td>
 					</tr>					
 					<tr>
-					<td><h:outputText value="ImpressÃ£o Shade (R$): " styleClass="texto"/></td>
+					<td><h:outputText value="Impressão Shade (R$): " styleClass="texto"/></td>
 					<td><h:inputText value="#{papelBean.papel.impShade}" 
 					                 id="shade"
-					                 converterMessage="valor deve ser nÃºmero."
-					                 validatorMessage="valor deve ser nÃºmero.">
-					          <f:convertNumber maxFractionDigits="2" type="number" />
-					          <f:converter converterId="javax.faces.Double" id="javax.faces.Double"/>
+					                 converterMessage="valor deve ser número."
+					                 validatorMessage="valor deve ser número."
+					                 alt="signed-decimal" 
+					                 styleClass="seploccurrency">
+					         <f:converter converterId="SeplocCurrencyConverter" />
 					          <rich:ajaxValidator event="onkeyup"/>
 					     </h:inputText></td>
 					</tr>					
@@ -151,6 +125,7 @@
                   <a4j:commandButton value="Salvar"
                   action="#{papelBean.cadastra}"
                   reRender="papelList,cadPapel,papelSucesso"
+                  oncomplete="#{rich:component('confirmationMessage')}.show()"
                   />                                              
                   <a4j:commandButton value="Limpar" type="reset" 
                    action="#{papelBean.limpar}"
@@ -207,15 +182,23 @@
                        <h:outputText value="#{papel.impShade}" />  
                    </rich:column>  
                    <rich:column styleClass="col1">
-						<a4j:commandLink ajaxSingle="true" id="editlink" 
-						    reRender="cadPapel" action="#{papelBean.editar}" >
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink" 
+					    				 reRender="cadPapel" 
+					    				 action="#{papelBean.editar}" 
+					    				 >
 							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{papel.codPapel}"
 								target="#{papelBean.papel.codPapel}" />
 						</a4j:commandLink>
 						<rich:toolTip for="editlink" value="Edit" />
-						<a4j:commandLink ajaxSingle="true" id="deletelink"
-							reRender="papelList" action="#{papelBean.apaga}">
+						<a4j:commandLink ajaxSingle="true"
+						                 id="deletelink" 
+						                 immediate="true"  
+						                 bypassUpdates="true"
+							             reRender="papelList" 
+							             action="#{papelBean.apaga}" 
+							             oncomplete="#{rich:component('confirmationMessage')}.show()">
 							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{papel.codPapel}"
 								target="#{papelBean.papel.codPapel}" />
@@ -228,11 +211,47 @@
                      <h:outputText value="Primeiro" style="font-size:11pt"/>
                   </f:facet>
                   <f:facet name="last">
-                     <h:outputText value="Ãšltimo" style="font-size:11pt"/>
+                     <h:outputText value="Último" style="font-size:11pt"/>
                   </f:facet>               
                </rich:datascroller>  
            </rich:panel>  
        </h:form>  
+       
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de papel"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
+       
+       
+       
    </f:view>  
+   
 </ui:define>
 </ui:composition>
