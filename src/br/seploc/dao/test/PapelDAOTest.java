@@ -9,6 +9,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import br.seploc.dao.PapelDAO;
+import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.pojos.Papel;
 
 public class PapelDAOTest {
@@ -60,9 +61,27 @@ public class PapelDAOTest {
 	}
 
 	@Test
-	public final void testRemoveInteger() throws Exception {
+	public final void testRemoveInteger() {
 		PapelDAO dao = new PapelDAO();
-		Papel papel = dao.recupera(6);
+		Papel papel = dao.recupera(34);
+		Assert.assertNotNull(papel);
+		
+		try {
+			dao.remove(papel.getCodPapel());
+		} catch (Exception e) {
+			Assert.assertTrue(e instanceof ParentDeleteException);
+
+			System.err.println(e.getMessage());
+		}
+		papel = dao.recupera(6);
+		Assert.assertNull(papel);
+
+	}
+	
+	@Test
+	public final void testRemoveException() throws Exception {
+		PapelDAO dao = new PapelDAO();
+		Papel papel = dao.recupera(34);
 		Assert.assertNotNull(papel);
 		dao.remove(papel.getCodPapel());
 		papel = dao.recupera(6);
