@@ -1,9 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
 <ui:composition xmlns="http://www.worg/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:rich="http://richfaces.org/rich">
+      xmlns:rich="http://richfaces.org/rich"
+      template="masterpage.xhtml">
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
 <style type="text/css">  
 .row1 {   
     background-color: #EDEBEB;   
@@ -32,13 +36,18 @@
 
    <f:view>  
        <h:form id="cadOpcionais" enctype="UTF-8" prependId="false" >  
- 
-           <rich:simpleTogglePanel switchType="client" opened="true"  
-               label="Opcional">
+          <script type="text/javascript" >
+             (function($j){
+                  $j(function(){
+    	              $j('.seploccurrency').setMask();
+                     }
+                   );
+              })(jQuery); 
+           </script>
+           <rich:panel header="Opcional">
 			   <!-- Formulario -->
 			   <center>
                <rich:panel header="Cadastro do Opcional" style="width: 500px">
-                 
                  <table	border="0">
                     <tr>
 					<td colspan="2"><h:outputText id="tese" value="Adicionado com Sucesso!!" styleClass="texto" rendered="false" /></td>					
@@ -48,25 +57,25 @@
 					<td><h:inputText value="#{opcionalBean.opcional.nomeItem}" 
 									 required="true"
 									 requiredMessage="O nome deve ser informado"
-									 validatorMessage="O nome do Opcional deve ter 5 letras no mínimo"
+									 validator="#{opcionalBean.validateNome}"
 									 id="nomeOpcional">
-                           <f:validateLength minimum="5" maximum="20" />                           
-                           <rich:ajaxValidator event="onkeyup" />                           
+						    <rich:ajaxValidator event="onkeyup" />                           
                         </h:inputText>
                         <h:inputHidden value="#{opcionalBean.opcional.codOpReqServ}" />
                     </td>
                     </tr>
                     <tr>
-                    <td><rich:message for="nomeOpcional" styleClass="error"/></td>
+                    <td colspan="2"><rich:message for="nomeOpcional" styleClass="error"/></td>
 					</tr>
 					<tr>
 					<td><h:outputText value="Valor (R$): " styleClass="texto"/></td>
 					<td><h:inputText value="#{opcionalBean.opcional.valorItem}" 
 					                 id="valorOpcional"
 					                 converterMessage="valor deve ser um número."
-					                 validatorMessage="valor deve ser um número.">
-					          <f:convertNumber maxFractionDigits="2" type="number" />
-					          <f:converter converterId="javax.faces.Double" id="javax.faces.Double"/>
+					                 validatorMessage="valor deve ser um número."
+					                 alt="signed-decimal" 
+					                 styleClass="seploccurrency">
+					          <f:converter converterId="SeplocCurrencyConverter" />
 					          <rich:ajaxValidator event="onkeyup"/>
 					     </h:inputText></td>
 					</tr>
@@ -146,8 +155,39 @@
                      <h:outputText value="Último" style="font-size:11pt"/>
                   </f:facet>               
                </rich:datascroller>  
-           </rich:simpleTogglePanel>  
+          </rich:panel>
        </h:form>  
+       <rich:modalPanel id="cadMessages" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de papel"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
    </f:view>  
-
+</ui:define>
 </ui:composition>

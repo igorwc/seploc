@@ -25,8 +25,6 @@
   <script type="text/javascript" src="js/jquery.meio.mask.js" charset="utf-8"></script>
   <script>
      var $j = jQuery.noConflict();
-     
-    
    </script>
   
   <script type="text/javascript" src="js/app.util.js"></script>    
@@ -101,13 +99,13 @@
 									<h:outputText value="Cadastros" />
 								</h:panelGroup>
 							</f:facet>
-							<rich:menuItem submitMode="ajax" value="Papel" action="cadPapel.jsf" />
-							<rich:menuItem submitMode="ajax" value="Opcional" action="cadOpcional.jsf" />
-							<rich:menuItem submitMode="ajax" value="Entrega" action="cadEntrega.jsf" />							
-							<rich:menuItem submitMode="ajax" value="Cobrador" action="cadCobrador.jsf" />
-							<rich:menuItem submitMode="ajax" value="Usuário" action="cadUsuario.jsf" />
-							<rich:menuItem submitMode="ajax" value="Cliente" action="cadCliente.jsf" />
-							<rich:menuItem submitMode="ajax" value="Projeto" action="cadProjeto.jsf" />
+							<rich:menuItem submitMode="none" value="Papel"  onclick="document.location.href='cadPapel.jsf'" />
+							<rich:menuItem submitMode="none" value="Opcional" onclick="document.location.href='cadOpcional.jsf'" />
+							<rich:menuItem submitMode="none" value="Entrega" onclick="document.location.href='cadEntrega.jsf'" />							
+							<rich:menuItem submitMode="none" value="Cobrador" onclick="document.location.href='cadCobrador.jsf'" />
+							<rich:menuItem submitMode="none" value="Usuário" onclick="document.location.href='cadUsuario.jsf'"  />
+							<rich:menuItem submitMode="none" value="Cliente" onclick="document.location.href='cadCliente.jsf'" />
+							<rich:menuItem submitMode="none" value="Projeto" onclick="document.location.href='cadProjeto.jsf'"  />
 						</rich:dropDownMenu>
 
 					</rich:toolBar>
