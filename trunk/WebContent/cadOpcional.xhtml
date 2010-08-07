@@ -48,10 +48,7 @@
 			   <!-- Formulario -->
 			   <center>
                <rich:panel header="Cadastro do Opcional" style="width: 500px">
-                 <table	border="0">
-                    <tr>
-					<td colspan="2"><h:outputText id="tese" value="Adicionado com Sucesso!!" styleClass="texto" rendered="false" /></td>					
-					</tr>                 
+                 <table	border="0">                 
 					<tr>
 					<td><h:outputText value="Nome Opcional: " styleClass="texto"/></td>
 					<td><h:inputText value="#{opcionalBean.opcional.nomeItem}" 
@@ -87,10 +84,11 @@
                   <a4j:commandButton value="Salvar"
                   action="#{opcionalBean.cadastra}"
                   reRender="opcionalList,cadOpcionais"
+                  oncomplete="#{rich:component('cadMessages')}.show()"
                    />                                              
-                  <a4j:commandButton value="Limpar" type="reset" 
+                  <a4j:commandButton value="Limpar" 
                   action="#{opcionalBean.limpar}"
-                  reRender="opcionalList"
+                  reRender="opcionalList,cadOpcionais"
                   />
                </rich:panel>
                </center>
@@ -130,15 +128,21 @@
                    </rich:column>  
   
                   <rich:column styleClass="col1">
-						<a4j:commandLink ajaxSingle="true" id="editlink" 
-						    reRender="cadOpcionais" action="#{opcionalBean.editar}" >
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink" 
+						                 reRender="cadOpcionais" 
+						                 action="#{opcionalBean.editar}" 
+						                 >
 							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{opcional.codOpReqServ}"
 								target="#{opcionalBean.opcional.codOpReqServ}" />
 						</a4j:commandLink>
 						<rich:toolTip for="editlink" value="Editar Registro" />
-						<a4j:commandLink ajaxSingle="true" id="deletelink"
-							reRender="opcionalList" action="#{opcionalBean.apagar}">
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="deletelink"
+							             reRender="opcionalList" 
+							             action="#{opcionalBean.apagar}"
+							             oncomplete="#{rich:component('cadMessages')}.show()">
 							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{opcional.codOpReqServ}"
 								target="#{opcionalBean.opcional.codOpReqServ}" />
@@ -159,7 +163,7 @@
        </h:form>  
        <rich:modalPanel id="cadMessages" autosized="true" width="200">
         <f:facet name="header">
-            <h:outputText value="Cadastro de papel"
+            <h:outputText value="Cadastro de Opcional"
                 style="padding-right:15px;" />
         </f:facet>
         <f:facet name="controls">
@@ -181,7 +185,7 @@
                     <tr>
                         <td align="center" width="100%"><a4j:commandButton
                             value="OK"
-                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                            onclick="#{rich:component('cadMessages')}.hide();return false;" />
                         </td>
                     </tr>
                 </tbody>

@@ -1,9 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
 <ui:composition xmlns="http://www.worg/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:rich="http://richfaces.org/rich">
+      xmlns:rich="http://richfaces.org/rich"
+      template="masterpage.xhtml">
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
 <style type="text/css">  
 .row1 {   
     background-color: #EDEBEB;   
@@ -33,25 +37,27 @@
 
    <f:view>  
        <h:form id="cadEntrega" enctype="UTF-8" prependId="false" >  
- 
-           <rich:simpleTogglePanel switchType="client" opened="true"  
-               label="Entrega">
+       <script type="text/javascript" >
+             (function($j){
+                  $j(function(){
+    	              $j('.seploccurrency').setMask();
+                     }
+                   );
+              })(jQuery); 
+       </script>
+           <rich:panel header="Entrega">
 			   <!-- Formulario -->
 			   <center>
                <rich:panel header="Cadastro de Entrega" style="width: 500px">
                  
-                 <table	border="0">
-                    <tr>
-					<td colspan="2"><h:outputText id="tese" value="Adicionado com Sucesso!!" styleClass="texto" rendered="false" /></td>					
-					</tr>                 
+                 <table	border="0">                 
 					<tr>
 					<td><h:outputText value="Local Entrega: " styleClass="texto"/></td>
 					<td><h:inputText value="#{entregaBean.entrega.local}" 
 									 required="true"
 									 requiredMessage="O local deve ser informado"
-									 validatorMessage="O local de entrega deve ter 5 letras no mínimo"
-									 id="localEntrega">
-                           <f:validateLength minimum="5" maximum="20" />                           
+									 validator="#{entregaBean.validateNome}"
+									 id="localEntrega">             
                            <rich:ajaxValidator event="onkeyup" />                           
                         </h:inputText>
                         <h:inputHidden value="#{entregaBean.entrega.codEntrega}" />
@@ -65,9 +71,10 @@
 					<td><h:inputText value="#{entregaBean.entrega.preco}" 
 					                 id="preco"
 					                 converterMessage="valor deve ser um número."
-					                 validatorMessage="valor deve ser um número.">
-					          <f:convertNumber maxFractionDigits="2" type="number" />
-					          <f:converter converterId="javax.faces.Double" id="javax.faces.Double"/>
+					                 validatorMessage="valor deve ser um número."
+					                 alt="signed-decimal" 
+					                 styleClass="seploccurrency">
+					           <f:converter converterId="SeplocCurrencyConverter" />
 					          <rich:ajaxValidator event="onkeyup"/>
 					     </h:inputText></td>					
 					</tr>
@@ -78,10 +85,11 @@
                   <br/>
 					<a4j:commandButton value="Salvar" 
 					    action="#{entregaBean.cadastra}"
-						reRender="entregaList,cadEntrega,tese" />
-					<a4j:commandButton value="Limpar" type="reset" 
+						reRender="entregaList,cadEntrega" 
+						oncomplete="#{rich:component('cadMessages')}.show()"/>
+					<a4j:commandButton value="Limpar" 
                    action="#{entregaBean.limpar}"
-                   reRender="entregaList" />
+                   reRender="entregaList,cadEntrega" />
                </rich:panel>
                </center>
                <rich:dataTable value="#{entregaBean.lista}" var="entrega"    
@@ -128,7 +136,7 @@
 						</a4j:commandLink>
 						<rich:toolTip for="editlink" value="Editar Registro" />
 						<a4j:commandLink ajaxSingle="true" id="deletelink"
-							reRender="entregaList" action="#{entregaBean.apagar}">
+							reRender="entregaList" action="#{entregaBean.apagar}" oncomplete="#{rich:component('cadMessages')}.show()">
 							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{entrega.codEntrega}"
 								target="#{entregaBean.entrega.codEntrega}" />
@@ -145,8 +153,39 @@
                      <h:outputText value="Último" style="font-size:11pt"/>
                   </f:facet>               
                </rich:datascroller>  
-           </rich:simpleTogglePanel>  
+           </rich:panel>
        </h:form>  
+       <rich:modalPanel id="cadMessages" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de entregas"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('cadMessages')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
    </f:view>  
-
+</ui:define>
 </ui:composition>
