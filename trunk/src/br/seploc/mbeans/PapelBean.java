@@ -27,6 +27,7 @@ public class PapelBean {
 	}
 
 	public Papel getPapel() {
+		System.out.println("Get Papel");
 		return papel;
 	}
 
@@ -95,7 +96,8 @@ public class PapelBean {
 	}
 
 	public void limpar() {
-		papel = new Papel();
+		papel =  new Papel();
+		System.out.println("Limpar Papel");
 	}
 
 	// Validadores
@@ -117,7 +119,7 @@ public class PapelBean {
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
-			nome = value.toString();
+			nome = value.toString().trim();
 		else {
 			FacesMessage message = new FacesMessage("Nome Inválido");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
