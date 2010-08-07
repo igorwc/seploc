@@ -76,7 +76,7 @@ public class OpcionaisReqServ implements Serializable {
 	}
 
 	public void setNomeItem(String nomeItem) {
-		this.nomeItem = nomeItem;
+		this.nomeItem = nomeItem.toUpperCase();
 	}
 
 	public Double getValorItem() {

@@ -57,7 +57,7 @@ public class OpcionalBean {
 				}
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			addGlobalMessage("Não foi possível realizar a operação!");
 		}
 		opcional = new OpcionaisReqServ();
 
@@ -66,7 +66,7 @@ public class OpcionalBean {
 	public void apagar() {
 		try {
 			opcionalDAO.remove(opcional.getCodOpReqServ());
-			addGlobalMessage("Papel excluído com sucesso!");
+			addGlobalMessage("Opcional excluído com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
@@ -77,7 +77,6 @@ public class OpcionalBean {
 		try {
 			opcional = opcionalDAO.recupera(opcional.getCodOpReqServ());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -120,7 +119,7 @@ public class OpcionalBean {
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
-			nome = value.toString();
+			nome = value.toString().trim();
 		else {
 			FacesMessage message = new FacesMessage("Nome Inválido");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);

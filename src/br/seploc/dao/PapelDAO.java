@@ -45,7 +45,7 @@ public class PapelDAO extends GenericDAO<Papel, Integer> {
 			if (verificaFilhos(id)) {
 				em.getTransaction().rollback();
 				throw new ParentDeleteException(
-						"Papel tem registros depedentes...");
+						"Papel tem registros dependentes...");
 			} else {
 				em.remove(papel);
 			}

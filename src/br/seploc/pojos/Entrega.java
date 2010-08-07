@@ -92,7 +92,7 @@ public class Entrega implements Serializable {
 	}
 
 	public void setLocal(String local) {
-		this.local = local;
+		this.local = local.toUpperCase();
 	}
 
 	public Double getPreco() {
