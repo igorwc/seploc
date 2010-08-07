@@ -62,7 +62,6 @@
 			   <!-- Formulario -->
 			   <center>
                <rich:panel header="Cadastro do Papel" style="width: 600px">
-                 
                  <table	border="0" >               
 					<tr>
 					<td><h:outputText value="Nome Papel: " styleClass="texto"/></td>
@@ -113,8 +112,8 @@
 					<td><h:outputText value="Impressão Shade (R$): " styleClass="texto"/></td>
 					<td><h:inputText value="#{papelBean.papel.impShade}" 
 					                 id="shade"
-					                 converterMessage="valor deve ser n�mero."
-					                 validatorMessage="valor deve ser n�mero."
+					                 converterMessage="valor deve ser número."
+					                 validatorMessage="valor deve ser número."
 					                 alt="signed-decimal" 
 					                 styleClass="seploccurrency">
 					         <f:converter converterId="SeplocCurrencyConverter" />
@@ -131,9 +130,9 @@
                   reRender="papelList,cadPapel,papelSucesso"
                   oncomplete="#{rich:component('confirmationMessage')}.show()"
                   />                                              
-                  <a4j:commandButton value="Limpar" type="reset" 
+                  <a4j:commandButton value="Limpar" 
                    action="#{papelBean.limpar}"
-                   reRender="papelList" />
+                   reRender="papelList,cadPapel" />
                </rich:panel>
                </center>
                <rich:dataTable value="#{papelBean.lista}" var="papel"    
