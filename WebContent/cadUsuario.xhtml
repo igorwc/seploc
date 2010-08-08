@@ -16,7 +16,8 @@
 <ui:define name="conteudo"> 
 
    <f:view>  
-   	   <h:form id="cadUsuario" enctype="UTF-8" prependId="false" ><script type="text/javascript" >
+   	   <h:form id="cadUsuario" enctype="UTF-8" prependId="false" >
+   	   <script type="text/javascript" >
              (function($j){
                   $j(function(){
     	              $j('.seplocCPF').setMask();
@@ -24,8 +25,7 @@
                    );
               })(jQuery); 
        </script>
-           <rich:simpleTogglePanel switchType="client" opened="true" 
-               label="Usuário" >
+           <rich:panel header="Usuário">
 			   <!-- Formulario -->
 			   <center>
                <rich:panel header="Cadastro do Usuario" style="width: 600px">
@@ -36,25 +36,25 @@
 					<td><h:inputText value="#{usuarioBean.usuario.login}" 
 									 required="true"
 									 requiredMessage="O login deve ser informado"
-									 validatorMessage="O login deve ter 5 letras no mínimo"
-									 id="login">
-                           <f:validateLength minimum="5" maximum="20" />                           
+									 validator="#{usuarioBean.validateLogin}"
+									 id="login">                          
                            <rich:ajaxValidator event="onkeyup" />                           
                         </h:inputText>
-                        <h:inputHidden value="#{usuarioBean.usuario.login}" />
+                        <h:inputHidden value="#{usuarioBean.usuario.permissao}" />
                     </td>                    
+					</tr>
+					<tr>
+					<td colspan="2"><rich:message for="login" styleClass="error"/></td>
 					</tr>
 					<tr>
 					<td><h:outputText value="Nome: " styleClass="texto"/></td>
 					<td><h:inputText value="#{usuarioBean.usuario.nome}" 
 									 required="true"
 									 requiredMessage="O nome deve ser informado"
-									 validatorMessage="O nome do Usuário deve ter 5 letras no mínimo"
+									 validator="#{usuarioBean.validateNome}"
 									 id="nomeUsuario">
-                           <f:validateLength minimum="5" maximum="20" />                           
                            <rich:ajaxValidator event="onkeyup" />                           
                         </h:inputText>
-                        <h:inputHidden value="#{usuarioBean.usuario.login}" />
                     </td>                    
 					</tr>
 					<tr>
@@ -68,6 +68,7 @@
 									 alt="cpf" 
 					                 styleClass="seplocCPF">
 					                  <f:validator validatorId="SeploCPFValidator"/>
+					                  <f:converter converterId="SeplocCPFConverter" />  
 					          <rich:ajaxValidator event="onkeyup"/>
 					     </h:inputText></td>					
 					</tr>
@@ -77,12 +78,13 @@
 				  </table> 
                   <br/>
                   <a4j:commandButton value="Salvar"
-                  action="#{usuarioBean.cadastra}"
-                  reRender="usuariolList,cadUsuario"
+                      action="#{usuarioBean.cadastra}"
+                      reRender="usuarioList,cadUsuario"
+                      oncomplete="#{rich:component('cadMessages')}.show()"
                   />                                              
                   <a4j:commandButton value="Limpar" type="reset" 
-                   action="#{usuarioBean.limpar}"
-                   reRender="usuarioList,cadUsuario" />
+                      action="#{usuarioBean.limpar}"
+                      reRender="usuarioList,cadUsuario" />
                </rich:panel>
                </center>
                <rich:dataTable value="#{usuarioBean.lista}" var="usuario"    
@@ -128,18 +130,24 @@
                    </rich:column>  
   
                    <rich:column styleClass="col1">
-						<a4j:commandLink ajaxSingle="true" id="editlink" 
-						    reRender="cadUsuario" action="#{usuarioBean.editar}" >
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink" 
+						                 reRender="cadUsuario" 
+						                 action="#{usuarioBean.editar}" >
 							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
-							<f:setPropertyActionListener value="#{usuario.login}"
+							<f:setPropertyActionListener 
+							    value="#{usuario.login}"
 								target="#{usuarioBean.usuario.login}" />
 						</a4j:commandLink>
 						<rich:toolTip for="editlink" value="Edit" />
-						<a4j:commandLink ajaxSingle="true" id="deletelink"
-							reRender="usuarioList" action="#{usuarioBean.apaga}" oncomplete="#{rich:component('cadMessages')}.show()">
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="deletelink"
+							             reRender="usuarioList" 
+							             action="#{usuarioBean.apaga}" 
+							             oncomplete="#{rich:component('cadMessages')}.show()">
 							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{usuario.login}"
-								target="#{UsuarioBean.usuario.login}" />
+								target="#{usuarioBean.usuario.login}" />
 						</a4j:commandLink>
 						<rich:toolTip for="deletelink" value="Delete" />
 					</rich:column>  
@@ -152,7 +160,7 @@
                      <h:outputText value="Último" style="font-size:11pt"/>
                   </f:facet>               
                </rich:datascroller>  
-           </rich:simpleTogglePanel>  
+          </rich:panel>
        </h:form>  
        <rich:modalPanel id="cadMessages" autosized="true" width="200">
         <f:facet name="header">
