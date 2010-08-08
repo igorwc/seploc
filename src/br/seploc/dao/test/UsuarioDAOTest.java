@@ -82,7 +82,8 @@ public class UsuarioDAOTest {
 	}
 
 	@Test
-	public final void testRemoveString() throws Exception {
+	public final void testRemoveString()  {
+		try{
 		UsuarioDAO dao = new UsuarioDAO();
 		Usuario usuario = new Usuario("xuxuxu2", "xuxu2 da silva", "nova", "12312312323", 0, "192.186.123.12");
 		dao.adiciona(usuario);
@@ -99,6 +100,9 @@ public class UsuarioDAOTest {
 		usuario = null;
 		usuario = dao.recupera("xuxuxu2");
 		Assert.assertNull(usuario);
+		}catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 
 	@Test
