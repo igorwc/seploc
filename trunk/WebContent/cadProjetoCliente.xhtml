@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	Cadastros <img src="imgs/ponto.png"/> 
+   	Projeto
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+<style type="text/css">  
+.row1 {   
+    background-color: #EDEBEB;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+</style> 
+
+
+
+   <f:view>  
+   	   <h:form id="cadProjeto" enctype="UTF-8" prependId="false" >
+   	       <script type="text/javascript" >
+             (function($j){
+                  $j(function(){
+    	              $j('.seploccurrency').setMask();
+                     }
+                   );
+              })(jQuery);  
+           </script>
+           <rich:panel header="Projeto">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Cadastro de Projeto" style="width: 600px">
+                 <table	border="0" >               
+					<tr>
+					<td><h:outputText value="Cliente: " styleClass="texto"/></td>
+					<!-- busca do nome do nome fantasia do cliente com ajax -->
+					<td><h:inputText value="#{projetoClienteBean.projeto.cliente.fantasia}" 
+									 required="true"
+									 requiredMessage="O nome do cliente deve ser informado"
+									 validator="#{projetoClienteBean.validateNomeCli}" 
+									 id="nomeCliente">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value="#{projetoClienteBean.projeto.cliente.codCliente}"  />
+                    </td>                    
+					</tr>
+					<tr>
+					<td colspan="2"><rich:message for="nomeCliente" styleClass="error" /></td>
+					</tr>
+					<tr>
+					<td><h:outputText value="Nome Projeto: " styleClass="texto"/></td>
+					<td><h:inputText value="#{projetoClienteBean.projeto.nome}" 
+									 required="true"
+									 requiredMessage="O nome do projeto deve ser informado"
+									 validator="#{projetoClienteBean.validateNomeProj}" 
+					                 id="nomeProjeto">					          
+					          <rich:ajaxValidator event="onkeyup"/>
+					     </h:inputText></td>					
+					</tr>
+					<tr>
+					<td colspan="2"><rich:message for="nomeProjeto" styleClass="error"/> </td>
+					</tr>
+				  </table> 
+                  <br/>
+                  <a4j:commandButton value="Salvar"
+                  action="#{projetoClienteBean.cadastra}"
+                  reRender="projetoClienteList,cadProjeto,projetoClienteSucesso"
+                  oncomplete="#{rich:component('confirmationMessage')}.show()"
+                  />                                              
+                  <a4j:commandButton value="Limpar" 
+                   action="#{projetoClienteBean.limpa}"
+                   reRender="projetoClienteList,cadProjeto" />
+               </rich:panel>
+               </center>
+               <rich:dataTable value="#{projetoClienteBean.lista}" var="projeto"    
+                   rowClasses="row1, row2" id="projetoClienteList" rows="10"  
+                   columnClasses="600"  
+                   onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
+                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+                   width="600"
+                   align="center">  
+                   <f:facet name="header">  
+                       <rich:columnGroup>  
+  
+                           <rich:column colspan="5">  
+                               <h:outputText value="Projetos Cadastrados por Cliente" />  
+                           </rich:column>  
+  
+                           <rich:column breakBefore="true">  
+                               <h:outputText value="Projeto" />  
+                           </rich:column>  
+  
+                       </rich:columnGroup>  
+                   </f:facet>  
+  
+                   <rich:column>  
+		               <h:outputText value="#{projeto.nome}" />  
+                   </rich:column>  
+  
+                   <rich:column styleClass="col1">
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink" 
+					    				 reRender="cadProjeto" 
+					    				 action="#{projetoClienteBean.edita}" 
+					    				 >
+							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{projeto.codProjeto}"
+								target="#{projetoClienteBean.projeto.codProjeto}" />
+						</a4j:commandLink>
+						<rich:toolTip for="editlink" value="Edit" />
+						<a4j:commandLink ajaxSingle="true"
+						                 id="deletelink" 
+						                 immediate="true"  
+						                 bypassUpdates="true"
+							             reRender="papelList" 
+							             action="#{projetoClienteBean.apaga}" 
+							             oncomplete="#{rich:component('confirmationMessage')}.show()">
+							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{projeto.codProjeto}"
+								target="#{projetoClienteBean.projeto.codProjeto}" />
+						</a4j:commandLink>
+						<rich:toolTip for="deletelink" value="Delete" />
+					</rich:column>  
+               </rich:dataTable>  
+               <rich:datascroller for="projetoClienteList" maxPages="3" >
+                  <f:facet name="first">
+                     <h:outputText value="Primeiro" style="font-size:10pt;"/>
+                  </f:facet>
+                  <f:facet name="first_disabled">
+                     <h:outputText value="Primeiro"  style="font-size:10pt;color:#6A5ACD"/>
+                  </f:facet>
+                  <f:facet name="last">
+                     <h:outputText value="Último" style="font-size:10pt"/>
+                  </f:facet>
+                  <f:facet name="last_disabled">
+                     <h:outputText value="Último" style="font-size:10pt"/>
+                  </f:facet>               
+               </rich:datascroller>  
+           </rich:panel>  
+       </h:form>  
+       
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de Projeto"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
+       
+       
+       
+   </f:view>  
+   
+</ui:define>
+</ui:composition>
