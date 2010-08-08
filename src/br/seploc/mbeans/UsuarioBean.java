@@ -8,7 +8,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
-import javax.swing.JOptionPane;
 
 import br.seploc.dao.UsuarioDAO;
 import br.seploc.pojos.Usuario;
@@ -196,62 +195,6 @@ public class UsuarioBean {
 					"O nome do local de entrega só tem espaços");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
-		}
-	}
-
-	public static void main(String[] args) {
-		String cpf = "";
-		int cont = 11, soma = 0, mult = 11;
-		int[] var = new int[11];
-
-		// Verifica se o CPF contém menos de 11 dígitos.
-		while (cpf.length() < 11) {
-			cpf = JOptionPane.showInputDialog(null, "Entre com o CPF:", "CPF",
-					JOptionPane.QUESTION_MESSAGE);
-		}
-
-		// Recebe os números e realiza a multiplicação e soma.
-		for (int i = 0; i < 11; i++) {
-			var[i] = Integer.parseInt("" + cpf.charAt(i));
-			if (i < 9)
-				soma += (var[i] * --mult);
-		}
-
-		// Cria o primeiro dígito verificador.
-		int resto = soma % 11;
-		if (resto < 2) {
-			var[9] = 0;
-		} else {
-			var[9] = 11 - resto;
-		}
-
-		// Reinicia os valores.
-		soma = 0;
-		mult = 11;
-
-		// Realiza a multiplicação e soma do segundo dígito.
-		for (int i = 0; i < 10; i++)
-			soma += var[i] * mult--;
-
-		// Cria o segundo dígito verificador.
-		resto = soma % 11;
-		if (resto < 2) {
-			var[10] = 0;
-		} else {
-			var[10] = 11 - resto;
-		}
-
-		int v1 = Integer.parseInt("" + cpf.charAt(9));
-		int v2 = Integer.parseInt("" + cpf.charAt(10));
-
-		// Confere os dígitos criados com os dígitados, se forem diferentes
-		// informa que o CPF é inválido.
-		if (v1 != var[9] || v2 != var[10]) {
-			JOptionPane.showMessageDialog(null, "CPF inválido!",
-					"CPF inválido", JOptionPane.ERROR_MESSAGE);
-		} else {
-			JOptionPane.showMessageDialog(null, "CPF válido!", "CPF válido",
-					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 }
