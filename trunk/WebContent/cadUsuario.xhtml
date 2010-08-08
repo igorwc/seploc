@@ -65,9 +65,9 @@
 					<td><h:inputText value="#{usuarioBean.usuario.cpf}" 
 					                 id="cpf"
 									 requiredMessage="O cpf deve ser informado"
-									 validatorMessage="O cpf do Usuário deve ter 11 letras no mínimo"
 									 alt="cpf" 
 					                 styleClass="seplocCPF">
+					                  <f:validator validatorId="SeploCPFValidator"/>
 					          <rich:ajaxValidator event="onkeyup"/>
 					     </h:inputText></td>					
 					</tr>
