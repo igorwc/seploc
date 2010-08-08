@@ -1,0 +1,271 @@
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	Cadastros <img src="imgs/ponto.png"/> 
+   	Cliente
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+<style type="text/css">  
+.row1 {   
+    background-color: #EDEBEB;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+</style> 
+
+
+
+   <f:view>  
+   	   <h:form id="cadPapel" enctype="UTF-8" prependId="false" >
+   	       <script type="text/javascript" >
+             (function($j){
+                  $j(function(){
+    	              $j('.seploccurrency').setMask();
+                     }
+                   );
+              })(jQuery);  
+           </script>
+           <rich:panel header="Cliente">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Cadastro de Cliente" style="width: 600px">
+                 
+                 <table	border="0" >               
+					<tr>
+					<td><h:outputText value="Tipo Documento: " styleClass="texto"/></td>
+					<td><h:selectOneRadio id="tpDocCli" rendered="true" value="cnpj">
+							<f:selectItem id="doc1" itemLabel="CNPJ" itemValue="cnpj" />
+							<f:selectItem id="doc2" itemLabel="CPF" itemValue="cpf" />
+					    </h:selectOneRadio>
+                    </td>                    
+					<td><h:outputText value="Número Documento: " styleClass="texto"/></td>
+					<td><h:inputText value="" 
+									 required="true"									 
+									 validator="" 
+									 id="docCli">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value=""  />
+                    </td>                    
+					</tr>					
+					<tr>
+					<td colspan="4"><rich:message for="docCli" styleClass="error" /></td>					
+					</tr>
+					
+					<tr>
+					<td><h:outputText value="Razão Social: " styleClass="texto"/></td>
+					<td><h:inputText value="" 
+									 required="true"									 
+									 validator="" 
+									 id="razaoCli">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value=""  />
+                    </td>                    
+					<td><h:outputText value="Nome Fantasia: " styleClass="texto"/></td>
+					<td><h:inputText value="" 
+									 required="false"									 
+									 validator="" 
+									 id="fantasiaCli">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value=""  />
+                    </td>                    
+					</tr>					
+					<tr>
+					<td colspan="2"><rich:message for="cnpjCli" styleClass="error" /></td>
+					<td colspan="2"><rich:message for="cpfCli" styleClass="error" /></td>
+					</tr>					
+					
+					<tr>
+					<td><h:outputText value="Endereço: " styleClass="texto"/></td>
+					<td colspan="3"><h:inputText value="" 
+									 required="true"									 
+									 validator="" 
+									 id="enderCli">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value=""  />
+                    </td>                    
+					</tr>					
+					<tr>
+					<td colspan="4"><rich:message for="enderCli" styleClass="error" /></td>					
+					</tr>						
+					
+					<tr>
+					<td><h:outputText value="Bairro: " styleClass="texto"/></td>
+					<td><h:inputText value="" 
+									 required="false"									 
+									 validator="" 
+									 id="bairroCli">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value=""  />
+                    </td>                    
+					<td><h:outputText value="Cidade: " styleClass="texto"/></td>
+					<td><h:inputText value="" 
+									 required="false"									 
+									 validator="" 
+									 id="cidadeCli">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value=""  />
+                    </td>                    
+					</tr>					
+					<tr>
+					<td colspan="2"><rich:message for="bairroCli" styleClass="error" /></td>
+					<td colspan="2"><rich:message for="cidadeCli" styleClass="error" /></td>
+					</tr>			
+					
+					<tr>
+					<td><h:outputText value="Estado: " styleClass="texto"/></td>
+					<td><h:inputText value="" 
+									 required="false"									 
+									 validator="" 
+									 id="estadoCli">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value=""  />
+                    </td>                    
+					<td><h:outputText value="CEP: " styleClass="texto"/></td>
+					<td><h:inputText value="" 
+									 required="false"									 
+									 validator="" 
+									 id="cepCli">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value=""  />
+                    </td>                    
+					</tr>					
+					<tr>
+					<td colspan="2"><rich:message for="estadoCli" styleClass="error" /></td>
+					<td colspan="2"><rich:message for="cepCli" styleClass="error" /></td>
+					</tr>							
+
+					<tr>
+					<td><h:outputText value="Fone Comercial: " styleClass="texto"/></td>
+					<td><h:inputText value="" 
+									 required="false"									 
+									 validator="" 
+									 id="foneComCli">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value=""  />
+                    </td>                    
+					<td><h:outputText value="Fone Residencial: " styleClass="texto"/></td>
+					<td><h:inputText value="" 
+									 required="false"									 
+									 validator="" 
+									 id="foneResCli">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value=""  />
+                    </td>                    
+					</tr>					
+
+					<tr>
+					<td><h:outputText value="Celular: " styleClass="texto"/></td>
+					<td><h:inputText value="" 
+									 required="false"									 
+									 validator="" 
+									 id="celCli">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value=""  />
+                    </td>                    
+					<td><h:outputText value="Fone Fax: " styleClass="texto"/></td>
+					<td><h:inputText value="" 
+									 required="false"									 
+									 validator="" 
+									 id="faxCli">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value=""  />
+                    </td>                    
+					</tr>
+								
+				  </table> 
+				  <!-- Botoes -->
+                  <br/>
+                  <a4j:commandButton value="Salvar"
+                  action=""
+                  reRender="cadCliente,clienteSucesso"
+                  oncomplete="#{rich:component('confirmationMessage')}.show()" />                                              
+                  <a4j:commandButton value="Limpar" type="reset" 
+                   action="" />
+               </rich:panel>
+               </center>
+               <!-- fim Formulario -->
+           </rich:panel>           
+       </h:form>  
+       
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de Cliente"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
+       
+       
+       
+   </f:view>  
+   
+</ui:define>
+</ui:composition>
