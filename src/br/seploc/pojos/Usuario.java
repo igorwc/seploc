@@ -72,7 +72,8 @@ public class Usuario implements Serializable {
 	@Column(name = "vcrNome", length=100)
 	private String nome;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="usuario")
+//	@JoinColumn(name = "vcrLogin", referencedColumnName = "vcrLogin", nullable = true)
 	private List<ReqServUsuario> reqServUsuario;
 	
 	public Usuario() {
