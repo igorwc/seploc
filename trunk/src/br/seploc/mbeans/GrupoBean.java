@@ -9,36 +9,22 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
-import br.seploc.dao.ClienteDAO;
+import br.seploc.dao.GrupoDAO;
 import br.seploc.pojos.Cliente;
+import br.seploc.pojos.Grupo;
 
-public class ClienteBean {
+public class GrupoBean {
 
-	private Cliente cliente;
-	private ClienteDAO clienteDAO;
+	private Grupo grupo;
+	private GrupoDAO grupoDAO;
 	
-	public ClienteBean(){
-		cliente = new Cliente();
-		clienteDAO = new ClienteDAO();
+	public GrupoBean(){
+		
+		grupo = new Grupo();
+		grupoDAO = new GrupoDAO();
+		
 	}
 	
-	public Cliente getCliente() {
-		System.out.println("Get Cliente");
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public ClienteDAO getClienteDAO() {
-		return clienteDAO;
-	}
-
-	public void setClienteDAO(ClienteDAO clienteDAO) {
-		this.clienteDAO = clienteDAO;
-	}
-
 	public void cadastra() {
 		
 	}
@@ -52,13 +38,14 @@ public class ClienteBean {
 	}
 	
 	public void limpa() {
-		cliente =  new Cliente();
-		System.out.println("Limpar Cliente");
+		grupo =  new Grupo();
+		System.out.println("Limpar Grupo");
 	}	
 	
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
+	
 	
 }

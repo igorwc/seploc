@@ -9,34 +9,34 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
-import br.seploc.dao.ClienteDAO;
-import br.seploc.pojos.Cliente;
+import br.seploc.dao.ProjetoDAO;
+import br.seploc.pojos.Projeto;
 
-public class ClienteBean {
+public class ProjetoClienteBean {
 
-	private Cliente cliente;
-	private ClienteDAO clienteDAO;
+	private Projeto projeto;
+	private ProjetoDAO projetoDAO;
 	
-	public ClienteBean(){
-		cliente = new Cliente();
-		clienteDAO = new ClienteDAO();
+	public ProjetoClienteBean() {	
+		projeto = new Projeto();
+		projetoDAO = new ProjetoDAO();
 	}
 	
-	public Cliente getCliente() {
-		System.out.println("Get Cliente");
-		return cliente;
+	public Projeto getProjeto() {
+		System.out.println("Get Projeto");
+		return projeto;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setProjeto(Projeto projeto) {
+		this.projeto = projeto;
 	}
 
-	public ClienteDAO getClienteDAO() {
-		return clienteDAO;
+	public ProjetoDAO getProjetoDAO() {
+		return projetoDAO;
 	}
 
-	public void setClienteDAO(ClienteDAO clienteDAO) {
-		this.clienteDAO = clienteDAO;
+	public void setProjetoDAO(ProjetoDAO projetoDAO) {
+		this.projetoDAO = projetoDAO;
 	}
 
 	public void cadastra() {
@@ -52,8 +52,8 @@ public class ClienteBean {
 	}
 	
 	public void limpa() {
-		cliente =  new Cliente();
-		System.out.println("Limpar Cliente");
+		projeto =  new Projeto();
+		System.out.println("Limpar Projeto");
 	}	
 	
 	public static void addGlobalMessage(String message) {
