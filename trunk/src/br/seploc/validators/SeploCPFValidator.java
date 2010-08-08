@@ -17,13 +17,14 @@ public class SeploCPFValidator implements Validator {
 		else {
 			if (value instanceof String) {
 				numeroCPF = getDigitsOnly(value.toString());
+				System.out.println(numeroCPF);
 				if (numeroCPF.length() != 11) {
-					FacesMessage message = new FacesMessage("O cpf deve ter 11 digitos no mínimo");
+					FacesMessage message = new FacesMessage("O cpf deve ter 11 digitos.");
 					message.setSeverity(FacesMessage.SEVERITY_ERROR);
 					throw new ValidatorException(message);
 				}
 				if (!validaCPF(numeroCPF) || digitosIguais(numeroCPF)) {
-					FacesMessage message = new FacesMessage("CPF inválido");
+					FacesMessage message = new FacesMessage("CPF inválido.");
 					message.setSeverity(FacesMessage.SEVERITY_ERROR);
 					throw new ValidatorException(message);
 
@@ -60,7 +61,7 @@ public class SeploCPFValidator implements Validator {
 
 	private boolean validaCPF(String nrcpf) {
 		String cpf = nrcpf;
-		int cont = 11, soma = 0, mult = 11;
+		int soma = 0, mult = 11;
 		int[] var = new int[11];
 
 		// Recebe os números e realiza a multiplicação e soma.
