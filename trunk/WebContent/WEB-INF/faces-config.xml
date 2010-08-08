@@ -32,6 +32,24 @@
   <managed-bean-class>br.seploc.mbeans.UsuarioBean</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
+ <!-- Cadastro Cliente -->
+ <managed-bean>
+  <managed-bean-name>clienteBean</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.ClienteBean</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean> 
+  <!-- Cadastro Projeto -->
+ <managed-bean>
+  <managed-bean-name>projetoClienteBean</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.ProjetoClienteBean</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <!-- Cadastro Cobrador -->
+ <managed-bean>
+  <managed-bean-name>cobradorBean</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.CobradorBean</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean> 
  <!-- Fim dos Cadastros -->
  
  <!-- Conversores -->
