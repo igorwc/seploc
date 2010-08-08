@@ -35,11 +35,22 @@
  <!-- Fim dos Cadastros -->
  
  <!-- Conversores -->
+ 
+  <!-- Conversor de String para Número Decimal e vice versa -->
  <converter>
     <converter-id>SeplocCurrencyConverter</converter-id>
     <converter-class> br.seploc.converters.SeplocCurrencyConverter</converter-class>
 </converter>
 <!-- Fim dos Conversores -->
+
+  <!-- Validadores -->
+  
+<!-- Validador de CPF -->
+<validator>
+    <validator-id>SeploCPFValidator</validator-id>
+    <validator-class>br.seploc.validators.SeploCPFValidator</validator-class>
+</validator>
+ <!-- Fim dos Validadores -->
  
 <!-- Regras Navegação -->
  <navigation-rule>
