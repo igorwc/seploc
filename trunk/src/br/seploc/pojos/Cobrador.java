@@ -47,6 +47,9 @@ public class Cobrador implements Serializable {
 
 	@Column(name = "vcrFoneCon", length = 20)
 	private String foneContato;
+	
+	@Column(name = "chrAtivo", length = 1)
+	private String ativo;	
 
 	@Version
 	@Column(name = "tspVersao")
@@ -70,6 +73,12 @@ public class Cobrador implements Serializable {
 		this.foneContato = foneContato;
 	}
 
+	public Cobrador(String nome, String foneContato, String ativo) {
+		this();
+		this.nome = nome;
+		this.foneContato = foneContato;
+		this.ativo = ativo;
+	}
 
 	public Integer getCodCobrador() {
 		return codCobrador;
@@ -95,6 +104,14 @@ public class Cobrador implements Serializable {
 		this.foneContato = foneContato;
 	}
 
+	public String getAtivo(){
+		return ativo;
+	}
+	
+	public void setAtivo(String ativo){
+		this.ativo = ativo;
+	}
+	
 	public Timestamp getVersao() {
 		return versao;
 	}
@@ -164,7 +181,10 @@ public class Cobrador implements Serializable {
 				+ (codCobrador != null ? "codCobrador=" + codCobrador + ", "
 						: "")
 				+ (foneContato != null ? "foneContato=" + foneContato + ", "
-						: "") + (nome != null ? "nome=" + nome : "") + "]";
+						: "") 
+				+ (ativo != null ? "ativo=" + ativo + ", "
+						: "")
+				+ (nome != null ? "nome=" + nome : "") + "]" ;		
 	}
 
 }
