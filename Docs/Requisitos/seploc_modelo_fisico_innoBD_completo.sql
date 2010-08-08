@@ -199,6 +199,8 @@ CREATE  TABLE IF NOT EXISTS `seploc2`.`tbl_cobrador` (
   `vcrNome` VARCHAR(60) NOT NULL DEFAULT '' ,
 
   `vcrFoneCon` VARCHAR(20) NULL DEFAULT NULL ,
+  
+  `chrAtivo` CHAR(1) NOT NULL DEFAULT 'S' ,  
 
   `tspVersao` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
 
