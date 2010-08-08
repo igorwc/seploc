@@ -10,6 +10,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
 import br.seploc.dao.UsuarioDAO;
+import br.seploc.dao.exceptions.LoginInsertException;
+import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Usuario;
 
 public class UsuarioBean {
@@ -23,13 +25,17 @@ public class UsuarioBean {
 	 * DAO do pojo usuario
 	 */
 	private UsuarioDAO usuarioDAO;
+	
+	String antigoLogin;
 
 	/**
 	 * Construtor do Bean do usuario
 	 */
 	public UsuarioBean() {
 		usuario = new Usuario();
+		usuario.setPermissao(-1);
 		usuarioDAO = new UsuarioDAO();
+		
 		System.out.println("criou bean usuario");
 	}
 
@@ -40,6 +46,7 @@ public class UsuarioBean {
 	 */
 	public Usuario getUsuario() {
 		System.out.println("get usuario");
+//		this.antigoLogin = usuario.getLogin();
 		return usuario;
 	}
 
@@ -50,7 +57,7 @@ public class UsuarioBean {
 	 */
 	public void setUsuario(Usuario usuario) {
 		System.out.println("set usuario");
-		this.usuario = usuario;
+//		this.antigoLogin = usuario.getLogin();
 	}
 
 	/**
@@ -71,6 +78,22 @@ public class UsuarioBean {
 		this.usuarioDAO = usuarioDAO;
 	}
 
+	
+
+	/**
+	 * @return the novoLogin
+	 */
+	public String getAntigoLogin() {
+		return antigoLogin;
+	}
+
+	/**
+	 * @param novoLogin the novoLogin to set
+	 */
+	public void setAntigoLogin(String antigoLogin) {
+		this.antigoLogin = antigoLogin;
+	}
+
 	/**
 	 * Metodo cadastra o usuario
 	 */
@@ -78,22 +101,35 @@ public class UsuarioBean {
 		System.out.println("cadastra usuario");
 
 		Usuario temp;
-		temp = usuarioDAO.recupera(usuario.getLogin());
 
-		if (temp == null)
-			try {
+		try {
+			if (usuario.getPermissao() == -1) {
+				usuario.setPermissao(0);
 				usuarioDAO.adiciona(usuario);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		else {
-			if (temp != null) {
+				addGlobalMessage("Inclusão feita com sucesso!");
+			} else {
+				if(!antigoLogin.equals(usuario.getLogin())){
+					addGlobalMessage("O login do usuário não pode ser modificado!");
+					this.limpar();
+					return;
+				}
+				temp = usuarioDAO.recupera(antigoLogin);
+				if (temp == null) {
+					throw new RecordNotFound("Usuario Inexistente");
+				}
 				temp.setNome(usuario.getNome());
 				temp.setCpf(usuario.getCpf());
 				temp.setGrupo(usuario.getGrupo());
 				temp.setPermissao(usuario.getPermissao());
 				usuarioDAO.altera(temp);
+				addGlobalMessage("Atualização feita com sucesso!");
 			}
+		} catch (RecordNotFound e) {
+			addGlobalMessage(e.getMessage());
+		} catch (LoginInsertException e) {
+			addGlobalMessage(e.getMessage());
+		} catch (Exception e) {
+			addGlobalMessage("A operação não pôde ser realizada.");
 		}
 		this.limpar();
 	}
@@ -105,7 +141,9 @@ public class UsuarioBean {
 		System.out.println("apaga usuario");
 		try {
 			usuarioDAO.remove(usuario.getLogin());
+			addGlobalMessage("Usuário excluído com sucesso!");
 		} catch (Exception e) {
+			addGlobalMessage(e.getMessage());
 			e.printStackTrace();
 		}
 		this.limpar();
@@ -115,9 +153,9 @@ public class UsuarioBean {
 	 * Metodo edita o registro do usuario
 	 */
 	public void editar() {
-		System.out.println("edita usuario");
 		try {
 			usuario = usuarioDAO.recupera(usuario.getLogin());
+			antigoLogin = usuario.getLogin();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -177,22 +215,64 @@ public class UsuarioBean {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (nome.length() < 5) { // Rever essa regra, se for Pina por exemplo?
-			FacesMessage message = new FacesMessage("O "
-					+ component.getAttributes().containsKey("id")
-					+ " deve ter 5 letras no mínimo");
+		if (nome.length() < 5) {
+			FacesMessage message = new FacesMessage("O nome do usuário deve ter 5 letras no mínimo");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 		if (nome.length() > 20) {
 			FacesMessage message = new FacesMessage(
-					"O local de entrega deve ter entre 5 e 20 caracteres");
+					"O nome do usuário deve ter entre 5 e 20 caracteres");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 		if (m.matches()) {
 			FacesMessage message = new FacesMessage(
-					"O nome do local de entrega só tem espaços");
+					"O nome do usuário só tem espaços");
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+	}
+	
+	/**
+	 * @param FacesContext
+	 *            context
+	 * @param UIComponent
+	 *            component
+	 * @param Object
+	 *            value
+	 * @throws ValidatorException
+	 * 
+	 */
+	public void validateLogin(FacesContext context, UIComponent component,
+			Object value) throws ValidatorException {
+		if (value == null)
+			return;
+		String nome;
+
+		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
+		Matcher m = pattern.matcher(value.toString());
+		if (value instanceof String)
+			nome = value.toString().trim();
+		else {
+			FacesMessage message = new FacesMessage("Login Inválido");
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+		if (nome.length() < 5) {
+			FacesMessage message = new FacesMessage("O login do usuário deve ter 5 letras no mínimo");
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+		if (nome.length() > 20) {
+			FacesMessage message = new FacesMessage(
+					"O login do usuário deve ter entre 5 e 20 caracteres");
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+		if (m.matches()) {
+			FacesMessage message = new FacesMessage(
+					"O login do usuário só tem espaços");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}

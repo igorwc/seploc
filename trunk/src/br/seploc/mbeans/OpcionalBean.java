@@ -59,7 +59,7 @@ public class OpcionalBean {
 		} catch (Exception e) {
 			addGlobalMessage("Não foi possível realizar a operação!");
 		}
-		opcional = new OpcionaisReqServ();
+		this.limpar();
 
 	}
 
@@ -70,7 +70,7 @@ public class OpcionalBean {
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
-		opcional = new OpcionaisReqServ();
+		this.limpar();
 	}
 
 	public void editar() {
