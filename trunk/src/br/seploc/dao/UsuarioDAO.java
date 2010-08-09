@@ -10,13 +10,14 @@ import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Usuario;
 import br.seploc.util.GenericDAO;
 
-public class UsuarioDAO extends GenericDAO<Usuario, String> {
+public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 
 	@Override
 	public void adiciona(Usuario t) throws LoginInsertException {
 		em.getTransaction().begin();
-		Usuario user = recupera(t.getLogin());
-		if (user == null)
+//		getListaUsariosPorLogin(t.getLogin());
+		Usuario temp = getUsarioPorLogin(t.getLogin());
+		if (temp == null )
 			em.persist(t);
 		else {
 			em.getTransaction().rollback();
@@ -34,13 +35,13 @@ public class UsuarioDAO extends GenericDAO<Usuario, String> {
 	}
 
 	@Override
-	public Usuario recupera(String id) {
+	public Usuario recupera(Integer id) {
 		Usuario usuario = em.find(Usuario.class, id);
 		return usuario;
 	}
 
 	@Override
-	public Usuario remove(String id) throws Exception {
+	public Usuario remove(Integer id) throws Exception {
 		em.getTransaction().begin();
 		Usuario usuario = em.find(Usuario.class, id);
 		if (usuario == null) {
@@ -62,7 +63,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, String> {
 	}
 
 	@Override
-	protected boolean verificaFilhos(String id) throws ParentDeleteException {
+	protected boolean verificaFilhos(Integer id) throws ParentDeleteException {
 		// Number contagemReqUsuario = 0; //TODO Implementar
 		// Query q = em.createQuery(
 		// "SELECT count(rsu.usuario) FROM br.seploc.pojos.ReqServUsuario rsu"
@@ -76,37 +77,77 @@ public class UsuarioDAO extends GenericDAO<Usuario, String> {
 
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getLista() {
-		em.getTransaction().begin();
+		boolean flag = em.getTransaction().isActive();
+		if (!flag) {
+			em.getTransaction().begin();
+		}
 		Query q = em.createNamedQuery("Usuario.RetornaUsuarios");
-		em.getTransaction().commit();
+		if (!flag) {
+			em.getTransaction().commit();
+		}
 		return (List<Usuario>) q.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getListaUsariosPorGrupo(Integer codGrupo) {
-		em.getTransaction().begin();
+		boolean flag = em.getTransaction().isActive();
+		if (!flag) {
+			em.getTransaction().begin();
+		}
 		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorGrupo")
 				.setParameter("grupo", codGrupo.intValue());
-		em.getTransaction().commit();
+		if (!flag) {
+			em.getTransaction().commit();
+		}
 		return (List<Usuario>) q.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getListaUsariosPorNome(String nome) {
-		em.getTransaction().begin();
+		boolean flag = em.getTransaction().isActive();
+		if (!flag) {
+			em.getTransaction().begin();
+		}
 		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorNome")
 				.setParameter("nome", "%" + nome + "%");
-		em.getTransaction().commit();
+		if (!flag) {
+			em.getTransaction().commit();
+		}
 		return (List<Usuario>) q.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getListaUsariosPorLogin(String login) {
-		em.getTransaction().begin();
-		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorNome")
+		boolean flag = em.getTransaction().isActive();
+		if (!flag) {
+			em.getTransaction().begin();
+		}
+		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorLogin")
 				.setParameter("login", "%" + login + "%");
-		em.getTransaction().commit();
+		if (!flag) {
+			em.getTransaction().commit();
+		}
 		return (List<Usuario>) q.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Usuario getUsarioPorLogin(String login) {
+		boolean flag = em.getTransaction().isActive();
+		Usuario retorno = null;
+		if (!flag) {
+			em.getTransaction().begin();
+		}
+		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorLogin")
+				.setParameter("login",  login  );
+		if (!flag) {
+			em.getTransaction().commit();
+		}
+		try {
+			retorno = (Usuario) q.getSingleResult();
+		} catch (Exception e) {
+			retorno = null;
+		}
+		return  retorno;
 	}
 
 	public List<Usuario> getListaRequisicoesPorUsuario() {
