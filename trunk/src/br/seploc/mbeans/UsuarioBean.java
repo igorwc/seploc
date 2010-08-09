@@ -26,8 +26,6 @@ public class UsuarioBean {
 	 */
 	private UsuarioDAO usuarioDAO;
 	
-	String antigoLogin;
-
 	/**
 	 * Construtor do Bean do usuario
 	 */
@@ -78,22 +76,6 @@ public class UsuarioBean {
 		this.usuarioDAO = usuarioDAO;
 	}
 
-	
-
-	/**
-	 * @return the novoLogin
-	 */
-	public String getAntigoLogin() {
-		return antigoLogin;
-	}
-
-	/**
-	 * @param novoLogin the novoLogin to set
-	 */
-	public void setAntigoLogin(String antigoLogin) {
-		this.antigoLogin = antigoLogin;
-	}
-
 	/**
 	 * Metodo cadastra o usuario
 	 */
@@ -103,19 +85,19 @@ public class UsuarioBean {
 		Usuario temp;
 
 		try {
-			if (usuario.getPermissao() == -1) {
+			if (usuario.getId() == null || usuario.getId() == 0) {
 				usuario.setPermissao(0);
 				usuarioDAO.adiciona(usuario);
 				addGlobalMessage("Inclusão feita com sucesso!");
 			} else {
-				if(!antigoLogin.equals(usuario.getLogin())){
+				temp = usuarioDAO.recupera(usuario.getId());
+				if (temp == null) {
+					throw new RecordNotFound("Usuario Inexistente");
+				}
+				if(!temp.getLogin().equals(usuario.getLogin())){
 					addGlobalMessage("O login do usuário não pode ser modificado!");
 					this.limpar();
 					return;
-				}
-				temp = usuarioDAO.recupera(antigoLogin);
-				if (temp == null) {
-					throw new RecordNotFound("Usuario Inexistente");
 				}
 				temp.setNome(usuario.getNome());
 				temp.setCpf(usuario.getCpf());
@@ -130,6 +112,7 @@ public class UsuarioBean {
 			addGlobalMessage(e.getMessage());
 		} catch (Exception e) {
 			addGlobalMessage("A operação não pôde ser realizada.");
+			e.printStackTrace();
 		}
 		this.limpar();
 	}
@@ -140,7 +123,7 @@ public class UsuarioBean {
 	public void apaga() {
 		System.out.println("apaga usuario");
 		try {
-			usuarioDAO.remove(usuario.getLogin());
+			usuarioDAO.remove(usuario.getId());
 			addGlobalMessage("Usuário excluído com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
@@ -154,8 +137,7 @@ public class UsuarioBean {
 	 */
 	public void editar() {
 		try {
-			usuario = usuarioDAO.recupera(usuario.getLogin());
-			antigoLogin = usuario.getLogin();
+			usuario = usuarioDAO.recupera(usuario.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
