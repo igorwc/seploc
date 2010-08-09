@@ -61,9 +61,11 @@ public class ProjetoClienteBean {
 		Cliente c = projeto.getCliente();
 		if (c == null){
 			return null;
-		} else {
-			return projetoDAO.getListaProjetoPorCliente(c);
-		}			
+		} else if(c.getProjetos().isEmpty() || c.getProjetos().size() == 0){
+			return null;
+		}else{
+			return c.getProjetos();
+		}
 	}
 	
 	public static void addGlobalMessage(String message) {
