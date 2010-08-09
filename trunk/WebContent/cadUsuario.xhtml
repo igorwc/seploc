@@ -40,7 +40,7 @@
 									 id="login">                          
                            <rich:ajaxValidator event="onkeyup" />                           
                         </h:inputText>
-                        <h:inputHidden value="#{usuarioBean.usuario.permissao}" />
+                        <h:inputHidden value="#{usuarioBean.usuario.id}" />
                     </td>                    
 					</tr>
 					<tr>
@@ -136,8 +136,8 @@
 						                 action="#{usuarioBean.editar}" >
 							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
 							<f:setPropertyActionListener 
-							    value="#{usuario.login}"
-								target="#{usuarioBean.usuario.login}" />
+							    value="#{usuario.id}"
+								target="#{usuarioBean.usuario.id}" />
 						</a4j:commandLink>
 						<rich:toolTip for="editlink" value="Edit" />
 						<a4j:commandLink ajaxSingle="true" 
@@ -146,8 +146,8 @@
 							             action="#{usuarioBean.apaga}" 
 							             oncomplete="#{rich:component('cadMessages')}.show()">
 							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
-							<f:setPropertyActionListener value="#{usuario.login}"
-								target="#{usuarioBean.usuario.login}" />
+							<f:setPropertyActionListener value="#{usuario.id}"
+								target="#{usuarioBean.usuario.id}" />
 						</a4j:commandLink>
 						<rich:toolTip for="deletelink" value="Delete" />
 					</rich:column>  
