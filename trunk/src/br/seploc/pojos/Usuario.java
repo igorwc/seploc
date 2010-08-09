@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,6 +19,7 @@ import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Version;
 
 import br.seploc.util.DesEncrypter;
@@ -40,13 +43,25 @@ import br.seploc.util.DesEncrypter;
 					    				+ "where vcrNome like :nome", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuariosPorLogin", query = " SELECT * "
 				+ "FROM tbl_usuario u "
-				+ "where vcrNome like :vcrLogin", resultSetMapping = "Usuario.implicit")
+				+ "where vcrlogin like :login", resultSetMapping = "Usuario.implicit")
+		,
+		@NamedNativeQuery(name = "Usuario.RetornaUsuarioPorLogin", query = " SELECT * "
+				+ "FROM tbl_usuario u "
+				+ "where vcrlogin = :login", resultSetMapping = "Usuario.implicit")
+				
 })
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "vcrLogin", length=30)
+	@Column(name = "intCodUsr", length=30)
+	@GeneratedValue(generator = "usr_id", strategy = GenerationType.TABLE)
+	@TableGenerator(name = "usr_id", table = "ID_GEN", 
+			        allocationSize = 1, initialValue = 1, pkColumnName = "NOME_ID", 
+			        valueColumnName = "VAL_ID", pkColumnValue = "USR_GEN")
+	private Integer id;
+	
+	@Column(name = "vcrLogin", length=30,nullable=false)
 	private String login;
 
 	@Column(name = "vcrPassword", length=30)
@@ -73,7 +88,6 @@ public class Usuario implements Serializable {
 	private String nome;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="usuario")
-//	@JoinColumn(name = "vcrLogin", referencedColumnName = "vcrLogin", nullable = true)
 	private List<ReqServUsuario> reqServUsuario;
 	
 	public Usuario() {
@@ -92,10 +106,34 @@ public class Usuario implements Serializable {
 		this.versao = versao;
 		this.grupo = grupo;
 	}
-	
-	
+
+	public Usuario(Integer id) {
+		this();
+		this.id = id;
+	}
+
+	public Usuario(Integer id, String login, String cpf, String nome) {
+		super();
+		this.id = id;
+		this.login = login;
+		this.cpf = cpf;
+		this.nome = nome;
+	}
+
+	public Usuario(Integer id, String login, String password, String cpf,
+			Integer permissao, String ipMaquina, String nome) {
+		this();
+		this.id = id;
+		this.login = login;
+		this.password = password;
+		this.cpf = cpf;
+		this.permissao = permissao;
+		this.ipMaquina = ipMaquina;
+		this.nome = nome;
+	}
 
 	public Usuario(String login, String nome, String password, String cpf) {
+		this();
 		this.login = login;
 		this.nome = nome;
 		this.setPassword(password);
@@ -104,6 +142,7 @@ public class Usuario implements Serializable {
 
 	public Usuario(String login, String nome, String password, String cpf,
 			Integer permissao, String ipMaquina) {
+		this();
 		this.login = login;
 		this.nome = nome;
 		this.setPassword(password);
@@ -114,6 +153,7 @@ public class Usuario implements Serializable {
 
 	public Usuario(String login, String nome, String password, String cpf,
 			Integer permissao, String ipMaquina, Grupo grupo) {
+		this();
 		this.login = login;
 		this.nome = nome;
 		this.setPassword(password);
@@ -121,6 +161,20 @@ public class Usuario implements Serializable {
 		this.permissao = permissao;
 		this.ipMaquina = ipMaquina;
 		this.grupo = grupo;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getLogin() {
