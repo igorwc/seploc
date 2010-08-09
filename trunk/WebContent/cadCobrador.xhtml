@@ -63,7 +63,7 @@
                <rich:panel header="Cadastro de Cobradores" style="width: 600px">
                  
                  <table	border="0" >               
-					<tr>
+					<tr align="left">
 					<td><h:outputText value="Nome Cobrador: " styleClass="texto"/></td>
 					<td><h:inputText value="#{cobradorBean.cobrador.nome}" 
 									 required="true"									 
@@ -78,9 +78,9 @@
 					<td colspan="2"><rich:message for="nome" styleClass="error" /></td>					
 					</tr>
 					
-					<tr>
+					<tr align="left">
 					<td><h:outputText value="Fone Contato: " styleClass="texto"/></td>
-					<td><h:inputText value="#{cobradorBean.cobrador.foneCobrador}" 
+					<td><h:inputText value="#{cobradorBean.cobrador.foneContato}" 
 									 required="false"									  
 									 id="fone" />                                       
                     </td>                    
@@ -89,11 +89,11 @@
 					<td colspan="2"></td>
 					</tr>					
 					
-					<tr>
+					<tr align="left">
 					<td><h:outputText value="Ativo" styleClass="texto"/></td>
 					<td><h:selectOneRadio id="ativo" rendered="true" value="S">
-							<f:selectItem id="op1" itemLabel="Ativo" itemValue="S" />
-							<f:selectItem id="op2" itemLabel="Inativo" itemValue="N" />
+							<f:selectItem id="op1" itemLabel="Sim" itemValue="S" />
+							<f:selectItem id="op2" itemLabel="Não" itemValue="N" />
 					    </h:selectOneRadio>                        
                     </td>                    
 					</tr>					
@@ -102,11 +102,11 @@
 				  <!-- Botoes -->
                   <br/>
                   <a4j:commandButton value="Salvar"
-                  action=""
+                  action="#{cobradorBean.cadastra}"
                   reRender="cadCobrador,cobradorList,cobradorSucesso"
                   oncomplete="#{rich:component('confirmationMessage')}.show()" />                                              
                   <a4j:commandButton value="Limpar" type="reset" 
-                   action="" />
+                   action="#{cobradorBean.limpa}" />
                </rich:panel>
                </center>
                <!-- fim Formulario -->

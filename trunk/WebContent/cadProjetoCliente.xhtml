@@ -81,7 +81,7 @@
 					</tr>
 					<tr>
 					<td><h:outputText value="Nome Projeto: " styleClass="texto"/></td>
-					<td><h:inputText value="#{projetoClienteBean.projeto.nome}" 
+					<td><h:inputText value="#{projetoClienteBean.projeto.projeto}" 
 									 required="true"
 									 requiredMessage="O nome do projeto deve ser informado"
 									 validator="#{projetoClienteBean.validateNomeProj}" 
@@ -126,7 +126,7 @@
                    </f:facet>  
   
                    <rich:column>  
-		               <h:outputText value="#{projeto.nome}" />  
+		               <h:outputText value="#{projeto.projeto}" />  
                    </rich:column>  
   
                    <rich:column styleClass="col1">

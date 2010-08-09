@@ -63,7 +63,7 @@
 			   <center>
                <rich:panel header="Cadastro do Papel" style="width: 600px">
                  <table	border="0" >               
-					<tr>
+					<tr align="left">
 					<td><h:outputText value="Nome Papel: " styleClass="texto"/></td>
 					<td><h:inputText value="#{papelBean.papel.nome}" 
 									 required="true"
@@ -78,7 +78,8 @@
 					<tr>
 					<td colspan="2"><rich:message for="nomePapel" styleClass="error" /></td>
 					</tr>
-					<tr>
+					
+					<tr align="left">
 					<td><h:outputText value="Impressão Mono (R$): " styleClass="texto"/></td>
 					<td><h:inputText value="#{papelBean.papel.impMono}" 
 					                 id="mono"
@@ -93,7 +94,8 @@
 					<tr>
 					<td colspan="2"><rich:message for="mono" styleClass="error"/> </td>
 					</tr>
-					<tr>
+					
+					<tr align="left">
 					<td><h:outputText value="Impressão Color (R$): " styleClass="texto"/></td>
 					<td><h:inputText value="#{papelBean.papel.impColor}" 
 					                 id="color"
@@ -107,8 +109,9 @@
 					</tr>
 					<tr>
 					<td colspan="2"><rich:message for="color" styleClass="error"/> </td>
-					</tr>					
-					<tr>
+					</tr>		
+								
+					<tr align="left">
 					<td><h:outputText value="Impressão Shade (R$): " styleClass="texto"/></td>
 					<td><h:inputText value="#{papelBean.papel.impShade}" 
 					                 id="shade"

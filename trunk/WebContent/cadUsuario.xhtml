@@ -14,7 +14,36 @@
 
 <!-- CONTEUDO -->      
 <ui:define name="conteudo"> 
-
+<style type="text/css">  
+.row1 {   
+    background-color: #EDEBEB;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+</style> 
    <f:view>  
    	   <h:form id="cadUsuario" enctype="UTF-8" prependId="false" >
    	   <script type="text/javascript" >
@@ -31,7 +60,7 @@
                <rich:panel header="Cadastro do Usuario" style="width: 600px">
                  
                  <table	border="0">                
-					<tr>
+					<tr align="left">
 					<td><h:outputText value="Login: " styleClass="texto"/></td>
 					<td><h:inputText value="#{usuarioBean.usuario.login}" 
 									 required="true"
@@ -46,7 +75,8 @@
 					<tr>
 					<td colspan="2"><rich:message for="login" styleClass="error"/></td>
 					</tr>
-					<tr>
+					
+					<tr align="left">
 					<td><h:outputText value="Nome: " styleClass="texto"/></td>
 					<td><h:inputText value="#{usuarioBean.usuario.nome}" 
 									 required="true"
@@ -60,7 +90,8 @@
 					<tr>
 					<td colspan="2"><rich:message for="nomeUsuario" styleClass="error"/></td>
 					</tr>
-					<tr>
+					
+					<tr align="left">
 					<td><h:outputText value="CPF: " styleClass="texto"/></td>
 					<td><h:inputText value="#{usuarioBean.usuario.cpf}" 
 					                 id="cpf"

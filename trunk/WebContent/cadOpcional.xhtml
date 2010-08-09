@@ -6,7 +6,14 @@
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:rich="http://richfaces.org/rich"
       template="masterpage.xhtml">
-<!-- CONTEUDO -->      
+      
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	Cadastros <img src="imgs/ponto.png"/> 
+   	Opcional
+</ui:define>      
+
+<!-- CONTEUDO -->        
 <ui:define name="conteudo"> 
 <style type="text/css">  
 .row1 {   
@@ -49,7 +56,7 @@
 			   <center>
                <rich:panel header="Cadastro do Opcional" style="width: 500px">
                  <table	border="0">                 
-					<tr>
+					<tr align="left">
 					<td><h:outputText value="Nome Opcional: " styleClass="texto"/></td>
 					<td><h:inputText value="#{opcionalBean.opcional.nomeItem}" 
 									 required="true"
@@ -64,7 +71,8 @@
                     <tr>
                     <td colspan="2"><rich:message for="nomeOpcional" styleClass="error"/></td>
 					</tr>
-					<tr>
+					
+					<tr align="left">
 					<td><h:outputText value="Valor (R$): " styleClass="texto"/></td>
 					<td><h:inputText value="#{opcionalBean.opcional.valorItem}" 
 					                 id="valorOpcional"

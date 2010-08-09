@@ -6,6 +6,13 @@
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:rich="http://richfaces.org/rich"
       template="masterpage.xhtml">
+      
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	Cadastros <img src="imgs/ponto.png"/> 
+   	Entrega
+</ui:define>      
+
 <!-- CONTEUDO -->      
 <ui:define name="conteudo"> 
 <style type="text/css">  
@@ -51,7 +58,7 @@
                <rich:panel header="Cadastro de Entrega" style="width: 500px">
                  
                  <table	border="0">                 
-					<tr>
+					<tr align="left">
 					<td><h:outputText value="Local Entrega: " styleClass="texto"/></td>
 					<td><h:inputText value="#{entregaBean.entrega.local}" 
 									 required="true"
@@ -66,7 +73,8 @@
 					<tr>
 					<td colspan="2"><rich:message for="localEntrega" styleClass="error"/></td>
 					</tr>
-					<tr>
+					
+					<tr align="left">
 					<td><h:outputText value="Preço (R$): " styleClass="texto"/></td>
 					<td><h:inputText value="#{entregaBean.entrega.preco}" 
 					                 id="preco"
