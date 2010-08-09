@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
 import br.seploc.dao.ProjetoDAO;
+import br.seploc.pojos.Cliente;
 import br.seploc.pojos.Projeto;
 
 public class ProjetoClienteBean {
@@ -55,6 +56,15 @@ public class ProjetoClienteBean {
 		projeto =  new Projeto();
 		System.out.println("Limpar Projeto");
 	}	
+	
+	public List<Projeto> getLista(){
+		Cliente c = projeto.getCliente();
+		if (c == null){
+			return null;
+		} else {
+			return projetoDAO.getListaProjetoPorCliente(c);
+		}			
+	}
 	
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
