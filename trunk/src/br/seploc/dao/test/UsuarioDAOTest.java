@@ -22,7 +22,7 @@ public class UsuarioDAOTest {
 		Usuario usuario = new Usuario("xuxuxu", "xuxu da silva", "nova", "12312312323", 0, "192.186.123.12");
 		dao.adiciona(usuario);
 		usuario = null;
-		usuario = dao.recupera("xuxuxu");
+		usuario = dao.recupera(1);
 		
 		Assert.assertNotNull(usuario);
 		Assert.assertEquals("xuxuxu", usuario.getLogin());
