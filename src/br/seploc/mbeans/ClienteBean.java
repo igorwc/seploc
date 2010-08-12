@@ -1,29 +1,34 @@
 package br.seploc.mbeans;
 
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 
 import br.seploc.dao.ClienteDAO;
 import br.seploc.pojos.Cliente;
 
-public class ClienteBean {
+public class ClienteBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Cliente cliente;
 	private ClienteDAO clienteDAO;
+	
 	
 	public ClienteBean(){
 		cliente = new Cliente();
 		clienteDAO = new ClienteDAO();
 	}
 	
+	public void limpaDoc(){
+		cliente.setCnpj("");
+		cliente.setCpf("");
+	}
 	public Cliente getCliente() {
-		System.out.println("Get Cliente");
+//		System.out.println("Get Cliente");
 		return cliente;
 	}
 
