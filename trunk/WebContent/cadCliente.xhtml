@@ -53,6 +53,8 @@
              (function($j){
                   $j(function(){
     	              $j('.seploccurrency').setMask();
+    	              $j('.seplocCPF').setMask();
+    	              $j('.seplocCNPJ').setMask();
                      }
                    );
               })(jQuery);  
@@ -61,35 +63,68 @@
 			   <!-- Formulario -->
 			   <center>
                <rich:panel header="Cadastro de Cliente" style="width: 600px">
-                 
-                 <table	border="0" >               
+                 <table	border="0" >  
+                    <a4j:outputPanel layout="block">
 					<tr align="left">
 					<td><h:outputText value="Tipo Documento: " styleClass="texto"/></td>
-					<td><h:selectOneRadio id="tpDocCli" rendered="true" value="cnpj">
-							<f:selectItem id="doc1" itemLabel="CNPJ" itemValue="cnpj" />
-							<f:selectItem id="doc2" itemLabel="CPF" itemValue="cpf" />
-					    </h:selectOneRadio>
-                    </td>                    
-					<td><h:outputText value="Número Documento: " styleClass="texto"/></td>
-					<td><h:inputText value="#{clienteBean.cliente.cnpj}" 
-									 required="true"									 
-									 validatorMessage="valor deve ser um número."
-									 id="docCli">                             
+					<td><a4j:outputPanel layout="block">
+							<h:form >
+					    		<h:selectOneRadio id="tpDocCli"  value="#{navigationBean.opcaoDocId}"  >
+									<f:selectItem id="doc1" itemLabel="CNPJ" itemValue="1"  />
+									<f:selectItem id="doc2" itemLabel="CPF" itemValue="2"  />
+									 <a4j:support event="onclick" reRender="docinput,docinput2" action="#{clienteBean.limpaDoc}" />
+									 <f:convertNumber integerOnly="true" type="number"/>
+					    		</h:selectOneRadio>
+					    	</h:form>
+					    </a4j:outputPanel>
+                    </td>   
+                      
+                                 
+					<td> <a4j:outputPanel id="docinput"  >  
+					    <h:outputText value="Número CNPJ: " styleClass="texto"  rendered="#{navigationBean.opcaoDocId == 1}"/>
+					    <h:outputText value="Número CPF: " styleClass="texto" rendered="#{navigationBean.opcaoDocId == 2}"/>
+					     </a4j:outputPanel>    
+					</td>
+					<td><a4j:outputPanel id="docinput2"  > 
+					     <script type="text/javascript" >
+             					(function($j){
+                 					$j(function(){
+    	             					$j('.seplocCPF').setMask();
+    	              					$j('.seplocCNPJ').setMask();
+                     				}
+                  				);
+              				})(jQuery);  
+          				 </script>
+					     <h:inputText value="#{clienteBean.cliente.cnpj}" 
+					                  rendered="#{navigationBean.opcaoDocId == navigationBean.CNPJ}"
+					                  alt="cnpj" 
+					                  styleClass="seplocCNPJ"
+					                  id="cnpjCli">                             
                              <rich:ajaxValidator event="onkeyup"  />                            
                         </h:inputText>
-                        <h:inputHidden value="#{clienteBean.cliente.idCliente}"  />
-                    </td>                    
-					</tr>					
+                        <h:inputText value="#{clienteBean.cliente.cpf}" 
+                                     rendered="#{navigationBean.opcaoDocId  == navigationBean.CPF}"
+                                     alt="cpf" 
+					                 styleClass="seplocCPF"
+					                 id="cpfCli">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        
+                         </a4j:outputPanel>    
+                    </td>                         
+                      
+					</tr>			
+				</a4j:outputPanel>	
 					<tr>
 					<td colspan="4" align="left"><rich:message for="docCli" styleClass="error" /></td>					
 					</tr>
 					
 					<tr align="left">
-					<td><h:outputText value="Razão Social: " styleClass="texto"/></td>
+					<td><h:outputText value="Razão Social: " styleClass="texto"/><h:inputHidden value="#{clienteBean.cliente.idCliente}"  /></td>
 					<td><h:inputText value="#{clienteBean.cliente.razao}" 
-									 required="true"	
+									 required="false"	
 									 validator="#{clienteBean.validateNome}" 								 
-									 id="razaoCli">                             
+									 id="razaoCli" >                             
                              <rich:ajaxValidator event="onkeyup"  />                            
                         </h:inputText>                        
                     </td>                    
@@ -155,7 +190,7 @@
 					<td colspan="2"><rich:message for="cepCli" styleClass="error" /></td>
 					</tr>							
 
-					<tr align="left">
+			<!--    <tr align="left">
 					<td><h:outputText value="Fone Comercial: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.foneCliente.foneComercial}" 
 									 required="false"									  
@@ -184,7 +219,7 @@
                         </h:inputText>
                     </td>                    
 					</tr>
-					
+					-->
 					<tr align="left">
 					<td><h:outputText value="E-mail: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.email}" 
