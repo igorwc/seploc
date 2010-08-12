@@ -1,5 +1,6 @@
 package br.seploc.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -11,7 +12,12 @@ import br.seploc.pojos.Cliente;
 import br.seploc.pojos.FoneCliente;
 import br.seploc.util.GenericDAO;
 
-public class ClienteDAO extends GenericDAO<Cliente, Integer> {
+public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6405992181071838426L;
 
 	@Override
 	public void adiciona(Cliente t) throws Exception {
