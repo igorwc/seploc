@@ -13,7 +13,12 @@
 	vertical-align: top;
 }
 </style>
-
+<!-- JS -->    
+  <script type="text/javascript" src="js/jquery-1.4.2.js" ></script>
+  <script type="text/javascript" src="js/jquery.meio.mask.js" charset="utf-8"></script>
+  <script>
+     var $j = jQuery.noConflict();
+   </script>
 	<br />
 
 	<h:panelGrid columns="2" width="100%" columnClasses="col">
@@ -90,6 +95,63 @@
 					     </a4j:outputPanel>    
 					</td>
 					<td><a4j:outputPanel id="docinput3"  > 
+					<script type="text/javascript" >
+             					(function($j){
+                 					$j(function(){
+    	             					$j('.seplocCPF').setMask();
+    	              					$j('.seplocCNPJ').setMask();
+                     				}
+                  				);
+              				})(jQuery);  
+          				 </script>
+					     <h:inputText value="#{clienteBean.cliente.cnpj}" rendered="#{navigationBean.opcaoDocId == navigationBean.CNPJ}"
+									 >                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputText value="#{clienteBean.cliente.cpf}" rendered="#{navigationBean.opcaoDocId  == navigationBean.CPF}"	
+									  style=" background-color: #EDEBEB; ">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        
+                         </a4j:outputPanel>    
+                    </td>                         
+                      
+					</tr>			
+				</a4j:outputPanel>
+				</table>
+				<table	border="1" >  
+                     <a4j:outputPanel layout="block">
+					<tr align="left">
+					<td><h:outputText value="Tipo Documento: " styleClass="texto"/></td>
+					<td><a4j:outputPanel layout="block">
+							<h:form >
+					    		<h:selectOneRadio id="tpDocCli"  value="#{navigationBean.opcaoDocId}"  >
+									<f:selectItem id="doc1" itemLabel="CNPJ" itemValue="1"  />
+									<f:selectItem id="doc2" itemLabel="CPF" itemValue="2"  />
+									 <a4j:support event="onchange" reRender="docinput4,docinput5"  />
+									 <a4j:support event="onclick" reRender="docinput4,docinput5"  />
+									 <f:convertNumber integerOnly="true" type="number"/>
+					    		</h:selectOneRadio>
+					    	</h:form>
+					    </a4j:outputPanel>
+                    </td>   
+                      
+                                 
+					<td> <a4j:outputPanel id="docinput4"  >  
+					    <h:outputText value="Número CNPJ: " styleClass="texto"  rendered="#{navigationBean.opcaoDocId == 1}"/>
+					    <h:outputText value="Número CPF: " styleClass="texto" rendered="#{navigationBean.opcaoDocId == 2}"/>
+					     </a4j:outputPanel>    
+					</td>
+					<td><a4j:outputPanel id="docinput5"  > 
+					<script type="text/javascript" >
+             					(function($j){
+                 					$j(function(){
+    	             					$j('.seplocCPF').setMask();
+    	              					$j('.seplocCNPJ').setMask();
+                     				}
+                  				);
+              				})(jQuery);  
+          				 </script>
 					     <h:inputText value="#{clienteBean.cliente.cnpj}" rendered="#{navigationBean.opcaoDocId == navigationBean.CNPJ}"
 									 >                             
                              <rich:ajaxValidator event="onkeyup"  />                            
