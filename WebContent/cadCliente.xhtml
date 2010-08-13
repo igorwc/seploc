@@ -49,33 +49,21 @@
 
    <f:view>  
    	   <h:form id="cadPapel" enctype="UTF-8" prependId="false" >
-   	       <script type="text/javascript" >
-             (function($j){
-                  $j(function(){
-    	              $j('.seploccurrency').setMask();
-    	              $j('.seplocCPF').setMask();
-    	              $j('.seplocCNPJ').setMask();
-                     }
-                   );
-              })(jQuery);  
-           </script>
            <rich:panel header="Cliente">
 			   <!-- Formulario -->
 			   <center>
                <rich:panel header="Cadastro de Cliente" style="width: 600px">
                  <table	border="0" >  
-                    <a4j:outputPanel layout="block">
+                   <a4j:outputPanel layout="block">
 					<tr align="left">
 					<td><h:outputText value="Tipo Documento: " styleClass="texto"/></td>
 					<td><a4j:outputPanel layout="block">
-							<h:form >
 					    		<h:selectOneRadio id="tpDocCli"  value="#{navigationBean.opcaoDocId}"  >
 									<f:selectItem id="doc1" itemLabel="CNPJ" itemValue="1"  />
 									<f:selectItem id="doc2" itemLabel="CPF" itemValue="2"  />
-									 <a4j:support event="onclick" reRender="docinput,docinput2" action="#{clienteBean.limpaDoc}" />
+									 <a4j:support event="onclick" reRender="docinput,docinput3" action="#{clienteBean.limpaDoc}" />
 									 <f:convertNumber integerOnly="true" type="number"/>
 					    		</h:selectOneRadio>
-					    	</h:form>
 					    </a4j:outputPanel>
                     </td>   
                       
@@ -85,8 +73,8 @@
 					    <h:outputText value="Número CPF: " styleClass="texto" rendered="#{navigationBean.opcaoDocId == 2}"/>
 					     </a4j:outputPanel>    
 					</td>
-					<td><a4j:outputPanel id="docinput2"  > 
-					     <script type="text/javascript" >
+					<td><a4j:outputPanel id="docinput3"  > 
+					<script type="text/javascript" >
              					(function($j){
                  					$j(function(){
     	             					$j('.seplocCPF').setMask();
@@ -95,18 +83,12 @@
                   				);
               				})(jQuery);  
           				 </script>
-					     <h:inputText value="#{clienteBean.cliente.cnpj}" 
-					                  rendered="#{navigationBean.opcaoDocId == navigationBean.CNPJ}"
-					                  alt="cnpj" 
-					                  styleClass="seplocCNPJ"
-					                  id="cnpjCli">                             
+					     <h:inputText value="#{clienteBean.cliente.cnpj}" rendered="#{navigationBean.opcaoDocId == navigationBean.CNPJ}"
+									styleClass="seplocCNPJ" alt="cnpj">                             
                              <rich:ajaxValidator event="onkeyup"  />                            
                         </h:inputText>
-                        <h:inputText value="#{clienteBean.cliente.cpf}" 
-                                     rendered="#{navigationBean.opcaoDocId  == navigationBean.CPF}"
-                                     alt="cpf" 
-					                 styleClass="seplocCPF"
-					                 id="cpfCli">                             
+                        <h:inputText value="#{clienteBean.cliente.cpf}" rendered="#{navigationBean.opcaoDocId  == navigationBean.CPF}"	
+									   styleClass="seplocCPF" alt="cpf">                             
                              <rich:ajaxValidator event="onkeyup"  />                            
                         </h:inputText>
                         
@@ -116,7 +98,8 @@
 					</tr>			
 				</a4j:outputPanel>	
 					<tr>
-					<td colspan="4" align="left"><rich:message for="docCli" styleClass="error" /></td>					
+					<td colspan="4" align="left"><rich:message for="cnpjCli" styleClass="error" />
+					<rich:message for="cpfCli" styleClass="error" /></td>					
 					</tr>
 					
 					<tr align="left">
