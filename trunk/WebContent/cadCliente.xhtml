@@ -49,6 +49,14 @@
 
    <f:view>  
    	   <h:form id="cadPapel" enctype="UTF-8" prependId="false" >
+   	   <script type="text/javascript" >
+             					(function($j){
+                 					$j(function(){
+    	             					$j('.CEP').setMask();
+                     				}
+                  				);
+              				})(jQuery);  
+          				 </script>
            <rich:panel header="Cliente">
 			   <!-- Formulario -->
 			   <center>
@@ -61,7 +69,7 @@
 					    		<h:selectOneRadio id="tpDocCli"  value="#{navigationBean.opcaoDocId}"  >
 									<f:selectItem id="doc1" itemLabel="CNPJ" itemValue="1"  />
 									<f:selectItem id="doc2" itemLabel="CPF" itemValue="2"  />
-									 <a4j:support event="onclick" reRender="docinput,docinput3" action="#{clienteBean.limpaDoc}" />
+									 <a4j:support event="onclick" reRender="docinput,docinput3" action="#{clienteBean.limpaDoc}" ajaxSingle="true" />
 									 <f:convertNumber integerOnly="true" type="number"/>
 					    		</h:selectOneRadio>
 					    </a4j:outputPanel>
@@ -69,8 +77,8 @@
                       
                                  
 					<td> <a4j:outputPanel id="docinput"  >  
-					    <h:outputText value="Número CNPJ: " styleClass="texto"  rendered="#{navigationBean.opcaoDocId == 1}"/>
-					    <h:outputText value="Número CPF: " styleClass="texto" rendered="#{navigationBean.opcaoDocId == 2}"/>
+					    <h:outputText value="Número CNPJ: " styleClass="texto"  rendered="#{navigationBean.opcaoDocId == navigationBean.CNPJ}"/>
+					    <h:outputText value="Número CPF: " styleClass="texto" rendered="#{navigationBean.opcaoDocId ==  navigationBean.CPF}"/>
 					     </a4j:outputPanel>    
 					</td>
 					<td><a4j:outputPanel id="docinput3"  > 
@@ -83,13 +91,24 @@
                   				);
               				})(jQuery);  
           				 </script>
-					     <h:inputText value="#{clienteBean.cliente.cnpj}" rendered="#{navigationBean.opcaoDocId == navigationBean.CNPJ}"
-									styleClass="seplocCNPJ" alt="cnpj">                             
-                             <rich:ajaxValidator event="onkeyup"  />                            
+					     <h:inputText value="#{clienteBean.CNPJ}" 
+					                  rendered="#{navigationBean.opcaoDocId == navigationBean.CNPJ}"
+					                  validator="#{clienteBean.validateCNPJ}"
+									  styleClass="seplocCNPJ" 
+									  alt="cnpj"
+									  id = "cnpjCli"
+									 >
+					                 <f:converter converterId="SeplocCNPJConverter" /> 
+					                 <rich:ajaxValidator event="onkeyup" />
                         </h:inputText>
-                        <h:inputText value="#{clienteBean.cliente.cpf}" rendered="#{navigationBean.opcaoDocId  == navigationBean.CPF}"	
-									   styleClass="seplocCPF" alt="cpf">                             
-                             <rich:ajaxValidator event="onkeyup"  />                            
+                        <h:inputText value="#{clienteBean.CPF}" 
+                                     rendered="#{navigationBean.opcaoDocId  == navigationBean.CPF}"	
+                                     validator="#{clienteBean.validateCPF}"
+									 styleClass="seplocCPF" 
+									 alt="cpf"
+									 id = "cpfCli">        
+					                 <f:converter converterId="SeplocCPFConverter" /> 
+					                 <rich:ajaxValidator event="onkeyup" />                              
                         </h:inputText>
                         
                          </a4j:outputPanel>    
@@ -98,22 +117,25 @@
 					</tr>			
 				</a4j:outputPanel>	
 					<tr>
-					<td colspan="4" align="left"><rich:message for="cnpjCli" styleClass="error" />
-					<rich:message for="cpfCli" styleClass="error" /></td>					
+					<td colspan="2" align="left">
+					</td>
+					<td colspan="2" align="left">
+					    <rich:message for="cnpjCli" styleClass="error" />
+					    <rich:message for="cpfCli" styleClass="error" />
+					</td>					
 					</tr>
 					
 					<tr align="left">
 					<td><h:outputText value="Razão Social: " styleClass="texto"/><h:inputHidden value="#{clienteBean.cliente.idCliente}"  /></td>
 					<td><h:inputText value="#{clienteBean.cliente.razao}" 
-									 required="false"	
-									 validator="#{clienteBean.validateNome}" 								 
+									 validator="#{clienteBean.validateRazaoSocial}" 								 
 									 id="razaoCli" >                             
                              <rich:ajaxValidator event="onkeyup"  />                            
                         </h:inputText>                        
                     </td>                    
 					<td><h:outputText value="Nome Fantasia: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.fantasia}" 
-									 required="false"									  
+					                 validator="#{clienteBean.validateFantasia}"
 									 id="fantasiaCli">                                                   
                         </h:inputText> 
                     </td>                    
@@ -126,9 +148,8 @@
 					<tr align="left">
 					<td><h:outputText value="Endereço: " styleClass="texto"/></td>
 					<td colspan="3"><h:inputText value="#{clienteBean.cliente.endereco}" 
-									 required="false"									 
 									 id="enderCli" 
-									 size="65"/>                        
+									 size="65" maxlength="65"/>                        
                     </td>                    
 					</tr>					
 					<tr>
@@ -138,13 +159,11 @@
 					<tr align="left">
 					<td><h:outputText value="Bairro: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.bairro}" 
-									 required="false"									  
 									 id="bairroCli">                                                     
                         </h:inputText>                       
                     </td>                    
 					<td><h:outputText value="Cidade: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.cidade}" 
-									 required="false"									 
 									 id="cidadeCli">                                                         
                         </h:inputText>                        
                     </td>                    
@@ -157,14 +176,14 @@
 					<tr align="left">
 					<td><h:outputText value="Estado: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.cidade}" 
-									 required="false"									 
 									 id="estadoCli">                                                        
                         </h:inputText>                        
                     </td>                    
 					<td><h:outputText value="CEP: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.cep}" 
-									 required="false"									 
-									 id="cepCli">                                                         
+									 id="cepCli"
+									 alt="cep"
+									 styleClass="CEP">                                                         
                         </h:inputText>                        
                     </td>                    
 					</tr>					
@@ -173,16 +192,14 @@
 					<td colspan="2"><rich:message for="cepCli" styleClass="error" /></td>
 					</tr>							
 
-			<!--    <tr align="left">
+			    <tr align="left">
 					<td><h:outputText value="Fone Comercial: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.foneCliente.foneComercial}" 
-									 required="false"									  
 									 id="foneComCli">                                                         
                         </h:inputText>
                     </td>                    
 					<td><h:outputText value="Fone Residencial: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.foneCliente.foneResidencial}" 
-									 required="false"									 
 									 id="foneResCli">                             
                         </h:inputText>
                     </td>                    
@@ -191,24 +208,23 @@
 					<tr align="left">
 					<td><h:outputText value="Celular: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.foneCliente.celular}" 
-									 required="false"									 
 									 id="celCli">                                                       
                         </h:inputText>
                     </td>                    
 					<td><h:outputText value="Fone Fax: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.foneCliente.fax}" 
-									 required="false"									 
 									 id="faxCli">                                                      
                         </h:inputText>
                     </td>                    
 					</tr>
-					-->
 					<tr align="left">
 					<td><h:outputText value="E-mail: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.email}" 
-									 required="false"									 
-									 id="emailCli">                                                       
+									 validator="#{clienteBean.validateEmail}"
+									 id="emailCli">       
+									  <rich:ajaxValidator event="onkeyup"  />                                                 
                         </h:inputText>
+                              
                     </td>                    
 					<td><h:outputText value="Inscrição: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.inscricao}" 
@@ -217,7 +233,9 @@
                         </h:inputText>
                     </td>                    
 					</tr>		
-					
+					<tr>
+					<td></td><td><rich:message for="emailCli" styleClass="error" /></td><td colspan="2"></td>
+					</tr>
 					<tr align="left">
 					<td><h:outputText value="Observação: " styleClass="texto"/></td>
 					<td colspan="3"><h:inputTextarea value="#{clienteBean.cliente.obs}" 
