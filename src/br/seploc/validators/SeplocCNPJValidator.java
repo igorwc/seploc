@@ -17,7 +17,7 @@ public class SeplocCNPJValidator implements Validator {
 	public void validate(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
 		String numeroCNPJ = "";
-		if (value == null)
+		if (value == null || value.toString().equals(""))
 			return;
 		else {
 			if (value instanceof String) {
@@ -29,7 +29,7 @@ public class SeplocCNPJValidator implements Validator {
 					throw new ValidatorException(message);
 				}
 				if (!validaCNPJ(numeroCNPJ) || digitosIguais(numeroCNPJ)) {
-					FacesMessage message = new FacesMessage("CPF inválido.");
+					FacesMessage message = new FacesMessage("CNPJ inválido.");
 					message.setSeverity(FacesMessage.SEVERITY_ERROR);
 					throw new ValidatorException(message);
 
