@@ -10,6 +10,10 @@
 	</welcome-file-list>
 	<!-- Optional JSF-RI Parameters to Help Debug -->
 	<context-param>
+		<param-name>org.richfaces.CONTROL_SKINNING_LEVEL</param-name>
+		<param-value>extended</param-value>
+	</context-param>
+	<context-param>
 		<param-name>com.sun.faces.validateXml</param-name>
 		<param-value>true</param-value>
 	</context-param>
@@ -61,7 +65,14 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
-
+<context-param>
+<param-name>org.ajax4jsf.COMPRESS_SCRIPT</param-name>
+<param-value>false</param-value>
+</context-param>
+<context-param>
+<param-name>org.richfaces.LoadScriptStrategy</param-name>
+<param-value>ALL</param-value>
+</context-param>
 	<error-page>
 		<exception-type>java.lang.SecurityException</exception-type>
 		<location>/login.jsf</location>
