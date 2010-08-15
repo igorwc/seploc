@@ -12,14 +12,15 @@ public class SeploCPFValidator implements Validator {
 	public void validate(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
 		String numeroCPF = "";
-		if (value == null)
+		if (value == null || value.toString().equals(""))
 			return;
 		else {
 			if (value instanceof String) {
 				numeroCPF = getDigitsOnly(value.toString());
 				System.out.println(numeroCPF);
 				if (numeroCPF.length() != 11) {
-					FacesMessage message = new FacesMessage("O cpf deve ter 11 digitos.");
+					FacesMessage message = new FacesMessage(
+							"O cpf deve ter 11 digitos.");
 					message.setSeverity(FacesMessage.SEVERITY_ERROR);
 					throw new ValidatorException(message);
 				}
@@ -33,20 +34,21 @@ public class SeploCPFValidator implements Validator {
 		}
 	}
 
-	private boolean digitosIguais(String cpf){
+	private boolean digitosIguais(String cpf) {
 		boolean resultado = true;
 		char[] arrayDigitos = cpf.toCharArray();
-		char c =  arrayDigitos[1];
-		for(char d : arrayDigitos){
-			if(d != c){
+		char c = arrayDigitos[1];
+		for (char d : arrayDigitos) {
+			if (d != c) {
 				resultado = false;
 				break;
 			}
 		}
-		
+
 		return resultado;
-		
+
 	}
+
 	private String getDigitsOnly(String s) {
 		StringBuffer digitsOnly = new StringBuffer();
 		char c;
