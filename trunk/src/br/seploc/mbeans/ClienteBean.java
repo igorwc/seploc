@@ -1,6 +1,8 @@
 package br.seploc.mbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,9 +12,11 @@ import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 
 import br.seploc.dao.ClienteDAO;
+import br.seploc.dao.EntregaDAO;
 import br.seploc.pojos.Cliente;
 
 public class ClienteBean implements Serializable {
@@ -23,10 +27,32 @@ public class ClienteBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Cliente cliente;
 	private ClienteDAO clienteDAO;
+	private List<String> bairros;
+	private String bairroCliente;
 
 	public ClienteBean() {
 		cliente = new Cliente();
 		clienteDAO = new ClienteDAO();
+		EntregaDAO entregaDAO = new EntregaDAO();
+		bairros = entregaDAO.getLocaisEntrega();
+		if (cliente.getEntregaPadrao() != null)
+			bairroCliente = (cliente.getEntregaPadrao().getLocal() == null ? ""
+					: cliente.getEntregaPadrao().getLocal());
+	}
+
+	/**
+	 * @return the bairroCliente
+	 */
+	public String getBairroCliente() {
+		return bairroCliente;
+	}
+
+	/**
+	 * @param bairroCliente
+	 *            the bairroCliente to set
+	 */
+	public void setBairroCliente(String bairroCliente) {
+		this.bairroCliente = bairroCliente;
 	}
 
 	public void limpaDoc() {
@@ -37,6 +63,25 @@ public class ClienteBean implements Serializable {
 	public Cliente getCliente() {
 		// System.out.println("Get Cliente");
 		return cliente;
+	}
+
+	/**
+	 * @return the bairros
+	 */
+	public List<SelectItem> getBairros() {
+		ArrayList<SelectItem> bairros = new ArrayList<SelectItem>();
+		for(String b : this.bairros){
+			bairros.add(new SelectItem(b, b));
+		}
+		return bairros;
+	}
+
+	/**
+	 * @param bairros
+	 *            the bairros to set
+	 */
+	public void setBairros(List<String> bairros) {
+		this.bairros = bairros;
 	}
 
 	public void setCliente(Cliente cliente) {
@@ -60,6 +105,11 @@ public class ClienteBean implements Serializable {
 		return cliente.getCpf();
 	}
 
+	public List<String> getBairrosRecife() {
+		EntregaDAO entregaDAO = new EntregaDAO();
+		return entregaDAO.getLocaisEntrega();
+	}
+
 	public void setCNPJ(String cnpj) {
 		cliente.setCpf(null);
 		cliente.setCnpj(cnpj);
@@ -70,6 +120,13 @@ public class ClienteBean implements Serializable {
 	}
 
 	public void cadastra() {
+		try {
+			clienteDAO.adiciona(cliente);
+			addGlobalMessage("Inclusão feita com sucesso!");
+		} catch (Exception e) {
+			addGlobalMessage(e.getMessage());
+			e.printStackTrace();
+		}
 
 	}
 
@@ -94,7 +151,7 @@ public class ClienteBean implements Serializable {
 	/*
 	 * Validadores
 	 */
-	
+
 	/**
 	 * @param context
 	 * @param component
@@ -168,7 +225,7 @@ public class ClienteBean implements Serializable {
 		NavigationBean navigationBean = (NavigationBean) valueExpr
 				.getValue(context.getELContext());
 
-//		this.getCliente().setCpf("");
+		// this.getCliente().setCpf("");
 
 		if (navigationBean.getOpcaoDocId() == 2) {
 			this.getCliente().setCnpj("");
@@ -196,6 +253,7 @@ public class ClienteBean implements Serializable {
 		}
 
 	}
+
 	/**
 	 * @param FacesContext
 	 *            context
@@ -206,8 +264,8 @@ public class ClienteBean implements Serializable {
 	 * @throws ValidatorException
 	 * 
 	 */
-	public void validateRazaoSocial(FacesContext context, UIComponent component,
-			Object value) throws ValidatorException {
+	public void validateRazaoSocial(FacesContext context,
+			UIComponent component, Object value) throws ValidatorException {
 		if (value == null)
 			return;
 		String nome;
@@ -222,7 +280,8 @@ public class ClienteBean implements Serializable {
 			throw new ValidatorException(message);
 		}
 		if (nome.length() < 5) {
-			FacesMessage message = new FacesMessage("A Razão Social deve ter 5 letras no mínimo");
+			FacesMessage message = new FacesMessage(
+					"A Razão Social deve ter 5 letras no mínimo");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
@@ -239,6 +298,7 @@ public class ClienteBean implements Serializable {
 			throw new ValidatorException(message);
 		}
 	}
+
 	/**
 	 * @param FacesContext
 	 *            context
@@ -265,7 +325,8 @@ public class ClienteBean implements Serializable {
 			throw new ValidatorException(message);
 		}
 		if (nome.length() < 5) {
-			FacesMessage message = new FacesMessage("O Nome Fantasia deve ter 5 letras no mínimo");
+			FacesMessage message = new FacesMessage(
+					"O Nome Fantasia deve ter 5 letras no mínimo");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
@@ -282,6 +343,7 @@ public class ClienteBean implements Serializable {
 			throw new ValidatorException(message);
 		}
 	}
+
 	/**
 	 * @param FacesContext
 	 *            context
@@ -298,7 +360,8 @@ public class ClienteBean implements Serializable {
 			return;
 		String nome;
 
-		Pattern pattern = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+		Pattern pattern = Pattern
+				.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
 			nome = value.toString().trim();
@@ -308,12 +371,12 @@ public class ClienteBean implements Serializable {
 			throw new ValidatorException(message);
 		}
 		if (!m.matches()) {
-			FacesMessage message = new FacesMessage(
-					"Email Inválido!");
+			FacesMessage message = new FacesMessage("Email Inválido!");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 	}
+
 	/*
 	 * 
 	 * FUNÇÕES AUXILIARES
