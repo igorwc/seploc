@@ -1,0 +1,176 @@
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich" >
+<style type="text/css">  
+.row1 {   
+    background-color: #EDEBEB;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+	
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+}
+</style> 
+   <f:view>  
+       <h:form id="cadPapel" enctype="UTF-8" prependId="false" >  
+           <rich:simpleTogglePanel switchType="papel"  
+               label="Papel">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Cadastro do Papel" style="width: 450px">
+                 
+                 <table	border="0">
+                 <tr>
+					<td colspan="3"> <h:outputText id="tese" value="Adicionado com Sucesso!!" styleClass="texto" rendered="false"/> </td>
+					
+					</tr>
+					<tr>
+					<td><h:outputText value="Nome Papel: " styleClass="texto"/></td>
+					<td><h:inputText value="#{papelBean.papel.nome}" 
+									required="true"
+									requiredMessage="O nome deve ser informado"
+									 validatorMessage="O nome do Papel deve ter 5 caracteres no minimo"
+									 id="nomePapel">
+                           <f:validateLength minimum="5" maximum="30"  />
+                           
+                           <rich:ajaxValidator event="onkeyup" />
+                           
+                        </h:inputText>
+                        <h:inputHidden value="#{papelBean.papel.codPapel}" />   </td>
+                    <td><rich:message for="nomePapel" styleClass="error"/></td>
+					</tr>
+					<tr>
+					<td><h:outputText value="Impressao Mono (R$): " styleClass="mono texto"/></td>
+					<td><h:inputText value="#{papelBean.papel.impMono}" 
+					                 id="mono"
+					                 converterMessage="Amount must be a number"
+					                 validatorMessage="O valor deve ser um numero" >
+					          <f:convertNumber pattern="###.###,###"  maxFractionDigits="2" type="number" />
+					           <f:converter converterId="javax.faces.Double" id="javax.faces.Double"/>
+
+					          <rich:ajaxValidator event="onkeyup"/>
+					     </h:inputText>
+					</td>
+					<td><rich:message for="mono" styleClass="error"/> </td>
+					</tr>
+					<tr>
+					<td><h:outputText value="Impressao Color (R$): " styleClass="texto"/></td>
+					<td><h:inputText value="#{papelBean.papel.impColor}" id="color"/></td>
+					<td> </td>
+					</tr>
+					<tr>
+					<td><h:outputText value="Impressao Shade (R$): " styleClass="texto"/></td>
+					<td><h:inputText value="#{papelBean.papel.impShade}" id="shade"/></td>
+					<td> </td>
+					</tr>					
+				  </table> 
+                  <br/>
+                  <a4j:commandButton value="Salvar"
+                  action="#{papelBean.cadastra}"
+                  reRender="papelList,cadPapel"
+                   >
+                  </a4j:commandButton>                              
+                  <a4j:commandButton type="reset" value="Limpar"  
+                  action="#{papelBean.limpar}"
+                  reRender="papelList" />
+               </rich:panel>
+               </center>
+               <rich:dataTable value="#{papelBean.lista}" var="papel"    
+                   rowClasses="row1, row2" id="papelList" rows="10"  
+                   columnClasses="300,50,50,50"  
+                   onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
+                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+                   width="450"
+                   align="center">  
+                   <f:facet name="header">  
+                       <rich:columnGroup>  
+  
+                           <rich:column colspan="5">  
+                               <h:outputText value="Papeis Cadastrados" />  
+                           </rich:column>  
+  
+                           <rich:column breakBefore="true">  
+                               <h:outputText value="Papel" />  
+                           </rich:column>  
+  
+                           <rich:column>  
+                               <h:outputText value="Imp Mono" />  
+                           </rich:column>  
+  
+                           <rich:column>  
+                               <h:outputText value="Imp Color" />  
+                           </rich:column>  
+  
+                           <rich:column>  
+                               <h:outputText value="Imp Shade" />  
+                           </rich:column>  
+                           <rich:column>  
+                               <h:outputText value="Acoes" />  
+                           </rich:column>  
+  
+                       </rich:columnGroup>  
+                   </f:facet>  
+  
+                   <rich:column>  
+		               <h:outputText value="#{papel.nome}" />  
+                   </rich:column>  
+  
+                   <rich:column styleClass="col1">  
+                       <h:outputText value="#{papel.impMono}"/>  
+                   </rich:column>  
+  
+                   <rich:column styleClass="col1">  
+                       <h:outputText value="#{papel.impColor}" />  
+                   </rich:column>  
+  
+                   <rich:column styleClass="col1">  
+                       <h:outputText value="#{papel.impShade}" />  
+                   </rich:column>
+					<rich:column styleClass="col1">
+						<a4j:commandLink ajaxSingle="true" id="editlink" 
+						    reRender="cadPapel" action="#{papelBean.editar}" >
+							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{papel.codPapel}"
+								target="#{papelBean.papel.codPapel}" />
+						</a4j:commandLink>
+						<rich:toolTip for="editlink" value="Edit" />
+						<a4j:commandLink ajaxSingle="true" id="deletelink"
+							reRender="papelList" action="#{papelBean.apaga}">
+							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{papel.codPapel}"
+								target="#{papelBean.papel.codPapel}" />
+						</a4j:commandLink>
+						<rich:toolTip for="deletelink" value="Delete" />
+					</rich:column>
+
+				</rich:dataTable>  
+               <rich:datascroller for="papelList" maxPages="3" >
+                  <f:facet name="first">
+                     <h:outputText value="Primeiro" style="font-size:11pt"/>
+                  </f:facet>
+                  <f:facet name="last">
+                     <h:outputText value="Ultimo" style="font-size:11pt"/>
+                  </f:facet>               
+               </rich:datascroller>  
+           </rich:simpleTogglePanel>  
+       </h:form>  
+   </f:view>  
+
+</ui:composition>

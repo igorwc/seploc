@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+            <f:view>
+                  <a4j:form id="papel">
+                        <rich:panel header="Cadastro de Papel" style="width: 315px">
+                              <h:outputText value="Nome Papel: " />
+                              <h:inputText value="" >
+                                    <f:validateLength minimum="5" maximum="30" />
+                              </h:inputText><br/>
+                              <h:outputText value="Valor (R$): " />
+                              <h:inputText value="" >
+                                    <f:validateLength minimum="5" maximum="30" />
+                              </h:inputText>                              
+                              <a4j:commandButton value="Salvar"/>                              
+                        </rich:panel>
+                  </a4j:form>
+
+            </f:view>
+            
+            <f:view>
+                  <a4j:form id="Impressao">
+                        <rich:panel header="Cadastro de Impressão" style="width: 315px">
+                              <h:outputText value="Nome: " />
+                              <h:inputText value="" >
+                                    <f:validateLength minimum="5" maximum="30" />
+                              </h:inputText><br/>
+                              <h:outputText value="Valor (R$): " />
+                              <h:inputText value="" >
+                                    <f:validateLength minimum="5" maximum="30" />
+                              </h:inputText>                              
+                              <a4j:commandButton value="Salvar"/>                              
+                        </rich:panel>
+                  </a4j:form>            
+            </f:view>
+
+
+</ui:composition>
