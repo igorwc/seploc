@@ -161,5 +161,18 @@ public class EntregaDAOTest {
 			System.out.println(e);			
 		}
 	}
+	
+	@Test
+	public void testgetLocaisEntrega() {
+		EntregaDAO dao = new EntregaDAO();
+		List<String> lista = dao.getLocaisEntrega();
+		
+		Assert.assertNotNull(lista);
+//		Assert.assertTrue(lista.size() == 3);
+		
+		for(String e : lista){
+			System.out.println(e);			
+		}
+	}
 
 }
