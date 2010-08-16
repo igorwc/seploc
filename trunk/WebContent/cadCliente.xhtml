@@ -53,6 +53,7 @@
              					(function($j){
                  					$j(function(){
     	             					$j('.CEP').setMask();
+    	             					$j('.PHONE').setMask();
                      				}
                   				);
               				})(jQuery);  
@@ -158,9 +159,15 @@
 					
 					<tr align="left">
 					<td><h:outputText value="Bairro: " styleClass="texto"/></td>
-					<td><h:inputText value="#{clienteBean.cliente.bairro}" 
-									 id="bairroCli">                                                     
-                        </h:inputText>                       
+					<td><rich:comboBox selectFirstOnUpdate="false"
+       							   defaultLabel="Nome do bairro" 
+       							   value="#{clienteBean.bairroCliente}" 
+       							    id="bairroCli">
+        						<f:selectItems value="#{clienteBean.bairros}"  />
+   				    </rich:comboBox>
+				<!-- 	<h:inputText value="#{clienteBean.cliente.bairro}" 
+									 id="bairroCli">                                                    
+                        </h:inputText>   -->                      
                     </td>                    
 					<td><h:outputText value="Cidade: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.cidade}" 
@@ -195,12 +202,16 @@
 			    <tr align="left">
 					<td><h:outputText value="Fone Comercial: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.foneCliente.foneComercial}" 
-									 id="foneComCli">                                                         
+									 id="foneComCli"
+									 alt="phone"
+									 styleClass="PHONE">                                                         
                         </h:inputText>
                     </td>                    
 					<td><h:outputText value="Fone Residencial: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.foneCliente.foneResidencial}" 
-									 id="foneResCli">                             
+									 id="foneResCli"
+									 alt="phone"
+									 styleClass="PHONE">                             
                         </h:inputText>
                     </td>                    
 					</tr>					
@@ -208,12 +219,16 @@
 					<tr align="left">
 					<td><h:outputText value="Celular: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.foneCliente.celular}" 
-									 id="celCli">                                                       
+									 id="celCli"
+									 alt="phone"
+									 styleClass="PHONE">                                                       
                         </h:inputText>
                     </td>                    
 					<td><h:outputText value="Fone Fax: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.foneCliente.fax}" 
-									 id="faxCli">                                                      
+									 id="faxCli"
+									 alt="phone"
+									 styleClass="PHONE">                                                      
                         </h:inputText>
                     </td>                    
 					</tr>
@@ -228,7 +243,6 @@
                     </td>                    
 					<td><h:outputText value="Inscrição: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.inscricao}" 
-									 required="false"									 
 									 id="inscricaoCli">                                                      
                         </h:inputText>
                     </td>                    
@@ -241,7 +255,7 @@
 					<td colspan="3"><h:inputTextarea value="#{clienteBean.cliente.obs}" 
 									 				required="false"									 
 									 				id="obsCli"
-									 				cols="50"/>
+									 				cols="50" rows="3"/>
                     </td>                    
 					</tr>	
 					
@@ -253,7 +267,8 @@
 							<f:selectItems value="#{entregaBean.lista}" />                                                       
                         </h:selectOneMenu>
                     </td>-->
-                    <td><h:selectOneMenu value="entrega" 
+                    <td>
+                          <h:selectOneMenu value="entrega" 
 									 required="false"									 
 									 id="entregaPadraoCli">
 							<f:selectItem  itemValue="1" itemLabel="BOA VIAGEM"/>                                                       
