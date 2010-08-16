@@ -67,7 +67,7 @@
 					<tr align="left">
 					<td><h:outputText value="Tipo Documento: " styleClass="texto"/></td>
 					<td><a4j:outputPanel layout="block">
-					    		<h:selectOneRadio id="tpDocCli"  value="#{navigationBean.opcaoDocId}"  >
+					    		<h:selectOneRadio id="tpDocCli"  value="#{navigationBean.opcaoDocId}"  binding="#{clienteBean.selectDocType}" >
 									<f:selectItem id="doc1" itemLabel="CNPJ" itemValue="1"  />
 									<f:selectItem id="doc2" itemLabel="CPF" itemValue="2"  />
 									 <a4j:support event="onclick" reRender="docinput,docinput3" action="#{clienteBean.limpaDoc}" ajaxSingle="true" />
@@ -78,7 +78,7 @@
                       
                                  
 					<td> <a4j:outputPanel id="docinput"  >  
-					    <h:outputText value="Número CNPJ: " styleClass="texto"  rendered="#{navigationBean.opcaoDocId == navigationBean.CNPJ}"/>
+					    <h:outputText value="Número CNPJ: " styleClass="texto"  rendered="#{navigationBean.opcaoDocId == navigationBean.CNPJ}" />
 					    <h:outputText value="Número CPF: " styleClass="texto" rendered="#{navigationBean.opcaoDocId ==  navigationBean.CPF}"/>
 					     </a4j:outputPanel>    
 					</td>
@@ -98,6 +98,7 @@
 									  styleClass="seplocCNPJ" 
 									  alt="cnpj"
 									  id = "cnpjCli"
+									  binding="#{clienteBean.inputCNPJ}"
 									 >
 					                 <f:converter converterId="SeplocCNPJConverter" /> 
 					                 <rich:ajaxValidator event="onkeyup" />
@@ -107,7 +108,8 @@
                                      validator="#{clienteBean.validateCPF}"
 									 styleClass="seplocCPF" 
 									 alt="cpf"
-									 id = "cpfCli">        
+									 id = "cpfCli"
+									  binding="#{clienteBean.inputCPF}">        
 					                 <f:converter converterId="SeplocCPFConverter" /> 
 					                 <rich:ajaxValidator event="onkeyup" />                              
                         </h:inputText>
