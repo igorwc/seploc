@@ -104,5 +104,12 @@ public class EntregaDAO extends GenericDAO<Entrega,Integer> {
 		em.getTransaction().commit();
 		return (List<Entrega>) q.getResultList();
 	}
+	@SuppressWarnings("unchecked")
+	public List<String> getLocaisEntrega() {
+		em.getTransaction().begin();
+		Query q = em.createNativeQuery("select vcrLocal from tbl_entrega");
+		em.getTransaction().commit();
+		return (List<String>) q.getResultList();
+	}
 
 }
