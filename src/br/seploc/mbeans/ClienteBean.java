@@ -11,6 +11,8 @@ import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
@@ -29,6 +31,10 @@ public class ClienteBean implements Serializable {
 	private ClienteDAO clienteDAO;
 	private List<String> bairros;
 	private String bairroCliente;
+	private HtmlInputText inputCNPJ;
+	private HtmlInputText inputCPF;
+	private HtmlSelectOneRadio selectDocType;
+	
 
 	public ClienteBean() {
 		cliente = new Cliente();
@@ -39,6 +45,62 @@ public class ClienteBean implements Serializable {
 			bairroCliente = (cliente.getEntregaPadrao().getLocal() == null ? ""
 					: cliente.getEntregaPadrao().getLocal());
 	}
+
+	
+
+	/**
+	 * @return the inputCNPJ
+	 */
+	public HtmlInputText getInputCNPJ() {
+		return inputCNPJ;
+	}
+
+
+
+	/**
+	 * @param inputCNPJ the inputCNPJ to set
+	 */
+	public void setInputCNPJ(HtmlInputText inputCNPJ) {
+		this.inputCNPJ = inputCNPJ;
+	}
+
+
+
+	/**
+	 * @return the inputCPF
+	 */
+	public HtmlInputText getInputCPF() {
+		return inputCPF;
+	}
+
+
+
+	/**
+	 * @param inputCPF the inputCPF to set
+	 */
+	public void setInputCPF(HtmlInputText inputCPF) {
+		this.inputCPF = inputCPF;
+	}
+
+
+
+	/**
+	 * @return the selectDocType
+	 */
+	public HtmlSelectOneRadio getSelectDocType() {
+		return selectDocType;
+	}
+
+
+
+	/**
+	 * @param selectDocType the selectDocType to set
+	 */
+	public void setSelectDocType(HtmlSelectOneRadio selectDocType) {
+		this.selectDocType = selectDocType;
+	}
+
+
 
 	/**
 	 * @return the bairroCliente
@@ -56,8 +118,18 @@ public class ClienteBean implements Serializable {
 	}
 
 	public void limpaDoc() {
-		cliente.setCnpj(null);
-		cliente.setCpf(null);
+		cliente.setCnpj("");
+		cliente.setCpf("");
+		System.out.println(selectDocType.getValue().getClass().getName());
+		
+		if (((Integer) selectDocType.getValue())  == 1 ){
+			inputCPF.setValue("");
+			inputCPF.resetValue();
+			System.out.println("entrou aqui!!!!!!!!!!!!!!!!!!!");
+		}else{
+			inputCNPJ.setValue("");
+			inputCNPJ.resetValue();
+		}
 	}
 
 	public Cliente getCliente() {
