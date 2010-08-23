@@ -2,4 +2,4 @@ Igor
 Trabalhando no cadastro de clientes
 
 Gustavo
-Fazendo limpeza
+Master Page e testes de funcionalidades nos cadastros
