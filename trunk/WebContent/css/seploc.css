@@ -1,5 +1,7 @@
 #topo {
 	background: url(../imgs/bg.png);
+	background-repeat: no-repeat;
+	background-color: #90bf5e;
 }
 #rodape {
 	background: transparent url(../imgs/rodape.png) repeat-x scroll 0 0;
