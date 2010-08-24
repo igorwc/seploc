@@ -22,6 +22,7 @@ public class SeplocCPFConverter implements Converter {
 				continue;
 			}
 		}
+		System.out.println(saida);
 		return saida.trim();
 	}
 
