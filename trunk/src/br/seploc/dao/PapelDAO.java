@@ -85,7 +85,13 @@ public class PapelDAO extends GenericDAO<Papel, Integer> {
 		em.getTransaction().commit();
 		return (List<Papel>) q.getResultList();
 	}
-
+	@SuppressWarnings("unchecked")
+	public List<String> getPapeis() {
+		em.getTransaction().begin();
+		Query q = em.createNativeQuery("select vcrNome from tbl_papel");
+		em.getTransaction().commit();
+		return (List<String>) q.getResultList();
+	}
 	@Override
 	protected void ajustaPojo(Papel pojo) {
 		// TODO Auto-generated method stub
