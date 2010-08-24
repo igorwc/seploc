@@ -161,12 +161,17 @@
 					
 					<tr align="left">
 					<td><h:outputText value="Bairro: " styleClass="texto"/></td>
-					<td><rich:comboBox selectFirstOnUpdate="false"
-       							   defaultLabel="Nome do bairro" 
-       							   value="#{clienteBean.bairroCliente}" 
-       							    id="bairroCli">
-        						<f:selectItems value="#{clienteBean.bairros}"  />
-   				    </rich:comboBox>
+					<td><h:inputText value="#{clienteBean.cliente.bairro}" 
+									 id="bairroCli">                                                        
+                        </h:inputText>
+                        <rich:suggestionbox for="bairroCli" minChars="3"
+       										fetchValue="#{suggest.local}" nothingLabel="Sem Sugestões"
+         									suggestionAction="#{appBean.complemento}" var="suggest">
+         									<h:column>
+            									<h:outputText value="#{suggest.local}" />
+         									</h:column>
+           								    
+                       </rich:suggestionbox> 
 				<!-- 	<h:inputText value="#{clienteBean.cliente.bairro}" 
 									 id="bairroCli">                                                    
                         </h:inputText>   -->                      
@@ -270,25 +275,43 @@
                         </h:selectOneMenu>
                     </td>-->
                     <td>
-                          <h:selectOneMenu value="entrega" 
-									 required="false"									 
-									 id="entregaPadraoCli">
-							<f:selectItem  itemValue="1" itemLabel="BOA VIAGEM"/>                                                       
-							<f:selectItem  itemValue="2" itemLabel="PARNAMIRIM"/>
-							<f:selectItem  itemValue="3" itemLabel="CASA FORTE"/>
-							<f:selectItem  itemValue="4" itemLabel="GRAÇAS"/>
-                        </h:selectOneMenu>
+                    <rich:comboBox selectFirstOnUpdate="false"
+                                   defaultLabel="Local de Entrega"
+                                   id="entregaPadraoCli" 
+                                   value="#{clienteBean.entregaCliente}"
+                                   validator="#{appBean.validateEntrega}"
+                                   >
+                         <f:selectItems value="#{appBean.locaisEntrega}" />
+                        <rich:ajaxValidator event="onkeyup"  />    
+                        <rich:ajaxValidator event="onchange"  />  
+                    </rich:comboBox>
                     </td>                                        
 					<td><h:outputText value="Papel Padrão: " styleClass="texto"/></td>
-					<td><h:selectOneMenu value="papel" 
-									 required="false"									 
-									 id="papelPadraoCli"> 
-							<f:selectItem itemValue="A3" itemLabel="Papel A3"/>                                                     
-							<f:selectItem itemValue="A4" itemLabel="Papel A4"/>
-                        </h:selectOneMenu>
+					<td>
+					 <rich:comboBox selectFirstOnUpdate="false"
+                                   defaultLabel="Nome do Papel"
+                                   id="papelPadraoCli" 
+                                   value="#{clienteBean.papelCliente}"
+                                   validator="#{appBean.validatePapeis}"
+                                   >
+                         <f:selectItems value="#{appBean.papeis}"  />
+                        <rich:ajaxValidator event="onkeyup"  />    
+                        <rich:ajaxValidator event="onchange"  />   
+                    </rich:comboBox>
                     </td>                    
 					</tr>	
-								
+					<tr>
+					<td></td>
+					<td align="right">
+					     <rich:message for="entregaPadraoCli" styleClass="error"  />
+					    <h:outputText value="Não existem Locais de Entrega cadastrados" rendered="#{appBean.tamanholistaEntrega  == 0}" styleClass="texto"/> 
+					</td>
+					<td></td>
+					<td align="right">
+					    <rich:message for="papelPadraoCli" styleClass="error"  />
+					    <h:outputText value="Não existem Papeis cadastrados" rendered="#{appBean.tamanholistaPapel  == 0}" styleClass="texto"/> 
+					    </td>
+					</tr>			
 				  </table> 
 				  <!-- Botoes -->
                   <br/>
