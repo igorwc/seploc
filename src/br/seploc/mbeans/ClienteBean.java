@@ -20,6 +20,7 @@ import javax.faces.validator.ValidatorException;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
 import br.seploc.pojos.Cliente;
+import br.seploc.pojos.Entrega;
 
 public class ClienteBean implements Serializable {
 
@@ -34,7 +35,10 @@ public class ClienteBean implements Serializable {
 	private HtmlInputText inputCNPJ;
 	private HtmlInputText inputCPF;
 	private HtmlSelectOneRadio selectDocType;
+	private String entregaCliente;
+	private String papelCliente;
 	
+
 
 	public ClienteBean() {
 		cliente = new Cliente();
@@ -45,8 +49,54 @@ public class ClienteBean implements Serializable {
 			bairroCliente = (cliente.getEntregaPadrao().getLocal() == null ? ""
 					: cliente.getEntregaPadrao().getLocal());
 	}
-
 	
+	
+
+//	/**
+//	 * @return the entregaId
+//	 */
+//	public Integer getEntregaId() {
+//		return entregaId;
+//	}
+
+//	/**
+//	 * @param entregaId the entregaId to set
+//	 */
+//	public void setEntregaId(Integer entregaId) {
+//		this.entregaId = entregaId;
+//	}
+//
+//	/**
+//	 * @return the entregas
+//	 */
+//	public List<Entrega> getEntregas() {
+//		return entregas;
+//	}
+
+//	/**
+//	 * @param entregas the entregas to set
+//	 */
+//	public void setEntregas(List<Entrega> entregas) {
+//		this.entregas = entregas;
+//	}
+
+	/**
+	 * @return the entregaCliente
+	 */
+	public String getEntregaCliente() {
+		return entregaCliente;
+	}
+
+
+
+	/**
+	 * @param entregaCliente the entregaCliente to set
+	 */
+	public void setEntregaCliente(String entregaCliente) {
+		this.entregaCliente = entregaCliente;
+	}
+
+
 
 	/**
 	 * @return the inputCNPJ
@@ -55,16 +105,13 @@ public class ClienteBean implements Serializable {
 		return inputCNPJ;
 	}
 
-
-
 	/**
-	 * @param inputCNPJ the inputCNPJ to set
+	 * @param inputCNPJ
+	 *            the inputCNPJ to set
 	 */
 	public void setInputCNPJ(HtmlInputText inputCNPJ) {
 		this.inputCNPJ = inputCNPJ;
 	}
-
-
 
 	/**
 	 * @return the inputCPF
@@ -73,16 +120,13 @@ public class ClienteBean implements Serializable {
 		return inputCPF;
 	}
 
-
-
 	/**
-	 * @param inputCPF the inputCPF to set
+	 * @param inputCPF
+	 *            the inputCPF to set
 	 */
 	public void setInputCPF(HtmlInputText inputCPF) {
 		this.inputCPF = inputCPF;
 	}
-
-
 
 	/**
 	 * @return the selectDocType
@@ -91,16 +135,13 @@ public class ClienteBean implements Serializable {
 		return selectDocType;
 	}
 
-
-
 	/**
-	 * @param selectDocType the selectDocType to set
+	 * @param selectDocType
+	 *            the selectDocType to set
 	 */
 	public void setSelectDocType(HtmlSelectOneRadio selectDocType) {
 		this.selectDocType = selectDocType;
 	}
-
-
 
 	/**
 	 * @return the bairroCliente
@@ -121,12 +162,11 @@ public class ClienteBean implements Serializable {
 		cliente.setCnpj("");
 		cliente.setCpf("");
 		System.out.println(selectDocType.getValue().getClass().getName());
-		
-		if (((Integer) selectDocType.getValue())  == 1 ){
+
+		if (((Integer) selectDocType.getValue()) == 1) {
 			inputCPF.setValue("");
 			inputCPF.resetValue();
-			System.out.println("entrou aqui!!!!!!!!!!!!!!!!!!!");
-		}else{
+		} else {
 			inputCNPJ.setValue("");
 			inputCNPJ.resetValue();
 		}
@@ -142,8 +182,8 @@ public class ClienteBean implements Serializable {
 	 */
 	public List<SelectItem> getBairros() {
 		ArrayList<SelectItem> bairros = new ArrayList<SelectItem>();
-		for(String b : this.bairros){
-			bairros.add(new SelectItem(b, b));
+		for (String b : this.bairros) {
+			bairros.add(new SelectItem( b, b));
 		}
 		return bairros;
 	}
@@ -155,6 +195,31 @@ public class ClienteBean implements Serializable {
 	public void setBairros(List<String> bairros) {
 		this.bairros = bairros;
 	}
+
+//	/**
+//	 * @return the bairros
+//	 */
+//	public List<SelectItem> getLocaisEntrega() {
+//		ArrayList<SelectItem> bairros = new ArrayList<SelectItem>();
+//		for (Entrega b : this.entregas) {
+//			bairros.add(new SelectItem(  b.getLocal() ));
+//		}
+//		return bairros;
+//	}
+//	/**
+//	 * @return the entrega
+//	 */
+//	public List<Entrega> getEntrega() {
+//		return entregas;
+//	}
+//
+//	/**
+//	 * @param entrega
+//	 *            the entrega to set
+//	 */
+//	public void setEntrega(List<Entrega> entrega) {
+//		this.entregas = entrega;
+//	}
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
@@ -225,6 +290,24 @@ public class ClienteBean implements Serializable {
 	 */
 
 	/**
+	 * @return the papelCliente
+	 */
+	public String getPapelCliente() {
+		return papelCliente;
+	}
+
+
+
+	/**
+	 * @param papelCliente the papelCliente to set
+	 */
+	public void setPapelCliente(String papelCliente) {
+		this.papelCliente = papelCliente;
+	}
+
+
+
+	/**
 	 * @param context
 	 * @param component
 	 * @param value
@@ -273,7 +356,31 @@ public class ClienteBean implements Serializable {
 			}
 		}
 	}
+	/**
+	 * @param context
+	 * @param component
+	 * @param value
+	 * @throws ValidatorException
+	 */
+	public void validatePapeis(FacesContext context, UIComponent component,
+			Object value) throws ValidatorException {
+		Application app = context.getApplication();
+		ExpressionFactory exprFactory = app.getExpressionFactory();
+		ValueExpression valueExpr = exprFactory.createValueExpression(
+				context.getELContext(), "#{appBean}",
+				NavigationBean.class);
+		AppServiceBean appBean = (AppServiceBean) valueExpr
+				.getValue(context.getELContext());
+		System.out.println("Passou por auqi " +appBean.getPapeis().size());
+		if (appBean.getPapeis().size() == 1 && appBean.getPapeis().get(0).equals("")) {
+			FacesMessage message = new FacesMessage(
+					"Não existem papeis Cadastrados");
+			message.setSeverity(FacesMessage.SEVERITY_INFO);
+			System.out.println("Passou por auqi");
+			throw new ValidatorException(message);
+		}
 
+	}
 	/**
 	 * @param context
 	 * @param component
