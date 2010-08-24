@@ -19,14 +19,15 @@
   <converter-id>SeplocCNPJConverter</converter-id>
   <converter-class>br.seploc.converters.SeplocCNPJConverter</converter-class>
  </converter>
- <managed-bean>
+
   <!-- Fim dos Conversores
   Beans Adicionais -->
+   <managed-bean>
   <managed-bean-name>login</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.Login</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
- <!-- Cadastro Projeto -->
+ <!-- Bean Navegacao -->
  <managed-bean>
   <managed-bean-name>navigationBean</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.NavigationBean</managed-bean-class>
@@ -35,6 +36,18 @@
    <property-name>opcaoDocId</property-name>
    <value>1</value>
   </managed-property>
+ </managed-bean>
+  <!-- Bean de aplicacao -->
+ <managed-bean>
+  <managed-bean-name>appBean</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.AppServiceBean</managed-bean-class>
+  <managed-bean-scope>application</managed-bean-scope>
+ </managed-bean>
+  <!-- Bean de aplicacao -->
+ <managed-bean>
+  <managed-bean-name>suggestionBean</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.SuggestionboxBean</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
  <!-- Fim de Beans Adicionais
  
