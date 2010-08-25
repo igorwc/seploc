@@ -57,55 +57,47 @@
 						<rich:dropDownMenu>
 							<f:facet name="label">
 								<h:panelGroup>
-									<h:graphicImage value="/imgs/icons/copy.gif" styleClass="pic" />
+									<h:graphicImage value="/imgs/icons/seploc.gif" styleClass="pic" />
 									<h:outputText value="Seploc" />
 								</h:panelGroup>
 							</f:facet>
-							<rich:menuItem submitMode="ajax" value="New" action="#"
+							<rich:menuItem submitMode="ajax" value="Parâmetros" action="#"
 								icon="/imgs/icons/create_doc.gif">
 							</rich:menuItem>
-							<rich:menuItem submitMode="ajax" value="Open" action="#"
-								icon="/imgs/icons/open.gif" />
-							<rich:menuGroup value="Save As...">
-								<rich:menuItem submitMode="ajax" value="Save" action="#"
-									icon="/imgs/icons/save.gif" />
-								<rich:menuItem submitMode="ajax" value="Save All" action="#">
-									<f:facet name="icon">
-										<h:graphicImage value="/imgs/icons/save_all.gif" />
-									</f:facet>
-								</rich:menuItem>
-							</rich:menuGroup>
-							<rich:menuItem submitMode="ajax" value="Close" action="#" />
-							<rich:menuSeparator id="menuSeparator11" />
-							<rich:menuItem submitMode="ajax" value="Exit" action="#" />
+							<rich:menuItem submitMode="ajax" value="Sobre" action="#" icon="/imgs/icons/open.gif" />
+							<rich:menuSeparator id="menuSeparator1" />
+							<rich:menuItem submitMode="ajax" value="Exit" icon="/imgs/icons/sair.gif" action="#" onclick="document.location.href='login.jsf'" />
 						</rich:dropDownMenu>
 
 						<!-- MENU ATENDIMENTO -->						
 						<rich:dropDownMenu>
 							<f:facet name="label">
-								<h:panelGroup>								
+								<h:panelGroup>							
+								    <h:graphicImage value="/imgs/icons/atend.gif" styleClass="pic" />	
 									<h:outputText value="Atendimento" />
 								</h:panelGroup>
 							</f:facet>
-							<rich:menuItem submitMode="ajax" value="Cliente Balcão" action="#" />
-							<rich:menuItem submitMode="ajax" value="Cliente Cadastrado" action="#" />
-							<rich:menuItem submitMode="ajax" value="Listar Requisições" action="#" />
+							<rich:menuItem submitMode="ajax" value="Cliente Balcão" icon="/imgs/icons/atendc.gif" action="#" />
+							<rich:menuItem submitMode="ajax" value="Cliente Cadastrado" icon="/imgs/icons/atendb.gif" action="#" />
+							<rich:menuSeparator id="menuSeparator2" />
+							<rich:menuItem submitMode="ajax" value="Listar Requisições" action="#" icon="/imgs/icons/copy.gif" />
 						</rich:dropDownMenu>
 
 						<!-- MENU CADASTRO -->						
 						<rich:dropDownMenu>
 							<f:facet name="label">
 								<h:panelGroup>												
+								    <h:graphicImage value="/imgs/icons/ferramentas.gif" styleClass="pic" />
 									<h:outputText value="Cadastros" />
 								</h:panelGroup>
 							</f:facet>
-							<rich:menuItem submitMode="none" value="Papel"  onclick="document.location.href='cadPapel.jsf'" />
-							<rich:menuItem submitMode="none" value="Opcional" onclick="document.location.href='cadOpcional.jsf'" />
-							<rich:menuItem submitMode="none" value="Entrega" onclick="document.location.href='cadEntrega.jsf'" />							
-							<rich:menuItem submitMode="none" value="Cobrador" onclick="document.location.href='cadCobrador.jsf'" />
-							<rich:menuItem submitMode="none" value="Usuário" onclick="document.location.href='cadUsuario.jsf'"  />
-							<rich:menuItem submitMode="none" value="Cliente" onclick="document.location.href='cadCliente.jsf'" />
-							<rich:menuItem submitMode="none" value="Projeto" onclick="document.location.href='cadProjetoCliente.jsf'"  />
+							<rich:menuItem submitMode="none" value="Papel"    icon="/imgs/icons/papel.gif" onclick="document.location.href='cadPapel.jsf'" />
+							<rich:menuItem submitMode="none" value="Opcional" icon="/imgs/icons/lupa.gif" onclick="document.location.href='cadOpcional.jsf'" />
+							<rich:menuItem submitMode="none" value="Entrega"  icon="/imgs/icons/globo.gif" onclick="document.location.href='cadEntrega.jsf'" />							
+							<rich:menuItem submitMode="none" value="Cobrador" icon="/imgs/icons/pessoah.gif" onclick="document.location.href='cadCobrador.jsf'" />
+							<rich:menuItem submitMode="none" value="Usuário"  icon="/imgs/icons/pessoam.gif" onclick="document.location.href='cadUsuario.jsf'"  />
+							<rich:menuItem submitMode="none" value="Cliente"  icon="/imgs/icons/pessoas.gif" onclick="document.location.href='cadCliente.jsf'" />
+							<rich:menuItem submitMode="none" value="Projeto"  icon="/imgs/icons/ceta.gif" onclick="document.location.href='cadProjetoCliente.jsf'"  />
 						</rich:dropDownMenu>
 
 					</rich:toolBar>
