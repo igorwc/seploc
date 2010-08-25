@@ -27,6 +27,9 @@
 		<class>br.seploc.pojos.ReqServicosOpcionais</class>
 		<class>br.seploc.pojos.ReqServicosOpcionaisPK</class>
 		<class>br.seploc.pojos.RequisicaoServico</class>
+		<class>br.seploc.pojos.Estado</class>
+		<class>br.seploc.pojos.Cidade</class>
+		<class>br.seploc.pojos.Bairro</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 
