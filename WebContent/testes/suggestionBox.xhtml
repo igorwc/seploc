@@ -20,7 +20,9 @@
                     target="#{suggestionBean.codEntrega}" />
          </a4j:support>
   </rich:suggestionbox> 
+
   <br/>
+  <a4j:outputPanel id="uf">
   <h:outputText value="Estado:" />
   <h:inputText id="suggest_input_uf" />
    <rich:suggestionbox for="suggest_input_uf" minChars="1"
@@ -30,10 +32,28 @@
             <h:outputText value="#{suggest.nome} - #{suggest.sigla}" />
          </h:column>
             <a4j:support ajaxSingle="true" event="onselect"
-                action="#{suggestionBean.refreshUF}" reRender="data_id">
+                action="#{suggestionBean.refreshUF}" reRender="cidade" >
             <f:setPropertyActionListener value="#{suggest.id}"
                     target="#{suggestionBean.codUF}" />
          </a4j:support>
   </rich:suggestionbox> 
+</a4j:outputPanel>
+  <br/>
+  <a4j:outputPanel id="cidade" >
+  <h:outputText value="Cidade:" />
+  <h:inputText id="suggest_input_cidade" />
+   <rich:suggestionbox for="suggest_input_cidade" minChars="3"
+       fetchValue="#{sug_cidade.nome}" nothingLabel="no entry found"
+         suggestionAction="#{suggestionBean.complementoCidade}" var="sug_cidade">
+         <h:column>
+            <h:outputText value="#{sug_cidade.nome}" />
+         </h:column>
+            <a4j:support ajaxSingle="true" event="onselect"
+                 >
+            <f:setPropertyActionListener value="#{sug_cidade.id}"
+                    target="#{suggestionBean.codCidade}" />
+         </a4j:support>
+  </rich:suggestionbox> 
+  </a4j:outputPanel>
   </h:form>
   </ui:composition>
