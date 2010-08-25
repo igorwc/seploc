@@ -37,7 +37,7 @@
 	<!-- Configuração do RichFaces -->
 	<context-param>
 		<param-name>org.richfaces.SKIN</param-name>
-		<param-value>darkX</param-value>
+		<param-value>deepMarine</param-value>
 	</context-param>
 	<filter>
 		<display-name>RichFaces Filter</display-name>
