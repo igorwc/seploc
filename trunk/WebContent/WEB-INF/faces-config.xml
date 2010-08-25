@@ -47,7 +47,7 @@
  <managed-bean>
   <managed-bean-name>suggestionBean</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.SuggestionboxBean</managed-bean-class>
-  <managed-bean-scope>request</managed-bean-scope>
+  <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
  <!-- Fim de Beans Adicionais
  
