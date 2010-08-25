@@ -20,5 +20,20 @@
                     target="#{suggestionBean.codEntrega}" />
          </a4j:support>
   </rich:suggestionbox> 
+  <br/>
+  <h:outputText value="Estado:" />
+  <h:inputText id="suggest_input_uf" />
+   <rich:suggestionbox for="suggest_input_uf" minChars="1"
+       fetchValue="#{suggest.nome}" nothingLabel="no entry found"
+         suggestionAction="#{suggestionBean.complementoUF}" var="suggest">
+         <h:column>
+            <h:outputText value="#{suggest.nome} - #{suggest.sigla}" />
+         </h:column>
+            <a4j:support ajaxSingle="true" event="onselect"
+                action="#{suggestionBean.refreshUF}" reRender="data_id">
+            <f:setPropertyActionListener value="#{suggest.id}"
+                    target="#{suggestionBean.codUF}" />
+         </a4j:support>
+  </rich:suggestionbox> 
   </h:form>
   </ui:composition>
