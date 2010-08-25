@@ -49,13 +49,13 @@ public class CidadeDAO extends GenericDAO<Cidade, Integer> implements
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Estado> recuperaCidadesPorEstado(Integer estado) {
+	public List<Cidade> recuperaCidadesPorEstado(Integer estado) {
 		em.getTransaction().begin();
 		Query q = em.createNamedQuery("Cidade.RetornaCidadesPorEstado")
 				.setParameter("codigo", estado);
 
 		em.getTransaction().commit();
-		return (List<Estado>) q.getResultList();
+		return (List<Cidade>) q.getResultList();
 	}
 	
 	@Override
