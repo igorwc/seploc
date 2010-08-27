@@ -8,6 +8,10 @@
       template="masterpage.xhtml">
       <ui:define name="menu"/>
       <ui:define name="msgUser"/>
+
+
+	<!-- TAXINOMIA -->      
+	<ui:define name="taxinomia" />      
        
 	<ui:define name="conteudo">
 		<center><f:view>
@@ -16,7 +20,7 @@
 			<h:form prependId="false">
 			<br/><br/>			
 				<h:panelGrid columns="2" styleClass="login">
-					<h:outputLabel value="User Name" for="un" />
+					<h:outputLabel value="Usuário" for="un" />
 					<h:inputText id="username" value="#{login.userName}" 
 					                           required="true"
 					                           requiredMessage="Login deve ser informado"
@@ -24,8 +28,15 @@
 					                           <f:validateLength minimum="1"/>
 					</h:inputText> 
 					                           
-					<h:outputLabel value="Password" for="pw" />
+					<h:outputLabel value="Senha" for="pw" />
 					<h:inputSecret id="passwd" value="#{login.password}" size="21"/>
+
+					<h:outputLabel value="Nova Senha" for="pw" />
+					<h:inputSecret id="newpasswd" size="21"/>
+
+					<h:outputLabel value="Repetir Senha" for="pw" />
+					<h:inputSecret id="renewpasswd" size="21"/>
+
 				</h:panelGrid>
 				<h:messages errorClass="error" layout="table"/>
 				<h:commandButton value="Entrar" action="#{login.validateLogin}" />

@@ -33,8 +33,14 @@
 <body onload="UR_Start();showData()" topmargin="0"> 
 <table border="0" align="center" cellspacing="0" width="100%">
   <!-- LOGO -->
-  <tr align="center" id="topo">
-	<td colspan="2" height="58px"><img src="imgs/logo_seploc.png"/></td>
+  <tr align="center" id="topo2">
+	<td colspan="2" height="58px">
+		<div>
+			<div class="topo_esq" style="height:60px;" align="right"><img src="imgs/fde.png"/></div>
+			<div class="topo_cen" align="center"><img src="imgs/logo_seploc.png"/></div>
+			<div class="topo_dir" style="height:60px;" align="left"><img src="imgs/fdd.png"/></div>
+		</div>	
+	</td>
   </tr>
   <!-- TOPO -->
   <tr>  
@@ -115,7 +121,7 @@
   </tr>
   <!-- RODAPE -->
   <tr id="rodape">
-    <td  colspan="2" align="center" class="texto">
+    <td  colspan="2" align="center" class="texto_branco">
       <ui:insert name="rodape">
       	<span id="dt"></span> <span id="ur"></span>
       </ui:insert>
