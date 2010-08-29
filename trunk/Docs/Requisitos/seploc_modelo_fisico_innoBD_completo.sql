@@ -1269,9 +1269,9 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario` (
 --
 
 INSERT INTO `tbl_usuario` (`intCodUsr`, `vcrLogin`, `vcrPassword`, `vcrCpf`, `intPermissao`, `vcrIpMaquina`, `intGrupo`, `vcrNome`, `tspVersao`) VALUES
-(6, 'igorwc@gmail.com', NULL, '02278522493', 0, NULL, NULL, 'asasasas', '2010-08-08 20:56:49'),
-(7, 'testeand', NULL, '02278522493', 0, NULL, NULL, 'igorr', '2010-08-08 21:14:37'),
-(8, 'testedenovo', NULL, '03487103486', -1, NULL, NULL, 'vamosver22', '2010-08-08 21:16:26');
+(6, 'igor@gmail.com', NULL, '02232522493', 0, NULL, NULL, 'asasasas', '2010-08-08 20:56:49'),
+(7, 'testeand', NULL, '02278324493', 0, NULL, NULL, 'igorr', '2010-08-08 21:14:37'),
+(8, 'testedenovo', NULL, '03432103486', -1, NULL, NULL, 'vamosver22', '2010-08-08 21:16:26');
 
 --
 -- Restrições para as tabelas dumpadas
