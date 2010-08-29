@@ -6,7 +6,9 @@
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:rich="http://richfaces.org/rich"
       >
+
 <h:form  id="data_id">
+<h:outputText value="#{msgs.teste}" />
 <h:inputText id="suggest_input" />
    <rich:suggestionbox for="suggest_input" minChars="3"
        fetchValue="#{suggest.local}" nothingLabel="no entry found"
@@ -26,13 +28,13 @@
   <h:outputText value="Estado:" />
   <h:inputText id="suggest_input_uf" />
    <rich:suggestionbox for="suggest_input_uf" minChars="1"
-       fetchValue="#{suggest.nome}" nothingLabel="no entry found"
+       fetchValue="#{suggest.nome}" nothingLabel="Estado não encontrado."
          suggestionAction="#{suggestionBean.complementoUF}" var="suggest">
          <h:column>
             <h:outputText value="#{suggest.nome} - #{suggest.sigla}" />
          </h:column>
             <a4j:support ajaxSingle="true" event="onselect"
-                action="#{suggestionBean.refreshUF}" reRender="cidade" >
+                action="#{suggestionBean.refreshUF}" reRender="cidade,bairro" >
             <f:setPropertyActionListener value="#{suggest.id}"
                     target="#{suggestionBean.codUF}" />
          </a4j:support>
@@ -41,17 +43,34 @@
   <br/>
   <a4j:outputPanel id="cidade" >
   <h:outputText value="Cidade:" />
-  <h:inputText id="suggest_input_cidade" />
+  <h:inputText id="suggest_input_cidade" onselect="document." binding="#{suggestionBean.inputCidade}"/>
    <rich:suggestionbox for="suggest_input_cidade" minChars="3"
-       fetchValue="#{sug_cidade.nome}" nothingLabel="no entry found"
+       fetchValue="#{sug_cidade.nome}" nothingLabel="Cidade não encontrada"
          suggestionAction="#{suggestionBean.complementoCidade}" var="sug_cidade">
          <h:column>
             <h:outputText value="#{sug_cidade.nome}" />
          </h:column>
-            <a4j:support ajaxSingle="true" event="onselect"
+            <a4j:support ajaxSingle="true" event="onselect" reRender="bairro"
                  >
             <f:setPropertyActionListener value="#{sug_cidade.id}"
                     target="#{suggestionBean.codCidade}" />
+         </a4j:support>
+  </rich:suggestionbox> 
+  </a4j:outputPanel>
+    <br/>
+  <a4j:outputPanel id="bairro" >
+  <h:outputText value="Bairro:" />
+  <h:inputText id="suggest_input_bairro" disabled="true" binding="#{suggestionBean.inputBairro}"/>
+   <rich:suggestionbox for="suggest_input_bairro" minChars="2"
+       fetchValue="#{sug_bairro.nome}" nothingLabel="Bairro não encontrado."
+         suggestionAction="#{suggestionBean.complementoBairro}" var="sug_bairro">
+         <h:column>
+            <h:outputText value="#{sug_bairro.nome}" />
+         </h:column>
+            <a4j:support ajaxSingle="true" event="onselect"
+                 >
+            <f:setPropertyActionListener value="#{sug_bairro.id}"
+                    target="#{suggestionBean.codBairro}" />
          </a4j:support>
   </rich:suggestionbox> 
   </a4j:outputPanel>
