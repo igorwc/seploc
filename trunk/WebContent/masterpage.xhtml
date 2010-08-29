@@ -64,15 +64,15 @@
 							<f:facet name="label">
 								<h:panelGroup>
 									<h:graphicImage value="/imgs/icons/seploc.gif" styleClass="pic" />
-									<h:outputText value="Seploc" />
+									<h:outputText value="#{msgs.menu_seploc}" />
 								</h:panelGroup>
 							</f:facet>
-							<rich:menuItem submitMode="ajax" value="Parâmetros" action="#"
+							<rich:menuItem submitMode="ajax" value="#{msgs.menu_seploc_par}" action="#"
 								icon="/imgs/icons/create_doc.gif">
 							</rich:menuItem>
-							<rich:menuItem submitMode="ajax" value="Sobre" action="#" icon="/imgs/icons/open.gif" />
+							<rich:menuItem submitMode="ajax" value="#{msgs.menu_seploc_sobre}" action="#" icon="/imgs/icons/open.gif" />
 							<rich:menuSeparator id="menuSeparator1" />
-							<rich:menuItem submitMode="ajax" value="Exit" icon="/imgs/icons/sair.gif" action="#" onclick="document.location.href='login.jsf'" />
+							<rich:menuItem submitMode="ajax" value="#{msgs.menu_seploc_sair}" icon="/imgs/icons/sair.gif" action="#" onclick="document.location.href='login.jsf'" />
 						</rich:dropDownMenu>
 
 						<!-- MENU ATENDIMENTO -->						
