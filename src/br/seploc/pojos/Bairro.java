@@ -17,13 +17,13 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name = "tbl_bairros")
-@SqlResultSetMapping(name = "Bairro.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Cidade.class))
+@SqlResultSetMapping(name = "Bairro.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Bairro.class))
 @NamedNativeQueries({
 		@NamedNativeQuery(name = "Bairro.RetornaBairros", query = " SELECT * "
 				+ "FROM tbl_bairros b", resultSetMapping = "Bairro.implicit"),
 		@NamedNativeQuery(name = "Bairro.RetornaBairrosPorCidade", query = "SELECT * "
 				+ "FROM tbl_bairros b " 
-				+ "WHERE c.intCodCidade = :codigo", resultSetMapping = "Bairro.implicit") })
+				+ "WHERE b.intCodCidade = :codigo", resultSetMapping = "Bairro.implicit") })
 public class Bairro implements Serializable{
 	private static final long serialVersionUID = 1L;
 
@@ -101,6 +101,14 @@ public class Bairro implements Serializable{
 	 */
 	public void setVersao(Timestamp versao) {
 		this.versao = versao;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Bairro [id=" + id + ", nome=" + nome + "]";
 	}
 	
 	
