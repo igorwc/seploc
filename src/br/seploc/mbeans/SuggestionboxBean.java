@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.faces.component.html.HtmlInputText;
+
+import br.seploc.dao.BairroDAO;
 import br.seploc.dao.CidadeDAO;
 import br.seploc.dao.EntregaDAO;
 import br.seploc.dao.EstadoDAO;
+import br.seploc.pojos.Bairro;
 import br.seploc.pojos.Cidade;
 import br.seploc.pojos.Entrega;
 import br.seploc.pojos.Estado;
@@ -18,12 +22,17 @@ public class SuggestionboxBean {
 	// TESTES DE UF-CIDADE-BAIRRO
 	private List<Estado> listaUF;
 	private List<Cidade> listaCidades;
+	private List<Bairro> listaBairros;
 	private int codUF;
 	private int codUFAnterior;
 	private int codCidade;
+	private int codCidadeAnterior;
 	private int codBairro;
+	private HtmlInputText inputBairro;
+	private HtmlInputText inputCidade;
 	private long ultimaConsulta;
 	private long ultimaConsultaCidade;
+	private long ultimaConsultaBairro;
 
 	public SuggestionboxBean() {
 		lista = new ArrayList<Entrega>();
@@ -72,24 +81,29 @@ public class SuggestionboxBean {
 	}
 
 	public List<Cidade> complementoCidade(Object event) {
-//		long today = 0;
-//		if (ultimaConsultaCidade == 0) {
-//			ultimaConsultaCidade = Calendar.getInstance().getTimeInMillis();
-//			today = ultimaConsultaCidade;
-//			System.out.println("setou tempo cidade");
-//		}else{
-//			today = Calendar.getInstance().getTimeInMillis();
-//		}
-//		long diff = today - ultimaConsultaCidade;
-//		System.out.println(diff + " valor Cidade: " + ((diff / 1000) / 60));
-//		System.out.println(" valor uf: " +codUF+ " valor uf ant: " +codUFAnterior);
-//		if (!(((diff / 1000) / 60) < 5) || codUF != codUFAnterior) {
-			CidadeDAO cidadeDAO = new CidadeDAO();
+		long today = 0;
+		CidadeDAO cidadeDAO = new CidadeDAO();
+		
+		if (ultimaConsultaCidade == 0) {
+			ultimaConsultaCidade = Calendar.getInstance().getTimeInMillis();
+			today = ultimaConsultaCidade;
+			listaCidades = cidadeDAO.recuperaCidadesPorEstado(codUF);
+			System.out.println("setou tempo cidade");
+		}else{
+			today = Calendar.getInstance().getTimeInMillis();
+		}
+		long diff = today - ultimaConsultaCidade;
+		System.out.println(diff + " valor Cidade: " + ((diff / 1000) / 60));
+		System.out.println(" valor uf: " +codUF+ " valor uf ant: " +codUFAnterior);
+		if (!(((diff / 1000) / 60) < 5)) {
 			listaCidades = cidadeDAO.recuperaCidadesPorEstado(codUF);
 			ultimaConsultaCidade = Calendar.getInstance().getTimeInMillis();
-//		}
+		}
 		String prefixo = event.toString().toLowerCase();
 		List<Cidade> retorno = new ArrayList<Cidade>();
+		if(listaCidades == null){
+			return retorno;
+		}
 		for (Cidade e : listaCidades) {
 			if (e.getNome().toLowerCase().startsWith(prefixo)) {
 				retorno.add(e);
@@ -99,6 +113,37 @@ public class SuggestionboxBean {
 		return retorno;
 	}
 
+	public List<Bairro> complementoBairro(Object event) {
+		long today = 0;
+		BairroDAO bairroDAO = new BairroDAO();
+		
+		if (ultimaConsultaBairro == 0) {
+			ultimaConsultaBairro = Calendar.getInstance().getTimeInMillis();
+			today = ultimaConsultaBairro;
+			listaBairros = bairroDAO.recuperaBairrosPorCidade(codCidade);
+			System.out.println("setou tempo cidade");
+		}else{
+			today = Calendar.getInstance().getTimeInMillis();
+		}
+		long diff = today - ultimaConsultaBairro;
+		System.out.println(diff + " valor bairro: " + ((diff / 1000) / 60));
+		if (!(((diff / 1000) / 60) < 5)) {
+			listaBairros = bairroDAO.recuperaBairrosPorCidade(codCidade);
+			ultimaConsultaBairro = Calendar.getInstance().getTimeInMillis();
+		}
+		String prefixo = event.toString().toLowerCase();
+		List<Bairro> retorno = new ArrayList<Bairro>();
+		if(listaBairros == null){
+			return retorno;
+		}
+		for (Bairro e : listaBairros) {
+			if (e.getNome().toLowerCase().startsWith(prefixo)) {
+				retorno.add(e);
+				continue;
+			}
+		}
+		return retorno;
+	}
 	public void refreshData() {
 		EntregaDAO entregaDAO = new EntregaDAO();
 		ee = entregaDAO.recupera(codEntrega);
@@ -153,19 +198,28 @@ public class SuggestionboxBean {
 	 *            the codUF to set
 	 */
 	public void setCodUF(int codUF) {
-		if (codUFAnterior == -1) {
-			codUFAnterior = -2;
-			this.codUF = codUF;
-			System.out.println("Setou codigo UF " + this.codUF + " antigo: "
-					+ this.codUFAnterior);
+		if( this.codUF == codUF){
 			return;
+		}else{
+			codUFAnterior = this.codUF;
+			this.codUF = codUF;
+			ultimaConsultaCidade = 0;
+			System.out.println("Setou codigo UF " + this.codUF + " antigo: "
+			+ this.codUFAnterior);
 		}
-        	ultimaConsultaCidade = 0;
-        	codUFAnterior = this.codUF;
-		
-		this.codUF = codUF;
-		System.out.println("Setou codigo UF " + this.codUF + " antigo: "
-				+ this.codUFAnterior);
+//		if (codUFAnterior == -1) {
+//			codUFAnterior = -2;
+//			this.codUF = codUF;
+//			System.out.println("Setou codigo UF " + this.codUF + " antigo: "
+//					+ this.codUFAnterior);
+//			return;
+//		}
+//        	ultimaConsultaCidade = 0;
+//        	codUFAnterior = this.codUF;
+//		
+//		this.codUF = codUF;
+//		System.out.println("Setou codigo UF " + this.codUF + " antigo: "
+//				+ this.codUFAnterior);
 
 	}
 
@@ -181,8 +235,21 @@ public class SuggestionboxBean {
 	 *            the codCidade to set
 	 */
 	public void setCodCidade(int codCidade) {
-		this.codCidade = codCidade;
-		System.out.println("Setou codigo cidade " + this.codCidade );
+//		if (inputCidade.getSubmittedValue()!= null && inputCidade.getSubmittedValue().toString().trim() != ""){
+//			inputBairro.getAttributes().remove("disabled");
+//			inputBairro.getAttributes().put("disabled", "false");
+//		}
+		if( this.codCidade == codCidade){
+			return;
+		}else{
+			codCidadeAnterior = this.codCidade;
+			this.codCidade = codCidade;
+			ultimaConsultaCidade = 0;
+			System.out.println("Setou codigo Cidade " + this.codCidade + " antigo: "
+			+ this.codCidadeAnterior);
+		}
+//		this.codCidade = codCidade;
+//		System.out.println("Setou codigo cidade " + this.codCidade );
 	}
 
 	/**
@@ -198,6 +265,34 @@ public class SuggestionboxBean {
 	 */
 	public void setCodBairro(int codBairro) {
 		this.codBairro = codBairro;
+	}
+
+	/**
+	 * @return the inputBairro
+	 */
+	public HtmlInputText getInputBairro() {
+		return inputBairro;
+	}
+
+	/**
+	 * @param inputBairro the inputBairro to set
+	 */
+	public void setInputBairro(HtmlInputText inputBairro) {
+		this.inputBairro = inputBairro;
+	}
+
+	/**
+	 * @return the inputCidade
+	 */
+	public HtmlInputText getInputCidade() {
+		return inputCidade;
+	}
+
+	/**
+	 * @param inputCidade the inputCidade to set
+	 */
+	public void setInputCidade(HtmlInputText inputCidade) {
+		this.inputCidade = inputCidade;
 	}
 
 }

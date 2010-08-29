@@ -21,6 +21,7 @@ import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.Entrega;
+import br.seploc.pojos.FoneCliente;
 
 public class ClienteBean implements Serializable {
 
@@ -29,6 +30,7 @@ public class ClienteBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Cliente cliente;
+	private FoneCliente foneCliente;
 	private ClienteDAO clienteDAO;
 	private List<String> bairros;
 	private String bairroCliente;
@@ -42,6 +44,7 @@ public class ClienteBean implements Serializable {
 
 	public ClienteBean() {
 		cliente = new Cliente();
+		foneCliente = new FoneCliente();
 		clienteDAO = new ClienteDAO();
 		EntregaDAO entregaDAO = new EntregaDAO();
 		bairros = entregaDAO.getLocaisEntrega();
@@ -247,6 +250,24 @@ public class ClienteBean implements Serializable {
 		return entregaDAO.getLocaisEntrega();
 	}
 
+	/**
+	 * @return the foneCliente
+	 */
+	public FoneCliente getFoneCliente() {
+		return foneCliente;
+	}
+
+
+
+	/**
+	 * @param foneCliente the foneCliente to set
+	 */
+	public void setFoneCliente(FoneCliente foneCliente) {
+		this.foneCliente = foneCliente;
+	}
+
+
+
 	public void setCNPJ(String cnpj) {
 		cliente.setCpf(null);
 		cliente.setCnpj(cnpj);
@@ -258,6 +279,9 @@ public class ClienteBean implements Serializable {
 
 	public void cadastra() {
 		try {
+			if(foneCliente !=null){
+				cliente.setFoneCliente(foneCliente);
+			}
 			clienteDAO.adiciona(cliente);
 			addGlobalMessage("Inclusão feita com sucesso!");
 		} catch (Exception e) {
@@ -285,6 +309,7 @@ public class ClienteBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
 
+	
 	/*
 	 * Validadores
 	 */
