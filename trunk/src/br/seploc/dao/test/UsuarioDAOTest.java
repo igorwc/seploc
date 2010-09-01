@@ -19,13 +19,13 @@ public class UsuarioDAOTest {
 	@Test
 	public final void testAdicionaUsuario() throws LoginInsertException {
 		UsuarioDAO dao = new UsuarioDAO();
-		Usuario usuario = new Usuario("xuxuxu", "xuxu da silva", "nova", "12312312323", 0, "192.186.123.12");
+		Usuario usuario = new Usuario("xuxu", "xuxu da silva", "nova", "12312312323", 0, "192.186.123.12");
 		dao.adiciona(usuario);
 		usuario = null;
 		usuario = dao.recupera(1);
 		
 		Assert.assertNotNull(usuario);
-		Assert.assertEquals("xuxuxu", usuario.getLogin());
+		Assert.assertEquals("xuxu", usuario.getLogin());
 		Assert.assertEquals("xuxu da silva", usuario.getNome());
 		Assert.assertEquals("12312312323", usuario.getCpf());
 		Assert.assertEquals("192.186.123.12", usuario.getIpMaquina() );
