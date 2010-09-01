@@ -105,10 +105,10 @@
  <!--Fim dos Cadastros 
  Regras Navegação -->
  <navigation-rule>
-  <from-view-id>/login.jsf</from-view-id>
+  <from-view-id>/login.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>login</from-outcome>
-   <to-view-id>/login.jsf</to-view-id>
+   <to-view-id>/login.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
   <navigation-case>
