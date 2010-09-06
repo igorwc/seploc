@@ -1,0 +1,208 @@
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_reqserv_root}"/> <img src="imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_reqserv_clientec}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+<style type="text/css">  
+.row1 {   
+    background-color: #EDEBEB;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+</style> 
+
+
+
+   <f:view>  
+   	   <h:form id="cadPapel" enctype="UTF-8" prependId="false" >
+   	   <script type="text/javascript" >
+             					(function($j){
+                 					$j(function(){
+    	             					$j('.CEP').setMask();
+    	             					$j('.PHONE').setMask();
+                     				}
+                  				);
+              				})(jQuery);  
+          				 </script>
+           <rich:panel header="Requisição de Serviço">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Cliente Cadastrado" style="width: 600px">
+                 <table	border="0" >                   
+					<tr align="left">					
+					<td><h:outputText value="Cliente: " styleClass="texto"/><h:inputHidden value="#{clienteBean.cliente.idCliente}"  /></td>
+					<td colspan="3"><h:inputText value="#{clienteBean.cliente.fantasia}" 
+									 validator="#{clienteBean.validateFantasia}" 								 
+									 id="fantasiaCli" size="60">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>                        
+                    </td>                                       
+					</tr>
+					<tr>
+					<td colspan="4"><rich:message for="cliente" styleClass="error" /></td>					
+					</tr>
+					<tr align="left">					
+					<td><h:outputText value="Projeto: " styleClass="texto"/></td>
+					<td><h:inputText value="#{clienteBean.cliente.razao}" 
+									 validator="#{clienteBean.validateRazaoSocial}" 								 
+									 id="razaoCli" size="20">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>                        
+                    </td>
+   					<td><h:outputText value="Entrega: " styleClass="texto"/></td>
+                    <td>
+                    <rich:comboBox selectFirstOnUpdate="false"
+                                   defaultLabel="Local de Entrega"
+                                   id="entregaPadraoCli" 
+                                   value="#{clienteBean.entregaCliente}"
+                                   validator="#{appBean.validateEntrega}"
+                                   >
+                         <f:selectItems value="#{appBean.locaisEntrega}" />
+                        <rich:ajaxValidator event="onkeyup"  />    
+                        <rich:ajaxValidator event="onchange"  />  
+                    </rich:comboBox>
+                    </td>                                        
+					</tr>					
+					<tr>
+					<td colspan="2"><rich:message for="projeto" styleClass="error" /></td>					
+					<td colspan="2"></td>
+					</tr>										
+					<tr>
+					<td colspan="4"><hr size="1"/></td>					
+					</tr>										
+					<tr align="left">
+					<td><h:outputText value="Opcional: " styleClass="texto"/></td>
+					<td>
+					 <rich:comboBox selectFirstOnUpdate="false"
+                                   defaultLabel="Nome do Opcional"
+                                   id="papelPadraoCli" 
+                                   value="#{clienteBean.papelCliente}"
+                                   validator="#{appBean.validatePapeis}"
+                                   >
+                         <f:selectItems value="#{appBean.papeis}"  />
+                        <rich:ajaxValidator event="onkeyup"  />    
+                        <rich:ajaxValidator event="onchange"  />   
+                    </rich:comboBox>
+                    </td>                    
+					<td><h:outputText value="Quantidade: " styleClass="texto"/></td>
+					<td><h:inputText value="#{clienteBean.cliente.razao}" 
+									 validator="#{clienteBean.validateRazaoSocial}" 								 
+									 id="quatOp" size="3">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>                        
+                    </td>
+					</tr>
+					<tr>
+					<td colspan="4"><hr size="1"/></td>					
+					</tr>										
+					<tr>
+					<td colspan="4">
+					<table>
+						<tr>
+							<th><h:outputText value="Descrição"/></th>
+							<th><h:outputText value="Largura"/></th>
+							<th><h:outputText value="Altura"/></th>
+							<th><h:outputText value="Papel"/></th>
+							<th><h:outputText value="Cor"/></th>
+							<th><h:outputText value="Quant"/></th>							
+						</tr>
+						<tr>
+							<td><h:inputText id="desc" value="" size="20"/></td>
+							<td><h:inputText id="larg" value="" size="3"/></td>
+							<td><h:inputText id="alt" value="" size="3"/></td>
+							<td><h:inputText id="pap" value="" size="3"/></td>
+							<td><h:inputText id="cor" value="" size="3"/></td>
+							<td><h:inputText id="quant" value="" size="3"/></td>							
+						</tr>
+					</table>				
+					</td>					
+					</tr>										
+						
+				  </table> 
+				  <!-- Botoes -->
+                  <br/>
+                  <a4j:commandButton value="Salvar"
+                  action="#{clienteBean.cadastra}"
+                  reRender="cadCliente,clienteSucesso"
+                  oncomplete="#{rich:component('confirmationMessage')}.show()" />                                              
+                  <a4j:commandButton value="Limpar" type="reset" 
+                   action="#{clienteBean.limpa}" />
+               </rich:panel>
+               </center>
+               <!-- fim Formulario -->
+           </rich:panel>           
+       </h:form>  
+       
+        <!-- Mensagens -->
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de Cliente"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
+       
+       
+       
+   </f:view>  
+   
+</ui:define>
+</ui:composition>
