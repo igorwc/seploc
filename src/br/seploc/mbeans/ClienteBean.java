@@ -39,8 +39,6 @@ public class ClienteBean implements Serializable {
 	private HtmlSelectOneRadio selectDocType;
 	private String entregaCliente;
 	private String papelCliente;
-	
-
 
 	public ClienteBean() {
 		cliente = new Cliente();
@@ -52,36 +50,157 @@ public class ClienteBean implements Serializable {
 			bairroCliente = (cliente.getEntregaPadrao().getLocal() == null ? ""
 					: cliente.getEntregaPadrao().getLocal());
 	}
-	
-	
 
-//	/**
-//	 * @return the entregaId
-//	 */
-//	public Integer getEntregaId() {
-//		return entregaId;
-//	}
+	public void limpaDoc() {
+		cliente.setCnpj("");
+		cliente.setCpf("");
+		System.out.println(selectDocType.getValue().getClass().getName());
 
-//	/**
-//	 * @param entregaId the entregaId to set
-//	 */
-//	public void setEntregaId(Integer entregaId) {
-//		this.entregaId = entregaId;
-//	}
-//
-//	/**
-//	 * @return the entregas
-//	 */
-//	public List<Entrega> getEntregas() {
-//		return entregas;
-//	}
+		if (((Integer) selectDocType.getValue()) == 1) {
+			inputCPF.setValue("");
+			inputCPF.resetValue();
+		} else {
+			inputCNPJ.setValue("");
+			inputCNPJ.resetValue();
+		}
+	}
 
-//	/**
-//	 * @param entregas the entregas to set
-//	 */
-//	public void setEntregas(List<Entrega> entregas) {
-//		this.entregas = entregas;
-//	}
+	public Cliente getCliente() {
+		// System.out.println("Get Cliente");
+		return cliente;
+	}
+
+	/**
+	 * @return the bairros
+	 */
+	public List<SelectItem> getBairros() {
+		ArrayList<SelectItem> bairros = new ArrayList<SelectItem>();
+		for (String b : this.bairros) {
+			bairros.add(new SelectItem(b, b));
+		}
+		return bairros;
+	}
+
+	/**
+	 * @param bairros
+	 *            the bairros to set
+	 */
+	public void setBairros(List<String> bairros) {
+		this.bairros = bairros;
+	}
+
+	// /**
+	// * @return the bairros
+	// */
+	// public List<SelectItem> getLocaisEntrega() {
+	// ArrayList<SelectItem> bairros = new ArrayList<SelectItem>();
+	// for (Entrega b : this.entregas) {
+	// bairros.add(new SelectItem( b.getLocal() ));
+	// }
+	// return bairros;
+	// }
+	// /**
+	// * @return the entrega
+	// */
+	// public List<Entrega> getEntrega() {
+	// return entregas;
+	// }
+	//
+	// /**
+	// * @param entrega
+	// * the entrega to set
+	// */
+	// public void setEntrega(List<Entrega> entrega) {
+	// this.entregas = entrega;
+	// }
+
+	public void cadastra() {
+		try {
+			if (foneCliente != null) {
+				cliente.setFoneCliente(foneCliente);
+			}
+			clienteDAO.adiciona(cliente);
+			
+			addGlobalMessage("Inclusão feita com sucesso!");
+			
+			
+		} catch (Exception e) {
+			addGlobalMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		limpaDoc();
+		limpa();
+	}
+
+	public void edita() {
+
+	}
+
+	public void apaga() {
+
+	}
+
+	public void limpa() {
+		cliente = new Cliente();
+		foneCliente = new FoneCliente();
+//		FacesContext.getCurrentInstance().renderResponse();
+		System.out.println("Limpar Cliente");
+	}
+
+	public static void addGlobalMessage(String message) {
+		FacesMessage facesMessage = new FacesMessage(message);
+		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public ClienteDAO getClienteDAO() {
+		return clienteDAO;
+	}
+
+	public void setClienteDAO(ClienteDAO clienteDAO) {
+		this.clienteDAO = clienteDAO;
+	}
+
+	public void setCPF(String cpf) {
+		cliente.setCpf(cpf);
+		cliente.setCnpj(null);
+	}
+
+	public String getCPF() {
+		return cliente.getCpf();
+	}
+
+	public List<String> getBairrosRecife() {
+		EntregaDAO entregaDAO = new EntregaDAO();
+		return entregaDAO.getLocaisEntrega();
+	}
+
+	/**
+	 * @return the foneCliente
+	 */
+	public FoneCliente getFoneCliente() {
+		return foneCliente;
+	}
+
+	/**
+	 * @param foneCliente
+	 *            the foneCliente to set
+	 */
+	public void setFoneCliente(FoneCliente foneCliente) {
+		this.foneCliente = foneCliente;
+	}
+
+	public void setCNPJ(String cnpj) {
+		cliente.setCpf(null);
+		cliente.setCnpj(cnpj);
+	}
+
+	public String getCNPJ() {
+		return cliente.getCpf();
+	}
 
 	/**
 	 * @return the entregaCliente
@@ -90,16 +209,13 @@ public class ClienteBean implements Serializable {
 		return entregaCliente;
 	}
 
-
-
 	/**
-	 * @param entregaCliente the entregaCliente to set
+	 * @param entregaCliente
+	 *            the entregaCliente to set
 	 */
 	public void setEntregaCliente(String entregaCliente) {
 		this.entregaCliente = entregaCliente;
 	}
-
-
 
 	/**
 	 * @return the inputCNPJ
@@ -161,155 +277,6 @@ public class ClienteBean implements Serializable {
 		this.bairroCliente = bairroCliente;
 	}
 
-	public void limpaDoc() {
-		cliente.setCnpj("");
-		cliente.setCpf("");
-		System.out.println(selectDocType.getValue().getClass().getName());
-
-		if (((Integer) selectDocType.getValue()) == 1) {
-			inputCPF.setValue("");
-			inputCPF.resetValue();
-		} else {
-			inputCNPJ.setValue("");
-			inputCNPJ.resetValue();
-		}
-	}
-
-	public Cliente getCliente() {
-		// System.out.println("Get Cliente");
-		return cliente;
-	}
-
-	/**
-	 * @return the bairros
-	 */
-	public List<SelectItem> getBairros() {
-		ArrayList<SelectItem> bairros = new ArrayList<SelectItem>();
-		for (String b : this.bairros) {
-			bairros.add(new SelectItem( b, b));
-		}
-		return bairros;
-	}
-
-	/**
-	 * @param bairros
-	 *            the bairros to set
-	 */
-	public void setBairros(List<String> bairros) {
-		this.bairros = bairros;
-	}
-
-//	/**
-//	 * @return the bairros
-//	 */
-//	public List<SelectItem> getLocaisEntrega() {
-//		ArrayList<SelectItem> bairros = new ArrayList<SelectItem>();
-//		for (Entrega b : this.entregas) {
-//			bairros.add(new SelectItem(  b.getLocal() ));
-//		}
-//		return bairros;
-//	}
-//	/**
-//	 * @return the entrega
-//	 */
-//	public List<Entrega> getEntrega() {
-//		return entregas;
-//	}
-//
-//	/**
-//	 * @param entrega
-//	 *            the entrega to set
-//	 */
-//	public void setEntrega(List<Entrega> entrega) {
-//		this.entregas = entrega;
-//	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public ClienteDAO getClienteDAO() {
-		return clienteDAO;
-	}
-
-	public void setClienteDAO(ClienteDAO clienteDAO) {
-		this.clienteDAO = clienteDAO;
-	}
-
-	public void setCPF(String cpf) {
-		cliente.setCpf(cpf);
-		cliente.setCnpj(null);
-	}
-
-	public String getCPF() {
-		return cliente.getCpf();
-	}
-
-	public List<String> getBairrosRecife() {
-		EntregaDAO entregaDAO = new EntregaDAO();
-		return entregaDAO.getLocaisEntrega();
-	}
-
-	/**
-	 * @return the foneCliente
-	 */
-	public FoneCliente getFoneCliente() {
-		return foneCliente;
-	}
-
-
-
-	/**
-	 * @param foneCliente the foneCliente to set
-	 */
-	public void setFoneCliente(FoneCliente foneCliente) {
-		this.foneCliente = foneCliente;
-	}
-
-
-
-	public void setCNPJ(String cnpj) {
-		cliente.setCpf(null);
-		cliente.setCnpj(cnpj);
-	}
-
-	public String getCNPJ() {
-		return cliente.getCpf();
-	}
-
-	public void cadastra() {
-		try {
-			if(foneCliente !=null){
-				cliente.setFoneCliente(foneCliente);
-			}
-			clienteDAO.adiciona(cliente);
-			addGlobalMessage("Inclusão feita com sucesso!");
-		} catch (Exception e) {
-			addGlobalMessage(e.getMessage());
-			e.printStackTrace();
-		}
-
-	}
-
-	public void edita() {
-
-	}
-
-	public void apaga() {
-
-	}
-
-	public void limpa() {
-		cliente = new Cliente();
-		System.out.println("Limpar Cliente");
-	}
-
-	public static void addGlobalMessage(String message) {
-		FacesMessage facesMessage = new FacesMessage(message);
-		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-	}
-
-	
 	/*
 	 * Validadores
 	 */
@@ -321,16 +288,13 @@ public class ClienteBean implements Serializable {
 		return papelCliente;
 	}
 
-
-
 	/**
-	 * @param papelCliente the papelCliente to set
+	 * @param papelCliente
+	 *            the papelCliente to set
 	 */
 	public void setPapelCliente(String papelCliente) {
 		this.papelCliente = papelCliente;
 	}
-
-
 
 	/**
 	 * @param context
@@ -381,6 +345,7 @@ public class ClienteBean implements Serializable {
 			}
 		}
 	}
+
 	/**
 	 * @param context
 	 * @param component
@@ -392,12 +357,12 @@ public class ClienteBean implements Serializable {
 		Application app = context.getApplication();
 		ExpressionFactory exprFactory = app.getExpressionFactory();
 		ValueExpression valueExpr = exprFactory.createValueExpression(
-				context.getELContext(), "#{appBean}",
-				NavigationBean.class);
-		AppServiceBean appBean = (AppServiceBean) valueExpr
-				.getValue(context.getELContext());
-		System.out.println("Passou por auqi " +appBean.getPapeis().size());
-		if (appBean.getPapeis().size() == 1 && appBean.getPapeis().get(0).equals("")) {
+				context.getELContext(), "#{appBean}", NavigationBean.class);
+		AppServiceBean appBean = (AppServiceBean) valueExpr.getValue(context
+				.getELContext());
+		System.out.println("Passou por auqi " + appBean.getPapeis().size());
+		if (appBean.getPapeis().size() == 1
+				&& appBean.getPapeis().get(0).equals("")) {
 			FacesMessage message = new FacesMessage(
 					"Não existem papeis Cadastrados");
 			message.setSeverity(FacesMessage.SEVERITY_INFO);
@@ -406,6 +371,7 @@ public class ClienteBean implements Serializable {
 		}
 
 	}
+
 	/**
 	 * @param context
 	 * @param component
