@@ -48,7 +48,7 @@
 
 
    <f:view>  
-   	   <h:form id="cadPapel" enctype="UTF-8" prependId="false" >
+   	  
    	   <script type="text/javascript" >
              					(function($j){
                  					$j(function(){
@@ -61,8 +61,9 @@
            <rich:panel header="Cliente">
 			   <!-- Formulario -->
 			   <center>
-               <rich:panel header="Cadastro de Cliente" style="width: 600px">
-                 <table	border="0" >  
+               <rich:panel header="Cadastro de Cliente" id="clientePanel" style="width: 600px">
+                  <h:form id="cadCliente" enctype="UTF-8" prependId="false" >
+                 <table	border="0" id="clientForm" >  
                    <a4j:outputPanel layout="block">
 					<tr align="left">
 					<td><h:outputText value="Tipo Documento: " styleClass="texto"/></td>
@@ -351,17 +352,18 @@
 				  </table> 
 				  <!-- Botoes -->
                   <br/>
-                  <a4j:commandButton value="Salvar"
-                  action="#{clienteBean.cadastra}"
-                  reRender="cadCliente,clienteSucesso"
-                  oncomplete="#{rich:component('confirmationMessage')}.show()" />                                              
+                  <a4j:commandButton value="Salvar" 
+                  action="#{clienteBean.cadastra}" reRender="clientePanel"
+                  oncomplete="#{rich:component('confirmationMessage')}.show()" 
+                    />                                              
                   <a4j:commandButton value="Limpar" type="reset" 
                    action="#{clienteBean.limpa}" />
+                     </h:form>
                </rich:panel>
                </center>
                <!-- fim Formulario -->
            </rich:panel>           
-       </h:form>  
+       
        
         <!-- Mensagens -->
         <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
@@ -382,7 +384,7 @@
                 <tbody>
                     <tr>
                         <td align="center" width="100%">
-                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                           	<rich:messages   globalOnly="true" styleClass="texto"/>
                         </td>
                     </tr>
                     <tr>
