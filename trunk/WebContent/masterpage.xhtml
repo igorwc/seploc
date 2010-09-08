@@ -80,11 +80,11 @@
 							<f:facet name="label">
 								<h:panelGroup>							
 								    <h:graphicImage value="/imgs/icons/atend.gif" styleClass="pic" />	
-									<h:outputText value="Atendimento" />
+									<h:outputText value="Requisição" />
 								</h:panelGroup>
 							</f:facet>
 							<rich:menuItem submitMode="ajax" value="Cliente Balcão" icon="/imgs/icons/atendc.gif" action="#" />
-							<rich:menuItem submitMode="ajax" value="Cliente Cadastrado" icon="/imgs/icons/atendb.gif" action="#" />
+							<rich:menuItem submitMode="nome" value="Cliente Cadastrado" icon="/imgs/icons/atendb.gif"  onclick="document.location.href='cadRequisicaoServico.jsf'" />
 							<rich:menuSeparator id="menuSeparator2" />
 							<rich:menuItem submitMode="ajax" value="Listar Requisições" action="#" icon="/imgs/icons/copy.gif" />
 						</rich:dropDownMenu>
@@ -123,7 +123,7 @@
   <tr id="rodape">
     <td  colspan="2" align="center" class="texto_branco">
       <ui:insert name="rodape">
-      	<span id="dt"></span> <span id="ur"></span>
+      	<span id="dt"></span>
       </ui:insert>
     </td>
   </tr>  
