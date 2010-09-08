@@ -51,6 +51,15 @@ public class OpcionaisReqServDAO extends
 		return (List<OpcionaisReqServ>) q.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<String> getOpcionais() {
+		em.getTransaction().begin();
+		Query q = em.createNativeQuery("select vcrNomeItem from tbl_opcionaisReqServ");
+		em.getTransaction().commit();
+		return (List<String>) q.getResultList();
+	}
+	
+	
 	@Override
 	public OpcionaisReqServ recupera(Integer id) throws Exception {
 		OpcionaisReqServ opcionais = em.find(OpcionaisReqServ.class, id);
