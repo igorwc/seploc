@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 
+import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
 import br.seploc.dao.PapelDAO;
 import br.seploc.dao.OpcionaisReqServDAO;
@@ -20,9 +21,20 @@ public class AppServiceBean {
 	private List<String> locaisEntrega;
 	private List<String> papeis;
 	private List<String> opcionais;
+	private List<String> nomesCliente;
+
 	private int tamanholistaPapel;
 	private int tamanholistaEntrega;
 	private int tamanholistaOpcionais;
+	private int tamanholistaClientes;
+
+	public int getTamanholistaClientes() {
+		return tamanholistaClientes;
+	}
+
+	public void setTamanholistaClientes(int tamanholistaClientes) {
+		this.tamanholistaClientes = tamanholistaClientes;
+	}
 
 	public int getTamanholistaOpcionais() {
 		return tamanholistaOpcionais;
@@ -42,6 +54,17 @@ public class AppServiceBean {
 		}
 		return retorno;
 	}
+
+	public List<SelectItem> getNomesCliente() {
+		ArrayList<SelectItem> retorno = new ArrayList<SelectItem>();
+		ClienteDAO clienteDAO = new ClienteDAO();
+		List<String> clientes = clienteDAO.getNomesCliente();
+		this.setNomesCliente(clientes);
+		for (String b : clientes) {
+			retorno.add(new SelectItem(b));
+		}
+		return retorno;
+	}	
 
 	public List<SelectItem> getPapeis() {
 		ArrayList<SelectItem> retorno = new ArrayList<SelectItem>();
@@ -83,6 +106,11 @@ public class AppServiceBean {
 	public void setLocaisEntrega(List<String> locaisEntrega) {
 		this.locaisEntrega = locaisEntrega;
 		this.setTamanholistaEntrega(locaisEntrega.size());
+	}
+	
+	public void setNomesCliente(List<String> nomesCliente) {
+		this.nomesCliente = nomesCliente;
+		this.setTamanholistaClientes(nomesCliente.size());
 	}
 
 	/**

@@ -102,6 +102,13 @@ public class ClienteDAOTest {
 		Cliente c = dao.recupera(1);
 		System.out.println(c);
 	}
+	
+	@Test
+	public final void testRecuperaString() {
+		ClienteDAO dao = new ClienteDAO();
+		Cliente c = dao.recupera("Solutiona");
+		System.out.println(c);
+	}	
 
 	@Test
 	public final void testRemoveInteger() throws Exception {
@@ -146,6 +153,19 @@ public class ClienteDAOTest {
 			System.out.println(cc);
 		}
 	}
+	
+	@Test
+	public final void testGetNomesCliente() {
+		ClienteDAO dao = new ClienteDAO();
+		List<String> c = dao.getNomesCliente();
+
+		Assert.assertNotNull(c);
+		Assert.assertTrue(c.size() == 6);
+
+		for (String cc : c) {
+			System.out.println(cc);
+		}
+	}	
 
 	@Test
 	public final void testGetClientesPorNome() {

@@ -53,6 +53,14 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 		Cliente cliente = em.find(Cliente.class, id);
 		return cliente;
 	}
+	
+	public Cliente recupera(String fantasia) {		
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Cliente.RetornaClientePorFantasia").setParameter(
+				"nome", fantasia);
+		em.getTransaction().commit();
+		return (Cliente) q.getSingleResult();
+	}	
 
 	@Override
 	public Cliente remove(Integer id) throws Exception {
@@ -110,7 +118,16 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 		em.getTransaction().commit();
 		return (List<Cliente>) q.getResultList();
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public List<Cliente> getClientesPorFantasia(String nome) {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Cliente.BuscaClientesPorFantasia").setParameter(
+				"nome", "%" + nome + "%");
+		em.getTransaction().commit();
+		return (List<Cliente>) q.getResultList();
+	}	
+	
 	@Override
 	protected void ajustaPojo(Cliente c) throws FieldNotNullException {
 		if (c.getFantasia() == null)
@@ -120,4 +137,12 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 		if (c.getBalcao() == null)
 			c.setBalcao(0);
 	}
+
+	@SuppressWarnings("unchecked")	
+	public List<String> getNomesCliente() {
+		em.getTransaction().begin();
+		Query q = em.createNativeQuery("select vcrFantasia from tbl_clientes");
+		em.getTransaction().commit();
+		return (List<String>) q.getResultList();
+	}	
 }

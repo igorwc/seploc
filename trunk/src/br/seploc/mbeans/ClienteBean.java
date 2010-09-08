@@ -455,9 +455,9 @@ public class ClienteBean implements Serializable {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (nome.length() > 20) {
+		if (nome.length() >= 60) {
 			FacesMessage message = new FacesMessage(
-					"A Razão Social deve ter entre 5 e 20 caracteres");
+					"A Razão Social deve ter entre 5 e 60 caracteres");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
@@ -500,9 +500,9 @@ public class ClienteBean implements Serializable {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (nome.length() > 20) {
+		if (nome.length() >= 60) {
 			FacesMessage message = new FacesMessage(
-					"O Nome Fantasia deve ter entre 5 e 20 caracteres");
+					"O Nome Fantasia deve ter entre 5 e 60 caracteres");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
