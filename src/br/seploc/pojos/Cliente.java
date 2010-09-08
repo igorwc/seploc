@@ -31,8 +31,12 @@ import javax.persistence.Version;
 @NamedNativeQueries( {
 		@NamedNativeQuery(name = "Cliente.RetornaClientes", query = " SELECT * "
 				+ "FROM tbl_clientes c", resultSetMapping = "Cliente.implicit"),
+				@NamedNativeQuery(name = "Cliente.RetornaClientePorFantasia", query = " SELECT * "
+				+ "FROM tbl_clientes c where vcrFantasia = :nome", resultSetMapping = "Cliente.implicit"),				
+		@NamedNativeQuery(name = "Cliente.BuscaClientesPorFantasia", query = " SELECT * "
+				+ "FROM tbl_clientes c where vcrFantasia like :nome", resultSetMapping = "Cliente.implicit"),				
 		@NamedNativeQuery(name = "Cliente.BuscaClientes", query = " SELECT * "
-					+ "FROM tbl_clientes c where vcrRazao like :nome", resultSetMapping = "Cliente.implicit")
+				+ "FROM tbl_clientes c where vcrRazao like :nome", resultSetMapping = "Cliente.implicit")
 })
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
