@@ -11,14 +11,26 @@ import javax.faces.validator.ValidatorException;
 
 import br.seploc.dao.EntregaDAO;
 import br.seploc.dao.PapelDAO;
+import br.seploc.dao.OpcionaisReqServDAO;
 import br.seploc.pojos.Entrega;
+import br.seploc.pojos.OpcionaisReqServ;
 
 public class AppServiceBean {
 
 	private List<String> locaisEntrega;
 	private List<String> papeis;
+	private List<String> opcionais;
 	private int tamanholistaPapel;
 	private int tamanholistaEntrega;
+	private int tamanholistaOpcionais;
+
+	public int getTamanholistaOpcionais() {
+		return tamanholistaOpcionais;
+	}
+
+	public void setTamanholistaOpcionais(int tamanholistaOpcionais) {
+		this.tamanholistaOpcionais = tamanholistaOpcionais;
+	}
 
 	public List<SelectItem> getLocaisEntrega() {
 		ArrayList<SelectItem> retorno = new ArrayList<SelectItem>();
@@ -47,6 +59,23 @@ public class AppServiceBean {
 		return retorno;
 	}
 
+	public List<SelectItem> getOpcionais() {
+		ArrayList<SelectItem> retorno = new ArrayList<SelectItem>();
+		OpcionaisReqServDAO opcionaisDAO = new OpcionaisReqServDAO();
+		List<String> opcionais = opcionaisDAO.getOpcionais();
+		if (opcionais == null || opcionais.isEmpty()) {
+			retorno.add(new SelectItem(""));
+
+		}
+		this.setOpcionais(opcionais);
+
+		for (String b : opcionais) {
+			retorno.add(new SelectItem(b));
+		}
+		return retorno;
+	}
+
+	
 	/**
 	 * @param locaisEntrega
 	 *            the locaisEntrega to set
@@ -97,6 +126,12 @@ public class AppServiceBean {
 		System.out.println("Setou tamanho " + tamanholistaPapel);
 	}
 
+	public void setOpcionais(List<String> opcionais) {
+		this.opcionais = opcionais;
+		this.setTamanholistaOpcionais(this.opcionais.size());
+		System.out.println("Setou tamanho " + tamanholistaOpcionais);
+	}	
+	
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
