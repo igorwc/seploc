@@ -66,15 +66,18 @@
 					<tr>
 					<td><h:outputText value="Cliente: " styleClass="texto"/></td>
 					<!-- busca do nome do nome fantasia do cliente com ajax -->
-					<td><h:inputText value="#{projetoClienteBean.projeto.cliente.fantasia}" 
-									 required="true"
-									 requiredMessage="O nome do cliente deve ser informado"
-									 validator="#{projetoClienteBean.validateNomeCli}" 
-									 id="nomeCliente">                             
-                             <rich:ajaxValidator event="onkeyup"  />                            
-                        </h:inputText>
-                        <h:inputHidden value="#{projetoClienteBean.projeto.cliente.codCliente}"  />
-                    </td>                    
+					<td>
+						<rich:comboBox selectFirstOnUpdate="false"
+	                                   defaultLabel="Nome do Cliente"
+	                                   requiredMessage="O nome do cliente deve ser informado"
+	                                   id="nomeCliente" 
+	                                   value="#{projetoClienteBean.fantasia}"
+	                                   validator="#{projetoClienteBean.validateFantasia}"
+	                                   >
+	                         <f:selectItems value="#{appBean.nomesCliente}" />
+	                        <rich:ajaxValidator event="onkeyup"  />    
+	                        <rich:ajaxValidator event="onchange"  />  
+	                    </rich:comboBox></td>                    
 					</tr>
 					<tr>
 					<td colspan="2"><rich:message for="nomeCliente" styleClass="error" /></td>
@@ -114,16 +117,26 @@
                    <f:facet name="header">  
                        <rich:columnGroup>  
   
-                           <rich:column colspan="5">  
+                           <rich:column colspan="3">  
                                <h:outputText value="Projetos Cadastrados por Cliente" />  
                            </rich:column>  
   
                            <rich:column breakBefore="true">  
+                               <h:outputText value="Cliente" />  
+                           </rich:column>  
+                           
+                           <rich:column >  
                                <h:outputText value="Projeto" />  
                            </rich:column>  
+                           
+                           <rich:column/>                           
   
                        </rich:columnGroup>  
                    </f:facet>  
+  
+                   <rich:column>  
+		               <h:outputText value="#{projeto.cliente.fantasia}" />  
+                   </rich:column> 
   
                    <rich:column>  
 		               <h:outputText value="#{projeto.projeto}" />  
