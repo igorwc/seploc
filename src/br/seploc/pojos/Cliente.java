@@ -35,7 +35,7 @@ import javax.persistence.Version;
 				+ "FROM tbl_clientes c where vcrFantasia = :nome", resultSetMapping = "Cliente.implicit"),				
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorFantasia", query = " SELECT * "
 				+ "FROM tbl_clientes c where vcrFantasia like :nome", resultSetMapping = "Cliente.implicit"),				
-		@NamedNativeQuery(name = "Cliente.BuscaClientes", query = " SELECT * "
+		@NamedNativeQuery(name = "Cliente.BuscaClientesPorRazao", query = " SELECT * "
 				+ "FROM tbl_clientes c where vcrRazao like :nome", resultSetMapping = "Cliente.implicit")
 })
 public class Cliente implements Serializable {
