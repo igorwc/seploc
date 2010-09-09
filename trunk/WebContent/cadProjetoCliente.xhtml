@@ -88,7 +88,8 @@
 									 required="true"
 									 requiredMessage="O nome do projeto deve ser informado"
 									 validator="#{projetoClienteBean.validateNomeProj}" 
-					                 id="nomeProjeto">					          
+					                 id="nomeProjeto"
+					                 binding="#{projetoClienteBean.inputProjeto}">					          
 					          <rich:ajaxValidator event="onkeyup"/>
 					     </h:inputText></td>					
 					</tr>
