@@ -6,6 +6,7 @@
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
   </welcome-file-list>
+
   <context-param>
     <param-name>org.richfaces.CONTROL_SKINNING_LEVEL</param-name>
     <param-value>extended</param-value>
