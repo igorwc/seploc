@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
@@ -21,14 +22,15 @@ public class ProjetoClienteBean {
 	private String fantasia;
 	private Cliente cliente;
 	private ClienteDAO clienteDAO;
-	
+	private HtmlInputText inputProjeto;
+
 	public ProjetoClienteBean() {	
 		cliente = new Cliente();
 		clienteDAO = new ClienteDAO();
 		projeto = new Projeto();
 		projetoDAO = new ProjetoDAO();		
 	}
-
+	
 	public String getFantasia() {
 		return fantasia;
 	}
@@ -66,6 +68,7 @@ public class ProjetoClienteBean {
 			addGlobalMessage(e.getMessage());
 			e.printStackTrace();
 		}			
+		limpa();
 	}
 	
 	public void edita(){
@@ -77,9 +80,18 @@ public class ProjetoClienteBean {
 	}
 	
 	public void limpa() {
-		projeto =  new Projeto();
+		//projeto =  new Projeto();
+		inputProjeto.setValue("");
 		System.out.println("Limpar Projeto");
-	}	
+	}		
+	
+	public HtmlInputText getInputProjeto() {
+		return inputProjeto;
+	}
+
+	public void setInputProjeto(HtmlInputText inputProjeto) {
+		this.inputProjeto = inputProjeto;
+	}
 	
 	public List<Projeto> getLista(){
 		Cliente c = projeto.getCliente();
