@@ -6,9 +6,12 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityResult;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
@@ -38,8 +41,9 @@ public class Cidade implements Serializable {
 	@Column(name = "vcrNome")
 	private String nome;
 
-	@Column(name = "intCodUF")
-	private Integer uf;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "intCodUF", referencedColumnName = "intCod")
+	private Estado uf;
 
 	@Version
 	@Column(name = "tspVersao")
@@ -83,17 +87,17 @@ public class Cidade implements Serializable {
 	/**
 	 * @return the uf
 	 */
-	public Integer getUf() {
-		return uf;
-	}
+//	public Integer getUf() {
+//		return uf;
+//	}
 
 	/**
 	 * @param uf
 	 *            the uf to set
 	 */
-	public void setUf(Integer uf) {
-		this.uf = uf;
-	}
+//	public void setUf(Integer uf) {
+//		this.uf = uf;
+//	}
 
 	/**
 	 * @return the versao
@@ -108,6 +112,20 @@ public class Cidade implements Serializable {
 	 */
 	public void setVersao(Timestamp versao) {
 		this.versao = versao;
+	}
+
+	/**
+	 * @return the uf
+	 */
+	public Estado getUf() {
+		return uf;
+	}
+
+	/**
+	 * @param uf the uf to set
+	 */
+	public void setUf(Estado uf) {
+		this.uf = uf;
 	}
 
 }

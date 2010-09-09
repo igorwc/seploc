@@ -5,15 +5,18 @@ package br.seploc.pojos;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityResult;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -52,6 +55,9 @@ public class Estado implements Serializable {
 	@Column(name = "tspVersao")
 	private Timestamp versao;
 
+	@OneToMany(mappedBy = "uf", fetch = FetchType.LAZY)
+	private List<Cidade> cidades;
+	
 	public Estado() {
 		super();
 		// TODO Auto-generated constructor stub
