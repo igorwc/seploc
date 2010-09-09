@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	<style>
+.active-row {
+	background-color: #FFEBDA;
+}
+</style>
+	<h:form id="input">
+		<h:outputText value="Cidade:" />
+		<h:inputText value="#{testBean.cidadeEscolhida.nome}" disabled="true"/>
+		<a4j:commandLink ajaxSingle="true" id="editlink" reRender="cadPapel"
+			oncomplete="#{rich:component('confirmationMessage')}.show();return false;">
+			<h:graphicImage value="/imgs/edit.gif" style="border:0" />
+
+		</a4j:commandLink>
+	</h:form>
+	<rich:modalPanel id="confirmationMessage" autosized="true" width="300" height="300">
+		<f:facet name="header" >
+			<h:outputText value="Busca Cidades" style="padding-right:15px;" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/imgs/icons/close.png" styleClass="hidelink"
+					id="hidelink2" />
+				<rich:componentControl for="deletePanel" attachTo="hidelink2"
+					operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+		<h:form>
+			<rich:dataTable value="#{testBean.todasCidades}" var="cid" rows="10"
+				reRender="ds" id="simpletable" >
+				<f:facet name="header">
+					<rich:columnGroup>
+						<rich:column colspan="4">
+							<h:outputText value="Filtro de Cidades" />
+						</rich:column>
+						<rich:column breakBefore="true">
+							<h:outputText value="Sigla UF" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="Nome UF" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="Nome Cidade" />
+						</rich:column>
+						<rich:column>
+							
+						</rich:column>
+					</rich:columnGroup>
+				</f:facet>
+				<rich:column>
+					<h:outputText value="#{cid.uf.sigla}" />
+				</rich:column>
+				<rich:column>
+					<h:outputText value="#{cid.uf.nome}" />
+				</rich:column>
+				<rich:column filterBy="#{cid.nome}" filterEvent="onkeyup"
+					filterValue="#{testBean.cidadeCorrente}">
+					<h:outputText value="#{cid.nome}" />
+				</rich:column>
+				<rich:column styleClass="col1">
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink2" 
+					    				 reRender="input" 
+					    				 oncomplete=" #{rich:component('confirmationMessage')}.hide();"
+					    				 >
+							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{cid.id}"
+								target="#{testBean.codCidade}" />
+						</a4j:commandLink>
+					</rich:column>  
+				<f:facet name="footer">
+					<rich:datascroller id="ds" renderIfSinglePage="false"></rich:datascroller>
+				</f:facet>
+			</rich:dataTable>
+			<!--  <a4j:commandButton action="#{capitalsBean.resetFilter}" value="Reset Current Filtering" reRender="simpletable" ajaxSingle="true" limitToList="true"/> -->
+		</h:form>
+	</rich:modalPanel>
+
+</ui:composition>
