@@ -64,37 +64,39 @@
                <rich:panel header="Cadastro de Projeto" style="width: 600px">
                  <table	border="0" >               
 					<tr>
-					<td><h:outputText value="Cliente: " styleClass="texto"/></td>
-					<!-- busca do nome do nome fantasia do cliente com ajax -->
-					<td>
-						<rich:comboBox selectFirstOnUpdate="false"
-	                                   defaultLabel="Nome do Cliente"
-	                                   requiredMessage="O nome do cliente deve ser informado"
-	                                   id="nomeCliente" 
-	                                   value="#{projetoClienteBean.fantasia}"
-	                                   validator="#{projetoClienteBean.validateFantasia}"
-	                                   >
-	                         <f:selectItems value="#{appBean.nomesCliente}" />
-	                        <rich:ajaxValidator event="onkeyup"  />    
-	                        <rich:ajaxValidator event="onchange"  />  
-	                    </rich:comboBox></td>                    
+						<td>
+							<h:outputText value="Cliente: " styleClass="texto"/></td>
+							
+						<!-- modal table filter para cliente -->
+						<td>
+							<h:inputText value="#{projetoClienteBean.clienteEscolhido.fantasia}" 
+							         id="nomeCliente" 
+							         readonly="true"
+							         required="true" 
+							         binding="#{projetoClienteBean.inputCliente}" />
+							<a4j:commandLink ajaxSingle="true" id="editlink" 
+								oncomplete="#{rich:component('modalCliente')}.show();return false;">
+								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
+							</a4j:commandLink>							
+
+	               		</td>                    
 					</tr>
 					<tr>
-					<td colspan="2"><rich:message for="nomeCliente" styleClass="error" /></td>
+						<td colspan="2"><rich:message for="nomeCliente" styleClass="error" /></td>
 					</tr>
 					<tr>
-					<td><h:outputText value="Nome Projeto: " styleClass="texto"/></td>
-					<td><h:inputText value="#{projetoClienteBean.projeto.projeto}" 
+						<td><h:outputText value="Nome Projeto: " styleClass="texto"/></td>
+						<td><h:inputText value="#{projetoClienteBean.projeto.projeto}" 
 									 required="true"
 									 requiredMessage="O nome do projeto deve ser informado"
 									 validator="#{projetoClienteBean.validateNomeProj}" 
 					                 id="nomeProjeto"
 					                 binding="#{projetoClienteBean.inputProjeto}">					          
 					          <rich:ajaxValidator event="onkeyup"/>
-					     </h:inputText></td>					
+					    	</h:inputText></td>					
 					</tr>
 					<tr>
-					<td colspan="2"><rich:message for="nomeProjeto" styleClass="error"/> </td>
+						<td colspan="2"><rich:message for="nomeProjeto" styleClass="error"/> </td>
 					</tr>
 				  </table> 
                   <br/>
@@ -108,6 +110,8 @@
                    reRender="projetoClienteList,cadProjeto" />
                </rich:panel>
                </center>
+               
+               <!-- GRID -->
                <rich:dataTable value="#{projetoClienteBean.lista}" var="projeto"    
                    rowClasses="row1, row2" id="projetoClienteList" rows="10"  
                    columnClasses="600"  
@@ -150,8 +154,8 @@
 					    				 action="#{projetoClienteBean.edita}" 
 					    				 >
 							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
-							<f:setPropertyActionListener value="#{projeto.codProjeto}"
-								target="#{projetoClienteBean.projeto.codProjeto}" />
+							<f:setPropertyActionListener value="#{projeto.codProj}"
+								target="#{projetoClienteBean.projeto.codProj}" />
 						</a4j:commandLink>
 						<rich:toolTip for="editlink" value="Edit" />
 						<a4j:commandLink ajaxSingle="true"
@@ -163,7 +167,7 @@
 							             oncomplete="#{rich:component('confirmationMessage')}.show()">
 							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{projeto.codProjeto}"
-								target="#{projetoClienteBean.projeto.codProjeto}" />
+								target="#{projetoClienteBean.projeto.codProj}" />
 						</a4j:commandLink>
 						<rich:toolTip for="deletelink" value="Delete" />
 					</rich:column>  
@@ -172,6 +176,7 @@
            </rich:panel>  
        </h:form>  
        
+       <!-- Confirmacao -->
         <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
         <f:facet name="header">
             <h:outputText value="Cadastro de Projeto"
@@ -203,10 +208,70 @@
             </table>
         </h:form>
     </rich:modalPanel>
-       
-       
-       
-   </f:view>  
-   
+
+	<!-- Modal Cliente -->
+	<rich:modalPanel id="modalCliente" autosized="true" width="300" height="300">
+		<f:facet name="header" >
+			<h:outputText value="Busca Cliente" style="padding-right:15px;" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/imgs/icons/close.png" id="hidemodal" />
+				<rich:componentControl for="modalCliente" attachTo="hidemodal" operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+		<h:form>
+			<rich:dataTable value="#{projetoClienteBean.todosClientes}" var="cli" rows="10"
+				reRender="ds" id="simpletable" >
+				<f:facet name="header">
+					<rich:columnGroup>
+						<rich:column colspan="4">
+							<h:outputText value="Filtro de Cliente" />
+						</rich:column>
+						<rich:column breakBefore="true">
+							<h:outputText value="CNPJ" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="CPF" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="Cliente" />
+						</rich:column>
+						<rich:column>							
+						</rich:column>
+					</rich:columnGroup>
+				</f:facet>
+				
+				<rich:column>
+					<h:outputText value="#{cli.cnpj}" />
+				</rich:column>
+				<rich:column>
+					<h:outputText value="#{cli.cpf}" />
+				</rich:column>
+				<rich:column filterBy="#{cli.fantasia}" filterEvent="onkeyup"
+					filterValue="#{projetoClienteBean.clienteCorrete}">
+					<h:outputText value="#{cli.fantasia}" />
+				</rich:column>
+				
+				<rich:column styleClass="col1">
+					<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink2" 
+					    				 reRender="cadProjeto" 
+					    				 oncomplete=" #{rich:component('modalCliente')}.hide();"
+					    				 >
+						<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+
+						<f:setPropertyActionListener value="#{cli.idCliente}"
+								target="#{projetoClienteBean.codCliente}" />
+					</a4j:commandLink>
+				</rich:column>  
+				<f:facet name="footer">
+					<rich:datascroller id="ds" renderIfSinglePage="false"></rich:datascroller>
+				</f:facet>
+			</rich:dataTable>	
+		</h:form>
+	</rich:modalPanel>
+		       
+   </f:view>   
 </ui:define>
 </ui:composition>
