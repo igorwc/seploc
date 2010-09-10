@@ -109,8 +109,16 @@
   <managed-bean-class>br.seploc.mbeans.CobradorBean</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
- <!--Fim dos Cadastros 
- Regras Navegação -->
+ <!--Fim dos Cadastros --> 
+ 
+ <!-- Requisicao -->
+ <managed-bean>
+  <managed-bean-name>reqServBean</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.RequisicaoServicoBean</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ 
+ <!-- Regras Navegação -->
  <navigation-rule>
   <from-view-id>/login.xhtml</from-view-id>
   <navigation-case>
