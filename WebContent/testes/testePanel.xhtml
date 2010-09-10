@@ -1,22 +1,30 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
-	<style>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"> 
+  <head>  
+    <!-- Mimic Internet Explorer 7 -->  
+       <title>My Web Page</title>  
+       <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />  
+       	<style>
 .active-row {
 	background-color: #FFEBDA;
 }
 </style>
-	<h:form id="input">
+    </head>   
+
+
+	<h:form id="input22" prependId="false" >
 		<h:outputText value="Cidade:" />
 		<h:inputText value="#{testBean.cidadeEscolhida.nome}" disabled="true"/>
-		<a4j:commandLink ajaxSingle="true" id="editlink" reRender="cadPapel"
+		<h:commandLink  value="testessss" onclick="#{rich:component('confirmationMessage')}.show();return false;"/>
+	<!-- 	<a4j:commandLink ajaxSingle="true" id="editlink" 
 			oncomplete="#{rich:component('confirmationMessage')}.show();return false;">
 			<h:graphicImage value="/imgs/edit.gif" style="border:0" />
 
-		</a4j:commandLink>
+		</a4j:commandLink>  -->
 	</h:form>
 	<rich:modalPanel id="confirmationMessage" autosized="true" width="300" height="300">
 		<f:facet name="header" >
@@ -30,7 +38,7 @@
 					operation="hide" event="onclick" />
 			</h:panelGroup>
 		</f:facet>
-		<h:form>
+		<h:form prependId="false">
 			<rich:dataTable value="#{testBean.todasCidades}" var="cid" rows="10"
 				reRender="ds" id="simpletable" >
 				<f:facet name="header">
@@ -59,19 +67,27 @@
 					<h:outputText value="#{cid.uf.nome}" />
 				</rich:column>
 				<rich:column filterBy="#{cid.nome}" filterEvent="onkeyup"
-					filterValue="#{testBean.cidadeCorrente}">
+					filterValue="#{testBean.cidadeCorrente}" >
 					<h:outputText value="#{cid.nome}" />
 				</rich:column>
-				<rich:column styleClass="col1">
+				<rich:column >
 						<a4j:commandLink ajaxSingle="true" 
-						                 id="editlink2" 
-					    				 reRender="input" 
-					    				 oncomplete=" #{rich:component('confirmationMessage')}.hide();"
+						                 id="editlink22" 
+					    				 reRender="input22" 
+					    				 oncomplete="#{rich:component('confirmationMessage')}.hide();return false;"
+					    				 action="#{testBean.dummy}"
 					    				 >
 							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{cid.id}"
 								target="#{testBean.codCidade}" />
+								<rich:componentControl for="confirmationMessage" attachTo="editlink22"
+					operation="hide" event="onclick onchange"  />
 						</a4j:commandLink>
+						<h:commandLink  value="testessss" onclick="#{rich:component('confirmationMessage')}.hide();return false;">
+						 <a4j:support event="onclick" reRender="input22" />
+						<f:setPropertyActionListener value="#{cid.id}"
+								target="#{testBean.codCidade}" />
+						</h:commandLink>
 					</rich:column>  
 				<f:facet name="footer">
 					<rich:datascroller id="ds" renderIfSinglePage="false"></rich:datascroller>
@@ -81,4 +97,4 @@
 		</h:form>
 	</rich:modalPanel>
 
-</ui:composition>
+</html>
