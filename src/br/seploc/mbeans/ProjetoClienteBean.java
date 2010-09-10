@@ -17,28 +17,26 @@ import br.seploc.pojos.Projeto;
 
 public class ProjetoClienteBean {
 
-	private Projeto projeto;
-	private ProjetoDAO projetoDAO;	
-	private String fantasia;
+	private Projeto projeto;	
 	private Cliente cliente;
+	private ProjetoDAO projetoDAO;	
 	private ClienteDAO clienteDAO;
 	private HtmlInputText inputProjeto;
+	private HtmlInputText inputCliente;
+	
+	private String clienteCorrete;
+	private Cliente clienteEscolhido;	
+	private Integer codCliente;
 
 	public ProjetoClienteBean() {	
-		cliente = new Cliente();
+		System.out.println("Objeto Instaciado");
 		clienteDAO = new ClienteDAO();
 		projeto = new Projeto();
-		projetoDAO = new ProjetoDAO();		
+		projetoDAO = new ProjetoDAO();
+		clienteCorrete = "";
+		cliente = new Cliente();		
 	}
-	
-	public String getFantasia() {
-		return fantasia;
-	}
-
-	public void setFantasia(String fantasia) {		
-		this.cliente = clienteDAO.recupera(fantasia);		
-	}
-	
+		
 	public Projeto getProjeto() {
 		System.out.println("Get Projeto");
 		return projeto;
@@ -58,7 +56,8 @@ public class ProjetoClienteBean {
 
 	public void cadastra() {
 		try{
-			if (cliente != null){
+			if (cliente == null){	
+				cliente = clienteDAO.recupera(Integer.parseInt(inputCliente.getValue().toString()));
 				projeto.setCliente(cliente);
 			}
 				projetoDAO.adiciona(projeto);
@@ -89,6 +88,14 @@ public class ProjetoClienteBean {
 		return inputProjeto;
 	}
 
+	public void setInputCliente(HtmlInputText inputCliente) {
+		this.inputCliente = inputCliente;
+	}
+	
+	public HtmlInputText getInputCliente() {
+		return inputCliente;
+	}
+
 	public void setInputProjeto(HtmlInputText inputProjeto) {
 		this.inputProjeto = inputProjeto;
 	}
@@ -104,46 +111,42 @@ public class ProjetoClienteBean {
 		}
 	}
 	
+	public List<Cliente> getTodosClientes(){
+		List<Cliente> retorno = this.clienteDAO.getLista();
+		return retorno;
+	}
+	
+	public String getClienteCorrete() {
+		return clienteCorrete;
+	}
+
+	public void setClienteCorrete(String clienteCorrete) {
+		this.clienteCorrete = clienteCorrete;
+	}	
+	
+	public Cliente getClienteEscolhido() {
+		return clienteEscolhido;
+	}
+
+	public void setClienteEscolhido(Cliente clienteEscolhido) {
+		this.clienteEscolhido = clienteEscolhido;
+	}
+
+	public Integer getCodCliente() {
+		return codCliente;
+	}
+
+	public void setCodCliente(Integer codCliente) {
+		this.codCliente = codCliente;
+		this.clienteEscolhido = clienteDAO.recupera(codCliente);
+		System.out.println("ClienteEscolhido = "+ this.clienteEscolhido.getFantasia());
+	}
+	
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
 	
-	public void validateFantasia(FacesContext context, UIComponent component,
-			Object value) throws ValidatorException {
-		if (value == null)
-			return;
-		String nome;
-
-		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
-		Matcher m = pattern.matcher(value.toString());
-		if (value instanceof String)
-			nome = value.toString().trim();
-		else {
-			FacesMessage message = new FacesMessage("Nome Fantasia Inválido");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-		if (nome.length() < 5) {
-			FacesMessage message = new FacesMessage(
-					"O Nome Fantasia deve ter 5 letras no mínimo");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-		if (nome.length() >= 60) {
-			FacesMessage message = new FacesMessage(
-					"O Nome Fantasia deve ter entre 5 e 60 caracteres");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-		if (m.matches()) {
-			FacesMessage message = new FacesMessage(
-					"O Nome Fantasia só tem espaços");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-	}	
-
 	public void validateNomeProj(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
 		if (value == null)
