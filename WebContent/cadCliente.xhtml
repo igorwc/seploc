@@ -160,12 +160,22 @@
 					<td colspan="4"><rich:message for="enderCli" styleClass="error" /></td>					
 					</tr>						
 					<tr align="left">
-					<td><h:outputText value="Estado: " styleClass="texto"/></td>
-					<td><!-- <h:inputText value="#{clienteBean.cliente.cidade}" 
-									 id="estadoCli">                                                        
-                        </h:inputText>  --> 
+					<td><h:outputText value="Localidade: " styleClass="texto"/></td>
+					<td><h:inputText value="#{clienteBean.cliente.cidade}" 
+									 id="localidadeCli" 
+									 size="65"
+							         readonly="true"
+							         required="true" 
+							         />
+						<a4j:commandLink ajaxSingle="true" id="editLocalidade" 
+								oncomplete="#{rich:component('modalLocalidade')}.show();return false;">
+							<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
+						</a4j:commandLink>
+						
+						<!--	
+							                        
                          <a4j:outputPanel id="ufCli">
-						  <!--<h:outputText value="Estado: " styleClass="texto" /> --> 
+						  <h:outputText value="Estado: " styleClass="texto" />  
 						  <h:inputText value="#{clienteBean.cliente.cidade}" 
 									 id="estadoCli"/>
 						   <rich:suggestionbox for="estadoCli" minChars="1"
@@ -181,6 +191,7 @@
 						         </a4j:support>
 						  </rich:suggestionbox> 
 						</a4j:outputPanel>                      
+                        -->
                     </td>                    
 					<td><h:outputText value="CEP: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.cep}" 
@@ -353,7 +364,8 @@
 				  <!-- Botoes -->
                   <br/>
                   <a4j:commandButton value="Salvar" 
-                  action="#{clienteBean.cadastra}" reRender="clientePanel"
+                  action="#{clienteBean.cadastra}" 
+                  reRender="cadCliente"
                   oncomplete="#{rich:component('confirmationMessage')}.show()" 
                     />                                              
                   <a4j:commandButton value="Limpar" type="reset" 
@@ -366,7 +378,7 @@
        
        
         <!-- Mensagens -->
-        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="300">
         <f:facet name="header">
             <h:outputText value="Cadastro de Cliente"
                 style="padding-right:15px;" />
@@ -384,7 +396,7 @@
                 <tbody>
                     <tr>
                         <td align="center" width="100%">
-                           	<rich:messages   globalOnly="true" styleClass="texto"/>
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/> 
                         </td>
                     </tr>
                     <tr>
