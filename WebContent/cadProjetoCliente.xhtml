@@ -73,7 +73,8 @@
 							         id="nomeCliente" 
 							         readonly="true"
 							         required="true" 
-							         binding="#{projetoClienteBean.inputCliente}" />
+							         />
+							<h:inputHidden value="#{projetoClienteBean.codCliente}" />
 							<a4j:commandLink ajaxSingle="true" id="editlink" 
 								oncomplete="#{rich:component('modalCliente')}.show();return false;">
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
@@ -217,7 +218,8 @@
 		<f:facet name="controls">
 			<h:panelGroup>
 				<h:graphicImage value="/imgs/icons/close.png" id="hidemodal" />
-				<rich:componentControl for="modalCliente" attachTo="hidemodal" operation="hide" event="onclick" />
+				<rich:componentControl for="modalCliente" attachTo="hidemodal" 
+				operation="hide" event="onclick" />
 			</h:panelGroup>
 		</f:facet>
 		<h:form>
