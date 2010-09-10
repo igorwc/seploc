@@ -71,11 +71,12 @@
     <exception-type>java.lang.SecurityException</exception-type>
     <location>/login.jsf</location>
   </error-page>
+   <!-- 
   <filter>
     <display-name>AuthFilter</display-name>
     <filter-name>AuthFilter</filter-name>
     <filter-class>br.seploc.Filters.AuthFilter</filter-class>
-  </filter>
+  </filter>  -->
   <!-- O TRECHO ABAIXO DEVE FICAR COMENTADO ENQUANTO ESTIVERMOS EM DESENVOLVIMENTO -->
   <!-- É O FILTRO QUE IMPEDE O ACESSO AS PÁGINAS DA APLICAÇÃO SE NÃO ESTIVER LOGADO -->
   <!-- 
