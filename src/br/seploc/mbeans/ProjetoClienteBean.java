@@ -12,31 +12,33 @@ import javax.faces.validator.ValidatorException;
 
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.ProjetoDAO;
+import br.seploc.dao.exceptions.FieldNotNullException;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.Projeto;
 
 public class ProjetoClienteBean {
 
-	private Projeto projeto;	
+	private Projeto projeto;
 	private Cliente cliente;
-	private ProjetoDAO projetoDAO;	
+	private ProjetoDAO projetoDAO;
 	private ClienteDAO clienteDAO;
 	private HtmlInputText inputProjeto;
 	private HtmlInputText inputCliente;
-	
+
 	private String clienteCorrete;
-	private Cliente clienteEscolhido;	
+	private Cliente clienteEscolhido;
 	private Integer codCliente;
 
-	public ProjetoClienteBean() {	
+	public ProjetoClienteBean() {
 		System.out.println("Objeto Instaciado");
 		clienteDAO = new ClienteDAO();
 		projeto = new Projeto();
 		projetoDAO = new ProjetoDAO();
 		clienteCorrete = "";
-		cliente = new Cliente();		
+		cliente = new Cliente();
+		codCliente = new Integer(0);
 	}
-		
+
 	public Projeto getProjeto() {
 		System.out.println("Get Projeto");
 		return projeto;
@@ -45,7 +47,7 @@ public class ProjetoClienteBean {
 	public void setProjeto(Projeto projeto) {
 		this.projeto = projeto;
 	}
-	
+
 	public ProjetoDAO getProjetoDAO() {
 		return projetoDAO;
 	}
@@ -55,35 +57,45 @@ public class ProjetoClienteBean {
 	}
 
 	public void cadastra() {
-		try{
-			if (cliente == null){	
-				cliente = clienteDAO.recupera(Integer.parseInt(inputCliente.getValue().toString()));
+		try {
+			if (codCliente == null || codCliente == 0) {
+				throw new FieldNotNullException(
+						"Cliente é Obrigatório para Projeto");
+				
+			}else{
+				cliente = clienteDAO.recupera(codCliente);
 				projeto.setCliente(cliente);
 			}
-				projetoDAO.adiciona(projeto);
-				
-				addGlobalMessage("Inclusão feita com sucesso!");
+//			if (cliente == null) {
+//				cliente = clienteDAO.recupera(Integer.parseInt(inputCliente
+//						.getValue().toString()));
+//				projeto.setCliente(cliente);
+//			}
+			projetoDAO.adiciona(projeto);
+
+			addGlobalMessage("Inclusão feita com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 			e.printStackTrace();
-		}			
+		}
 		limpa();
 	}
-	
-	public void edita(){
-		
+
+	public void edita() {
+
 	}
-	
-	public void apaga(){
-		
+
+	public void apaga() {
+
 	}
-	
+
 	public void limpa() {
-		//projeto =  new Projeto();
+		clienteEscolhido = new Cliente();
+		codCliente = new Integer(0);
 		inputProjeto.setValue("");
 		System.out.println("Limpar Projeto");
-	}		
-	
+	}
+
 	public HtmlInputText getInputProjeto() {
 		return inputProjeto;
 	}
@@ -91,7 +103,7 @@ public class ProjetoClienteBean {
 	public void setInputCliente(HtmlInputText inputCliente) {
 		this.inputCliente = inputCliente;
 	}
-	
+
 	public HtmlInputText getInputCliente() {
 		return inputCliente;
 	}
@@ -99,31 +111,31 @@ public class ProjetoClienteBean {
 	public void setInputProjeto(HtmlInputText inputProjeto) {
 		this.inputProjeto = inputProjeto;
 	}
-	
-	public List<Projeto> getLista(){
-		Cliente c = projeto.getCliente();
-		if (c == null){
+
+	public List<Projeto> getLista() {
+		Cliente c = clienteDAO.recupera(codCliente);
+		if (c == null) {
 			return null;
-		} else if(c.getProjetos().isEmpty() || c.getProjetos().size() == 0){
+		} else if (c.getProjetos().isEmpty() || c.getProjetos().size() == 0) {
 			return null;
-		}else{
+		} else {
 			return c.getProjetos();
 		}
 	}
-	
-	public List<Cliente> getTodosClientes(){
+
+	public List<Cliente> getTodosClientes() {
 		List<Cliente> retorno = this.clienteDAO.getLista();
 		return retorno;
 	}
-	
+
 	public String getClienteCorrete() {
 		return clienteCorrete;
 	}
 
 	public void setClienteCorrete(String clienteCorrete) {
 		this.clienteCorrete = clienteCorrete;
-	}	
-	
+	}
+
 	public Cliente getClienteEscolhido() {
 		return clienteEscolhido;
 	}
@@ -136,17 +148,33 @@ public class ProjetoClienteBean {
 		return codCliente;
 	}
 
+	/**
+	 * @return the cliente
+	 */
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	/**
+	 * @param cliente
+	 *            the cliente to set
+	 */
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
 	public void setCodCliente(Integer codCliente) {
 		this.codCliente = codCliente;
 		this.clienteEscolhido = clienteDAO.recupera(codCliente);
-		System.out.println("ClienteEscolhido = "+ this.clienteEscolhido.getFantasia());
+		System.out.println("ClienteEscolhido = "
+				+ this.clienteEscolhido.getFantasia());
 	}
-	
+
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
-	
+
 	public void validateNomeProj(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
 		if (value == null)
@@ -180,5 +208,5 @@ public class ProjetoClienteBean {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-	}		
+	}
 }
