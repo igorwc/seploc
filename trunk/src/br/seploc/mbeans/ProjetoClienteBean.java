@@ -25,7 +25,7 @@ public class ProjetoClienteBean {
 	private HtmlInputText inputProjeto;
 	private HtmlInputText inputCliente;
 
-	private String clienteCorrete;
+	private String clienteCorrente;
 	private Cliente clienteEscolhido;
 	private Integer codCliente;
 
@@ -34,7 +34,7 @@ public class ProjetoClienteBean {
 		clienteDAO = new ClienteDAO();
 		projeto = new Projeto();
 		projetoDAO = new ProjetoDAO();
-		clienteCorrete = "";
+		clienteCorrente = "";
 		cliente = new Cliente();
 		codCliente = new Integer(0);
 	}
@@ -66,11 +66,7 @@ public class ProjetoClienteBean {
 				cliente = clienteDAO.recupera(codCliente);
 				projeto.setCliente(cliente);
 			}
-//			if (cliente == null) {
-//				cliente = clienteDAO.recupera(Integer.parseInt(inputCliente
-//						.getValue().toString()));
-//				projeto.setCliente(cliente);
-//			}
+
 			projetoDAO.adiciona(projeto);
 
 			addGlobalMessage("Inclusão feita com sucesso!");
@@ -128,12 +124,12 @@ public class ProjetoClienteBean {
 		return retorno;
 	}
 
-	public String getClienteCorrete() {
-		return clienteCorrete;
+	public String getClienteCorrente() {
+		return clienteCorrente;
 	}
 
-	public void setClienteCorrete(String clienteCorrete) {
-		this.clienteCorrete = clienteCorrete;
+	public void setClienteCorrente(String clienteCorrente) {
+		this.clienteCorrente = clienteCorrente;
 	}
 
 	public Cliente getClienteEscolhido() {

@@ -38,7 +38,7 @@ public class ProjetoDAO extends GenericDAO<br.seploc.pojos.Projeto, Integer> {
 	}
 
 	@Override
-	public Projeto recupera(Integer id) throws Exception {
+	public Projeto recupera(Integer id) {		
 		Projeto projeto = em.find(Projeto.class, id);
 		return projeto;
 	}

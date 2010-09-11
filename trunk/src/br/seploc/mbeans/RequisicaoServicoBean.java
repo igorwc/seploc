@@ -10,9 +10,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
 import br.seploc.dao.ClienteDAO;
+import br.seploc.dao.EntregaDAO;
+import br.seploc.dao.OpcionaisReqServDAO;
 import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.pojos.Cliente;
+import br.seploc.pojos.Entrega;
+import br.seploc.pojos.OpcionaisReqServ;
 import br.seploc.pojos.Projeto;
 import br.seploc.pojos.RequisicaoServico;
 
@@ -20,43 +24,54 @@ public class RequisicaoServicoBean {
 
 	private Projeto projeto;
 	private ProjetoDAO projetoDAO;	
-	private String fantasia;
-	private String nomeProjeto;
 	private Cliente cliente;
 	private ClienteDAO clienteDAO;
+	private Entrega entrega;
+	private EntregaDAO entregaDAO;
+	private OpcionaisReqServ opcional;
+	private OpcionaisReqServDAO opcionalDAO;
 	private RequisicaoServico reqServ;
 	private RequisicaoServicoDAO reqServDAO;
 	
-	private String clienteCorrete;
-	private Cliente clienteEscolhido;	
+	private String clienteCorrente;
+	private String projetoCorrente;
+	private String entregaCorrente;
+	private String opcionalCorrente;
+	private Cliente clienteEscolhido;
+	private Projeto projetoEscolhido;	
+	private Entrega entregaEscolhido;
+	private OpcionaisReqServ opcionalEscolhido;
 	private Integer codCliente;	
+	private Integer codProjeto;
+	private Integer codEntrega;
+	private Integer codOpcional;
 		
 	public RequisicaoServicoBean() {	
 		cliente = new Cliente();
 		clienteDAO = new ClienteDAO();
+		clienteCorrente = "";
+		codCliente = new Integer(0);
+		
 		projeto = new Projeto();
 		projetoDAO = new ProjetoDAO();
+		projetoCorrente = "";
+		codProjeto = new Integer(0);
+		
+		entrega = new Entrega();
+		entregaDAO = new EntregaDAO();
+		entregaCorrente = "";
+		codEntrega = new Integer(0);
+
+		opcional = new OpcionaisReqServ();
+		opcionalDAO = new OpcionaisReqServDAO();
+		opcionalCorrente = "";
+		codOpcional = new Integer(0);
+		
 		reqServ = new RequisicaoServico();
 		reqServDAO = new RequisicaoServicoDAO();
-		clienteCorrete = "";
+		
 	}
-
-	public String getFantasia() {
-		return fantasia;
-	}
-
-	public void setFantasia(String fantasia) {		
-		this.cliente = clienteDAO.recupera(fantasia);		
-	}
-	
-	public String getNomeProjeto() {
-		return nomeProjeto;
-	}
-
-	public void setNomeProjeto(String nomeProjeto) {
-		this.nomeProjeto = nomeProjeto;
-	}	
-	
+		
 	public Projeto getProjeto() {		
 		return projeto;
 	}
@@ -73,22 +88,13 @@ public class RequisicaoServicoBean {
 		this.projetoDAO = projetoDAO;
 	}
 
-	public List<Cliente> getTodosClientes(){
-		List<Cliente> retorno = this.clienteDAO.getLista();
-		return retorno;
-	}	
-	
-	public List<Projeto> getTodosProjetosClientes(){
-		List<Projeto> retorno = this.projetoDAO.getLista();
-		return retorno;
-	}		
-	
-	public String getClienteCorrete() {
-		return clienteCorrete;
+	//CLIENTE
+	public String getClienteCorrente() {
+		return clienteCorrente;
 	}
 
-	public void setClienteCorrete(String clienteCorrete) {
-		this.clienteCorrete = clienteCorrete;
+	public void setClienteCorrente(String clienteCorrente) {
+		this.clienteCorrente = clienteCorrente;
 	}	
 	
 	public Cliente getClienteEscolhido() {
@@ -108,6 +114,110 @@ public class RequisicaoServicoBean {
 		this.clienteEscolhido = clienteDAO.recupera(codCliente);
 	}	
 	
+	public List<Cliente> getTodosClientes(){
+		List<Cliente> retorno = this.clienteDAO.getLista();
+		return retorno;
+	}	
+	
+	//PROJETO
+	public String getProjetoCorrente() {
+		return projetoCorrente;
+	}
+
+	public void setProjetoCorrente(String projetoCorrente) {
+		this.projetoCorrente = projetoCorrente;
+	}	
+	
+	public Projeto getProjetoEscolhido() {
+		return projetoEscolhido;
+	}
+
+	public void setProjetoEscolhido(Projeto projetoEscolhido) {
+		this.projetoEscolhido = projetoEscolhido;
+	}
+
+	public Integer getCodProjeto() {
+		return codProjeto;
+	}
+
+	public void setCodProjeto(Integer codProjeto) {
+		this.codProjeto = codProjeto;		
+		this.projetoEscolhido = projetoDAO.recupera(codProjeto);
+	}	
+	
+	public List<Projeto> getTodosProjetosClientes(){
+		Cliente c = clienteDAO.recupera(codCliente);
+		if (c == null) {
+			return null;
+		} else if (c.getProjetos().isEmpty() || c.getProjetos().size() == 0) {
+			return null;
+		} else {
+			return c.getProjetos();
+		}
+	}	
+	
+	//ENTREGA
+	public String getEntregaCorrente() {
+		return entregaCorrente;
+	}
+
+	public void setEntregaCorrente(String entregaCorrente) {
+		this.entregaCorrente = entregaCorrente;
+	}	
+	
+	public Entrega getEntregaEscolhido() {
+		return entregaEscolhido;
+	}
+
+	public void setEntregaEscolhido(Entrega entregaEscolhido) {
+		this.entregaEscolhido = entregaEscolhido;
+	}
+
+	public Integer getCodEntrega() {
+		return codEntrega;
+	}
+
+	public void setCodEntrega(Integer codEntrega) {
+		this.codEntrega = codEntrega;
+		this.entregaEscolhido = entregaDAO.recupera(codEntrega);
+	}	
+	
+	public List<Entrega> getTodasEntregas(){
+		List<Entrega> retorno = this.entregaDAO.getLista();
+		return retorno;
+	}	
+	
+	//OPCIONAL
+	public String getOpcionalCorrente() {
+		return clienteCorrente;
+	}
+
+	public void setOpcionalCorrente(String opcionalCorrente) {
+		this.opcionalCorrente = opcionalCorrente;
+	}	
+	
+	public OpcionaisReqServ getOpcionalEscolhido() {
+		return opcionalEscolhido;
+	}
+
+	public void setOpcionalEscolhido(OpcionaisReqServ opcionalEscolhido) {
+		this.opcionalEscolhido = opcionalEscolhido;
+	}
+
+	public Integer getCodOpcional() {
+		return codOpcional;
+	}
+
+	public void setCodOpcional(Integer codOpcional) {
+		this.codOpcional = codOpcional;
+		this.opcionalEscolhido = opcionalDAO.recupera(codOpcional);
+	}	
+	
+	public List<OpcionaisReqServ> getTodosOpcionais(){
+		List<OpcionaisReqServ> retorno = this.opcionalDAO.getLista();
+		return retorno;
+	}		
+	//FUNCIONALIDADES
 	public void cadastra() {
 		
 	}
