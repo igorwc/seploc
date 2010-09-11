@@ -26,6 +26,10 @@ public class RequisicaoServicoBean {
 	private ClienteDAO clienteDAO;
 	private RequisicaoServico reqServ;
 	private RequisicaoServicoDAO reqServDAO;
+	
+	private String clienteCorrete;
+	private Cliente clienteEscolhido;	
+	private Integer codCliente;	
 		
 	public RequisicaoServicoBean() {	
 		cliente = new Cliente();
@@ -34,6 +38,7 @@ public class RequisicaoServicoBean {
 		projetoDAO = new ProjetoDAO();
 		reqServ = new RequisicaoServico();
 		reqServDAO = new RequisicaoServicoDAO();
+		clienteCorrete = "";
 	}
 
 	public String getFantasia() {
@@ -68,6 +73,41 @@ public class RequisicaoServicoBean {
 		this.projetoDAO = projetoDAO;
 	}
 
+	public List<Cliente> getTodosClientes(){
+		List<Cliente> retorno = this.clienteDAO.getLista();
+		return retorno;
+	}	
+	
+	public List<Projeto> getTodosProjetosClientes(){
+		List<Projeto> retorno = this.projetoDAO.getLista();
+		return retorno;
+	}		
+	
+	public String getClienteCorrete() {
+		return clienteCorrete;
+	}
+
+	public void setClienteCorrete(String clienteCorrete) {
+		this.clienteCorrete = clienteCorrete;
+	}	
+	
+	public Cliente getClienteEscolhido() {
+		return clienteEscolhido;
+	}
+
+	public void setClienteEscolhido(Cliente clienteEscolhido) {
+		this.clienteEscolhido = clienteEscolhido;
+	}
+
+	public Integer getCodCliente() {
+		return codCliente;
+	}
+
+	public void setCodCliente(Integer codCliente) {
+		this.codCliente = codCliente;
+		this.clienteEscolhido = clienteDAO.recupera(codCliente);
+	}	
+	
 	public void cadastra() {
 		
 	}
