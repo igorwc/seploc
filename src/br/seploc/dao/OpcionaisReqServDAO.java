@@ -61,7 +61,7 @@ public class OpcionaisReqServDAO extends
 	
 	
 	@Override
-	public OpcionaisReqServ recupera(Integer id) throws Exception {
+	public OpcionaisReqServ recupera(Integer id) {
 		OpcionaisReqServ opcionais = em.find(OpcionaisReqServ.class, id);
 		return opcionais;
 	}
