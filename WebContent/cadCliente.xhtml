@@ -161,9 +161,9 @@
 					</tr>						
 					<tr align="left">
 					<td><h:outputText value="Localidade: " styleClass="texto"/></td>
-					<td><h:inputText value="#{clienteBean.cliente.cidade}" 
+					<td colspan="3"><h:inputText value="#{clienteBean.cliente.cidade}" 
 									 id="localidadeCli" 
-									 size="65"
+									 size="63"
 							         readonly="true"
 							         required="true" 
 							         />
@@ -171,87 +171,40 @@
 								oncomplete="#{rich:component('modalLocalidade')}.show();return false;">
 							<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
 						</a4j:commandLink>
-						
-						<!--	
-							                        
-                         <a4j:outputPanel id="ufCli">
-						  <h:outputText value="Estado: " styleClass="texto" />  
-						  <h:inputText value="#{clienteBean.cliente.cidade}" 
-									 id="estadoCli"/>
-						   <rich:suggestionbox for="estadoCli" minChars="1"
-						       fetchValue="#{suggest.nome}" nothingLabel="Estado não encontrado."
-						         suggestionAction="#{suggestionBean.complementoUF}" var="suggest">
-						         <h:column>
-						            <h:outputText value="#{suggest.nome} - #{suggest.sigla}" />
-						         </h:column>
-						            <a4j:support ajaxSingle="true" event="onselect"
-						                action="#{suggestionBean.refreshUF}" reRender="cidade,bairro">  
-						            <f:setPropertyActionListener value="#{suggest.id}"
-						                    target="#{suggestionBean.codUF}" />
-						         </a4j:support>
-						  </rich:suggestionbox> 
-						</a4j:outputPanel>                      
-                        -->
-                    </td>                    
-					<td><h:outputText value="CEP: " styleClass="texto"/></td>
+                    </td>           
+					</tr>					
+					<tr>
+					<td colspan="4"><rich:message for="localidadeCli" styleClass="error" /></td>
+					</tr>
+					<tr align="left">
+					<td><h:outputText value="Bairro: " styleClass="texto"/></td>
+					<td>
+						<a4j:outputPanel id="bairro" >
+				  			<h:inputText id="bairroCli" value="#{clienteBean.cliente.bairro}" />
+				   			<rich:suggestionbox for="bairroCli" minChars="2"
+				       			fetchValue="#{sug_bairro.nome}" nothingLabel="Bairro não encontrado."
+				         		suggestionAction="#{suggestionBean.complementoBairro}" var="sug_bairro">
+				         		<h:column>
+				            		<h:outputText value="#{sug_bairro.nome}" />
+				         		</h:column>
+				            	<a4j:support ajaxSingle="true" event="onselect">
+				            		<f:setPropertyActionListener value="#{sug_bairro.id}"
+				                    target="#{suggestionBean.codBairro}" />
+				         		</a4j:support>
+				  			</rich:suggestionbox> 
+				  		</a4j:outputPanel>                    
+                    </td>          
+   					<td><h:outputText value="CEP: " styleClass="texto"/></td>
 					<td><h:inputText value="#{clienteBean.cliente.cep}" 
 									 id="cepCli"
 									 alt="cep"
 									 styleClass="CEP">                                                         
                         </h:inputText>                        
-                    </td>                    
-					</tr>					
-					<tr>
-					<td colspan="2"><rich:message for="estadoCli" styleClass="error" /></td>
-					<td colspan="2"><rich:message for="cepCli" styleClass="error" /></td>
-					</tr>
-					<tr align="left">
-					<td><h:outputText value="Cidade: " styleClass="texto"/></td>
-					<td><!-- <h:inputText value="#{clienteBean.cliente.cidade}" 
-									 id="cidadeCli">                                                       
-                        </h:inputText>   -->   
-                        <a4j:outputPanel id="cidade" >
-						  <h:inputText id="cidadeCli" value="#{clienteBean.cliente.cidade}" />
-						   <rich:suggestionbox for="cidadeCli" minChars="3"
-						       fetchValue="#{sug_cidade.nome}" nothingLabel="Cidade não encontrada"
-						         suggestionAction="#{suggestionBean.complementoCidade}" var="sug_cidade">
-						         <h:column>
-						            <h:outputText value="#{sug_cidade.nome}" />
-						         </h:column>
-						            <a4j:support ajaxSingle="true" event="onselect" reRender="bairro">
-						            <f:setPropertyActionListener value="#{sug_cidade.id}"
-						                    target="#{suggestionBean.codCidade}" />
-						         </a4j:support>
-						  </rich:suggestionbox> 
-						 </a4j:outputPanel>                      
-                    </td>      
-					<td><h:outputText value="Bairro: " styleClass="texto"/></td>
-					<td><!-- <h:inputText value="#{clienteBean.cliente.bairro}" 
-									 id="bairroCli">                                                        
-                        </h:inputText> -->
-                          <a4j:outputPanel id="bairro" >
-						  <h:inputText id="bairroCli" value="#{clienteBean.cliente.bairro}" />
-						   <rich:suggestionbox for="bairroCli" minChars="2"
-						       fetchValue="#{sug_bairro.nome}" nothingLabel="Bairro não encontrado."
-						         suggestionAction="#{suggestionBean.complementoBairro}" var="sug_bairro">
-						         <h:column>
-						            <h:outputText value="#{sug_bairro.nome}" />
-						         </h:column>
-						            <a4j:support ajaxSingle="true" event="onselect"
-						                 >
-						            <f:setPropertyActionListener value="#{sug_bairro.id}"
-						                    target="#{suggestionBean.codBairro}" />
-						         </a4j:support>
-						  </rich:suggestionbox> 
-						  </a4j:outputPanel> 
-				<!-- 	<h:inputText value="#{clienteBean.cliente.bairro}" 
-									 id="bairroCli">                                                    
-                        </h:inputText>   -->                      
-                    </td>                                  
+                    </td>    
 					</tr>					
 					<tr>
 					<td colspan="2"><rich:message for="bairroCli" styleClass="error" /></td>
-					<td colspan="2"><rich:message for="cidadeCli" styleClass="error" /></td>
+					<td colspan="2"><rich:message for="cepCli" styleClass="error" /></td>
 					</tr>			
 					
 			    <tr align="left">
