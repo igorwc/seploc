@@ -78,12 +78,8 @@
 							<a4j:commandLink ajaxSingle="true" id="editlink" 
 								oncomplete="#{rich:component('modalCliente')}.show();return false;">
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
-							</a4j:commandLink>							
-
+							</a4j:commandLink>
 	               		</td>                    
-					</tr>
-					<tr>
-						<td colspan="2"><rich:message for="nomeCliente" styleClass="error" /></td>
 					</tr>
 					<tr>
 						<td><h:outputText value="Nome Projeto: " styleClass="texto"/></td>
@@ -251,7 +247,7 @@
 					<h:outputText value="#{cli.cpf}" />
 				</rich:column>
 				<rich:column filterBy="#{cli.fantasia}" filterEvent="onkeyup"
-					filterValue="#{projetoClienteBean.clienteCorrete}">
+					filterValue="#{projetoClienteBean.clienteCorrente}">
 					<h:outputText value="#{cli.fantasia}" />
 				</rich:column>
 				
