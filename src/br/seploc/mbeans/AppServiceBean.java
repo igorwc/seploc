@@ -9,11 +9,14 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 
+import br.seploc.dao.CidadeDAO;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
 import br.seploc.dao.PapelDAO;
 import br.seploc.dao.OpcionaisReqServDAO;
+import br.seploc.pojos.Cidade;
 import br.seploc.pojos.Entrega;
+import br.seploc.pojos.Estado;
 import br.seploc.pojos.OpcionaisReqServ;
 
 public class AppServiceBean {
@@ -22,11 +25,29 @@ public class AppServiceBean {
 	private List<String> papeis;
 	private List<String> opcionais;
 	private List<String> nomesCliente;
+	private String cidadeCorrente = "";
 
 	private int tamanholistaPapel;
 	private int tamanholistaEntrega;
 	private int tamanholistaOpcionais;
 	private int tamanholistaClientes;
+
+	/**
+	 * @return the cidadeCorrente
+	 */
+	public String getCidadeCorrente() {
+		System.out.println("get = " + this.cidadeCorrente);
+		return cidadeCorrente;
+	}
+
+	/**
+	 * @param cidadeCorrente
+	 *            the cidadeCorrente to set
+	 */
+	public void setCidadeCorrente(String cidadeCorrente) {
+		System.out.println("set = " + this.cidadeCorrente);
+		this.cidadeCorrente = cidadeCorrente;
+	}
 
 	public int getTamanholistaClientes() {
 		return tamanholistaClientes;
@@ -42,6 +63,14 @@ public class AppServiceBean {
 
 	public void setTamanholistaOpcionais(int tamanholistaOpcionais) {
 		this.tamanholistaOpcionais = tamanholistaOpcionais;
+	}
+
+	public List<Cidade> getTodasCidades() {
+
+		CidadeDAO cidadeDAO = new CidadeDAO();
+		List<Cidade> retorno = cidadeDAO.getLista();
+
+		return retorno;
 	}
 
 	public List<SelectItem> getLocaisEntrega() {
@@ -64,7 +93,7 @@ public class AppServiceBean {
 			retorno.add(new SelectItem(b));
 		}
 		return retorno;
-	}	
+	}
 
 	public List<SelectItem> getPapeis() {
 		ArrayList<SelectItem> retorno = new ArrayList<SelectItem>();
@@ -98,7 +127,6 @@ public class AppServiceBean {
 		return retorno;
 	}
 
-	
 	/**
 	 * @param locaisEntrega
 	 *            the locaisEntrega to set
@@ -107,7 +135,7 @@ public class AppServiceBean {
 		this.locaisEntrega = locaisEntrega;
 		this.setTamanholistaEntrega(locaisEntrega.size());
 	}
-	
+
 	public void setNomesCliente(List<String> nomesCliente) {
 		this.nomesCliente = nomesCliente;
 		this.setTamanholistaClientes(nomesCliente.size());
@@ -158,8 +186,8 @@ public class AppServiceBean {
 		this.opcionais = opcionais;
 		this.setTamanholistaOpcionais(this.opcionais.size());
 		System.out.println("Setou tamanho " + tamanholistaOpcionais);
-	}	
-	
+	}
+
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
@@ -187,18 +215,20 @@ public class AppServiceBean {
 		}
 
 	}
+
 	public List<Entrega> complemento(Object event) {
 		String prefixo = event.toString().toLowerCase();
 		List<Entrega> retorno = new ArrayList<Entrega>();
 		EntregaDAO entregaDAO = new EntregaDAO();
 		List<Entrega> lista = entregaDAO.getLista();
-		for(Entrega e : lista){
-		   if(e.getLocal().toLowerCase().startsWith(prefixo)){
-			   retorno.add(e);
-		   }
+		for (Entrega e : lista) {
+			if (e.getLocal().toLowerCase().startsWith(prefixo)) {
+				retorno.add(e);
+			}
 		}
 		return retorno;
 	}
+
 	/**
 	 * @param context
 	 * @param component
@@ -222,4 +252,8 @@ public class AppServiceBean {
 		}
 
 	}
+	
+	
+	
+	
 }
