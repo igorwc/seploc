@@ -58,6 +58,15 @@ public class CidadeDAO extends GenericDAO<Cidade, Integer> implements
 		return (List<Cidade>) q.getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Cidade> recuperaCidadesPorNome(String estado) {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Cidade.BuscaCidadesPorNome")
+				.setParameter("nome", '%'+ estado+'%');
+
+		em.getTransaction().commit();
+		return (List<Cidade>) q.getResultList();
+	}
 	@Override
 	protected boolean verificaFilhos(Integer id) throws Exception {
 		// TODO Auto-generated method stub
