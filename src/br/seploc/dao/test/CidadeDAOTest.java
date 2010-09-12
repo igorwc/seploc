@@ -41,6 +41,14 @@ public class CidadeDAOTest {
 	}
 
 	@Test
+	public void testGetCidadePorNome() {
+		CidadeDAO cidadeDAO = new CidadeDAO();
+		List<Cidade> retorno = cidadeDAO.recuperaCidadesPorNome("jo");
+		for(Cidade c : retorno){
+			System.out.println(c.getNome());
+		}
+	}
+	@Test
 	public void testRecuperaCidadesPorEstado() {
 		fail("Not yet implemented");
 	}
