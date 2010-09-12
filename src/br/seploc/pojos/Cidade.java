@@ -24,6 +24,8 @@ import javax.persistence.Version;
 @NamedNativeQueries({
 		@NamedNativeQuery(name = "Cidade.RetornaCidades", query = " SELECT * "
 				+ "FROM tbl_cidades c", resultSetMapping = "Cidade.implicit"),
+		@NamedNativeQuery(name = "Cidade.BuscaCidadesPorNome", query = " SELECT * "
+					+ "FROM tbl_cidades c where vcrnome like :nome", resultSetMapping = "Cidade.implicit"),
 		@NamedNativeQuery(name = "Cidade.RetornaCidadesPorEstado", query = "SELECT * "
 				+ "FROM tbl_cidades c " + "WHERE c.intCodUF = :codigo", resultSetMapping = "Cidade.implicit") })
 public class Cidade implements Serializable {
