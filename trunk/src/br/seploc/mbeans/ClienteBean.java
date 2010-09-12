@@ -17,10 +17,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 
+import br.seploc.dao.CidadeDAO;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
+import br.seploc.pojos.Cidade;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.Entrega;
+import br.seploc.pojos.Estado;
 import br.seploc.pojos.FoneCliente;
 
 public class ClienteBean implements Serializable {
@@ -40,6 +43,7 @@ public class ClienteBean implements Serializable {
 	private String entregaCliente;
 	private String papelCliente;
 
+
 	public ClienteBean() {
 		cliente = new Cliente();
 		foneCliente = new FoneCliente();
@@ -49,6 +53,14 @@ public class ClienteBean implements Serializable {
 		if (cliente.getEntregaPadrao() != null)
 			bairroCliente = (cliente.getEntregaPadrao().getLocal() == null ? ""
 					: cliente.getEntregaPadrao().getLocal());
+		if(getNavigationBean().getLocalidadeFormCliente() != null || !getNavigationBean().getLocalidadeFormCliente().trim().equals("")){
+			getNavigationBean().setLocalidadeFormCliente("");
+		}
+//		localidade = "";
+//		cidade = new Cidade();
+//		cidade.setNome("");
+//		estado = new Estado();
+//		estado.setNome("");
 	}
 
 	public void limpaDoc() {
@@ -81,6 +93,17 @@ public class ClienteBean implements Serializable {
 		return bairros;
 	}
 
+	public NavigationBean getNavigationBean(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application app = context.getApplication();
+		ExpressionFactory exprFactory = app.getExpressionFactory();
+		ValueExpression valueExpr = exprFactory.createValueExpression(
+				context.getELContext(), "#{navigationBean}",
+				NavigationBean.class);
+		NavigationBean navigationBean = (NavigationBean) valueExpr
+				.getValue(context.getELContext());
+		return navigationBean;
+	}
 	/**
 	 * @param bairros
 	 *            the bairros to set
@@ -120,10 +143,9 @@ public class ClienteBean implements Serializable {
 				cliente.setFoneCliente(foneCliente);
 			}
 			clienteDAO.adiciona(cliente);
-			
+
 			addGlobalMessage("Inclusão feita com sucesso!");
-			
-			
+
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 			e.printStackTrace();
@@ -143,7 +165,7 @@ public class ClienteBean implements Serializable {
 	public void limpa() {
 		cliente = new Cliente();
 		foneCliente = new FoneCliente();
-//		FacesContext.getCurrentInstance().renderResponse();
+		// FacesContext.getCurrentInstance().renderResponse();
 		System.out.println("Limpar Cliente");
 	}
 
@@ -152,6 +174,7 @@ public class ClienteBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
 
+	// GETTERS AND SETTERS
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
@@ -277,10 +300,6 @@ public class ClienteBean implements Serializable {
 		this.bairroCliente = bairroCliente;
 	}
 
-	/*
-	 * Validadores
-	 */
-
 	/**
 	 * @return the papelCliente
 	 */
@@ -296,6 +315,110 @@ public class ClienteBean implements Serializable {
 		this.papelCliente = papelCliente;
 	}
 
+	/**
+	 * @return the localidade
+	 */
+//	public String getLocalidade() {
+//		return localidade;
+//	}
+
+	/**
+	 * @param localidade
+	 *            the localidade to set
+	 */
+//	public void setLocalidade(String localidade) {
+//		this.localidade = localidade;
+//	}
+
+	/**
+	 * @return the cidade
+	 */
+//	public Cidade getCidade() {
+//		return cidade;
+//	}
+
+	/**
+	 * @param cidade
+	 *            the cidade to set
+	 */
+//	public void setCidade(Cidade cidade) {
+//		this.cidade = cidade;
+//	}
+//
+//	/**
+//	 * @return the estado
+//	 */
+//	public Estado getEstado() {
+//		return estado;
+//	}
+
+	/**
+	 * @param estado
+	 *            the estado to set
+	 */
+//	public void setEstado(Estado estado) {
+//		this.estado = estado;
+//	}
+
+	public List<Cidade> getTodasCidades() {
+
+		CidadeDAO cidadeDAO = new CidadeDAO();
+		List<Cidade> retorno = cidadeDAO.getLista();
+
+		return retorno;
+	}
+
+	/**
+	 * @return the cidadeCorrente
+	 */
+//	public String getCidadeCorrente() {
+//		return cidadeCorrente;
+//	}
+
+	/**
+	 * @param cidadeCorrente the cidadeCorrente to set
+	 */
+//	public void setCidadeCorrente(String cidadeCorrente) {
+//		this.cidadeCorrente = cidadeCorrente;
+//	}
+//
+//	/**
+//	 * @return the estadoCorrente
+//	 */
+//	public String getEstadoCorrente() {
+//		return estadoCorrente;
+//	}
+
+	/**
+	 * @param estadoCorrente the estadoCorrente to set
+	 */
+//	public void setEstadoCorrente(String estadoCorrente) {
+//		this.estadoCorrente = estadoCorrente;
+//	}
+//
+//	/**
+//	 * @return the codCidade
+//	 */
+//	public Integer getCodCidade() {
+//		return codCidade;
+//	}
+
+	/**
+	 * @param codCidade the codCidade to set
+	 * @throws Exception 
+	 */
+//	public void setCodCidade(Integer codCidade) throws Exception {
+//		this.codCidade = codCidade;
+//		CidadeDAO cidadeDAO = new CidadeDAO();
+//		this.cidade = cidadeDAO.recupera(codCidade);
+//		this.localidade = cidade.getNome()+" - "+cidade.getUf().getSigla();
+////		codCidade = 0;
+////		cidade = new Cidade();
+//	}
+
+	/*
+	 * Validadores
+	 */
 	/**
 	 * @param context
 	 * @param component
@@ -457,7 +580,7 @@ public class ClienteBean implements Serializable {
 		}
 		if (nome.length() >= 60) {
 			FacesMessage message = new FacesMessage(
-			        "A Razão Social deve ter entre 5 e 60 caracteres");
+					"A Razão Social deve ter entre 5 e 60 caracteres");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
@@ -502,7 +625,7 @@ public class ClienteBean implements Serializable {
 		}
 		if (nome.length() >= 60) {
 			FacesMessage message = new FacesMessage(
-			       "O Nome Fantasia deve ter entre 5 e 60 caracteres");
+					"O Nome Fantasia deve ter entre 5 e 60 caracteres");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
