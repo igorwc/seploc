@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.seploc.dao.CidadeDAO;
 import br.seploc.pojos.Cidade;
+import br.seploc.util.Extenso;
 
 public class MBeanTest {
 
@@ -65,6 +66,22 @@ public class MBeanTest {
 		this.codCidade = codCidade;
 		CidadeDAO cidadeDAO = new CidadeDAO();
 		cidadeEscolhida= cidadeDAO.recupera(codCidade);
+	}
+	
+	public void setValorParaExtenso(double val){
+		//escrever por extenso o preço
+		Extenso valorOriginal = new Extenso(val);
+		String valorExtenso = valorOriginal.toString();		
+		System.out.println(val + " (" + valorExtenso + ")");
+	}
+
+	public String getValorParaExtenso(double val){
+		//escrever por extenso o preço
+		Extenso valorOriginal = new Extenso(val);
+		String valorExtenso = valorOriginal.toString();		
+		System.out.println(valorExtenso);
+		
+		return valorExtenso;
 	}
 	
 }

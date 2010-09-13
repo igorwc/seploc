@@ -11,6 +11,7 @@ import br.seploc.dao.exceptions.FieldNotNullException;
 import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Entrega;
+import br.seploc.util.Extenso;
 
 public class EntregaDAOTest {
 
@@ -62,6 +63,11 @@ public class EntregaDAOTest {
 		Assert.assertTrue(entrega.getPreco().doubleValue() == 20.00);
 
 		System.out.println(entrega);
+		
+		//escrever por extenso o preço
+		Extenso valorOriginal = new Extenso(entrega.getPreco());
+		String valorExtenso = valorOriginal.toString();		
+		System.out.println("Por extenso (" + valorExtenso + ")");
 	}
 
 	@Test
