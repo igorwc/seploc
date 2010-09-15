@@ -1,0 +1,140 @@
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_cad_root}"/> <img src="../imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_cad_cliente}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+<style type="text/css">  
+.row1 {   
+    background-color: #EDEBEB;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+</style> 
+
+
+
+   <f:view>  
+   	  
+   	   <script type="text/javascript" >
+             					(function($j){
+                 					$j(function(){
+    	             					$j('.CEP').setMask();
+    	             					$j('.PHONE').setMask();
+                     				}
+                  				);
+              				})(jQuery);  
+          				 </script>
+           <rich:panel header="Cliente">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Cadastro de Cliente" id="clientePanel" style="width: 600px">
+                  <h:form id="cadCliente" enctype="UTF-8" prependId="false" >
+                 <table	border="0" id="clientForm" >  
+                   <a4j:outputPanel layout="block">
+					<tr align="left">
+					<td><h:outputText value="Tipo Documento: " styleClass="texto"/></td>
+					<td><a4j:outputPanel layout="block">
+					    		<h:selectOneRadio id="tpDocCli"  value="#{clienteCB.clienteMB.opDocCliente}" binding="#{clienteCB.selectDocType}" >
+									<f:selectItem id="doc1" itemLabel="CNPJ" itemValue="1"  />
+									<f:selectItem id="doc2" itemLabel="CPF" itemValue="2"  />
+									 <a4j:support event="onclick" reRender="docinput,docinput3" action="#{clienteCB.limpaDoc}" ajaxSingle="true" />
+									 <f:convertNumber integerOnly="true" type="number"/>
+					    		</h:selectOneRadio>
+					    </a4j:outputPanel>
+                    </td>   
+                      
+                                 
+					<td> <a4j:outputPanel id="docinput"  >  
+					    <h:outputText value="Número CNPJ: " styleClass="texto"  rendered="#{clienteCB.clienteMB.opDocCliente == navigationBean.CNPJ}" />
+					    <h:outputText value="Número CPF: " styleClass="texto" rendered="#{clienteCB.clienteMB.opDocCliente ==  navigationBean.CPF}"/>
+					     </a4j:outputPanel>    
+					</td>
+					<td><a4j:outputPanel id="docinput3"  > 
+					<script type="text/javascript" >
+             					(function($j){
+                 					$j(function(){
+    	             					$j('.seplocCPF').setMask();
+    	              					$j('.seplocCNPJ').setMask();
+                     				}
+                  				);
+              				})(jQuery);  
+          				 </script>
+					     <h:inputText 
+					                  rendered="#{clienteCB.clienteMB.opDocCliente == navigationBean.CNPJ}"
+									  styleClass="seplocCNPJ" 
+									  alt="cnpj"
+									  id = "cnpjCli"
+									  binding="#{clienteCB.inputCNPJ}"
+									 >
+					                 <f:converter converterId="SeplocCNPJConverter" /> 
+					                 <rich:ajaxValidator event="onkeyup" />
+                        </h:inputText>
+                        <h:inputText
+                                     rendered="#{clienteCB.clienteMB.opDocCliente  == navigationBean.CPF}"	
+									 styleClass="seplocCPF" 
+									 alt="cpf"
+									 id = "cpfCli"
+									  binding="#{clienteCB.inputCPF}">        
+					                 <f:converter converterId="SeplocCPFConverter" /> 
+					                 <rich:ajaxValidator event="onkeyup" />                              
+                        </h:inputText>
+                        
+                         </a4j:outputPanel>    
+                    </td>                         
+                      
+					</tr>			
+				</a4j:outputPanel>	
+					<tr>
+					<td colspan="2" align="left">
+					</td>
+					<td colspan="2" align="left">
+					    <rich:message for="cnpjCli" styleClass="error" />
+					    <rich:message for="cpfCli" styleClass="error" />
+					</td>					
+					</tr>
+					</table> 
+				
+                     </h:form>
+               </rich:panel>
+               </center>
+               <!-- fim Formulario -->
+           </rich:panel>            
+       
+   </f:view>  
+   
+</ui:define>
+</ui:composition>
