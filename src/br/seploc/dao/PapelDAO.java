@@ -1,5 +1,6 @@
 package br.seploc.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -9,8 +10,10 @@ import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Papel;
 import br.seploc.util.GenericDAO;
 
-public class PapelDAO extends GenericDAO<Papel, Integer> {
+public class PapelDAO extends GenericDAO<Papel, Integer> implements Serializable {
 
+
+	private static final long serialVersionUID = 1L;
 	@Override
 	public void adiciona(Papel t) {
 		em.getTransaction().begin();
