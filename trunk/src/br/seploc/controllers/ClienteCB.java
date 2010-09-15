@@ -25,6 +25,36 @@ public class ClienteCB implements Serializable {
 	private HtmlInputText inputCNPJ;
 	private HtmlInputText inputCPF;
 	private HtmlSelectOneRadio selectDocType;
+	private final Integer CNPJ = 1;
+	private final Integer CPF = 2;
+	
+	//METODOS DE NEGOCIO
+	public ClienteMB loadClienteMB(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		ClienteMB clienteMB  = (ClienteMB) context.getApplication()
+            .evaluateExpressionGet(context, "#{clienteMB}", ClienteMB.class);
+		return clienteMB;
+	}
+	public ClienteCB() {
+		System.out.println("construiu papelCB");
+		this.setClienteMB(loadClienteMB());
+	}
+	
+	public void limpaDoc() {
+		clienteMB.getCliente().setCnpj("");
+		clienteMB.getCliente().setCpf("");
+		System.out.println(selectDocType.getValue().getClass().getName());
+
+		if (((Integer) selectDocType.getValue()) == 1) {
+			inputCPF.setValue("");
+//			inputCPF.resetValue();
+		} else {
+			inputCNPJ.setValue("");
+//			inputCNPJ.resetValue();
+		}
+	}
+	
+	//SETTTER AND GETTERS
 	/**
 	 * @return the clienteMB
 	 */
@@ -37,7 +67,6 @@ public class ClienteCB implements Serializable {
 	public void setClienteMB(ClienteMB clienteMB) {
 		this.clienteMB = clienteMB;
 	}
-	
 	
 	/**
 	 * @return the inputCNPJ
@@ -75,32 +104,21 @@ public class ClienteCB implements Serializable {
 	public void setSelectDocType(HtmlSelectOneRadio selectDocType) {
 		this.selectDocType = selectDocType;
 	}
-	public ClienteMB loadClienteMB(){
-		FacesContext context = FacesContext.getCurrentInstance();
-		ClienteMB clienteMB  = (ClienteMB) context.getApplication()
-            .evaluateExpressionGet(context, "#{clienteMB}", ClienteMB.class);
-		return clienteMB;
-	}
-	public ClienteCB() {
-		System.out.println("construiu papelCB");
-		this.setClienteMB(loadClienteMB());
-	}
 	
-	public void limpaDoc() {
-		clienteMB.getCliente().setCnpj("");
-		clienteMB.getCliente().setCpf("");
-		System.out.println(selectDocType.getValue().getClass().getName());
-
-		if (((Integer) selectDocType.getValue()) == 1) {
-			inputCPF.setValue("");
-//			inputCPF.resetValue();
-		} else {
-			inputCNPJ.setValue("");
-//			inputCNPJ.resetValue();
-		}
+	/**
+	 * @return the cNPJ
+	 */
+	public Integer getCNPJ() {
+		return CNPJ;
+	}
+	/**
+	 * @return the cPF
+	 */
+	public Integer getCPF() {
+		return CPF;
 	}
 	/*
-	 * Validadores
+	 * VALIDADORES
 	 */
 	/**
 	 * @param context
@@ -111,31 +129,27 @@ public class ClienteCB implements Serializable {
 	public void validateCPF(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
 
-//		if (navigationBean.getOpcaoDocId() == 1) {
-//			this.getCliente().setCpf("");
-//			return;
-//		}
-//		String numeroCPF = "";
-//		if (value == null || value.toString().equals(""))
-//			return;
-//		else {
-//			if (value instanceof String) {
-//				numeroCPF = getDigitsOnly(value.toString());
-//				System.out.println(numeroCPF);
-//				if (numeroCPF.length() != 11) {
-//					FacesMessage message = new FacesMessage(
-//							"O cpf deve ter 11 digitos.");
-//					message.setSeverity(FacesMessage.SEVERITY_ERROR);
-//					throw new ValidatorException(message);
-//				}
-//				if (!validaCPF(numeroCPF) || digitosIguais(numeroCPF)) {
-//					FacesMessage message = new FacesMessage("CPF inválido.");
-//					message.setSeverity(FacesMessage.SEVERITY_ERROR);
-//					throw new ValidatorException(message);
-//
-//				}
-//			}
-//		}
+		String numeroCPF = "";
+		if (value == null || value.toString().equals(""))
+			return;
+		else {
+			if (value instanceof String) {
+				numeroCPF = getDigitsOnly(value.toString());
+				System.out.println(numeroCPF);
+				if (numeroCPF.length() != 11) {
+					FacesMessage message = new FacesMessage(
+							"O cpf deve ter 11 digitos.");
+					message.setSeverity(FacesMessage.SEVERITY_ERROR);
+					throw new ValidatorException(message);
+				}
+				if (!validaCPF(numeroCPF) || digitosIguais(numeroCPF)) {
+					FacesMessage message = new FacesMessage("CPF inválido.");
+					message.setSeverity(FacesMessage.SEVERITY_ERROR);
+					throw new ValidatorException(message);
+
+				}
+			}
+		}
 	}
 
 	/**
@@ -179,7 +193,7 @@ public class ClienteCB implements Serializable {
 //		// @SuppressWarnings("deprecation")
 //		// NavigationBean navigationBean =
 //		// (NavigationBean)app.createValueBinding("#{navigationBean}").getValue(context);
-//		String numeroCNPJ = "";
+		String numeroCNPJ = "";
 //		ExpressionFactory exprFactory = app.getExpressionFactory();
 //		ValueExpression valueExpr = exprFactory.createValueExpression(
 //				context.getELContext(), "#{navigationBean}",
@@ -193,26 +207,26 @@ public class ClienteCB implements Serializable {
 //			this.getCliente().setCnpj("");
 //			return;
 //		}
-//		if (value == null || value.toString().equals(""))
-//			return;
-//		else {
-//			if (value instanceof String) {
-//				numeroCNPJ = getDigitsOnly(value.toString());
-//				System.out.println(numeroCNPJ);
-//				if (numeroCNPJ.length() != 14) {
-//					FacesMessage message = new FacesMessage(
-//							"O CNPJ deve ter 14 digitos.");
-//					message.setSeverity(FacesMessage.SEVERITY_ERROR);
-//					throw new ValidatorException(message);
-//				}
-//				if (!validaCNPJ(numeroCNPJ) || digitosIguais(numeroCNPJ)) {
-//					FacesMessage message = new FacesMessage("CNPJ inválido.");
-//					message.setSeverity(FacesMessage.SEVERITY_ERROR);
-//					throw new ValidatorException(message);
-//
-//				}
-//			}
-//		}
+		if (value == null || value.toString().equals(""))
+			return;
+		else {
+			if (value instanceof String) {
+				numeroCNPJ = getDigitsOnly(value.toString());
+				System.out.println(numeroCNPJ);
+				if (numeroCNPJ.length() != 14) {
+					FacesMessage message = new FacesMessage(
+							"O CNPJ deve ter 14 digitos.");
+					message.setSeverity(FacesMessage.SEVERITY_ERROR);
+					throw new ValidatorException(message);
+				}
+				if (!validaCNPJ(numeroCNPJ) || digitosIguais(numeroCNPJ)) {
+					FacesMessage message = new FacesMessage("CNPJ inválido.");
+					message.setSeverity(FacesMessage.SEVERITY_ERROR);
+					throw new ValidatorException(message);
+
+				}
+			}
+		}
 
 	}
 
