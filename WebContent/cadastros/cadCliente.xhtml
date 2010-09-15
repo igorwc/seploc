@@ -4,7 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:rich="http://richfaces.org/rich"
-      template="masterpage.xhtml">
+      template="../templatepage/masterpage.xhtml">
 
 <!-- TAXINOMIA -->      
 <ui:define name="taxinomia">
@@ -63,76 +63,79 @@
 			   <center>
                <rich:panel header="Cadastro de Cliente" id="clientePanel" style="width: 600px">
                   <h:form id="cadCliente" enctype="UTF-8" prependId="false" >
-                 <table	border="0" id="clientForm" >  
-                   <a4j:outputPanel layout="block">
-					<tr align="left">
-					<td><h:outputText value="Tipo Documento: " styleClass="texto"/></td>
-					<td><a4j:outputPanel layout="block">
+                    <table	border="0" id="clientForm" >  
+                     <a4j:outputPanel layout="block">
+					   <tr align="left">
+						<td><h:outputText value="Tipo Documento: " styleClass="texto"/></td>
+						<td>
+							<a4j:outputPanel layout="block">
 					    		<h:selectOneRadio id="tpDocCli"  value="#{clienteCB.clienteMB.opDocCliente}" binding="#{clienteCB.selectDocType}" >
 									<f:selectItem id="doc1" itemLabel="CNPJ" itemValue="1"  />
 									<f:selectItem id="doc2" itemLabel="CPF" itemValue="2"  />
-									 <a4j:support event="onclick" reRender="docinput,docinput3" action="#{clienteCB.limpaDoc}" ajaxSingle="true" />
-									 <f:convertNumber integerOnly="true" type="number"/>
+									<a4j:support event="onclick" reRender="docLabel,docinput" action="#{clienteCB.limpaDoc}" ajaxSingle="true" />
+									<f:convertNumber integerOnly="true" type="number"/>
 					    		</h:selectOneRadio>
-					    </a4j:outputPanel>
-                    </td>   
-                      
-                                 
-					<td> <a4j:outputPanel id="docinput"  >  
-					    <h:outputText value="Número CNPJ: " styleClass="texto"  rendered="#{clienteCB.clienteMB.opDocCliente == navigationBean.CNPJ}" />
-					    <h:outputText value="Número CPF: " styleClass="texto" rendered="#{clienteCB.clienteMB.opDocCliente ==  navigationBean.CPF}"/>
-					     </a4j:outputPanel>    
-					</td>
-					<td><a4j:outputPanel id="docinput3"  > 
-					<script type="text/javascript" >
-             					(function($j){
-                 					$j(function(){
-    	             					$j('.seplocCPF').setMask();
-    	              					$j('.seplocCNPJ').setMask();
-                     				}
-                  				);
-              				})(jQuery);  
-          				 </script>
-					     <h:inputText 
-					                  rendered="#{clienteCB.clienteMB.opDocCliente == navigationBean.CNPJ}"
+					   		</a4j:outputPanel>
+                   		</td>   
+						<td> 
+							<a4j:outputPanel id="docLabel"  >  
+					    		<h:outputText value="Número CNPJ: " 
+					    					  styleClass="texto"  
+					    					  rendered="#{clienteCB.clienteMB.opDocCliente == clienteCB.CNPJ}" />
+					    		<h:outputText value="Número CPF: " 
+					    					  styleClass="texto" 
+					    					  rendered="#{clienteCB.clienteMB.opDocCliente ==  clienteCB.CPF}"/>
+					    	</a4j:outputPanel>    
+						</td>
+						<td>
+						<a4j:outputPanel id="docinput"  > 
+							<script type="text/javascript" >
+             						(function($j){
+                 						$j(function(){
+    	             						$j('.seplocCPF').setMask();
+    	              						$j('.seplocCNPJ').setMask();
+                     					}
+                  					);
+              					})(jQuery);  
+          				 	</script>
+					     	<h:inputText 
+					                  rendered="#{clienteCB.clienteMB.opDocCliente == clienteCB.CNPJ}"
 									  styleClass="seplocCNPJ" 
 									  alt="cnpj"
 									  id = "cnpjCli"
 									  binding="#{clienteCB.inputCNPJ}"
-									 >
-					                 <f:converter converterId="SeplocCNPJConverter" /> 
-					                 <rich:ajaxValidator event="onkeyup" />
-                        </h:inputText>
-                        <h:inputText
-                                     rendered="#{clienteCB.clienteMB.opDocCliente  == navigationBean.CPF}"	
+									  validator="#{clienteCB.validateCNPJ}">
+					           <f:converter converterId="SeplocCNPJConverter" /> 
+					           <rich:ajaxValidator event="onkeyup" />
+                        	</h:inputText>
+                        	<h:inputText
+                                     rendered="#{clienteCB.clienteMB.opDocCliente  == clienteCB.CPF}"	
 									 styleClass="seplocCPF" 
 									 alt="cpf"
 									 id = "cpfCli"
-									  binding="#{clienteCB.inputCPF}">        
-					                 <f:converter converterId="SeplocCPFConverter" /> 
-					                 <rich:ajaxValidator event="onkeyup" />                              
-                        </h:inputText>
-                        
-                         </a4j:outputPanel>    
-                    </td>                         
-                      
-					</tr>			
-				</a4j:outputPanel>	
+									 binding="#{clienteCB.inputCPF}"
+									 validator="#{clienteCB.validateCPF}">        
+					            <f:converter converterId="SeplocCPFConverter" /> 
+					            <rich:ajaxValidator event="onkeyup" />                              
+                        	</h:inputText>
+                        </a4j:outputPanel>    
+                    	</td>                         
+				    </tr>			
+				   </a4j:outputPanel>	
 					<tr>
-					<td colspan="2" align="left">
-					</td>
-					<td colspan="2" align="left">
-					    <rich:message for="cnpjCli" styleClass="error" />
-					    <rich:message for="cpfCli" styleClass="error" />
-					</td>					
+						<td colspan="2" align="left">
+						</td>
+						<td colspan="2" align="left">
+					    	<rich:message for="cnpjCli" styleClass="error" />
+					    	<rich:message for="cpfCli" styleClass="error" />
+						</td>					
 					</tr>
-					</table> 
-				
-                     </h:form>
-               </rich:panel>
-               </center>
+				 </table> 
+				</h:form>
+              </rich:panel>
+           </center>
                <!-- fim Formulario -->
-           </rich:panel>            
+        </rich:panel>            
        
    </f:view>  
    
