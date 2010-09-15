@@ -1,0 +1,195 @@
+<!-- <tr align="left">
+					<td><h:outputText value="Razão Social: " 
+					                  styleClass="texto"/>
+					                  <h:inputHidden value="#{clienteBean.cliente.idCliente}"  /></td>
+					<td><h:inputText value="#{clienteBean.cliente.razao}" 
+									 validator="#{clienteBean.validateRazaoSocial}" 								 
+									 id="razaoCli" >                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>                        
+                    </td>                    
+					<td><h:outputText value="Nome Fantasia: " styleClass="texto"/></td>
+					<td><h:inputText value="#{clienteBean.cliente.fantasia}" 
+									 id="fantasiaCli">                                                   
+                        </h:inputText> 
+                    </td>                    
+					</tr>					
+					<tr>
+					<td colspan="2"><rich:message for="razaoCli" styleClass="error" /></td>
+					<td colspan="2"><rich:message for="fantasiaCli" styleClass="error" /></td>
+					</tr>					
+					
+					<tr align="left">
+					<td><h:outputText value="Endereço: " styleClass="texto"/></td>
+					<td colspan="3"><h:inputText value="#{clienteBean.cliente.endereco}" 
+									 id="enderCli" 
+									 size="65" maxlength="65"/>                        
+                    </td>                    
+					</tr>					
+					<tr>
+					<td colspan="4"><rich:message for="enderCli" styleClass="error" /></td>					
+					</tr>						
+					<tr align="left">
+					<td><h:outputText value="Localidade: " styleClass="texto"/></td>
+					<td colspan="3"><h:inputText value="#{clienteBean.localidadeFormCliente}" 
+									 id="localidadeCli" 
+									 size="63"
+							         readonly="true"
+							         required="true" 
+							         />
+						<a4j:commandLink ajaxSingle="true" id="editLocalidade" 
+								oncomplete="#{rich:component('chooseLocal')}.show();return false;">
+							<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
+						</a4j:commandLink>
+                    </td>           
+					</tr>					
+					<tr>
+					<td colspan="4"><rich:message for="localidadeCli" styleClass="error" /></td>
+					</tr>
+					<tr align="left">
+					<td><h:outputText value="Bairro: " styleClass="texto"/></td>
+					<td>
+						<a4j:outputPanel id="bairro" >
+				  			<h:inputText id="bairroCli" value="#{clienteBean.cliente.bairro}" />
+				   			<rich:suggestionbox for="bairroCli" minChars="2"
+				       			fetchValue="#{sug_bairro.nome}" nothingLabel="Bairro não encontrado."
+				         		suggestionAction="#{navigationBean.complementoBairro}" var="sug_bairro">
+				         		<h:column>
+				            		<h:outputText value="#{sug_bairro.nome}" />
+				         		</h:column>
+				            	<a4j:support ajaxSingle="true" event="onselect">
+				            		<f:setPropertyActionListener value="#{sug_bairro.id}"
+				                    target="#{navigationBean.codBairro}" />
+				         		</a4j:support>
+				  			</rich:suggestionbox> 
+				  		</a4j:outputPanel>                    
+                    </td>          
+   					<td><h:outputText value="CEP: " styleClass="texto"/></td>
+					<td><h:inputText value="#{clienteBean.cliente.cep}" 
+									 id="cepCli"
+									 alt="cep"
+									 styleClass="CEP">                                                         
+                        </h:inputText>                        
+                    </td>    
+					</tr>					
+					<tr>
+					<td colspan="2"><rich:message for="bairroCli" styleClass="error" /></td>
+					<td colspan="2"><rich:message for="cepCli" styleClass="error" /></td>
+					</tr>			
+					
+			    <tr align="left">
+					<td><h:outputText value="Fone Comercial: " styleClass="texto"/></td>
+					<td><h:inputText value="#{clienteBean.foneCliente.foneComercial}" 
+									 id="foneComCli"
+									 alt="phone"
+									 styleClass="PHONE">                                                         
+                        </h:inputText>
+                    </td>                    
+					<td><h:outputText value="Fone Residencial: " styleClass="texto"/></td>
+					<td><h:inputText value="#{clienteBean.foneCliente.foneResidencial}" 
+									 id="foneResCli"
+									 alt="phone"
+									 styleClass="PHONE">                             
+                        </h:inputText>
+                    </td>                    
+					</tr>					
+
+					<tr align="left">
+					<td><h:outputText value="Celular: " styleClass="texto"/></td>
+					<td><h:inputText value="#{clienteBean.foneCliente.celular}" 
+									 id="celCli"
+									 alt="phone"
+									 styleClass="PHONE">                                                       
+                        </h:inputText>
+                    </td>                    
+					<td><h:outputText value="Fone Fax: " styleClass="texto"/></td>
+					<td><h:inputText value="#{clienteBean.foneCliente.fax}" 
+									 id="faxCli"
+									 alt="phone"
+									 styleClass="PHONE">                                                      
+                        </h:inputText>
+                    </td>                    
+					</tr>
+					<tr align="left">
+					<td><h:outputText value="E-mail: " styleClass="texto"/></td>
+					<td><h:inputText value="#{clienteBean.cliente.email}" 
+									 validator="#{clienteBean.validateEmail}"
+									 id="emailCli">       
+									  <rich:ajaxValidator event="onkeyup"  />                                                 
+                        </h:inputText>
+                              
+                    </td>                    
+					<td><h:outputText value="Inscrição: " styleClass="texto"/></td>
+					<td><h:inputText value="#{clienteBean.cliente.inscricao}" 
+									 id="inscricaoCli">                                                      
+                        </h:inputText>
+                    </td>                    
+					</tr>		
+					<tr>
+					<td></td><td><rich:message for="emailCli" styleClass="error" /></td><td colspan="2"></td>
+					</tr>
+					<tr align="left">
+					<td><h:outputText value="Observação: " styleClass="texto"/></td>
+					<td colspan="3"><h:inputTextarea value="#{clienteBean.cliente.obs}" 
+									 				required="false"									 
+									 				id="obsCli"
+									 				cols="50" rows="3"/>
+                    </td>                    
+					</tr>	
+					
+					<tr align="left">
+					<td><h:outputText value="Entrega Padrão: " styleClass="texto"/></td>
+					<td><h:selectOneMenu value="#{clienteBean.cliente.entregaPadrao.local}" 
+									 required="false"									 
+									 id="entregaPadraoCli">
+							<f:selectItems value="#{entregaBean.lista}" />                                                       
+                        </h:selectOneMenu>
+                    </td> 
+                    <td>
+                    <rich:comboBox selectFirstOnUpdate="false"
+                                   defaultLabel="Local de Entrega"
+                                   id="entregaPadraoCli" 
+                                   value="#{clienteBean.entregaCliente}"
+                                   validator="#{appBean.validateEntrega}"
+                                   >
+                         <f:selectItems value="#{appBean.locaisEntrega}" />
+                        <rich:ajaxValidator event="onkeyup"  />    
+                        <rich:ajaxValidator event="onchange"  />  
+                    </rich:comboBox>
+                    </td>                                        
+					<td><h:outputText value="Papel Padrão: " styleClass="texto"/></td>
+					<td>
+					 <rich:comboBox selectFirstOnUpdate="false"
+                                   defaultLabel="Nome do Papel"
+                                   id="papelPadraoCli" 
+                                   value="#{clienteBean.papelCliente}"
+                                   validator="#{appBean.validatePapeis}"
+                                   >
+                         <f:selectItems value="#{appBean.papeis}"  />
+                        <rich:ajaxValidator event="onkeyup"  />    
+                        <rich:ajaxValidator event="onchange"  />   
+                    </rich:comboBox>
+                    </td>                    
+					</tr>	
+					<tr>
+					<td></td>
+					<td align="right">
+					     <rich:message for="entregaPadraoCli" styleClass="error"  />
+					    <h:outputText value="Não existem Locais de Entrega cadastrados" rendered="#{appBean.tamanholistaEntrega  == 0}" styleClass="texto"/> 
+					</td>
+					<td></td>
+					<td align="right">
+					    <rich:message for="papelPadraoCli" styleClass="error"  />
+					    <h:outputText value="Não existem Papeis cadastrados" rendered="#{appBean.tamanholistaPapel  == 0}" styleClass="texto"/> 
+					    </td>
+					</tr>		-->	
+				  
+				  <!-- Botoes -->
+                  <br/>
+               <!--     <a4j:commandButton value="Salvar" 
+                  action="#{clienteBean.cadastra}" 
+                  reRender="cadCliente"
+                  oncomplete="#{rich:component('confirmationMessage')}.show()" 
+                    />                                              
+                  <a4j:commandButton value="Limpar" type="reset" 
+                   action="#{clienteBean.limpa}" />-->

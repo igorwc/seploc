@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich">      
+      
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  
+<title>
+<ui:insert name="titulo">SEPLOC</ui:insert>
+</title>
+  <!-- FAVICON -->
+  <link rel="shortcut icon" href="../imgs/favicon.ico"/>
+  
+  <!-- CSS -->
+  <link type="text/css" href="../css/app.menu.css" rel="stylesheet" />
+  <link type="text/css" href="../css/seploc.css" rel="stylesheet" />
+
+  <!-- JS -->    
+  <script type="text/javascript" src="../js/jquery-1.4.2.js" ></script>
+  <script type="text/javascript" src="../js/jquery.meio.mask.js" charset="utf-8"></script>
+  <script>
+     var $j = jQuery.noConflict();
+   </script>
+  
+  <script type="text/javascript" src="../js/app.util.js"></script>    
+  
+</head>
+<body onload="showData()" topmargin="0"> 
+<table border="0" align="center" cellspacing="0" width="100%">
+  <!-- LOGO -->
+  <tr align="center" id="topo2">
+	<td colspan="2" height="58px">
+		<div>
+			<div class="topo_esq" style="height:60px;" align="right"><img src="../imgs/fde.png"/></div>
+			<div class="topo_cen" align="center"><img src="../imgs/logo_seploc.png"/></div>
+			<div class="topo_dir" style="height:60px;" align="left"><img src="../imgs/fdd.png"/></div>
+		</div>	
+	</td>
+  </tr>
+  <!-- TOPO -->
+  <tr>  
+    <td align="left" class="texto">&nbsp;&nbsp;<ui:insert name="taxinomia">
+    	Seploc <img src="../imgs/ponto.png"/> 
+    	Principal
+    </ui:insert></td>
+	<td align="right" class="texto">Bem-vindo, <ui:insert name="topo">#{login.userName}</ui:insert> &nbsp;&nbsp;</td>
+  </tr>  
+  <!-- MENU -->
+  <tr>
+    <td colspan="2">
+      <ui:insert name="menu">
+      
+			<f:view>
+				<h:form>
+					<rich:toolBar>
+					
+					    <!-- MENU SEPLOC -->
+						<rich:dropDownMenu>
+							<f:facet name="label">
+								<h:panelGroup>
+									<h:graphicImage value="../imgs/icons/seploc.gif" styleClass="pic" />
+									<h:outputText value="#{msgs.menu_seploc}" />
+								</h:panelGroup>
+							</f:facet>
+							<rich:menuItem submitMode="ajax" value="#{msgs.menu_seploc_par}" action="#"
+								icon="../imgs/icons/create_doc.gif">
+							</rich:menuItem>
+							<rich:menuItem submitMode="ajax" value="#{msgs.menu_seploc_sobre}" action="#" icon="../imgs/icons/open.gif" />
+							<rich:menuSeparator id="menuSeparator1" />
+							<rich:menuItem submitMode="ajax" value="#{msgs.menu_seploc_sair}" icon="../imgs/icons/sair.gif" action="#" onclick="document.location.href='login.jsf'" />
+						</rich:dropDownMenu>
+
+						<!-- MENU ATENDIMENTO -->						
+						<rich:dropDownMenu>
+							<f:facet name="label">
+								<h:panelGroup>							
+								    <h:graphicImage value="../imgs/icons/atend.gif" styleClass="pic" />	
+									<h:outputText value="Requisição" />
+								</h:panelGroup>
+							</f:facet>
+							<rich:menuItem submitMode="ajax" value="Cliente Balcão" icon="../imgs/icons/atendc.gif" action="#" />
+							<rich:menuItem submitMode="nome" value="Cliente Cadastrado" icon="../imgs/icons/atendb.gif"  onclick="document.location.href='cadRequisicaoServico.jsf'" />
+							<rich:menuSeparator id="menuSeparator2" />
+							<rich:menuItem submitMode="ajax" value="Listar Requisições" action="#" icon="../imgs/icons/copy.gif" />
+						</rich:dropDownMenu>
+
+						<!-- MENU CADASTRO -->						
+						<rich:dropDownMenu>
+							<f:facet name="label">
+								<h:panelGroup>												
+								    <h:graphicImage value="../imgs/icons/ferramentas.gif" styleClass="pic" />
+									<h:outputText value="Cadastros" />
+								</h:panelGroup>
+							</f:facet>
+							<rich:menuItem submitMode="none" value="Papel"    icon="../imgs/icons/papel.gif" onclick="document.location.href='cadPapel.jsf'" />
+							<rich:menuItem submitMode="none" value="Opcional" icon="../imgs/icons/lupa.gif" onclick="document.location.href='cadOpcional.jsf'" />
+							<rich:menuItem submitMode="none" value="Entrega"  icon="../imgs/icons/globo.gif" onclick="document.location.href='cadEntrega.jsf'" />							
+							<rich:menuItem submitMode="none" value="Cobrador" icon="../imgs/icons/pessoah.gif" onclick="document.location.href='cadCobrador.jsf'" />
+							<rich:menuItem submitMode="none" value="Usuário"  icon="../imgs/icons/pessoam.gif" onclick="document.location.href='cadUsuario.jsf'"  />
+							<rich:menuItem submitMode="none" value="Cliente"  icon="../imgs/icons/pessoas.gif" onclick="document.location.href='cadCliente.jsf'" />
+							<rich:menuItem submitMode="none" value="Projeto"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='cadProjetoCliente.jsf'"  />
+						</rich:dropDownMenu>
+
+					</rich:toolBar>
+				</h:form>
+			</f:view>
+
+		</ui:insert>
+    </td>
+  </tr>
+  <!-- CONTEUDO -->
+  <tr>
+    <td colspan="2">          
+      <ui:insert name="conteudo"></ui:insert>
+    </td>
+  </tr>
+  <!-- RODAPE -->
+  <tr id="rodape">
+    <td  colspan="2" align="center" class="texto_branco">
+      <ui:insert name="rodape">
+      	<span id="dt"></span>
+      </ui:insert>
+    </td>
+  </tr>  
+</table>
+</body>
+</html>
