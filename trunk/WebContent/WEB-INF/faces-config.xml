@@ -3,15 +3,6 @@
  xmlns:xi="http://www.w3.org/2001/XInclude"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee        http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
  <name>seploc</name>
- <application>
-   <resource-bundle>
-      <base-name>messages</base-name>
-      <var>msgs</var>
-   </resource-bundle>  
-   <locale-config>
-     <default-locale>pt</default-locale>
-   </locale-config>
- </application>
  <!--  Conversores 
  Conversor de String para Número Decimal e vice versa -->
  <converter>
@@ -28,10 +19,9 @@
   <converter-id>SeplocCNPJConverter</converter-id>
   <converter-class>br.seploc.converters.SeplocCNPJConverter</converter-class>
  </converter>
-
-  <!-- Fim dos Conversores
+ <!-- Fim dos Conversores
   Beans Adicionais -->
-   <managed-bean>
+ <managed-bean>
   <managed-bean-name>login</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.Login</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
@@ -46,20 +36,19 @@
    <value>1</value>
   </managed-property>
  </managed-bean>
-  <!-- Bean de aplicacao -->
+ <!-- Bean de aplicacao -->
  <managed-bean>
   <managed-bean-name>appBean</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.AppServiceBean</managed-bean-class>
   <managed-bean-scope>application</managed-bean-scope>
  </managed-bean>
-  <!-- Bean de aplicacao -->
+ <!-- Bean de aplicacao -->
  <managed-bean>
   <managed-bean-name>suggestionBean</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.SuggestionboxBean</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
- 
-   <!-- Bean de BeanTest -->
+ <!-- Bean de BeanTest -->
  <managed-bean>
   <managed-bean-name>testBean</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.tests.MBeanTest</managed-bean-class>
@@ -109,15 +98,33 @@
   <managed-bean-class>br.seploc.mbeans.CobradorBean</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
- <!--Fim dos Cadastros --> 
- 
- <!-- Requisicao -->
+ <!--Fim dos Cadastros 
+ Requisicao -->
  <managed-bean>
   <managed-bean-name>reqServBean</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.RequisicaoServicoBean</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
- 
+ <managed-bean>
+  <managed-bean-name>papelCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.PapelCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>papelMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.tests.PapelMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>clienteCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.ClienteCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>clienteMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.tests.ClienteMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
  <!-- Regras Navegação -->
  <navigation-rule>
   <from-view-id>/login.xhtml</from-view-id>
@@ -138,7 +145,7 @@
   <validator-id>SeploCPFValidator</validator-id>
   <validator-class>br.seploc.validators.SeploCPFValidator</validator-class>
  </validator>
-  <validator>
+ <validator>
   <validator-id>SeplocCNPJValidator</validator-id>
   <validator-class>br.seploc.validators.SeplocCNPJValidator</validator-class>
  </validator>
