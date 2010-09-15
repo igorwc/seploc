@@ -3,6 +3,15 @@
  xmlns:xi="http://www.w3.org/2001/XInclude"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee        http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
  <name>seploc</name>
+  <application>
+   <resource-bundle>
+      <base-name>messages</base-name>
+      <var>msgs</var>
+   </resource-bundle>  
+   <locale-config>
+     <default-locale>pt</default-locale>
+   </locale-config>
+ </application>
  <!--  Conversores 
  Conversor de String para Número Decimal e vice versa -->
  <converter>
