@@ -83,6 +83,16 @@
   <managed-bean-class>br.seploc.mbeans.EntregaBean</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
+ <managed-bean>
+  <managed-bean-name>entregaMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.EntregaMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean> 
+ <managed-bean>
+  <managed-bean-name>entregaCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.EntregaCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>  
  <!-- Cadastro Usuario -->
  <managed-bean>
   <managed-bean-name>usuarioBean</managed-bean-name>
