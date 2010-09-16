@@ -22,6 +22,7 @@ public class CobradorDAOTest {
 		Cobrador cobrador = new Cobrador();
 		cobrador.setNome("teste23");
 		cobrador.setFoneContato("3333-2222");
+		cobrador.setAtivo("S");
 
 		dao.adiciona(cobrador);
 		cobrador = null;
