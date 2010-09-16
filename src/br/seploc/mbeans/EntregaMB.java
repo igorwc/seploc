@@ -1,0 +1,152 @@
+package br.seploc.mbeans;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import br.seploc.dao.EntregaDAO;
+import br.seploc.pojos.Entrega;
+
+public class EntregaMB {
+
+	private static final long serialVersionUID = 1L;
+	static int quantidade = 0;
+	private Entrega entrega;
+	private EntregaDAO entregaDAO;
+	
+	//CONSTRUTOR
+	/**
+	 * Construtor da classe
+	 */
+	public EntregaMB(){
+		init();
+	}
+	
+	/**
+	 * Metodo de inicialização
+	 */
+	public void init(){
+		quantidade++;		
+		entrega = new Entrega();
+		entregaDAO = new EntregaDAO();
+		System.out.println("\n\n\n\n\n\n\nContrui EntregaMB\n\n\n\n\n\n\n\n\n\n\n");
+	}
+
+	// SETTERS AND GETTERS
+	/**
+	 * Buscar Entrega
+	 * @return Entrega
+	 */
+	public Entrega getEntrega() {
+		return entrega;
+	}
+	
+	/**
+	 * Atribuir Entrega
+	 * @param entrega
+	 */
+	public void setEntrega(Entrega entrega) {
+		this.entrega = entrega;
+	}
+	
+	/**
+	 * Buscar EntregaDAO
+	 * @return EntregaDAO
+	 */
+	public EntregaDAO getEntregaDAO() {
+		return entregaDAO;
+	}
+	
+	/**
+	 * Atribuir EntregaDAO
+	 * @param entregaDAO
+	 */
+	public void setEntregaDAO(EntregaDAO entregaDAO) {
+		this.entregaDAO = entregaDAO;
+	}	
+	
+	/**
+	 * Recupera lista de entregas
+	 * @return List<Entrega> 
+	 */
+	public List<Entrega> getLista() {
+		return entregaDAO.getLista();
+	}
+	
+	// METODOS
+	/**
+	 * Cadastrar ou alterar o entrega
+	 */
+	public void cadastrar() {
+		if (entrega.getCodEntrega() == null || entrega.getCodEntrega() == 0) {
+			try {
+				entregaDAO.adiciona(entrega);
+				addGlobalMessage("Inclusão feita com sucesso!");			
+			} catch (Exception e) {
+				addGlobalMessage(e.getMessage());
+			}
+		} else {
+			Entrega temp;
+			temp = entregaDAO.recupera(entrega.getCodEntrega());
+			if (temp != null) {
+				temp.setCodEntrega(entrega.getCodEntrega());
+				temp.setLocal(entrega.getLocal().trim());
+				temp.setPreco(entrega.getPreco());	
+				
+				try {
+					entregaDAO.altera(temp);
+					addGlobalMessage("Atualização feita com sucesso!");					
+				} catch (Exception e) {
+					addGlobalMessage(e.getMessage());
+				}
+			}
+		}
+		entrega = new Entrega();
+	}
+
+	/**
+	 * Limpar entrega
+	 */
+	public void limpar() {
+		entrega = new Entrega();
+	}
+	
+	/**
+	 * Editar entrega
+	 */
+	public void editar(){
+		try {
+			entrega = entregaDAO.recupera(entrega.getCodEntrega());
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}		
+	}
+
+	/**
+	 * Método para incluir mensagens globais no formulário de cadastro
+	 * 
+	 * @param String
+	 *            message
+	 */
+	public static void addGlobalMessage(String message) {
+		FacesMessage facesMessage = new FacesMessage(message);
+		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	}
+
+	/**
+	 * Excluir entrega
+	 */
+	public void apagar() {
+		try {
+			entregaDAO.remove(entrega.getCodEntrega());
+			addGlobalMessage("Excluído com sucesso!");
+		} catch (Exception e) {
+			addGlobalMessage(e.getMessage());
+		}
+		entrega = new Entrega();
+	}
+	
+}
