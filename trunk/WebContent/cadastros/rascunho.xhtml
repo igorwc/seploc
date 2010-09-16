@@ -1,34 +1,4 @@
-<!-- <tr align="left">
-					<td><h:outputText value="Razão Social: " 
-					                  styleClass="texto"/>
-					                  <h:inputHidden value="#{clienteBean.cliente.idCliente}"  /></td>
-					<td><h:inputText value="#{clienteBean.cliente.razao}" 
-									 validator="#{clienteBean.validateRazaoSocial}" 								 
-									 id="razaoCli" >                             
-                             <rich:ajaxValidator event="onkeyup"  />                            
-                        </h:inputText>                        
-                    </td>                    
-					<td><h:outputText value="Nome Fantasia: " styleClass="texto"/></td>
-					<td><h:inputText value="#{clienteBean.cliente.fantasia}" 
-									 id="fantasiaCli">                                                   
-                        </h:inputText> 
-                    </td>                    
-					</tr>					
-					<tr>
-					<td colspan="2"><rich:message for="razaoCli" styleClass="error" /></td>
-					<td colspan="2"><rich:message for="fantasiaCli" styleClass="error" /></td>
-					</tr>					
 					
-					<tr align="left">
-					<td><h:outputText value="Endereço: " styleClass="texto"/></td>
-					<td colspan="3"><h:inputText value="#{clienteBean.cliente.endereco}" 
-									 id="enderCli" 
-									 size="65" maxlength="65"/>                        
-                    </td>                    
-					</tr>					
-					<tr>
-					<td colspan="4"><rich:message for="enderCli" styleClass="error" /></td>					
-					</tr>						
 					<tr align="left">
 					<td><h:outputText value="Localidade: " styleClass="texto"/></td>
 					<td colspan="3"><h:inputText value="#{clienteBean.localidadeFormCliente}" 
