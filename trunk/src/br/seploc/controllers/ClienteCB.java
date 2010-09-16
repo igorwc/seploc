@@ -1,6 +1,7 @@
 package br.seploc.controllers;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,9 +15,12 @@ import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
+import br.seploc.dao.CidadeDAO;
 import br.seploc.mbeans.AppServiceBean;
 import br.seploc.mbeans.NavigationBean;
 import br.seploc.mbeans.tests.ClienteMB;
+import br.seploc.pojos.Cidade;
+import br.seploc.util.Utils;
 
 public class ClienteCB implements Serializable {
 
@@ -27,19 +31,21 @@ public class ClienteCB implements Serializable {
 	private HtmlSelectOneRadio selectDocType;
 	private final Integer CNPJ = 1;
 	private final Integer CPF = 2;
-	
-	//METODOS DE NEGOCIO
-	public ClienteMB loadClienteMB(){
+
+	// METODOS DE NEGOCIO
+	public ClienteMB loadClienteMB() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		ClienteMB clienteMB  = (ClienteMB) context.getApplication()
-            .evaluateExpressionGet(context, "#{clienteMB}", ClienteMB.class);
+		ClienteMB clienteMB = (ClienteMB) context
+				.getApplication()
+				.evaluateExpressionGet(context, "#{clienteMB}", ClienteMB.class);
 		return clienteMB;
 	}
+
 	public ClienteCB() {
 		System.out.println("construiu papelCB");
 		this.setClienteMB(loadClienteMB());
 	}
-	
+
 	public void limpaDoc() {
 		clienteMB.getCliente().setCnpj("");
 		clienteMB.getCliente().setCpf("");
@@ -47,76 +53,88 @@ public class ClienteCB implements Serializable {
 
 		if (((Integer) selectDocType.getValue()) == 1) {
 			inputCPF.setValue("");
-//			inputCPF.resetValue();
+			// inputCPF.resetValue();
 		} else {
 			inputCNPJ.setValue("");
-//			inputCNPJ.resetValue();
+			// inputCNPJ.resetValue();
 		}
 	}
-	
-	//SETTTER AND GETTERS
+
+	// SETTTER AND GETTERS
 	/**
 	 * @return the clienteMB
 	 */
 	public ClienteMB getClienteMB() {
 		return clienteMB;
 	}
+
 	/**
-	 * @param clienteMB the clienteMB to set
+	 * @param clienteMB
+	 *            the clienteMB to set
 	 */
 	public void setClienteMB(ClienteMB clienteMB) {
 		this.clienteMB = clienteMB;
 	}
-	
+
 	/**
 	 * @return the inputCNPJ
 	 */
 	public HtmlInputText getInputCNPJ() {
 		return inputCNPJ;
 	}
+
 	/**
-	 * @param inputCNPJ the inputCNPJ to set
+	 * @param inputCNPJ
+	 *            the inputCNPJ to set
 	 */
 	public void setInputCNPJ(HtmlInputText inputCNPJ) {
 		this.inputCNPJ = inputCNPJ;
 	}
+
 	/**
 	 * @return the inputCPF
 	 */
 	public HtmlInputText getInputCPF() {
 		return inputCPF;
 	}
+
 	/**
-	 * @param inputCPF the inputCPF to set
+	 * @param inputCPF
+	 *            the inputCPF to set
 	 */
 	public void setInputCPF(HtmlInputText inputCPF) {
 		this.inputCPF = inputCPF;
 	}
+
 	/**
 	 * @return the selectDocType
 	 */
 	public HtmlSelectOneRadio getSelectDocType() {
 		return selectDocType;
 	}
+
 	/**
-	 * @param selectDocType the selectDocType to set
+	 * @param selectDocType
+	 *            the selectDocType to set
 	 */
 	public void setSelectDocType(HtmlSelectOneRadio selectDocType) {
 		this.selectDocType = selectDocType;
 	}
-	
+
 	/**
 	 * @return the cNPJ
 	 */
 	public Integer getCNPJ() {
 		return CNPJ;
 	}
+
 	/**
 	 * @return the cPF
 	 */
 	public Integer getCPF() {
 		return CPF;
 	}
+
 	/*
 	 * VALIDADORES
 	 */
@@ -128,7 +146,7 @@ public class ClienteCB implements Serializable {
 	 */
 	public void validateCPF(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
-
+		String errorMsg = "";
 		String numeroCPF = "";
 		if (value == null || value.toString().equals(""))
 			return;
@@ -137,16 +155,56 @@ public class ClienteCB implements Serializable {
 				numeroCPF = getDigitsOnly(value.toString());
 				System.out.println(numeroCPF);
 				if (numeroCPF.length() != 11) {
-					FacesMessage message = new FacesMessage(
-							"O cpf deve ter 11 digitos.");
+					errorMsg = Utils.getMessageResourceString("messages",
+							"cpf.tamanho.invalido", null, context.getViewRoot()
+									.getLocale());
+					FacesMessage message = new FacesMessage(errorMsg);
 					message.setSeverity(FacesMessage.SEVERITY_ERROR);
 					throw new ValidatorException(message);
 				}
 				if (!validaCPF(numeroCPF) || digitosIguais(numeroCPF)) {
-					FacesMessage message = new FacesMessage("CPF inválido.");
+					errorMsg = Utils.getMessageResourceString("messages",
+							"cpf.invalido", null, context.getViewRoot()
+									.getLocale());
+					FacesMessage message = new FacesMessage(errorMsg);
 					message.setSeverity(FacesMessage.SEVERITY_ERROR);
 					throw new ValidatorException(message);
+				}
+			}
+		}
+	}
 
+	/**
+	 * @param context
+	 * @param component
+	 * @param value
+	 * @throws ValidatorException
+	 */
+	public void validateCNPJ(FacesContext context, UIComponent component,
+			Object value) throws ValidatorException {
+		String errorMsg = "";
+		String numeroCNPJ = "";
+		if (value == null || value.toString().equals(""))
+			return;
+		else {
+			if (value instanceof String) {
+				numeroCNPJ = getDigitsOnly(value.toString());
+				System.out.println(numeroCNPJ);
+				if (numeroCNPJ.length() != 14) {
+					errorMsg = Utils.getMessageResourceString("messages",
+							"cnpj.tamanho.invalido", null, context
+									.getViewRoot().getLocale());
+					FacesMessage message = new FacesMessage(errorMsg);
+					message.setSeverity(FacesMessage.SEVERITY_ERROR);
+					throw new ValidatorException(message);
+				}
+				if (!validaCNPJ(numeroCNPJ) || digitosIguais(numeroCNPJ)) {
+					errorMsg = Utils.getMessageResourceString("messages",
+							"cnpj.invalido", null, context.getViewRoot()
+									.getLocale());
+					FacesMessage message = new FacesMessage(errorMsg);
+					message.setSeverity(FacesMessage.SEVERITY_ERROR);
+					throw new ValidatorException(message);
 				}
 			}
 		}
@@ -179,58 +237,6 @@ public class ClienteCB implements Serializable {
 	}
 
 	/**
-	 * @param context
-	 * @param component
-	 * @param value
-	 * @throws ValidatorException
-	 */
-	public void validateCNPJ(FacesContext context, UIComponent component,
-			Object value) throws ValidatorException {
-//		Application app = context.getApplication();
-//		// NavigationBean navigationBean =
-//		// app.getExpressionFactory().createValueExpression(context.getELContext(),"#{navigationBean}",
-//		// NavigationBean.class).getValue(arg0);
-//		// @SuppressWarnings("deprecation")
-//		// NavigationBean navigationBean =
-//		// (NavigationBean)app.createValueBinding("#{navigationBean}").getValue(context);
-		String numeroCNPJ = "";
-//		ExpressionFactory exprFactory = app.getExpressionFactory();
-//		ValueExpression valueExpr = exprFactory.createValueExpression(
-//				context.getELContext(), "#{navigationBean}",
-//				NavigationBean.class);
-//		NavigationBean navigationBean = (NavigationBean) valueExpr
-//				.getValue(context.getELContext());
-//
-//		// this.getCliente().setCpf("");
-//
-//		if (navigationBean.getOpcaoDocId() == 2) {
-//			this.getCliente().setCnpj("");
-//			return;
-//		}
-		if (value == null || value.toString().equals(""))
-			return;
-		else {
-			if (value instanceof String) {
-				numeroCNPJ = getDigitsOnly(value.toString());
-				System.out.println(numeroCNPJ);
-				if (numeroCNPJ.length() != 14) {
-					FacesMessage message = new FacesMessage(
-							"O CNPJ deve ter 14 digitos.");
-					message.setSeverity(FacesMessage.SEVERITY_ERROR);
-					throw new ValidatorException(message);
-				}
-				if (!validaCNPJ(numeroCNPJ) || digitosIguais(numeroCNPJ)) {
-					FacesMessage message = new FacesMessage("CNPJ inválido.");
-					message.setSeverity(FacesMessage.SEVERITY_ERROR);
-					throw new ValidatorException(message);
-
-				}
-			}
-		}
-
-	}
-
-	/**
 	 * @param FacesContext
 	 *            context
 	 * @param UIComponent
@@ -245,31 +251,40 @@ public class ClienteCB implements Serializable {
 		if (value == null)
 			return;
 		String nome;
-
+		String errorMsg = "";
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
 			nome = value.toString().trim();
 		else {
-			FacesMessage message = new FacesMessage("Razão Social Inválida");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"fantasia.invalido", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 		if (nome.length() < 5) {
-			FacesMessage message = new FacesMessage(
-					"A Razão Social deve ter 5 letras no mínimo");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"razaosocial.invalido.menor", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 		if (nome.length() >= 60) {
-			FacesMessage message = new FacesMessage(
-					"A Razão Social deve ter entre 5 e 60 caracteres");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"razaosocial.invalido.maior", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 		if (m.matches()) {
-			FacesMessage message = new FacesMessage(
-					"A Razão Social só tem espaços");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"razaosocial.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
@@ -290,31 +305,41 @@ public class ClienteCB implements Serializable {
 		if (value == null)
 			return;
 		String nome;
+		String errorMsg = "";
 
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
 			nome = value.toString().trim();
 		else {
-			FacesMessage message = new FacesMessage("Nome Fantasia Inválido");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"fantasia.invalido", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 		if (nome.length() < 5) {
-			FacesMessage message = new FacesMessage(
-					"O Nome Fantasia deve ter 5 letras no mínimo");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"fantasia.invalido.menor", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 		if (nome.length() >= 60) {
-			FacesMessage message = new FacesMessage(
-					"O Nome Fantasia deve ter entre 5 e 60 caracteres");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"fantasia.invalido.maior", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 		if (m.matches()) {
-			FacesMessage message = new FacesMessage(
-					"O Nome Fantasia só tem espaços");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"fantasia.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
@@ -334,20 +359,21 @@ public class ClienteCB implements Serializable {
 			Object value) throws ValidatorException {
 		if (value == null)
 			return;
-		String nome;
-
+		String nome = "";
+		String errorMsg = Utils.getMessageResourceString("messages",
+				"email.invalido", null, context.getViewRoot().getLocale());
 		Pattern pattern = Pattern
 				.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
 			nome = value.toString().trim();
 		else {
-			FacesMessage message = new FacesMessage("Nome Fantasia Inválido");
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 		if (!m.matches()) {
-			FacesMessage message = new FacesMessage("Email Inválido!");
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
