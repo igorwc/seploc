@@ -43,6 +43,13 @@ public class ClienteBean implements Serializable {
 	private String entregaCliente;
 	private String papelCliente;
 
+	
+	private String cidadeCorrenteFormCliente = "";
+	private String estadoCorrenteFormCliente = "";
+	private List<Cidade> todasCidades;
+	private Cidade cidadeEscolhidaFormCliente;
+	private Integer codCidade;
+	private String localidadeFormCliente;
 
 	public ClienteBean() {
 		cliente = new Cliente();
@@ -53,11 +60,11 @@ public class ClienteBean implements Serializable {
 		if (cliente.getEntregaPadrao() != null)
 			bairroCliente = (cliente.getEntregaPadrao().getLocal() == null ? ""
 					: cliente.getEntregaPadrao().getLocal());
-		if(getNavigationBean().getLocalidadeFormCliente() != null || !getNavigationBean().getLocalidadeFormCliente().trim().equals("")){
-			getNavigationBean().setLocalidadeFormCliente("");
-		}
-//		localidade = "";
-//		cidade = new Cidade();
+//		if(getNavigationBean().getLocalidadeFormCliente() != null || !getNavigationBean().getLocalidadeFormCliente().trim().equals("")){
+//			getNavigationBean().setLocalidadeFormCliente("");
+//		}
+		localidadeFormCliente = "";
+//		cidadeEscolhidaFormCliente = new Cidade();
 //		cidade.setNome("");
 //		estado = new Estado();
 //		estado.setNome("");
@@ -812,4 +819,87 @@ public class ClienteBean implements Serializable {
 		else
 			return true;
 	}
+
+	/**
+	 * @return the cidadeCorrenteFormCliente
+	 */
+	public String getCidadeCorrenteFormCliente() {
+		return cidadeCorrenteFormCliente;
+	}
+
+	/**
+	 * @param cidadeCorrenteFormCliente the cidadeCorrenteFormCliente to set
+	 */
+	public void setCidadeCorrenteFormCliente(String cidadeCorrenteFormCliente) {
+		this.cidadeCorrenteFormCliente = cidadeCorrenteFormCliente;
+	}
+
+	/**
+	 * @return the estadoCorrenteFormCliente
+	 */
+	public String getEstadoCorrenteFormCliente() {
+		return estadoCorrenteFormCliente;
+	}
+
+	/**
+	 * @param estadoCorrenteFormCliente the estadoCorrenteFormCliente to set
+	 */
+	public void setEstadoCorrenteFormCliente(String estadoCorrenteFormCliente) {
+		this.estadoCorrenteFormCliente = estadoCorrenteFormCliente;
+	}
+
+	/**
+	 * @return the cidadeEscolhidaFormCliente
+	 */
+	public Cidade getCidadeEscolhidaFormCliente() {
+		return cidadeEscolhidaFormCliente;
+	}
+
+	/**
+	 * @param cidadeEscolhidaFormCliente the cidadeEscolhidaFormCliente to set
+	 */
+	public void setCidadeEscolhidaFormCliente(Cidade cidadeEscolhidaFormCliente) {
+		this.cidadeEscolhidaFormCliente = cidadeEscolhidaFormCliente;
+	}
+
+	/**
+	 * @return the codCidade
+	 */
+	public Integer getCodCidade() {
+		return codCidade;
+	}
+
+	/**
+	 * @param codCidade the codCidade to set
+	 * @throws Exception 
+	 */
+	public void setCodCidade(Integer codCidade) throws Exception {
+		this.codCidade = codCidade;
+		CidadeDAO cidadeDAO = new CidadeDAO();
+		this.cidadeEscolhidaFormCliente = cidadeDAO.recupera(codCidade);
+		localidadeFormCliente = cidadeEscolhidaFormCliente.getNome()+" - "+ cidadeEscolhidaFormCliente.getUf().getSigla();
+	}
+
+	/**
+	 * @return the localidadeFormCliente
+	 */
+	public String getLocalidadeFormCliente() {
+		return localidadeFormCliente;
+	}
+
+	/**
+	 * @param localidadeFormCliente the localidadeFormCliente to set
+	 */
+	public void setLocalidadeFormCliente(String localidadeFormCliente) {
+		this.localidadeFormCliente = localidadeFormCliente;
+	}
+
+	/**
+	 * @param todasCidades the todasCidades to set
+	 */
+	public void setTodasCidades(List<Cidade> todasCidades) {
+		this.todasCidades = todasCidades;
+	}
+	
+	
 }
