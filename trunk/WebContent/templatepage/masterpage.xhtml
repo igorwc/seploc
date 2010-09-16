@@ -94,16 +94,16 @@
 							<f:facet name="label">
 								<h:panelGroup>												
 								    <h:graphicImage value="../imgs/icons/ferramentas.gif" styleClass="pic" />
-									<h:outputText value="Cadastros" />
+									<h:outputText value="#{msgs['menu.raiz.cadastros']}" />
 								</h:panelGroup>
 							</f:facet>
-							<rich:menuItem submitMode="none" value="Papel"    icon="../imgs/icons/papel.gif" onclick="document.location.href='cadPapel.jsf'" />
-							<rich:menuItem submitMode="none" value="Opcional" icon="../imgs/icons/lupa.gif" onclick="document.location.href='cadOpcional.jsf'" />
-							<rich:menuItem submitMode="none" value="Entrega"  icon="../imgs/icons/globo.gif" onclick="document.location.href='cadEntrega.jsf'" />							
-							<rich:menuItem submitMode="none" value="Cobrador" icon="../imgs/icons/pessoah.gif" onclick="document.location.href='cadCobrador.jsf'" />
-							<rich:menuItem submitMode="none" value="Usuário"  icon="../imgs/icons/pessoam.gif" onclick="document.location.href='cadUsuario.jsf'"  />
-							<rich:menuItem submitMode="none" value="Cliente"  icon="../imgs/icons/pessoas.gif" onclick="document.location.href='cadCliente.jsf'" />
-							<rich:menuItem submitMode="none" value="Projeto"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='cadProjetoCliente.jsf'"  />
+							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.papel']}"    icon="../imgs/icons/papel.gif" onclick="document.location.href='../cadastros/cadPapel.jsf'" />
+							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.opcional']}" icon="../imgs/icons/lupa.gif" onclick="document.location.href='cadOpcional.jsf'" />
+							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.entrega']}"  icon="../imgs/icons/globo.gif" onclick="document.location.href='cadEntrega.jsf'" />							
+							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.cobrador']}" icon="../imgs/icons/pessoah.gif" onclick="document.location.href='../cadastros/cadCobrador.jsf'" />
+							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.usuario']}"  icon="../imgs/icons/pessoam.gif" onclick="document.location.href='cadUsuario.jsf'"  />
+							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.cliente']}"  icon="../imgs/icons/pessoas.gif" onclick="document.location.href='../cadastros/cadCliente.jsf'" />
+							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.projeto']}"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='cadProjetoCliente.jsf'"  />
 						</rich:dropDownMenu>
 
 					</rich:toolBar>
