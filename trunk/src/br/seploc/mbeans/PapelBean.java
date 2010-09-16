@@ -18,10 +18,12 @@ import br.seploc.pojos.Papel;
  */
 public class PapelBean {
 
+	
 	private Papel papel;
 	private PapelDAO papelDAO;
 
 	public PapelBean() {
+		
 		papel = new Papel();
 		papelDAO = new PapelDAO();
 	}
