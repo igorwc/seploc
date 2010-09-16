@@ -107,6 +107,16 @@
   <managed-bean-class>br.seploc.mbeans.CobradorBean</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
+ <managed-bean>
+  <managed-bean-name>cobradorMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.CobradorMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean> 
+ <managed-bean>
+  <managed-bean-name>cobradorCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.CobradorCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean> 
  <!--Fim dos Cadastros 
  Requisicao -->
  <managed-bean>
