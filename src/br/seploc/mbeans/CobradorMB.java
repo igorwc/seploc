@@ -80,7 +80,7 @@ public class CobradorMB {
 	/**
 	 * Cadastrar ou alterar o cobrador
 	 */
-	public void cadastra() {
+	public void cadastrar() {
 		if (cobrador.getCodCobrador() == null || cobrador.getCodCobrador() == 0) {
 			cobradorDAO.adiciona(cobrador);
 			addGlobalMessage("Inclusão feita com sucesso!");
@@ -112,7 +112,11 @@ public class CobradorMB {
 	 * Editar cobrador
 	 */
 	public void editar(){
-		this.cadastra();
+		try {
+			cobrador = cobradorDAO.recupera(cobrador.getCodCobrador());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
 
 	/**
@@ -129,7 +133,7 @@ public class CobradorMB {
 	/**
 	 * Excluir o cobrador
 	 */
-	public void apaga() {
+	public void apagar() {
 		try {
 			cobradorDAO.remove(cobrador.getCodCobrador());
 			addGlobalMessage("Excluído com sucesso!");
