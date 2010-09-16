@@ -131,8 +131,7 @@
                   <a4j:commandButton value="Salvar"
                   action="#{papelCB.papelMB.cadastra}" 
                   reRender="papelList,cadPapel,papelSucesso"
-                  oncomplete="#{rich:component('confirmationMessage')}.show()"
-                  />                                              
+                  oncomplete="#{rich:component('confirmationMessage')}.show()" />                                              
                   <a4j:commandButton value="Limpar" 
                    action="#{papelCB.papelMB.limpar}"
                    reRender="papelList,cadPapel" />
