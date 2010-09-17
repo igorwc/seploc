@@ -3,10 +3,14 @@
  */
 package br.seploc.mbeans.tests;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import br.seploc.dao.BairroDAO;
 import br.seploc.dao.CidadeDAO;
 import br.seploc.dao.ClienteDAO;
+import br.seploc.pojos.Bairro;
 import br.seploc.pojos.Cidade;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.FoneCliente;
@@ -26,8 +30,11 @@ public class ClienteMB {
 	private Integer codCidade;
 	private Cidade cidadeEscolhida;
 	private String localidade;
-	
-	
+	//VARIAVEIS SUGGESTION BOX BAIRROS
+	private long ultimaConsultaBairro;
+	private List<Bairro> listaBairros;
+	private int codBairro;
+	private int codCidadeAnterior = -1;
 	
 	
 	//METODOS AUXILIARES
@@ -39,7 +46,38 @@ public class ClienteMB {
 		return retorno;
 	}
 	
-	
+	public List<Bairro> complementoBairro(Object event) {
+		long today = 0;
+		BairroDAO bairroDAO = new BairroDAO();
+		if (ultimaConsultaBairro == 0 || codCidade != codCidadeAnterior) {
+			ultimaConsultaBairro = Calendar.getInstance().getTimeInMillis();
+			codCidadeAnterior = codCidade;
+			today = ultimaConsultaBairro;
+			listaBairros = bairroDAO.recuperaBairrosPorCidade(codCidade);
+			System.out.println("setou tempo cidade");
+		}else{
+			today = Calendar.getInstance().getTimeInMillis();
+		}
+		long diff = today - ultimaConsultaBairro;
+		System.out.println(diff + " valor bairro: " + ((diff / 1000) / 60));
+		if (!(((diff / 1000) / 60) < 5)) {
+			listaBairros = bairroDAO.recuperaBairrosPorCidade(codCidade);
+			codCidadeAnterior = codCidade;
+			ultimaConsultaBairro = Calendar.getInstance().getTimeInMillis();
+		}
+		String prefixo = event.toString().toLowerCase();
+		List<Bairro> retorno = new ArrayList<Bairro>();
+		if(listaBairros == null){
+			return retorno;
+		}
+		for (Bairro e : listaBairros) {
+			if (e.getNome().toLowerCase().startsWith(prefixo)) {
+				retorno.add(e);
+				continue;
+			}
+		}
+		return retorno;
+	}
 	
 	
 	
@@ -67,12 +105,27 @@ public class ClienteMB {
 	 */
 	public void setLocalidade(String localidade) {
 		this.localidade = localidade;
+		this.cliente.setBairro("");
 	}
 	/**
 	 * @return the cidadeEscolhida
 	 */
 	public Cidade getCidadeEscolhida() {
 		return cidadeEscolhida;
+	}
+
+	/**
+	 * @return the codBairro
+	 */
+	public int getCodBairro() {
+		return codBairro;
+	}
+
+	/**
+	 * @param codBairro the codBairro to set
+	 */
+	public void setCodBairro(int codBairro) {
+		this.codBairro = codBairro;
 	}
 
 	/**
