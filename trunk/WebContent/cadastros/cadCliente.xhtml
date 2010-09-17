@@ -64,7 +64,7 @@
                <rich:panel header="Cadastro de Cliente" id="clientePanel" style="width: 600px">
                   <h:form id="cadCliente" enctype="UTF-8" prependId="false" >
                     <table	border="0" id="clientForm" width="100%" >  
-                     <a4j:outputPanel layout="block">
+                     <a4j:outputPanel layout="none">
 					   <tr align="left">
 						<td>
 						      <h:outputText value="Tipo Documento: " 
@@ -208,6 +208,182 @@
                                           styleClass="error" />
                         </td>
                     </tr>
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="Bairro: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <a4j:outputPanel id="bairro" >
+                                <h:inputText id="bairroCli" 
+                                             value="#{clienteCB.clienteMB.cliente.bairro}" />
+                                <rich:suggestionbox for="bairroCli" minChars="2"
+                                                    fetchValue="#{sug_bairro.nome}" 
+                                                    nothingLabel="Bairro não encontrado."
+                                                    suggestionAction="#{clienteCB.clienteMB.complementoBairro}" 
+                                                    var="sug_bairro">
+                                    <h:column>
+                                        <h:outputText value="#{sug_bairro.nome}" />
+                                    </h:column>
+                                    <a4j:support ajaxSingle="true" 
+                                                 event="onselect">
+                                        <f:setPropertyActionListener value="#{sug_bairro.id}"
+                                                                     target="#{navigationBean.codBairro}" />
+                                    </a4j:support>
+                                </rich:suggestionbox> 
+                            </a4j:outputPanel>                    
+                        </td>          
+                        <td>
+                            <h:outputText value="CEP: " styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.cliente.cep}" 
+                                         id="cepCli"
+                                         alt="cep"
+                                         styleClass="CEP">                                                         
+                            </h:inputText>                        
+                        </td>    
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <rich:message for="bairroCli" 
+                                          styleClass="error" />
+                        </td>
+                        <td colspan="2">
+                            <rich:message for="cepCli" 
+                                          styleClass="error" />
+                        </td>
+                    </tr>
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="Fone Comercial: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.foneCliente.foneComercial}" 
+                                         id="foneComCli"
+                                         alt="phone"
+                                         styleClass="PHONE">                                                         
+                            </h:inputText>
+                        </td>                    
+                        <td>
+                            <h:outputText value="Fone Residencial: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.foneCliente.foneResidencial}" 
+                                         id="foneResCli"
+                                         alt="phone"
+                                         styleClass="PHONE">                             
+                            </h:inputText>
+                        </td>                    
+                    </tr> 
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="Celular: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.foneCliente.celular}" 
+                                         id="celCli"
+                                         alt="phone"
+                                         styleClass="PHONE">                                                       
+                            </h:inputText>
+                        </td>                    
+                        <td>
+                            <h:outputText value="Fone Fax: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.foneCliente.fax}" 
+                                         id="faxCli"
+                                         alt="phone"
+                                         styleClass="PHONE">                                                      
+                            </h:inputText>
+                        </td>  
+                    </tr>
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="E-mail: " 
+                                styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.cliente.email}" 
+                                         validator="#{clienteCB.validateEmail}"
+                                         id="emailCli">       
+                                <rich:ajaxValidator event="onkeyup"  />                                                 
+                            </h:inputText>
+                        </td>                    
+                        <td>
+                            <h:outputText value="Inscrição: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.cliente.inscricao}" 
+                                         id="inscricaoCli">                                                      
+                            </h:inputText>
+                        </td>
+                    </tr>      
+                    <tr>
+                        <td></td>
+                        <td>
+                            <rich:message for="emailCli" 
+                                          styleClass="error" />
+                        </td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="Observação: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td colspan="3">
+                            <h:inputTextarea value="#{clienteCB.clienteMB.cliente.obs}" 
+                                             required="false"                                     
+                                             id="obsCli"
+                                             cols="50" 
+                                             rows="3"/>
+                        </td>                    
+                    </tr>    
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="Entrega Padrão: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:selectOneMenu value="#{clienteCB.clienteMB.cliente.entregaPadrao.local}" 
+                                             required="false"                                    
+                                             id="entregaPadraoCli">
+                                <f:selectItems value="#{entregaBean.lista}" />                                                       
+                            </h:selectOneMenu>
+                        </td> 
+                        <td>
+                            <rich:comboBox selectFirstOnUpdate="false"
+                                           defaultLabel="Local de Entrega"
+                                           id="entregaPadraoCli" 
+                                           value="#{clienteBean.entregaCliente}"
+                                           validator="#{appBean.validateEntrega}" >
+                                <f:selectItems value="#{appBean.locaisEntrega}" />
+                                <rich:ajaxValidator event="onkeyup"  />    
+                                <rich:ajaxValidator event="onchange"  />  
+                            </rich:comboBox>
+                        </td>                                        
+                        <td>
+                            <h:outputText value="Papel Padrão: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <rich:comboBox selectFirstOnUpdate="false"
+                                           defaultLabel="Nome do Papel"
+                                           id="papelPadraoCli" 
+                                           value="#{clienteBean.papelCliente}"
+                                           validator="#{appBean.validatePapeis}">
+                         <f:selectItems value="#{appBean.papeis}"  />
+                        <rich:ajaxValidator event="onkeyup"  />    
+                        <rich:ajaxValidator event="onchange"  />   
+                    </rich:comboBox>
+                    </td>                    
+                    </tr>          
 				 </table> 
 				</h:form>
               </rich:panel>
@@ -283,7 +459,7 @@
                                  -->
                         <a4j:commandLink ajaxSingle="true" 
                                          id="selectPlace" 
-                                         reRender="localidadeCli" 
+                                         reRender="localidadeCli,bairro" 
                                          oncomplete="#{rich:component('chooseLocal')}.hide();" >
                             <h:graphicImage value="../imgs/edit.gif" style="border:0" />
                             <f:setPropertyActionListener value="#{cid.id}"
