@@ -10,9 +10,11 @@ import java.util.List;
 import br.seploc.dao.BairroDAO;
 import br.seploc.dao.CidadeDAO;
 import br.seploc.dao.ClienteDAO;
+import br.seploc.dao.EntregaDAO;
 import br.seploc.pojos.Bairro;
 import br.seploc.pojos.Cidade;
 import br.seploc.pojos.Cliente;
+import br.seploc.pojos.Entrega;
 import br.seploc.pojos.FoneCliente;
 
 /**
@@ -24,8 +26,10 @@ public class ClienteMB {
 	private Cliente cliente;
 	private FoneCliente foneCliente;
 	private ClienteDAO clienteDAO;
+	private Entrega entregaPadrao;
 	private Integer opDocCliente;
 	private String filtroUF;
+	private String filtroLocalEntrega;
 	private String filtroCidade;
 	private Integer codCidade;
 	private Cidade cidadeEscolhida;
@@ -42,6 +46,13 @@ public class ClienteMB {
 
 		CidadeDAO cidadeDAO = new CidadeDAO();
 		List<Cidade> retorno = cidadeDAO.getLista();
+
+		return retorno;
+	}
+	public List<Entrega> getLocaisEntrega() {
+
+		EntregaDAO entregaDAO = new EntregaDAO();
+		List<Entrega> retorno = entregaDAO.getLista();
 
 		return retorno;
 	}
@@ -100,6 +111,30 @@ public class ClienteMB {
 		return localidade;
 	}
 
+	/**
+	 * @return the entregaPadrao
+	 */
+	public Entrega getEntregaPadrao() {
+		return entregaPadrao;
+	}
+	/**
+	 * @param entregaPadrao the entregaPadrao to set
+	 */
+	public void setEntregaPadrao(Entrega entregaPadrao) {
+		this.entregaPadrao = entregaPadrao;
+	}
+	/**
+	 * @return the filtroLocalEntrega
+	 */
+	public String getFiltroLocalEntrega() {
+		return filtroLocalEntrega;
+	}
+	/**
+	 * @param filtroLocalEntrega the filtroLocalEntrega to set
+	 */
+	public void setFiltroLocalEntrega(String filtroLocalEntrega) {
+		this.filtroLocalEntrega = filtroLocalEntrega;
+	}
 	/**
 	 * @param localidade the localidade to set
 	 */
