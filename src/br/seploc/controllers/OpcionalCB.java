@@ -1,6 +1,3 @@
-/**
- * 
- */
 package br.seploc.controllers;
 
 import java.io.Serializable;
@@ -13,51 +10,46 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
-import br.seploc.mbeans.EntregaMB;
-import br.seploc.pojos.Entrega;
+import br.seploc.mbeans.OpcionalMB;
+import br.seploc.pojos.OpcionaisReqServ;
 
-/**
- * @author Gustavo
- * 
- */
-public class EntregaCB implements Serializable {
+public class OpcionalCB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private EntregaMB entregaMB;
-
+	private OpcionalMB opcionalMB;
+	
 	// CONSTRUTOR
 	/**
 	 * Construtor
 	 */
-	public EntregaCB() {		
-		this.setEntregaMB(loadEntregaMB());
+	public OpcionalCB(){
+		this.setOpcionalMB(loadOpcionalMB());
 	}
-		
+
 	// SETTERS AND GETTERS
-
 	/**
-	 * @param entregaMB
-	 *            atribuir entregaMB
+	 * Atribuir OpcionalMB
 	 */
-	public void setEntregaMB(EntregaMB entregaMB) {
-		this.entregaMB = entregaMB;
+	public void setOpcionalMB(OpcionalMB opcionalMB) {
+		this.opcionalMB = opcionalMB;
 	}
 
 	/**
-	 * @return the entregaMB
+	 * Recuperar OpcionalMB
+	 * @return OpcionalMB
 	 */
-	public EntregaMB getEntregaMB() {
-		return entregaMB;
+	public OpcionalMB getOpcionalMB() {
+		return opcionalMB;
 	}
 	
 	/**
-	 * lista das entregas
-	 * @return List<Entrega>
+	 * lista dos opcionais
+	 * @return List<OpcionaisReqServ>
 	 */
-	public List<Entrega> getListaEntregas() {
-		 List<Entrega> lista = entregaMB.getLista();
-		 for(Entrega e : lista){
-			 System.out.println(e);
+	public List<OpcionaisReqServ> getListaOpcionais() {
+		 List<OpcionaisReqServ> lista = opcionalMB.getLista();
+		 for(OpcionaisReqServ o : lista){
+			 System.out.println(o);
 		 }
 		return lista;
 	}
@@ -66,11 +58,11 @@ public class EntregaCB implements Serializable {
 	/**
 	 * 
 	 */
-	public EntregaMB loadEntregaMB(){
+	public OpcionalMB loadOpcionalMB(){
 		FacesContext context = FacesContext.getCurrentInstance();
-		EntregaMB entregaMB = (EntregaMB) context.getApplication()
-            .evaluateExpressionGet(context, "#{entregaMB}", EntregaMB.class);
-		return entregaMB;
+		OpcionalMB opcionalMB = (OpcionalMB) context.getApplication()
+            .evaluateExpressionGet(context, "#{opcionalMB}", OpcionalMB.class);
+		return opcionalMB;
 	}	
 	
 	// VALIDADORES
@@ -84,32 +76,31 @@ public class EntregaCB implements Serializable {
 	 * @throws ValidatorException
 	 * 
 	 */
-	public void validateLocal(FacesContext context, UIComponent component,
+	public void validateOpcional(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
 		if (value == null)
 			return;
-		String local;
+		String nomeOpcional;
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
-			local = value.toString().trim();
+			nomeOpcional = value.toString().trim();
 		else {
-			FacesMessage message = new FacesMessage("Local Inválido");
+			FacesMessage message = new FacesMessage("Opcional Inválido");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (local.length() < 2 || local.length() > 20) {
+		if (nomeOpcional.length() < 2 || nomeOpcional.length() > 20) {
 			FacesMessage message = new FacesMessage(
-					"O nome do local deve ter entre 2 e 20 caracteres");
+					"O nome do opcional deve ter entre 2 e 20 caracteres");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 
 		if (m.matches()) {
-			FacesMessage message = new FacesMessage("O nome do local só tem espaços");
+			FacesMessage message = new FacesMessage("O nome do opcional só tem espaços");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-	}
-	
+	}	
 }

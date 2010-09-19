@@ -789,6 +789,11 @@ INSERT INTO `tbl_entrega` (`intCodEnt`, `vcrLocal`, `dblPreco`, `tspVersao`) VAL
 (50, 'Estância', NULL, '2010-08-08 20:56:49'),
 (51, 'Fundão', NULL, '2010-08-08 20:56:49');
 
+-- atualizar os nomes das localidades e valor
+update tbl_entrega 
+set vcrLocal = upper(vcrLocal), dblPreco = 0 
+where dblPreco is null;
+
 -- --------------------------------------------------------
 
 --

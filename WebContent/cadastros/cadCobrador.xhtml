@@ -9,8 +9,8 @@
 
 <!-- TAXINOMIA -->      
 <ui:define name="taxinomia">
-   	Cadastros <img src="../imgs/ponto.png"/> 
-   	Cobrador
+   	<h:outputText value="#{msgs.tax_cad_root}"/> <img src="../imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_cad_cobrador}"/>
 </ui:define>      
 
 <!-- CONTEUDO -->      
@@ -99,11 +99,11 @@
 				  </table> 
 				  <!-- Botoes -->
                   <br/>
-                  <a4j:commandButton value="Salvar"
+                  <a4j:commandButton value="#{msgs['botao.salvar']}"
                   action="#{cobradorCB.cobradorMB.cadastrar}" 
                   reRender="cadCobrador,cobradorList,cobradorSucesso"
                   oncomplete="#{rich:component('confirmationMessage')}.show()" />                                                                
-                  <a4j:commandButton value="Limpar" 
+                  <a4j:commandButton value="#{msgs['botao.limpar']}" 
                    action="#{cobradorCB.cobradorMB.limpar}"
                    reRender="cobradorList,cadCobrador" />
                </rich:panel>
