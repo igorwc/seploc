@@ -10,7 +10,7 @@
 <!-- TAXINOMIA -->      
 <ui:define name="taxinomia">
    	<h:outputText value="#{msgs.tax_cad_root}"/> <img src="../imgs/ponto.png"/> 
-   	<h:outputText value="#{msgs.tax_cad_entrega}"/>
+   	<h:outputText value="#{msgs.tax_cad_opcional}"/>
 </ui:define>      
 
 <!-- CONTEUDO -->      
@@ -49,7 +49,7 @@
 
 
    <f:view>  
-   	   <h:form id="cadEntrega" enctype="UTF-8" prependId="false" >
+   	   <h:form id="cadOpcional" enctype="UTF-8" prependId="false" >
    	       <script type="text/javascript" >
              (function($j){
                   $j(function(){
@@ -58,57 +58,58 @@
                    );
               })(jQuery);  
            </script>
-           <rich:panel header="Entrega">
+           <rich:panel header="Opcional">
 			   <!-- Formulario -->
 			   <center>
-               <rich:panel header="Cadastro de Entrega" style="width: 500px">
-                 
+               <rich:panel header="Cadastro do Opcional" style="width: 500px">
                  <table	border="0">                 
 					<tr align="left">
-					<td><h:outputText value="Local Entrega: " styleClass="texto"/></td>
-					<td><h:inputText value="#{entregaCB.entregaMB.entrega.local}" 
+					<td><h:outputText value="Nome Opcional: " styleClass="texto"/></td>
+					<td><h:inputText value="#{opcionalCB.opcionalMB.opcional.nomeItem}" 
 									 required="true"
-									 requiredMessage="O local deve ser informado"
-									 validator="#{entregaCB.validateLocal}"
-									 id="localEntrega">             
-                           <rich:ajaxValidator event="onkeyup" />                           
+									 requiredMessage="O nome deve ser informado"
+									 validator="#{opcionalCB.validateOpcional}"
+									 id="nomeOpcional">
+						    <rich:ajaxValidator event="onkeyup" />                           
                         </h:inputText>
-                        <h:inputHidden value="#{entregaCB.entregaMB.entrega.codEntrega}" />
-                    </td>                    
-					</tr>
-					<tr>
-					<td colspan="2"><rich:message for="localEntrega" styleClass="error"/></td>
+                        <h:inputHidden value="#{opcionalCB.opcionalMB.opcional.codOpReqServ}" />
+                    </td>
+                    </tr>
+                    <tr>
+                    <td colspan="2"><rich:message for="nomeOpcional" styleClass="error"/></td>
 					</tr>
 					
 					<tr align="left">
-					<td><h:outputText value="Preço (R$): " styleClass="texto"/></td>
-					<td><h:inputText value="#{entregaCB.entregaMB.entrega.preco}" 
-					                 id="preco"
+					<td><h:outputText value="Valor (R$): " styleClass="texto"/></td>
+					<td><h:inputText value="#{opcionalCB.opcionalMB.opcional.valorItem}" 
+					                 id="valorOpcional"
 					                 converterMessage="valor deve ser um número."
 					                 validatorMessage="valor deve ser um número."
 					                 alt="signed-decimal" 
 					                 styleClass="seploccurrency">
-					           <f:converter converterId="SeplocCurrencyConverter" />
+					          <f:converter converterId="SeplocCurrencyConverter" />
 					          <rich:ajaxValidator event="onkeyup"/>
-					     </h:inputText></td>					
+					     </h:inputText></td>
 					</tr>
 					<tr>
-					<td colspan="2"><rich:message for="preco" styleClass="error"/> </td>
+					<td><rich:message for="valorOpcional" styleClass="error"/> </td>
 					</tr>
 				  </table> 
                   <br/>
-					<a4j:commandButton value="#{msgs['botao.salvar']}" 
-					    action="#{entregaCB.entregaMB.cadastrar}"
-						reRender="entregaList,cadEntrega" 
-						oncomplete="#{rich:component('confirmationMessage')}.show()"/>
-					<a4j:commandButton value="#{msgs['botao.limpar']}" 
-                   action="#{entregaCB.entregaMB.limpar}"
-                   reRender="entregaList,cadEntrega" />
+                  <a4j:commandButton value="#{msgs['botao.salvar']}"
+                  action="#{opcionalCB.opcionalMB.cadastrar}"
+                  reRender="opcionalList,cadOpcionais"
+                  oncomplete="#{rich:component('confirmationMessage')}.show()"
+                   />                                              
+                  <a4j:commandButton value="#{msgs['botao.limpar']}" 
+                  action="#{opcionalCB.opcionalMB.limpar}"
+                  reRender="opcionalList,cadOpcionais"
+                  />
                </rich:panel>
                </center>
-               <rich:dataTable value="#{entregaCB.entregaMB.lista}" var="entrega"    
-                   rowClasses="row1, row2" id="entregaList" rows="8"  
-                   columnClasses="400,50,50" 
+               <rich:dataTable value="#{opcionalCB.opcionalMB.lista}" var="opcional"    
+                   rowClasses="row1, row2" id="opcionalList" rows="8"  
+                   columnClasses="400,50,25,25"  
                    onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
                    onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
                    width="500"
@@ -117,61 +118,64 @@
                        <rich:columnGroup>  
   
                            <rich:column colspan="3">  
-                               <h:outputText value="Entregas Cadastrados" />  
+                               <h:outputText value="Opcionais Cadastrados" />  
                            </rich:column>  
   
                            <rich:column breakBefore="true">  
-                               <h:outputText value="Local Entrega" />  
+                               <h:outputText value="Opcional" />  
                            </rich:column>  
   
                            <rich:column>  
                                <h:outputText value="Valor" />  
                            </rich:column>  
-                           
+  
                            <rich:column/>  
-                           
+  
                        </rich:columnGroup>  
                    </f:facet>  
   
                    <rich:column>  
-		               <h:outputText value="#{entrega.local}" />  
+		               <h:outputText value="#{opcional.nomeItem}" />  
                    </rich:column>  
   
                    <rich:column styleClass="col1">  
-                       <h:outputText value="#{entrega.preco}"/>  
+                       <h:outputText value="#{opcional.valorItem}"/>  
                    </rich:column>  
   
-                   <rich:column styleClass="col1">
-						<a4j:commandLink ajaxSingle="true" id="editlink" 
-						    reRender="cadEntrega" action="#{entregaCB.entregaMB.editar}" >
+                  <rich:column styleClass="col1">
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink" 
+						                 reRender="cadOpcionais" 
+						                 action="#{opcionalCB.opcionalMB.editar}" >
 							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
-							<f:setPropertyActionListener value="#{entrega}"
-								target="#{entregaCB.entregaMB.entrega}" />
+							<f:setPropertyActionListener value="#{opcional}"
+								target="#{opcionalCB.opcionalMB.opcional}" />
 						</a4j:commandLink>
 						<rich:toolTip for="editlink" value="Editar Registro" />
-						<a4j:commandLink ajaxSingle="true" id="deletelink"
-							reRender="entregaList" action="#{entregaCB.entregaMB.apagar}" oncomplete="#{rich:component('confirmationMessage')}.show()">
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="deletelink"
+							             reRender="opcionalList" 
+							             action="#{opcionalCB.opcionalMB.apagar}"
+							             oncomplete="#{rich:component('confirmationMessage')}.show()">
 							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
-							<f:setPropertyActionListener value="#{entrega}"
-								target="#{entregaCB.entregaMB.entrega}" />
+							<f:setPropertyActionListener value="#{opcional}"
+								target="#{opcionalCB.opcionalMB.opcional}" />
 						</a4j:commandLink>
 						<rich:toolTip for="deletelink" value="Apagar Registro" />
 					</rich:column> 
-                       
+  
                </rich:dataTable>  
-               <rich:datascroller for="entregaList" maxPages="5" />
-           </rich:panel>
+               <rich:datascroller for="opcionalList" maxPages="3" />
+          </rich:panel>
        </h:form>  
-              
-        <!-- Modal -->
-        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+       <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
         <f:facet name="header">
-            <h:outputText value="Cadastro de Entrega"
+            <h:outputText value="Cadastro de Opcional"
                 style="padding-right:15px;" />
         </f:facet>
         <f:facet name="controls">
             <h:panelGroup>
-                <h:graphicImage value="../imgs/icons/close.png"
+                <h:graphicImage value="/imgs/icons/close.png"
                     styleClass="hidelink" id="hidelink2" />
                 <rich:componentControl for="deletePanel" attachTo="hidelink2"
                     operation="hide" event="onclick" />
@@ -195,9 +199,6 @@
             </table>
         </h:form>
     </rich:modalPanel>
-
-       
    </f:view>  
-   
 </ui:define>
 </ui:composition>
