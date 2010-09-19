@@ -77,6 +77,16 @@
   <managed-bean-class>br.seploc.mbeans.OpcionalBean</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
+ <managed-bean>
+  <managed-bean-name>opcionalMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.OpcionalMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean> 
+ <managed-bean>
+  <managed-bean-name>opcionalCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.OpcionalCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>   
  <!-- Cadastro Entrega -->
  <managed-bean>
   <managed-bean-name>entregaBean</managed-bean-name>
