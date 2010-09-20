@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 import br.seploc.dao.CobradorDAO;
 import br.seploc.pojos.Cobrador;
 
-public class CobradorMB {
+public class CobradorMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	static int quantidade = 0;

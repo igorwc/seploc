@@ -82,7 +82,8 @@ public class PapelBean {
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
-		papel = new Papel();
+		//papel = new Papel();
+		this.limpar();
 	}
 
 	public void editar() {

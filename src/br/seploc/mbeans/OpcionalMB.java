@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 import br.seploc.dao.OpcionaisReqServDAO;
 import br.seploc.pojos.OpcionaisReqServ;
 
-public class OpcionalMB {
+public class OpcionalMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	static int quantidade = 0;
@@ -118,7 +118,7 @@ public class OpcionalMB {
 	 * Editar o opcional
 	 */
 	public void editar() {
-		try {
+		try {			
 			opcional = opcionalDAO.recupera(opcional.getCodOpReqServ());
 		} catch (Exception e) {
 			e.printStackTrace();

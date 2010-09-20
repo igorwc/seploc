@@ -33,7 +33,8 @@ public class PapelMB implements Serializable {
 			}
 
 		}
-		papel = new Papel();
+		//papel = new Papel();
+		this.limpar();
 	}
 
 	public void limpar() {
@@ -64,7 +65,6 @@ public class PapelMB implements Serializable {
 
 	public void editar() {
 		try {
-//			papel = new Papel();
 			papel = papelDAO.recupera(papel.getCodPapel());
 		} catch (Exception e) {
 			e.printStackTrace();

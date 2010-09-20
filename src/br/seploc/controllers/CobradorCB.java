@@ -94,22 +94,47 @@ public class CobradorCB implements Serializable {
 		if (value instanceof String)
 			nome = value.toString().trim();
 		else {
-			FacesMessage message = new FacesMessage("Nome Inválido");
+			FacesMessage message = new FacesMessage("Nome Inválido.");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 		if (nome.length() < 2 || nome.length() > 20) {
 			FacesMessage message = new FacesMessage(
-					"O nome deve ter entre 2 e 20 caracteres");
+					"O nome deve ter entre 2 e 20 caracteres.");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 
 		if (m.matches()) {
-			FacesMessage message = new FacesMessage("O nome só tem espaços");
+			FacesMessage message = new FacesMessage("O nome só tem espaços.");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 	}
 	
+	public void validateFone(FacesContext context, UIComponent component,
+			Object value) throws ValidatorException {
+		if (value == null)
+			return;
+		String fone;		
+		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
+		Matcher m = pattern.matcher(value.toString());
+		if (value instanceof String)
+			fone = value.toString();
+		else
+			fone = "";
+		if (fone.length() > 1 && fone.length() < 14) {
+			FacesMessage message = new FacesMessage(
+					"Formato aceito do telefone '(81) 9999-9999'.");
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+
+		if (m.matches()) {
+			FacesMessage message = new FacesMessage("O telefone só tem espaços.");
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+	}	
+		
 }
