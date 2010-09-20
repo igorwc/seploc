@@ -98,16 +98,16 @@
                   <br/>
                   <a4j:commandButton value="#{msgs['botao.salvar']}"
                   action="#{opcionalCB.opcionalMB.cadastrar}"
-                  reRender="opcionalList,cadOpcionais"
+                  reRender="opcionalList,cadOpcional"
                   oncomplete="#{rich:component('confirmationMessage')}.show()"
                    />                                              
                   <a4j:commandButton value="#{msgs['botao.limpar']}" 
                   action="#{opcionalCB.opcionalMB.limpar}"
-                  reRender="opcionalList,cadOpcionais"
+                  reRender="opcionalList,cadOpcional"
                   />
                </rich:panel>
                </center>
-               <rich:dataTable value="#{opcionalCB.opcionalMB.lista}" var="opcional"    
+               <rich:dataTable value="#{opcionalCB.listaOpcionais}" var="opcional"    
                    rowClasses="row1, row2" id="opcionalList" rows="8"  
                    columnClasses="400,50,25,25"  
                    onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
@@ -145,7 +145,7 @@
                   <rich:column styleClass="col1">
 						<a4j:commandLink ajaxSingle="true" 
 						                 id="editlink" 
-						                 reRender="cadOpcionais" 
+						                 reRender="cadOpcional" 
 						                 action="#{opcionalCB.opcionalMB.editar}" >
 							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{opcional}"

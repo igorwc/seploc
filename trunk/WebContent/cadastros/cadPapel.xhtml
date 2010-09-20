@@ -128,11 +128,11 @@
 					</tr>					
 				  </table> 
                   <br/>
-                  <a4j:commandButton value="Salvar"
+                  <a4j:commandButton value="#{msgs['botao.salvar']}"
                   action="#{papelCB.papelMB.cadastra}" 
                   reRender="papelList,cadPapel,papelSucesso"
                   oncomplete="#{rich:component('confirmationMessage')}.show()" />                                              
-                  <a4j:commandButton value="Limpar" 
+                  <a4j:commandButton value="#{msgs['botao.limpar']}" 
                    action="#{papelCB.papelMB.limpar}"
                    reRender="papelList,cadPapel" />
                </rich:panel>

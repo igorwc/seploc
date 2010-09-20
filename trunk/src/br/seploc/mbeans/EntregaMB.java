@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 import br.seploc.dao.EntregaDAO;
 import br.seploc.pojos.Entrega;
 
-public class EntregaMB {
+public class EntregaMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	static int quantidade = 0;

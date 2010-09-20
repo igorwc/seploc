@@ -54,6 +54,7 @@
              (function($j){
                   $j(function(){
     	              $j('.seploccurrency').setMask();
+    	              $j('.PHONE').setMask();
                      }
                    );
               })(jQuery);  
@@ -67,7 +68,7 @@
 					<td><h:outputText value="Nome Cobrador: " styleClass="texto"/></td>
 					<td><h:inputText value="#{cobradorCB.cobradorMB.cobrador.nome}" 
 									 required="true"
-									 requiredMessage="O nome deve ser informado"
+									 requiredMessage="O nome deve ser informado."
 									 validator="#{cobradorCB.validateNome}" 
 									 id="nomeCobrador">                             
                              <rich:ajaxValidator event="onkeyup"  />                            
@@ -82,20 +83,30 @@
 					<td><h:outputText value="Fone Contato: " styleClass="texto"/></td>
 					<td><h:inputText value="#{cobradorCB.cobradorMB.cobrador.foneContato}" 
 									 required="false"									  
-									 id="fone" />                                       
+									 id="fone"
+									 validator="#{cobradorCB.validateFone}"
+									 alt="phone"
+                                     styleClass="PHONE" />                                       
                     </td>                    
 					</tr>					
 					<tr>
-					<td colspan="2"></td>
+					<td colspan="2"><rich:message for="fone" styleClass="error" /></td>					
 					</tr>							
 					<tr align="left">
 					<td><h:outputText value="Ativo" styleClass="texto"/></td>
-					<td><h:selectOneRadio id="ativo" rendered="true" value="#{cobradorCB.cobradorMB.cobrador.ativo}" >
+					<td><h:selectOneRadio id="ativo" 
+							rendered="true"
+							required="true"
+							requiredMessage="O Cobrador precisa ser Ativo ou Não." 
+							value="#{cobradorCB.cobradorMB.cobrador.ativo}" >
 							<f:selectItem id="op1" itemLabel="Sim" itemValue="S" />
 							<f:selectItem id="op2" itemLabel="Não" itemValue="N" />
 					    </h:selectOneRadio>                        
                     </td>                    
-					</tr>										
+					</tr>
+					<tr>
+					<td colspan="2"><rich:message for="ativo" styleClass="error" /></td>					
+					</tr>																				
 				  </table> 
 				  <!-- Botoes -->
                   <br/>
@@ -110,8 +121,8 @@
                </center>
                
                <!-- Grid -->
-			   <rich:dataTable value="#{cobradorMB.lista}" var="cobrador"    
-                   rowClasses="row1, row2" id="cobradorList" rows="10"  
+			   <rich:dataTable value="#{cobradorCB.listaCobradores}" var="cobrador"    
+                   rowClasses="row1, row2" id="cobradorList" rows="8"  
                    columnClasses="400,150,50"  
                    onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
                    onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
@@ -168,7 +179,7 @@
 						                 immediate="true"  
 						                 bypassUpdates="true"
 							             reRender="cobradorList" 
-							             action="#{cobradorCB.cobradorMB.apaga}" 
+							             action="#{cobradorCB.cobradorMB.apagar}" 
 							             oncomplete="#{rich:component('confirmationMessage')}.show()">
 							<h:graphicImage value="../imgs/delete_icon.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{cobrador}"
