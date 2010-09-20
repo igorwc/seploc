@@ -1,7 +1,6 @@
 package br.seploc.controllers;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -471,7 +470,7 @@ public class ClienteCB implements Serializable {
 	}
 
 	/**
-	 * Valida CNPJ do usuário.
+	 * Valida CNPJ do cliente.
 	 * 
 	 * @param cnpj
 	 *            String valor com 14 dígitos

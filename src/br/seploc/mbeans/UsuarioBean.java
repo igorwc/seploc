@@ -10,7 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
 import br.seploc.dao.UsuarioDAO;
-import br.seploc.dao.exceptions.LoginInsertException;
+import br.seploc.dao.exceptions.LoginExistenteException;
 import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Usuario;
 
@@ -108,7 +108,7 @@ public class UsuarioBean {
 			}
 		} catch (RecordNotFound e) {
 			addGlobalMessage(e.getMessage());
-		} catch (LoginInsertException e) {
+		} catch (LoginExistenteException e) {
 			addGlobalMessage(e.getMessage());
 		} catch (Exception e) {
 			addGlobalMessage("A operação não pôde ser realizada.");

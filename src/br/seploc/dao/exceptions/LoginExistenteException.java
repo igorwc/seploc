@@ -1,28 +1,28 @@
 package br.seploc.dao.exceptions;
 
-public class LoginInsertException extends Exception {
+public class LoginExistenteException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public LoginInsertException() {
+	public LoginExistenteException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public LoginInsertException(String arg0, Throwable arg1) {
+	public LoginExistenteException(String arg0, Throwable arg1) {
 		super(arg0, arg1);
 		// TODO Auto-generated constructor stub
 	}
 
-	public LoginInsertException(String arg0) {
+	public LoginExistenteException(String arg0) {
 		super(arg0);
 		// TODO Auto-generated constructor stub
 	}
 
-	public LoginInsertException(Throwable arg0) {
+	public LoginExistenteException(Throwable arg0) {
 		super(arg0);
 		// TODO Auto-generated constructor stub
 	}
