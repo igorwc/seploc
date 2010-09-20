@@ -43,7 +43,7 @@ import br.seploc.util.DesEncrypter;
 					    				+ "where vcrNome like :nome", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuariosPorLogin", query = " SELECT * "
 				+ "FROM tbl_usuario u "
-				+ "where vcrlogin = :login", resultSetMapping = "Usuario.implicit")
+				+ "where vcrlogin like :login", resultSetMapping = "Usuario.implicit")
 		,
 		@NamedNativeQuery(name = "Usuario.RetornaUsuarioPorLogin", query = " SELECT * "
 				+ "FROM tbl_usuario u "
