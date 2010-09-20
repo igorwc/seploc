@@ -27,9 +27,8 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 
 	@Override
 	public Usuario altera(Usuario t) throws LoginExistenteException {
-		em.getTransaction().begin();
-		Usuario temp2 = getUsuarioPorLogin(t.getLogin());
-		if (temp2 == null) {
+		em.getTransaction().begin();		
+		if (!this.existeLogin(t.getLogin())) {
 			em.merge(t);
 			em.getTransaction().commit();
 		} else {
@@ -79,6 +78,16 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 		// return true;
 		return false;
 	}
+	
+	protected boolean existeLogin(String login) {
+		boolean existe = false;
+		
+		if (this.getListaUsariosPorLogin(login).size() > 0){
+			existe = true;
+		}
+		
+		return existe;
+	}	
 
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getLista() {
@@ -135,24 +144,23 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 		return (List<Usuario>) q.getResultList();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Usuario getUsuarioPorLogin(String login) {
 		boolean flag = em.getTransaction().isActive();
 		Usuario retorno = null;
 		if (!flag) {
 			em.getTransaction().begin();
 		}
-		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorLogin")
+		Query q = em.createNamedQuery("Usuario.RetornaUsuarioPorLogin")
 				.setParameter("login",  login  );
 		if (!flag) {
 			em.getTransaction().commit();
 		}
-		try {
+		try {			
 			retorno = (Usuario) q.getSingleResult();
 		} catch (Exception e) {
 			retorno = null;
 		}
-		return  retorno;
+		return  retorno;		
 	}
 
 	public Usuario getUsuarioPorCpf(String cpf) {
