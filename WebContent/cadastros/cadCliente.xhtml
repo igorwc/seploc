@@ -360,11 +360,6 @@
                                 <h:graphicImage value="../imgs/botao-editar.png" 
                                                 style="border:0" />                  
                             </a4j:commandLink>
-                       <!--    <h:selectOneMenu value="#{clienteCB.clienteMB.cliente.entregaPadrao.local}" 
-                                             required="false"                                    
-                                             id="entregaPadraoCli">
-                                <f:selectItems value="#{entregaBean.lista}" />                                                       
-                            </h:selectOneMenu>  --> 
                         </td> 
                                                                
                         <td>
@@ -372,13 +367,28 @@
                                           styleClass="texto"/>
                         </td>
                         <td>
-                        <h:outputText value="Papel Padrão: " 
-                                          styleClass="texto"/>
+                        <h:inputText value="#{clienteCB.clienteMB.papelPadrao.nome}" 
+                                     id="papelPadraoCli" 
+                                     readonly="true"/>
+                            <a4j:commandLink ajaxSingle="true" 
+                                             id="editPapelPadrao" 
+                                             oncomplete="#{rich:component('panelPapelPadrao')}.show();return false;">
+                                <h:graphicImage value="../imgs/botao-editar.png" 
+                                                style="border:0" />                  
+                            </a4j:commandLink>
                         </td>                    
                     </tr>          
 				 </table> 
 				</h:form>
               </rich:panel>
+               <br/>
+              <a4j:commandButton value="Salvar" 
+                                 action="#{clienteBean.cadastra}" 
+                                 reRender="cadCliente"
+                                 oncomplete="#{rich:component('confirmationMessage')}.show()" 
+               />                                              
+               <a4j:commandButton value="Limpar" type="reset" 
+                                  action="#{clienteBean.limpa}" />
            </center>
                <!-- fim Formulario -->
         </rich:panel>            
@@ -407,7 +417,7 @@
                 <rich:dataTable value="#{clienteCB.clienteMB.todasCidades}" 
                                 var="cid" 
                                 rows="10"
-                                reRender="ds" 
+                                reRender="dsCidade" 
                                 id="tabelaCidades" >
                     <f:facet name="header">
                         <rich:columnGroup>
@@ -453,7 +463,7 @@
                                          id="selectPlace" 
                                          reRender="localidadeCli,bairro" 
                                          oncomplete="#{rich:component('chooseLocal')}.hide();" >
-                            <h:graphicImage value="../imgs/edit.gif" style="border:0" />
+                            <h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
                             <f:setPropertyActionListener value="#{cid.id}"
                                 target="#{clienteCB.clienteMB.codCidade}" />            
                             <!--    <rich:componentControl 
@@ -462,7 +472,7 @@
                         </a4j:commandLink>
                     </rich:column>  
                     <f:facet name="footer">
-                        <rich:datascroller id="ds" maxPages="3"
+                        <rich:datascroller id="dsCidade" maxPages="3"
                                            renderIfSinglePage="true"/>
                     </f:facet>
                 </rich:dataTable>
@@ -494,7 +504,7 @@
                 <rich:dataTable value="#{clienteCB.clienteMB.locaisEntrega}" 
                                 var="entrega" 
                                 rows="10"
-                                reRender="ds" 
+                                reRender="dsEntrega" 
                                 id="tabelaLocaisEntrega" >
                     <f:facet name="header">
                         <rich:columnGroup>
@@ -533,7 +543,7 @@
                                          id="selecionaLocal" 
                                          reRender="entregaPadraoCli" 
                                          oncomplete="#{rich:component('panelEntregaPadrao')}.hide();" >
-                            <h:graphicImage value="../imgs/edit.gif" style="border:0" />
+                            <h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
                             <f:setPropertyActionListener value="#{entrega}"
                                 target="#{clienteCB.clienteMB.entregaPadrao}" />            
                             <!--    <rich:componentControl 
@@ -542,7 +552,86 @@
                         </a4j:commandLink>
                     </rich:column>  
                     <f:facet name="footer">
-                        <rich:datascroller id="ds" maxPages="3"
+                        <rich:datascroller id="dsEntrega" maxPages="3"
+                                           renderIfSinglePage="true"/>
+                    </f:facet>
+                </rich:dataTable>
+            <!--  <a4j:commandButton action="#{capitalsBean.resetFilter}" value="Reset Current Filtering" reRender="simpletable" ajaxSingle="true" limitToList="true"/> -->
+        </h:form>
+    </rich:modalPanel>  
+    <!-- MODAL DE SELECAO DE PAPEL -->
+        <rich:modalPanel id="panelPapelPadrao" 
+                         autosized="true" 
+                         width="300" 
+                         height="300">
+            <f:facet name="header" >
+                <h:outputText value="#{msgs['forms.filtro.papel']}" 
+                              style="padding-right:15px;" />
+            </f:facet>
+            <f:facet name="controls">
+                <h:panelGroup>
+                    <h:graphicImage value="../imgs/icons/close.png" 
+                                    styleClass="hidelink"
+                                    id="fechaPainelPapel" />
+                    <rich:componentControl for="panelPapelPadrao" 
+                                           attachTo="fechaPainelPapel"
+                                           operation="hide" 
+                                           event="onclick" />
+                </h:panelGroup>
+            </f:facet>
+            <h:form prependId="false">
+                <rich:dataTable value="#{clienteCB.clienteMB.listaPapeis}" 
+                                var="papel" 
+                                rows="10"
+                                reRender="dsPapelPadrao" 
+                                id="tabelaPapel" >
+                    <f:facet name="header">
+                        <rich:columnGroup>
+                            <rich:column colspan="5">
+                                <h:outputText value="#{msgs['forms.filtro.papel']}" />
+                            </rich:column>
+                            <rich:column breakBefore="true">
+                                <h:outputText value="#{msgs['forms.filtro.papel.coluna.nome']}" />
+                            </rich:column>
+                            <rich:column>
+                                <h:outputText value="#{msgs['forms.filtro.papel.coluna.impMono']}" />
+                            </rich:column>
+                            <rich:column>
+                                <h:outputText value="#{msgs['forms.filtro.papel.coluna.impColor']}" />
+                            </rich:column>
+                            <rich:column>
+                                <h:outputText value="#{msgs['forms.filtro.papel.coluna.impShade']}" />
+                            </rich:column>
+                            <rich:column>
+                            </rich:column>
+                        </rich:columnGroup>
+                    </f:facet>
+                    <rich:column filterBy="#{papel.nome}" 
+                                 filterEvent="onkeyup"
+                                 filterValue="#{clienteCB.clienteMB.filtroPapel}">
+                        <h:outputText value="#{papel.nome}" />
+                    </rich:column>
+                    <rich:column>
+                        <h:outputText value="#{papel.impMono}" />
+                    </rich:column>
+                     <rich:column>
+                        <h:outputText value="#{papel.impColor}" />
+                    </rich:column>
+                     <rich:column>
+                        <h:outputText value="#{papel.impShade}" />
+                    </rich:column>
+                    <rich:column >
+                        <a4j:commandLink ajaxSingle="true" 
+                                         id="selecionaPapel" 
+                                         reRender="papelPadraoCli" 
+                                         oncomplete="#{rich:component('panelPapelPadrao')}.hide();" >
+                            <h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
+                            <f:setPropertyActionListener value="#{papel}"
+                                target="#{clienteCB.clienteMB.papelPadrao}" />            
+                        </a4j:commandLink>
+                    </rich:column>  
+                    <f:facet name="footer">
+                        <rich:datascroller id="dsPapelPadrao" maxPages="3"
                                            renderIfSinglePage="true"/>
                     </f:facet>
                 </rich:dataTable>
