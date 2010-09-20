@@ -82,7 +82,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 	protected boolean existeLogin(String login) {
 		boolean existe = false;
 		
-		if (this.getListaUsariosPorLogin(login).size() > 0){
+		if (this.getListaUsuariosPorLogin(login).size() > 0){
 			existe = true;
 		}
 		
@@ -103,7 +103,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Usuario> getListaUsariosPorGrupo(Integer codGrupo) {
+	public List<Usuario> getListaUsuariosPorGrupo(Integer codGrupo) {
 		boolean flag = em.getTransaction().isActive();
 		if (!flag) {
 			em.getTransaction().begin();
@@ -117,7 +117,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Usuario> getListaUsariosPorNome(String nome) {
+	public List<Usuario> getListaUsuariosPorNome(String nome) {
 		boolean flag = em.getTransaction().isActive();
 		if (!flag) {
 			em.getTransaction().begin();
@@ -131,7 +131,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Usuario> getListaUsariosPorLogin(String login) {
+	public List<Usuario> getListaUsuariosPorLogin(String login) {
 		boolean flag = em.getTransaction().isActive();
 		if (!flag) {
 			em.getTransaction().begin();
