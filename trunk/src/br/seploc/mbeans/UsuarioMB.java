@@ -167,21 +167,6 @@ public class UsuarioMB implements Serializable {
 	}
 	
 	/**
-	 * Verifica se existe usuário com o mesmo Login
-	 * @param login
-	 * @return boolean
-	 */
-	private boolean existeLogin(String login){
-		boolean retorno = false;
-		
-		if (this.usuarioDAO.getUsuarioPorLogin(login) != null){
-			retorno = true;
-		}
-		
-		return retorno;
-	}
-	
-	/**
 	 * Método para incluir mensagens globais no formulário de cadastro
 	 * 
 	 * @param String

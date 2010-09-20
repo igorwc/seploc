@@ -71,7 +71,7 @@ public class UsuarioDAOTest {
 	@Test
 	public final void testRecuperaPorNome() {
 		UsuarioDAO dao = new UsuarioDAO();
-		List<Usuario> lista = dao.getListaUsariosPorNome("r");
+		List<Usuario> lista = dao.getListaUsuariosPorNome("r");
 		
 		Assert.assertTrue(lista.size() == 2);
 		
@@ -120,7 +120,7 @@ public class UsuarioDAOTest {
 	@Test
 	public final void testGetListaUsariosPorGrupo() {
 		UsuarioDAO dao = new UsuarioDAO();
-		List<Usuario> lista = dao.getListaUsariosPorGrupo(1);
+		List<Usuario> lista = dao.getListaUsuariosPorGrupo(1);
 		
 		Assert.assertTrue(lista.size() == 1);
 		
@@ -128,7 +128,7 @@ public class UsuarioDAOTest {
 			System.out.println(item);
 		}
 		
-        lista = dao.getListaUsariosPorGrupo(2);
+        lista = dao.getListaUsuariosPorGrupo(2);
 		
 		Assert.assertTrue(lista.size() == 2);
 		
