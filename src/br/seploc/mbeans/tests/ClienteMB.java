@@ -11,11 +11,13 @@ import br.seploc.dao.BairroDAO;
 import br.seploc.dao.CidadeDAO;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
+import br.seploc.dao.PapelDAO;
 import br.seploc.pojos.Bairro;
 import br.seploc.pojos.Cidade;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.Entrega;
 import br.seploc.pojos.FoneCliente;
+import br.seploc.pojos.Papel;
 
 /**
  * @author Igor
@@ -34,6 +36,8 @@ public class ClienteMB {
 	private Integer codCidade;
 	private Cidade cidadeEscolhida;
 	private String localidade;
+	private Papel papelPadrao;
+	private String filtroPapel;
 	//VARIAVEIS SUGGESTION BOX BAIRROS
 	private long ultimaConsultaBairro;
 	private List<Bairro> listaBairros;
@@ -49,10 +53,19 @@ public class ClienteMB {
 
 		return retorno;
 	}
+	
 	public List<Entrega> getLocaisEntrega() {
 
 		EntregaDAO entregaDAO = new EntregaDAO();
 		List<Entrega> retorno = entregaDAO.getLista();
+
+		return retorno;
+	}
+	
+	public List<Papel> getListaPapeis() {
+
+		PapelDAO papelDAO  = new PapelDAO();
+		List<Papel> retorno = papelDAO.getLista();
 
 		return retorno;
 	}
@@ -111,6 +124,30 @@ public class ClienteMB {
 		return localidade;
 	}
 
+	/**
+	 * @return the papelPadrao
+	 */
+	public Papel getPapelPadrao() {
+		return papelPadrao;
+	}
+	/**
+	 * @param papelPadrao the papelPadrao to set
+	 */
+	public void setPapelPadrao(Papel papelPadrao) {
+		this.papelPadrao = papelPadrao;
+	}
+	/**
+	 * @return the filtroPapel
+	 */
+	public String getFiltroPapel() {
+		return filtroPapel;
+	}
+	/**
+	 * @param filtroPapel the filtroPapel to set
+	 */
+	public void setFiltroPapel(String filtroPapel) {
+		this.filtroPapel = filtroPapel;
+	}
 	/**
 	 * @return the entregaPadrao
 	 */
