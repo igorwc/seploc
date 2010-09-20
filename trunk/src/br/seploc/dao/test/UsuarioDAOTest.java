@@ -10,14 +10,14 @@ import org.junit.Test;
 
 import br.seploc.dao.GrupoDAO;
 import br.seploc.dao.UsuarioDAO;
-import br.seploc.dao.exceptions.LoginInsertException;
+import br.seploc.dao.exceptions.LoginExistenteException;
 import br.seploc.pojos.Grupo;
 import br.seploc.pojos.Usuario;
 
 public class UsuarioDAOTest {
 
 	@Test
-	public final void testAdicionaUsuario() throws LoginInsertException {
+	public final void testAdicionaUsuario() throws LoginExistenteException {
 		UsuarioDAO dao = new UsuarioDAO();
 		Usuario usuario = new Usuario("xuxu", "xuxu da silva", "nova", "12312312323", 0, "192.186.123.12");
 		dao.adiciona(usuario);
@@ -39,8 +39,8 @@ public class UsuarioDAOTest {
 		Usuario usuario = new Usuario("xuxuxu", "xuxu da silva", "nova", "12312312323", 0, "192.186.123.12");
 		try {
 			dao.adiciona(usuario);
-		} catch (LoginInsertException e) {
-			Assert.assertTrue(e instanceof LoginInsertException );
+		} catch (LoginExistenteException e) {
+			Assert.assertTrue(e instanceof LoginExistenteException );
 			System.err.println(e.getMessage());
 		}
 	}

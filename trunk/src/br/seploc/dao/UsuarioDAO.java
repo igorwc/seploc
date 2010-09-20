@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import br.seploc.dao.exceptions.LoginInsertException;
+import br.seploc.dao.exceptions.LoginExistenteException;
 import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Usuario;
@@ -13,24 +13,29 @@ import br.seploc.util.GenericDAO;
 public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 
 	@Override
-	public void adiciona(Usuario t) throws LoginInsertException {
+	public void adiciona(Usuario t) throws LoginExistenteException {
 		em.getTransaction().begin();
-//		getListaUsariosPorLogin(t.getLogin());
-		Usuario temp = getUsarioPorLogin(t.getLogin());
-		if (temp == null )
+		Usuario temp = getUsuarioPorLogin(t.getLogin());
+		if (temp == null ) {
 			em.persist(t);
-		else {
+			em.getTransaction().commit();
+		} else {
 			em.getTransaction().rollback();
-			throw new LoginInsertException("Login já em uso");
-		}
-		em.getTransaction().commit();
+			throw new LoginExistenteException("Login já em uso");
+		}		
 	}
 
 	@Override
-	public Usuario altera(Usuario t) {
+	public Usuario altera(Usuario t) throws LoginExistenteException {
 		em.getTransaction().begin();
-		em.merge(t);
-		em.getTransaction().commit();
+		Usuario temp2 = getUsuarioPorLogin(t.getLogin());
+		if (temp2 == null) {
+			em.merge(t);
+			em.getTransaction().commit();
+		} else {
+			em.getTransaction().rollback();
+			throw new LoginExistenteException("Login já em uso");			
+		}
 		return t;
 	}
 
@@ -131,7 +136,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Usuario getUsarioPorLogin(String login) {
+	public Usuario getUsuarioPorLogin(String login) {
 		boolean flag = em.getTransaction().isActive();
 		Usuario retorno = null;
 		if (!flag) {
@@ -150,6 +155,25 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 		return  retorno;
 	}
 
+	public Usuario getUsuarioPorCpf(String cpf) {
+		boolean flag = em.getTransaction().isActive();
+		Usuario retorno = null;
+		if (!flag) {
+			em.getTransaction().begin();
+		}
+		Query q = em.createNamedQuery("Usuario.RetornaUsuarioPorCpf")
+				.setParameter("cpf",  cpf  );
+		if (!flag) {
+			em.getTransaction().commit();
+		}
+		try {
+			retorno = (Usuario) q.getSingleResult();
+		} catch (Exception e) {
+			retorno = null;
+		}
+		return  retorno;
+	}
+	
 	public List<Usuario> getListaRequisicoesPorUsuario() {
 		// TODO Implementar
 		// em.getTransaction().begin();

@@ -49,7 +49,7 @@ public class Login {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		Usuario user = usuarioDAO.getUsarioPorLogin(userName);
+		Usuario user = usuarioDAO.getUsuarioPorLogin(userName);
 		if (user == null) {
 			String errorMsg = Utils.getMessageResourceString("messages", "login.invalido",
 					null,new Locale("pt"));
