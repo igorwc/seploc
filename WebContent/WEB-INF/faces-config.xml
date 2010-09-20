@@ -109,6 +109,16 @@
   <managed-bean-class>br.seploc.mbeans.UsuarioBean</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
+ <managed-bean>
+  <managed-bean-name>usuarioMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.UsuarioMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean> 
+ <managed-bean>
+  <managed-bean-name>usuarioCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.UsuarioCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>    
  <!-- Cadastro Cliente -->
  <managed-bean>
   <managed-bean-name>clienteBean</managed-bean-name>
