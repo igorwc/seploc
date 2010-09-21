@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import br.seploc.dao.BairroDAO;
 import br.seploc.dao.CidadeDAO;
 import br.seploc.dao.ClienteDAO;
@@ -45,7 +48,52 @@ public class ClienteMB {
 	private int codCidadeAnterior = -1;
 	
 	
+
+	//METODOS NEGOCIO
+	public void cadastrar() {
+		try {
+			if (foneCliente != null) {
+				cliente.setFoneCliente(foneCliente);
+			}
+			if(cidadeEscolhida != null){
+				cliente.setCidade(cidadeEscolhida.getNome());
+				cliente.setEstado(cidadeEscolhida.getUf().getNome());
+			}
+			if(cliente.getFantasia() == null || cliente.getFantasia().trim().equals("")){
+				cliente.setFantasia(cliente.getRazao());
+			}
+			if(entregaPadrao!= null){
+				cliente.setEntregaPadrao(entregaPadrao);
+			}
+			if(papelPadrao != null){
+				cliente.setPapelPadrao(papelPadrao);
+			}
+			clienteDAO.adiciona(cliente);
+
+			addGlobalMessage("Inclusão feita com sucesso!");
+
+		} catch (Exception e) {
+			addGlobalMessage(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	
 	//METODOS AUXILIARES
+	public static void addGlobalMessage(String message) {
+		FacesMessage facesMessage = new FacesMessage(message);
+		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	}
+	
+	public void limpar() {
+		cliente = new Cliente();
+		foneCliente = new FoneCliente();
+		cidadeEscolhida = new Cidade();
+		entregaPadrao = new Entrega();
+		papelPadrao = new Papel();
+		// FacesContext.getCurrentInstance().renderResponse();
+		System.out.println("Limpar Cliente");
+	}
 	public List<Cidade> getTodasCidades() {
 
 		CidadeDAO cidadeDAO = new CidadeDAO();
