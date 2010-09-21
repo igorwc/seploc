@@ -14,11 +14,9 @@ import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
-import br.seploc.dao.CidadeDAO;
 import br.seploc.mbeans.AppServiceBean;
 import br.seploc.mbeans.NavigationBean;
 import br.seploc.mbeans.tests.ClienteMB;
-import br.seploc.pojos.Cidade;
 import br.seploc.util.Utils;
 
 public class ClienteCB implements Serializable {
@@ -30,8 +28,58 @@ public class ClienteCB implements Serializable {
 	private HtmlSelectOneRadio selectDocType;
 	private final Integer CNPJ = 1;
 	private final Integer CPF = 2;
+	private boolean teste;
 
 	// METODOS DE NEGOCIO
+	public void cadastrar(){
+		if((Integer) selectDocType.getValue() == 1){
+			teste = true;
+		}
+		if (!isClienteInvalido()) {
+			clienteMB.cadastrar();
+			limpaDoc();
+			clienteMB.limpar();
+		}
+	}
+	
+	public boolean isClienteInvalido(){
+		String msgErro = "Campo(s) obrigatório(s): \n";
+		boolean contemErro = false;
+		if (((Integer) selectDocType.getValue()) == 1) {
+			clienteMB.getCliente().setCnpj(inputCNPJ.getValue().toString());
+			clienteMB.getCliente().setCpf(null);
+			// inputCPF.resetValue();
+		} else {
+			clienteMB.getCliente().setCnpj(null);
+			clienteMB.getCliente().setCpf(inputCPF.getValue().toString());
+		}
+		if ((clienteMB.getCliente().getCpf() == null || clienteMB.getCliente()
+				.getCpf().trim().equals(""))
+				&& (clienteMB.getCliente().getCnpj() == null || clienteMB
+						.getCliente().getCnpj().trim().equals(""))) {
+				msgErro += "Documento Identificação";
+				contemErro = true;
+		}
+		if (clienteMB.getCliente().getRazao() == null
+				|| clienteMB.getCliente().getRazao().trim().equals("")) {
+			if(contemErro){
+				msgErro += ",Razão Social";
+			}else{
+				msgErro += "Razão Social";
+				contemErro = true;
+			}
+		}
+		if(contemErro){
+			addGlobalMessage(msgErro);
+		}
+		return contemErro;
+	}
+	//METODOS AUXILIARES
+	public static void addGlobalMessage(String message) {
+		FacesMessage facesMessage = new FacesMessage(message);
+		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	}
+	
 	public ClienteMB loadClienteMB() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ClienteMB clienteMB = (ClienteMB) context
@@ -52,10 +100,8 @@ public class ClienteCB implements Serializable {
 
 		if (((Integer) selectDocType.getValue()) == 1) {
 			inputCPF.setValue("");
-			// inputCPF.resetValue();
 		} else {
 			inputCNPJ.setValue("");
-			// inputCNPJ.resetValue();
 		}
 	}
 
@@ -73,6 +119,20 @@ public class ClienteCB implements Serializable {
 	 */
 	public void setClienteMB(ClienteMB clienteMB) {
 		this.clienteMB = clienteMB;
+	}
+
+	/**
+	 * @return the teste
+	 */
+	public boolean isTeste() {
+		return teste;
+	}
+
+	/**
+	 * @param teste the teste to set
+	 */
+	public void setTeste(boolean teste) {
+		this.teste = teste;
 	}
 
 	/**
