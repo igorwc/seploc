@@ -165,7 +165,7 @@
 						                 id="editlink" 
 						                 reRender="cadUsuario" 
 						                 action="#{usuarioCB.usuarioMB.editar}" >
-							<h:graphicImage value="/imgs/edit.gif" style="border:0" />
+							<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 							<f:setPropertyActionListener 
 							    value="#{usuario}"
 								target="#{usuarioCB.usuarioMB.usuario}" />
@@ -182,15 +182,12 @@
 						</a4j:commandLink>
 						<rich:toolTip for="deletelink" value="Delete" />
 					</rich:column>  
-               </rich:dataTable>  
-               <rich:datascroller for="usuarioList" maxPages="3" >
-                  <f:facet name="first">
-                     <h:outputText value="Primeiro" style="font-size:11pt"/>
-                  </f:facet>
-                  <f:facet name="last">
-                     <h:outputText value="Último" style="font-size:11pt"/>
-                  </f:facet>               
-               </rich:datascroller>  
+         			<f:facet name="footer">
+               			<rich:datascroller id="dsUsuario" maxPages="3" renderIfSinglePage="true"/>
+                  	</f:facet> 
+               </rich:dataTable>
+              
+  
           </rich:panel>
        </h:form>  
 

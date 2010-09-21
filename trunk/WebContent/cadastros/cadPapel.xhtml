@@ -139,7 +139,7 @@
                </center>
                <!-- grid -->
                <rich:dataTable value="#{papelCB.listaPapeis}" var="papel"    
-                   rowClasses="row1, row2" id="papelList" rows="10"  
+                   rowClasses="row1, row2" id="papelList" rows="8"  
                    columnClasses="400,50,50,50,50"  
                    onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
                    onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
@@ -193,7 +193,7 @@
 					    				 reRender="cadPapel" 
 					    				 action="#{papelCB.papelMB.editar}" 
 					    				 >
-							<h:graphicImage value="../imgs/edit.gif" style="border:0" />
+							<h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
 							<f:setPropertyActionListener value="#{papel}"
 								target="#{papelCB.papelMB.papel}" />
 						</a4j:commandLink>
@@ -211,8 +211,11 @@
 						</a4j:commandLink>
 						<rich:toolTip for="deletelink" value="Delete" />
 					</rich:column>  
+					<f:facet name="footer">
+               			<rich:datascroller id="dsPapel" maxPages="3" renderIfSinglePage="true"/>
+                  	</f:facet> 
                </rich:dataTable>  
-               <rich:datascroller for="papelList" maxPages="3" />
+               
            </rich:panel>  
        </h:form>  
        
