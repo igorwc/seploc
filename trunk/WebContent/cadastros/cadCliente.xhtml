@@ -61,8 +61,8 @@
            <rich:panel header="Cliente">
 			   <!-- Formulario -->
 			   <center>
-               <rich:panel header="Cadastro de Cliente" id="clientePanel" style="width: 600px">
-                  <h:form id="cadCliente" enctype="UTF-8" prependId="false" >
+			     <h:form id="cadCliente" enctype="UTF-8" prependId="false" >
+                   <rich:panel header="Cadastro de Cliente" id="clientePanel" style="width: 600px">
                     <table	border="0" id="clientForm" width="100%" >  
                      <a4j:outputPanel layout="none">
 					   <tr align="left">
@@ -139,8 +139,10 @@
                         </td>
                         <td><h:inputText value="#{clienteCB.clienteMB.cliente.razao}" 
                                          validator="#{clienteCB.validateRazaoSocial}"                                  
-                                         id="razaoCli" >                             
-                             <rich:ajaxValidator event="onkeyup"  />                            
+                                         id="razaoCli" 
+                                         >                             
+                             <rich:ajaxValidator event="onkeyup"  /> 
+                             <rich:ajaxValidator event="onsubmit"  />                              
                         </h:inputText>                        
                         </td>                    
                         <td>
@@ -379,16 +381,16 @@
                         </td>                    
                     </tr>          
 				 </table> 
-				</h:form>
               </rich:panel>
                <br/>
-              <a4j:commandButton value="Salvar" 
-                                 action="#{clienteBean.cadastra}" 
+                 <a4j:commandButton value="Salvar" 
+                                 action="#{clienteCB.cadastrar}" 
                                  reRender="cadCliente"
                                  oncomplete="#{rich:component('confirmationMessage')}.show()" 
-               />                                              
-               <a4j:commandButton value="Limpar" type="reset" 
+                 />                                              
+                 <a4j:commandButton value="Limpar" type="reset" 
                                   action="#{clienteBean.limpa}" />
+            </h:form>
            </center>
                <!-- fim Formulario -->
         </rich:panel>            
@@ -638,6 +640,38 @@
             <!--  <a4j:commandButton action="#{capitalsBean.resetFilter}" value="Reset Current Filtering" reRender="simpletable" ajaxSingle="true" limitToList="true"/> -->
         </h:form>
     </rich:modalPanel>   
+    <!-- Mensagens -->
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="300" rendered="#{clienteCB.teste}">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de papel"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%" >
+                            <rich:messages   showDetail="false" showSummary="true" styleClass="texto" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
    </f:view>  
    
 </ui:define>
