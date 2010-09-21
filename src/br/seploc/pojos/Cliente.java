@@ -49,7 +49,7 @@ public class Cliente implements Serializable {
 	@Column(name = "intClienteId")
 	private Integer idCliente;
 	
-	@Column(name = "vcrCnpj") // Caso o cliente seja PF, o cpf deve ser replicado aqui?
+	@Column(name = "vcrCnpj") 
 	private String cnpj;
 
 	@Column(name = "vcrRazao", nullable = false)
