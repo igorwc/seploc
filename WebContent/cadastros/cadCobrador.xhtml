@@ -169,7 +169,7 @@
 					    				 reRender="cadCobrador" 
 					    				 action="#{cobradorCB.cobradorMB.editar}" 
 					    				 >
-							<h:graphicImage value="../imgs/edit.gif" style="border:0" />
+							<h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
 							<f:setPropertyActionListener value="#{cobrador}"
 								target="#{cobradorCB.cobradorMB.cobrador}" />
 						</a4j:commandLink>
@@ -186,9 +186,12 @@
 								target="#{cobradorCB.cobradorMB.cobrador}" />
 						</a4j:commandLink>
 						<rich:toolTip for="deletelink" value="Delete" />
-					</rich:column>  
+					</rich:column>
+					<f:facet name="footer">
+               			<rich:datascroller id="dsCobrador" maxPages="3" renderIfSinglePage="true"/>
+                  	</f:facet>  
                </rich:dataTable>  
-               <rich:datascroller for="cobradorList" maxPages="3" />
+               
            </rich:panel>           
        </h:form>
        
