@@ -10,52 +10,32 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
-import br.seploc.mbeans.EntregaMB;
-import br.seploc.pojos.Entrega;
+import br.seploc.mbeans.GrupoMB;
+import br.seploc.pojos.Grupo;
 
-/**
- * @author Gustavo
- * 
- */
-public class EntregaCB implements Serializable {
-
+public class GrupoCB implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private EntregaMB entregaMB;
-
+	private GrupoMB grupoMB;
+	
 	// CONSTRUTOR
 	/**
 	 * Construtor
 	 */
-	public EntregaCB() {		
-		this.setEntregaMB(loadEntregaMB());
-	}
-		
-	// SETTERS AND GETTERS
-
-	/**
-	 * @param entregaMB
-	 *            atribuir entregaMB
-	 */
-	public void setEntregaMB(EntregaMB entregaMB) {
-		this.entregaMB = entregaMB;
-	}
-
-	/**
-	 * @return the entregaMB
-	 */
-	public EntregaMB getEntregaMB() {
-		return entregaMB;
+	public GrupoCB() {
+		this.setGrupoMB(loadGrupoMB());
 	}
 	
-	/**
-	 * lista das entregas
-	 * @return List<Entrega>
-	 */
-	public List<Entrega> getListaEntregas() {
-		 List<Entrega> lista = entregaMB.getLista();
-		 for(Entrega e : lista){
-			 System.out.println(e);
-		 }
+	public GrupoMB getGrupoMB() {
+		return grupoMB;
+	}
+
+	public void setGrupoMB(GrupoMB grupoMB) {
+		this.grupoMB = grupoMB;
+	}
+
+	public List<Grupo> getListaGrupos(){
+		List<Grupo> lista = grupoMB.getLista();
+		
 		return lista;
 	}
 	
@@ -63,12 +43,12 @@ public class EntregaCB implements Serializable {
 	/**
 	 * 
 	 */
-	public EntregaMB loadEntregaMB(){
+	public GrupoMB loadGrupoMB(){
 		FacesContext context = FacesContext.getCurrentInstance();
-		EntregaMB entregaMB = (EntregaMB) context.getApplication()
-            .evaluateExpressionGet(context, "#{entregaMB}", EntregaMB.class);
-		return entregaMB;
-	}	
+		GrupoMB grupoMB = (GrupoMB) context.getApplication()
+            .evaluateExpressionGet(context, "#{grupoMB}", GrupoMB.class);
+		return grupoMB;
+	}		
 	
 	// VALIDADORES
 	/**
@@ -81,32 +61,31 @@ public class EntregaCB implements Serializable {
 	 * @throws ValidatorException
 	 * 
 	 */
-	public void validateLocal(FacesContext context, UIComponent component,
+	public void validateNome(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
 		if (value == null)
 			return;
-		String local;
+		String nome;
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
-			local = value.toString().trim();
+			nome = value.toString().trim();
 		else {
-			FacesMessage message = new FacesMessage("Local Inválido");
+			FacesMessage message = new FacesMessage("Nome Inválido");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (local.length() < 2 || local.length() > 20) {
+		if (nome.length() < 5 || nome.length() > 20) {
 			FacesMessage message = new FacesMessage(
-					"O nome do local deve ter entre 2 e 20 caracteres");
+					"O nome deve ter entre 5 e 20 caracteres");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 
 		if (m.matches()) {
-			FacesMessage message = new FacesMessage("O nome do local só tem espaços");
+			FacesMessage message = new FacesMessage("O nome só tem espaços");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-	}
-	
+	}	
 }

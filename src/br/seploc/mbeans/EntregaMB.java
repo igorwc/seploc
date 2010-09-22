@@ -103,7 +103,7 @@ public class EntregaMB implements Serializable {
 				}
 			}
 		}
-		entrega = new Entrega();
+		this.limpar();
 	}
 
 	/**
@@ -124,18 +124,7 @@ public class EntregaMB implements Serializable {
 			addGlobalMessage(e.getMessage());
 		}		
 	}
-
-	/**
-	 * Método para incluir mensagens globais no formulário de cadastro
-	 * 
-	 * @param String
-	 *            message
-	 */
-	public static void addGlobalMessage(String message) {
-		FacesMessage facesMessage = new FacesMessage(message);
-		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-	}
-
+	
 	/**
 	 * Excluir entrega
 	 */
@@ -147,6 +136,17 @@ public class EntregaMB implements Serializable {
 			addGlobalMessage(e.getMessage());
 		}
 		entrega = new Entrega();
+	}	
+
+	/**
+	 * Método para incluir mensagens globais no formulário de cadastro
+	 * 
+	 * @param String
+	 *            message
+	 */
+	public static void addGlobalMessage(String message) {
+		FacesMessage facesMessage = new FacesMessage(message);
+		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
 	
 }

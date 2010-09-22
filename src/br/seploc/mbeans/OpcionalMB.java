@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 
 import br.seploc.dao.OpcionaisReqServDAO;
@@ -16,7 +17,6 @@ public class OpcionalMB implements Serializable {
 	private OpcionaisReqServ opcional;
 	private OpcionaisReqServDAO opcionalDAO;
 	
-
 	//CONSTRUTOR
 	/**
 	 * Construtor da classe
