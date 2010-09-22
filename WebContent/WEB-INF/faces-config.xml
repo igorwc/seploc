@@ -131,6 +131,16 @@
   <managed-bean-class>br.seploc.mbeans.ProjetoClienteBean</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
+ <managed-bean>
+  <managed-bean-name>projetoMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.ProjetoMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean> 
+ <managed-bean>
+  <managed-bean-name>projetoCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.ProjetoCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>    
  <!-- Cadastro Cobrador -->
  <managed-bean>
   <managed-bean-name>cobradorBean</managed-bean-name>
@@ -147,6 +157,17 @@
   <managed-bean-class>br.seploc.controllers.CobradorCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean> 
+ <!-- Cadastro Grupo -->
+ <managed-bean>
+  <managed-bean-name>grupoMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.GrupoMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean> 
+ <managed-bean>
+  <managed-bean-name>grupoCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.GrupoCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>  
  <!--Fim dos Cadastros 
  Requisicao -->
  <managed-bean>

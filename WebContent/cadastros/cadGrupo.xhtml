@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="../templatepage/masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_cad_root}"/> <img src="../imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_cad_grupo}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+<style type="text/css">  
+.row1 {   
+    background-color: #EDEBEB;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+</style> 
+
+   <f:view>  
+   	   <h:form id="cadGrupo" enctype="UTF-8" prependId="false" >
+           <rich:panel header="Grupo">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Cadastro de Grupo" style="width: 500px">
+                 
+                 <table	border="0">                 
+					<tr align="left">
+					<td><h:outputText value="Grupo: " styleClass="texto"/></td>
+					<td><h:inputText value="#{grupoCB.grupoMB.grupo.nomeGrupo}" 
+									 required="true"
+									 requiredMessage="O nome do Grupo deve ser informado"
+									 validator="#{grupoCB.validateNome}"
+									 id="nomeGrupo">             
+                           <rich:ajaxValidator event="onkeyup" />                           
+                        </h:inputText>
+                        <h:inputHidden value="#{grupoCB.grupoMB.grupo.codGrupo}" />
+                    </td>                    
+					</tr>
+					<tr>
+					<td colspan="2"><rich:message for="nomeGrupo" styleClass="error"/></td>
+					</tr>
+					
+				  </table> 
+                  <br/>
+					<a4j:commandButton value="#{msgs['botao.salvar']}" 
+					    action="#{grupoCB.grupoMB.cadastrar}"
+						reRender="grupoList,cadGrupo" 
+						oncomplete="#{rich:component('confirmationMessage')}.show()"/>
+					<a4j:commandButton value="#{msgs['botao.limpar']}" 
+                   action="#{grupoCB.grupoMB.limpar}"
+                   reRender="grupoList,cadGrupo" />
+               </rich:panel>
+               </center>
+               
+               <!-- GRID -->
+               <rich:dataTable value="#{grupoCB.listaGrupos}" var="grupo"    
+                   rowClasses="row1, row2" id="grupoList" rows="8"  
+                   columnClasses="400,50,50" 
+                   onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
+                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+                   width="500"
+                   align="center">  
+                   <f:facet name="header">  
+                       <rich:columnGroup>  
+  
+                           <rich:column colspan="3">  
+                               <h:outputText value="Grupos Cadastrados" />  
+                           </rich:column>  
+  
+                           <rich:column breakBefore="true">  
+                               <h:outputText value="Grupo" />  
+                           </rich:column>  
+                             
+                           <rich:column/>  
+                           
+                       </rich:columnGroup>  
+                   </f:facet>  
+  
+                   <rich:column>  
+		               <h:outputText value="#{grupo.nomeGrupo}" />  
+                   </rich:column>  
+    
+                   <rich:column styleClass="col1">
+						<a4j:commandLink ajaxSingle="true" id="editlink" 
+						    reRender="cadGrupo" action="#{grupoCB.grupoMB.editar}" >
+							<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+							<f:setPropertyActionListener value="#{grupo}"
+								target="#{grupoCB.grupoMB.grupo}" />
+						</a4j:commandLink>
+						<rich:toolTip for="editlink" value="Editar Registro" />
+						<a4j:commandLink ajaxSingle="true" id="deletelink"
+							reRender="grupoList" action="#{grupoCB.grupoMB.apagar}" oncomplete="#{rich:component('confirmationMessage')}.show()">
+							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{grupo}"
+								target="#{grupoCB.grupoMB.grupo}" />
+						</a4j:commandLink>
+						<rich:toolTip for="deletelink" value="Apagar Registro" />
+					</rich:column> 
+                    <f:facet name="footer">
+               			<rich:datascroller id="dsGrupo" maxPages="3" renderIfSinglePage="true"/>
+                  	</f:facet>   
+               </rich:dataTable>  
+               
+           </rich:panel>
+       </h:form>  
+              
+        <!-- Modal -->
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de Grupo"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="../imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
+
+       
+   </f:view>  
+   
+</ui:define>
+</ui:composition>   	   
