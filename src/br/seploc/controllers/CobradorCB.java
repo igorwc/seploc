@@ -15,6 +15,7 @@ import javax.faces.validator.ValidatorException;
 
 import br.seploc.mbeans.CobradorMB;
 import br.seploc.pojos.Cobrador;
+import br.seploc.util.Utils;
 
 /**
  * @author Gustavo
@@ -89,24 +90,41 @@ public class CobradorCB implements Serializable {
 		if (value == null)
 			return;
 		String nome;
+		String errorMsg = "";
+		
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
 			nome = value.toString().trim();
 		else {
-			FacesMessage message = new FacesMessage("Nome Inválido.");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);			
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (nome.length() < 2 || nome.length() > 20) {
-			FacesMessage message = new FacesMessage(
-					"O nome deve ter entre 2 e 20 caracteres.");
+		if (nome.length() < 5) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.menor", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-
+		if (nome.length() >= 60) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.maior", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
 		if (m.matches()) {
-			FacesMessage message = new FacesMessage("O nome só tem espaços.");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
@@ -117,6 +135,8 @@ public class CobradorCB implements Serializable {
 		if (value == null)
 			return;
 		String fone;		
+		String errorMsg = "";
+		
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
@@ -124,14 +144,19 @@ public class CobradorCB implements Serializable {
 		else
 			fone = "";
 		if (fone.length() > 1 && fone.length() < 14) {
-			FacesMessage message = new FacesMessage(
-					"Formato aceito do telefone '(81) 9999-9999'.");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"fone.invalido", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 
 		if (m.matches()) {
-			FacesMessage message = new FacesMessage("O telefone só tem espaços.");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"fone.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}

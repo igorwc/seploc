@@ -12,6 +12,7 @@ import javax.faces.validator.ValidatorException;
 
 import br.seploc.mbeans.EntregaMB;
 import br.seploc.pojos.Entrega;
+import br.seploc.util.Utils;
 
 /**
  * @author Gustavo
@@ -86,24 +87,41 @@ public class EntregaCB implements Serializable {
 		if (value == null)
 			return;
 		String local;
+		String errorMsg = "";
+		
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
 			local = value.toString().trim();
 		else {
-			FacesMessage message = new FacesMessage("Local Inválido");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"local.invalido", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);	
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (local.length() < 2 || local.length() > 20) {
-			FacesMessage message = new FacesMessage(
-					"O nome do local deve ter entre 2 e 20 caracteres");
+		if (local.length() < 2) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"local.invalido.menor", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);	
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-
+		if (local.length() > 20) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"local.invalido.maior", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);	
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
 		if (m.matches()) {
-			FacesMessage message = new FacesMessage("O nome do local só tem espaços");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"local.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
