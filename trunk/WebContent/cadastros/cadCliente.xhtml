@@ -108,11 +108,10 @@
 									  id = "cnpjCli"
 									  binding="#{clienteCB.inputCNPJ}"
 									  validator="#{clienteCB.validateCNPJ}"
-									  onchange="hidewarning(false)"
 									    >
 					           <f:converter converterId="SeplocCNPJConverter" /> 
 					           <rich:ajaxValidator event="onkeyup" />
-					            <a4j:support event="onkeyup" action="#{clienteMB.validaErroDoc}" reRender="requiredDoc" immediate="true">  
+					            <a4j:support event="onclick" action="#{clienteMB.validaErroDoc}" reRender="requiredDoc" >  
                                    <f:param name="ss" value="false"/>
                                  </a4j:support> 
                         	</h:inputText>
