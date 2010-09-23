@@ -28,13 +28,13 @@ public class ClienteCB implements Serializable {
 	private HtmlSelectOneRadio selectDocType;
 	private final Integer CNPJ = 1;
 	private final Integer CPF = 2;
-	private boolean teste;
+	
 
 	// METODOS DE NEGOCIO
 	public void cadastrar(){
-		if((Integer) selectDocType.getValue() == 1){
-			teste = true;
-		}
+//		if((Integer) selectDocType.getValue() == 1){
+//			teste = true;
+//		}
 		if (!isClienteInvalido()) {
 			clienteMB.cadastrar();
 			limpaDoc();
@@ -43,8 +43,8 @@ public class ClienteCB implements Serializable {
 	}
 	
 	public boolean isClienteInvalido(){
-		String msgErro = "Campo(s) obrigatório(s): \n";
-		boolean contemErro = false;
+//		String msgErro = "Campo(s) obrigatório(s): \n";
+		boolean erro = false;
 		if (((Integer) selectDocType.getValue()) == 1) {
 			clienteMB.getCliente().setCnpj(inputCNPJ.getValue().toString());
 			clienteMB.getCliente().setCpf(null);
@@ -57,22 +57,24 @@ public class ClienteCB implements Serializable {
 				.getCpf().trim().equals(""))
 				&& (clienteMB.getCliente().getCnpj() == null || clienteMB
 						.getCliente().getCnpj().trim().equals(""))) {
-				msgErro += "Documento Identificação";
-				contemErro = true;
+			clienteMB.setErroDoc(true);
+			erro = true;
+//			FacesMessage message = new FacesMessage("Campo(s) Obrigatório(s) não preenchido(s)!", "erro!!!");
+//			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+//			throw new face ValidatorException(message);
+		} else{
+			clienteMB.setErroDoc(false);
+			erro = false;
 		}
 		if (clienteMB.getCliente().getRazao() == null
 				|| clienteMB.getCliente().getRazao().trim().equals("")) {
-			if(contemErro){
-				msgErro += ",Razão Social";
-			}else{
-				msgErro += "Razão Social";
-				contemErro = true;
-			}
+//			erroRazao = true;
+			erro = true;
 		}
-		if(contemErro){
-			addGlobalMessage(msgErro);
+		if(erro ){
+			addGlobalMessage("Campo(s) Obrigatório(s) não preenchido(s)!");
 		}
-		return contemErro;
+		return erro;
 	}
 	//METODOS AUXILIARES
 	public static void addGlobalMessage(String message) {
@@ -90,6 +92,7 @@ public class ClienteCB implements Serializable {
 
 	public ClienteCB() {
 		System.out.println("construiu papelCB");
+		
 		this.setClienteMB(loadClienteMB());
 	}
 
@@ -121,19 +124,8 @@ public class ClienteCB implements Serializable {
 		this.clienteMB = clienteMB;
 	}
 
-	/**
-	 * @return the teste
-	 */
-	public boolean isTeste() {
-		return teste;
-	}
-
-	/**
-	 * @param teste the teste to set
-	 */
-	public void setTeste(boolean teste) {
-		this.teste = teste;
-	}
+	
+	
 
 	/**
 	 * @return the inputCNPJ
