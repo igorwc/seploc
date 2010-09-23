@@ -145,8 +145,9 @@ public class ProjetoMB implements Serializable {
 	 * Limpar os Limpar
 	 */
 	public void limpar() {
-		cliente = new Cliente();
 		projeto = new Projeto();
+		projetoDAO = new ProjetoDAO();
+		clienteDAO = new ClienteDAO();
 	}	
 	
 	/**
