@@ -46,7 +46,8 @@ public class ClienteMB {
 	private List<Bairro> listaBairros;
 	private int codBairro;
 	private int codCidadeAnterior = -1;
-	
+	private boolean erroDoc;
+	private boolean erroRazao;
 	
 
 	//METODOS NEGOCIO
@@ -370,11 +371,46 @@ public class ClienteMB {
 	public void setOpDocCliente(Integer opDocCliente) {
 		this.opDocCliente = opDocCliente;
 	}
+	
+	/**
+	 * @return the erroDoc
+	 */
+	public boolean isErroDoc() {
+		return erroDoc;
+	}
+
+	/**
+	 * @param erroDoc the erroDoc to set
+	 */
+	public void setErroDoc(boolean erroDoc) {
+		this.erroDoc = erroDoc;
+		System.out.println("setou erroDoc:" + erroDoc);
+	}
+
+	public void validaErroDoc() {
+		this.erroDoc = false;
+		System.out.println("setou erroDoc:" + erroDoc);
+	}
+	/**
+	 * @return the erroRazao
+	 */
+	public boolean isErroRazao() {
+		return erroRazao;
+	}
+
+	/**
+	 * @param erroRazao the erroRazao to set
+	 */
+	public void setErroRazao(boolean erroRazao) {
+		this.erroRazao = erroRazao;
+	}
 	public ClienteMB() {
 		cliente = new Cliente();
 		foneCliente = new FoneCliente();
 		clienteDAO = new ClienteDAO();
 		opDocCliente = 1;
+		erroDoc = false;
+		erroRazao = false;
 	}
 	
 	
