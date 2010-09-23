@@ -12,6 +12,7 @@ import javax.faces.validator.ValidatorException;
 
 import br.seploc.mbeans.GrupoMB;
 import br.seploc.pojos.Grupo;
+import br.seploc.util.Utils;
 
 public class GrupoCB implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -66,26 +67,43 @@ public class GrupoCB implements Serializable {
 		if (value == null)
 			return;
 		String nome;
+		String errorMsg = "";
+		
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
 			nome = value.toString().trim();
 		else {
-			FacesMessage message = new FacesMessage("Nome Inválido");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);			
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (nome.length() < 5 || nome.length() > 20) {
-			FacesMessage message = new FacesMessage(
-					"O nome deve ter entre 5 e 20 caracteres");
+		if (nome.length() < 5) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.menor", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-
+		if (nome.length() >= 60) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.maior", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
 		if (m.matches()) {
-			FacesMessage message = new FacesMessage("O nome só tem espaços");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-	}	
+	}
 }

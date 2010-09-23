@@ -12,6 +12,7 @@ import javax.faces.validator.ValidatorException;
 
 import br.seploc.mbeans.OpcionalMB;
 import br.seploc.pojos.OpcionaisReqServ;
+import br.seploc.util.Utils;
 
 public class OpcionalCB implements Serializable {
 
@@ -81,24 +82,41 @@ public class OpcionalCB implements Serializable {
 		if (value == null)
 			return;
 		String nomeOpcional;
+		String errorMsg = "";
+		
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
 			nomeOpcional = value.toString().trim();
 		else {
-			FacesMessage message = new FacesMessage("Opcional Inválido");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"opcional.invalido", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);	
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (nomeOpcional.length() < 2 || nomeOpcional.length() > 20) {
-			FacesMessage message = new FacesMessage(
-					"O nome do opcional deve ter entre 2 e 20 caracteres");
+		if (nomeOpcional.length() < 2) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.menor", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);	
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-
+		if (nomeOpcional.length() > 20) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.maior", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);	
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
 		if (m.matches()) {
-			FacesMessage message = new FacesMessage("O nome do opcional só tem espaços");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
