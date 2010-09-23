@@ -64,6 +64,7 @@
 							         id="nomeCliente" 
 							         readonly="true"
 							         required="true" 
+							         requiredMessage="O cliente deve ser informado."
 							         />							
 							<a4j:commandLink ajaxSingle="true" 
 											 id="editlink" 
@@ -73,13 +74,15 @@
 	               		</td>                    
 					</tr>
 					<tr>
+						<td colspan="2"><rich:message for="nomeCliente" styleClass="error"/> </td>
+					</tr>					
+					<tr>
 						<td><h:outputText value="Nome Projeto: " styleClass="texto"/></td>
 						<td><h:inputText value="#{projetoCB.projetoMB.projeto.projeto}" 
 									 required="true"
 									 requiredMessage="O nome do projeto deve ser informado"
 									 validator="#{projetoCB.validateNomeProj}" 
-					                 id="nomeProjeto"
-					                 binding="#{projetoCB.inputProjeto}">					          
+					                 id="nomeProjeto">					          
 					          <rich:ajaxValidator event="onkeyup"/>
 					    	</h:inputText>
 					    	<h:inputHidden value="#{projetoCB.projetoMB.projeto.codProj}" /></td>					
