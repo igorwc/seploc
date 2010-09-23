@@ -107,9 +107,14 @@
 									  alt="cnpj"
 									  id = "cnpjCli"
 									  binding="#{clienteCB.inputCNPJ}"
-									  validator="#{clienteCB.validateCNPJ}">
+									  validator="#{clienteCB.validateCNPJ}"
+									  onchange="hidewarning(false)"
+									    >
 					           <f:converter converterId="SeplocCNPJConverter" /> 
 					           <rich:ajaxValidator event="onkeyup" />
+					            <a4j:support event="onkeyup" action="#{clienteMB.validaErroDoc}" reRender="requiredDoc" immediate="true">  
+                                   <f:param name="ss" value="false"/>
+                                 </a4j:support> 
                         	</h:inputText>
                         	<h:inputText
                                      rendered="#{clienteCB.clienteMB.opDocCliente  == clienteCB.CPF}"	
@@ -117,7 +122,8 @@
 									 alt="cpf"
 									 id = "cpfCli"
 									 binding="#{clienteCB.inputCPF}"
-									 validator="#{clienteCB.validateCPF}">        
+									 validator="#{clienteCB.validateCPF}"
+									 >        
 					            <f:converter converterId="SeplocCPFConverter" /> 
 					            <rich:ajaxValidator event="onkeyup" />                              
                         	</h:inputText>
@@ -130,7 +136,14 @@
 						</td>
 						<td colspan="1" align="left">
 					    	<rich:message for="cnpjCli" styleClass="error" />
-					    	<rich:message for="cpfCli" styleClass="error" />
+					    	<rich:message for="cpfCli" styleClass="error"  />
+					    	
+					    	<a4j:form prependId="false"   id="requiredDoc">
+					    	    <h:outputText  value="Campo Obrigatorio" styleClass="error" rendered="#{clienteMB.erroDoc}" />
+                                <a4j:jsFunction name="hidewarning" reRender="requiredDoc" process="requiredDoc" >
+                                <a4j:actionparam name="param1" assignTo="#{clienteMB.erroDoc}"  />                  
+                                </a4j:jsFunction>
+                            </a4j:form>
 						</td>					
 					</tr>
 					<tr align="left">
@@ -138,11 +151,11 @@
                                           styleClass="texto"/>
                         </td>
                         <td><h:inputText value="#{clienteCB.clienteMB.cliente.razao}" 
-                                         validator="#{clienteCB.validateRazaoSocial}"                                  
+                                         validator="#{clienteCB.validateRazaoSocial}"  
                                          id="razaoCli" 
                                          >                             
                              <rich:ajaxValidator event="onkeyup"  /> 
-                             <rich:ajaxValidator event="onsubmit"  />                              
+                                                      
                         </h:inputText>                        
                         </td>                    
                         <td>
@@ -161,6 +174,9 @@
                         <td colspan="2">
                             <rich:message for="razaoCli" 
                                           styleClass="error" />
+                            <h:outputText value="Campo Obrigatorio" 
+                                          styleClass="error" 
+                                          rendered="#{clienteMB.erroRazao}" />
                         </td>
                         <td colspan="2">
                             <rich:message for="fantasiaCli" 
@@ -387,6 +403,7 @@
                                  action="#{clienteCB.cadastrar}" 
                                  reRender="cadCliente"
                                  oncomplete="#{rich:component('confirmationMessage')}.show()" 
+                                 
                  />                                              
                  <a4j:commandButton value="Limpar" type="reset" 
                                   action="#{clienteBean.limpa}" />
@@ -641,7 +658,7 @@
         </h:form>
     </rich:modalPanel>   
     <!-- Mensagens -->
-        <rich:modalPanel id="confirmationMessage" autosized="true" width="300" rendered="#{clienteCB.teste}">
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="300" >
         <f:facet name="header">
             <h:outputText value="Cadastro de papel"
                 style="padding-right:15px;" />
