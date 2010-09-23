@@ -16,8 +16,7 @@ import br.seploc.pojos.Projeto;
 
 public class ProjetoCB implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
-	private HtmlInputText inputProjeto;
+	private static final long serialVersionUID = 1L;	
 	
 	private ProjetoMB projetoMB;	
 	
@@ -42,16 +41,6 @@ public class ProjetoCB implements Serializable {
 
 	public void setProjetoMB(ProjetoMB projetoMB) {
 		this.projetoMB = projetoMB;
-	}
-
-
-	public HtmlInputText getInputProjeto() {
-		return inputProjeto;
-	}
-
-
-	public void setInputProjeto(HtmlInputText inputProjeto) {
-		this.inputProjeto = inputProjeto;
 	}
 
 	// METODOS
