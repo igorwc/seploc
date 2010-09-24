@@ -15,6 +15,7 @@ import javax.faces.validator.ValidatorException;
 
 import br.seploc.mbeans.tests.PapelMB;
 import br.seploc.pojos.Papel;
+import br.seploc.util.Utils;
 
 /**
  * @author Igor
@@ -25,46 +26,16 @@ public class PapelCB implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private PapelMB papelMB;
 
-	// VALIDADORES
-	/**
-	 * @param FacesContext
-	 *            context
-	 * @param UIComponent
-	 *            component
-	 * @param Object
-	 *            value
-	 * @throws ValidatorException
-	 * 
-	 */
-	public void validateNome(FacesContext context, UIComponent component,
-			Object value) throws ValidatorException {
-		if (value == null)
-			return;
-		String nome;
-		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
-		Matcher m = pattern.matcher(value.toString());
-		if (value instanceof String)
-			nome = value.toString().trim();
-		else {
-			FacesMessage message = new FacesMessage("Nome Inválido");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-		if (nome.length() < 2 || nome.length() > 20) {
-			FacesMessage message = new FacesMessage(
-					"O nome deve ter entre 2 e 20 caracteres");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-
-		if (m.matches()) {
-			FacesMessage message = new FacesMessage("O nome só tem espaços");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-	}
-
 	// CONSTRUTOR
+	/**
+	 * Construtor 
+	 */
+	public PapelCB() {
+		this.setPapelMB(loadPapelMB());
+		System.out.println(loadPapelMB());
+	}
+	
+	// SETTERS AND GETTERS
 	/**
 	 * @return the papelMB
 	 */
@@ -84,7 +55,6 @@ public class PapelCB implements Serializable {
             .evaluateExpressionGet(context, "#{papelMB}", PapelMB.class);
 		return papelMB;
 	}
-	// SETTERS AND GETTERS
 
 	/**
 	 * @param papelMB
@@ -94,13 +64,61 @@ public class PapelCB implements Serializable {
 		this.papelMB = papelMB;
 	}
 
+	// VALIDADORES
 	/**
+	 * @param FacesContext
+	 *            context
+	 * @param UIComponent
+	 *            component
+	 * @param Object
+	 *            value
+	 * @throws ValidatorException
 	 * 
 	 */
-	public PapelCB() {
-		System.out.println("construiu papelCB");
-		this.setPapelMB(loadPapelMB());
-		System.out.println(loadPapelMB());
+	public void validateNome(FacesContext context, UIComponent component,
+			Object value) throws ValidatorException {
+		if (value == null)
+			return;
+		String nome;
+		String errorMsg = "";
+		
+		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
+		Matcher m = pattern.matcher(value.toString());
+		if (value instanceof String)
+			nome = value.toString().trim();
+		else {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);			
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+		if (nome.length() < 5) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.menor", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+		if (nome.length() >= 60) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.maior", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+		if (m.matches()) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
 	}
+	
 
 }

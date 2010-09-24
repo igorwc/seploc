@@ -101,6 +101,14 @@ public class EntregaCB implements Serializable {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
+		if (m.matches()) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"local.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
 		if (local.length() < 2) {
 			errorMsg = Utils.getMessageResourceString("messages",
 					"local.invalido.menor", null, context.getViewRoot()
@@ -117,14 +125,7 @@ public class EntregaCB implements Serializable {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (m.matches()) {
-			errorMsg = Utils.getMessageResourceString("messages",
-					"local.invalido.espacos", null, context.getViewRoot()
-							.getLocale());
-			FacesMessage message = new FacesMessage(errorMsg);
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
+
 	}
 	
 }

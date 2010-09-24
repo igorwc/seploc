@@ -96,6 +96,14 @@ public class OpcionalCB implements Serializable {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
+		if (m.matches()) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
 		if (nomeOpcional.length() < 2) {
 			errorMsg = Utils.getMessageResourceString("messages",
 					"nome.invalido.menor", null, context.getViewRoot()
@@ -112,13 +120,6 @@ public class OpcionalCB implements Serializable {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (m.matches()) {
-			errorMsg = Utils.getMessageResourceString("messages",
-					"nome.invalido.espacos", null, context.getViewRoot()
-							.getLocale());
-			FacesMessage message = new FacesMessage(errorMsg);
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
+
 	}	
 }
