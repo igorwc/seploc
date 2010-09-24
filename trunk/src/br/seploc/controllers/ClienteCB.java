@@ -35,10 +35,13 @@ public class ClienteCB implements Serializable {
 		if (!isClienteInvalido()) {
 			clienteMB.cadastrar();
 			limpaDoc();
-			clienteMB.limpar();
 		}
 	}
 	
+	public void limpar(){
+		limpaDoc();
+		clienteMB.limpar();
+	}
 	public boolean isClienteInvalido(){
 		boolean erro = false;
 		if (((Integer) selectDocType.getValue()) == 1) {
@@ -95,8 +98,10 @@ public class ClienteCB implements Serializable {
 
 		if (((Integer) selectDocType.getValue()) == 1) {
 			inputCPF.setValue("");
+			inputCPF.resetValue();
 		} else {
 			inputCNPJ.setValue("");
+			inputCPF.resetValue();
 		}
 	}
 
