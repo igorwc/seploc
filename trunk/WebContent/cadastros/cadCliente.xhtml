@@ -111,9 +111,7 @@
 									    >
 					           <f:converter converterId="SeplocCNPJConverter" /> 
 					           <rich:ajaxValidator event="onkeyup" />
-					            <a4j:support event="onclick" action="#{clienteMB.validaErroDoc}" reRender="requiredDoc" >  
-                                   <f:param name="ss" value="false"/>
-                                 </a4j:support> 
+					            <a4j:support event="onclick" action="#{clienteMB.validaErroDoc}" reRender="requiredDoc" />  
                         	</h:inputText>
                         	<h:inputText
                                      rendered="#{clienteCB.clienteMB.opDocCliente  == clienteCB.CPF}"	
@@ -122,7 +120,8 @@
 									 id = "cpfCli"
 									 binding="#{clienteCB.inputCPF}"
 									 validator="#{clienteCB.validateCPF}"
-									 >        
+									 >   
+							    <a4j:support event="onclick" action="#{clienteMB.validaErroDoc}" reRender="requiredDoc" />  
 					            <f:converter converterId="SeplocCPFConverter" /> 
 					            <rich:ajaxValidator event="onkeyup" />                              
                         	</h:inputText>
@@ -139,9 +138,6 @@
 					    	
 					    	<a4j:form prependId="false"   id="requiredDoc">
 					    	    <h:outputText  value="Campo Obrigatorio" styleClass="error" rendered="#{clienteMB.erroDoc}" />
-                                <a4j:jsFunction name="hidewarning" reRender="requiredDoc" process="requiredDoc" >
-                                <a4j:actionparam name="param1" assignTo="#{clienteMB.erroDoc}"  />                  
-                                </a4j:jsFunction>
                             </a4j:form>
 						</td>					
 					</tr>
@@ -154,7 +150,7 @@
                                          id="razaoCli" 
                                          >                             
                              <rich:ajaxValidator event="onkeyup"  /> 
-                                                      
+                             <a4j:support event="onclick" action="#{clienteMB.validaErroRazao}" reRender="requiredRazao" />  
                         </h:inputText>                        
                         </td>                    
                         <td>
@@ -173,9 +169,11 @@
                         <td colspan="2">
                             <rich:message for="razaoCli" 
                                           styleClass="error" />
-                            <h:outputText value="Campo Obrigatorio" 
-                                          styleClass="error" 
-                                          rendered="#{clienteMB.erroRazao}" />
+                            <a4j:form prependId="false"   id="requiredRazao">
+                                <h:outputText value="Campo Obrigatorio" 
+                                              styleClass="error" 
+                                              rendered="#{clienteMB.erroRazao}" />
+                             </a4j:form>
                         </td>
                         <td colspan="2">
                             <rich:message for="fantasiaCli" 
