@@ -40,12 +40,10 @@ public class ClienteCB implements Serializable {
 	}
 	
 	public boolean isClienteInvalido(){
-//		String msgErro = "Campo(s) obrigatório(s): \n";
 		boolean erro = false;
 		if (((Integer) selectDocType.getValue()) == 1) {
 			clienteMB.getCliente().setCnpj(inputCNPJ.getValue().toString());
 			clienteMB.getCliente().setCpf(null);
-			// inputCPF.resetValue();
 		} else {
 			clienteMB.getCliente().setCnpj(null);
 			clienteMB.getCliente().setCpf(inputCPF.getValue().toString());
