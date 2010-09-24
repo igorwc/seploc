@@ -156,10 +156,15 @@
  <!--Fim dos Cadastros 
  Requisicao -->
  <managed-bean>
-  <managed-bean-name>reqServBean</managed-bean-name>
-  <managed-bean-class>br.seploc.mbeans.RequisicaoServicoBean</managed-bean-class>
-  <managed-bean-scope>request</managed-bean-scope>
+  <managed-bean-name>reqServClienteMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.ReqServClienteMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
+ <managed-bean>
+  <managed-bean-name>reqServClienteCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.ReqServClienteCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>  
  <!-- Regras Navegação -->
  <navigation-rule>
   <from-view-id>/login.xhtml</from-view-id>
