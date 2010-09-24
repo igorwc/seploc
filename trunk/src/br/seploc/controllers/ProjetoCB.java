@@ -7,12 +7,12 @@ import java.util.regex.Pattern;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
 import br.seploc.mbeans.ProjetoMB;
 import br.seploc.pojos.Projeto;
+import br.seploc.util.Utils;
 
 public class ProjetoCB implements Serializable {
 	
@@ -56,33 +56,44 @@ public class ProjetoCB implements Serializable {
 		if (value == null)
 			return;
 		String nome;
+		String errorMsg = "";
 
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
 			nome = value.toString().trim();
 		else {
-			FacesMessage message = new FacesMessage("Nome do Projeto Inválido");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-		if (nome.length() < 5) {
-			FacesMessage message = new FacesMessage(
-					"O Nome do Projeto deve ter 5 letras no mínimo");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-		if (nome.length() >= 80) {
-			FacesMessage message = new FacesMessage(
-					"O Nome do Projeto deve ter entre 5 e 80 caracteres");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"projeto.invalido", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);	
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 		if (m.matches()) {
-			FacesMessage message = new FacesMessage(
-					"O Nome do Projeto só tem espaços");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"projeto.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);	
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}		
+		if (nome.length() < 5) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"projeto.invalido.menor", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);	
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
+		if (nome.length() >= 100) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"projeto.invalido.maior", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);	
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+
 	}	
 }

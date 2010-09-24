@@ -104,6 +104,14 @@ public class CobradorCB implements Serializable {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
+		if (m.matches()) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
 		if (nome.length() < 5) {
 			errorMsg = Utils.getMessageResourceString("messages",
 					"nome.invalido.menor", null, context.getViewRoot()
@@ -120,14 +128,7 @@ public class CobradorCB implements Serializable {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (m.matches()) {
-			errorMsg = Utils.getMessageResourceString("messages",
-					"nome.invalido.espacos", null, context.getViewRoot()
-							.getLocale());
-			FacesMessage message = new FacesMessage(errorMsg);
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
+
 	}
 	
 	public void validateFone(FacesContext context, UIComponent component,
@@ -143,18 +144,17 @@ public class CobradorCB implements Serializable {
 			fone = value.toString();
 		else
 			fone = "";
-		if (fone.length() > 1 && fone.length() < 14) {
+		if (m.matches()) {
 			errorMsg = Utils.getMessageResourceString("messages",
-					"fone.invalido", null, context.getViewRoot()
+					"fone.invalido.espacos", null, context.getViewRoot()
 							.getLocale());
 			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-
-		if (m.matches()) {
+		if (fone.length() > 1 && fone.length() < 14) {
 			errorMsg = Utils.getMessageResourceString("messages",
-					"fone.invalido.espacos", null, context.getViewRoot()
+					"fone.invalido", null, context.getViewRoot()
 							.getLocale());
 			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);

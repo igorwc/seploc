@@ -81,6 +81,14 @@ public class GrupoCB implements Serializable {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
+		if (m.matches()) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}		
 		if (nome.length() < 5) {
 			errorMsg = Utils.getMessageResourceString("messages",
 					"nome.invalido.menor", null, context.getViewRoot()
@@ -97,13 +105,6 @@ public class GrupoCB implements Serializable {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (m.matches()) {
-			errorMsg = Utils.getMessageResourceString("messages",
-					"nome.invalido.espacos", null, context.getViewRoot()
-							.getLocale());
-			FacesMessage message = new FacesMessage(errorMsg);
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
+
 	}
 }

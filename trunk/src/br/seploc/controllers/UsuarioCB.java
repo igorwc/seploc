@@ -12,6 +12,7 @@ import javax.faces.validator.ValidatorException;
 
 import br.seploc.mbeans.UsuarioMB;
 import br.seploc.pojos.Usuario;
+import br.seploc.util.Utils;
 
 public class UsuarioCB implements Serializable {
 	
@@ -81,33 +82,45 @@ public class UsuarioCB implements Serializable {
 		if (value == null)
 			return;
 		String nome;
-
+		String errorMsg = "";
+		
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
 			nome = value.toString().trim();
 		else {
-			FacesMessage message = new FacesMessage("Nome Inválido");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-		if (nome.length() < 4) {
-			FacesMessage message = new FacesMessage("O nome do usuário deve ter 4 letras no mínimo");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-		if (nome.length() > 20) {
-			FacesMessage message = new FacesMessage(
-					"O nome do usuário deve ter entre 4 e 20 caracteres");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);			
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 		if (m.matches()) {
-			FacesMessage message = new FacesMessage(
-					"O nome do usuário só tem espaços");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}		
+		if (nome.length() < 5) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.menor", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
+		if (nome.length() >= 60) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"nome.invalido.maior", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+
 	}
 	
 	/**
@@ -125,33 +138,45 @@ public class UsuarioCB implements Serializable {
 		if (value == null)
 			return;
 		String nome;
+		String errorMsg = "";
 
 		Pattern pattern = Pattern.compile("^\\s*\\s(\\s)$");
 		Matcher m = pattern.matcher(value.toString());
 		if (value instanceof String)
 			nome = value.toString().trim();
 		else {
-			FacesMessage message = new FacesMessage("Login Inválido");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-		if (nome.length() < 5) {
-			FacesMessage message = new FacesMessage("O login do usuário deve ter 5 letras no mínimo");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-		if (nome.length() > 20) {
-			FacesMessage message = new FacesMessage(
-					"O login do usuário deve ter entre 5 e 20 caracteres");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"loginusuario.invalido", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 		if (m.matches()) {
-			FacesMessage message = new FacesMessage(
-					"O login do usuário só tem espaços");
+			errorMsg = Utils.getMessageResourceString("messages",
+					"loginusuario.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
+		if (nome.length() < 4) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"loginusuario.invalido.menor", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+		if (nome.length() > 30) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"loginusuario.invalido.maior", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+
 	}
 	
 	
