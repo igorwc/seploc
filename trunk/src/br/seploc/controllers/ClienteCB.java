@@ -32,9 +32,6 @@ public class ClienteCB implements Serializable {
 
 	// METODOS DE NEGOCIO
 	public void cadastrar(){
-//		if((Integer) selectDocType.getValue() == 1){
-//			teste = true;
-//		}
 		if (!isClienteInvalido()) {
 			clienteMB.cadastrar();
 			limpaDoc();
@@ -59,16 +56,13 @@ public class ClienteCB implements Serializable {
 						.getCliente().getCnpj().trim().equals(""))) {
 			clienteMB.setErroDoc(true);
 			erro = true;
-//			FacesMessage message = new FacesMessage("Campo(s) Obrigatório(s) não preenchido(s)!", "erro!!!");
-//			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-//			throw new face ValidatorException(message);
 		} else{
 			clienteMB.setErroDoc(false);
 			erro = false;
 		}
 		if (clienteMB.getCliente().getRazao() == null
 				|| clienteMB.getCliente().getRazao().trim().equals("")) {
-//			erroRazao = true;
+			clienteMB.setErroRazao(true);
 			erro = true;
 		}
 		if(erro ){
