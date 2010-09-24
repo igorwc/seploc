@@ -79,7 +79,6 @@ public class ClienteMB {
 		}
 	}
 	
-	
 	//METODOS AUXILIARES
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
@@ -151,11 +150,6 @@ public class ClienteMB {
 		}
 		return retorno;
 	}
-	
-	
-	
-	
-	
 	
 	//SETTERS AND GETTERS
 	
@@ -280,26 +274,12 @@ public class ClienteMB {
 		return filtroUF;
 	}
 
-
-
-
-
-
-
-
 	/**
 	 * @param filtroUF the filtroUF to set
 	 */
 	public void setFiltroUF(String filtroUF) {
 		this.filtroUF = filtroUF;
 	}
-
-
-
-
-
-
-
 
 	/**
 	 * @return the filtroCidade
@@ -308,26 +288,12 @@ public class ClienteMB {
 		return filtroCidade;
 	}
 
-
-
-
-
-
-
-
 	/**
 	 * @param filtroCidade the filtroCidade to set
 	 */
 	public void setFiltroCidade(String filtroCidade) {
 		this.filtroCidade = filtroCidade;
 	}
-
-
-
-
-
-
-
 
 	/**
 	 * @param cliente the cliente to set
@@ -389,7 +355,9 @@ public class ClienteMB {
 
 	public void validaErroDoc() {
 		this.erroDoc = false;
-		System.out.println("setou erroDoc:" + erroDoc);
+	}
+	public void validaErroRazao() {
+		this.erroRazao = false;
 	}
 	/**
 	 * @return the erroRazao
