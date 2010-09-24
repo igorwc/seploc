@@ -58,7 +58,7 @@ public class ClienteMB {
 			}
 			if(cidadeEscolhida != null){
 				cliente.setCidade(cidadeEscolhida.getNome());
-				cliente.setEstado(cidadeEscolhida.getUf().getNome());
+				cliente.setEstado(cidadeEscolhida.getUf().getSigla());
 			}
 			if(cliente.getFantasia() == null || cliente.getFantasia().trim().equals("")){
 				cliente.setFantasia(cliente.getRazao());
@@ -70,7 +70,7 @@ public class ClienteMB {
 				cliente.setPapelPadrao(papelPadrao);
 			}
 			clienteDAO.adiciona(cliente);
-
+			limpar();
 			addGlobalMessage("Inclusão feita com sucesso!");
 
 		} catch (Exception e) {
