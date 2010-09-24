@@ -309,6 +309,14 @@ public class ClienteCB implements Serializable {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
+		if (m.matches()) {
+			errorMsg = Utils.getMessageResourceString("messages",
+					"razaosocial.invalido.espacos", null, context.getViewRoot()
+							.getLocale());
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
 		if (nome.length() < 5) {
 			errorMsg = Utils.getMessageResourceString("messages",
 					"razaosocial.invalido.menor", null, context.getViewRoot()
@@ -320,14 +328,6 @@ public class ClienteCB implements Serializable {
 		if (nome.length() >= 60) {
 			errorMsg = Utils.getMessageResourceString("messages",
 					"razaosocial.invalido.maior", null, context.getViewRoot()
-							.getLocale());
-			FacesMessage message = new FacesMessage(errorMsg);
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-		if (m.matches()) {
-			errorMsg = Utils.getMessageResourceString("messages",
-					"razaosocial.invalido.espacos", null, context.getViewRoot()
 							.getLocale());
 			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
