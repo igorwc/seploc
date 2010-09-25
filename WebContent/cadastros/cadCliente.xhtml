@@ -48,20 +48,19 @@
 
 
    <f:view>  
-   	  
-   	   <script type="text/javascript" >
-             					(function($j){
-                 					$j(function(){
-    	             					$j('.CEP').setMask();
-    	             					$j('.PHONE').setMask();
-                     				}
-                  				);
-              				})(jQuery);  
-          				 </script>
            <rich:panel header="Cliente">
 			   <!-- Formulario -->
 			   <center>
 			     <h:form id="cadCliente" enctype="UTF-8" prependId="false" >
+			         <script type="text/javascript" >
+                                (function($j){
+                                    $j(function(){
+                                        $j('.CEP').setMask();
+                                        $j('.PHONE').setMask();
+                                    }
+                                );
+                            })(jQuery);  
+                      </script>
                    <rich:panel header="Cadastro de Cliente" id="clientePanel" style="width: 600px">
                     <table	border="0" id="clientForm" width="100%" >  
                      <a4j:outputPanel layout="none">
@@ -101,7 +100,7 @@
                   					);
               					})(jQuery);  
           				 	</script>
-					     	<h:inputText 
+					     	<h:inputText value="#{clienteCB.clienteMB.cliente.cnpj}"
 					                  rendered="#{clienteCB.clienteMB.opDocCliente == clienteCB.CNPJ}"
 									  styleClass="seplocCNPJ" 
 									  alt="cnpj"
@@ -398,12 +397,13 @@
                <br/>
                  <a4j:commandButton value="Salvar" 
                                  action="#{clienteCB.cadastrar}" 
-                                 reRender="cadCliente"
+                                 reRender="cadCliente,docinput"
                                  oncomplete="#{rich:component('confirmationMessage')}.show()" 
                                  
                  />                                              
                  <a4j:commandButton value="Limpar" type="reset" 
-                                  action="#{clienteBean.limpa}" />
+                                    reRender="cadCliente,docinput"
+                                    action="#{clienteMB.limpar}" />
             </h:form>
            </center>
                <!-- fim Formulario -->
