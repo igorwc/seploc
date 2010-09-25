@@ -56,7 +56,11 @@ public class ClienteMB {
 			if (foneCliente != null) {
 				cliente.setFoneCliente(foneCliente);
 			}
-			if(cidadeEscolhida != null){
+			if (cidadeEscolhida != null && (cidadeEscolhida.getNome() != null)
+					&& (cidadeEscolhida.getNome().trim().equals(""))
+					&& cidadeEscolhida.getUf() != null
+					&& cidadeEscolhida.getUf().getSigla() != null
+					&& cidadeEscolhida.getUf().getSigla().trim().equals("")) {
 				cliente.setCidade(cidadeEscolhida.getNome());
 				cliente.setEstado(cidadeEscolhida.getUf().getSigla());
 			}
@@ -91,6 +95,21 @@ public class ClienteMB {
 		cidadeEscolhida = new Cidade();
 		entregaPadrao = new Entrega();
 		papelPadrao = new Papel();
+		localidade = "";
+	    clienteDAO = new ClienteDAO();
+		entregaPadrao = new Entrega();
+	    opDocCliente =1;
+		filtroUF = "";
+		 filtroLocalEntrega = "";
+		filtroCidade = "";
+		 codCidade = -1;
+		cidadeEscolhida = new Cidade();
+		papelPadrao = new Papel();
+		filtroPapel = "";
+			//VARIAVEIS SUGGESTION BOX BAIRROS
+		ultimaConsultaBairro = 0;
+		 listaBairros = new ArrayList<Bairro>();
+		 codBairro = 0;
 		// FacesContext.getCurrentInstance().renderResponse();
 		System.out.println("Limpar Cliente");
 	}
