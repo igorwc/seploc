@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import br.seploc.dao.exceptions.FieldNotNullException;
 import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.dao.exceptions.RecordNotFound;
+import br.seploc.dao.exceptions.UniqueKeyException;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.FoneCliente;
 import br.seploc.util.GenericDAO;
@@ -22,6 +23,7 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 	@Override
 	public void adiciona(Cliente t) throws Exception {
 		em.getTransaction().begin();
+		try{
 		ajustaPojo(t);
 		if (t.getFoneCliente() == null) {
 			em.persist(t);
@@ -35,6 +37,9 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 			fc.setIntClientId(t.getIdCliente());
 			em.merge(t);
 
+		}}catch (Exception e) {
+			em.getTransaction().rollback();
+			throw e;
 		}
 		em.getTransaction().commit();
 
@@ -128,14 +133,62 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 		return (List<Cliente>) q.getResultList();
 	}	
 	
+	@SuppressWarnings("unchecked")
+	public List<Cliente> getClientesPorCPF(String CPF) {
+		boolean flag = false;
+		if(!em.getTransaction().isActive()){
+			em.getTransaction().begin();
+			flag = true;
+		}
+		Query q = em.createNamedQuery("Cliente.BuscaClientesPorCPF").setParameter(
+				"CPF", "%" + CPF + "%");
+		if(flag){
+			em.getTransaction().commit();
+		}
+		return (List<Cliente>) q.getResultList();
+	}
+	@SuppressWarnings("unchecked")
+	public List<Cliente> getClientesPorCNPJ(String CNPJ) {
+		boolean flag = false;
+		if(!em.getTransaction().isActive()){
+			em.getTransaction().begin();
+			flag = true;
+		}
+		Query q = em.createNamedQuery("Cliente.BuscaClientesPorCNPJ").setParameter(
+				"CNPJ", "%" + CNPJ + "%");
+		if(flag){
+			em.getTransaction().commit();
+		}
+		return (List<Cliente>) q.getResultList();
+	}
 	@Override
-	protected void ajustaPojo(Cliente c) throws FieldNotNullException {
+	protected void ajustaPojo(Cliente c) throws FieldNotNullException,
+			UniqueKeyException {
 		if (c.getFantasia() == null)
 			throw new FieldNotNullException("Nome Fantasia não pode ser nulo");
 		if (c.getRazao() == null)
 			c.setRazao(c.getFantasia());
 		if (c.getBalcao() == null)
 			c.setBalcao(0);
+		if ((c.getCpf() == null || c.getCpf().trim().equals(""))
+				&& (c.getCnpj() == null || c.getCnpj().trim().equals(""))) {
+			throw new FieldNotNullException("O CPF/CNPJ deve ser preenchido");
+		}
+		if (c.getCnpj() == null || c.getCnpj().trim().equals("")) {
+			if (!(c.getCpf() == null) || !c.getCpf().trim().equals("")) {
+				List<Cliente> list = getClientesPorCPF(c.getCpf());
+				if (list != null && !list.isEmpty()) {
+					throw new UniqueKeyException("CPF Já cadastrado!");
+				}
+			}
+		} else {
+			if (!(c.getCnpj() == null) || !c.getCnpj().trim().equals("")) {
+				List<Cliente> list = getClientesPorCNPJ(c.getCnpj());
+				if (list != null && !list.isEmpty()) {
+					throw new UniqueKeyException("CNPJ Já cadastrado!");
+				}
+			}
+		}
 	}
 
 	@SuppressWarnings("unchecked")	
