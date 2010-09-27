@@ -220,14 +220,11 @@
 				reRender="ds" id="simpletable" >
 				<f:facet name="header">
 					<rich:columnGroup>
-						<rich:column colspan="4">
+						<rich:column colspan="3">
 							<h:outputText value="Filtro de Cliente" />
 						</rich:column>
 						<rich:column breakBefore="true">
-							<h:outputText value="CNPJ" />
-						</rich:column>
-						<rich:column>
-							<h:outputText value="CPF" />
+							<h:outputText value="CNPJ/CPF" />
 						</rich:column>
 						<rich:column>
 							<h:outputText value="Cliente" />
@@ -239,8 +236,6 @@
 				
 				<rich:column>
 					<h:outputText value="#{cli.cnpj}" />
-				</rich:column>
-				<rich:column>
 					<h:outputText value="#{cli.cpf}" />
 				</rich:column>
 				<rich:column filterBy="#{cli.fantasia}" 
