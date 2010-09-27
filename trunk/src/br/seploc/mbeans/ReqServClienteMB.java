@@ -44,6 +44,7 @@ public class ReqServClienteMB implements Serializable{
 		entrega = new Entrega();
 		papel = new Papel();
 		projeto = new Projeto();
+		reqServicoDAO = new RequisicaoServicoDAO();
 	}
 
 	// GETTERS E SETTERS
@@ -182,6 +183,17 @@ public class ReqServClienteMB implements Serializable{
 	public List<Projeto> getTodosProjetos(){
 		ProjetoDAO projetoDAO = new ProjetoDAO();
 		List<Projeto> retorno = projetoDAO.getListaProjetoPorCliente(cliente);
+		
+		return retorno;
+	}
+	
+	public List<RequisicaoServico> getLista(){
+		List<RequisicaoServico> retorno = reqServicoDAO.getLista();
+		return retorno; 
+	}
+	
+	public List<RequisicaoServico> getTodasReqServPorCliente(Cliente cliente){
+		List<RequisicaoServico> retorno = reqServicoDAO.getListaPorPorjeto(cliente);
 		
 		return retorno;
 	}

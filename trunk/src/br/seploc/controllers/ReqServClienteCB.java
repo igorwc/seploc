@@ -1,7 +1,6 @@
 package br.seploc.controllers;
 
 import java.io.Serializable;
-
 import javax.faces.context.FacesContext;
 
 import br.seploc.mbeans.ReqServClienteMB;
