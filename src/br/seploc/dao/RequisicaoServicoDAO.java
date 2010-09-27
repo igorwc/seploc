@@ -3,7 +3,11 @@ package br.seploc.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import br.seploc.dao.exceptions.FieldNotNullException;
+import br.seploc.dao.exceptions.ParentDeleteException;
+import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.OpcionaisReqServ;
 import br.seploc.pojos.ReqServicosOpcionais;
@@ -58,11 +62,23 @@ public class RequisicaoServicoDAO extends
 		return t;
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")	
 	public List<RequisicaoServico> getLista() {
-		// TODO Auto-generated method stub
-		return null;
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("RequisicaoServico.RetornaRequisicoes");
+		em.getTransaction().commit();
+		return (List<RequisicaoServico>) q.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")	
+	public List<RequisicaoServico> getListaPorPorjeto(Cliente cliente) {		
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("SELECT * FROM br.seploc.pojos.RequisicaoServico rs"
+			 + " where rs.projeto.cliente.idCliente = :id").setParameter(
+			 "id", cliente.getIdCliente());
+		em.getTransaction().commit();
+		return (List<RequisicaoServico>) q.getResultList();
+	}	
 
 	@Override
 	public RequisicaoServico recupera(Integer id) throws Exception {
@@ -72,14 +88,46 @@ public class RequisicaoServicoDAO extends
 
 	@Override
 	public RequisicaoServico remove(Integer id) throws Exception {
-		// TODO Auto-generated method stub
+		em.getTransaction().begin();
+		RequisicaoServico reqServ = em.find(RequisicaoServico.class , id);
+		if (reqServ == null){
+			em.getTransaction().rollback();
+			throw new RecordNotFound("Requisição de Serviço não encontrado!");
+		} else {
+			if (verificaFilhos(id)) {
+				em.getTransaction().rollback();
+				throw new ParentDeleteException(
+						"Requisição tem registros dependentes...");
+			} else {
+				em.remove(reqServ);
+			}
+		}
+		em.getTransaction().commit();
+		
 		return null;
 	}
 
 	@Override
-	protected boolean verificaFilhos(Integer id) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	protected boolean verificaFilhos(Integer numReqServ) throws Exception {
+		Number contagemLinha = 0;
+		Number contagemOpcional = 0;
+		boolean retorno = false;
+		 Query q1 =
+			 em.createQuery("SELECT count(lr.id) FROM br.seploc.pojos.LinhaRequisicao lr"
+			 + " where lr.id.NumRequisicao = :numReq").setParameter(
+			 "numReq", numReqServ);
+		 Query q2 =
+			 em.createQuery("SELECT count(or.id) FROM br.seploc.pojos.ReqServicosOpcionais or"
+			 + " where or.id.NumRequisicao = :numReq").setParameter(
+			 "numReq", numReqServ);		 
+		 
+		 contagemLinha = (Number) q1.getSingleResult();
+		 contagemOpcional = (Number) q2.getSingleResult();
+		 
+		 if (contagemLinha.intValue() != 0 || contagemOpcional.intValue() != 0)
+		 retorno = true;
+		
+		return retorno;
 	}
 
 	public void addOpcional(RequisicaoServico rq,  OpcionaisReqServ op, Integer qtd)
@@ -99,8 +147,7 @@ public class RequisicaoServicoDAO extends
 					temp.setQuantidade(qtd);
 					em.getTransaction().begin();
 					em.merge(temp);
-					em.getTransaction().commit();
-					System.out.println("Passou aqui");
+					em.getTransaction().commit();					
 					return;
 				}
 			}
