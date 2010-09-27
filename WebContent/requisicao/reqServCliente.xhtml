@@ -65,7 +65,7 @@
 							         readonly="true"
 							         required="true" 
 							         requiredMessage="O cliente deve ser informado."
-							         size="85"
+							         size="96"
 							         />							
 							<a4j:commandLink ajaxSingle="true" 
 											 id="modaleditcli" 
@@ -79,6 +79,7 @@
 						<td><h:inputText value="#{reqServClienteCB.reqServMB.projeto.projeto}"									 						 
 									 id="projeto" 
 									 required="true"
+									 size="40"
 									 readonly="true" 
 									 requiredMessage="O projeto deve ser informado."/>
 					   		<a4j:commandLink ajaxSingle="true" 
@@ -91,7 +92,7 @@
                    		<td>
                    			<h:inputText value="#{reqServClienteCB.reqServMB.entrega.local}"									 						 
 									 id="entrega" 
-									 
+									 size="30"
 									 readonly="true" />							
 					   		<a4j:commandLink ajaxSingle="true" 
 					   						 id="editlinkent" 
@@ -108,7 +109,7 @@
 					 	<td>
                  			<h:inputText value="#{reqServClienteCB.reqServMB.opcional.valorItem}"									 						 
 										 id="opcional" 
-										 size="20"
+										 size="40"
 										 readonly="true" />								
 					   		<a4j:commandLink ajaxSingle="true" 
 					   						 id="editlinkop" 
@@ -118,7 +119,9 @@
 					 	<td>
 				 			<h:outputText value="Quantidade: " styleClass="texto"/></td>
 					 	<td> 
-					 		<h:inputText value="#{reqServClienteCB.reqServMB.quantidadeOpcional}" /></td>                    
+					 		<h:inputText value="#{reqServClienteCB.reqServMB.quantidadeOpcional}" 
+					 					 size="30"
+					 					 maxlength="5"/></td>                    
 					</tr>
 					<tr>
 						<td colspan="4"><hr size="1"/></td>					
@@ -239,14 +242,11 @@
 				reRender="dsCliente" id="simpletable" >
 				<f:facet name="header">
 					<rich:columnGroup>
-						<rich:column colspan="4">
+						<rich:column colspan="3">
 							<h:outputText value="Filtro de Cliente" />
 						</rich:column>
 						<rich:column breakBefore="true">
-							<h:outputText value="CNPJ" />
-						</rich:column>
-						<rich:column>
-							<h:outputText value="CPF" />
+							<h:outputText value="CNPJ/CPF" />
 						</rich:column>
 						<rich:column>
 							<h:outputText value="Cliente" />
@@ -258,8 +258,6 @@
 				
 				<rich:column>
 					<h:outputText value="#{cli.cnpj}" />
-				</rich:column>
-				<rich:column>
 					<h:outputText value="#{cli.cpf}" />
 				</rich:column>
 				<rich:column filterBy="#{cli.fantasia}" 
@@ -348,7 +346,9 @@
 		<f:facet name="controls">
 			<h:panelGroup>
 				<h:graphicImage value="/imgs/icons/close.png" id="hidemodalent" />
-				<rich:componentControl for="modalEntrega" attachTo="hidemodalent" operation="hide" event="onclick" />
+				<rich:componentControl for="modalEntrega" attachTo="hidemodalent" 
+				                       operation="hide" 
+				                       event="onclick" />
 			</h:panelGroup>
 		</f:facet>
 		<h:form>
