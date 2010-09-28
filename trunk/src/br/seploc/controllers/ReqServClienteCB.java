@@ -12,7 +12,7 @@ public class ReqServClienteCB implements Serializable{
 	
 	// CONSTRUTOR
 	public ReqServClienteCB(){
-		this.setReqServMB(loadReqServ());
+		this.setReqServMB(this.loadReqServ());
 	}
 	
 	// GETTERS E SETTERSS

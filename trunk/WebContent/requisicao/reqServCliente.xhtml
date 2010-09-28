@@ -269,7 +269,7 @@
 				<rich:column styleClass="col1">
 					<a4j:commandLink ajaxSingle="true" 
 						                 id="editlinkcli" 
-					    				 reRender="reqServ" 
+					    				 reRender="cliente" 
 					    				 oncomplete=" #{rich:component('modalCliente')}.hide();"
 					    				 >
 						<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
@@ -284,6 +284,7 @@
 			</rich:dataTable>	
 		</h:form>
 	</rich:modalPanel>
+  
 		       
 	<!-- Modal Projeto -->
 	<rich:modalPanel id="modalProjeto" autosized="true" width="300" height="300">
@@ -299,7 +300,7 @@
 		</f:facet>
 		<h:form>
 			<rich:dataTable value="#{reqServClienteCB.reqServMB.todosProjetos}" var="proj" rows="10"
-				reRender="ds" id="simpletable" >
+				reRender="dsProjeto" id="simpletable" >
 				<f:facet name="header">
 					<rich:columnGroup>
 						<rich:column colspan="2">
@@ -321,8 +322,8 @@
 				
 				<rich:column styleClass="col1">
 					<a4j:commandLink ajaxSingle="true" 
-						                 id="editlink2" 
-					    				 reRender="reqServ" 
+						                 id="edtlinkproj" 
+					    				 reRender="projeto" 
 					    				 oncomplete=" #{rich:component('modalProjeto')}.hide();"
 					    				 >
 						<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
@@ -353,7 +354,7 @@
 		</f:facet>
 		<h:form>
 			<rich:dataTable value="#{reqServClienteCB.reqServMB.todasEntregas}" var="ent" rows="10"
-				reRender="dsent" id="simpletableent" >
+				reRender="dsEntrega" id="simpletableent" >
 				<f:facet name="header">
 					<rich:columnGroup>
 						<rich:column colspan="3">
@@ -380,7 +381,7 @@
 				<rich:column styleClass="col1">
 					<a4j:commandLink ajaxSingle="true" 
 						                 id="editlink2ent" 
-					    				 reRender="reqServ" 
+					    				 reRender="entrega" 
 					    				 oncomplete=" #{rich:component('modalEntrega')}.hide();"
 					    				 >
 						<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
@@ -437,7 +438,7 @@
 				<rich:column styleClass="col1">
 					<a4j:commandLink ajaxSingle="true" 
 						                 id="editlink2op" 
-					    				 reRender="reqServ" 
+					    				 reRender="opcional" 
 					    				 oncomplete=" #{rich:component('modalOpcional')}.hide();"
 					    				 >
 						<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
@@ -517,7 +518,7 @@
                <rich:column >
                    <a4j:commandLink ajaxSingle="true" 
                                     id="selecionaPapel" 
-                                    reRender="papelPadrao" 
+                                    reRender="papel" 
                                     oncomplete="#{rich:component('modalPapel')}.hide();" >
                        <h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
                        <f:setPropertyActionListener value="#{papel}"
@@ -530,7 +531,8 @@
            </rich:dataTable>       
 	    </h:form>
 	</rich:modalPanel>   
-		       
+   
+   
    </f:view>   
 </ui:define>
 </ui:composition>
