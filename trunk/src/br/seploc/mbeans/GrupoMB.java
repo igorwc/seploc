@@ -100,7 +100,7 @@ public class GrupoMB implements Serializable {
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
-		grupo = new Grupo();		
+		this.limpar();		
 	}
 	
 	public void limpar() {

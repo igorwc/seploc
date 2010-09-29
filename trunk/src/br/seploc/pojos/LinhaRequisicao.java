@@ -10,6 +10,8 @@ import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -23,6 +25,11 @@ import javax.persistence.Version;
 @Entity
 @Table(name="tbl_linhareq")
 @SqlResultSetMapping(name = "LinhaRequisicao.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.LinhaRequisicao.class))
+@NamedNativeQueries( {
+		@NamedNativeQuery(name = "LinhaReqServ.RetornaLinhasReqServs", query = " SELECT * "
+				+ "FROM tbl_linhareq l", resultSetMapping = "LinhaRequisicao.implicit") 
+})
+
 public class LinhaRequisicao implements Serializable {
 	private static final long serialVersionUID = 1L;
 

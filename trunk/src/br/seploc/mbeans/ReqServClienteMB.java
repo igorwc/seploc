@@ -3,17 +3,24 @@ package br.seploc.mbeans;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import br.seploc.pojos.Cliente;
+import br.seploc.pojos.LinhaRequisicao;
 import br.seploc.pojos.OpcionaisReqServ;
 import br.seploc.pojos.Entrega;
 import br.seploc.pojos.Papel;
 import br.seploc.pojos.Projeto;
+import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
+import br.seploc.dao.LinhaRequisicaoDAO;
 import br.seploc.dao.OpcionaisReqServDAO;
 import br.seploc.dao.PapelDAO;
 import br.seploc.dao.ProjetoDAO;
+import br.seploc.dao.ReqServicosOpcionaisDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 
 public class ReqServClienteMB implements Serializable{
@@ -26,6 +33,7 @@ public class ReqServClienteMB implements Serializable{
 	private Entrega entrega;
 	private Papel papel;
 	private Projeto projeto;
+	private LinhaRequisicao linhaReqServ;
 	private String filtroOpcional;
 	private String filtroEntrega;
 	private String filtroPapel;
@@ -44,6 +52,7 @@ public class ReqServClienteMB implements Serializable{
 		entrega = new Entrega();
 		papel = new Papel();
 		projeto = new Projeto();
+		setLinhaReqServ(new LinhaRequisicao());
 		reqServicoDAO = new RequisicaoServicoDAO();
 	}
 
@@ -144,6 +153,14 @@ public class ReqServClienteMB implements Serializable{
 		this.reqServico = reqServico;
 	}
 
+	public void setLinhaReqServ(LinhaRequisicao linhaReqServ) {
+		this.linhaReqServ = linhaReqServ;
+	}
+
+	public LinhaRequisicao getLinhaReqServ() {
+		return linhaReqServ;
+	}
+
 	public RequisicaoServicoDAO getReqServicoDAO() {
 		return reqServicoDAO;
 	}
@@ -151,6 +168,20 @@ public class ReqServClienteMB implements Serializable{
 	public void setReqServicoDAO(RequisicaoServicoDAO reqServicoDAO) {
 		this.reqServicoDAO = reqServicoDAO;
 	}
+	
+	public List<LinhaRequisicao> getLinhasReqServ(){
+		LinhaRequisicaoDAO linhaDAO = new LinhaRequisicaoDAO();
+		List<LinhaRequisicao> retorno = linhaDAO.getListaPorReqServ(reqServico);
+		
+		return retorno;
+	}
+	
+	public List<ReqServicosOpcionais> getOpcionaisReqServ(){
+		ReqServicosOpcionaisDAO reqServOpcionaisDAO = new ReqServicosOpcionaisDAO();
+		List<ReqServicosOpcionais> retorno = reqServOpcionaisDAO.getListaPorReqServ(reqServico);
+		
+		return retorno;
+	}	
 	
 	public List<Cliente> getTodosClientes(){
 		ClienteDAO clienteDAO = new ClienteDAO();
@@ -197,4 +228,77 @@ public class ReqServClienteMB implements Serializable{
 		
 		return retorno;
 	}
+	
+	public void cadastrar(){
+		if (reqServico.getNumReq() == null || reqServico.getNumReq() == 0){
+			try{
+				reqServicoDAO.adiciona(reqServico);
+				addGlobalMessage("Inclusão feita com sucesso!");
+			} catch (Exception e) {
+				addGlobalMessage(e.getMessage());
+			}
+		} else {
+			RequisicaoServico temp;
+			temp = null;
+			try {
+				temp = reqServicoDAO.recupera(reqServico.getNumReq());
+			} catch (Exception e) {
+				addGlobalMessage(e.getMessage());
+			}
+			if (temp != null) {
+				temp.setNumReq(reqServico.getNumReq());
+				temp.setData(reqServico.getData());
+				temp.setEntrega(reqServico.getEntrega());
+				temp.setLinhaRequisicao(reqServico.getLinhaRequisicao());
+				temp.setOpcionais(reqServico.getOpcionais());
+				temp.setProjeto(reqServico.getProjeto());
+				temp.setValorTotal(reqServico.getValorTotal());
+			
+				try{
+					reqServicoDAO.altera(temp);				
+					addGlobalMessage("Atualização feita com sucesso!");					
+				} catch (Exception e) {
+					addGlobalMessage(e.getMessage());
+				}				
+			}
+		}
+	}
+	
+	public void editar(){
+		try{
+			reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}	
+	}
+	
+	public void editarLinha(){
+		try{
+			LinhaRequisicaoDAO linhaDAO = new LinhaRequisicaoDAO();
+			linhaReqServ = linhaDAO.recupera(linhaReqServ.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}	
+	}	
+	
+	public void apagar(){
+		try{
+			reqServicoDAO.remove(reqServico.getNumReq());
+			addGlobalMessage("Excluído com sucesso!");
+		} catch (Exception e) {
+			addGlobalMessage(e.getMessage());
+		}
+		this.limpar();
+	}
+	
+	public void limpar(){
+		reqServico = new RequisicaoServico();
+	}
+	
+	public static void addGlobalMessage(String message) {
+		FacesMessage facesMessage = new FacesMessage(message);
+		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	}	
 }

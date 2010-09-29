@@ -27,7 +27,7 @@ public class ReqServClienteCB implements Serializable{
 	public ReqServClienteMB loadReqServ(){
 		FacesContext context = FacesContext.getCurrentInstance();
 		ReqServClienteMB reqServMB = (ReqServClienteMB) context.getApplication()
-        .evaluateExpressionGet(context, "#{reqServMB}", ReqServClienteMB.class);
+        .evaluateExpressionGet(context, "#{reqServClienteMB}", ReqServClienteMB.class);
 		
 		return reqServMB; 
 	}
