@@ -7,6 +7,12 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "tbl_reqservopcionais")
+@SqlResultSetMapping(name = "ReqServicosOpcionais.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.ReqServicosOpcionais.class))
+@NamedNativeQueries( {
+		@NamedNativeQuery(name = "ReqServicosOpcionais.RetornaReqServicosOpcionais", query = " SELECT * "
+				+ "FROM tbl_reqservopcionais rso", resultSetMapping = "ReqServicosOpcionais.implicit") 
+})
+
 public class ReqServicosOpcionais implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
