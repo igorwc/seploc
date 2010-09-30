@@ -9,6 +9,8 @@ import br.seploc.dao.exceptions.FieldNotNullException;
 import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Cliente;
+import br.seploc.pojos.LinhaRequisicao;
+import br.seploc.pojos.LinhaRequisicaoPK;
 import br.seploc.pojos.OpcionaisReqServ;
 import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.ReqServicosOpcionaisPK;
@@ -22,23 +24,42 @@ public class RequisicaoServicoDAO extends
 	public void adiciona(RequisicaoServico t) throws Exception {
 		em.getTransaction().begin();
 		ajustaPojo(t);
-		if (t.getOpcionais() == null) {
+		if (t.getOpcionais() == null && t.getLinhaRequisicao() == null) {
 			em.persist(t);
 		} else {
-			List<ReqServicosOpcionais> opcionais = t.getOpcionais();
-			for (ReqServicosOpcionais rso : opcionais) {
-				rso.setReqServico(null);
+			//persistir os opcionais
+			if (t.getOpcionais() != null){				
+				List<ReqServicosOpcionais> opcionais = t.getOpcionais();
+				for (ReqServicosOpcionais rso : opcionais) {
+					rso.setReqServico(null);
+				}
+				t.setOpcionais(null);				
+				em.persist(t);
+				for (ReqServicosOpcionais rso : opcionais) {
+					rso.setReqServico(t);
+					rso.setId(new ReqServicosOpcionaisPK(rso.getReqServico()
+							.getNumReq(), rso.getOpcionaisReqServ()
+							.getCodOpReqServ()));
+					em.persist(rso);
+				}				
+				t.setOpcionais(opcionais);				
 			}
-			t.setOpcionais(null);
-			em.persist(t);
-			for (ReqServicosOpcionais rso : opcionais) {
-				rso.setReqServico(t);
-				rso.setId(new ReqServicosOpcionaisPK(rso.getReqServico()
-						.getNumReq(), rso.getOpcionaisReqServ()
-						.getCodOpReqServ()));
-				em.persist(rso);
+			//persistir as linhas
+			if (t.getLinhaRequisicao() != null){
+				List<LinhaRequisicao> linhas = t.getLinhaRequisicao();
+				for (LinhaRequisicao lr : linhas){
+					lr.setReqServico(null);
+				}
+				t.setLinhaRequisicao(null);
+				em.persist(t);
+				for (LinhaRequisicao lr : linhas){
+					lr.setReqServico(t);
+					lr.setId(new LinhaRequisicaoPK(lr.getReqServico()
+							.getNumReq(),lr.getNumLinha()));
+					em.persist(t);
+				}
+				t.setLinhaRequisicao(linhas);
 			}
-			t.setOpcionais(opcionais);
 
 			em.merge(t);
 
@@ -153,5 +174,33 @@ public class RequisicaoServicoDAO extends
 			}
 		}
 	}
+	
+	public void addLinha(RequisicaoServico rq,  LinhaRequisicao lr)
+	throws FieldNotNullException {
+		LinhaRequisicao temp = null;
+		if (rq.getLinhaRequisicao() == null) {
+			rq.setLinhaRequisicao(new ArrayList<LinhaRequisicao>());
+		} else {
+			for (LinhaRequisicao l : rq.getLinhaRequisicao()) {
+				if (l.getId() == lr.getId()) {
+					temp = l;
+					temp.setNomeArquivo(lr.getNomeArquivo());
+					temp.setDimensao(lr.getDimensao());
+					temp.setFormato(lr.getFormato());
+					temp.setPapel(lr.getPapel());
+					temp.setImpressao(lr.getImpressao());
+					temp.setValorUnit(lr.getValorUnit());
+					temp.setValorSubUnit(lr.getValorSubUnit());
+
+					em.getTransaction().begin();
+					em.merge(temp);
+					em.getTransaction().commit();					
+					return;
+				}
+			}
+		}
+	}	
+	
+
 	
 }

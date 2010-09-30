@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.LinhaRequisicao;
+import br.seploc.pojos.LinhaRequisicaoPK;
 import br.seploc.pojos.OpcionaisReqServ;
 import br.seploc.pojos.Entrega;
 import br.seploc.pojos.Papel;
@@ -52,7 +53,8 @@ public class ReqServClienteMB implements Serializable{
 		entrega = new Entrega();
 		papel = new Papel();
 		projeto = new Projeto();
-		setLinhaReqServ(new LinhaRequisicao());
+		linhaReqServ = new LinhaRequisicao();
+		reqServico = new RequisicaoServico();
 		reqServicoDAO = new RequisicaoServicoDAO();
 	}
 
@@ -232,7 +234,9 @@ public class ReqServClienteMB implements Serializable{
 	public void cadastrar(){
 		if (reqServico.getNumReq() == null || reqServico.getNumReq() == 0){
 			try{
-				reqServicoDAO.adiciona(reqServico);
+				reqServicoDAO.addOpcional(reqServico, opcional, quantidadeOpcional);
+				reqServicoDAO.addLinha(reqServico, linhaReqServ);
+				reqServicoDAO.adiciona(reqServico);				
 				addGlobalMessage("Inclusão feita com sucesso!");
 			} catch (Exception e) {
 				addGlobalMessage(e.getMessage());
@@ -294,7 +298,15 @@ public class ReqServClienteMB implements Serializable{
 	}
 	
 	public void limpar(){
+		cliente = new Cliente();
+		cliente.setIdCliente(0);
+		opcional = new OpcionaisReqServ();
+		entrega = new Entrega();
+		papel = new Papel();
+		projeto = new Projeto();
+		linhaReqServ = new LinhaRequisicao();
 		reqServico = new RequisicaoServico();
+		reqServicoDAO = new RequisicaoServicoDAO();
 	}
 	
 	public static void addGlobalMessage(String message) {
