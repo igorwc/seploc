@@ -19,10 +19,6 @@
   <converter-id>SeplocCNPJConverter</converter-id>
   <converter-class>br.seploc.converters.SeplocCNPJConverter</converter-class>
  </converter>
- <converter>
-  <converter-id>PapelConverter</converter-id>
-  <converter-class>br.seploc.converters.PapelConverter</converter-class>
- </converter>
  <!-- Fim dos Conversores
   Beans Adicionais -->
  <managed-bean>
