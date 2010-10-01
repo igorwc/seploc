@@ -3,15 +3,6 @@
  xmlns:xi="http://www.w3.org/2001/XInclude"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee        http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
  <name>seploc</name>
-  <application>
-   <resource-bundle>
-      <base-name>messages</base-name>
-      <var>msgs</var>
-   </resource-bundle>  
-   <locale-config>
-     <default-locale>pt</default-locale>
-   </locale-config>
- </application>
  <!--  Conversores 
  Conversor de String para Número Decimal e vice versa -->
  <converter>
@@ -27,6 +18,10 @@
  <converter>
   <converter-id>SeplocCNPJConverter</converter-id>
   <converter-class>br.seploc.converters.SeplocCNPJConverter</converter-class>
+ </converter>
+ <converter>
+  <converter-id>PapelConverter</converter-id>
+  <converter-class>br.seploc.converters.PapelConverter</converter-class>
  </converter>
  <!-- Fim dos Conversores
   Beans Adicionais -->
@@ -81,34 +76,34 @@
   <managed-bean-name>opcionalMB</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.OpcionalMB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
- </managed-bean> 
+ </managed-bean>
  <managed-bean>
   <managed-bean-name>opcionalCB</managed-bean-name>
   <managed-bean-class>br.seploc.controllers.OpcionalCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>   
+ </managed-bean>
  <!-- Cadastro Entrega -->
  <managed-bean>
   <managed-bean-name>entregaMB</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.EntregaMB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
- </managed-bean> 
+ </managed-bean>
  <managed-bean>
   <managed-bean-name>entregaCB</managed-bean-name>
   <managed-bean-class>br.seploc.controllers.EntregaCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>  
+ </managed-bean>
  <!-- Cadastro Usuario -->
  <managed-bean>
   <managed-bean-name>usuarioMB</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.UsuarioMB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
- </managed-bean> 
+ </managed-bean>
  <managed-bean>
   <managed-bean-name>usuarioCB</managed-bean-name>
   <managed-bean-class>br.seploc.controllers.UsuarioCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>    
+ </managed-bean>
  <!-- Cadastro Cliente -->
  <managed-bean>
   <managed-bean-name>clienteCB</managed-bean-name>
@@ -125,34 +120,34 @@
   <managed-bean-name>projetoMB</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.ProjetoMB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
- </managed-bean> 
+ </managed-bean>
  <managed-bean>
   <managed-bean-name>projetoCB</managed-bean-name>
   <managed-bean-class>br.seploc.controllers.ProjetoCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>    
+ </managed-bean>
  <!-- Cadastro Cobrador -->
  <managed-bean>
   <managed-bean-name>cobradorMB</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.CobradorMB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
- </managed-bean> 
+ </managed-bean>
  <managed-bean>
   <managed-bean-name>cobradorCB</managed-bean-name>
   <managed-bean-class>br.seploc.controllers.CobradorCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
- </managed-bean> 
+ </managed-bean>
  <!-- Cadastro Grupo -->
  <managed-bean>
   <managed-bean-name>grupoMB</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.GrupoMB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
- </managed-bean> 
+ </managed-bean>
  <managed-bean>
   <managed-bean-name>grupoCB</managed-bean-name>
   <managed-bean-class>br.seploc.controllers.GrupoCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>  
+ </managed-bean>
  <!--Fim dos Cadastros 
  Requisicao -->
  <managed-bean>
@@ -164,7 +159,7 @@
   <managed-bean-name>reqServClienteCB</managed-bean-name>
   <managed-bean-class>br.seploc.controllers.ReqServClienteCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>  
+ </managed-bean>
  <!-- Regras Navegação -->
  <navigation-rule>
   <from-view-id>/login.xhtml</from-view-id>
