@@ -145,20 +145,16 @@
 									<rich:comboBox selectFirstOnUpdate="false"
 	                                   defaultLabel="Nome do Papel"
 	                                   id="papel" 
-	                                   value="#{reqServClienteCB.reqServMB.linhaReqServ.papel.nome}"
-	                                   validator="#{appBean.validatePapeis}"                                    
-	                                   >
-	                         		<f:selectItems value="#{appBean.papeis}"  />
-	                        		<rich:ajaxValidator event="onkeyup"  />    
-	                        		<rich:ajaxValidator event="onchange"  />   
+	                                   value="#{reqServClienteCB.reqServMB.nomePapel}" 
+	                                   >	                                   
+		                         		<f:selectItems value="#{appBean.papeis}" />  
 	                    			</rich:comboBox>
 	                    		</td>							
 								<td>
 									<rich:comboBox selectFirstOnUpdate="false"
 	                                   defaultLabel="Tipo"
 	                                   id="Impressao" 
-	                                   value="#{reqServClienteCB.reqServMB.linhaReqServ.impressao}"
-	                                   validator="#{appBean.validatePapeis}"
+	                                   value="#{reqServClienteCB.reqServMB.linhaReqServ.impressao}"	                                   
 	                                   width="60px" 
 	                                   >
 	                         		<f:selectItem id="impMono" itemLabel="Mono" itemValue="Mono" />
@@ -178,11 +174,11 @@
 				  <!-- Botoes -->
                   <br/>
                   <a4j:commandButton value="Salvar"
-                  action="#{clienteBean.cadastra}"
-                  reRender="cadCliente,clienteSucesso"
+                  action="#{reqServClienteCB.reqServMB.cadastrar}"
+                  reRender="reqServ"
                   oncomplete="#{rich:component('confirmationMessage')}.show()" />                                              
                   <a4j:commandButton value="Limpar" type="reset" 
-                   action="#{clienteBean.limpa}" />
+                   action="#{reqServClienteCB.reqServMB.limpar}" />
                </rich:panel>
                </center>
                <!-- fim Formulario -->
@@ -415,7 +411,7 @@
 					</a4j:commandLink>
 				</rich:column>  
 				<f:facet name="footer">
-					<rich:datascroller id="dsProjeto" renderIfSinglePage="false"></rich:datascroller>
+					<rich:datascroller id="dsProjeto" renderIfSinglePage="true"></rich:datascroller>
 				</f:facet>
 			</rich:dataTable>	
 		</h:form>
@@ -473,7 +469,7 @@
 					</a4j:commandLink>
 				</rich:column>  
 				<f:facet name="footer">
-					<rich:datascroller id="dsEntrega" renderIfSinglePage="false"></rich:datascroller>
+					<rich:datascroller id="dsEntrega" renderIfSinglePage="true"></rich:datascroller>
 				</f:facet>
 			</rich:dataTable>	
 		</h:form>
@@ -530,7 +526,7 @@
 					</a4j:commandLink>
 				</rich:column>  
 				<f:facet name="footer">
-					<rich:datascroller id="dsOpcional" renderIfSinglePage="false"></rich:datascroller>
+					<rich:datascroller id="dsOpcional" renderIfSinglePage="true"></rich:datascroller>
 				</f:facet>
 			</rich:dataTable>	
 		</h:form>
