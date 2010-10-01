@@ -18,7 +18,7 @@ public class RequisicaoServicoDAOTest {
 
 	@Test
 	public final void testAdicionaRequisicaoServico() {
-		fail("Not yet implemented"); // TODO
+		Assert.assertTrue((1+1)==3);
 	}
 
 	@Test
@@ -51,8 +51,8 @@ public class RequisicaoServicoDAOTest {
 		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
 		RequisicaoServico rq = dao.recupera(1);
 		OpcionaisReqServDAO daoOP = new OpcionaisReqServDAO();
-		OpcionaisReqServ op = daoOP.recupera(104);
-		dao.addOpcional(rq,op,3);
+		OpcionaisReqServ op = daoOP.recupera(4);
+		dao.addOpcional(rq,op,2);
 		dao.altera(rq);
 		rq = null;
 		rq = dao.recupera(1);
@@ -80,8 +80,8 @@ public class RequisicaoServicoDAOTest {
 		dao.altera(rq);
 		rq = null;
 		rq = dao.recupera(1);
-		Assert.assertTrue(rq.getLinhaRequisicao().size() == 2);
-		System.out.println(rq.getLinhaRequisicao().size());
+		Assert.assertTrue(rq.getLinhaRequisicao().size() == 1);
+		System.out.println("Apos rec: "+rq.getLinhaRequisicao().size());
 		for(LinhaRequisicao lrs :rq.getLinhaRequisicao()){
 			System.out.println(lrs);
 		}

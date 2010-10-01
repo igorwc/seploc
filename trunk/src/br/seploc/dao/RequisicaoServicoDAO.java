@@ -27,13 +27,13 @@ public class RequisicaoServicoDAO extends
 		if (t.getOpcionais() == null && t.getLinhaRequisicao() == null) {
 			em.persist(t);
 		} else {
-			//persistir os opcionais
-			if (t.getOpcionais() != null){				
+			// persistir os opcionais
+			if (t.getOpcionais() != null) {
 				List<ReqServicosOpcionais> opcionais = t.getOpcionais();
 				for (ReqServicosOpcionais rso : opcionais) {
 					rso.setReqServico(null);
 				}
-				t.setOpcionais(null);				
+				t.setOpcionais(null);
 				em.persist(t);
 				for (ReqServicosOpcionais rso : opcionais) {
 					rso.setReqServico(t);
@@ -41,21 +41,21 @@ public class RequisicaoServicoDAO extends
 							.getNumReq(), rso.getOpcionaisReqServ()
 							.getCodOpReqServ()));
 					em.persist(rso);
-				}				
-				t.setOpcionais(opcionais);				
+				}
+				t.setOpcionais(opcionais);
 			}
-			//persistir as linhas
-			if (t.getLinhaRequisicao() != null){
+			// persistir as linhas
+			if (t.getLinhaRequisicao() != null) {
 				List<LinhaRequisicao> linhas = t.getLinhaRequisicao();
-				for (LinhaRequisicao lr : linhas){
+				for (LinhaRequisicao lr : linhas) {
 					lr.setReqServico(null);
 				}
 				t.setLinhaRequisicao(null);
 				em.persist(t);
-				for (LinhaRequisicao lr : linhas){
+				for (LinhaRequisicao lr : linhas) {
 					lr.setReqServico(t);
 					lr.setId(new LinhaRequisicaoPK(lr.getReqServico()
-							.getNumReq(),lr.getNumLinha()));
+							.getNumReq(), lr.getNumLinha()));
 					em.persist(t);
 				}
 				t.setLinhaRequisicao(linhas);
@@ -83,23 +83,24 @@ public class RequisicaoServicoDAO extends
 		return t;
 	}
 
-	@SuppressWarnings("unchecked")	
+	@SuppressWarnings("unchecked")
 	public List<RequisicaoServico> getLista() {
 		em.getTransaction().begin();
 		Query q = em.createNamedQuery("RequisicaoServico.RetornaRequisicoes");
 		em.getTransaction().commit();
 		return (List<RequisicaoServico>) q.getResultList();
 	}
-	
-	@SuppressWarnings("unchecked")	
-	public List<RequisicaoServico> getListaPorPorjeto(Cliente cliente) {		
+
+	@SuppressWarnings("unchecked")
+	public List<RequisicaoServico> getListaPorPorjeto(Cliente cliente) {
 		em.getTransaction().begin();
-		Query q = em.createNamedQuery("SELECT * FROM br.seploc.pojos.RequisicaoServico rs"
-			 + " where rs.projeto.cliente.idCliente = :id").setParameter(
-			 "id", cliente.getIdCliente());
+		Query q = em.createNamedQuery(
+				"SELECT * FROM br.seploc.pojos.RequisicaoServico rs"
+						+ " where rs.projeto.cliente.idCliente = :id")
+				.setParameter("id", cliente.getIdCliente());
 		em.getTransaction().commit();
 		return (List<RequisicaoServico>) q.getResultList();
-	}	
+	}
 
 	@Override
 	public RequisicaoServico recupera(Integer id) throws Exception {
@@ -110,8 +111,8 @@ public class RequisicaoServicoDAO extends
 	@Override
 	public RequisicaoServico remove(Integer id) throws Exception {
 		em.getTransaction().begin();
-		RequisicaoServico reqServ = em.find(RequisicaoServico.class , id);
-		if (reqServ == null){
+		RequisicaoServico reqServ = em.find(RequisicaoServico.class, id);
+		if (reqServ == null) {
 			em.getTransaction().rollback();
 			throw new RecordNotFound("Requisição de Serviço não encontrado!");
 		} else {
@@ -124,7 +125,7 @@ public class RequisicaoServicoDAO extends
 			}
 		}
 		em.getTransaction().commit();
-		
+
 		return null;
 	}
 
@@ -133,74 +134,98 @@ public class RequisicaoServicoDAO extends
 		Number contagemLinha = 0;
 		Number contagemOpcional = 0;
 		boolean retorno = false;
-		 Query q1 =
-			 em.createQuery("SELECT count(lr.id) FROM br.seploc.pojos.LinhaRequisicao lr"
-			 + " where lr.id.NumRequisicao = :numReq").setParameter(
-			 "numReq", numReqServ);
-		 Query q2 =
-			 em.createQuery("SELECT count(or.id) FROM br.seploc.pojos.ReqServicosOpcionais or"
-			 + " where or.id.NumRequisicao = :numReq").setParameter(
-			 "numReq", numReqServ);		 
-		 
-		 contagemLinha = (Number) q1.getSingleResult();
-		 contagemOpcional = (Number) q2.getSingleResult();
-		 
-		 if (contagemLinha.intValue() != 0 || contagemOpcional.intValue() != 0)
-		 retorno = true;
-		
+		Query q1 = em.createQuery(
+				"SELECT count(lr.id) FROM br.seploc.pojos.LinhaRequisicao lr"
+						+ " where lr.id.NumRequisicao = :numReq").setParameter(
+				"numReq", numReqServ);
+		Query q2 = em.createQuery(
+				"SELECT count(or.id) FROM br.seploc.pojos.ReqServicosOpcionais or"
+						+ " where or.id.NumRequisicao = :numReq").setParameter(
+				"numReq", numReqServ);
+
+		contagemLinha = (Number) q1.getSingleResult();
+		contagemOpcional = (Number) q2.getSingleResult();
+
+		if (contagemLinha.intValue() != 0 || contagemOpcional.intValue() != 0)
+			retorno = true;
+
 		return retorno;
 	}
 
-	public void addOpcional(RequisicaoServico rq,  OpcionaisReqServ op, Integer qtd)
-			throws FieldNotNullException {
+	public void addOpcional(RequisicaoServico rq, OpcionaisReqServ op,
+			Integer qtd) throws FieldNotNullException {
 		ReqServicosOpcionais temp = null;
 		if (qtd == null || qtd.intValue() == 0) {
 			throw new FieldNotNullException(
 					"Quantidade de opcionais não pode ser nulo");
-		}
-		if (rq.getOpcionais() == null) {
-			rq.setOpcionais(new ArrayList<ReqServicosOpcionais>());
 		} else {
-			for (ReqServicosOpcionais rso : rq.getOpcionais()) {
-				if (rso.getOpcionaisReqServ().getCodOpReqServ().intValue() == op
-						.getCodOpReqServ().intValue()) {
-					temp = rso;
-					temp.setQuantidade(qtd);
-					em.getTransaction().begin();
-					em.merge(temp);
-					em.getTransaction().commit();					
-					return;
+			if (rq.getOpcionais().size() != 0) {
+				for (ReqServicosOpcionais rso : rq.getOpcionais()) {
+					if (rso.getOpcionaisReqServ().getCodOpReqServ().intValue() == op
+							.getCodOpReqServ().intValue()) {
+						temp = rso;
+						temp.setQuantidade(qtd);
+						em.getTransaction().begin();
+						em.merge(temp);
+						em.getTransaction().commit();
+						return;
+					} 
 				}
+				ReqServicosOpcionaisPK id = new ReqServicosOpcionaisPK(
+						rq.getNumReq(), op.getCodOpReqServ());
+				ReqServicosOpcionais rso = new ReqServicosOpcionais(id);
+				rso.setQuantidade(qtd);
+				rq.getOpcionais().add(rso);
+				em.getTransaction().begin();
+				em.merge(rq);
+				em.getTransaction().commit();	
+			} else {
+				ReqServicosOpcionaisPK id = new ReqServicosOpcionaisPK(
+						rq.getNumReq(), op.getCodOpReqServ());
+				ReqServicosOpcionais rso = new ReqServicosOpcionais(id);
+				rso.setQuantidade(qtd);
+				rq.getOpcionais().add(rso);
+				em.getTransaction().begin();
+				em.merge(rq);
+				em.getTransaction().commit();				
 			}
 		}
 	}
-	
-	public void addLinha(RequisicaoServico rq,  LinhaRequisicao lr)
-	throws FieldNotNullException {
-		LinhaRequisicao temp = null;
+
+	public void addLinha(RequisicaoServico rq, LinhaRequisicao l)
+			throws FieldNotNullException {
+		LinhaRequisicao temp;
 		if (rq.getLinhaRequisicao() == null) {
 			rq.setLinhaRequisicao(new ArrayList<LinhaRequisicao>());
 		} else {
-			for (LinhaRequisicao l : rq.getLinhaRequisicao()) {
-				if (l.getId() == lr.getId()) {
-					temp = l;
-					temp.setNomeArquivo(lr.getNomeArquivo());
-					temp.setDimensao(lr.getDimensao());
-					temp.setFormato(lr.getFormato());
-					temp.setPapel(lr.getPapel());
-					temp.setImpressao(lr.getImpressao());
-					temp.setValorUnit(lr.getValorUnit());
-					temp.setValorSubUnit(lr.getValorSubUnit());
-
-					em.getTransaction().begin();
-					em.merge(temp);
-					em.getTransaction().commit();					
-					return;
+			if (rq.getLinhaRequisicao().size() != 0) {
+				for (LinhaRequisicao lr : rq.getLinhaRequisicao()) {
+					if (lr.getId().getNumLinha().intValue() == l.getId().getNumLinha().intValue() &&
+						lr.getId().getNumRequisicao().intValue() == l.getId().getNumRequisicao().intValue()) {
+						temp = lr;						
+						em.getTransaction().begin();
+						em.merge(temp);
+						em.getTransaction().commit();
+						return;
+					} 
 				}
+				LinhaRequisicaoPK id = new LinhaRequisicaoPK(
+						(rq.getLinhaRequisicao().size()+1),rq.getNumReq());
+				l.setId(id);
+				rq.getLinhaRequisicao().add(l);				
+				em.getTransaction().begin();
+				em.merge(rq);
+				em.getTransaction().commit();	
+			} else {
+				LinhaRequisicaoPK id = new LinhaRequisicaoPK(
+						(rq.getLinhaRequisicao().size()+1),rq.getNumReq());
+				l.setId(id);
+				rq.getLinhaRequisicao().add(l);				
+				em.getTransaction().begin();
+				em.merge(rq);
+				em.getTransaction().commit();	
 			}
 		}
-	}	
-	
+	}
 
-	
 }
