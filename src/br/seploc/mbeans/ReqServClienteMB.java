@@ -8,7 +8,6 @@ import javax.faces.context.FacesContext;
 
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.LinhaRequisicao;
-import br.seploc.pojos.LinhaRequisicaoPK;
 import br.seploc.pojos.OpcionaisReqServ;
 import br.seploc.pojos.Entrega;
 import br.seploc.pojos.Papel;
@@ -35,9 +34,9 @@ public class ReqServClienteMB implements Serializable{
 	private Papel papel;
 	private Projeto projeto;
 	private LinhaRequisicao linhaReqServ;
+	private String nomePapel;
 	private String filtroOpcional;
-	private String filtroEntrega;
-	private String filtroPapel;
+	private String filtroEntrega;	
 	private String filtroProjeto;	
 	private String filtroCliente;
 	private int quantidadeOpcional;
@@ -115,12 +114,12 @@ public class ReqServClienteMB implements Serializable{
 		this.filtroEntrega = filtroEntrega;
 	}
 
-	public String getFiltroPapel() {
-		return filtroPapel;
+	public String getNomePapel() {
+		return nomePapel;
 	}
 
-	public void setFiltroPapel(String filtroPapel) {
-		this.filtroPapel = filtroPapel;
+	public void setNomePapel(String filtroPapel) {
+		this.nomePapel = filtroPapel;
 	}
 
 	public String getFiltroProjeto() {
@@ -308,6 +307,33 @@ public class ReqServClienteMB implements Serializable{
 		reqServico = new RequisicaoServico();
 		reqServicoDAO = new RequisicaoServicoDAO();
 	}
+	
+	public boolean converterToPapel(String nome) throws Exception{
+		boolean retorno = false;
+		
+//		if(nome == null || nome.trim().equals("")) return retorno;
+//		
+//		PapelDAO papelDAO = new PapelDAO();			
+//		Papel papel = new Papel();
+//		if (papelDAO.getListaPapelPorNome(nome).size() > 1){
+//			throw new Exception("Existe mais de um papel como o mesmo nome!");
+//		}
+//		AppServiceBean ap = this.getAppBean();
+//		if (ap.validatePapeis(context, component, value))
+//		for (Papel p : papelDAO.getListaPapelPorNome(value)){
+//			retorno = p;
+//		}		
+		
+		return retorno;
+	}
+	
+	private AppServiceBean getAppBean(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		AppServiceBean appBean = (AppServiceBean) context.getApplication()
+        .evaluateExpressionGet(context, "#{appBean}", AppServiceBean.class);
+		
+		return appBean; 
+	}	
 	
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
