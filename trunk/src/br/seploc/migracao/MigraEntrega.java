@@ -3,7 +3,6 @@ package br.seploc.migracao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +14,9 @@ public class MigraEntrega {
 
 		PreparedStatement stmt = c
 				.prepareStatement("SELECT intCodEnt, vcrLocal, dblPreco FROM tbl_entrega");
-		// executaumselect
+		// executa um select
 		ResultSet rs = stmt.executeQuery();
-		// iteranoResultSet
+		// itera no ResultSet
 		while (rs.next()) {
 			Entrega e = new Entrega();
 			e.setCod(rs.getInt("intCodEnt"));
@@ -30,20 +29,7 @@ public class MigraEntrega {
 	}
 
 	public void insereDados(Connection c, List<Entrega> lista) throws Exception {
-		Integer id = new Integer(0);
 		String sql = "INSERT INTO tbl_entrega (intCodEnt ,vcrLocal ,dblPreco ,tspVersao)VALUES (? , ?, ? ,CURRENT_TIMESTAMP)";
-//		PreparedStatement stID = c
-//				.prepareStatement("SELECT VAL_ID FROM id_gen where NOME_ID = ?");
-//		stID.setString(1, "ENTREGA_GEN");
-//		ResultSet rs = stID.executeQuery();
-//		if (rs.next()) {
-//			id = rs.getInt(1);
-//		} else {
-//			id = 1;
-//		}
-//		if (id == null) {
-//			id = 1;
-//		}
 		for (Entrega e : lista) {
 			PreparedStatement stmt = c.prepareStatement(sql);
 			stmt.setInt(1, e.getCod());

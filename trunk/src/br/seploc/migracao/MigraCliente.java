@@ -14,17 +14,14 @@ public class MigraCliente {
 	Integer idCliente = 1;
 	
 	public void seleciona(Connection c) throws Exception {
-//		List<Cliente> retorno = new ArrayList<Cliente>();
-//		Integer id = 1;
 		// pega o Statement
-
 		PreparedStatement stmt = c
 				.prepareStatement("SELECT vcrCnpj, vcrRazao, vcrCpf, vcrEnder, vcrBairro, " +
 						"vcrCidade, vcrEstado, vcrCep, vcrEmail, vcrInscricao, intBalcao, " +
 						"vcrFantasia, txtobs, vcrMapa, intEntregaPadrao, intPapelPadrao FROM tbl_clientes ");
-		// executaumselect
+		// executa um select
 		ResultSet rs = stmt.executeQuery();
-		// iteranoResultSet
+		// iterano ResultSet
 		while (rs.next()) {
 			Cliente cl = new Cliente();
 			cl.setId(idCliente);

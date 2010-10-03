@@ -13,9 +13,9 @@ public class MigraPapel {
 
 		PreparedStatement stmt = c
 				.prepareStatement("SELECT  intCodPap, vcrNome, dblImpMono, dblImpColor, dblImpShade FROM tbl_papel");
-		// executaumselect
+		// executa um select
 		ResultSet rs = stmt.executeQuery();
-		// iteranoResultSet
+		// itera no ResultSet
 		while (rs.next()) {
 			Papel p = new Papel();
 			p.setCod(rs.getInt("intCodPap"));
