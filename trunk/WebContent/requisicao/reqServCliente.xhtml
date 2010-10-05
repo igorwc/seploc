@@ -71,7 +71,7 @@
 											 id="modaleditcli" 
 											 oncomplete="#{rich:component('modalCliente')}.show();return false;">
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
-							</a4j:commandLink>
+							</a4j:commandLink>							
 	               		</td>                    
 					</tr>
 					<tr align="left">					
@@ -232,7 +232,7 @@
 		               <h:outputText value="#{linha.dimensao}" />  
                    </rich:column>
                    <rich:column>  
-		               <h:outputText value="#{linha.papel}" />  
+		               <h:outputText value="#{linha.papel.nome}" />  
                    </rich:column>
                    <rich:column>  
 		               <h:outputText value="#{linha.impressao}" />  
@@ -532,84 +532,6 @@
 		</h:form>
 	</rich:modalPanel>   		       
 	
-	<!-- Modal Papel -->
-    <rich:modalPanel id="modalPapel" 
-                    autosized="true" 
-                    width="300" 
-                    height="300">
-       <f:facet name="header" >
-           <h:outputText value="#{msgs['forms.filtro.papel']}" 
-                         style="padding-right:15px;" />
-       </f:facet>
-       <f:facet name="controls">
-           <h:panelGroup>
-               <h:graphicImage value="../imgs/icons/close.png" 
-                               styleClass="hidelink"
-                               id="fechaPainelPapel" />
-               <rich:componentControl for="modalPapel" 
-                                      attachTo="fechaPainelPapel"
-                                      operation="hide" 
-                                      event="onclick" />
-           </h:panelGroup>
-       </f:facet>
-       <h:form prependId="false">
-           <rich:dataTable value="#{reqServClienteCB.reqServMB.todosPapeis}" 
-                           var="papel" 
-                           rows="10"
-                           reRender="dsPapel" 
-                           id="tabelaPapel" >
-               <f:facet name="header">
-                   <rich:columnGroup>
-                       <rich:column colspan="5">
-                           <h:outputText value="#{msgs['forms.filtro.papel']}" />
-                       </rich:column>
-                       <rich:column breakBefore="true">
-                           <h:outputText value="#{msgs['forms.filtro.papel.coluna.nome']}" />
-                       </rich:column>
-                       <rich:column>
-                           <h:outputText value="#{msgs['forms.filtro.papel.coluna.impMono']}" />
-                       </rich:column>
-                       <rich:column>
-                           <h:outputText value="#{msgs['forms.filtro.papel.coluna.impColor']}" />
-                       </rich:column>
-                       <rich:column>
-                           <h:outputText value="#{msgs['forms.filtro.papel.coluna.impShade']}" />
-                       </rich:column>
-                       <rich:column>
-                       </rich:column>
-                   </rich:columnGroup>
-               </f:facet>
-               <rich:column filterBy="#{papel.nome}" 
-                            filterEvent="onkeyup"
-                            filterValue="#{reqServClienteCB.reqServMB.filtroPapel}">
-                   <h:outputText value="#{papel.nome}" />
-               </rich:column>
-               <rich:column>
-                   <h:outputText value="#{papel.impMono}" />
-               </rich:column>
-                <rich:column>
-                   <h:outputText value="#{papel.impColor}" />
-               </rich:column>
-                <rich:column>
-                   <h:outputText value="#{papel.impShade}" />
-               </rich:column>
-               <rich:column >
-                   <a4j:commandLink ajaxSingle="true" 
-                                    id="selecionaPapel" 
-                                    reRender="papel" 
-                                    oncomplete="#{rich:component('modalPapel')}.hide();" >
-                       <h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
-                       <f:setPropertyActionListener value="#{papel}"
-                           target="#{reqServClienteCB.reqServMB.papel}" />            
-                   </a4j:commandLink>
-               </rich:column>  
-               <f:facet name="footer">
-                   <rich:datascroller id="dsPapel" maxPages="3" renderIfSinglePage="true"/>
-               </f:facet>
-           </rich:dataTable>       
-	    </h:form>
-	</rich:modalPanel>   
-   
    
    </f:view>   
 </ui:define>
