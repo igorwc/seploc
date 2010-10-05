@@ -227,7 +227,11 @@ public class ReqServClienteMB implements Serializable{
 				//adicionar a entrega
 				if (entrega.getCodEntrega() >= 1){
 					reqServico.setEntrega(entrega);
+					reqServico.setValorEnt(entrega.getPreco());
+					reqServico.setValorTotal(reqServico.getValorTotal()+entrega.getPreco());
 				}
+				//calculos
+				
 
 				// adicionar a requisição de serviço
 				reqServicoDAO.adiciona(reqServico);					
@@ -238,13 +242,23 @@ public class ReqServClienteMB implements Serializable{
 				// adicionar o opcional
 				if (quantidadeOpcional >= 1){
 					reqServicoDAO.addOpcional(reqServico, opcional, quantidadeOpcional);
+					reqServico.setValorTotal(reqServico.getValorTotal()+opcional.getValorItem());
 				}
 				//adicionar a linha
 				if (linhaReqServ.getQuant() >= 1){
 					// transformar o nomePapel em Objeto Papel 
 					papel = this.converterToPapel(this.nomePapel);
 					linhaReqServ.setPapel(papel);
+					double valorPapel = 0.0;
+					//verificar a cor em uso
+					if (linhaReqServ.getImpressao() == "Mono")  
+						valorPapel = papel.getImpMono();
+					if (linhaReqServ.getImpressao() == "Color") 
+						valorPapel = papel.getImpColor();
+					else valorPapel = papel.getImpShade();
+										
 					reqServicoDAO.addLinha(reqServico, linhaReqServ);					
+					reqServico.setValorTotal(reqServico.getValorTotal()+valorPapel);
 				}		
 		
 				addGlobalMessage("Inclusão feita com sucesso!");
@@ -278,7 +292,7 @@ public class ReqServClienteMB implements Serializable{
 				}				
 			}
 		}
-		this.limpar();
+		this.limparLinhaOpcional();
 	}
 	
 	public void editar(){
@@ -310,6 +324,14 @@ public class ReqServClienteMB implements Serializable{
 		linhaReqServ = new LinhaRequisicao();
 		reqServico = new RequisicaoServico();
 		reqServicoDAO = new RequisicaoServicoDAO();
+	}
+	
+	public void limparLinhaOpcional(){
+		opcional = new OpcionaisReqServ();
+		papel = new Papel();
+		nomePapel = "";
+		quantidadeOpcional = 0;
+		linhaReqServ = new LinhaRequisicao();
 	}
 	
 	public Papel converterToPapel(String nome) throws ValidatorException, Exception{		
