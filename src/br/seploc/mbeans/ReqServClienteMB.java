@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.LinhaRequisicao;
@@ -16,11 +17,9 @@ import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
-import br.seploc.dao.LinhaRequisicaoDAO;
 import br.seploc.dao.OpcionaisReqServDAO;
 import br.seploc.dao.PapelDAO;
 import br.seploc.dao.ProjetoDAO;
-import br.seploc.dao.ReqServicosOpcionaisDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 
 public class ReqServClienteMB implements Serializable{
@@ -49,12 +48,12 @@ public class ReqServClienteMB implements Serializable{
 		cliente = new Cliente();
 		cliente.setIdCliente(0);
 		opcional = new OpcionaisReqServ();
-		entrega = new Entrega();
+//		entrega = new Entrega();
 		papel = new Papel();
 		projeto = new Projeto();
 		linhaReqServ = new LinhaRequisicao();
 		reqServico = new RequisicaoServico();
-		reqServicoDAO = new RequisicaoServicoDAO();
+		reqServicoDAO = new RequisicaoServicoDAO();		
 	}
 
 	// GETTERS E SETTERS
@@ -170,20 +169,6 @@ public class ReqServClienteMB implements Serializable{
 		this.reqServicoDAO = reqServicoDAO;
 	}
 	
-	public List<LinhaRequisicao> getLinhasReqServ(){
-		LinhaRequisicaoDAO linhaDAO = new LinhaRequisicaoDAO();
-		List<LinhaRequisicao> retorno = linhaDAO.getListaPorReqServ(reqServico);
-		
-		return retorno;
-	}
-	
-	public List<ReqServicosOpcionais> getOpcionaisReqServ(){
-		ReqServicosOpcionaisDAO reqServOpcionaisDAO = new ReqServicosOpcionaisDAO();
-		List<ReqServicosOpcionais> retorno = reqServOpcionaisDAO.getListaPorReqServ(reqServico);
-		
-		return retorno;
-	}	
-	
 	public List<Cliente> getTodosClientes(){
 		ClienteDAO clienteDAO = new ClienteDAO();
 		List<Cliente> retorno = clienteDAO.getLista();
@@ -233,10 +218,38 @@ public class ReqServClienteMB implements Serializable{
 	public void cadastrar(){
 		if (reqServico.getNumReq() == null || reqServico.getNumReq() == 0){
 			try{
-				reqServicoDAO.addOpcional(reqServico, opcional, quantidadeOpcional);
-				reqServicoDAO.addLinha(reqServico, linhaReqServ);
-				reqServicoDAO.adiciona(reqServico);				
+				//setar data de criação da requisição
+				java.util.Date data = new java.util.Date();  
+				java.sql.Date hoje = new java.sql.Date(data.getTime());  
+				reqServico.setData(hoje);				
+				//adicionar projeto
+				reqServico.setProjeto(projeto);
+				//adicionar a entrega
+				if (entrega.getCodEntrega() >= 1){
+					reqServico.setEntrega(entrega);
+				}
+
+				// adicionar a requisição de serviço
+				reqServicoDAO.adiciona(reqServico);					
+				
+				// recuperar a requisicao
+				reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+				
+				// adicionar o opcional
+				if (quantidadeOpcional >= 1){
+					reqServicoDAO.addOpcional(reqServico, opcional, quantidadeOpcional);
+				}
+				//adicionar a linha
+				if (linhaReqServ.getQuant() >= 1){
+					// transformar o nomePapel em Objeto Papel 
+					papel = this.converterToPapel(this.nomePapel);
+					linhaReqServ.setPapel(papel);
+					reqServicoDAO.addLinha(reqServico, linhaReqServ);					
+				}		
+		
 				addGlobalMessage("Inclusão feita com sucesso!");
+			} catch (ValidatorException e) {
+				addGlobalMessage(e.getMessage());		
 			} catch (Exception e) {
 				addGlobalMessage(e.getMessage());
 			}
@@ -265,6 +278,7 @@ public class ReqServClienteMB implements Serializable{
 				}				
 			}
 		}
+		this.limpar();
 	}
 	
 	public void editar(){
@@ -275,16 +289,6 @@ public class ReqServClienteMB implements Serializable{
 			addGlobalMessage(e.getMessage());
 		}	
 	}
-	
-	public void editarLinha(){
-		try{
-			LinhaRequisicaoDAO linhaDAO = new LinhaRequisicaoDAO();
-			linhaReqServ = linhaDAO.recupera(linhaReqServ.getId());
-		} catch (Exception e) {
-			e.printStackTrace();
-			addGlobalMessage(e.getMessage());
-		}	
-	}	
 	
 	public void apagar(){
 		try{
@@ -308,32 +312,45 @@ public class ReqServClienteMB implements Serializable{
 		reqServicoDAO = new RequisicaoServicoDAO();
 	}
 	
-	public boolean converterToPapel(String nome) throws Exception{
-		boolean retorno = false;
+	public Papel converterToPapel(String nome) throws ValidatorException, Exception{		
+		Papel papel = new Papel();
 		
-//		if(nome == null || nome.trim().equals("")) return retorno;
-//		
-//		PapelDAO papelDAO = new PapelDAO();			
-//		Papel papel = new Papel();
-//		if (papelDAO.getListaPapelPorNome(nome).size() > 1){
-//			throw new Exception("Existe mais de um papel como o mesmo nome!");
-//		}
-//		AppServiceBean ap = this.getAppBean();
-//		if (ap.validatePapeis(context, component, value))
-//		for (Papel p : papelDAO.getListaPapelPorNome(value)){
-//			retorno = p;
-//		}		
+		//verificar se o nome do papel informado é válido
+		if (this.validatePapeis(nome)) {				
+			PapelDAO papelDAO = new PapelDAO();
+								
+			if (papelDAO.getListaPapelPorNome(nome).size() > 1){			
+				throw new Exception("Existe mais de um papel como o mesmo nome!");
+			} else {
+				for (Papel p : papelDAO.getListaPapelPorNome(nome)){
+					papel = p;
+				}
+			}
+		}
 		
-		return retorno;
+		return papel;
 	}
 	
-	private AppServiceBean getAppBean(){
-		FacesContext context = FacesContext.getCurrentInstance();
-		AppServiceBean appBean = (AppServiceBean) context.getApplication()
-        .evaluateExpressionGet(context, "#{appBean}", AppServiceBean.class);
+	private boolean validatePapeis(String nomePapel){
+		PapelDAO papelDAO = new PapelDAO(); 
+		List<String> papeis = papelDAO.getPapeis();
+				 
+		String nome = nomePapel.toString();
+		boolean flag = false;
+		for (String s : papeis) {
+			if (s.toUpperCase().startsWith(nome.toUpperCase())) {
+				flag = true;
+			}
+		}
+		if (!flag) {
+			FacesMessage message = new FacesMessage("Nome Papel Inválido");
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}		
 		
-		return appBean; 
-	}	
+		return flag;
+		
+	}
 	
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
