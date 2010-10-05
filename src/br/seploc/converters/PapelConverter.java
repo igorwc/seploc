@@ -11,7 +11,7 @@ public class PapelConverter implements Converter {
 
 		@Override
 		public Object getAsObject(FacesContext context, UIComponent component, String value){
-			if(value == null || value.trim().equals("")) return new String();
+			if(value == null || value.trim().equals("")) return new Papel();
 			
 			PapelDAO papelDAO = new PapelDAO();			
 			Papel retorno = new Papel();
@@ -29,7 +29,7 @@ public class PapelConverter implements Converter {
 		public String getAsString(FacesContext context, UIComponent component, Object newValue) {
 			String retorno = "";
 			if (newValue != null && !"".equals(newValue)) {     
-				retorno = newValue.toString();
+				retorno = ((Papel) newValue).getNome();
 			}
 			return retorno;
 		}
