@@ -173,16 +173,19 @@
 				  </table> 
 				  <!-- Botoes -->
                   <br/>
-                  <a4j:commandButton value="Salvar"
+                  <a4j:commandButton value="#{msgs['botao.salvar']}"
                   action="#{reqServClienteCB.reqServMB.cadastrar}"
                   reRender="reqServ"
                   oncomplete="#{rich:component('confirmationMessage')}.show()" />                                              
-                  <a4j:commandButton value="Limpar" type="reset" 
+                  <a4j:commandButton value="#{msgs['botao.limpar']}" type="reset" 
                    action="#{reqServClienteCB.reqServMB.limpar}" />
                </rich:panel>
                </center>
                <!-- fim Formulario -->
-               
+               <center>
+               <table>
+               <tr>
+               <td width="600">
 	 		   <!-- === GRID === -->
                <rich:dataTable value="#{reqServClienteCB.reqServMB.reqServico.linhaRequisicao}" var="linha"    
                    rowClasses="row1, row2" id="linhaList" rows="5"  
@@ -194,7 +197,7 @@
                    <f:facet name="header">  
                        <rich:columnGroup>  
   
-                           <rich:column colspan="7">  
+                           <rich:column colspan="8">  
                                <h:outputText value="Linhas da Requisição" />  
                            </rich:column>  
   
@@ -215,7 +218,10 @@
                            </rich:column>                             
                            <rich:column>  
                                <h:outputText value="Quant"/>  
-                           </rich:column>                                                         
+                           </rich:column>    
+                           <rich:column>  
+                               <h:outputText value="Valor Unit."/>  
+                           </rich:column>                                                                                
                              
                            <rich:column/>  
 								                           
@@ -240,7 +246,9 @@
                    <rich:column>  
 		               <h:outputText value="#{linha.quant}" />  
                    </rich:column>
-                   
+                   <rich:column>  
+		               <h:outputText value="#{linha.valorUnit}" />  
+                   </rich:column>
     
                    <rich:column styleClass="col1">
 						<a4j:commandLink ajaxSingle="true" id="editlinklinha" 
@@ -251,7 +259,7 @@
 						</a4j:commandLink>
 						<rich:toolTip for="editlinklinha" value="Editar Registro" />
 						<a4j:commandLink ajaxSingle="true" id="deletelinklinha"
-							reRender="grupoList" action="#{reqServClienteCB.reqServMB.apagar}" oncomplete="#{rich:component('confirmationMessage')}.show()">
+							reRender="linhaList" action="#{reqServClienteCB.reqServMB.apagar}" oncomplete="#{rich:component('confirmationMessage')}.show()">
 							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{linha}"
 								target="#{reqServClienteCB.reqServMB.linhaReqServ}" />
@@ -261,7 +269,73 @@
                     <f:facet name="footer">
                			<rich:datascroller id="dslinha" maxPages="3" renderIfSinglePage="true"/>
                   	</f:facet>   
-               </rich:dataTable>                
+               </rich:dataTable>   
+               </td>
+               <td width="200">
+               <!-- === GRID OP === -->
+               <rich:dataTable value="#{reqServClienteCB.reqServMB.reqServico.opcionais}" var="op"    
+                   rowClasses="row1, row2" id="opList" rows="5"  
+                   columnClasses="400,50,50" 
+                   onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
+                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+                   width="500"
+                   align="center">  
+                   <f:facet name="header">  
+                       <rich:columnGroup>  
+  
+                           <rich:column colspan="8">  
+                               <h:outputText value="opcionais da Requisição" />  
+                           </rich:column>  
+  
+                           <rich:column breakBefore="true">  
+                               <h:outputText value="Opcional"/>  
+                           </rich:column>  
+                           <rich:column>  
+                               <h:outputText value="Quant."/>  
+                           </rich:column>                             
+                           <rich:column>  
+                               <h:outputText value="Valor Unit."/>  
+                           </rich:column>                             
+                             
+                           <rich:column/>  
+								                           
+                       </rich:columnGroup>  
+                   </f:facet>  
+  
+                   <rich:column>  
+		               <h:outputText value="#{op.opcionaisReqServ.nomeItem}" />  
+                   </rich:column>  
+                   <rich:column>  
+		               <h:outputText value="#{op.quantidade}" />  
+                   </rich:column>
+                   <rich:column>  
+		               <h:outputText value="#{op.opcionaisReqServ.valorItem+op.quantidade}" />  
+                   </rich:column>
+    
+                   <rich:column styleClass="col1">
+						<a4j:commandLink ajaxSingle="true" id="editlinklinha2" 
+						    reRender="reqServ" action="#{reqServClienteCB.reqServMB.editarLinha}" >
+							<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+							<f:setPropertyActionListener value="#{op}"
+								target="#{reqServClienteCB.reqServMB.opcional}" />
+						</a4j:commandLink>
+						<rich:toolTip for="editlinklinha" value="Editar Registro" />
+						<a4j:commandLink ajaxSingle="true" id="deletelinklinha"
+							reRender="opList" action="#{reqServClienteCB.reqServMB.apagar}" oncomplete="#{rich:component('confirmationMessage')}.show()">
+							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{op}"
+								target="#{reqServClienteCB.reqServMB.opcional}" />
+						</a4j:commandLink>
+						<rich:toolTip for="deletelinklinha" value="Apagar Registro" />
+					</rich:column> 
+                    <f:facet name="footer">
+               			<rich:datascroller id="dsop" maxPages="3" renderIfSinglePage="true"/>
+                  	</f:facet>   
+               </rich:dataTable>  
+               </td>
+               </tr>
+               </table>
+               </center>
            </rich:panel>           
        </h:form>  					
  
@@ -347,7 +421,7 @@
 				<rich:column styleClass="col1">
 					<a4j:commandLink ajaxSingle="true" 
 						                 id="editlinkcli" 
-					    				 reRender="cliente" 
+					    				 reRender="cliente,reqServ" 
 					    				 oncomplete=" #{rich:component('modalCliente')}.hide();"
 					    				 >
 						<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />

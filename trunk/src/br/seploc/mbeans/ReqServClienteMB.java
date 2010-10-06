@@ -13,7 +13,6 @@ import br.seploc.pojos.OpcionaisReqServ;
 import br.seploc.pojos.Entrega;
 import br.seploc.pojos.Papel;
 import br.seploc.pojos.Projeto;
-import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
@@ -39,6 +38,7 @@ public class ReqServClienteMB implements Serializable{
 	private String filtroProjeto;	
 	private String filtroCliente;
 	private int quantidadeOpcional;
+	private int numReqSelecionado;
 	
 	// CONSTRUTOR
 	/**
@@ -48,7 +48,7 @@ public class ReqServClienteMB implements Serializable{
 		cliente = new Cliente();
 		cliente.setIdCliente(0);
 		opcional = new OpcionaisReqServ();
-//		entrega = new Entrega();
+		entrega = new Entrega();
 		papel = new Papel();
 		projeto = new Projeto();
 		linhaReqServ = new LinhaRequisicao();
@@ -161,6 +161,14 @@ public class ReqServClienteMB implements Serializable{
 		return linhaReqServ;
 	}
 
+	public void setNumReqSelecionado(int numReqSelecionado) {
+		this.numReqSelecionado = numReqSelecionado;
+	}
+
+	public int getNumReqSelecionado() {
+		return numReqSelecionado;
+	}
+
 	public RequisicaoServicoDAO getReqServicoDAO() {
 		return reqServicoDAO;
 	}
@@ -218,6 +226,7 @@ public class ReqServClienteMB implements Serializable{
 	public void cadastrar(){
 		if (reqServico.getNumReq() == null || reqServico.getNumReq() == 0){
 			try{
+				reqServico.setValorTotal(0.0);
 				//setar data de criação da requisição
 				java.util.Date data = new java.util.Date();  
 				java.sql.Date hoje = new java.sql.Date(data.getTime());  
@@ -230,9 +239,6 @@ public class ReqServClienteMB implements Serializable{
 					reqServico.setValorEnt(entrega.getPreco());
 					reqServico.setValorTotal(reqServico.getValorTotal()+entrega.getPreco());
 				}
-				//calculos
-				
-
 				// adicionar a requisição de serviço
 				reqServicoDAO.adiciona(reqServico);					
 				
@@ -242,7 +248,7 @@ public class ReqServClienteMB implements Serializable{
 				// adicionar o opcional
 				if (quantidadeOpcional >= 1){
 					reqServicoDAO.addOpcional(reqServico, opcional, quantidadeOpcional);
-					reqServico.setValorTotal(reqServico.getValorTotal()+opcional.getValorItem());
+					reqServico.setValorTotal(reqServico.getValorTotal() + (opcional.getValorItem() * quantidadeOpcional));
 				}
 				//adicionar a linha
 				if (linhaReqServ.getQuant() >= 1){
@@ -251,16 +257,21 @@ public class ReqServClienteMB implements Serializable{
 					linhaReqServ.setPapel(papel);
 					double valorPapel = 0.0;
 					//verificar a cor em uso
-					if (linhaReqServ.getImpressao() == "Mono")  
+					if (linhaReqServ.getImpressao().equalsIgnoreCase("Mono"))  
 						valorPapel = papel.getImpMono();
-					if (linhaReqServ.getImpressao() == "Color") 
+					if (linhaReqServ.getImpressao().equalsIgnoreCase("Color")) 
 						valorPapel = papel.getImpColor();
-					else valorPapel = papel.getImpShade();
+					if (linhaReqServ.getImpressao().equalsIgnoreCase("Shade"))
+						valorPapel = papel.getImpShade();
+					
+					double valorUnit = (linhaReqServ.getDimensao() * linhaReqServ.getFormato()) + valorPapel;									   
+					linhaReqServ.setValorSubUnit(valorUnit);
+					linhaReqServ.setValorUnit(valorUnit * linhaReqServ.getQuant());
 										
 					reqServicoDAO.addLinha(reqServico, linhaReqServ);					
-					reqServico.setValorTotal(reqServico.getValorTotal()+valorPapel);
+					reqServico.setValorTotal(reqServico.getValorTotal()+linhaReqServ.getValorUnit());
 				}		
-		
+				reqServicoDAO.altera(reqServico);
 				addGlobalMessage("Inclusão feita com sucesso!");
 			} catch (ValidatorException e) {
 				addGlobalMessage(e.getMessage());		
@@ -272,25 +283,43 @@ public class ReqServClienteMB implements Serializable{
 			temp = null;
 			try {
 				temp = reqServicoDAO.recupera(reqServico.getNumReq());
+				
+				if (temp != null) {
+					// adicionar o opcional
+					if (quantidadeOpcional >= 1){
+						reqServicoDAO.addOpcional(temp, opcional, quantidadeOpcional);
+						temp.setValorTotal(temp.getValorTotal() + (opcional.getValorItem() * quantidadeOpcional));
+					}
+					//adicionar a linha
+					if (linhaReqServ.getQuant() >= 1){
+						// transformar o nomePapel em Objeto Papel 
+						papel = this.converterToPapel(this.nomePapel);
+						linhaReqServ.setPapel(papel);
+						double valorPapel = 0.0;
+						//verificar a cor em uso
+						if (linhaReqServ.getImpressao().equalsIgnoreCase("Mono"))  
+							valorPapel = papel.getImpMono();
+						if (linhaReqServ.getImpressao().equalsIgnoreCase("Color")) 
+							valorPapel = papel.getImpColor();
+						if (linhaReqServ.getImpressao().equalsIgnoreCase("Shade"))
+							valorPapel = papel.getImpShade();
+						
+						double valorUnit = (linhaReqServ.getDimensao() * linhaReqServ.getFormato()) + valorPapel;									   
+						linhaReqServ.setValorSubUnit(valorUnit);
+						linhaReqServ.setValorUnit(valorUnit * linhaReqServ.getQuant());						
+						
+						reqServicoDAO.addLinha(temp, linhaReqServ);	
+						
+						temp.setValorTotal(temp.getValorTotal() + linhaReqServ.getValorUnit());
+					}		
+					reqServicoDAO.altera(temp);				
+					temp.setProjeto(reqServico.getProjeto());	
+					addGlobalMessage("Atualização feita com sucesso!");	
+				}
 			} catch (Exception e) {
 				addGlobalMessage(e.getMessage());
 			}
-			if (temp != null) {
-				temp.setNumReq(reqServico.getNumReq());
-				temp.setData(reqServico.getData());
-				temp.setEntrega(reqServico.getEntrega());
-				temp.setLinhaRequisicao(reqServico.getLinhaRequisicao());
-				temp.setOpcionais(reqServico.getOpcionais());
-				temp.setProjeto(reqServico.getProjeto());
-				temp.setValorTotal(reqServico.getValorTotal());
 			
-				try{
-					reqServicoDAO.altera(temp);				
-					addGlobalMessage("Atualização feita com sucesso!");					
-				} catch (Exception e) {
-					addGlobalMessage(e.getMessage());
-				}				
-			}
 		}
 		this.limparLinhaOpcional();
 	}
@@ -298,6 +327,7 @@ public class ReqServClienteMB implements Serializable{
 	public void editar(){
 		try{
 			reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());
@@ -334,7 +364,7 @@ public class ReqServClienteMB implements Serializable{
 		linhaReqServ = new LinhaRequisicao();
 	}
 	
-	public Papel converterToPapel(String nome) throws ValidatorException, Exception{		
+	private Papel converterToPapel(String nome) throws ValidatorException, Exception{		
 		Papel papel = new Papel();
 		
 		//verificar se o nome do papel informado é válido
