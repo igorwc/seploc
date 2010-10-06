@@ -184,5 +184,12 @@
  Configuracao do Facelets -->
  <application>
   <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+  <locale-config>
+   <default-locale>pt</default-locale>
+  </locale-config>
+  <resource-bundle>
+   <base-name>messages</base-name>
+   <var>msgs</var>
+  </resource-bundle>
  </application>
 </faces-config>
