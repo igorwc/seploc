@@ -390,7 +390,7 @@
 			</h:panelGroup>
 		</f:facet>
 		<h:form>
-			<rich:dataTable value="#{reqServClienteCB.reqServMB.todosClientes}" var="cli" rows="10"
+			<rich:dataTable value="#{appBean.listaClientes}" var="cli" rows="10"
 				reRender="dsCliente" id="simpletable" >
 				<f:facet name="header">
 					<rich:columnGroup>
@@ -414,14 +414,14 @@
 				</rich:column>
 				<rich:column filterBy="#{cli.fantasia}" 
 							 filterEvent="onkeyup"
-							 filterValue="#{reqServClienteCB.reqServMB.filtroCliente}">
+							 filterValue="#{reqServClienteCB.reqServMB.filtroCliente}" >
 					<h:outputText value="#{cli.fantasia}" />
 				</rich:column>
 				
 				<rich:column styleClass="col1">
 					<a4j:commandLink ajaxSingle="true" 
 						                 id="editlinkcli" 
-					    				 reRender="cliente,reqServ" 
+					    				 reRender="cliente,reqServ,modalProjeto" 
 					    				 oncomplete=" #{rich:component('modalCliente')}.hide();"
 					    				 >
 						<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
