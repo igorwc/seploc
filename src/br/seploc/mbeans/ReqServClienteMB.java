@@ -218,7 +218,15 @@ public class ReqServClienteMB implements Serializable {
 		if (cliente == null || cliente.getIdCliente().intValue() == 0) {
 			retorno = new ArrayList<Projeto>();
 		} else {
-			retorno = cliente.getProjetos();
+			if(cliente.getProjetos().isEmpty()){
+				retorno = new ArrayList<Projeto>();
+				Projeto p = new Projeto();
+				p.setCodProj(0);
+				p.setProjeto("Cliente não tem projetos");
+				retorno.add(p);
+			}else{
+				retorno = cliente.getProjetos();
+			}
 		}
 		return retorno;
 	}
