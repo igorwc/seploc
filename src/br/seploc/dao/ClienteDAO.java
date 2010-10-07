@@ -109,9 +109,9 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 
 	@SuppressWarnings("unchecked")
 	public List<Cliente> getLista() {
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		Query q = em.createNamedQuery("Cliente.RetornaClientes");
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 		return (List<Cliente>) q.getResultList();
 	}
 
