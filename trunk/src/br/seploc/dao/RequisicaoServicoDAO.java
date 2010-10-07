@@ -1,5 +1,6 @@
 package br.seploc.dao;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import br.seploc.pojos.RequisicaoServico;
 import br.seploc.util.GenericDAO;
 
 public class RequisicaoServicoDAO extends
-		GenericDAO<RequisicaoServico, Integer> {
+		GenericDAO<RequisicaoServico, Integer> implements Serializable{
 
 	@Override
 	public void adiciona(RequisicaoServico t) throws Exception {
