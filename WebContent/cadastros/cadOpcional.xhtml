@@ -44,6 +44,11 @@
     padding-left: 10px;
     height: 15pt;
 }
+.formulario, .formulario TD, .formulario TH
+{
+	background-color : #f2f2f5;	
+}
+
 </style> 
 
 
@@ -61,7 +66,7 @@
            <rich:panel header="Opcional">
 			   <!-- Formulario -->
 			   <center>
-               <rich:panel header="Cadastro do Opcional" style="width: 500px">
+               <rich:panel header="Cadastro do Opcional" style="width: 500px" bodyClass="formulario">
                  <table	border="0">                 
 					<tr align="left">
 					<td><h:outputText value="Nome Opcional: " styleClass="texto"/></td>

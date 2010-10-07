@@ -44,6 +44,11 @@
     padding-left: 10px;
     height: 15pt;
 }
+.formulario, .formulario TD, .formulario TH
+{
+	background-color : #f2f2f5;	
+}
+
 </style> 
 
 
@@ -62,7 +67,7 @@
            <rich:panel header="Cobrador">
 			   <!-- Formulario -->
 			   <center>
-               <rich:panel header="Cadastro de Cobrador" style="width: 600px">
+               <rich:panel header="Cadastro de Cobrador" style="width: 600px" bodyClass="formulario">
                  <table	border="0" >               
 					<tr align="left">
 					<td><h:outputText value="Nome Cobrador: " styleClass="texto"/></td>
