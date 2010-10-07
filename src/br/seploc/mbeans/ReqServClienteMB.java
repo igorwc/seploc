@@ -1,6 +1,7 @@
 package br.seploc.mbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -21,12 +22,12 @@ import br.seploc.dao.PapelDAO;
 import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 
-public class ReqServClienteMB implements Serializable{
+public class ReqServClienteMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private RequisicaoServico reqServico;
 	private RequisicaoServicoDAO reqServicoDAO;
-	private Cliente cliente;	
+	private Cliente cliente;
 	private OpcionaisReqServ opcional;
 	private Entrega entrega;
 	private Papel papel;
@@ -34,17 +35,17 @@ public class ReqServClienteMB implements Serializable{
 	private LinhaRequisicao linhaReqServ;
 	private String nomePapel;
 	private String filtroOpcional;
-	private String filtroEntrega;	
-	private String filtroProjeto;	
+	private String filtroEntrega;
+	private String filtroProjeto;
 	private String filtroCliente;
 	private int quantidadeOpcional;
 	private int numReqSelecionado;
-	
+
 	// CONSTRUTOR
 	/**
 	 * Construtor da classe
 	 */
-	public ReqServClienteMB(){
+	public ReqServClienteMB() {
 		cliente = new Cliente();
 		cliente.setIdCliente(0);
 		opcional = new OpcionaisReqServ();
@@ -53,7 +54,9 @@ public class ReqServClienteMB implements Serializable{
 		projeto = new Projeto();
 		linhaReqServ = new LinhaRequisicao();
 		reqServico = new RequisicaoServico();
-		reqServicoDAO = new RequisicaoServicoDAO();		
+		reqServicoDAO = new RequisicaoServicoDAO();
+		filtroCliente = "";
+		ClienteDAO clienteDAO = new ClienteDAO();
 	}
 
 	// GETTERS E SETTERS
@@ -176,105 +179,120 @@ public class ReqServClienteMB implements Serializable{
 	public void setReqServicoDAO(RequisicaoServicoDAO reqServicoDAO) {
 		this.reqServicoDAO = reqServicoDAO;
 	}
-	
-	public List<Cliente> getTodosClientes(){
+
+	public List<Cliente> getTodosClientes() {
 		ClienteDAO clienteDAO = new ClienteDAO();
 		List<Cliente> retorno = clienteDAO.getLista();
-		
+		filtroCliente = "";
 		return retorno;
 	}
-	
-	public List<Papel> getTodosPapeis(){
-		PapelDAO papelDAO  = new PapelDAO();
+
+	public List<Papel> getTodosPapeis() {
+		PapelDAO papelDAO = new PapelDAO();
 		List<Papel> retorno = papelDAO.getLista();
 
-		return retorno;		
+		return retorno;
 	}
-	
-	public List<OpcionaisReqServ> getTodosOpcionais(){
+
+	public List<OpcionaisReqServ> getTodosOpcionais() {
 		OpcionaisReqServDAO opcionalDAO = new OpcionaisReqServDAO();
 		List<OpcionaisReqServ> retorno = opcionalDAO.getLista();
-		
+
 		return retorno;
 	}
-	
-	public List<Entrega> getTodasEntregas(){
+
+	public List<Entrega> getTodasEntregas() {
 		EntregaDAO entregaDAO = new EntregaDAO();
 		List<Entrega> retorno = entregaDAO.getLista();
-		
+
 		return retorno;
 	}
-	
-	public List<Projeto> getTodosProjetos(){
-		ProjetoDAO projetoDAO = new ProjetoDAO();
-		List<Projeto> retorno = projetoDAO.getListaProjetoPorCliente(cliente);
-		
+
+	public List<Projeto> getTodosProjetos() {
+		// List<Projeto> retorno = new ArrayList<Projeto>();
+		// if (cliente.getIdCliente().intValue() != 0) {
+		// ProjetoDAO projetoDAO = new ProjetoDAO();
+		// retorno = projetoDAO.getListaProjetoPorCliente(cliente);
+		// }
+		List<Projeto> retorno = null;
+		if (cliente == null || cliente.getIdCliente().intValue() == 0) {
+			retorno = new ArrayList<Projeto>();
+		} else {
+			retorno = cliente.getProjetos();
+		}
 		return retorno;
 	}
-	
-	public List<RequisicaoServico> getLista(){
+
+	public List<RequisicaoServico> getLista() {
 		List<RequisicaoServico> retorno = reqServicoDAO.getLista();
-		return retorno; 
-	}
-	
-	public List<RequisicaoServico> getTodasReqServPorCliente(Cliente cliente){
-		List<RequisicaoServico> retorno = reqServicoDAO.getListaPorPorjeto(cliente);
-		
 		return retorno;
 	}
-	
-	public void cadastrar(){
-		if (reqServico.getNumReq() == null || reqServico.getNumReq() == 0){
-			try{
+
+	public List<RequisicaoServico> getTodasReqServPorCliente(Cliente cliente) {
+		List<RequisicaoServico> retorno = reqServicoDAO
+				.getListaPorPorjeto(cliente);
+
+		return retorno;
+	}
+
+	public void cadastrar() {
+		if (reqServico.getNumReq() == null || reqServico.getNumReq() == 0) {
+			try {
 				reqServico.setValorTotal(0.0);
-				//setar data de criação da requisição
-				java.util.Date data = new java.util.Date();  
-				java.sql.Date hoje = new java.sql.Date(data.getTime());  
-				reqServico.setData(hoje);				
-				//adicionar projeto
+				// setar data de criação da requisição
+				java.util.Date data = new java.util.Date();
+				java.sql.Date hoje = new java.sql.Date(data.getTime());
+				reqServico.setData(hoje);
+				// adicionar projeto
 				reqServico.setProjeto(projeto);
-				//adicionar a entrega
-				if (entrega.getCodEntrega() >= 1){
+				// adicionar a entrega
+				if (entrega.getCodEntrega() >= 1) {
 					reqServico.setEntrega(entrega);
 					reqServico.setValorEnt(entrega.getPreco());
-					reqServico.setValorTotal(reqServico.getValorTotal()+entrega.getPreco());
+					reqServico.setValorTotal(reqServico.getValorTotal()
+							+ entrega.getPreco());
 				}
 				// adicionar a requisição de serviço
-				reqServicoDAO.adiciona(reqServico);					
-				
+				reqServicoDAO.adiciona(reqServico);
+
 				// recuperar a requisicao
 				reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
-				
+
 				// adicionar o opcional
-				if (quantidadeOpcional >= 1){
-					reqServicoDAO.addOpcional(reqServico, opcional, quantidadeOpcional);
-					reqServico.setValorTotal(reqServico.getValorTotal() + (opcional.getValorItem() * quantidadeOpcional));
+				if (quantidadeOpcional >= 1) {
+					reqServicoDAO.addOpcional(reqServico, opcional,
+							quantidadeOpcional);
+					reqServico.setValorTotal(reqServico.getValorTotal()
+							+ (opcional.getValorItem() * quantidadeOpcional));
 				}
-				//adicionar a linha
-				if (linhaReqServ.getQuant() >= 1){
-					// transformar o nomePapel em Objeto Papel 
+				// adicionar a linha
+				if (linhaReqServ.getQuant() >= 1) {
+					// transformar o nomePapel em Objeto Papel
 					papel = this.converterToPapel(this.nomePapel);
 					linhaReqServ.setPapel(papel);
 					double valorPapel = 0.0;
-					//verificar a cor em uso
-					if (linhaReqServ.getImpressao().equalsIgnoreCase("Mono"))  
+					// verificar a cor em uso
+					if (linhaReqServ.getImpressao().equalsIgnoreCase("Mono"))
 						valorPapel = papel.getImpMono();
-					if (linhaReqServ.getImpressao().equalsIgnoreCase("Color")) 
+					if (linhaReqServ.getImpressao().equalsIgnoreCase("Color"))
 						valorPapel = papel.getImpColor();
 					if (linhaReqServ.getImpressao().equalsIgnoreCase("Shade"))
 						valorPapel = papel.getImpShade();
-					
-					double valorUnit = (linhaReqServ.getDimensao() * linhaReqServ.getFormato()) + valorPapel;									   
+
+					double valorUnit = (linhaReqServ.getDimensao() * linhaReqServ
+							.getFormato()) + valorPapel;
 					linhaReqServ.setValorSubUnit(valorUnit);
-					linhaReqServ.setValorUnit(valorUnit * linhaReqServ.getQuant());
-										
-					reqServicoDAO.addLinha(reqServico, linhaReqServ);					
-					reqServico.setValorTotal(reqServico.getValorTotal()+linhaReqServ.getValorUnit());
-				}		
+					linhaReqServ.setValorUnit(valorUnit
+							* linhaReqServ.getQuant());
+
+					reqServicoDAO.addLinha(reqServico, linhaReqServ);
+					reqServico.setValorTotal(reqServico.getValorTotal()
+							+ linhaReqServ.getValorUnit());
+				}
 				reqServicoDAO.altera(reqServico);
 				addGlobalMessage("Inclusão feita com sucesso!");
 			} catch (ValidatorException e) {
-				addGlobalMessage(e.getMessage());		
+				addGlobalMessage(e.getMessage());
 			} catch (Exception e) {
 				addGlobalMessage(e.getMessage());
 			}
@@ -283,59 +301,67 @@ public class ReqServClienteMB implements Serializable{
 			temp = null;
 			try {
 				temp = reqServicoDAO.recupera(reqServico.getNumReq());
-				
+
 				if (temp != null) {
 					// adicionar o opcional
-					if (quantidadeOpcional >= 1){
-						reqServicoDAO.addOpcional(temp, opcional, quantidadeOpcional);
-						temp.setValorTotal(temp.getValorTotal() + (opcional.getValorItem() * quantidadeOpcional));
+					if (quantidadeOpcional >= 1) {
+						reqServicoDAO.addOpcional(temp, opcional,
+								quantidadeOpcional);
+						temp.setValorTotal(temp.getValorTotal()
+								+ (opcional.getValorItem() * quantidadeOpcional));
 					}
-					//adicionar a linha
-					if (linhaReqServ.getQuant() >= 1){
-						// transformar o nomePapel em Objeto Papel 
+					// adicionar a linha
+					if (linhaReqServ.getQuant() >= 1) {
+						// transformar o nomePapel em Objeto Papel
 						papel = this.converterToPapel(this.nomePapel);
 						linhaReqServ.setPapel(papel);
 						double valorPapel = 0.0;
-						//verificar a cor em uso
-						if (linhaReqServ.getImpressao().equalsIgnoreCase("Mono"))  
+						// verificar a cor em uso
+						if (linhaReqServ.getImpressao()
+								.equalsIgnoreCase("Mono"))
 							valorPapel = papel.getImpMono();
-						if (linhaReqServ.getImpressao().equalsIgnoreCase("Color")) 
+						if (linhaReqServ.getImpressao().equalsIgnoreCase(
+								"Color"))
 							valorPapel = papel.getImpColor();
-						if (linhaReqServ.getImpressao().equalsIgnoreCase("Shade"))
+						if (linhaReqServ.getImpressao().equalsIgnoreCase(
+								"Shade"))
 							valorPapel = papel.getImpShade();
-						
-						double valorUnit = (linhaReqServ.getDimensao() * linhaReqServ.getFormato()) + valorPapel;									   
+
+						double valorUnit = (linhaReqServ.getDimensao() * linhaReqServ
+								.getFormato()) + valorPapel;
 						linhaReqServ.setValorSubUnit(valorUnit);
-						linhaReqServ.setValorUnit(valorUnit * linhaReqServ.getQuant());						
-						
-						reqServicoDAO.addLinha(temp, linhaReqServ);	
-						
-						temp.setValorTotal(temp.getValorTotal() + linhaReqServ.getValorUnit());
-					}		
-					reqServicoDAO.altera(temp);				
-					temp.setProjeto(reqServico.getProjeto());	
-					addGlobalMessage("Atualização feita com sucesso!");	
+						linhaReqServ.setValorUnit(valorUnit
+								* linhaReqServ.getQuant());
+
+						reqServicoDAO.addLinha(temp, linhaReqServ);
+
+						temp.setValorTotal(temp.getValorTotal()
+								+ linhaReqServ.getValorUnit());
+					}
+					reqServicoDAO.altera(temp);
+					temp.setProjeto(reqServico.getProjeto());
+					addGlobalMessage("Atualização feita com sucesso!");
 				}
 			} catch (Exception e) {
 				addGlobalMessage(e.getMessage());
 			}
-			
+
 		}
 		this.limparLinhaOpcional();
 	}
-	
-	public void editar(){
-		try{
+
+	public void editar() {
+		try {
 			reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());
-		}	
+		}
 	}
-	
-	public void apagar(){
-		try{
+
+	public void apagar() {
+		try {
 			reqServicoDAO.remove(reqServico.getNumReq());
 			addGlobalMessage("Excluído com sucesso!");
 		} catch (Exception e) {
@@ -343,8 +369,8 @@ public class ReqServClienteMB implements Serializable{
 		}
 		this.limpar();
 	}
-	
-	public void limpar(){
+
+	public void limpar() {
 		cliente = new Cliente();
 		cliente.setIdCliente(0);
 		opcional = new OpcionaisReqServ();
@@ -355,38 +381,40 @@ public class ReqServClienteMB implements Serializable{
 		reqServico = new RequisicaoServico();
 		reqServicoDAO = new RequisicaoServicoDAO();
 	}
-	
-	public void limparLinhaOpcional(){
+
+	public void limparLinhaOpcional() {
 		opcional = new OpcionaisReqServ();
 		papel = new Papel();
 		nomePapel = "";
 		quantidadeOpcional = 0;
 		linhaReqServ = new LinhaRequisicao();
 	}
-	
-	private Papel converterToPapel(String nome) throws ValidatorException, Exception{		
+
+	private Papel converterToPapel(String nome) throws ValidatorException,
+			Exception {
 		Papel papel = new Papel();
-		
-		//verificar se o nome do papel informado é válido
-		if (this.validatePapeis(nome)) {				
+
+		// verificar se o nome do papel informado é válido
+		if (this.validatePapeis(nome)) {
 			PapelDAO papelDAO = new PapelDAO();
-								
-			if (papelDAO.getListaPapelPorNome(nome).size() > 1){			
-				throw new Exception("Existe mais de um papel como o mesmo nome!");
+
+			if (papelDAO.getListaPapelPorNome(nome).size() > 1) {
+				throw new Exception(
+						"Existe mais de um papel como o mesmo nome!");
 			} else {
-				for (Papel p : papelDAO.getListaPapelPorNome(nome)){
+				for (Papel p : papelDAO.getListaPapelPorNome(nome)) {
 					papel = p;
 				}
 			}
 		}
-		
+
 		return papel;
 	}
-	
-	private boolean validatePapeis(String nomePapel){
-		PapelDAO papelDAO = new PapelDAO(); 
+
+	private boolean validatePapeis(String nomePapel) {
+		PapelDAO papelDAO = new PapelDAO();
 		List<String> papeis = papelDAO.getPapeis();
-				 
+
 		String nome = nomePapel.toString();
 		boolean flag = false;
 		for (String s : papeis) {
@@ -398,14 +426,14 @@ public class ReqServClienteMB implements Serializable{
 			FacesMessage message = new FacesMessage("Nome Papel Inválido");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
-		}		
-		
+		}
+
 		return flag;
-		
+
 	}
-	
+
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-	}	
+	}
 }

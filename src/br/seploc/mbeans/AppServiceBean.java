@@ -1,6 +1,7 @@
 package br.seploc.mbeans;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -9,12 +10,15 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 
+import br.seploc.dao.BairroDAO;
 import br.seploc.dao.CidadeDAO;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
 import br.seploc.dao.PapelDAO;
 import br.seploc.dao.OpcionaisReqServDAO;
+import br.seploc.pojos.Bairro;
 import br.seploc.pojos.Cidade;
+import br.seploc.pojos.Cliente;
 import br.seploc.pojos.Entrega;
 import br.seploc.pojos.Estado;
 import br.seploc.pojos.OpcionaisReqServ;
@@ -26,12 +30,15 @@ public class AppServiceBean {
 	private List<String> opcionais;
 	private List<String> nomesCliente;
 	private String cidadeCorrente = "";
-
+    private List<Cliente> listaClientes;
 	private int tamanholistaPapel;
 	private int tamanholistaEntrega;
 	private int tamanholistaOpcionais;
 	private int tamanholistaClientes;
+	
+	private long ultimaConsultaCliente;
 
+	
 	/**
 	 * @return the cidadeCorrente
 	 */
@@ -252,7 +259,30 @@ public class AppServiceBean {
 		}
 
 	}
-	
+	public List<Cliente> getListaClientes( ) {
+		long today = 0;
+		 
+		ClienteDAO clienteDAO =  new ClienteDAO();
+		if (ultimaConsultaCliente == 0  ) {
+			ultimaConsultaCliente = Calendar.getInstance().getTimeInMillis();
+			 
+			today = ultimaConsultaCliente;
+			listaClientes = clienteDAO.getLista();
+		}else{
+			today = Calendar.getInstance().getTimeInMillis();
+		}
+		long diff = today - ultimaConsultaCliente;
+		if (!(((diff / 1000) / 60) < 5)) {
+			listaClientes = clienteDAO.getLista();
+			ultimaConsultaCliente = Calendar.getInstance().getTimeInMillis();
+		}
+		 
+		return listaClientes;
+	}
+
+	public AppServiceBean() {
+		getListaClientes();
+	}
 	
 	
 	
