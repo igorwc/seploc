@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatioRequisicao" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="216"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="style1" pattern="">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)  ]]></conditionExpression>
+			<style backcolor="#CCCCFF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="detalhe">
+		<parameter name="data_inicio" class="java.util.Date">
+			<defaultValueExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "data_inicio" )]]></defaultValueExpression>
+		</parameter>
+		<parameter name="data_fim" class="java.util.Date">
+			<defaultValueExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "data_fim" )]]></defaultValueExpression>
+		</parameter>
+		<parameter name="cliente_id" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[(java.lang.Integer)$P{REPORT_PARAMETERS_MAP}.get( "cliente_id" )]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT
+     tbl_reqserv.`intNumreq` AS intNumreq,
+     tbl_reqserv.`datData` AS datData,
+     tbl_reqserv.`dblValorTotal` AS dblValorTotal,
+     tbl_projetos.`intClienteId` AS intClienteId,
+     tbl_projetos.`vcrProjeto` AS  vcrProjeto
+FROM
+     `tbl_projetos` tbl_projetos INNER JOIN `tbl_reqserv` tbl_reqserv ON tbl_projetos.`intCodProj` = tbl_reqserv.`intCodProj`
+WHERE
+      datData >= $P{data_inicio}
+     and   datData <= $P{data_fim}
+     and intClienteId = $P{cliente_id}]]>
+		</queryString>
+		<field name="intNumreq" class="java.lang.Integer"/>
+		<field name="vcrProjeto" class="java.lang.String"/>
+		<field name="datData" class="java.sql.Date"/>
+		<field name="dblValorTotal" class="java.lang.Double"/>
+		<variable name="soma" class="java.lang.Double" incrementType="Group" incrementGroup="group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{dblValorTotal}]]></variableExpression>
+			<initialValueExpression><![CDATA[]]></initialValueExpression>
+		</variable>
+		<group name="group1">
+			<groupExpression><![CDATA[$F{dblValorTotal}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="cliente_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Desenvolvimento\\workspaceSADBA\\seploc\\WebContent\\WEB-INF\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="data_inicio" class="java.util.Date"/>
+	<parameter name="data_fim" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT
+     tbl_clientes.`intClienteId` AS  Id,
+     tbl_clientes.`vcrRazao` AS Razao,
+     tbl_clientes.`vcrCpf` AS doc,
+     tbl_clientes.`vcrEnder` AS  Ender,
+     tbl_clientes.`vcrBairro` AS Bairro,
+     tbl_clientes.`vcrCidade` AS Cidade,
+     tbl_clientes.`vcrEstado` AS  Estado,
+     tbl_clientes.`vcrCep` AS Cep,
+     tbl_clientes.`vcrEmail` AS  Email,
+     tbl_clientes.`vcrInscricao` AS  Inscricao,
+     tbl_clientes.`intBalcao` AS Balcao,
+     tbl_clientes.`vcrFantasia` AS Fantasia,
+     tbl_clientes.`txtobs` AS  obs,
+     tbl_clientes.`vcrMapa` AS  Mapa,
+     tbl_clientes.`intEntregaPadrao` AS  EntregaPadrao,
+     tbl_clientes.`intPapelPadrao` AS  PapelPadrao,
+     tbl_clientes.`tspVersao` AS  Versao
+FROM
+     `tbl_clientes` tbl_clientes
+WHERE
+     vcrCnpj IS null and intClienteId = $P{cliente_id}
+UNION
+SELECT
+     tbl_clientes.`intClienteId` AS  Id,
+     tbl_clientes.`vcrRazao` AS  Razao,
+     tbl_clientes.`vcrCnpj` AS doc,
+    tbl_clientes.`vcrEnder` AS  Ender,
+     tbl_clientes.`vcrBairro` AS Bairro,
+     tbl_clientes.`vcrCidade` AS Cidade,
+     tbl_clientes.`vcrEstado` AS  Estado,
+     tbl_clientes.`vcrCep` AS Cep,
+     tbl_clientes.`vcrEmail` AS  Email,
+     tbl_clientes.`vcrInscricao` AS  Inscricao,
+     tbl_clientes.`intBalcao` AS Balcao,
+     tbl_clientes.`vcrFantasia` AS Fantasia,
+     tbl_clientes.`txtobs` AS  obs,
+     tbl_clientes.`vcrMapa` AS  Mapa,
+     tbl_clientes.`intEntregaPadrao` AS  EntregaPadrao,
+     tbl_clientes.`intPapelPadrao` AS  PapelPadrao,
+     tbl_clientes.`tspVersao` AS  Versao
+FROM
+     `tbl_clientes` tbl_clientes
+WHERE
+     vcrCpf IS null and intClienteId = $P{cliente_id}]]>
+	</queryString>
+	<field name="Id" class="java.lang.Integer"/>
+	<field name="Razao" class="java.lang.String"/>
+	<field name="doc" class="java.lang.String"/>
+	<field name="Ender" class="java.lang.String"/>
+	<field name="Bairro" class="java.lang.String"/>
+	<field name="Cidade" class="java.lang.String"/>
+	<field name="Estado" class="java.lang.String"/>
+	<field name="Cep" class="java.lang.String"/>
+	<field name="Email" class="java.lang.String"/>
+	<field name="Inscricao" class="java.lang.String"/>
+	<field name="Balcao" class="java.lang.Integer"/>
+	<field name="Fantasia" class="java.lang.String"/>
+	<field name="obs" class="java.lang.String"/>
+	<field name="Mapa" class="java.lang.String"/>
+	<field name="EntregaPadrao" class="java.lang.Integer"/>
+	<field name="PapelPadrao" class="java.lang.Integer"/>
+	<field name="Versao" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="56" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="259" height="53"/>
+				<textElement/>
+				<text><![CDATA[Copytec - M. Alves dos Santos - ME
+Rua Estrada do Barbalho, n 219 - Iputinga
+CEP: 50800-290 - FONE/FAX: (81) 3273-4711/3274-3569
+CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="476" y="0" width="55" height="14"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="532" y="0" width="23" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="500" y="14" width="55" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm">
+				<reportElement x="500" y="29" width="55" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="475" y="14" width="25" height="14"/>
+				<textElement/>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="474" y="29" width="26" height="14"/>
+				<textElement/>
+				<text><![CDATA[Hora:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="53" width="555" height="1"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="86">
+			<line>
+				<reportElement x="0" y="60" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="2" y="62" width="49" height="14"/>
+				<textElement/>
+				<text><![CDATA[Período de ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="53" y="62" width="47" height="14"/>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{data_inicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="100" y="62" width="13" height="14"/>
+				<textElement/>
+				<text><![CDATA[ a]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="113" y="62" width="100" height="14"/>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{data_fim}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="81" width="555" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="-86" width="81" height="15"/>
+				<textElement/>
+				<text><![CDATA[Nome do Cliente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="-57" width="69" height="14"/>
+				<textElement/>
+				<text><![CDATA[Cidade/Estado:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="-71" width="49" height="14"/>
+				<textElement/>
+				<text><![CDATA[Endereço:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="-43" width="59" height="14"/>
+				<textElement/>
+				<text><![CDATA[CNPJ/CPF:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="83" y="-86" width="248" height="14" isRemoveLineWhenBlank="true"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Fantasia}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="51" y="-71" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Ender}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="71" y="-57" width="176" height="14" isRemoveLineWhenBlank="true"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[( $F{Cidade} == null ? "" :$F{Cidade}+"/" )+( $F{Estado} == null ? "" :$F{Estado} )]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="61" y="-43" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{doc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="279" y="-71" width="31" height="14"/>
+				<textElement/>
+				<text><![CDATA[Bairro:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="279" y="-57" width="31" height="14"/>
+				<textElement/>
+				<text><![CDATA[CEP:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="310" y="-71" width="167" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Bairro}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="310" y="-57" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Cep}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table" style="Crosstab Data Text" x="0" y="1" width="555" height="61"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="detalhe">
+						<datasetParameter name="cliente_id">
+							<datasetParameterExpression><![CDATA[(java.lang.Integer)$P{REPORT_PARAMETERS_MAP}.get( "cliente_id" )]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="data_fim">
+							<datasetParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get("data_fim" )]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="data_inicio">
+							<datasetParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get("data_inicio" )]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="101">
+						<jr:tableHeader height="8" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<textField pattern="###000">
+								<reportElement x="0" y="0" width="32" height="15" forecolor="#0033FF"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<textFieldExpression class="java.lang.Integer"><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+							</textField>
+							<staticText>
+								<reportElement x="32" y="0" width="69" height="15" forecolor="#0033FF"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Requisição(s)]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:columnHeader height="19" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="14"/>
+								<textElement/>
+								<text><![CDATA[No. Req.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="6" rowSpan="1"/>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField>
+								<reportElement style="style1" mode="Opaque" x="0" y="0" width="101" height="14"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Integer"><![CDATA[$F{intNumreq}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="115">
+						<jr:tableHeader height="8" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1"/>
+						<jr:columnHeader height="19" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="14"/>
+								<textElement/>
+								<text><![CDATA[Data]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="6" rowSpan="1"/>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField pattern="dd/MM/yy">
+								<reportElement style="style1" mode="Opaque" x="0" y="0" width="115" height="14"/>
+								<textElement/>
+								<textFieldExpression class="java.util.Date"><![CDATA[$F{datData}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="192">
+						<jr:tableHeader height="8" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="120" y="0" width="72" height="14"/>
+								<textElement textAlignment="Right"/>
+								<text><![CDATA[Valor Total:]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="14" width="192" height="14"/>
+								<textElement textAlignment="Right"/>
+								<text><![CDATA[Valor Total com Desconto de 10%:]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:columnHeader height="19" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="14"/>
+								<textElement/>
+								<text><![CDATA[Projeto]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="6" rowSpan="1"/>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField>
+								<reportElement style="style1" mode="Opaque" x="0" y="1" width="192" height="14"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{vcrProjeto}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="143">
+						<jr:tableHeader height="8" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<textField evaluationTime="Auto" pattern="###0.00;-###0.00">
+								<reportElement x="0" y="0" width="143" height="14"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$V{soma}]]></textFieldExpression>
+							</textField>
+							<textField evaluationTime="Auto" pattern="###0.00;-###0.00">
+								<reportElement x="0" y="14" width="143" height="14"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$V{soma}- ($V{soma}*(10/100))]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader height="19" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="14"/>
+								<textElement/>
+								<text><![CDATA[Subtotal (R$)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="6" rowSpan="1"/>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField pattern="###0.00;-###0.00">
+								<reportElement style="style1" mode="Opaque" x="0" y="1" width="143" height="14"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{dblValorTotal}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="79" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="30" backcolor="#CCCCFF"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Double"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="247" y="0" width="52" height="14"/>
+				<textElement/>
+				<text><![CDATA[Versão 2.0]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="476" y="0" width="78" height="14"/>
+				<textElement/>
+				<text><![CDATA[Gustavo Marinho]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="477" y="14" width="67" height="14"/>
+				<textElement/>
+				<text><![CDATA[Igor Cavalcanti]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="394" y="0" width="81" height="14"/>
+				<textElement/>
+				<text><![CDATA[Desenvolvedores:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="33" splitType="Stretch"/>
+	</summary>
+</jasperReport>
