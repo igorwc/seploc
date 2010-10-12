@@ -21,6 +21,8 @@ import br.seploc.util.GenericDAO;
 public class RequisicaoServicoDAO extends
 		GenericDAO<RequisicaoServico, Integer> implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	@Override
 	public void adiciona(RequisicaoServico t) throws Exception {
 		em.getTransaction().begin();
