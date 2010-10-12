@@ -19,7 +19,6 @@ import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
 import br.seploc.dao.OpcionaisReqServDAO;
 import br.seploc.dao.PapelDAO;
-import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 
 public class ReqServClienteMB implements Serializable {
@@ -38,8 +37,10 @@ public class ReqServClienteMB implements Serializable {
 	private String filtroEntrega;
 	private String filtroProjeto;
 	private String filtroCliente;
+	private String valorTotalReq;
 	private int quantidadeOpcional;
-	private int numReqSelecionado;
+	private int numReqAtual;
+	
 
 	// CONSTRUTOR
 	/**
@@ -56,7 +57,7 @@ public class ReqServClienteMB implements Serializable {
 		reqServico = new RequisicaoServico();
 		reqServicoDAO = new RequisicaoServicoDAO();
 		filtroCliente = "";
-		ClienteDAO clienteDAO = new ClienteDAO();
+		valorTotalReq = "0,00";		
 	}
 
 	// GETTERS E SETTERS
@@ -148,6 +149,14 @@ public class ReqServClienteMB implements Serializable {
 		this.quantidadeOpcional = quantidadeOpcional;
 	}
 
+	public void setValorTotalReq(String valorTotalReq) {
+		this.valorTotalReq = valorTotalReq;
+	}
+
+	public String getValorTotalReq() {
+		return valorTotalReq;
+	}
+
 	public RequisicaoServico getReqServico() {
 		return reqServico;
 	}
@@ -164,12 +173,12 @@ public class ReqServClienteMB implements Serializable {
 		return linhaReqServ;
 	}
 
-	public void setNumReqSelecionado(int numReqSelecionado) {
-		this.numReqSelecionado = numReqSelecionado;
+	public void setNumReqAtual(int numReqSelecionado) {
+		this.numReqAtual = numReqSelecionado;
 	}
 
-	public int getNumReqSelecionado() {
-		return numReqSelecionado;
+	public int getNumReqAtual() {
+		return numReqAtual;
 	}
 
 	public RequisicaoServicoDAO getReqServicoDAO() {
@@ -258,8 +267,13 @@ public class ReqServClienteMB implements Serializable {
 					reqServico.setEntrega(entrega);
 					reqServico.setValorEnt(entrega.getPreco());
 					reqServico.setValorTotal(reqServico.getValorTotal()
-							+ entrega.getPreco());
+							+ entrega.getPreco());					
 				}
+				// inserir valores iniciais
+				reqServico.setStatus(0);
+				reqServico.setVisivelNf(0);
+				reqServico.setVisivelReq(0);
+				
 				// adicionar a requisição de serviço
 				reqServicoDAO.adiciona(reqServico);
 
@@ -298,6 +312,7 @@ public class ReqServClienteMB implements Serializable {
 							+ linhaReqServ.getValorUnit());
 				}
 				reqServicoDAO.altera(reqServico);
+				setValorTotalReq(reqServico.getValorTotal().toString());
 				addGlobalMessage("Inclusão feita com sucesso!");
 			} catch (ValidatorException e) {
 				addGlobalMessage(e.getMessage());
@@ -347,6 +362,7 @@ public class ReqServClienteMB implements Serializable {
 								+ linhaReqServ.getValorUnit());
 					}
 					reqServicoDAO.altera(temp);
+					setValorTotalReq(reqServico.getValorTotal().toString());
 					temp.setProjeto(reqServico.getProjeto());
 					addGlobalMessage("Atualização feita com sucesso!");
 				}
