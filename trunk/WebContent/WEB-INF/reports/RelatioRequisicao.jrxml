@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatioRequisicao" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="216"/>
+	<property name="ireport.y" value="120"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<style name="table">
 		<box>
@@ -26,7 +26,7 @@
 	</style>
 	<style name="style1" pattern="">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)  ]]></conditionExpression>
+			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
 			<style backcolor="#CCCCFF"/>
 		</conditionalStyle>
 	</style>
@@ -39,6 +39,9 @@
 		</parameter>
 		<parameter name="cliente_id" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[(java.lang.Integer)$P{REPORT_PARAMETERS_MAP}.get( "cliente_id" )]]></defaultValueExpression>
+		</parameter>
+		<parameter name="porcentagem" class="java.lang.Double">
+			<defaultValueExpression><![CDATA[(java.lang.Double)$P{REPORT_PARAMETERS_MAP}.get( "porcentagem" )]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT
@@ -74,6 +77,9 @@ WHERE
 	</parameter>
 	<parameter name="data_inicio" class="java.util.Date"/>
 	<parameter name="data_fim" class="java.util.Date"/>
+	<parameter name="porcentagem" class="java.lang.Double">
+		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      tbl_clientes.`intClienteId` AS  Id,
@@ -145,7 +151,9 @@ WHERE
 		<band height="56" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="259" height="53"/>
-				<textElement/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<text><![CDATA[Copytec - M. Alves dos Santos - ME
 Rua Estrada do Barbalho, n 219 - Iputinga
 CEP: 50800-290 - FONE/FAX: (81) 3273-4711/3274-3569
@@ -296,6 +304,9 @@ CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
 						<datasetParameter name="data_inicio">
 							<datasetParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get("data_inicio" )]]></datasetParameterExpression>
 						</datasetParameter>
+						<datasetParameter name="porcentagem">
+							<datasetParameterExpression><![CDATA[(java.lang.Double)$P{REPORT_PARAMETERS_MAP}.get( "porcentagem" )]]></datasetParameterExpression>
+						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="101">
@@ -355,15 +366,15 @@ CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
 						<jr:tableHeader height="8" rowSpan="1"/>
 						<jr:tableFooter height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="120" y="0" width="72" height="14"/>
+								<reportElement x="0" y="0" width="192" height="15"/>
 								<textElement textAlignment="Right"/>
 								<text><![CDATA[Valor Total:]]></text>
 							</staticText>
-							<staticText>
-								<reportElement x="0" y="14" width="192" height="14"/>
+							<textField pattern="###0.0;-###0.0">
+								<reportElement x="0" y="15" width="192" height="15"/>
 								<textElement textAlignment="Right"/>
-								<text><![CDATA[Valor Total com Desconto de 10%:]]></text>
-							</staticText>
+								<textFieldExpression class="java.lang.String"><![CDATA["Valor Total com Desconto de "+ $P{porcentagem}.toString()+" % : "]]></textFieldExpression>
+							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader height="19" rowSpan="1">
 							<staticText>
@@ -392,7 +403,7 @@ CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
 							<textField evaluationTime="Auto" pattern="###0.00;-###0.00">
 								<reportElement x="0" y="14" width="143" height="14"/>
 								<textElement/>
-								<textFieldExpression class="java.lang.Double"><![CDATA[$V{soma}- ($V{soma}*(10/100))]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$V{soma}- ($V{soma}*($P{porcentagem}/100))]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader height="19" rowSpan="1">
@@ -427,28 +438,38 @@ CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="247" y="0" width="52" height="14"/>
-				<textElement/>
+				<reportElement x="247" y="0" width="52" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
 				<text><![CDATA[Versão 2.0]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="476" y="0" width="78" height="14"/>
-				<textElement/>
+				<reportElement x="476" y="0" width="78" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
 				<text><![CDATA[Gustavo Marinho]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="477" y="14" width="67" height="14"/>
-				<textElement/>
+				<reportElement x="477" y="10" width="67" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
 				<text><![CDATA[Igor Cavalcanti]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="0" y="0" width="100" height="14"/>
-				<textElement/>
+				<reportElement x="0" y="0" width="100" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="394" y="0" width="81" height="14"/>
-				<textElement/>
+				<reportElement x="409" y="0" width="65" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
 				<text><![CDATA[Desenvolvedores:]]></text>
 			</staticText>
 		</band>
