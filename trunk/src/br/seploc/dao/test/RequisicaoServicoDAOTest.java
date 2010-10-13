@@ -31,7 +31,9 @@ public class RequisicaoServicoDAOTest {
 
 	@Test
 	public final void testGetLista() {
-		fail("Not yet implemented"); // TODO
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		List<RequisicaoServico> l = dao.getLista();
+		System.out.println(l);
 	}
 
 	@Test

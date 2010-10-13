@@ -32,4 +32,20 @@ public class ReqServClienteCB implements Serializable{
 		return reqServMB; 
 	}
 
+	/**
+	 * Metodo irá formatar o numero existente no banco para um numero de formato 000009  
+	 * @param num
+	 * @return
+	 */
+	public String getNumReqServFormatado(Integer num){
+		String retorno = num.toString();
+		StringBuffer str = new StringBuffer(retorno);
+		
+		while (str.length() < 6) {
+			str.append(0);			
+			retorno = str.reverse().toString();			
+		}		
+		
+		return retorno;
+	}	
 }

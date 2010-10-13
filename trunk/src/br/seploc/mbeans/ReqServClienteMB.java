@@ -240,7 +240,7 @@ public class ReqServClienteMB implements Serializable {
 		return retorno;
 	}
 
-	public List<RequisicaoServico> getLista() {
+	public List<RequisicaoServico> getListaReqServ() {
 		List<RequisicaoServico> retorno = reqServicoDAO.getLista();
 		return retorno;
 	}
@@ -268,6 +268,8 @@ public class ReqServClienteMB implements Serializable {
 					reqServico.setValorEnt(entrega.getPreco());
 					reqServico.setValorTotal(reqServico.getValorTotal()
 							+ entrega.getPreco());					
+				} else {
+					reqServico.setValorEnt(0.0);
 				}
 				// inserir valores iniciais
 				reqServico.setStatus(0);

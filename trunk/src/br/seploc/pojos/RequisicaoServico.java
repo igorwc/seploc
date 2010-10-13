@@ -30,7 +30,7 @@ import br.seploc.dao.exceptions.FieldNotNullException;
 
 @Entity
 @Table(name = "tbl_reqserv")
-@SqlResultSetMapping(name = "RequisicaoServico.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Cliente.class))
+@SqlResultSetMapping(name = "RequisicaoServico.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.RequisicaoServico.class))
 @NamedNativeQueries( { @NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoes", query = " SELECT * "
 		+ "FROM tbl_reqserv", resultSetMapping = "RequisicaoServico.implicit") })
 public class RequisicaoServico implements Serializable {
