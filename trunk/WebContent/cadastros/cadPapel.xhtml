@@ -182,15 +182,15 @@
                    </rich:column>  
   
                    <rich:column styleClass="col1">  
-                       <h:outputText value="#{papel.impMono}"/>  
+                       <h:outputText value="#{papel.impMono}"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText>  
                    </rich:column>  
   
                    <rich:column styleClass="col1">  
-                       <h:outputText value="#{papel.impColor}" />  
+                       <h:outputText value="#{papel.impColor}"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText>  
                    </rich:column>  
   
                    <rich:column styleClass="col1">  
-                       <h:outputText value="#{papel.impShade}" />  
+                       <h:outputText value="#{papel.impShade}"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText>  
                    </rich:column>  
                    <rich:column styleClass="col1">
 						<a4j:commandLink ajaxSingle="true" 
