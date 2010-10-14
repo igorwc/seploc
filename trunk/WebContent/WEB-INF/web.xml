@@ -39,6 +39,10 @@
   <param-name>org.richfaces.SKIN</param-name>
   <param-value>wine</param-value>
  </context-param>
+ <context-param>     
+  <param-name>org.richfaces.CONTROL_SKINNING</param-name>     
+  <param-value>enable</param-value>     
+ </context-param>   
  <filter>
   <display-name>RichFaces Filter</display-name>
   <filter-name>richfaces</filter-name>
