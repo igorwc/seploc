@@ -2,6 +2,9 @@ package br.seploc.dao.test;
 
 import static org.junit.Assert.fail;
 
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -48,6 +51,19 @@ public class RequisicaoServicoDAOTest {
 	@Test
 	public final void testRemoveInteger() {
 		fail("Not yet implemented"); // TODO
+	}
+	
+	@Test
+	public final void testListaPorPeriodo() {
+		
+		Date dataInicio = new Date(new GregorianCalendar(2007,GregorianCalendar.AUGUST,01).getTimeInMillis());
+		Date dataFim = new Date(new GregorianCalendar(2010,GregorianCalendar.AUGUST,01).getTimeInMillis());
+		System.out.println(dataInicio);
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		List<RequisicaoServico> l = dao.getListaPorPeriodo(dataInicio, dataFim,35);
+		for(RequisicaoServico r: l){
+			System.out.println(r);
+		}
 	}
 
 	@Test
