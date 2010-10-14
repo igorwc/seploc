@@ -59,29 +59,29 @@
 		   		<!-- COLUNA 1 -->
 		   	  	<td>
 				   <!-- Formulario -->
-	               <rich:panel header="Cliente Cadastrado" style="width: 800px"  bodyClass="formulario">
+	               <rich:panel header="Cliente Cadastrado" style="width: 770px"  bodyClass="formulario">
 	                 <table	border="0" >               
 						<tr>
-							<td width="20%">
+							<td width="10%">
 								<h:outputText value="Cliente: " styleClass="texto"/></td>							
 							<!-- modal table filter para cliente -->
-							<td width="25%">
+							<td width="30%">
 								<h:inputText value="#{reqServClienteCB.reqServMB.cliente.fantasia}" 
 								         id="cliente" 
 								         readonly="true"
 								         required="true" 
 								         requiredMessage="O cliente deve ser informado."
-								         size="40"
+								         size="45"
 								         /></td>
-							<td width="5%">
+							<td width="10%">
 								<a4j:commandLink ajaxSingle="true" 
 												 id="modaleditcli" 
 												 oncomplete="#{rich:component('modalCliente')}.show();return false;">
 									<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
 								</a4j:commandLink></td>				
-							<td width="25%">
-								<h:outputText value="Valor Total:" styleClass="texto"/></td>
 							<td width="20%">
+								<h:outputText value="Valor Total:" styleClass="texto"/></td>
+							<td width="25%">
 								<h:outputText value="R$ #{reqServClienteCB.reqServMB.valorTotalReq}" /></td>
 							<td width="5%"></td>
 						</tr>		
@@ -92,7 +92,7 @@
 								<h:inputText value="#{reqServClienteCB.reqServMB.projeto.projeto}"									 						 
 										 id="projeto" 
 										 required="true"
-										 size="40"
+										 size="45"
 										 readonly="true" 
 										 requiredMessage="O projeto deve ser informado."/></td>
 							<td>
@@ -132,9 +132,9 @@
 											<th><h:outputText value="Quant"/></th>							
 										</tr>
 										<tr>
-											<td><h:inputText id="desc" value="#{reqServClienteCB.reqServMB.linhaReqServ.nomeArquivo}" size="55"/></td>
-											<td><h:inputText id="for" value="#{reqServClienteCB.reqServMB.linhaReqServ.formato}" size="4"/></td>
-											<td><h:inputText id="dim" value="#{reqServClienteCB.reqServMB.linhaReqServ.dimensao}" size="4"/></td>
+											<td><h:inputText id="desc" value="#{reqServClienteCB.reqServMB.linhaReqServ.nomeArquivo}" size="60"/></td>
+											<td><h:inputText id="for" value="#{reqServClienteCB.reqServMB.linhaReqServ.formato}" size="5"/></td>
+											<td><h:inputText id="dim" value="#{reqServClienteCB.reqServMB.linhaReqServ.dimensao}" size="5"/></td>
 											<td>
 												<rich:comboBox selectFirstOnUpdate="false"
 				                                   defaultLabel="Nome do Papel"
@@ -186,10 +186,10 @@
 					<!-- === GRID === -->
 	               	<rich:dataTable value="#{reqServClienteCB.reqServMB.reqServico.linhaRequisicao}" var="linha"    
 	                   rowClasses="row1, row2" id="linhaList" rows="5"  
-	                   columnClasses="450,50,50,50,50,50,50,50" 
+	                   columnClasses="420,50,50,50,50,50,50,50" 
 	                   onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
 	                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
-	                   width="800"
+	                   width="770"
 	                   align="center">  
 	                   <f:facet name="header">  
 	                       <rich:columnGroup>  
