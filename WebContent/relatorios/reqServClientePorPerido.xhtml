@@ -87,22 +87,25 @@
                                 <h:graphicImage value="/imgs/botao-editar.png" 
                                                 style="border:0" />                  
                             </a4j:commandLink>
-                        </td>                    
+                        </td>     
+                        <td></td>               
 					</tr>
 					<tr>
 					   <td colspan="2">
 					       <rich:message for="nomeCobrador" 
 					                     styleClass="error" />
-					   </td>					
+					   </td>	
+					   <td></td> 				
 					</tr>					
 					<tr align="left">
 					   <td colspan="2">
 					       <h:outputText value="Informar Período: " 
 					                     styleClass="texto"/>
 					   </td>
+					   <td></td> 
 					</tr>
 					<tr>
-					   <td colspan="2">
+					   <td  >
 					        <rich:calendar value="#{reqClientePeriodoCB.clientePeriodoMB.dataInicio}"
                                            locale="#{reqClientePeriodoCB.locale}"
                                            popup="true"
@@ -112,7 +115,10 @@
                                            cellHeight="22px" 
                                            style="width:200px"
                             />
-                            <h:outputText value=" até " styleClass="texto"/>
+                             <h:outputText value=" até " styleClass="texto"/>
+                       </td>
+                       <td>
+                           
                             <rich:calendar value="#{reqClientePeriodoCB.clientePeriodoMB.dataFim}"
                                            locale="#{reqClientePeriodoCB.locale}"
                                            popup="true"
@@ -123,11 +129,13 @@
                                            style="width:200px"
                             />
 					   </td>
+					   <td></td> 
 					</tr>					
 					<tr>
 					   <td colspan="2">
 					       <rich:message for="fone" styleClass="error" />
-					   </td>					
+					   </td>	
+					   <td></td> 				
 					</tr>							
 					<tr align="left">
 					   <td>
@@ -147,13 +155,23 @@
                                 <f:converter converterId="SeplocCurrencyConverter" />
                            </h:inputText>
 					   </td>
-					   <td>                      
-                       </td>                    
+					   <td> 
+					       <h:outputText value="Valor Total: " styleClass="texto"/>                      
+                       </td>  
+                       <td>
+                            <h:outputText value="Valor Total: " styleClass="texto"/> 
+                       </td>                   
 					</tr>
 					<tr>
-					   <td colspan="2">
+					   <td colspan="1">
 					       <rich:message for="ativo" styleClass="error" />
-					   </td>					
+					   </td>	
+					   <td>
+					       <h:outputText value="Valor Com desconto: " styleClass="texto"/>
+					   </td> 
+					   <td>
+					       <h:outputText value="Valor Com desconto: " styleClass="texto"/>
+					   </td> 				
 					</tr>																				
 				  </table> 
 				  <!-- Botoes -->
@@ -180,22 +198,25 @@
                        <rich:columnGroup>  
   
                            <rich:column colspan="5">  
-                               <h:outputText value="Cobradores Cadastrados" />  
+                               <h:outputText value="Requisições Encontradas" />  
                            </rich:column>  
   
                            <rich:column breakBefore="true">  
-                               <h:outputText value="Cobrador" />  
+                               <h:outputText value="NumReq" />  
                            </rich:column>  
   
                            <rich:column>  
-                               <h:outputText value="Fone Contato" />  
+                               <h:outputText value="Data" />  
+                           </rich:column> 
+                           
+                           <rich:column>  
+                               <h:outputText value="Projeto" />  
                            </rich:column>  
   
                            <rich:column>  
-                               <h:outputText value="Ativo" />  
-                           </rich:column>  
+                               <h:outputText value="Subtotal" />  
+                           </rich:column> 
   
-                           <rich:column/>  
                        </rich:columnGroup>  
                    </f:facet>  
   
