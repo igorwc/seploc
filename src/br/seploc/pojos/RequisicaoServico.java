@@ -31,8 +31,14 @@ import br.seploc.dao.exceptions.FieldNotNullException;
 @Entity
 @Table(name = "tbl_reqserv")
 @SqlResultSetMapping(name = "RequisicaoServico.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.RequisicaoServico.class))
-@NamedNativeQueries( { @NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoes", query = " SELECT * "
-		+ "FROM tbl_reqserv", resultSetMapping = "RequisicaoServico.implicit") })
+@NamedNativeQueries( { 
+	@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoes", query = " SELECT * "
+		+ "FROM tbl_reqserv", resultSetMapping = "RequisicaoServico.implicit"),
+		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoesPorPeriodo", query = " SELECT * "
+			+ "FROM tbl_reqserv " +
+			"where datData >= :dataInicio and datData <= :dataFim " +
+			"and intCodProj in (select intCodProj FROM tbl_projetos where intClienteId = :clienteId) ", resultSetMapping = "RequisicaoServico.implicit")
+})
 public class RequisicaoServico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -51,6 +57,9 @@ public class RequisicaoServico implements Serializable {
 
 	@Column(name = "dblValorTotal")
 	private Double valorTotal;
+	
+	@Column(name = "dblValorDesc")
+	private Double valorDesconto;
 
 	@Column(name = "intStatus")
 	private Integer status;
@@ -231,6 +240,14 @@ public class RequisicaoServico implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Double getValorDesconto() {
+		return valorDesconto;
+	}
+
+	public void setValorDesconto(Double valorDesconto) {
+		this.valorDesconto = valorDesconto;
 	}
 
 	@Override
