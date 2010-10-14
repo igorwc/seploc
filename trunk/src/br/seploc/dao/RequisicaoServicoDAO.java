@@ -1,6 +1,7 @@
 package br.seploc.dao;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,13 +96,24 @@ public class RequisicaoServicoDAO extends
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<RequisicaoServico> getListaPorPorjeto(Cliente cliente) {
+	public List<RequisicaoServico> getListaPorProjeto(Cliente cliente) {
 		em.getTransaction().begin();
 		Query q = em.createNamedQuery(
 				"SELECT * FROM br.seploc.pojos.RequisicaoServico rs"
 						+ " where rs.projeto.cliente.idCliente = :id")
 				.setParameter("id", cliente.getIdCliente());
 		em.getTransaction().commit();
+		return (List<RequisicaoServico>) q.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RequisicaoServico> getListaPorPeriodo(Date dataInicio, Date dataFim, Integer clienteId) {
+//		em.getTransaction().begin();
+		Query q = em.createNamedQuery("RequisicaoServico.RetornaRequisicoesPorPeriodo");
+		q.setParameter("dataInicio", dataInicio);
+		q.setParameter("dataFim", dataFim);
+		q.setParameter("clienteId", clienteId.intValue());
+//		em.getTransaction().commit();
 		return (List<RequisicaoServico>) q.getResultList();
 	}
 	
