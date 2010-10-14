@@ -247,7 +247,7 @@ public class ReqServClienteMB implements Serializable {
 
 	public List<RequisicaoServico> getTodasReqServPorCliente(Cliente cliente) {
 		List<RequisicaoServico> retorno = reqServicoDAO
-				.getListaPorPorjeto(cliente);
+				.getListaPorProjeto(cliente);
 
 		return retorno;
 	}
