@@ -68,18 +68,26 @@
 			   <!-- Formulario -->
 			   <center>
                <rich:panel header="Requisições por Período" style="width: 600px" bodyClass="formulario">
-                 <table	border="1"  >               
+                 <table	border="0"  >               
 					<tr align="left">
 					   <td>
 					       <h:outputText value="Nome do Cliente: " 
 					                     styleClass="texto"/>
 					   </td>
 					   <td>
-					       <h:inputText  value="#{reqClientePeriodoCB.clientePeriodoMB.cliente.fantasia}" 
-									     required="true"
-									     requiredMessage="O nome deve ser informado."
-									     id="cliente"
-									     readonly="true">                             
+					       <h:outputText value="Desconto: " styleClass="texto"/>
+                             
+                        </td>     
+                        <td></td>               
+					</tr>
+					<tr>
+                        <td>
+                            <a4j:outputPanel id="inputCliente">
+                            <h:inputText  value="#{reqClientePeriodoCB.clientePeriodoMB.cliente.fantasia}" 
+                                         required="true"
+                                         requiredMessage="O nome deve ser informado."
+                                         id="cliente"
+                                         readonly="true">                             
                             </h:inputText> 
                             <a4j:commandLink ajaxSingle="true" 
                                              id="modaleditcli" 
@@ -87,16 +95,35 @@
                                 <h:graphicImage value="/imgs/botao-editar.png" 
                                                 style="border:0" />                  
                             </a4j:commandLink>
-                        </td>     
-                        <td></td>               
-					</tr>
+                            </a4j:outputPanel>
+                        </td>
+                        <td>
+                            <script type="text/javascript" >
+                                 (function($j){
+                                   $j(function()
+                                      {
+                                        $j('.seplocdecimal').setMask();
+                                      }
+                                    );
+                                 })(jQuery);  
+                            </script>
+                            <h:inputText value="#{reqClientePeriodoCB.clientePeriodoMB.desconto}"  
+                                         alt="signed-decimal" 
+                                         styleClass="seplocdecimal">
+                                <f:converter converterId="SeplocCurrencyConverter" />
+                           </h:inputText> 
+                        </td>
+                        <td>
+                        </td>
+                        </tr>
 					<tr>
-					   <td colspan="2">
+					   <td colspan="1">
 					       <rich:message for="nomeCobrador" 
 					                     styleClass="error" />
 					   </td>	
+					   <td></td>
 					   <td></td> 				
-					</tr>					
+					</tr>	
 					<tr align="left">
 					   <td colspan="2">
 					       <h:outputText value="Informar Período: " 
@@ -132,45 +159,35 @@
 					   <td></td> 
 					</tr>					
 					<tr>
-					   <td colspan="2">
+					   <td colspan="1">
 					       <rich:message for="fone" styleClass="error" />
 					   </td>	
-					   <td></td> 				
+					   <td></td> 	
+					   <td></td>			
 					</tr>							
 					<tr align="left">
 					   <td>
-					       <h:outputText value="Desconto: " styleClass="texto"/>
-					       <script type="text/javascript" >
-					           (function($j){
-					        	   $j(function()
-					        		  {
-					        		    $j('.seplocdecimal').setMask();
-					    	          }
-					        	    );
-					    	     })(jQuery);  
-					       </script>
-					       <h:inputText value="#{reqClientePeriodoCB.clientePeriodoMB.desconto}"  
-					                    alt="signed-decimal" 
-                                        styleClass="seplocdecimal">
-                                <f:converter converterId="SeplocCurrencyConverter" />
-                           </h:inputText>
+					       <h:outputText value="Valor Total: " 
+					                     styleClass="texto"/>
 					   </td>
 					   <td> 
-					       <h:outputText value="Valor Total: " styleClass="texto"/>                      
+					       <h:outputText value="Valor Total: " 
+					                     styleClass="texto"/>                       
                        </td>  
                        <td>
-                            <h:outputText value="Valor Total: " styleClass="texto"/> 
+                            
                        </td>                   
 					</tr>
 					<tr>
 					   <td colspan="1">
-					       <rich:message for="ativo" styleClass="error" />
+					       <h:outputText value="Valor Com desconto: " 
+				                         styleClass="texto"/>
 					   </td>	
 					   <td>
-					       <h:outputText value="Valor Com desconto: " styleClass="texto"/>
+					      <h:outputText value="Valor Com desconto: " styleClass="texto"/> 
 					   </td> 
 					   <td>
-					       <h:outputText value="Valor Com desconto: " styleClass="texto"/>
+					       
 					   </td> 				
 					</tr>																				
 				  </table> 
@@ -187,8 +204,8 @@
                </center>
                
                <!-- Grid -->
-			   <rich:dataTable value="#{cobradorCB.listaCobradores}" var="cobrador"    
-                   rowClasses="row1, row2" id="cobradorList" rows="8"  
+			   <rich:dataTable value="#{reqClientePeriodoCB.clientePeriodoMB.listaRequisicoes}" var="requisicoes"    
+                   rowClasses="row1, row2" id="requisicaoList" rows="8"  
                    columnClasses="400,150,50"  
                    onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
                    onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
@@ -221,40 +238,19 @@
                    </f:facet>  
   
                    <rich:column>  
-		               <h:outputText value="#{cobrador.nome}" />  
+		               <h:outputText value="#{requisicoes.numReq}" />  
                    </rich:column>  
   
                    <rich:column styleClass="col1">  
-                       <h:outputText value="#{cobrador.foneContato}"/>  
+                       <h:outputText value="#{requisicoes.data}"/>  
                    </rich:column>  
   
                    <rich:column styleClass="col1">  
-                       <h:outputText value="#{cobrador.ativo}" />  
+                       <h:outputText value="#{requisicoes.projeto.projeto}" />  
                    </rich:column>  
   
                    <rich:column styleClass="col1">
-						<a4j:commandLink ajaxSingle="true" 
-						                 id="editlink" 
-					    				 reRender="cadCobrador" 
-					    				 action="#{cobradorCB.cobradorMB.editar}" 
-					    				 >
-							<h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
-							<f:setPropertyActionListener value="#{cobrador}"
-								target="#{cobradorCB.cobradorMB.cobrador}" />
-						</a4j:commandLink>
-						<rich:toolTip for="editlink" value="Edit" />
-						<a4j:commandLink ajaxSingle="true"
-						                 id="deletelink" 
-						                 immediate="true"  
-						                 bypassUpdates="true"
-							             reRender="cobradorList" 
-							             action="#{cobradorCB.cobradorMB.apagar}" 
-							             oncomplete="#{rich:component('confirmationMessage')}.show()">
-							<h:graphicImage value="../imgs/delete_icon.gif" style="border:0" />
-							<f:setPropertyActionListener value="#{cobrador}"
-								target="#{cobradorCB.cobradorMB.cobrador}" />
-						</a4j:commandLink>
-						<rich:toolTip for="deletelink" value="Delete" />
+						<h:outputText value="#{requisicoes.valorTotal}" />
 					</rich:column>
 					<f:facet name="footer">
                			<rich:datascroller id="dsCobrador" maxPages="3" renderIfSinglePage="true"/>
@@ -308,7 +304,7 @@
                 <rich:column styleClass="col1">
                     <a4j:commandLink ajaxSingle="true" 
                                          id="editlinkcli" 
-                                         reRender="cliente,reqServ,modalProjeto" 
+                                         reRender="inputCliente" 
                                          oncomplete=" #{rich:component('modalCliente')}.hide();"
                                          >
                         <h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
