@@ -34,6 +34,9 @@ import br.seploc.dao.exceptions.FieldNotNullException;
 @NamedNativeQueries( { 
 	@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoes", query = " SELECT * "
 		+ "FROM tbl_reqserv", resultSetMapping = "RequisicaoServico.implicit"),
+		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoesLimitadoTempo", query = " SELECT * "
+			+ "FROM tbl_reqserv " +
+			"where datData >= :data", resultSetMapping = "RequisicaoServico.implicit"),
 		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoesPorPeriodo", query = " SELECT * "
 			+ "FROM tbl_reqserv " +
 			"where datData >= :dataInicio and datData <= :dataFim " +

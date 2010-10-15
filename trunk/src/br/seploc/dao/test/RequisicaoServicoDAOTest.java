@@ -31,6 +31,19 @@ public class RequisicaoServicoDAOTest {
 	public final void testAlteraRequisicaoServico() {
 		fail("Not yet implemented"); // TODO
 	}
+	
+	@Test
+	public final void testListaSinceDate(){
+		Calendar calendarData = Calendar.getInstance();
+		  int numeroDiasParaSubtrair = -60;
+		  calendarData.add(Calendar.DATE, numeroDiasParaSubtrair);
+		  java.sql.Date dias60 = new java.sql.Date(calendarData.getTimeInMillis());
+		  System.out.println(dias60);
+
+		  RequisicaoServicoDAO reqServicoDAO = new RequisicaoServicoDAO(); 
+		  List<RequisicaoServico> retorno = reqServicoDAO.getListaSinceDate(dias60);
+		  System.out.println(retorno.size());
+	}
 
 	@Test
 	public final void testGetLista() {

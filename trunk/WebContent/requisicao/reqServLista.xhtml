@@ -61,13 +61,16 @@
 					<tr align="left">					
 						<td><h:outputText value="Numero Requisição: " styleClass="texto"/></td>
 					 	<td>
-                 			<h:inputText value=""									 						 
+                 			<h:inputText value="#{reqServClienteCB.reqServMB.numReqBusca}"									 						 
 										 id="numReq" 
 										 size="10"
-										 />								
-						</td>				 		
+										 /></td>				 		
 					 	<td>
-					 		<!-- Botoes -->					 		
+					 		<!-- Botoes -->
+					 		<a4j:commandButton value="#{msgs['botao.salvar']}"
+							                  action="#{reqServClienteCB.reqServMB.cadastrar}"
+							                  reRender="reqServ"
+							                  oncomplete="#{rich:component('confirmationMessage')}.show()" /> 					 		
 
 				 		</td>
 					</tr>			   
