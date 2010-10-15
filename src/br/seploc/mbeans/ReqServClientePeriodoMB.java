@@ -76,6 +76,9 @@ public class ReqServClientePeriodoMB implements Serializable{
 	}
 
 	public List<RequisicaoServico> getListaRequisicoes() {
+		if(listaRequisicoes == null || listaRequisicoes.isEmpty()){
+			return new ArrayList<RequisicaoServico>();
+		}
 		return listaRequisicoes;
 	}
 
