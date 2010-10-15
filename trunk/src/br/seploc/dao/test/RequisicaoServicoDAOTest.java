@@ -50,7 +50,18 @@ public class RequisicaoServicoDAOTest {
 	
 	@Test
 	public final void testRemoveInteger() {
-		fail("Not yet implemented"); // TODO
+		// java.util.Date data = new java.util.Date();
+		// # Calendar calendarData = Calendar.getInstance();
+		// # calendarData.setTime(dataFinal);
+		// java.sql.Date dias60 = new java.sql.Date(data.getTime()-
+		// (6*60*24*3600*1000));
+
+		// usa calendar para subtrair data
+		Calendar calendarData = Calendar.getInstance();
+		int numeroDiasParaSubtrair = -60;
+		calendarData.add(Calendar.DATE, numeroDiasParaSubtrair);
+		java.sql.Date dias60 = new java.sql.Date(calendarData.getTimeInMillis());
+		System.out.println(dias60);
 	}
 	
 	@Test
