@@ -116,6 +116,16 @@ public class RequisicaoServicoDAO extends
 //		em.getTransaction().commit();
 		return (List<RequisicaoServico>) q.getResultList();
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<RequisicaoServico> getListaSinceDate(Date data) {
+//		em.getTransaction().begin();
+		Query q = em.createNamedQuery("RequisicaoServico.RetornaRequisicoesLimitadoTempo");
+		q.setParameter("data", data);
+//		em.getTransaction().commit();
+		return (List<RequisicaoServico>) q.getResultList();
+	}
+	
 	
 	@Override
 	public RequisicaoServico recupera(Integer id) throws Exception {

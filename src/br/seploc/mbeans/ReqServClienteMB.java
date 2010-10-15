@@ -2,6 +2,7 @@ package br.seploc.mbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -40,6 +41,7 @@ public class ReqServClienteMB implements Serializable {
 	private String valorTotalReq;
 	private int quantidadeOpcional;
 	private int numReqAtual;
+	private int numReqBusca;
 	
 
 	// CONSTRUTOR
@@ -181,6 +183,14 @@ public class ReqServClienteMB implements Serializable {
 		return numReqAtual;
 	}
 
+	public int getNumReqBusca() {
+		return numReqBusca;
+	}
+
+	public void setNumReqBusca(int numReqBusca) {
+		this.numReqBusca = numReqBusca;
+	}
+
 	public RequisicaoServicoDAO getReqServicoDAO() {
 		return reqServicoDAO;
 	}
@@ -241,7 +251,13 @@ public class ReqServClienteMB implements Serializable {
 	}
 
 	public List<RequisicaoServico> getListaReqServ() {
-		List<RequisicaoServico> retorno = reqServicoDAO.getLista();
+		// setar data de 60 dias atrás
+		Calendar calendarData = Calendar.getInstance();
+		  int numeroDiasParaSubtrair = -60;
+		  calendarData.add(Calendar.DATE, numeroDiasParaSubtrair);
+		  java.sql.Date dias60 = new java.sql.Date(calendarData.getTimeInMillis());		  
+		
+		List<RequisicaoServico> retorno = reqServicoDAO.getListaSinceDate(dias60);
 		return retorno;
 	}
 
