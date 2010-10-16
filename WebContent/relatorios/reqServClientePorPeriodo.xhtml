@@ -87,7 +87,8 @@
                                          required="true"
                                          requiredMessage="O nome deve ser informado."
                                          id="cliente"
-                                         readonly="true">                             
+                                         readonly="true"
+                                         size="30">                             
                             </h:inputText> 
                             <a4j:commandLink ajaxSingle="true" 
                                              id="modaleditcli" 
@@ -109,7 +110,8 @@
                             </script>
                             <h:inputText value="#{reqClientePeriodoCB.clientePeriodoMB.desconto}"  
                                          alt="signed-decimal" 
-                                         styleClass="seplocdecimal">
+                                         styleClass="seplocdecimal"
+                                         size="30">
                                 <f:converter converterId="SeplocCurrencyConverter" />
                            </h:inputText> 
                         </td>
@@ -132,7 +134,7 @@
 					   <td></td> 
 					</tr>
 					<tr>
-					   <td  >
+					   <td >
 					        <rich:calendar value="#{reqClientePeriodoCB.clientePeriodoMB.dataInicio}"
                                            locale="#{reqClientePeriodoCB.locale}"
                                            popup="true"
@@ -141,7 +143,13 @@
                                            cellWidth="24px" 
                                            cellHeight="22px" 
                                            style="width:200px"
-                            />
+                                           inputSize="30"
+                                           id="dataInicioCli"
+                                           
+                            >
+                            <a4j:support event="onchanged"  ></a4j:support>
+                            <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+                           </rich:calendar>
                              <h:outputText value=" até " styleClass="texto"/>
                        </td>
                        <td>
@@ -154,7 +162,12 @@
                                            cellWidth="24px" 
                                            cellHeight="22px" 
                                            style="width:200px"
-                            />
+                                            inputSize="30"
+                                            id="dataFimCli"
+                            >
+                            <a4j:support event="onchanged"  ></a4j:support>
+                            <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+                            </rich:calendar>
 					   </td>
 					   <td></td> 
 					</tr>					
@@ -180,7 +193,7 @@
 					</tr>
 					<tr>
 					   <td colspan="1">
-					       <h:outputText value="Valor Com desconto: " 
+					       <h:outputText value="#{reqClientePeriodoCB.clientePeriodoMB.valorTotalRequisicoes}" 
 				                         styleClass="texto"/>
 					   </td>	
 					   <td>
@@ -253,7 +266,7 @@
 						<h:outputText value="#{requisicoes.valorTotal}" />
 					</rich:column>
 					<f:facet name="footer">
-               			<rich:datascroller id="dsCobrador" maxPages="3" renderIfSinglePage="true"/>
+               			<rich:datascroller id="dsRequisicoes" maxPages="3" renderIfSinglePage="true"/>
                   	</f:facet>  
                </rich:dataTable>  
                
@@ -304,13 +317,15 @@
                 <rich:column styleClass="col1">
                     <a4j:commandLink ajaxSingle="true" 
                                          id="editlinkcli" 
-                                         reRender="inputCliente" 
+                                         reRender="inputCliente,dsRequisicoes,requisicaoList" 
+                                         action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}"
                                          oncomplete=" #{rich:component('modalCliente')}.hide();"
                                          >
                         <h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 
                         <f:setPropertyActionListener value="#{cli}"
-                                target="#{reqServClienteCB.reqServMB.cliente}" />
+                                target="#{reqClientePeriodoCB.clientePeriodoMB.cliente}" />
+                            
                     </a4j:commandLink>
                 </rich:column>  
                 <f:facet name="footer">
