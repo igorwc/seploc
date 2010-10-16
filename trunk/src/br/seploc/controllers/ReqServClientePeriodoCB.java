@@ -17,6 +17,13 @@ public class ReqServClientePeriodoCB {
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
+	
+	public void valueChangeListener(javax.faces.event.ValueChangeEvent sss){
+		System.out.println(sss.getNewValue());
+	}
+	public void atualizaDesconto(){
+		
+	}
 
 	public ReqServClientePeriodoMB loadClientePeriodoMB() {
 		FacesContext context = FacesContext.getCurrentInstance();
