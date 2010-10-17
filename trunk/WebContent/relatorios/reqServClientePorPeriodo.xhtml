@@ -55,15 +55,6 @@
 
    <f:view>  
    	   <h:form id="formClientPeriodo" enctype="UTF-8" prependId="false" >
-   	       <script type="text/javascript" >
-             (function($j){
-                  $j(function(){
-    	              $j('.seploccurrency').setMask();
-    	              $j('.PHONE').setMask();
-                     }
-                   );
-              })(jQuery);  
-           </script>
            <rich:panel header="Relatório">
 			   <!-- Formulario -->
 			   <center>
@@ -99,6 +90,7 @@
                             </a4j:outputPanel>
                         </td>
                         <td>
+                        <a4j:outputPanel id="desconto">
                             <script type="text/javascript" >
                                  (function($j){
                                    $j(function()
@@ -111,9 +103,14 @@
                             <h:inputText value="#{reqClientePeriodoCB.clientePeriodoMB.desconto}"  
                                          alt="signed-decimal" 
                                          styleClass="seplocdecimal"
-                                         size="30">
+                                         size="30"
+                                         id="descCliente">
                                 <f:converter converterId="SeplocCurrencyConverter" />
+                                <a4j:support event="onblur" 
+                                         action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}" 
+                                         reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto"></a4j:support>
                            </h:inputText> 
+                           </a4j:outputPanel>
                         </td>
                         <td>
                         </td>
@@ -147,7 +144,9 @@
                                            id="dataInicioCli"
                                            
                             >
-                            <a4j:support event="onchanged"  ></a4j:support>
+                            <a4j:support event="onchanged" 
+                                         action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}" 
+                                         reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,desconto"></a4j:support>
                             <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
                            </rich:calendar>
                              <h:outputText value=" até " styleClass="texto"/>
@@ -165,7 +164,9 @@
                                             inputSize="30"
                                             id="dataFimCli"
                             >
-                            <a4j:support event="onchanged"  ></a4j:support>
+                            <a4j:support event="onchanged" 
+                                         action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}" 
+                                         reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente"></a4j:support>
                             <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
                             </rich:calendar>
 					   </td>
@@ -193,11 +194,34 @@
 					</tr>
 					<tr>
 					   <td colspan="1">
-					       <h:outputText value="#{reqClientePeriodoCB.clientePeriodoMB.valorTotalRequisicoes}" 
-				                         styleClass="texto"/>
+					       <a4j:outputPanel id="lbValorTotal">
+					           <script type="text/javascript" >
+					               (function($j){
+					            	    $j(function(){
+					            	        $j('.seplocdecimal').setMask();
+                                        });
+					                })(jQuery);  
+                               </script>
+					               <h:outputText value="#{reqClientePeriodoCB.clientePeriodoMB.valorTotalRequisicoes}" 
+				                                 styleClass="texto seplocdecimal">
+				                       <f:converter converterId="SeplocCurrencyConverter" />
+				                    </h:outputText>
+				           </a4j:outputPanel>
 					   </td>	
 					   <td>
-					      <h:outputText value="Valor Com desconto: " styleClass="texto"/> 
+					      <a4j:outputPanel  id="lbValorDesconto">
+                               <script type="text/javascript" >
+                                   (function($j){
+                                        $j(function(){
+                                            $j('.seplocdecimal').setMask();
+                                        });
+                                    })(jQuery);  
+                               </script>
+                                    <h:outputText value="#{reqClientePeriodoCB.clientePeriodoMB.valorTotalDesconto}" 
+					                              styleClass="texto seplocdecimal">
+					                    <f:converter converterId="SeplocCurrencyConverter" />
+					                </h:outputText> 
+					       </a4j:outputPanel>
 					   </td> 
 					   <td>
 					       
@@ -206,24 +230,27 @@
 				  </table> 
 				  <!-- Botoes -->
                   <br/>
-                  <a4j:commandButton value="#{msgs['botao.salvar']}"
-                  action="#{cobradorCB.cobradorMB.cadastrar}" 
-                  reRender="cadCobrador,cobradorList,cobradorSucesso"
-                  oncomplete="#{rich:component('confirmationMessage')}.show()" />                                                                
+                  <a4j:commandButton value="Salvar e Gerar Relatório"
+                                     action="#{cobradorCB.cobradorMB.cadastrar}" 
+                                     reRender="cadCobrador,cobradorList,cobradorSucesso"
+                                     oncomplete="#{rich:component('confirmationMessage')}.show()" />                                                                
                   <a4j:commandButton value="#{msgs['botao.limpar']}" 
-                   action="#{cobradorCB.cobradorMB.limpar}"
-                   reRender="cobradorList,cadCobrador" />
+                                     action="#{cobradorCB.cobradorMB.limpar}"
+                                     reRender="cobradorList,cadCobrador" />
                </rich:panel>
                </center>
                
                <!-- Grid -->
-			   <rich:dataTable value="#{reqClientePeriodoCB.clientePeriodoMB.listaRequisicoes}" var="requisicoes"    
-                   rowClasses="row1, row2" id="requisicaoList" rows="8"  
-                   columnClasses="400,150,50"  
-                   onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
-                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
-                   width="600"
-                   align="center">  
+			   <rich:dataTable value="#{reqClientePeriodoCB.clientePeriodoMB.listaRequisicoes}" 
+			                   var="requisicoes"    
+                               rowClasses="row1, row2" 
+                               id="requisicaoList" 
+                               rows="8"  
+                               columnClasses="400,150,50"  
+                               onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
+                               onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+                               width="600"
+                               align="center">  
                    <f:facet name="header">  
                        <rich:columnGroup>  
   
@@ -316,8 +343,8 @@
                 
                 <rich:column styleClass="col1">
                     <a4j:commandLink ajaxSingle="true" 
-                                         id="editlinkcli" 
-                                         reRender="inputCliente,dsRequisicoes,requisicaoList" 
+                                         id="editlinkcli"  
+                                         reRender="inputCliente,dsRequisicoes,requisicaoList,lbValorTotal,lbValorDesconto,descCliente,desconto" 
                                          action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}"
                                          oncomplete=" #{rich:component('modalCliente')}.hide();"
                                          >
