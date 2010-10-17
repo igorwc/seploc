@@ -18,9 +18,7 @@ public class ReqServClientePeriodoCB {
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
 	
-	public void valueChangeListener(javax.faces.event.ValueChangeEvent sss){
-		System.out.println(sss.getNewValue());
-	}
+	 
 	public void atualizaDesconto(){
 		
 	}
