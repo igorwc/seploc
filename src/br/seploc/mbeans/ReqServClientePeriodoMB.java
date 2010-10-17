@@ -2,6 +2,8 @@ package br.seploc.mbeans;
 
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,9 +21,11 @@ public class ReqServClientePeriodoMB implements Serializable{
 	private Cliente cliente;
 	private Date dataInicio;
 	private Date dataFim;
-	private Double desconto;
+	private Double desconto = 0.;
 	private List<RequisicaoServico> listaRequisicoes;
 	private String dataInicioStr="", dataFimStr= "";
+	private Double valorTotalRequisicoes;
+	private Double valorTotalDesconto;
 
 	//METODOS NEGOCIO
 	public List<RequisicaoServico> buscaRequisicoes() {
@@ -37,9 +41,12 @@ public class ReqServClientePeriodoMB implements Serializable{
 			System.out.println(dataInicio);
 		}
 		if (retorno == null || retorno.isEmpty()) {
-			return new ArrayList<RequisicaoServico>();
+			listaRequisicoes = new ArrayList<RequisicaoServico>();
+			atualizaValorTotalRequisicoes();
+			return listaRequisicoes;
 		}
 		listaRequisicoes = retorno;
+		atualizaValorTotalRequisicoes();
 		for (RequisicaoServico r : retorno ) {
 			System.out.println(r);
 		}
@@ -53,13 +60,22 @@ public class ReqServClientePeriodoMB implements Serializable{
 		desconto = 0.0;
 	}
 
-	public Double getValorTotalRequisicoes() {
+	public Double atualizaValorTotalRequisicoes() {
 		Double retorno = 0.0;
+		NumberFormat formatter = new DecimalFormat("#.##");
 		if (listaRequisicoes != null) {
 			for (RequisicaoServico r : listaRequisicoes) {
 				retorno += r.getValorTotal();
 			}
 		}
+		valorTotalRequisicoes = retorno;
+		if(retorno == 0.0){
+			valorTotalDesconto = 0.0;
+		}else{
+			valorTotalDesconto = retorno - ((retorno*desconto)/100);
+			valorTotalDesconto = Double.parseDouble(formatter.format(valorTotalDesconto).replace(',', '.'));
+		}
+		
 		return retorno;
 	}
 	//GETTERS AND SETTERS
@@ -134,6 +150,18 @@ public class ReqServClientePeriodoMB implements Serializable{
 	public void setDataFimStr(String dataFimStr) {
 		System.out.println(dataFimStr);
 		this.dataFimStr = dataFimStr;
+	}
+	public Double getValorTotalRequisicoes() {
+		return valorTotalRequisicoes;
+	}
+	public void setValorTotalRequisicoes(Double valorTotalRequisicoes) {
+		this.valorTotalRequisicoes = valorTotalRequisicoes;
+	}
+	public Double getValorTotalDesconto() {
+		return valorTotalDesconto;
+	}
+	public void setValorTotalDesconto(Double valorTotalDesconto) {
+		this.valorTotalDesconto = valorTotalDesconto;
 	}
 	
 	
