@@ -21,6 +21,7 @@ import br.seploc.dao.EntregaDAO;
 import br.seploc.dao.OpcionaisReqServDAO;
 import br.seploc.dao.PapelDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
+import br.seploc.dao.exceptions.RecordNotFound;
 
 public class ReqServClienteMB implements Serializable {
 
@@ -271,6 +272,13 @@ public class ReqServClienteMB implements Serializable {
 	public void cadastrar() {
 		if (reqServico.getNumReq() == null || reqServico.getNumReq() == 0) {
 			try {
+				//A linha ou o opcional é item obrigatorio da requisição
+				boolean existeLinha = false;
+				boolean existeOpcional = false;
+				
+				if (quantidadeOpcional >= 1) existeOpcional = true;
+				if (linhaReqServ.getQuant() >= 1) existeLinha = true;
+				
 				reqServico.setValorTotal(0.0);
 				// setar data de criação da requisição
 				java.util.Date data = new java.util.Date();
@@ -292,21 +300,25 @@ public class ReqServClienteMB implements Serializable {
 				reqServico.setVisivelNf(0);
 				reqServico.setVisivelReq(0);
 				
-				// adicionar a requisição de serviço
-				reqServicoDAO.adiciona(reqServico);
+				// adicionar a requisição de serviço se um dos itens obrigatoriso existirem
+				if (existeLinha || existeOpcional){
+					reqServicoDAO.adiciona(reqServico);
+				} else {
+					throw new Exception("Requisição de Serviço precisa de uma linha ou de um opcional!"); 
+				}
 
 				// recuperar a requisicao
 				reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
 
 				// adicionar o opcional
-				if (quantidadeOpcional >= 1) {
+				if (existeOpcional) {
 					reqServicoDAO.addOpcional(reqServico, opcional,
 							quantidadeOpcional);
 					reqServico.setValorTotal(reqServico.getValorTotal()
-							+ (opcional.getValorItem() * quantidadeOpcional));
+							+ (opcional.getValorItem() * quantidadeOpcional));					
 				}
 				// adicionar a linha
-				if (linhaReqServ.getQuant() >= 1) {
+				if (existeLinha) {
 					// transformar o nomePapel em Objeto Papel
 					papel = this.converterToPapel(this.nomePapel);
 					linhaReqServ.setPapel(papel);
@@ -327,7 +339,7 @@ public class ReqServClienteMB implements Serializable {
 
 					reqServicoDAO.addLinha(reqServico, linhaReqServ);
 					reqServico.setValorTotal(reqServico.getValorTotal()
-							+ linhaReqServ.getValorUnit());
+							+ linhaReqServ.getValorUnit());					
 				}
 				reqServicoDAO.altera(reqServico);
 				setValorTotalReq(reqServico.getValorTotal().toString());
