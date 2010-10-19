@@ -434,6 +434,8 @@ public class ReqServClienteMB implements Serializable {
 		linhaReqServ = new LinhaRequisicao();
 		reqServico = new RequisicaoServico();
 		reqServicoDAO = new RequisicaoServicoDAO();
+		filtroCliente = "";
+		valorTotalReq = "0,00";	
 	}
 
 	public void limparLinhaOpcional() {

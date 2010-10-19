@@ -3,6 +3,7 @@ package br.seploc.dao;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -123,7 +124,9 @@ public class RequisicaoServicoDAO extends
 		Query q = em.createNamedQuery("RequisicaoServico.RetornaRequisicoesLimitadoTempo");
 		q.setParameter("data", data);
 //		em.getTransaction().commit();
-		return (List<RequisicaoServico>) q.getResultList();
+		List<RequisicaoServico> retorno = (List<RequisicaoServico>) q.getResultList();
+		Collections.reverse(retorno);
+		return retorno;
 	}
 	
 	
@@ -186,7 +189,8 @@ public class RequisicaoServicoDAO extends
 		} else {
 			if (rq.getOpcionais().size() != 0) {
 				for (ReqServicosOpcionais rso : rq.getOpcionais()) {
-					if (rso.getOpcionaisReqServ().getCodOpReqServ().intValue() == op
+//					if (rso.getOpcionaisReqServ().getCodOpReqServ().intValue() == op
+					if (rso.getId().getIntCodOp().intValue() == op
 							.getCodOpReqServ().intValue()) {
 						temp = rso;
 						temp.setQuantidade(qtd);

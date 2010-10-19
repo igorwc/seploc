@@ -112,7 +112,8 @@
                            </rich:column>
                            <rich:column>  
                                <h:outputText value="Mapa"/>  
-                           </rich:column>                             
+                           </rich:column>       
+                                                 
                            <rich:column />                                                        
 								                           
                        </rich:columnGroup>  
@@ -136,7 +137,15 @@
                    
                    <rich:column/>
                    
-                   <rich:column />
+                   <rich:column>
+						<rich:toolTip for="editlinklinha" value="Editar Registro" />
+							<a4j:commandLink ajaxSingle="true" id="deletelinklinha"
+								reRender="linhaList" action="#{reqServClienteCB.reqServMB.apagar}" oncomplete="#{rich:component('confirmationMessage')}.show()">
+								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+								<f:setPropertyActionListener value="#{linha}"
+									target="#{reqServClienteCB.reqServMB.linhaReqServ}" />
+							</a4j:commandLink>                   
+                   </rich:column>
                    
                     <f:facet name="footer">
                			<rich:datascroller id="dsReq" maxPages="3" renderIfSinglePage="true"/>

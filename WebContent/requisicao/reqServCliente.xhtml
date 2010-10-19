@@ -175,10 +175,11 @@
 	                  <center>
 	                  <a4j:commandButton value="#{msgs['botao.salvar']}"
 	                  action="#{reqServClienteCB.reqServMB.cadastrar}"
-	                  reRender="reqServ"
+	                  reRender="reqServ,linhaList,opList"
 	                  oncomplete="#{rich:component('confirmationMessage')}.show()" />                                              
 	                  <a4j:commandButton value="#{msgs['botao.limpar']}"  
-	                   action="#{reqServClienteCB.reqServMB.limpar}" />
+	                   action="#{reqServClienteCB.reqServMB.limpar}" 
+	                   reRender="reqServ,linhaList,opList"/>
 	                  </center> 
 	               </rich:panel>		                             
 	               <!-- fim Formulario --> 
