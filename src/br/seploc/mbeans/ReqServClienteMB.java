@@ -287,7 +287,7 @@ public class ReqServClienteMB implements Serializable {
 				// adicionar projeto
 				reqServico.setProjeto(projeto);
 				// adicionar a entrega
-				if (entrega.getCodEntrega() >= 1) {
+				if (entrega.getCodEntrega() != null	){
 					reqServico.setEntrega(entrega);
 					reqServico.setValorEnt(entrega.getPreco());
 					reqServico.setValorTotal(reqServico.getValorTotal()

@@ -183,16 +183,19 @@ public class RequisicaoServicoDAO extends
 	public void addOpcional(RequisicaoServico rq, OpcionaisReqServ op,
 			Integer qtd) throws FieldNotNullException {
 		ReqServicosOpcionais temp = null;
+		OpcionaisReqServDAO opcionaisDAO = new OpcionaisReqServDAO();
+		OpcionaisReqServ oprs;
 		if (qtd == null || qtd.intValue() == 0) {
 			throw new FieldNotNullException(
 					"Quantidade de opcionais não pode ser nulo");
 		} else {
 			if (rq.getOpcionais().size() != 0) {
 				for (ReqServicosOpcionais rso : rq.getOpcionais()) {
-//					if (rso.getOpcionaisReqServ().getCodOpReqServ().intValue() == op
 					if (rso.getId().getIntCodOp().intValue() == op
 							.getCodOpReqServ().intValue()) {
 						temp = rso;
+						oprs = opcionaisDAO.recupera(rso.getId().getIntCodOp());
+						temp.setOpcionaisReqServ(oprs);
 						temp.setQuantidade(qtd);
 						em.getTransaction().begin();
 						em.merge(temp);
@@ -202,7 +205,9 @@ public class RequisicaoServicoDAO extends
 				}
 				ReqServicosOpcionaisPK id = new ReqServicosOpcionaisPK(
 						rq.getNumReq(), op.getCodOpReqServ());
-				ReqServicosOpcionais rso = new ReqServicosOpcionais(id);
+				ReqServicosOpcionais rso = new ReqServicosOpcionais(id);				
+				oprs = opcionaisDAO.recupera(id.getIntCodOp());
+				rso.setOpcionaisReqServ(oprs);
 				rso.setQuantidade(qtd);
 				rq.getOpcionais().add(rso);
 				em.getTransaction().begin();
@@ -228,15 +233,17 @@ public class RequisicaoServicoDAO extends
 			rq.setLinhaRequisicao(new ArrayList<LinhaRequisicao>());
 		} else {
 			if (rq.getLinhaRequisicao().size() != 0) {
-				for (LinhaRequisicao lr : rq.getLinhaRequisicao()) {
-					if (lr.getId().getNumLinha().intValue() == l.getId().getNumLinha().intValue() &&
-						lr.getId().getNumRequisicao().intValue() == l.getId().getNumRequisicao().intValue()) {
-						temp = lr;						
-						em.getTransaction().begin();
-						em.merge(temp);
-						em.getTransaction().commit();
-						return;
-					} 
+				if (l.getId() != null){ 
+					for (LinhaRequisicao lr : rq.getLinhaRequisicao()) {
+						if (lr.getId().getNumLinha().intValue() == l.getId().getNumLinha().intValue() &&
+							lr.getId().getNumRequisicao().intValue() == l.getId().getNumRequisicao().intValue()) {
+							temp = lr;						
+							em.getTransaction().begin();
+							em.merge(temp);
+							em.getTransaction().commit();
+							return;
+						} 
+					}
 				}
 				LinhaRequisicaoPK id = new LinhaRequisicaoPK(
 						(rq.getLinhaRequisicao().size()+1),rq.getNumReq());

@@ -48,12 +48,20 @@
 {
 	background-color : #f2f2f5;	
 }
+.numeroRequisicao
+{
+	font-family: tahoma, arial;
+	font-weight: bold;
+	font-style:normal;
+	color:#00008B;
+	font-size: 20pt;	
+}
 </style> 
 
    <f:view>  
    	   <h:form id="reqServ" enctype="UTF-8" prependId="false" >
 
-       <rich:panel header="Requisição de Serviço #{reqServClienteCB.reqServMB.reqServico.numReq}" >
+       <rich:panel header="Requisição de Serviço" >
 		   <table id="tb1">		    
 		   	<tr>
 		   		<!-- COLUNA 1 -->
@@ -180,6 +188,9 @@
 	                  <a4j:commandButton value="#{msgs['botao.limpar']}"  
 	                   action="#{reqServClienteCB.reqServMB.limpar}" 
 	                   reRender="reqServ,linhaList,opList"/>
+	                  <a4j:commandButton value="#{msgs['botao.novo']}"  
+	                   action="#{reqServClienteCB.reqServMB.limpar}" 
+	                   reRender="reqServ,linhaList,opList"/>	                   
 	                  </center> 
 	               </rich:panel>		                             
 	               <!-- fim Formulario --> 
@@ -250,7 +261,7 @@
 	    
 	                   <rich:column styleClass="col1">
 							<a4j:commandLink ajaxSingle="true" id="editlinklinha" 
-							    reRender="reqServ" action="#{reqServClienteCB.reqServMB.editarLinha}" >
+							    reRender="reqServ" action="#{reqServClienteCB.reqServMB.editar}" >
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 								<f:setPropertyActionListener value="#{linha}"
 									target="#{reqServClienteCB.reqServMB.linhaReqServ}" />
@@ -272,7 +283,21 @@
 		   	  	
 		   	  	<!-- COLUNA 2 -->
    	  		  	<td valign="top">
-   	  		  	
+
+					<!-- NUMERO REQUISICAO -->
+					<rich:panel header="Número Requisição" style="width: 270px"  bodyClass="formulario">
+						<table width="100%">
+							<tr>
+								<td align="center">
+									<h:outputText value="#{reqServClienteCB.reqServMB.reqServico.numReq}" 
+												  styleClass="numeroRequisicao">
+										<f:convertNumber pattern="#000000"/>
+									</h:outputText></td>				
+							</tr>
+						</table>
+					</rich:panel>
+					
+   	  		  	    <!-- OPCIONAIS -->
 					<rich:panel header="Opcionais" style="width: 270px"  bodyClass="formulario">
 						<table>
 							<tr>
@@ -344,7 +369,7 @@
 	    
 	                   <rich:column styleClass="col1">
 							<a4j:commandLink ajaxSingle="true" id="editlinklinha2" 
-							    reRender="reqServ" action="#{reqServClienteCB.reqServMB.editarLinha}" >
+							    reRender="reqServ" action="#{reqServClienteCB.reqServMB.editar}" >
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 								<f:setPropertyActionListener value="#{op}"
 									target="#{reqServClienteCB.reqServMB.opcional}" />
