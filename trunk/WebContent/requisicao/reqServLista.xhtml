@@ -138,13 +138,20 @@
                    <rich:column/>
                    
                    <rich:column>
-						<rich:toolTip for="editlinklinha" value="Editar Registro" />
+							<a4j:commandLink ajaxSingle="true" id="editlinklinha" 
+							    reRender="reqServ" action="#{reqServClienteCB.reqServMB.editar}" >
+								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+								<f:setPropertyActionListener value="#{linha}"
+									target="#{reqServClienteCB.reqServMB.linhaReqServ}" />
+							</a4j:commandLink>
+							<rich:toolTip for="editlinklinha" value="Editar Registro" />
 							<a4j:commandLink ajaxSingle="true" id="deletelinklinha"
 								reRender="linhaList" action="#{reqServClienteCB.reqServMB.apagar}" oncomplete="#{rich:component('confirmationMessage')}.show()">
 								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{linha}"
 									target="#{reqServClienteCB.reqServMB.linhaReqServ}" />
-							</a4j:commandLink>                   
+							</a4j:commandLink>
+							<rich:toolTip for="deletelinklinha" value="Apagar Registro" />					                
                    </rich:column>
                    
                     <f:facet name="footer">

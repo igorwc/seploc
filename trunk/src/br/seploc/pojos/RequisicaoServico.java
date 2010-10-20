@@ -93,7 +93,8 @@ public class RequisicaoServico implements Serializable {
 	// @JoinColumn(name = "intCodCobr", referencedColumnName = "intCodCobr")
 	// private Cobrador cobrador;
 
-	@OneToMany(mappedBy = "reqServico", cascade = CascadeType.MERGE)
+	@OneToMany(mappedBy = "reqServico", cascade = { CascadeType.MERGE,
+			CascadeType.PERSIST })
 	private List<ReqServicosOpcionais> opcionais;
 
 	@OneToMany(mappedBy = "reqServico")
