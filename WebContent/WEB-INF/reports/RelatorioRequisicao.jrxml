@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioRequisicao" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioRequisicao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="120"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<style name="table">
 		<box>
@@ -38,10 +38,10 @@
 			<defaultValueExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "data_fim" )]]></defaultValueExpression>
 		</parameter>
 		<parameter name="cliente_id" class="java.lang.Integer">
-			<defaultValueExpression><![CDATA[(java.lang.Integer)$P{REPORT_PARAMETERS_MAP}.get( "cliente_id" )]]></defaultValueExpression>
+			<defaultValueExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "cliente_id" )]]></defaultValueExpression>
 		</parameter>
 		<parameter name="porcentagem" class="java.lang.Double">
-			<defaultValueExpression><![CDATA[(java.lang.Double)$P{REPORT_PARAMETERS_MAP}.get( "porcentagem" )]]></defaultValueExpression>
+			<defaultValueExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "porcentagem" )]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT
@@ -78,7 +78,7 @@ WHERE
 	<parameter name="data_inicio" class="java.util.Date"/>
 	<parameter name="data_fim" class="java.util.Date"/>
 	<parameter name="porcentagem" class="java.lang.Double">
-		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -296,7 +296,7 @@ CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="detalhe">
 						<datasetParameter name="cliente_id">
-							<datasetParameterExpression><![CDATA[(java.lang.Integer)$P{REPORT_PARAMETERS_MAP}.get( "cliente_id" )]]></datasetParameterExpression>
+							<datasetParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "cliente_id" )]]></datasetParameterExpression>
 						</datasetParameter>
 						<datasetParameter name="data_fim">
 							<datasetParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get("data_fim" )]]></datasetParameterExpression>
@@ -305,7 +305,7 @@ CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
 							<datasetParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get("data_inicio" )]]></datasetParameterExpression>
 						</datasetParameter>
 						<datasetParameter name="porcentagem">
-							<datasetParameterExpression><![CDATA[(java.lang.Double)$P{REPORT_PARAMETERS_MAP}.get( "porcentagem" )]]></datasetParameterExpression>
+							<datasetParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "porcentagem" )]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
