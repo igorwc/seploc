@@ -95,7 +95,7 @@ public class RequisicaoServicoDAOTest {
 		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
 		RequisicaoServico rq = dao.recupera(1);
 		OpcionaisReqServDAO daoOP = new OpcionaisReqServDAO();
-		OpcionaisReqServ op = daoOP.recupera(4);
+		OpcionaisReqServ op = daoOP.recupera(5);
 		dao.addOpcional(rq,op,2);
 		dao.altera(rq);
 		rq = null;
