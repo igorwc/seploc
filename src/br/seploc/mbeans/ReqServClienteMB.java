@@ -162,10 +162,6 @@ public class ReqServClienteMB implements Serializable {
 	}
 
 	public RequisicaoServico getReqServico() {
-		OpcionaisReqServDAO opcionalDAO = new OpcionaisReqServDAO();
-		for (ReqServicosOpcionais rso : this.reqServico.getOpcionais()){
-			rso.getOpcionaisReqServ().getNomeItem() = opcionalDAO.;
-		}
 		return reqServico;
 	}
 
@@ -266,7 +262,7 @@ public class ReqServClienteMB implements Serializable {
 		List<RequisicaoServico> retorno = reqServicoDAO.getListaSinceDate(dias60);
 		return retorno;
 	}
-
+	
 	public List<RequisicaoServico> getTodasReqServPorCliente(Cliente cliente) {
 		List<RequisicaoServico> retorno = reqServicoDAO
 				.getListaPorProjeto(cliente);
@@ -347,6 +343,7 @@ public class ReqServClienteMB implements Serializable {
 							+ linhaReqServ.getValorUnit());					
 				}
 				reqServicoDAO.altera(reqServico);
+				reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
 				setValorTotalReq(reqServico.getValorTotal().toString());
 				addGlobalMessage("Inclusão feita com sucesso!");
 			} catch (ValidatorException e) {
@@ -397,10 +394,12 @@ public class ReqServClienteMB implements Serializable {
 								+ linhaReqServ.getValorUnit());
 					}
 					reqServicoDAO.altera(temp);
+					reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
 					setValorTotalReq(reqServico.getValorTotal().toString());
 					temp.setProjeto(reqServico.getProjeto());
 					addGlobalMessage("Atualização feita com sucesso!");
 				}
+				
 			} catch (Exception e) {
 				addGlobalMessage(e.getMessage());
 			}
@@ -418,6 +417,9 @@ public class ReqServClienteMB implements Serializable {
 			addGlobalMessage(e.getMessage());
 		}
 	}
+	
+	public void editarOpcional() {
+	}	
 
 	public void apagar() {
 		try {
