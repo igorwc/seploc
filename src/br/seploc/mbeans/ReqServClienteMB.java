@@ -15,6 +15,7 @@ import br.seploc.pojos.OpcionaisReqServ;
 import br.seploc.pojos.Entrega;
 import br.seploc.pojos.Papel;
 import br.seploc.pojos.Projeto;
+import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
@@ -161,6 +162,10 @@ public class ReqServClienteMB implements Serializable {
 	}
 
 	public RequisicaoServico getReqServico() {
+		OpcionaisReqServDAO opcionalDAO = new OpcionaisReqServDAO();
+		for (ReqServicosOpcionais rso : this.reqServico.getOpcionais()){
+			rso.getOpcionaisReqServ().getNomeItem() = opcionalDAO.;
+		}
 		return reqServico;
 	}
 
