@@ -104,6 +104,7 @@ public class RequisicaoServicoDAOTest {
 		System.out.println(rq.getOpcionais().size());
 		for(ReqServicosOpcionais rso :rq.getOpcionais()){
 			System.out.println(rso);
+			System.out.println(rso.getOpcionaisReqServ().getNomeItem());
 		}
 	}
 	
