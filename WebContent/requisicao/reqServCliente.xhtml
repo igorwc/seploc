@@ -54,8 +54,9 @@
 	font-weight: bold;
 	font-style:normal;
 	color:#00008B;
-	font-size: 20pt;	
+	font-size: 12pt;	
 }
+
 </style> 
 
    <f:view>  
@@ -65,33 +66,38 @@
 		   <table id="tb1">		    
 		   	<tr>
 		   		<!-- COLUNA 1 -->
-		   	  	<td>
+		   	  	<td valign="top">
 				   <!-- Formulario -->
-	               <rich:panel header="Cliente Cadastrado" style="width: 770px"  bodyClass="formulario">
+	               <rich:panel header="Cliente Cadastrado" style="width: 1000px"  bodyClass="formulario">
 	                 <table	border="0" >               
 						<tr>
 							<td width="10%">
 								<h:outputText value="Cliente: " styleClass="texto"/></td>							
 							<!-- modal table filter para cliente -->
-							<td width="30%">
+							<td width="25%">
 								<h:inputText value="#{reqServClienteCB.reqServMB.cliente.fantasia}" 
 								         id="cliente" 
 								         readonly="true"
 								         required="true" 
 								         requiredMessage="O cliente deve ser informado."
-								         size="45"
+								         size="40"
 								         /></td>
-							<td width="10%">
+							<td width="5%">
 								<a4j:commandLink ajaxSingle="true" 
 												 id="modaleditcli" 
 												 oncomplete="#{rich:component('modalCliente')}.show();return false;">
 									<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
 								</a4j:commandLink></td>				
-							<td width="20%">
+							<td width="15%">
 								<h:outputText value="Valor Total:" styleClass="texto"/></td>
-							<td width="25%">
+							<td width="20%">
 								<h:outputText value="R$ #{reqServClienteCB.reqServMB.valorTotalReq}" /></td>
 							<td width="5%"></td>
+							<td width="20%" rowspan="2" align="center">
+								<fieldset><legend class="texto">Número Requisição</legend>
+									<h:outputText value="#{reqServClienteCB.reqServMB.reqServico.numReq}" styleClass="numeroRequisicao">
+										<f:convertNumber pattern="#000000"/></h:outputText>
+								</fieldset></td>
 						</tr>		
 						<tr>
 							<td>
@@ -100,7 +106,7 @@
 								<h:inputText value="#{reqServClienteCB.reqServMB.projeto.projeto}"									 						 
 										 id="projeto" 
 										 required="true"
-										 size="45"
+										 size="40"
 										 readonly="true" 
 										 requiredMessage="O projeto deve ser informado."/></td>
 							<td>
@@ -121,14 +127,12 @@
 						   						 id="editlinkent" 
 												 oncomplete="#{rich:component('modalEntrega')}.show();return false;">
 									<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
-								</a4j:commandLink></td>                                        
-
-                    
+								</a4j:commandLink></td> 
+							
 						</tr>
 						<tr align="left">					
-							<td colspan="6">
-								<!-- Fim Linha -->
-								<!--<rich:panel header="Linha Requisição" style="width: 770px">-->	
+							<td colspan="5" valign="top">
+								<!-- Linha -->									
 								<fieldset><legend class="texto">Linha Requisição</legend>						
 									<table>
 										<tr>
@@ -140,7 +144,7 @@
 											<th><h:outputText value="Quant"/></th>							
 										</tr>
 										<tr>
-											<td><h:inputText id="desc" value="#{reqServClienteCB.reqServMB.linhaReqServ.nomeArquivo}" size="60"/></td>
+											<td><h:inputText id="desc" value="#{reqServClienteCB.reqServMB.linhaReqServ.nomeArquivo}" size="50"/></td>
 											<td><h:inputText id="for" value="#{reqServClienteCB.reqServMB.linhaReqServ.formato}" size="5"/></td>
 											<td><h:inputText id="dim" value="#{reqServClienteCB.reqServMB.linhaReqServ.dimensao}" size="5"/></td>
 											<td>
@@ -166,14 +170,41 @@
 				                        		<rich:ajaxValidator event="onchange"  />   
 				                    			</rich:comboBox>
 				                    		</td>							
-											<td><h:inputText id="quant" value="#{reqServClienteCB.reqServMB.linhaReqServ.quant}" size="3"/></td>							
+											<td><h:inputText id="quant" value="#{reqServClienteCB.reqServMB.linhaReqServ.quant}" size="5"/></td>							
 										</tr>
 									</table>
 								</fieldset>
-								<!--</rich:panel>-->
-																
-
-				               	<!-- Fim Linha -->	
+								<!-- Fim Linha -->
+							</td>
+							<td colspan="2" valign="top">
+								<!-- Opcional -->
+								<fieldset><legend class="texto">Opcionais</legend>
+									<table>
+										<tr>
+											<th colspan="2"><h:outputText value="Opcional"/></th>
+											<th><h:outputText value="Quantidade"/></th>
+										</tr>
+										<tr>
+											<td>
+												<h:inputText value="#{reqServClienteCB.reqServMB.opcional.nomeItem}"									 						 
+											 				id="opcional" 
+											 				size="20"
+											 				readonly="true" /></td>
+											<td>
+												<a4j:commandLink ajaxSingle="true" 
+						   						 				id="editlinkop2" 
+										 		 				oncomplete="#{rich:component('modalOpcional')}.show();return false;">
+													<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
+												</a4j:commandLink></td>
+											<td>
+												<h:inputText value="#{reqServClienteCB.reqServMB.quantidadeOpcional}" 
+						 					 				size="5"
+						 					 				maxlength="5"/></td>	
+										</tr>
+									</table>
+								</fieldset>	
+								<!-- Fim Opcional -->
+				               		
 						 	</td>                    
 						</tr>	
 					  </table> 
@@ -197,11 +228,10 @@
 	                  
 					<!-- === GRID === -->
 	               	<rich:dataTable value="#{reqServClienteCB.reqServMB.reqServico.linhaRequisicao}" var="linha"    
-	                   rowClasses="row1, row2" id="linhaList" rows="5"  
-	                   columnClasses="420,50,50,50,50,50,50,50" 
+	                   rowClasses="row1, row2" id="linhaList" rows="5"	                   
 	                   onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
 	                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
-	                   width="770"
+	                   width="1000"
 	                   align="center">  
 	                   <f:facet name="header">  
 	                       <rich:columnGroup>  
@@ -210,29 +240,29 @@
 	                               <h:outputText value="Linhas da Requisição" />  
 	                           </rich:column>  
 	  
-	                           <rich:column breakBefore="true">  
+	                           <rich:column breakBefore="true"  width="350px">  
 	                               <h:outputText value="Descrição"/>  
 	                           </rich:column>  
-	                           <rich:column>  
+	                           <rich:column width="100px">  
 	                               <h:outputText value="Formato"/>  
 	                           </rich:column>                             
-	                           <rich:column>  
+	                           <rich:column width="100px">  
 	                               <h:outputText value="Dimensão"/>  
 	                           </rich:column>                             
-	                           <rich:column>  
+	                           <rich:column width="150px">  
 	                               <h:outputText value="Papel"/>  
 	                           </rich:column>                             
-	                           <rich:column>  
+	                           <rich:column width="100px">  
 	                               <h:outputText value="Impressão"/>  
 	                           </rich:column>                             
-	                           <rich:column>  
+	                           <rich:column width="50px">  
 	                               <h:outputText value="Quant"/>  
 	                           </rich:column>    
-	                           <rich:column>  
+	                           <rich:column width="100px">  
 	                               <h:outputText value="Valor Unit."/>  
 	                           </rich:column>                                                                                
 	                             
-	                           <rich:column/>  
+	                           <rich:column width="50px"/>  
 									                           
 	                       </rich:columnGroup>  
 	                   </f:facet>  
@@ -279,80 +309,27 @@
 	               			<rich:datascroller id="dslinha" maxPages="3" renderIfSinglePage="true"/>
 	                  	</f:facet>   
 	               	</rich:dataTable> 
-		   	  	</td>
-		   	  	
-		   	  	<!-- COLUNA 2 -->
-   	  		  	<td valign="top">
-
-					<!-- NUMERO REQUISICAO -->
-					<rich:panel header="Número Requisição" style="width: 270px"  bodyClass="formulario">
-						<table width="100%">
-							<tr>
-								<td align="center">
-									<h:outputText value="#{reqServClienteCB.reqServMB.reqServico.numReq}" 
-												  styleClass="numeroRequisicao">
-										<f:convertNumber pattern="#000000"/>
-									</h:outputText></td>				
-							</tr>
-						</table>
-					</rich:panel>
-					
-   	  		  	    <!-- OPCIONAIS -->
-					<rich:panel header="Opcionais" style="width: 270px"  bodyClass="formulario">
-						<table>
-							<tr>
-								<td>
-									<h:outputText value="Opcional: " styleClass="texto"/></td>
-								<td>
-									<h:inputText value="#{reqServClienteCB.reqServMB.opcional.nomeItem}"									 						 
-								 				id="opcional" 
-								 				size="20"
-								 				readonly="true" /></td>
-								<td>
-									<a4j:commandLink ajaxSingle="true" 
-			   						 				id="editlinkop" 
-							 		 				oncomplete="#{rich:component('modalOpcional')}.show();return false;">
-										<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
-									</a4j:commandLink></td>
-							</tr>
-							<tr>
-								<td>
-									<h:outputText value="Quantidade: " styleClass="texto"/></td>
-								<td>
-									<h:inputText value="#{reqServClienteCB.reqServMB.quantidadeOpcional}" 
-			 					 				size="10"
-			 					 				maxlength="5"/></td>
-								<td></td>
-							</tr>
-						</table>
-					</rich:panel>
-								
+	               	
 	               <!-- === GRID OP === -->
 	               <rich:dataTable value="#{reqServClienteCB.reqServMB.reqServico.opcionais}" var="op"    
-	                   rowClasses="row1, row2" id="opList" rows="10"  
-	                   columnClasses="120,50,50,50" 
+	                   rowClasses="row1, row2" id="opList2" rows="10"	                   
 	                   onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
 	                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
-	                   width="270"
+	                   width="1000"
 	                   align="center">  
 	                   <f:facet name="header">  
-	                       <rich:columnGroup>  
-	  
-	                           <rich:column colspan="8">  
-	                               <h:outputText value="opcionais da Requisição" />  
-	                           </rich:column>  
-	  
-	                           <rich:column breakBefore="true">  
+	                       <rich:columnGroup>
+							   <rich:column breakBefore="true" width="810">  
 	                               <h:outputText value="Opcional"/>  
 	                           </rich:column>  
-	                           <rich:column>  
+	                           <rich:column width="50px">  
 	                               <h:outputText value="Quant."/>  
 	                           </rich:column>                             
-	                           <rich:column>  
+	                           <rich:column width="90px">  
 	                               <h:outputText value="Valor Unit."/>  
 	                           </rich:column>                             
 	                             
-	                           <rich:column/>  
+	                           <rich:column width="50px"/>  
 									                           
 	                       </rich:columnGroup>  
 	                   </f:facet>  
@@ -364,18 +341,18 @@
 			               <h:outputText value="#{op.quantidade}" />  
 	                   </rich:column>
 	                   <rich:column>  
-			               <h:outputText value="#{op.opcionaisReqServ.valorItem+op.quantidade}" ><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText>  
+			               <h:outputText value="#{op.opcionaisReqServ.valorItem*op.quantidade}" ><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText>  
 	                   </rich:column>
 	    
 	                   <rich:column styleClass="col1">
-							<a4j:commandLink ajaxSingle="true" id="editlinklinha2" 
-							    reRender="reqServ" action="#{reqServClienteCB.reqServMB.editar}" >
+							<a4j:commandLink ajaxSingle="true" id="editlinkop2" 
+							    reRender="reqServ" action="#{reqServClienteCB.reqServMB.editarOpcional}" >
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 								<f:setPropertyActionListener value="#{op}"
 									target="#{reqServClienteCB.reqServMB.opcional}" />
 							</a4j:commandLink>
 							<rich:toolTip for="editlinklinha" value="Editar Registro" />
-							<a4j:commandLink ajaxSingle="true" id="deletelinklinha"
+							<a4j:commandLink ajaxSingle="true" id="deletelinkop"
 								reRender="opList" action="#{reqServClienteCB.reqServMB.apagar}" oncomplete="#{rich:component('confirmationMessage')}.show()">
 								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{op}"
@@ -386,9 +363,14 @@
 	                    <f:facet name="footer">
 	               			<rich:datascroller id="dsop" maxPages="3" renderIfSinglePage="true"/>
 	                  	</f:facet>   
-	               </rich:dataTable> 		   	  		  		
- 						
-				</td>
+	               </rich:dataTable> 
+	               
+	               
+	               
+	               
+	               	               	
+		   	  	</td>
+
 		   	</tr>
 		   </table>
                
