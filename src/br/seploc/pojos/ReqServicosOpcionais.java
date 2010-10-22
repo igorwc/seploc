@@ -27,6 +27,14 @@ public class ReqServicosOpcionais implements Serializable {
 	@Column(name = "tspVersao")
 	private Timestamp versao;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "intNumReq", referencedColumnName = "intNumReq", updatable = false, insertable = false)
+	private RequisicaoServico reqServico;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "intCodOp", referencedColumnName = "intCod", updatable = false, insertable = false)
+	private OpcionaisReqServ opcionaisReqServ;
+
 	public ReqServicosOpcionais() {
 		
 	}
@@ -36,10 +44,13 @@ public class ReqServicosOpcionais implements Serializable {
 		this.id = id;
 	}
 
+
 	public ReqServicosOpcionais(ReqServicosOpcionaisPK id, Integer quantidade,
 			RequisicaoServico reqServico, OpcionaisReqServ opcionaisReqServ) {
 		this.id = id;
 		this.quantidade = quantidade;
+		this.reqServico = reqServico;
+		this.opcionaisReqServ = opcionaisReqServ;
 	}
 
 	public ReqServicosOpcionaisPK getId() {
@@ -64,6 +75,22 @@ public class ReqServicosOpcionais implements Serializable {
 
 	public void setVersao(Timestamp versao) {
 		this.versao = versao;
+	}
+
+	public RequisicaoServico getReqServico() {
+		return reqServico;
+	}
+
+	public void setReqServico(RequisicaoServico reqServico) {
+		this.reqServico = reqServico;
+	}
+
+	public OpcionaisReqServ getOpcionaisReqServ() {
+		return opcionaisReqServ;
+	}
+
+	public void setOpcionaisReqServ(OpcionaisReqServ opcionaisReqServ) {
+		this.opcionaisReqServ = opcionaisReqServ;
 	}
 
 	public static long getSerialversionuid() {
