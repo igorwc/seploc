@@ -14,6 +14,14 @@ public class ReqServicosOpcionaisPK implements Serializable {
 	@Column(name = "intCodOp", nullable = false)
 	private Integer intCodOp;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "intNumReq", referencedColumnName = "intNumReq", updatable = false, insertable = false)
+	private RequisicaoServico reqServico;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "intCodOp", referencedColumnName = "intCod", updatable = false, insertable = false)
+	private OpcionaisReqServ opcionaisReqServ;	
+	
 	public ReqServicosOpcionaisPK() {
 	}
 
@@ -40,6 +48,22 @@ public class ReqServicosOpcionaisPK implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public void setOpcionaisReqServ(OpcionaisReqServ opcionaisReqServ) {
+		this.opcionaisReqServ = opcionaisReqServ;
+	}
+
+	public OpcionaisReqServ getOpcionaisReqServ() {
+		return opcionaisReqServ;
+	}
+
+	public void setReqServico(RequisicaoServico reqServico) {
+		this.reqServico = reqServico;
+	}
+
+	public RequisicaoServico getReqServico() {
+		return reqServico;
 	}
 
 	@Override
