@@ -78,6 +78,9 @@ public class ReqServClientePeriodoMB implements Serializable{
 		
 		return retorno;
 	}
+	public void putReportParameters(){
+		
+	}
 	//GETTERS AND SETTERS
 	public Cliente getCliente() {
 		return cliente;
