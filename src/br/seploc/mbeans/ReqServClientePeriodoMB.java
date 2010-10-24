@@ -11,6 +11,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.application.ViewHandler;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.RequisicaoServico;
@@ -52,6 +56,9 @@ public class ReqServClientePeriodoMB implements Serializable{
 		}
 		return retorno;
 	}
+	
+	
+	
 	//CONSTRUTOR PADRÃO
 	public ReqServClientePeriodoMB() {
 		cliente = new Cliente();
@@ -118,9 +125,20 @@ public class ReqServClientePeriodoMB implements Serializable{
 
 	public void setDataFim(Date dataFim) {
 		this.dataFim = dataFim;
+		System.out.println("Setou data "+this.dataFim);
 	}
 	public void setDataFim(String dataFim) {
-		this.dataFim = new Date (Date.parse(dataFim));;
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+	    Date date = null;
+	    System.out.println("nova data"+dataFim);
+		try {
+			date = (Date)formatter.parse(dataFim);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		this.dataFim =date;
+	 
 	}
 	public Double getDesconto() {
 		return desconto;
