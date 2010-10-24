@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioRequisicao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="7"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<style name="table">
 		<box>
@@ -27,7 +27,7 @@
 	<style name="style1" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
-			<style backcolor="#CCCCFF"/>
+			<style backcolor="#CCCCCC"/>
 		</conditionalStyle>
 	</style>
 	<subDataset name="detalhe">
@@ -76,7 +76,9 @@ WHERE
 		<defaultValueExpression><![CDATA["C:\\Desenvolvimento\\workspaceSADBA\\seploc\\WebContent\\WEB-INF\\reports\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="data_inicio" class="java.util.Date"/>
-	<parameter name="data_fim" class="java.util.Date"/>
+	<parameter name="data_fim" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+	</parameter>
 	<parameter name="porcentagem" class="java.lang.Double">
 		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
 	</parameter>
@@ -206,19 +208,19 @@ CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
 				<text><![CDATA[Período de ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="53" y="62" width="47" height="14"/>
+				<reportElement x="53" y="62" width="51" height="14"/>
 				<textElement>
 					<font isItalic="true"/>
 				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[$P{data_inicio}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="100" y="62" width="13" height="14"/>
+				<reportElement x="104" y="62" width="13" height="14"/>
 				<textElement/>
 				<text><![CDATA[ a]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="113" y="62" width="100" height="14"/>
+				<reportElement x="120" y="62" width="100" height="14"/>
 				<textElement>
 					<font isItalic="true"/>
 				</textElement>
@@ -386,7 +388,7 @@ CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
 						<jr:columnFooter height="6" rowSpan="1"/>
 						<jr:detailCell height="20" rowSpan="1">
 							<textField>
-								<reportElement style="style1" mode="Opaque" x="0" y="1" width="192" height="14"/>
+								<reportElement style="style1" mode="Opaque" x="0" y="0" width="192" height="14"/>
 								<textElement/>
 								<textFieldExpression class="java.lang.String"><![CDATA[$F{vcrProjeto}]]></textFieldExpression>
 							</textField>
@@ -416,7 +418,7 @@ CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
 						<jr:columnFooter height="6" rowSpan="1"/>
 						<jr:detailCell height="20" rowSpan="1">
 							<textField pattern="###0.00;-###0.00">
-								<reportElement style="style1" mode="Opaque" x="0" y="1" width="143" height="14"/>
+								<reportElement style="style1" mode="Opaque" x="0" y="0" width="143" height="14"/>
 								<textElement/>
 								<textFieldExpression class="java.lang.Double"><![CDATA[$F{dblValorTotal}]]></textFieldExpression>
 							</textField>
@@ -430,49 +432,7 @@ CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
 		<band height="79" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="30" splitType="Stretch">
-			<rectangle>
-				<reportElement x="0" y="0" width="555" height="30" backcolor="#CCCCFF"/>
-				<graphicElement>
-					<pen lineWidth="0.0" lineStyle="Double"/>
-				</graphicElement>
-			</rectangle>
-			<staticText>
-				<reportElement x="247" y="0" width="52" height="11"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Versão 2.0]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="476" y="0" width="78" height="11"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Gustavo Marinho]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="477" y="10" width="67" height="11"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Igor Cavalcanti]]></text>
-			</staticText>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="0" y="0" width="100" height="11"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="409" y="0" width="65" height="11"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Desenvolvedores:]]></text>
-			</staticText>
-		</band>
+		<band height="30" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="33" splitType="Stretch"/>
