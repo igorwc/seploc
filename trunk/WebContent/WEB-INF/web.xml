@@ -108,7 +108,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>RelatorioServlet</servlet-name>
-    <url-pattern>/reports.report</url-pattern>
+    <url-pattern>/RelPeriodoCliente.report</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
