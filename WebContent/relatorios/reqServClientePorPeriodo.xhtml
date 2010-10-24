@@ -58,7 +58,7 @@
            <rich:panel header="Relatório">
 			   <!-- Formulario -->
 			   <center>
-               <rich:panel header="Requisições por Período" style="width: 600px" bodyClass="formulario">
+               <rich:panel header="Requisições por Período" style="width: 600px" bodyClass="formulario"  >
                  <table	border="0"  >               
 					<tr align="left">
 					   <td>
@@ -230,6 +230,14 @@
 				  </table> 
 				  <!-- Botoes -->
                   <br/>
+                      
+<script type="text/javascript">
+function popUp(URL) {
+day = new Date();
+id = day.getTime();
+eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,resizable=1,width=800,height=600,left = 390,top = 100');");
+} 
+</script>
                   <a4j:commandButton value="Salvar e Gerar Relatório"
                                      action="#{cobradorCB.cobradorMB.cadastrar}" 
                                      reRender="cadCobrador,cobradorList,cobradorSucesso"
@@ -237,6 +245,9 @@
                   <a4j:commandButton value="#{msgs['botao.limpar']}" 
                                      action="#{cobradorCB.cobradorMB.limpar}"
                                      reRender="cobradorList,cadCobrador" />
+                  <a4j:commandButton value="Gerar Relatório"
+                                      actionListener="#{reqClientePeriodoCB.setaObjetosSessao}"
+                                     oncomplete="javascript:popUp('#{reqClientePeriodoCB.url}')" />
                </rich:panel>
                </center>
                
