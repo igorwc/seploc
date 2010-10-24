@@ -2,9 +2,11 @@ package br.seploc.servlets;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -12,13 +14,18 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import br.seploc.util.SessionObjectsManager;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperRunManager;
 
 /**
  * Servlet implementation class RelatorioServlet
@@ -47,6 +54,12 @@ public class RelatorioServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// obtém a conexão com o banco de dados
+		ServletOutputStream servletOutputStream = response.getOutputStream();
+		ServletContext context = getServletContext();
+		InputStream reportStream = getServletConfig().getServletContext()
+				.getResourceAsStream(
+						"/WEB-INF/reports/RelatorioRequisicao.jasper");
+
 		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -62,62 +75,96 @@ public class RelatorioServlet extends HttpServlet {
 		}
 
 		// gera o relatório
-		ServletContext context = getServletContext();
 		byte[] bytes = null;
 		try {
 
 			// carrega os arquivos jasper
 			// JasperReport relatorioJasper = (JasperReport)JRLoader.loadObject(
 			// context.getRealPath("/WEB-INF/reports/RelatioRequisicao.jasper"));
-			Date dataInicio = new Date(new GregorianCalendar(2007,
-					GregorianCalendar.AUGUST, 01).getTimeInMillis());
-			Date dataFim = new Date(new GregorianCalendar(2010,
-					GregorianCalendar.AUGUST, 01).getTimeInMillis());
+			HttpSession session = request.getSession();
+			Date dataInicio = (Date) session.getAttribute("clientDataInicio");
+			Date dataFim = (Date) session.getAttribute("clientDataFim");
+			Integer clientID = (Integer) session.getAttribute("clientID");
+			Double clientDesconto = (Double) session
+					.getAttribute("clientDesconto");
+			// new Date(new GregorianCalendar(2007,
+			// GregorianCalendar.AUGUST, 01).getTimeInMillis());
+			if (dataFim == null) {
+				GregorianCalendar dd = new GregorianCalendar();
+				dd.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
+				dataFim =new Date(dd.getTimeInMillis());
+			}
 			// parâmetros, se houverem
 			Map parametros = new HashMap();
-			parametros.put("cliente_id", 35);
+			parametros.put("cliente_id", clientID.intValue());
 			parametros.put("data_inicio", dataInicio);
 			parametros.put("data_fim", dataFim);
-			parametros.put("porcentagem", new Double(10.0));
+			parametros.put("porcentagem", clientDesconto.doubleValue());
 			// JasperPrint impressao = JasperFillManager.fillReport(
 			// caminhoRelatorioJasper,parametros,ds);
 			// // direciona a saída do relatório para um stream
 			// System.out.println(context.getRealPath("/WEB-INF/reports/RelatorioRequisicao.jasper"));
 			// bytes =
 			// JasperRunManager.runReportToPdf(context.getRealPath("/WEB-INF/reports/RelatorioRequisicao.jasper"),parametros,conn);
-			System.out.println(context.getRealPath("/WEB-INF/reports/RelatorioRequisicao.jasper"));
-			JasperPrint impressao = JasperFillManager
-					.fillReport(
-							context.getRealPath("/WEB-INF/reports/RelatorioRequisicao.jasper"),
-							parametros, con);
-			ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-			JasperExportManager.exportReportToPdfStream(impressao,
-					arrayOutputStream);
-			response.setContentType("application/pdf");
-			// testando
+			System.out
+					.println(context
+							.getRealPath("/WEB-INF/reports/RelatorioRequisicao.jasper"));
+			JasperRunManager.runReportToPdfStream(reportStream,
+					servletOutputStream, parametros, conn);
+
+//			 response.setContentType("application/pdf");
+			 response.setContentType("application/octet-stream");
+			// servletOutputStream.flush();
+			// servletOutputStream.close();
 			response.setHeader("Pragma", "public");
 			response.setHeader("Cache-control", "must-revalidate");
 			// response.setHeader("Pragma", "");
 			// response.setHeader("Cache-Control", "");
+			ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
 			response.setHeader("Expires", "");
-			response.setHeader("Content-Disposition", "inline; filename="
-					+ "RelatorioRequisicao" + "." + "pdf");
+//			response.setHeader("Content-Disposition", "attachment inline; filename="
+//					+ "test.pdf");
+			response.addHeader("content-disposition", "inline;filename=relatorio.pdf");
 			response.setContentLength(arrayOutputStream.size());
 
 			OutputStream out = response.getOutputStream();
 			arrayOutputStream.writeTo(out);
 			out.flush();
 			out.close();
-//			if (bytes != null && bytes.length > 0) {
-//				// envia o relatório em formato PDF para o browser
-//				response.setContentType("application/pdf");
-//
-//				response.setContentLength(bytes.length);
-//				ServletOutputStream ouputStream = response.getOutputStream();
-//				ouputStream.write(bytes, 0, bytes.length);
-//				ouputStream.flush();
-//				ouputStream.close();
-//			}
+			//
+			// JasperPrint impressao = JasperFillManager
+			// .fillReport(
+			// context.getRealPath("/WEB-INF/reports/RelatorioRequisicao.jasper"),
+			// parametros, con);
+			// ByteArrayOutputStream arrayOutputStream = new
+			// ByteArrayOutputStream();
+			// JasperExportManager.exportReportToPdfStream(impressao,
+			// arrayOutputStream);
+			// response.setContentType("application/pdf");
+			// // testando
+			// response.setHeader("Pragma", "public");
+			// response.setHeader("Cache-control", "must-revalidate");
+			// // response.setHeader("Pragma", "");
+			// // response.setHeader("Cache-Control", "");
+			// response.setHeader("Expires", "");
+			// response.setHeader("Content-Disposition", "inline; filename="
+			// + "RelatorioRequisicao" + "." + "pdf");
+			// response.setContentLength(arrayOutputStream.size());
+			//
+			// OutputStream out = response.getOutputStream();
+			// arrayOutputStream.writeTo(out);
+			// out.flush();
+			// out.close();
+			// // if (bytes != null && bytes.length > 0) {
+			// // // envia o relatório em formato PDF para o browser
+			// // response.setContentType("application/pdf");
+			// //
+			// // response.setContentLength(bytes.length);
+			// // ServletOutputStream ouputStream = response.getOutputStream();
+			// // ouputStream.write(bytes, 0, bytes.length);
+			// // ouputStream.flush();
+			// // ouputStream.close();
+			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
