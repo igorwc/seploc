@@ -342,8 +342,7 @@ public class ReqServClienteMB implements Serializable {
 					reqServico.setValorTotal(reqServico.getValorTotal()
 							+ linhaReqServ.getValorUnit());					
 				}
-				reqServicoDAO.altera(reqServico);
-				reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+				reqServicoDAO.altera(reqServico);				
 				setValorTotalReq(reqServico.getValorTotal().toString());
 				addGlobalMessage("Inclusão feita com sucesso!");
 			} catch (ValidatorException e) {
@@ -394,7 +393,7 @@ public class ReqServClienteMB implements Serializable {
 								+ linhaReqServ.getValorUnit());
 					}
 					reqServicoDAO.altera(temp);
-					reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+					reqServico = reqServicoDAO.recupera(temp.getNumReq());
 					setValorTotalReq(reqServico.getValorTotal().toString());
 					temp.setProjeto(reqServico.getProjeto());
 					addGlobalMessage("Atualização feita com sucesso!");
