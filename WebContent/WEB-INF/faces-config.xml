@@ -133,6 +133,17 @@
   <managed-bean-class>br.seploc.controllers.CobradorCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
+ <!-- Cadastro GrupoMenu -->
+ <managed-bean>
+  <managed-bean-name>grupoMenuMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.GrupoMenuMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>grupoMenuCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.GrupoMenuCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
  <!-- Cadastro Grupo -->
  <managed-bean>
   <managed-bean-name>grupoMB</managed-bean-name>
