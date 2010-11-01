@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="../templatepage/masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_cad_root}"/> <img src="../imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_cad_grupomenu}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+      
+<style type="text/css">  
+.row1 {   
+    background-color: #EEF3E2;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+.formulario, .formulario TD, .formulario TH
+{
+	background-color : #f2f2f5;	
+}
+
+</style> 
+
+   <f:view>  
+   	   <h:form id="cadGrupoMenu" enctype="UTF-8" prependId="false" >
+           <rich:panel header="Associar Grupo ao Menu">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Associar Grupo a Menu" style="width: 650px" bodyClass="row1">
+    
+			        <rich:listShuttle 
+			        		var="items"
+			        		sourceValue="#{grupoMenuCB.grupoMenuMB.todosMenu}"
+			        		targetValue="#{grupoMenuCB.grupoMenuMB.menuEscrita}"        		 
+			            	sourceCaptionLabel="Lista de Menus"
+			            	targetCaptionLabel="Lista Menu Escrita"
+			            	copyAllControlLabel="Copiar Tudo" 
+			            	copyControlLabel="Copiar"
+			            	removeControlLabel="Remover"
+			            	removeAllControlLabel="Remover Tudo"
+			            	listsHeight="300"
+            				sourceListWidth="200" 
+            				targetListWidth="200"			       
+            				rowClasses="row1"            
+            				listClass="row2"				          	
+			            	> 
+			            <!-- converter="listShuttleconverter" -->            
+			            <rich:column>
+			             	<f:facet name="header">
+			             		<h:outputText value="Menu"/>
+			             	</f:facet>
+			                <h:outputText value="#{items.menuPai.menu}"></h:outputText>
+			            </rich:column>
+			            <rich:column>
+			            	<f:facet name="header">
+			            		<h:outputText value="SubMenu"/>
+			            	</f:facet>
+			                <h:outputText value="#{items.menu}"></h:outputText>
+			            </rich:column>			            
+			        </rich:listShuttle>
+    
+               </rich:panel>
+               </center>
+           </rich:panel>
+   	   </h:form>
+   </f:view>   	     
+</ui:define>
+</ui:composition>
