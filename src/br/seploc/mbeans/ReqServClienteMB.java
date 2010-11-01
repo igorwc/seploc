@@ -15,7 +15,6 @@ import br.seploc.pojos.OpcionaisReqServ;
 import br.seploc.pojos.Entrega;
 import br.seploc.pojos.Papel;
 import br.seploc.pojos.Projeto;
-import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
@@ -230,11 +229,7 @@ public class ReqServClienteMB implements Serializable {
 	}
 
 	public List<Projeto> getTodosProjetos() {
-		// List<Projeto> retorno = new ArrayList<Projeto>();
-		// if (cliente.getIdCliente().intValue() != 0) {
-		// ProjetoDAO projetoDAO = new ProjetoDAO();
-		// retorno = projetoDAO.getListaProjetoPorCliente(cliente);
-		// }
+
 		List<Projeto> retorno = null;
 		if (cliente == null || cliente.getIdCliente().intValue() == 0) {
 			retorno = new ArrayList<Projeto>();
@@ -308,14 +303,21 @@ public class ReqServClienteMB implements Serializable {
 					throw new Exception("Requisição de Serviço precisa de uma linha ou de um opcional!"); 
 				}
 
-				// recuperar a requisicao
-				reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+				// recuperar a requisicao				
+				int numReq = reqServico.getNumReq();				
+				//reqServico = reqServicoDAO.recupera(numReq);
+				RequisicaoServico temp0 = reqServicoDAO.recupera(numReq);
+				
+				//reqServicoDAO.refresh(reqServico);
+				
+				
+				
 
 				// adicionar o opcional
 				if (existeOpcional) {
-					reqServicoDAO.addOpcional(reqServico, opcional,
+					reqServicoDAO.addOpcional(temp0, opcional,
 							quantidadeOpcional);
-					reqServico.setValorTotal(reqServico.getValorTotal()
+					temp0.setValorTotal(temp0.getValorTotal()
 							+ (opcional.getValorItem() * quantidadeOpcional));					
 				}
 				// adicionar a linha
@@ -341,9 +343,9 @@ public class ReqServClienteMB implements Serializable {
 					reqServicoDAO.addLinha(reqServico, linhaReqServ);
 					reqServico.setValorTotal(reqServico.getValorTotal()
 							+ linhaReqServ.getValorUnit());					
-				}
-				reqServicoDAO.altera(reqServico);				
-				setValorTotalReq(reqServico.getValorTotal().toString());
+				}				
+				//reqServicoDAO.altera(reqServico);				
+				setValorTotalReq(temp0.getValorTotal().toString());
 				addGlobalMessage("Inclusão feita com sucesso!");
 			} catch (ValidatorException e) {
 				addGlobalMessage(e.getMessage());

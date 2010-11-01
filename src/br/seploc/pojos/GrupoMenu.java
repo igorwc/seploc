@@ -24,7 +24,7 @@ import br.seploc.dao.MenuDAO;
 				+ "FROM tbl_grupomenu gm", resultSetMapping = "GrupoMenu.implicit"),
 		@NamedNativeQuery(name = "GrupoMenu.RetornaPorMenus", query = "SELECT * "
 				+ "FROM tbl_grupomenu where intMenu = :MENU" , resultSetMapping = "GrupoMenu.implicit"),
-				@NamedNativeQuery(name = "GrupoMenu.RetornaPorGrupo", query = "SELECT * "
+		@NamedNativeQuery(name = "GrupoMenu.RetornaPorGrupo", query = "SELECT * "
 					+ "FROM tbl_grupomenu where intGrupo = :GRUPO" , resultSetMapping = "GrupoMenu.implicit")
 })
 public class GrupoMenu {

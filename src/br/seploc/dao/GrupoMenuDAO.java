@@ -84,6 +84,14 @@ public class GrupoMenuDAO extends GenericDAO<GrupoMenu, GrupoMenuPK>{
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<GrupoMenu> getListaMenuSemPai(){
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("GrupoMenu.RetornaMenusSemPai");
+		em.getTransaction().commit();
+		return (List<GrupoMenu>) q.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<GrupoMenu> getFilterByMenu(Menu menu) {
 		em.getTransaction().begin();
 		Query q = em.createNamedQuery("GrupoMenu.RetornaPorMenus").setParameter("MENU", menu.getCodMenu().intValue());
