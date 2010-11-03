@@ -4,6 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:rich="http://richfaces.org/rich"
+      xmlns:t="http://myfaces.apache.org/tomahawk" 
       template="../templatepage/masterpage.xhtml">
 
 <!-- TAXINOMIA -->      
@@ -57,13 +58,28 @@
 			   <!-- Formulario -->
 			   <center>
                <rich:panel header="Associar Grupo a Menu" style="width: 650px" bodyClass="row1">
-    
+    				<fieldset style="height: 30px"><legend>Filtro</legend>
+                       <a4j:outputPanel id="combos"  >
+                       	   <h:outputText value="Grupo de Acesso: " />
+                           <h:selectOneMenu value="#{grupoMenuCB.grupoMenuMB.grupo.codGrupo}" id="grupo" >
+                                <f:selectItem itemLabel=" Selecione um Grupo" itemValue="-1"></f:selectItem>                                
+                                <t:selectItems value="#{grupoMenuCB.grupoMenuMB.listaGrupos}" 
+                                               var="element" 
+                                               itemLabel="#{element.nomeGrupo}" 
+                                               itemValue="#{element.codGrupo}" />
+                                 <a4j:support  event="onchange" reRender="listaMenu,grupo" ajaxSingle="true"/>
+                           </h:selectOneMenu>  
+                       </a4j:outputPanel>
+                    </fieldset>
+    				
+    				<fieldset><legend>Associação</legend>
 			        <rich:listShuttle 
+			        		id="listaMenu"
 			        		var="items"
 			        		sourceValue="#{grupoMenuCB.grupoMenuMB.todosMenu}"
 			        		targetValue="#{grupoMenuCB.grupoMenuMB.menuEscrita}"        		 
 			            	sourceCaptionLabel="Lista de Menus"
-			            	targetCaptionLabel="Lista Menu Escrita"
+			            	targetCaptionLabel="Lista Menu Associados"
 			            	copyAllControlLabel="Copiar Tudo" 
 			            	copyControlLabel="Copiar"
 			            	removeControlLabel="Remover"
@@ -88,7 +104,8 @@
 			                <h:outputText value="#{items.menu}"></h:outputText>
 			            </rich:column>			            
 			        </rich:listShuttle>
-    
+    				</fieldset>
+
                </rich:panel>
                </center>
            </rich:panel>

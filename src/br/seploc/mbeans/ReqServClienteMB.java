@@ -394,6 +394,14 @@ public class ReqServClienteMB implements Serializable {
 						temp.setValorTotal(temp.getValorTotal()
 								+ linhaReqServ.getValorUnit());
 					}
+					// verificar se existe alteração na entrega
+					if (!temp.getEntrega().equals(entrega)){
+						temp.setEntrega(entrega);
+					}					
+					// verificar se foi alterado o projeto
+					if (!temp.getProjeto().equals(projeto)){
+						temp.setProjeto(projeto);
+					}
 					reqServicoDAO.altera(temp);
 					reqServico = reqServicoDAO.recupera(temp.getNumReq());
 					setValorTotalReq(reqServico.getValorTotal().toString());

@@ -3,6 +3,9 @@ package br.seploc.mbeans;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import br.seploc.dao.GrupoDAO;
 import br.seploc.dao.GrupoMenuDAO;
 import br.seploc.dao.MenuDAO;
@@ -15,6 +18,7 @@ public class GrupoMenuMB  implements Serializable {
 	private static final long serialVersionUID = 1L;	
 	private List<Menu> menuEscrita;
 	private List<Menu> menuLeitura;
+	private List<Grupo> listaGrupos;
 	private GrupoMenuDAO grupoMenuDAO;
 	private GrupoDAO grupoDAO;
 	private MenuDAO menuDAO;
@@ -27,12 +31,13 @@ public class GrupoMenuMB  implements Serializable {
 	 */
 	public GrupoMenuMB(){		
 		menuEscrita = null;
-		menuLeitura = null;
+		menuLeitura = null;		
 		setGrupomenuDAO(new GrupoMenuDAO());
 		setMenuDAO(new MenuDAO());
 		setGrupoDAO(new GrupoDAO());
 		grupo = new Grupo();
-		menu = new Menu();		
+		menu = new Menu();	
+		listaGrupos = grupoDAO.getLista();
 	}
 
 	// GETTER E SETTERS
@@ -112,9 +117,21 @@ public class GrupoMenuMB  implements Serializable {
 		return retorno;
 	}
 	
+	public List<Grupo> getListaGrupos() {
+		return listaGrupos;
+	}
+
+	public void setListaGrupos(List<Grupo> listaGrupos) {
+		this.listaGrupos = listaGrupos;
+	}
+
 	//METODOS
-	public void cadastrar(){
-		GrupoMenu grupoMenu;
+	public void cadastrar(){		
+		try {
+			//TO DO
+		} catch (Exception e) {
+			addGlobalMessage(e.getMessage());
+		}
 	}
 	
 	public void editar(){
@@ -128,4 +145,9 @@ public class GrupoMenuMB  implements Serializable {
 	public void limpar(){
 		
 	}
+	
+	public static void addGlobalMessage(String message) {
+		FacesMessage facesMessage = new FacesMessage(message);
+		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	}	
 }
