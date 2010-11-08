@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee        http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+ <name>seploc</name>
+ <!--  Conversores 
+ Conversor de String para Número Decimal e vice versa -->
+ <converter>
+  <converter-id>SeplocCurrencyConverter</converter-id>
+  <converter-class>br.seploc.converters.SeplocCurrencyConverter</converter-class>
+ </converter>
+ <!-- Conversor de CPF com marcadores para CPF sem marcadores e vice versa -->
+ <converter>
+  <converter-id>SeplocCPFConverter</converter-id>
+  <converter-class>br.seploc.converters.SeplocCPFConverter</converter-class>
+ </converter>
+ <!-- Conversor de CNPJ com marcadores para CNPJ sem marcadores e vice versa -->
+ <converter>
+  <converter-id>SeplocCNPJConverter</converter-id>
+  <converter-class>br.seploc.converters.SeplocCNPJConverter</converter-class>
+ </converter>
+ <!-- Fim dos Conversores
+  Beans Adicionais -->
+ <managed-bean>
+  <managed-bean-name>login</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.Login</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <!-- Bean Navegacao -->
+ <managed-bean>
+  <managed-bean-name>navigationBean</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.NavigationBean</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+  <managed-property>
+   <property-name>opcaoDocId</property-name>
+   <value>1</value>
+  </managed-property>
+ </managed-bean>
+ <!-- Bean de aplicacao -->
+ <managed-bean>
+  <managed-bean-name>appBean</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.AppServiceBean</managed-bean-class>
+  <managed-bean-scope>application</managed-bean-scope>
+ </managed-bean>
+ <!-- Bean de aplicacao -->
+ <managed-bean>
+  <managed-bean-name>suggestionBean</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.SuggestionboxBean</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <!-- Bean de BeanTest -->
+ <managed-bean>
+  <managed-bean-name>testBean</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.tests.MBeanTest</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <!-- Fim de Beans Adicionais
+ 
+   Cadastro Papel -->
+ <managed-bean>
+  <managed-bean-name>papelCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.PapelCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>papelMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.tests.PapelMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <!-- Cadastro Opcional -->
+ <managed-bean>
+  <managed-bean-name>opcionalMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.OpcionalMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>opcionalCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.OpcionalCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <!-- Cadastro Entrega -->
+ <managed-bean>
+  <managed-bean-name>entregaMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.EntregaMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>entregaCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.EntregaCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <!-- Cadastro Usuario -->
+ <managed-bean>
+  <managed-bean-name>usuarioMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.UsuarioMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>usuarioCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.UsuarioCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <!-- Cadastro Cliente -->
+ <managed-bean>
+  <managed-bean-name>clienteCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.ClienteCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>clienteMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.tests.ClienteMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <!-- Cadastro Projeto -->
+ <managed-bean>
+  <managed-bean-name>projetoMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.ProjetoMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>projetoCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.ProjetoCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <!-- Cadastro Cobrador -->
+ <managed-bean>
+  <managed-bean-name>cobradorMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.CobradorMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>cobradorCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.CobradorCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <!-- Cadastro GrupoMenu -->
+ <managed-bean>
+  <managed-bean-name>grupoMenuMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.GrupoMenuMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>grupoMenuCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.GrupoMenuCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <!-- Cadastro Grupo -->
+ <managed-bean>
+  <managed-bean-name>grupoMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.GrupoMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>grupoCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.GrupoCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <!--Fim dos Cadastros 
+ Requisicao -->
+ <managed-bean>
+  <managed-bean-name>reqServClienteMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.ReqServClienteMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>reqServClienteCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.ReqServClienteCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>reqClientePeriodoCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.ReqServClientePeriodoCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>reqClientePeriodoMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.ReqServClientePeriodoMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <!-- Regras Navegação -->
+ <navigation-rule>
+  <from-view-id>/login.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>login</from-outcome>
+   <to-view-id>/login.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>principal</from-outcome>
+   <to-view-id>/principal.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <!--
+ Validadores 
+ Validador de CPF -->
+ <validator>
+  <validator-id>SeploCPFValidator</validator-id>
+  <validator-class>br.seploc.validators.SeploCPFValidator</validator-class>
+ </validator>
+ <validator>
+  <validator-id>SeplocCNPJValidator</validator-id>
+  <validator-class>br.seploc.validators.SeplocCNPJValidator</validator-class>
+ </validator>
+ <!-- Fim de Validadores
+ Configuracao do Facelets -->
+ <application>
+  <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+  <locale-config>
+   <default-locale>pt</default-locale>
+  </locale-config>
+  <resource-bundle>
+   <base-name>messages</base-name>
+   <var>msgs</var>
+  </resource-bundle>
+ </application>
+</faces-config>

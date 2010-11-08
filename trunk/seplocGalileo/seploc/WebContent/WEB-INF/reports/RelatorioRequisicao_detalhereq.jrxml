@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioRequisicao_detalhereq" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="client_detalhe" class="java.lang.Integer" isForPrompting="false"/>
+	<parameter name="data_inicial" class="java.util.Date"/>
+	<parameter name="data_final" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT
+     tbl_reqserv.`intNumreq` AS tbl_reqserv_intNumreq,
+     tbl_projetos.`vcrProjeto` AS tbl_projetos_vcrProjeto,
+     tbl_reqserv.`dblValorEnt` AS tbl_reqserv_dblValorEnt,
+     tbl_reqserv.`datData` AS tbl_reqserv_datData,
+     tbl_projetos.`intClienteId` AS tbl_projetos_intClienteId
+FROM
+     `tbl_projetos` tbl_projetos INNER JOIN `tbl_reqserv` tbl_reqserv ON tbl_projetos.`intCodProj` = tbl_reqserv.`intCodProj`
+where tbl_projetos_intClienteId = $P{client_detalhe}]]>
+	</queryString>
+	<field name="tbl_reqserv_intNumreq" class="java.lang.Integer"/>
+	<field name="tbl_projetos_vcrProjeto" class="java.lang.String"/>
+	<field name="tbl_reqserv_dblValorEnt" class="java.lang.Double"/>
+	<field name="tbl_reqserv_datData" class="java.sql.Date"/>
+	<field name="tbl_projetos_intClienteId" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="101" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="87" width="102" height="14"/>
+				<textElement/>
+				<text><![CDATA[N. Requisição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="87" width="163" height="14"/>
+				<textElement/>
+				<text><![CDATA[Projeto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="417" y="87" width="138" height="14"/>
+				<textElement/>
+				<text><![CDATA[Subtotal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="87" width="106" height="14"/>
+				<textElement/>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="98" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="102" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{tbl_reqserv_intNumreq}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="417" y="0" width="138" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tbl_projetos_vcrProjeto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="0" width="163" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{tbl_reqserv_dblValorEnt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="0" width="106" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{tbl_reqserv_datData}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,234 @@
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="../templatepage/masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_cad_root}"/> <img src="../imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_cad_usuario}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+<style type="text/css">  
+.row1 {   
+    background-color: #EEF3E2;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+.formulario, .formulario TD, .formulario TH
+{
+	background-color : #f2f2f5;	
+}
+
+</style> 
+   <f:view>  
+   	   <h:form id="cadUsuario" enctype="UTF-8" prependId="false" >
+   	   <script type="text/javascript" >
+             (function($j){
+                  $j(function(){
+    	              $j('.seplocCPF').setMask();
+                     }
+                   );
+              })(jQuery); 
+       </script>
+           <rich:panel header="Usuário">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Cadastro do Usuario" style="width: 600px" bodyClass="formulario">
+                 
+                 <table	border="0">                
+					<tr align="left">
+					<td><h:outputText value="Login: " styleClass="texto"/></td>
+					<td><h:inputText value="#{usuarioCB.usuarioMB.usuario.login}" 
+									 required="true"
+									 requiredMessage="O login deve ser informado"
+									 validator="#{usuarioCB.validateLogin}"
+									 id="login">                          
+                           <rich:ajaxValidator event="onkeyup" />                           
+                        </h:inputText>
+                        <h:inputHidden value="#{usuarioCB.usuarioMB.usuario.id}" />
+                    </td>                    
+					</tr>
+					<tr>
+					<td colspan="2"><rich:message for="login" styleClass="error"/></td>
+					</tr>
+					
+					<tr align="left">
+					<td><h:outputText value="Nome: " styleClass="texto"/></td>
+					<td><h:inputText value="#{usuarioCB.usuarioMB.usuario.nome}" 
+									 required="true"
+									 requiredMessage="O nome deve ser informado"
+									 validator="#{usuarioCB.validateNome}"
+									 id="nomeUsuario">
+                           <rich:ajaxValidator event="onkeyup" />                           
+                        </h:inputText>
+                    </td>                    
+					</tr>
+					<tr>
+					<td colspan="2"><rich:message for="nomeUsuario" styleClass="error"/></td>
+					</tr>
+					
+					<tr align="left">
+					<td><h:outputText value="CPF: " styleClass="texto"/></td>
+					<td><h:inputText value="#{usuarioCB.usuarioMB.usuario.cpf}" 
+					                 id="cpf"
+									 requiredMessage="O cpf deve ser informado"
+									 alt="cpf" 
+					                 styleClass="seplocCPF">
+					                  <f:validator validatorId="SeploCPFValidator"/>
+					                  <f:converter converterId="SeplocCPFConverter" />  
+					          <rich:ajaxValidator event="onkeyup"/>
+					     </h:inputText></td>					
+					</tr>
+					<tr>
+					<td colspan="2"><rich:message for="cpf" styleClass="error"/> </td>
+					</tr>
+				  </table> 
+                  <br/>
+                  <a4j:commandButton value="#{msgs['botao.salvar']}"
+                      action="#{usuarioCB.usuarioMB.cadastrar}"
+                      reRender="usuarioList,cadUsuario"
+                      oncomplete="#{rich:component('confirmationMessage')}.show()"
+                  />                                              
+                  <a4j:commandButton value="#{msgs['botao.limpar']}" type="reset" 
+                      action="#{usuarioCB.usuarioMB.limpar}"
+                      reRender="usuarioList,cadUsuario" />
+               </rich:panel>
+               </center>
+               <rich:dataTable value="#{usuarioCB.listaUsuarios}" var="usuario"    
+                   rowClasses="row1, row2" id="usuarioList" rows="8"  
+                   columnClasses="400,50,50,50,50"  
+                   onRowMouseOver="this.style.backgroundColor='#E0EEEE'"  
+                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+                   width="600"
+                   align="center">  
+                   <f:facet name="header">  
+                       <rich:columnGroup>  
+  
+                           <rich:column colspan="5">  
+                               <h:outputText value="Usuários Cadastrados" />  
+                           </rich:column>  
+  
+                           <rich:column breakBefore="true">  
+                               <h:outputText value="Usuario" />  
+                           </rich:column>  
+  
+                           <rich:column>  
+                               <h:outputText value="Login" />  
+                           </rich:column>  
+  
+                           <rich:column>  
+                               <h:outputText value="CPF" />  
+                           </rich:column>  
+  
+                           <rich:column/>  
+                       </rich:columnGroup>  
+                   </f:facet>  
+  
+                   <rich:column styleClass="col1">  
+		               <h:outputText value="#{usuario.nome}" />  
+                   </rich:column>  
+  
+                   <rich:column styleClass="col1">  
+                       <h:outputText value="#{usuario.login}"/>  
+                   </rich:column>  
+  
+                   <rich:column styleClass="col1">  
+                       <h:outputText value="#{usuario.cpf}" />  
+                   </rich:column>  
+  
+                   <rich:column styleClass="col1">
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink" 
+						                 reRender="cadUsuario" 
+						                 action="#{usuarioCB.usuarioMB.editar}" >
+							<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+							<f:setPropertyActionListener 
+							    value="#{usuario}"
+								target="#{usuarioCB.usuarioMB.usuario}" />
+						</a4j:commandLink>
+						<rich:toolTip for="editlink" value="Edit" />
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="deletelink"
+							             reRender="usuarioList" 
+							             action="#{usuarioCB.usuarioMB.apagar}" 
+							             oncomplete="#{rich:component('confirmationMessage')}.show()">
+							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{usuario}"
+								target="#{usuarioCB.usuarioMB.usuario}" />
+						</a4j:commandLink>
+						<rich:toolTip for="deletelink" value="Delete" />
+					</rich:column>  
+         			<f:facet name="footer">
+               			<rich:datascroller id="dsUsuario" maxPages="3" renderIfSinglePage="true"/>
+                  	</f:facet> 
+               </rich:dataTable>
+              
+  
+          </rich:panel>
+       </h:form>  
+
+        <!-- Modal -->
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de Entrega"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="../imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
+    
+   </f:view>  
+</ui:define>
+</ui:composition>
