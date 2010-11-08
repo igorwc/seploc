@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<estados>
+	<estado>
+		<nome>Alagoas</nome>
+		<sigla>AL</sigla>
+	</estado>
+	<estado>
+		<nome>Amazonas</nome>
+		<sigla>AM</sigla>
+	</estado>
+	<estado>
+	    <nome>Bahia</nome>
+		<sigla>BA</sigla>
+	</estado>
+	<estado>
+		<nome>Ceará</nome>
+		<sigla>CE</sigla>
+	</estado>
+	<estado>
+		<nome>Distrito Federal</nome>
+		<sigla>DF</sigla>
+	</estado>
+	<estado>
+		<nome>Espírito Santo</nome>
+		<sigla>ES</sigla>
+	</estado>
+	<estado>
+		<nome>Goiás</nome>
+		<sigla>GO</sigla>
+	</estado>
+	<estado>
+		<nome>Maranhão</nome>
+		<sigla>MA</sigla>
+	</estado>
+	<estado>
+		<nome>Minas Gerais</nome>
+		<sigla>MG</sigla>
+	</estado>
+	<estado>
+		<nome>Mato Grosso do Sul</nome>
+		<sigla>MS</sigla>
+	</estado>
+	<estado>
+		<nome>Mato Grosso</nome>
+		<sigla>MT</sigla>
+	</estado>
+	<estado>
+		<nome>Pará</nome>
+		<sigla>PA</sigla>
+	</estado>
+	<estado>
+		<nome>Paraíba</nome>
+		<sigla>PB</sigla>
+	</estado>
+	<estado>
+		<nome>Pernambuco</nome>
+		<sigla>PE</sigla>
+	</estado>
+	<estado>
+		<nome>Piauí</nome>
+		<sigla>PI</sigla>
+	</estado>
+	<estado>
+		<nome>Paraná</nome>
+		<sigla>PR</sigla>
+	</estado>
+	<estado>
+		<nome>Rio de Janeiro</nome>
+		<sigla>RJ</sigla>
+	</estado>
+	<estado>
+		<nome>Rio Grande do Norte</nome>
+		<sigla>RN</sigla>
+	</estado>
+	<estado>
+		<nome>Rio Grande do Sul</nome>
+		<sigla>RS</sigla>
+	</estado>
+	<estado>
+		<nome>Rondonia</nome>
+		<sigla>RO</sigla>
+	</estado>
+	<estado>
+		<nome>Roraima</nome>
+		<sigla>RR</sigla>
+	</estado>
+	<estado>
+		<nome>Santa Catarina</nome>
+		<sigla>SC</sigla>
+	</estado>
+	<estado>
+		<nome>Sergipe</nome>
+		<sigla>SE</sigla>
+	</estado>
+	<estado>
+		<nome>São Paulo</nome>
+		<sigla>SP</sigla>
+	</estado>
+	<estado>
+		<nome>Tocantins</nome>
+		<sigla>TO</sigla>
+	</estado>
+</estados>

@@ -1,0 +1,165 @@
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="../templatepage/masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_reqserv_root}"/> <img src="../imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_reqserv_lista}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+<style type="text/css">  
+.row1 {   
+    background-color: #EEF3E2;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+.formulario, .formulario TD, .formulario TH
+{
+	background-color : #f2f2f5;	
+}
+</style> 
+
+   <f:view>  
+   	   <h:form id="reqServList" enctype="UTF-8" prependId="false" >
+
+           <rich:panel header="Requisição de Serviço">
+           
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Procurar Requisições de Serviço" style="width: 800px" bodyClass="formulario">
+                 <table	border="0" >               
+					<tr align="left">					
+						<td><h:outputText value="Numero Requisição: " styleClass="texto"/></td>
+					 	<td>
+                 			<h:inputText value="#{reqServClienteCB.reqServMB.numReqBusca}"									 						 
+										 id="numReq" 
+										 size="10"
+										 /></td>				 		
+					 	<td>
+					 		<!-- Botoes -->
+					 		<a4j:commandButton value="#{msgs['botao.salvar']}"
+							                  action="#{reqServClienteCB.reqServMB.cadastrar}"
+							                  reRender="reqServ"
+							                  oncomplete="#{rich:component('confirmationMessage')}.show()" /> 					 		
+
+				 		</td>
+					</tr>			   
+				  </table> 			   
+		   
+               </rich:panel>
+               </center>
+               <!-- fim Formulario -->
+               
+	 		   <!-- === GRID === -->
+               <rich:dataTable value="#{reqServClienteCB.reqServMB.listaReqServ}" var="req"    
+                   rowClasses="row1, row2" id="reqServListTodos" rows="12"  
+                   
+                   onRowMouseOver="this.style.backgroundColor='#E0EEEE'"  
+                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+                   width="1000"
+                   align="center">  
+                   <f:facet name="header">  
+                       <rich:columnGroup>  
+  
+                           <rich:column colspan="7">  
+                               <h:outputText value="Listar Requisições de Serviços" />  
+                           </rich:column>  
+  
+                           <rich:column breakBefore="true" width="100">  
+                               <h:outputText value="Num Requisição"/>  
+                           </rich:column>  
+						   <rich:column width="300">  
+                               <h:outputText value="Cliente"/>  
+                           </rich:column>                           
+                           <rich:column width="400">  
+                               <h:outputText value="Projeto"/>  
+                           </rich:column>                             
+                           <rich:column width="100">  
+                               <h:outputText value="Data"/>  
+                           </rich:column>                             
+                           <rich:column width="100">  
+                               <h:outputText value="Valor (R$)"/>  
+                           </rich:column>
+                           <rich:column width="50">  
+                               <h:outputText value="Mapa"/>  
+                           </rich:column>       
+                                                 
+                           <rich:column width="50"/>                                                        
+								                           
+                       </rich:columnGroup>  
+                   </f:facet>  
+  
+                   <rich:column style="text-align:center">  
+		               <h:outputText value="#{req.numReq}"><f:convertNumber pattern="#000000"/></h:outputText>
+                   </rich:column>
+                   <rich:column>  
+		               <h:outputText value="#{req.projeto.cliente.fantasia}" />  
+                   </rich:column>  
+                   <rich:column>  
+		               <h:outputText value="#{req.projeto.projeto}" />  
+                   </rich:column>
+                   <rich:column style="text-align:center">  
+		               <h:outputText value="#{req.data}" > <f:convertDateTime pattern="dd-MM-yyyy" /></h:outputText>  
+                   </rich:column>
+                   <rich:column style="text-align:center">  
+		               <h:outputText value="#{req.valorTotal}" ><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText>  
+                   </rich:column>
+                   
+                   <rich:column/>
+                   
+                   <rich:column>
+							<a4j:commandLink ajaxSingle="true" id="editlinklinha" 
+							    reRender="reqServ" action="#{reqServClienteCB.reqServMB.editar}" >
+								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+								<f:setPropertyActionListener value="#{linha}"
+									target="#{reqServClienteCB.reqServMB.linhaReqServ}" />
+							</a4j:commandLink>
+							<rich:toolTip for="editlinklinha" value="Editar Registro" />
+							<a4j:commandLink ajaxSingle="true" id="deletelinklinha"
+								reRender="linhaList" action="#{reqServClienteCB.reqServMB.apagar}" oncomplete="#{rich:component('confirmationMessage')}.show()">
+								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+								<f:setPropertyActionListener value="#{linha}"
+									target="#{reqServClienteCB.reqServMB.linhaReqServ}" />
+							</a4j:commandLink>
+							<rich:toolTip for="deletelinklinha" value="Apagar Registro" />					                
+                   </rich:column>
+                   
+                    <f:facet name="footer">
+               			<rich:datascroller id="dsReq" maxPages="3" renderIfSinglePage="true"/>
+                  	</f:facet>   
+               </rich:dataTable>                
+           </rich:panel>           
+       </h:form>  					   
+	</f:view>   
+</ui:define>
+</ui:composition>			   

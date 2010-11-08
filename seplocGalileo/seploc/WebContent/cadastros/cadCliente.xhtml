@@ -1,0 +1,697 @@
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="../templatepage/masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_cad_root}"/> <img src="../imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_cad_cliente}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+<style type="text/css">  
+.row1 {   
+    background-color: #EDEBEB;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+.formulario, .formulario TD, .formulario TH
+{
+	background-color : #f2f2f5;	
+}
+
+</style> 
+
+
+
+   <f:view>  
+           <rich:panel header="Cliente">
+			   <!-- Formulario -->
+			   <center>
+			     <h:form id="cadCliente" enctype="UTF-8" prependId="false" >
+			         <script type="text/javascript" >
+                                (function($j){
+                                    $j(function(){
+                                        $j('.CEP').setMask();
+                                        $j('.PHONE').setMask();
+                                    }
+                                );
+                            })(jQuery);  
+                      </script>
+                   <rich:panel header="Cadastro de Cliente" id="clientePanel" style="width: 600px" bodyClass="formulario">
+                    <table	border="0" id="clientForm" width="100%" >  
+                     <a4j:outputPanel layout="none">
+					   <tr align="left">
+						<td>
+						      <h:outputText value="Tipo Documento: " 
+						                    styleClass="texto"/>
+						</td>
+						<td>
+							<a4j:outputPanel layout="block">
+					    		<h:selectOneRadio id="tpDocCli"  value="#{clienteCB.clienteMB.opDocCliente}" binding="#{clienteCB.selectDocType}" >
+									<f:selectItem id="doc1" itemLabel="CNPJ" itemValue="1"  />
+									<f:selectItem id="doc2" itemLabel="CPF" itemValue="2"  />
+									<a4j:support event="onclick" reRender="docLabel,docinput" action="#{clienteCB.limpaDoc}" ajaxSingle="true" />
+									<f:convertNumber integerOnly="true" type="number"/>
+					    		</h:selectOneRadio>
+					   		</a4j:outputPanel>
+                   		</td>   
+						<td> 
+							<a4j:outputPanel id="docLabel"  >  
+					    		<h:outputText value="Número CNPJ: " 
+					    					  styleClass="texto"  
+					    					  rendered="#{clienteCB.clienteMB.opDocCliente == clienteCB.CNPJ}" />
+					    		<h:outputText value="Número CPF: " 
+					    					  styleClass="texto" 
+					    					  rendered="#{clienteCB.clienteMB.opDocCliente ==  clienteCB.CPF}"/>
+					    	</a4j:outputPanel>    
+						</td>
+						<td>
+						<a4j:outputPanel id="docinput"  > 
+							<script type="text/javascript" >
+             						(function($j){
+                 						$j(function(){
+    	             						$j('.seplocCPF').setMask();
+    	              						$j('.seplocCNPJ').setMask();
+                     					}
+                  					);
+              					})(jQuery);  
+          				 	</script>
+					     	<h:inputText value="#{clienteCB.clienteMB.cliente.cnpj}"
+					                  rendered="#{clienteCB.clienteMB.opDocCliente == clienteCB.CNPJ}"
+									  styleClass="seplocCNPJ" 
+									  alt="cnpj"
+									  id = "cnpjCli"
+									  binding="#{clienteCB.inputCNPJ}"
+									  validator="#{clienteCB.validateCNPJ}"
+									    >
+					           <f:converter converterId="SeplocCNPJConverter" /> 
+					           <rich:ajaxValidator event="onkeyup" />
+					            <a4j:support event="onclick" action="#{clienteMB.validaErroDoc}" reRender="requiredDoc" />  
+                        	</h:inputText>
+                        	<h:inputText
+                                     rendered="#{clienteCB.clienteMB.opDocCliente  == clienteCB.CPF}"	
+									 styleClass="seplocCPF" 
+									 alt="cpf"
+									 id = "cpfCli"
+									 binding="#{clienteCB.inputCPF}"
+									 validator="#{clienteCB.validateCPF}"
+									 >   
+							    <a4j:support event="onclick" action="#{clienteMB.validaErroDoc}" reRender="requiredDoc" />  
+					            <f:converter converterId="SeplocCPFConverter" /> 
+					            <rich:ajaxValidator event="onkeyup" />                              
+                        	</h:inputText>
+                        </a4j:outputPanel>    
+                    	</td>                         
+				    </tr>			
+				   </a4j:outputPanel>	
+					<tr>
+						<td colspan="3" align="left">
+						</td>
+						<td colspan="1" align="left">
+					    	<rich:message for="cnpjCli" styleClass="error" />
+					    	<rich:message for="cpfCli" styleClass="error"  />
+					    	
+					    	<a4j:form prependId="false"   id="requiredDoc">
+					    	    <h:outputText  value="Campo Obrigatorio" styleClass="error" rendered="#{clienteMB.erroDoc}" />
+                            </a4j:form>
+						</td>					
+					</tr>
+					<tr align="left">
+                        <td><h:outputText value="Razão Social: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td><h:inputText value="#{clienteCB.clienteMB.cliente.razao}" 
+                                         validator="#{clienteCB.validateRazaoSocial}"  
+                                         id="razaoCli" 
+                                         >                             
+                             <rich:ajaxValidator event="onkeyup"  /> 
+                             <a4j:support event="onclick" action="#{clienteMB.validaErroRazao}" reRender="requiredRazao" />  
+                        </h:inputText>                        
+                        </td>                    
+                        <td>
+                            <h:outputText value="Nome Fantasia: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.cliente.fantasia}" 
+                                         validator="#{clienteCB.validateFantasia}"  
+                                         id="fantasiaCli">      
+                               <rich:ajaxValidator event="onkeyup"  />                                                 
+                            </h:inputText> 
+                        </td>                    
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <rich:message for="razaoCli" 
+                                          styleClass="error" />
+                            <a4j:form prependId="false"   id="requiredRazao">
+                                <h:outputText value="Campo Obrigatorio" 
+                                              styleClass="error" 
+                                              rendered="#{clienteMB.erroRazao}" />
+                             </a4j:form>
+                        </td>
+                        <td colspan="2">
+                            <rich:message for="fantasiaCli" 
+                                          styleClass="error" />
+                        </td>
+                    </tr>
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="Endereço: " styleClass="texto"/>
+                        </td>
+                        <td colspan="3">
+                            <h:inputText value="#{clienteCB.clienteMB.cliente.endereco}" 
+                                         id="enderCli" 
+                                         size="65" 
+                                         maxlength="65"
+                           />                        
+                        </td>                    
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <rich:message for="enderCli" styleClass="error" />
+                        </td>                 
+                    </tr>   
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="Localidade: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td colspan="3">
+                            <h:inputText value="#{clienteCB.clienteMB.localidade}" 
+                                         id="localidadeCli" 
+                                         size="63"
+                                         readonly="true"
+                                         required="true" 
+                            />
+                            <a4j:commandLink ajaxSingle="true" 
+                                             id="editLocalidade" 
+                                             oncomplete="#{rich:component('chooseLocal')}.show();return false;">
+                                <h:graphicImage value="../imgs/botao-editar.png" 
+                                                style="border:0" />                  
+                            </a4j:commandLink>
+                        </td>           
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <rich:message for="localidadeCli" 
+                                          styleClass="error" />
+                        </td>
+                    </tr>
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="Bairro: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <a4j:outputPanel id="bairro" >
+                                <h:inputText id="bairroCli" 
+                                             value="#{clienteCB.clienteMB.cliente.bairro}" />
+                                <rich:suggestionbox for="bairroCli" minChars="2"
+                                                    fetchValue="#{sug_bairro.nome}" 
+                                                    nothingLabel="Bairro não encontrado."
+                                                    suggestionAction="#{clienteCB.clienteMB.complementoBairro}" 
+                                                    var="sug_bairro">
+                                    <h:column>
+                                        <h:outputText value="#{sug_bairro.nome}" />
+                                    </h:column>
+                                    <a4j:support ajaxSingle="true" 
+                                                 event="onselect">
+                                        <f:setPropertyActionListener value="#{sug_bairro.id}"
+                                                                     target="#{navigationBean.codBairro}" />
+                                    </a4j:support>
+                                </rich:suggestionbox> 
+                            </a4j:outputPanel>                    
+                        </td>          
+                        <td>
+                            <h:outputText value="CEP: " styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.cliente.cep}" 
+                                         id="cepCli"
+                                         alt="cep"
+                                         styleClass="CEP">                                                         
+                            </h:inputText>                        
+                        </td>    
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <rich:message for="bairroCli" 
+                                          styleClass="error" />
+                        </td>
+                        <td colspan="2">
+                            <rich:message for="cepCli" 
+                                          styleClass="error" />
+                        </td>
+                    </tr>
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="Fone Comercial: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.foneCliente.foneComercial}" 
+                                         id="foneComCli"
+                                         alt="phone"
+                                         styleClass="PHONE">                                                         
+                            </h:inputText>
+                        </td>                    
+                        <td>
+                            <h:outputText value="Fone Residencial: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.foneCliente.foneResidencial}" 
+                                         id="foneResCli"
+                                         alt="phone"
+                                         styleClass="PHONE">                             
+                            </h:inputText>
+                        </td>                    
+                    </tr> 
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="Celular: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.foneCliente.celular}" 
+                                         id="celCli"
+                                         alt="phone"
+                                         styleClass="PHONE">                                                       
+                            </h:inputText>
+                        </td>                    
+                        <td>
+                            <h:outputText value="Fone Fax: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.foneCliente.fax}" 
+                                         id="faxCli"
+                                         alt="phone"
+                                         styleClass="PHONE">                                                      
+                            </h:inputText>
+                        </td>  
+                    </tr>
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="E-mail: " 
+                                styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.cliente.email}" 
+                                         validator="#{clienteCB.validateEmail}"
+                                         id="emailCli">       
+                                <rich:ajaxValidator event="onkeyup"  />                                                 
+                            </h:inputText>
+                        </td>                    
+                        <td>
+                            <h:outputText value="Inscrição: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.cliente.inscricao}" 
+                                         id="inscricaoCli">                                                      
+                            </h:inputText>
+                        </td>
+                    </tr>      
+                    <tr>
+                        <td></td>
+                        <td>
+                            <rich:message for="emailCli" 
+                                          styleClass="error" />
+                        </td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="Observação: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td colspan="3">
+                            <h:inputTextarea value="#{clienteCB.clienteMB.cliente.obs}" 
+                                             required="false"                                     
+                                             id="obsCli"
+                                             cols="50" 
+                                             rows="3"/>
+                        </td>                    
+                    </tr>    
+                    <tr align="left">
+                        <td>
+                            <h:outputText value="Entrega Padrão: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{clienteCB.clienteMB.entregaPadrao.local}" 
+                                         id="entregaPadraoCli" 
+                                         readonly="true"/>
+                            <a4j:commandLink ajaxSingle="true" 
+                                             id="editEntrega" 
+                                             oncomplete="#{rich:component('panelEntregaPadrao')}.show();return false;">
+                                <h:graphicImage value="../imgs/botao-editar.png" 
+                                                style="border:0" />                  
+                            </a4j:commandLink>
+                        </td> 
+                                                               
+                        <td>
+                            <h:outputText value="Papel Padrão: " 
+                                          styleClass="texto"/>
+                        </td>
+                        <td>
+                        <h:inputText value="#{clienteCB.clienteMB.papelPadrao.nome}" 
+                                     id="papelPadraoCli" 
+                                     readonly="true"/>
+                            <a4j:commandLink ajaxSingle="true" 
+                                             id="editPapelPadrao" 
+                                             oncomplete="#{rich:component('panelPapelPadrao')}.show();return false;">
+                                <h:graphicImage value="../imgs/botao-editar.png" 
+                                                style="border:0" />                  
+                            </a4j:commandLink>
+                        </td>                    
+                    </tr>          
+				 </table> 
+              </rich:panel>
+               <br/>
+                 <a4j:commandButton value="Salvar" 
+                                 action="#{clienteCB.cadastrar}" 
+                                 reRender="cadCliente,docinput"
+                                 oncomplete="#{rich:component('confirmationMessage')}.show()" 
+                                 
+                 />                                              
+                 <a4j:commandButton value="Limpar" type="reset" 
+                                    reRender="cadCliente,docinput"
+                                    action="#{clienteMB.limpar}" />
+            </h:form>
+           </center>
+               <!-- fim Formulario -->
+        </rich:panel>            
+         
+        <!-- MODAL DE SELECAO DE CIDADE ESTADO -->
+        <rich:modalPanel id="chooseLocal" 
+                         autosized="true" 
+                         width="300" 
+                         height="300">
+            <f:facet name="header" >
+                <h:outputText value="#{msgs['forms.cliente.buscalocalidade']}" 
+                              style="padding-right:15px;" />
+            </f:facet>
+            <f:facet name="controls">
+                <h:panelGroup>
+                    <h:graphicImage value="../imgs/icons/close.png" 
+                                    styleClass="hidelink"
+                                    id="closepanel" />
+                    <rich:componentControl for="chooseLocal" 
+                                           attachTo="closepanel"
+                                           operation="hide" 
+                                           event="onclick" />
+                </h:panelGroup>
+            </f:facet>
+            <h:form prependId="false">
+                <rich:dataTable value="#{clienteCB.clienteMB.todasCidades}" 
+                                var="cid" 
+                                rows="10"
+                                reRender="dsCidade" 
+                                id="tabelaCidades" >
+                    <f:facet name="header">
+                        <rich:columnGroup>
+                            <rich:column colspan="4">
+                                <h:outputText value="#{msgs['forms.cliente.filtra.cidades']}" />
+                            </rich:column>
+                            <rich:column breakBefore="true">
+                                <h:outputText value="Sigla UF" />
+                            </rich:column>
+                            <rich:column>
+                                <h:outputText value="Nome UF" />
+                            </rich:column>
+                            <rich:column>
+                                <h:outputText value="Nome Cidade" />
+                            </rich:column>
+                            <rich:column>
+                            </rich:column>
+                        </rich:columnGroup>
+                    </f:facet>
+                    <rich:column>
+                        <h:outputText value="#{cid.uf.sigla}" />
+                    </rich:column>
+                    <rich:column filterBy="#{cid.uf.nome}" 
+                                 filterEvent="onkeyup"
+                                 filterValue="#{clienteCB.clienteMB.filtroUF}">
+                        <h:outputText value="#{cid.uf.nome}" />
+                    </rich:column>
+                    <rich:column filterBy="#{cid.nome}" filterEvent="onkeyup"
+                        filterValue="#{clienteCB.clienteMB.filtroCidade}" >
+                        <h:outputText value="#{cid.nome}" />
+                    </rich:column>
+                    <rich:column >
+                    <!--    <a4j:commandLink ajaxSingle="true" 
+                                         id="selectPlace" 
+                                         reRender="localidadeCli" 
+                                         oncomplete="#{rich:component('chooseLocal')}.hide();"
+                                         >
+                            <h:graphicImage value="/imgs/edit.gif" style="border:0" />
+                            <f:setPropertyActionListener value="#{cid.id}"
+                                target="#{clienteBean.navigationBean.codCidade}" />
+                                 -->
+                        <a4j:commandLink ajaxSingle="true" 
+                                         id="selectPlace" 
+                                         reRender="localidadeCli,bairro" 
+                                         oncomplete="#{rich:component('chooseLocal')}.hide();" >
+                            <h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
+                            <f:setPropertyActionListener value="#{cid.id}"
+                                target="#{clienteCB.clienteMB.codCidade}" />            
+                            <!--    <rich:componentControl 
+                                              for="chooseLocal" attachTo="selectPlace"
+                                              operation="hide" event="onclick"  /> -->
+                        </a4j:commandLink>
+                    </rich:column>  
+                    <f:facet name="footer">
+                        <rich:datascroller id="dsCidade" maxPages="3"
+                                           renderIfSinglePage="true"/>
+                    </f:facet>
+                </rich:dataTable>
+            <!--  <a4j:commandButton action="#{capitalsBean.resetFilter}" value="Reset Current Filtering" reRender="simpletable" ajaxSingle="true" limitToList="true"/> -->
+        </h:form>
+    </rich:modalPanel>   
+    
+        <!-- MODAL DE SELECAO DE Local Entrega -->
+        <rich:modalPanel id="panelEntregaPadrao" 
+                         autosized="true" 
+                         width="300" 
+                         height="300">
+            <f:facet name="header" >
+                <h:outputText value="#{msgs['forms.buscaLocalEntrega']}" 
+                              style="padding-right:15px;" />
+            </f:facet>
+            <f:facet name="controls">
+                <h:panelGroup>
+                    <h:graphicImage value="../imgs/icons/close.png" 
+                                    styleClass="hidelink"
+                                    id="fechaPainelEntrega" />
+                    <rich:componentControl for="panelEntregaPadrao" 
+                                           attachTo="fechaPainelEntrega"
+                                           operation="hide" 
+                                           event="onclick" />
+                </h:panelGroup>
+            </f:facet>
+            <h:form prependId="false">
+                <rich:dataTable value="#{clienteCB.clienteMB.locaisEntrega}" 
+                                var="entrega" 
+                                rows="10"
+                                reRender="dsEntrega" 
+                                id="tabelaLocaisEntrega" >
+                    <f:facet name="header">
+                        <rich:columnGroup>
+                            <rich:column colspan="3">
+                                <h:outputText value="#{msgs['forms.filtro.locaisentrega']}" />
+                            </rich:column>
+                            <rich:column breakBefore="true">
+                                <h:outputText value="#{msgs['forms.filtro.entrega.coluna.local']}" />
+                            </rich:column>
+                            <rich:column>
+                                <h:outputText value="#{msgs['forms.filtro.entrega.coluna.preco']}" />
+                            </rich:column>
+                            <rich:column>
+                            </rich:column>
+                        </rich:columnGroup>
+                    </f:facet>
+                    <rich:column filterBy="#{entrega.local}" 
+                                 filterEvent="onkeyup"
+                                 filterValue="#{clienteCB.clienteMB.filtroLocalEntrega}">
+                        <h:outputText value="#{entrega.local}" />
+                    </rich:column>
+                     <rich:column>
+                        <h:outputText value="#{entrega.preco}" />
+                    </rich:column>
+                    <rich:column >
+                    <!--    <a4j:commandLink ajaxSingle="true" 
+                                         id="selectPlace" 
+                                         reRender="localidadeCli" 
+                                         oncomplete="#{rich:component('chooseLocal')}.hide();"
+                                         >
+                            <h:graphicImage value="/imgs/edit.gif" style="border:0" />
+                            <f:setPropertyActionListener value="#{cid.id}"
+                                target="#{clienteBean.navigationBean.codCidade}" />
+                                 -->
+                        <a4j:commandLink ajaxSingle="true" 
+                                         id="selecionaLocal" 
+                                         reRender="entregaPadraoCli" 
+                                         oncomplete="#{rich:component('panelEntregaPadrao')}.hide();" >
+                            <h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
+                            <f:setPropertyActionListener value="#{entrega}"
+                                target="#{clienteCB.clienteMB.entregaPadrao}" />            
+                            <!--    <rich:componentControl 
+                                              for="chooseLocal" attachTo="selectPlace"
+                                              operation="hide" event="onclick"  /> -->
+                        </a4j:commandLink>
+                    </rich:column>  
+                    <f:facet name="footer">
+                        <rich:datascroller id="dsEntrega" maxPages="3"
+                                           renderIfSinglePage="true"/>
+                    </f:facet>
+                </rich:dataTable>
+            <!--  <a4j:commandButton action="#{capitalsBean.resetFilter}" value="Reset Current Filtering" reRender="simpletable" ajaxSingle="true" limitToList="true"/> -->
+        </h:form>
+    </rich:modalPanel>  
+    <!-- MODAL DE SELECAO DE PAPEL -->
+        <rich:modalPanel id="panelPapelPadrao" 
+                         autosized="true" 
+                         width="300" 
+                         height="300">
+            <f:facet name="header" >
+                <h:outputText value="#{msgs['forms.filtro.papel']}" 
+                              style="padding-right:15px;" />
+            </f:facet>
+            <f:facet name="controls">
+                <h:panelGroup>
+                    <h:graphicImage value="../imgs/icons/close.png" 
+                                    styleClass="hidelink"
+                                    id="fechaPainelPapel" />
+                    <rich:componentControl for="panelPapelPadrao" 
+                                           attachTo="fechaPainelPapel"
+                                           operation="hide" 
+                                           event="onclick" />
+                </h:panelGroup>
+            </f:facet>
+            <h:form prependId="false">
+                <rich:dataTable value="#{clienteCB.clienteMB.listaPapeis}" 
+                                var="papel" 
+                                rows="10"
+                                reRender="dsPapelPadrao" 
+                                id="tabelaPapel" >
+                    <f:facet name="header">
+                        <rich:columnGroup>
+                            <rich:column colspan="5">
+                                <h:outputText value="#{msgs['forms.filtro.papel']}" />
+                            </rich:column>
+                            <rich:column breakBefore="true">
+                                <h:outputText value="#{msgs['forms.filtro.papel.coluna.nome']}" />
+                            </rich:column>
+                            <rich:column>
+                                <h:outputText value="#{msgs['forms.filtro.papel.coluna.impMono']}" />
+                            </rich:column>
+                            <rich:column>
+                                <h:outputText value="#{msgs['forms.filtro.papel.coluna.impColor']}" />
+                            </rich:column>
+                            <rich:column>
+                                <h:outputText value="#{msgs['forms.filtro.papel.coluna.impShade']}" />
+                            </rich:column>
+                            <rich:column>
+                            </rich:column>
+                        </rich:columnGroup>
+                    </f:facet>
+                    <rich:column filterBy="#{papel.nome}" 
+                                 filterEvent="onkeyup"
+                                 filterValue="#{clienteCB.clienteMB.filtroPapel}">
+                        <h:outputText value="#{papel.nome}" />
+                    </rich:column>
+                    <rich:column>
+                        <h:outputText value="#{papel.impMono}" />
+                    </rich:column>
+                     <rich:column>
+                        <h:outputText value="#{papel.impColor}" />
+                    </rich:column>
+                     <rich:column>
+                        <h:outputText value="#{papel.impShade}" />
+                    </rich:column>
+                    <rich:column >
+                        <a4j:commandLink ajaxSingle="true" 
+                                         id="selecionaPapel" 
+                                         reRender="papelPadraoCli" 
+                                         oncomplete="#{rich:component('panelPapelPadrao')}.hide();" >
+                            <h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
+                            <f:setPropertyActionListener value="#{papel}"
+                                target="#{clienteCB.clienteMB.papelPadrao}" />            
+                        </a4j:commandLink>
+                    </rich:column>  
+                    <f:facet name="footer">
+                        <rich:datascroller id="dsPapelPadrao" maxPages="3"
+                                           renderIfSinglePage="true"/>
+                    </f:facet>
+                </rich:dataTable>
+            <!--  <a4j:commandButton action="#{capitalsBean.resetFilter}" value="Reset Current Filtering" reRender="simpletable" ajaxSingle="true" limitToList="true"/> -->
+        </h:form>
+    </rich:modalPanel>   
+    <!-- Mensagens -->
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="300" >
+        <f:facet name="header">
+            <h:outputText value="Cadastro de papel"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%" >
+                            <rich:messages   showDetail="false" showSummary="true" styleClass="texto" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
+   </f:view>  
+   
+</ui:define>
+</ui:composition>

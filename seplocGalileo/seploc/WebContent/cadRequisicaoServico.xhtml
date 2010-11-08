@@ -1,0 +1,468 @@
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_reqserv_root}"/> <img src="imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_reqserv_clientec}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+<style type="text/css">  
+.row1 {   
+    background-color: #EDEBEB;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+</style> 
+
+
+
+   <f:view>  
+   	   <h:form id="cadReqServ" enctype="UTF-8" prependId="false" >
+   	   <script type="text/javascript" >
+             					(function($j){
+                 					$j(function(){
+    	             					$j('.CEP').setMask();
+    	             					$j('.PHONE').setMask();
+                     				}
+                  				);
+              				})(jQuery);  
+          				 </script>
+           <rich:panel header="Requisição de Serviço">
+           
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Cliente Cadastrado" style="width: 800px">
+                 <table	border="0" >                   
+					<tr align="left">					
+						<td>
+							<h:outputText value="Cliente: " styleClass="texto"/></td>
+						<td colspan="3">
+							<h:inputText value="#{reqServBean.clienteEscolhido.fantasia}"							 								 
+									 id="cliente" 
+									 size="100"
+									 readonly="true" />
+							<h:inputHidden value="#{reqServBean.codCliente}" />
+							<a4j:commandLink ajaxSingle="true" id="editlink" 
+								oncomplete="#{rich:component('modalCliente')}.show();return false;">
+								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
+							</a4j:commandLink>							
+						</td>                                       
+					</tr>
+					<tr align="left">					
+						<td><h:outputText value="Projeto: " styleClass="texto"/></td>
+						<td><h:inputText value="#{reqServBean.projetoEscolhido.projeto}"									 						 
+									 id="projeto" 
+									 size="40"
+									 readonly="true" />
+							<h:inputHidden value="#{reqServBean.codProjeto}" />
+					   		<a4j:commandLink ajaxSingle="true" id="editlinkproj" 
+								oncomplete="#{rich:component('modalProjeto')}.show();return false;">
+								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
+							</a4j:commandLink>	
+						</td>
+   						<td><h:outputText value="Local de Entrega: " styleClass="texto"/></td>
+                   		<td>
+                   			<h:inputText value="#{reqServBean.entregaEscolhido.local}"									 						 
+									 id="entrega" 
+									 size="32"
+									 readonly="true" />
+							<h:inputHidden value="#{reqServBean.codEntrega}" />
+					   		<a4j:commandLink ajaxSingle="true" id="editlinkent" 
+								oncomplete="#{rich:component('modalEntrega')}.show();return false;">
+								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
+							</a4j:commandLink>
+                    	</td>                                        
+					</tr>															
+					<tr>
+						<td colspan="4"><hr size="1"/></td>					
+					</tr>										
+					<tr align="left">					
+						<td colspan="4">
+						<table>
+					 	<tr>
+					 		<td>
+					 			<h:outputText value="Opcional: " styleClass="texto"/></td>
+					 		<td width="180">
+                 				<h:inputText value="#{reqServBean.opcionalEscolhido.nomeItem}"									 						 
+									 id="opcional" 
+									 size="20"
+									 readonly="true" />
+								<h:inputHidden value="#{reqServBean.codOpcional}" />
+					   			<a4j:commandLink ajaxSingle="true" id="editlinkop" 
+									oncomplete="#{rich:component('modalOpcional')}.show();return false;">
+									<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
+								</a4j:commandLink></td>				 		
+					 		<td>
+				 		 		<h:outputText value="Quantidade: " styleClass="texto"/></td>
+					 		<td></td>
+					 	</tr>
+					 </table>
+                    </td>                    
+					</tr>
+					<tr>
+					<td colspan="4"><hr size="1"/></td>					
+					</tr>										
+					<tr>
+					<td colspan="4">
+					<table>
+						<tr>
+							<th><h:outputText value="Descrição"/></th>
+							<th><h:outputText value="Formato"/></th>
+							<th><h:outputText value="Dimensão"/></th>
+							<th><h:outputText value="Papel"/></th>
+							<th><h:outputText value="Impressão"/></th>
+							<th><h:outputText value="Quant"/></th>							
+						</tr>
+						<tr>
+							<td><h:inputText id="desc" value="" size="45"/></td>
+							<td><h:inputText id="for" value="" size="3"/></td>
+							<td><h:inputText id="dim" value="" size="3"/></td>
+							<td>
+								<rich:comboBox selectFirstOnUpdate="false"
+                                   defaultLabel="Nome do Papel"
+                                   id="papel" 
+                                   value="#{clienteBean.papelCliente}"
+                                   validator="#{appBean.validatePapeis}"                                    
+                                   >
+                         		<f:selectItems value="#{appBean.papeis}"  />
+                        		<rich:ajaxValidator event="onkeyup"  />    
+                        		<rich:ajaxValidator event="onchange"  />   
+                    			</rich:comboBox>
+                    		</td>							
+							<td>
+								<rich:comboBox selectFirstOnUpdate="false"
+                                   defaultLabel="Tipo"
+                                   id="Impressao" 
+                                   value="#{clienteBean.papelCliente}"
+                                   validator="#{appBean.validatePapeis}"
+                                   width="60px" 
+                                   >
+                         		<f:selectItem id="impMono" itemLabel="Mono" itemValue="Mono" />
+                         		<f:selectItem id="impColor" itemLabel="Color" itemValue="Color" />
+                         		<f:selectItem id="impShade" itemLabel="Shade" itemValue="Shade" />
+                        		<rich:ajaxValidator event="onkeyup"  />    
+                        		<rich:ajaxValidator event="onchange"  />   
+                    			</rich:comboBox>
+                    		</td>							
+							<td><h:inputText id="quant" value="" size="3"/></td>							
+						</tr>
+					</table>				
+					</td>					
+					</tr>										
+						
+				  </table> 
+				  <!-- Botoes -->
+                  <br/>
+                  <a4j:commandButton value="Salvar"
+                  action="#{clienteBean.cadastra}"
+                  reRender="cadCliente,clienteSucesso"
+                  oncomplete="#{rich:component('confirmationMessage')}.show()" />                                              
+                  <a4j:commandButton value="Limpar" type="reset" 
+                   action="#{clienteBean.limpa}" />
+               </rich:panel>
+               </center>
+               <!-- fim Formulario -->
+           </rich:panel>           
+       </h:form>  
+       
+        <!-- Mensagens -->
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de Cliente"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
+       
+	<!-- Modal Cliente -->
+	<rich:modalPanel id="modalCliente" autosized="true" width="300" height="300">
+		<f:facet name="header" >
+			<h:outputText value="Busca Cliente" style="padding-right:15px;" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/imgs/icons/close.png" id="hidemodalcli" />
+				<rich:componentControl for="modalCliente" attachTo="hidemodalcli" operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+		<h:form>
+			<rich:dataTable value="#{reqServBean.todosClientes}" var="cli" rows="10"
+				reRender="dscli" id="simpletablecli" >
+				<f:facet name="header">
+					<rich:columnGroup>
+						<rich:column colspan="4">
+							<h:outputText value="Filtro de Cliente" />
+						</rich:column>
+						<rich:column breakBefore="true">
+							<h:outputText value="CNPJ" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="CPF" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="Cliente" />
+						</rich:column>
+						<rich:column>							
+						</rich:column>
+					</rich:columnGroup>
+				</f:facet>
+				
+				<rich:column>
+					<h:outputText value="#{cli.cnpj}" />
+				</rich:column>
+				<rich:column>
+					<h:outputText value="#{cli.cpf}" />
+				</rich:column>
+				<rich:column filterBy="#{cli.fantasia}" filterEvent="onkeyup"
+					filterValue="#{reqServBean.clienteCorrente}">
+					<h:outputText value="#{cli.fantasia}" />
+				</rich:column>
+				
+				<rich:column styleClass="col1">
+					<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink2cli" 
+					    				 reRender="cadReqServ" 
+					    				 oncomplete=" #{rich:component('modalCliente')}.hide();"
+					    				 >
+						<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+
+						<f:setPropertyActionListener value="#{cli.idCliente}"
+								target="#{reqServBean.codCliente}" />
+					</a4j:commandLink>
+				</rich:column>  
+				<f:facet name="footer">
+					<rich:datascroller id="dscli" renderIfSinglePage="false"></rich:datascroller>
+				</f:facet>
+			</rich:dataTable>	
+		</h:form>
+	</rich:modalPanel>       
+    
+	<!-- Modal Projeto -->
+	<rich:modalPanel id="modalProjeto" autosized="true" width="300" height="300">
+		<f:facet name="header" >
+			<h:outputText value="Busca Projetos" style="padding-right:15px;" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/imgs/icons/close.png" id="hidemodalproj" />
+				<rich:componentControl for="modalProjeto" attachTo="hidemodalproj" operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+		<h:form>
+			<rich:dataTable value="#{reqServBean.todosProjetosClientes}" var="proj" rows="10"
+				reRender="dsproj" id="simpletableproj" >
+				<f:facet name="header">
+					<rich:columnGroup>
+						<rich:column colspan="3">
+							<h:outputText value="Filtro de Projeto" />
+						</rich:column>
+						<rich:column breakBefore="true">
+							<h:outputText value="Cliente" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="Projeto" />
+						</rich:column>
+						<rich:column>							
+						</rich:column>
+					</rich:columnGroup>
+				</f:facet>
+				
+				<rich:column>
+					<h:outputText value="#{proj.cliente.fantasia}" />
+				</rich:column>
+				<rich:column filterBy="#{proj.projeto}" filterEvent="onkeyup"
+					filterValue="#{reqServBean.projetoCorrente}">
+					<h:outputText value="#{proj.projeto}" />
+				</rich:column>
+				
+				<rich:column styleClass="col1">
+					<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink2proj" 
+					    				 reRender="cadReqServ" 
+					    				 oncomplete=" #{rich:component('modalProjeto')}.hide();"
+					    				 >
+						<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+
+						<f:setPropertyActionListener value="#{proj.codProj}"
+								target="#{reqServBean.codProjeto}" />
+					</a4j:commandLink>
+				</rich:column>  
+				<f:facet name="footer">
+					<rich:datascroller id="dsproj" renderIfSinglePage="false"></rich:datascroller>
+				</f:facet>
+			</rich:dataTable>	
+		</h:form>
+	</rich:modalPanel>   
+	
+	<!-- Modal Entrega -->
+	<rich:modalPanel id="modalEntrega" autosized="true" width="300" height="300">
+		<f:facet name="header" >
+			<h:outputText value="Busca Entregas" style="padding-right:15px;" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/imgs/icons/close.png" id="hidemodalent" />
+				<rich:componentControl for="modalEntrega" attachTo="hidemodalent" operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+		<h:form>
+			<rich:dataTable value="#{reqServBean.todasEntregas}" var="ent" rows="10"
+				reRender="dsent" id="simpletableent" >
+				<f:facet name="header">
+					<rich:columnGroup>
+						<rich:column colspan="3">
+							<h:outputText value="Filtro de Entrega" />
+						</rich:column>
+						<rich:column breakBefore="true">
+							<h:outputText value="Entrega" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="Preço" />
+						</rich:column>
+						<rich:column>							
+						</rich:column>
+					</rich:columnGroup>
+				</f:facet>
+				
+				<rich:column filterBy="#{ent.local}" filterEvent="onkeyup"
+					filterValue="#{reqServBean.entregaCorrente}">
+					<h:outputText value="#{ent.local}" />
+				</rich:column>
+				<rich:column>
+					<h:outputText value="#{ent.preco}" />
+				</rich:column>				
+				<rich:column styleClass="col1">
+					<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink2ent" 
+					    				 reRender="cadReqServ" 
+					    				 oncomplete=" #{rich:component('modalEntrega')}.hide();"
+					    				 >
+						<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+
+						<f:setPropertyActionListener value="#{ent.codEntrega}"
+								target="#{reqServBean.codEntrega}" />
+					</a4j:commandLink>
+				</rich:column>  
+				<f:facet name="footer">
+					<rich:datascroller id="dsent" renderIfSinglePage="false"></rich:datascroller>
+				</f:facet>
+			</rich:dataTable>	
+		</h:form>
+	</rich:modalPanel>   
+	
+	<!-- Modal Opcional -->
+	<rich:modalPanel id="modalOpcional" autosized="true" width="300" height="300">
+		<f:facet name="header" >
+			<h:outputText value="Busca Opcional" style="padding-right:15px;" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/imgs/icons/close.png" id="hidemodalop" />
+				<rich:componentControl for="modalOpcional" attachTo="hidemodalop" operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+		<h:form>
+			<rich:dataTable value="#{reqServBean.todosOpcionais}" var="op" rows="10"
+				reRender="dsop" id="simpletableop" >
+				<f:facet name="header">
+					<rich:columnGroup>
+						<rich:column colspan="3">
+							<h:outputText value="Filtro de Opcional" />
+						</rich:column>
+						<rich:column breakBefore="true">
+							<h:outputText value="Preço" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="Opcional" />
+						</rich:column>
+						<rich:column>							
+						</rich:column>
+					</rich:columnGroup>
+				</f:facet>
+				
+				<rich:column>
+					<h:outputText value="#{op.valorItem}" />
+				</rich:column>
+				<rich:column filterBy="#{op.nomeItem}" filterEvent="onkeyup"
+					filterValue="#{reqServBean.opcionalCorrente}">
+					<h:outputText value="#{op.nomeItem}" />
+				</rich:column>
+				
+				<rich:column styleClass="col1">
+					<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink2op" 
+					    				 reRender="cadReqServ" 
+					    				 oncomplete=" #{rich:component('modalOpcional')}.hide();"
+					    				 >
+						<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+
+						<f:setPropertyActionListener value="#{op.codOpReqServ}"
+								target="#{reqServBean.codOpcional}" />
+					</a4j:commandLink>
+				</rich:column>  
+				<f:facet name="footer">
+					<rich:datascroller id="dsop" renderIfSinglePage="false"></rich:datascroller>
+				</f:facet>
+			</rich:dataTable>	
+		</h:form>
+	</rich:modalPanel>   		
+	    
+	    
+   </f:view>     
+</ui:define>
+</ui:composition>

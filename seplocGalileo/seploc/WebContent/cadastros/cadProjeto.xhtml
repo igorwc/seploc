@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="../templatepage/masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_cad_root}"/> <img src="../imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_cad_entrega}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+<style type="text/css">  
+.row1 {   
+    background-color: #EEF3E2;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+.formulario, .formulario TD, .formulario TH
+{
+	background-color : #f2f2f5;	
+}
+
+</style> 
+
+   <f:view>  
+   	   <h:form id="cadProjeto" enctype="UTF-8" prependId="false" >
+
+           <rich:panel header="Projeto">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Cadastro de Projeto" style="width: 600px" bodyClass="formulario">
+                 <table	border="0" >               
+					<tr>
+						<td>
+							<h:outputText value="Cliente: " styleClass="texto"/></td>
+							
+						<!-- modal table filter para cliente -->
+						<td>
+							<h:inputText value="#{projetoCB.projetoMB.cliente.fantasia}" 
+							         id="nomeCliente" 
+							         readonly="true"
+							         required="true" 
+							         requiredMessage="O cliente deve ser informado."
+							         />							
+							<a4j:commandLink ajaxSingle="true" 
+											 id="editlink" 
+											 oncomplete="#{rich:component('modalCliente')}.show();return false;">
+								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
+							</a4j:commandLink>
+	               		</td>                    
+					</tr>
+					<tr>
+						<td colspan="2"><rich:message for="nomeCliente" styleClass="error"/> </td>
+					</tr>					
+					<tr>
+						<td><h:outputText value="Nome Projeto: " styleClass="texto"/></td>
+						<td><h:inputText value="#{projetoCB.projetoMB.projeto.projeto}" 
+									 required="true"
+									 requiredMessage="O nome do projeto deve ser informado"
+									 validator="#{projetoCB.validateNomeProj}" 
+					                 id="nomeProjeto">					          
+					          <rich:ajaxValidator event="onkeyup"/>
+					    	</h:inputText>
+					    	<h:inputHidden value="#{projetoCB.projetoMB.projeto.codProj}" /></td>					
+					</tr>
+					<tr>
+						<td colspan="2"><rich:message for="nomeProjeto" styleClass="error"/> </td>
+					</tr>
+				  </table> 
+                  <br/>
+                  <a4j:commandButton value="#{msgs['botao.salvar']}"
+                  action="#{projetoCB.projetoMB.cadastrar}"
+                  reRender="projetoClienteList,cadProjeto"
+                  oncomplete="#{rich:component('confirmationMessage')}.show()"
+                  />                                              
+                  <a4j:commandButton value="#{msgs['botao.limpar']}" 
+                   action="#{projetoCB.projetoMB.limpar}"
+                   reRender="projetoClienteList,cadProjeto" />
+               </rich:panel>
+               </center>
+               
+               <!-- GRID -->
+               <rich:dataTable value="#{projetoCB.listaProjetos}" var="projeto"    
+                   rowClasses="row1, row2" id="projetoClienteList" rows="8"  
+                   columnClasses="600"  
+                   onRowMouseOver="this.style.backgroundColor='#E0EEEE'"  
+                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+                   width="600"
+                   align="center">  
+                   <f:facet name="header">  
+                       <rich:columnGroup>  
+  
+                           <rich:column colspan="3">  
+                               <h:outputText value="Projetos Cadastrados por Cliente" />  
+                           </rich:column>  
+  
+                           <rich:column breakBefore="true">  
+                               <h:outputText value="Cliente" />  
+                           </rich:column>  
+                           
+                           <rich:column >  
+                               <h:outputText value="Projeto" />  
+                           </rich:column>  
+                           
+                           <rich:column/>                           
+  
+                       </rich:columnGroup>  
+                   </f:facet>  
+  
+                   <rich:column>  
+		               <h:outputText value="#{projeto.cliente.fantasia}" />  
+                   </rich:column> 
+  
+                   <rich:column>  
+		               <h:outputText value="#{projeto.projeto}" />  
+                   </rich:column>  
+  
+                   <rich:column styleClass="col1">
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink" 
+					    				 reRender="cadProjeto" 
+					    				 action="#{projetoCB.projetoMB.editar}" 
+					    				 >
+							<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+							<f:setPropertyActionListener value="#{projeto}"
+								target="#{projetoCB.projetoMB.projeto}" />
+						</a4j:commandLink>
+						<rich:toolTip for="editlink" value="Edit" />
+						<a4j:commandLink ajaxSingle="true"
+						                 id="deletelink" 
+						                 immediate="true"  
+						                 bypassUpdates="true"
+							             reRender="projetoClienteList" 
+							             action="#{projetoCB.projetoMB.apagar}" 
+							             oncomplete="#{rich:component('confirmationMessage')}.show()">
+							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{projeto}"
+								target="#{projetoCB.projetoMB.projeto}" />
+						</a4j:commandLink>
+						<rich:toolTip for="deletelink" value="Delete" />
+					</rich:column>  
+					<f:facet name="footer">
+               			<rich:datascroller id="dsProjeto" maxPages="3" renderIfSinglePage="true"/>
+                  	</f:facet>
+               </rich:dataTable>                 
+           </rich:panel>  
+       </h:form>  
+       
+       <!-- Confirmacao -->
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de Projeto"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
+
+	<!-- Modal Cliente -->
+	<rich:modalPanel id="modalCliente" autosized="true" width="300" height="300">
+		<f:facet name="header" >
+			<h:outputText value="Busca Cliente" style="padding-right:15px;" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/imgs/icons/close.png" id="hidemodal" />
+				<rich:componentControl for="modalCliente" attachTo="hidemodal" 
+				operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+		<h:form>
+			<rich:dataTable value="#{projetoCB.projetoMB.todosClientes}" var="cli" rows="10"
+				reRender="ds" id="simpletable" >
+				<f:facet name="header">
+					<rich:columnGroup>
+						<rich:column colspan="3">
+							<h:outputText value="Filtro de Cliente" />
+						</rich:column>
+						<rich:column breakBefore="true">
+							<h:outputText value="CNPJ/CPF" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="Cliente" />
+						</rich:column>
+						<rich:column>							
+						</rich:column>
+					</rich:columnGroup>
+				</f:facet>
+				
+				<rich:column>
+					<h:outputText value="#{cli.cnpj}" />
+					<h:outputText value="#{cli.cpf}" />
+				</rich:column>
+				<rich:column filterBy="#{cli.fantasia}" 
+							 filterEvent="onkeyup"
+							 filterValue="#{projetoCB.projetoMB.filtroCliente}">
+					<h:outputText value="#{cli.fantasia}" />
+				</rich:column>
+				
+				<rich:column styleClass="col1">
+					<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink2" 
+					    				 reRender="cadProjeto" 
+					    				 oncomplete=" #{rich:component('modalCliente')}.hide();"
+					    				 >
+						<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+
+						<f:setPropertyActionListener value="#{cli}"
+								target="#{projetoCB.projetoMB.cliente}" />
+					</a4j:commandLink>
+				</rich:column>  
+				<f:facet name="footer">
+					<rich:datascroller id="ds" renderIfSinglePage="false"></rich:datascroller>
+				</f:facet>
+			</rich:dataTable>	
+		</h:form>
+	</rich:modalPanel>
+		       
+   </f:view>   
+</ui:define>
+</ui:composition>

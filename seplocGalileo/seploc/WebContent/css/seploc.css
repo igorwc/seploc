@@ -1,0 +1,50 @@
+div.topo_esq {
+	background-color: #336433;
+	float:left;
+	width:35%;	
+}
+div.topo_cen {
+	float:left;
+	width:30%;	
+}
+div.topo_dir {
+	background-color: #336433;
+	float:right;
+	width:35%;		
+}
+
+#rodape {
+	background-color: #336433;	
+}
+#ur {    
+	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+#dt {    
+	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.texto {    
+	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+}
+.texto_branco {    
+	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #ffffff;
+}
+.error { 
+	font-weight: bold;
+	color: red;
+}
+.login {		
+	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;	
+}
+.loginTable {
+	background-image: url('../imgs/cadeado_bg.jpg');
+	border: 0px solid black;
+	width:500px;
+	height:450px;	
+}

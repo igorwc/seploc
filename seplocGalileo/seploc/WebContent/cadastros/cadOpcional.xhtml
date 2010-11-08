@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="../templatepage/masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_cad_root}"/> <img src="../imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_cad_opcional}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+<style type="text/css">  
+.row1 {   
+    background-color: #EEF3E2;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+.formulario, .formulario TD, .formulario TH
+{
+	background-color : #f2f2f5;	
+}
+
+</style> 
+
+
+
+   <f:view>  
+   	   <h:form id="cadOpcional" enctype="UTF-8" prependId="false" >
+   	       <script type="text/javascript" >
+             (function($j){
+                  $j(function(){
+    	              $j('.seploccurrency').setMask();
+                     }
+                   );
+              })(jQuery);  
+           </script>
+           <rich:panel header="Opcional">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Cadastro do Opcional" style="width: 500px" bodyClass="formulario">
+                 <table	border="0">                 
+					<tr align="left">
+					<td><h:outputText value="Nome Opcional: " styleClass="texto"/></td>
+					<td><h:inputText value="#{opcionalCB.opcionalMB.opcional.nomeItem}" 
+									 required="true"
+									 requiredMessage="O nome deve ser informado"
+									 validator="#{opcionalCB.validateOpcional}"
+									 id="nomeOpcional">
+						    <rich:ajaxValidator event="onkeyup" />                           
+                        </h:inputText>
+                        <h:inputHidden value="#{opcionalCB.opcionalMB.opcional.codOpReqServ}" />
+                    </td>
+                    </tr>
+                    <tr>
+                    <td colspan="2"><rich:message for="nomeOpcional" styleClass="error"/></td>
+					</tr>
+					
+					<tr align="left">
+					<td><h:outputText value="Valor (R$): " styleClass="texto"/></td>
+					<td><h:inputText value="#{opcionalCB.opcionalMB.opcional.valorItem}" 
+					                 id="valorOpcional"
+					                 converterMessage="valor deve ser um número."
+					                 validatorMessage="valor deve ser um número."
+					                 alt="signed-decimal" 
+					                 styleClass="seploccurrency">
+					          <f:converter converterId="SeplocCurrencyConverter" />
+					          <rich:ajaxValidator event="onkeyup"/>
+					     </h:inputText></td>
+					</tr>
+					<tr>
+					<td><rich:message for="valorOpcional" styleClass="error"/> </td>
+					</tr>
+				  </table> 
+                  <br/>
+                  <a4j:commandButton value="#{msgs['botao.salvar']}"
+                  action="#{opcionalCB.opcionalMB.cadastrar}"
+                  reRender="opcionalList,cadOpcional"
+                  oncomplete="#{rich:component('confirmationMessage')}.show()"
+                   />                                              
+                  <a4j:commandButton value="#{msgs['botao.limpar']}" 
+                  action="#{opcionalCB.opcionalMB.limpar}"
+                  reRender="opcionalList,cadOpcional"
+                  />
+               </rich:panel>
+               </center>
+               <rich:dataTable value="#{opcionalCB.listaOpcionais}" var="opcional"    
+                   rowClasses="row1, row2" id="opcionalList" rows="8"  
+                   columnClasses="400,50,25,25"  
+                   onRowMouseOver="this.style.backgroundColor='#E0EEEE'"  
+                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+                   width="500"
+                   align="center">  
+                   <f:facet name="header">  
+                       <rich:columnGroup>  
+  
+                           <rich:column colspan="3">  
+                               <h:outputText value="Opcionais Cadastrados" />  
+                           </rich:column>  
+  
+                           <rich:column breakBefore="true">  
+                               <h:outputText value="Opcional" />  
+                           </rich:column>  
+  
+                           <rich:column>  
+                               <h:outputText value="Valor" />  
+                           </rich:column>  
+  
+                           <rich:column/>  
+  
+                       </rich:columnGroup>  
+                   </f:facet>  
+  
+                   <rich:column>  
+		               <h:outputText value="#{opcional.nomeItem}" />  
+                   </rich:column>  
+  
+                   <rich:column styleClass="col1">  
+                       <h:outputText value="#{opcional.valorItem}"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText>  
+                   </rich:column>  
+  
+                  <rich:column styleClass="col1">
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink" 
+						                 reRender="cadOpcional" 
+						                 action="#{opcionalCB.opcionalMB.editar}" >
+							<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+							<f:setPropertyActionListener value="#{opcional}"
+								target="#{opcionalCB.opcionalMB.opcional}" />
+						</a4j:commandLink>
+						<rich:toolTip for="editlink" value="Editar Registro" />
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="deletelink"
+							             reRender="opcionalList" 
+							             action="#{opcionalCB.opcionalMB.apagar}"
+							             oncomplete="#{rich:component('confirmationMessage')}.show()">
+							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{opcional}"
+								target="#{opcionalCB.opcionalMB.opcional}" />
+						</a4j:commandLink>
+						<rich:toolTip for="deletelink" value="Apagar Registro" />
+					</rich:column>
+					<f:facet name="footer">
+               			<rich:datascroller id="dsOpcional" maxPages="3" renderIfSinglePage="true"/>
+                  	</f:facet>  
+               </rich:dataTable>  
+               
+          </rich:panel>
+       </h:form>  
+       <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de Opcional"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
+   </f:view>  
+</ui:define>
+</ui:composition>

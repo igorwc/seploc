@@ -1,0 +1,68 @@
+					<tr>
+					<td></td><td><rich:message for="emailCli" styleClass="error" /></td><td colspan="2"></td>
+					</tr>
+					<tr align="left">
+					<td><h:outputText value="Observação: " styleClass="texto"/></td>
+					<td colspan="3"><h:inputTextarea value="#{clienteBean.cliente.obs}" 
+									 				required="false"									 
+									 				id="obsCli"
+									 				cols="50" rows="3"/>
+                    </td>                    
+					</tr>	
+					
+					<tr align="left">
+					<td><h:outputText value="Entrega Padrão: " styleClass="texto"/></td>
+					<td><h:selectOneMenu value="#{clienteBean.cliente.entregaPadrao.local}" 
+									 required="false"									 
+									 id="entregaPadraoCli">
+							<f:selectItems value="#{entregaBean.lista}" />                                                       
+                        </h:selectOneMenu>
+                    </td> 
+                    <td>
+                    <rich:comboBox selectFirstOnUpdate="false"
+                                   defaultLabel="Local de Entrega"
+                                   id="entregaPadraoCli" 
+                                   value="#{clienteBean.entregaCliente}"
+                                   validator="#{appBean.validateEntrega}"
+                                   >
+                         <f:selectItems value="#{appBean.locaisEntrega}" />
+                        <rich:ajaxValidator event="onkeyup"  />    
+                        <rich:ajaxValidator event="onchange"  />  
+                    </rich:comboBox>
+                    </td>                                        
+					<td><h:outputText value="Papel Padrão: " styleClass="texto"/></td>
+					<td>
+					 <rich:comboBox selectFirstOnUpdate="false"
+                                   defaultLabel="Nome do Papel"
+                                   id="papelPadraoCli" 
+                                   value="#{clienteBean.papelCliente}"
+                                   validator="#{appBean.validatePapeis}"
+                                   >
+                         <f:selectItems value="#{appBean.papeis}"  />
+                        <rich:ajaxValidator event="onkeyup"  />    
+                        <rich:ajaxValidator event="onchange"  />   
+                    </rich:comboBox>
+                    </td>                    
+					</tr>	
+					<tr>
+					<td></td>
+					<td align="right">
+					     <rich:message for="entregaPadraoCli" styleClass="error"  />
+					    <h:outputText value="Não existem Locais de Entrega cadastrados" rendered="#{appBean.tamanholistaEntrega  == 0}" styleClass="texto"/> 
+					</td>
+					<td></td>
+					<td align="right">
+					    <rich:message for="papelPadraoCli" styleClass="error"  />
+					    <h:outputText value="Não existem Papeis cadastrados" rendered="#{appBean.tamanholistaPapel  == 0}" styleClass="texto"/> 
+					    </td>
+					</tr>		-->	
+				  
+				  <!-- Botoes -->
+                  <br/>
+                 <a4j:commandButton value="Salvar" 
+                  action="#{clienteBean.cadastra}" 
+                  reRender="cadCliente"
+                  oncomplete="#{rich:component('confirmationMessage')}.show()" 
+                    />                                              
+                  <a4j:commandButton value="Limpar" type="reset" 
+                   action="#{clienteBean.limpa}" />
