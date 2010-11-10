@@ -69,15 +69,24 @@
                                                itemValue="#{element.codGrupo}" />
                                  <a4j:support  event="onchange" reRender="listaMenu,grupo" ajaxSingle="true"/>
                            </h:selectOneMenu>  
+                           
+                       	   <h:outputText value=" Permissão de Escrita: " />
+                           <h:selectOneMenu value="#{grupoMenuCB.grupoMenuMB.escrita}" id="permEscrita" >                                                                
+                                <t:selectItems value="#{grupoMenuCB.grupoMenuMB.comboEscrita}" 
+                                               var="element2" 
+                                               itemLabel="#{element2}" 
+                                               itemValue="#{element2}" />
+                                 <a4j:support  event="onchange" reRender="listaMenu" ajaxSingle="true"/>
+                           </h:selectOneMenu>                            
                        </a4j:outputPanel>
                     </fieldset>
     				
-    				<fieldset><legend>AssociaÃ§Ã£o</legend>
+    				<fieldset><legend>Associação</legend>
 			        <rich:listShuttle 
 			        		id="listaMenu"
 			        		var="items"
 			        		sourceValue="#{grupoMenuCB.grupoMenuMB.todosMenu}"
-			        		targetValue="#{grupoMenuCB.grupoMenuMB.menuEscrita}"        		 
+			        		targetValue="#{grupoMenuCB.grupoMenuMB.menuAuxiliar}"        		 
 			            	sourceCaptionLabel="Lista de Menus"
 			            	targetCaptionLabel="Lista Menu Associados"
 			            	copyAllControlLabel="Copiar Tudo" 
@@ -88,7 +97,8 @@
             				sourceListWidth="200" 
             				targetListWidth="200"			       
             				rowClasses="row1"            
-            				listClass="row2"				          	
+            				listClass="row2"	
+            				showTargetControls="false"			          	
 			            	> 
 			            <!-- converter="listShuttleconverter" -->            
 			            <rich:column>
