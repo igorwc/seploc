@@ -6,13 +6,46 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MigraEntrega {
+import br.seploc.migracao.beans.Entrega;
 
-	public List<Entrega> seleciona(Connection c) throws Exception {
-		List<Entrega> retorno = new ArrayList<Entrega>();
+public class MigraEntrega extends Migra<Entrega> {
+
+
+	private MigraEntrega() {
+		lista = new ArrayList<Entrega>();
+	}
+
+	public static MigraEntrega getInstance(Connection copytec, Connection seploc) {
+		MigraEntrega obj = new MigraEntrega();
+		obj.setConexoes(copytec, seploc);
+		return obj;
+	}
+	
+	@Override
+	public void setConexoes(Connection copytec, Connection seploc) {
+		copytecConnection = copytec;
+		seplocConnection = seploc;
+
+	}
+
+	@Override
+	protected void insereDados() throws Exception {
+		String sql = "INSERT INTO tbl_entrega (intCodEnt ,vcrLocal ,dblPreco ,tspVersao)VALUES (? , ?, ? ,CURRENT_TIMESTAMP)";
+		for (Entrega e : lista) {
+			PreparedStatement stmt = seplocConnection.prepareStatement(sql);
+			stmt.setInt(1, e.getCod());
+			stmt.setString(2, e.getLocal());
+			stmt.setDouble(3, e.getPreco());
+			stmt.execute();
+			stmt.close();
+		}
+	}
+
+	@Override
+	protected void seleciona() throws Exception {
+		lista = new ArrayList<Entrega>();
 		// pega o Statement
-
-		PreparedStatement stmt = c
+		PreparedStatement stmt = copytecConnection
 				.prepareStatement("SELECT intCodEnt, vcrLocal, dblPreco FROM tbl_entrega");
 		// executa um select
 		ResultSet rs = stmt.executeQuery();
@@ -22,72 +55,27 @@ public class MigraEntrega {
 			e.setCod(rs.getInt("intCodEnt"));
 			e.setLocal(rs.getString("vcrLocal"));
 			e.setPreco(rs.getDouble("dblPreco"));
-			retorno.add(e);
+			lista.add(e);
 		}
 		stmt.close();
-		return retorno;
 	}
 
-	public void insereDados(Connection c, List<Entrega> lista) throws Exception {
-		String sql = "INSERT INTO tbl_entrega (intCodEnt ,vcrLocal ,dblPreco ,tspVersao)VALUES (? , ?, ? ,CURRENT_TIMESTAMP)";
-		for (Entrega e : lista) {
-			PreparedStatement stmt = c.prepareStatement(sql);
-			stmt.setInt(1, e.getCod());
-			stmt.setString(2, e.getLocal());
-			stmt.setDouble(3, e.getPreco());
-			stmt.execute();
-			stmt.close();
-		}
-
-	}
-
-	public static void main(String args[]){
-		MigraEntrega migra = new MigraEntrega();
+	public static void main(String args[]) {
+		MigraEntrega migra = MigraEntrega.getInstance(new ConnectionFactory().getConnection("dbcopytec2",
+					"root", ""), new ConnectionFactory().getConnection("seploc2", "root", ""));
 		try {
-			Connection c = new ConnectionFactory().getConnection("copytec", "root", "");
-			 List<Entrega> lista = migra.seleciona(c);
-			for(Entrega e: lista){
-				System.out.println(e.getCod()+" "+  e.getLocal());
+			 
+			migra.migraDados();
+			for (Entrega e : migra.getLista()) {
+				System.out.println(e.getCod() + " " + e.getLocal());
 			}
-			c.close();
-			c = new ConnectionFactory().getConnection("seploc2", "root", "");
-			migra.insereDados(c, lista);
-//			c.commit();
-			c.close();
+			 
+			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-}
-
-class Entrega {
-	public Integer cod;
-	public String local;
-	public Double preco;
-
-	public Integer getCod() {
-		return cod;
-	}
-
-	public void setCod(Integer cod) {
-		this.cod = cod;
-	}
-
-	public String getLocal() {
-		return local;
-	}
-
-	public void setLocal(String local) {
-		this.local = local;
-	}
-
-	public Double getPreco() {
-		return preco;
-	}
-
-	public void setPreco(Double preco) {
-		this.preco = preco;
 	}
 
 }

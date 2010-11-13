@@ -4,14 +4,26 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 
-public class MigraPapel {
-	public List<Papel> seleciona(Connection c) throws Exception {
-		List<Papel> retorno = new ArrayList<Papel>();
+import br.seploc.migracao.beans.Papel;
+
+public class MigraPapel extends Migra<Papel> {
+
+	private MigraPapel() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public static MigraPapel getInstance(Connection copytec, Connection seploc) {
+		MigraPapel obj = new MigraPapel();
+		obj.setConexoes(copytec, seploc);
+		return obj;
+	}
+
+	protected void seleciona() throws Exception {
+		lista = new ArrayList<Papel>();
 		// pega o Statement
 
-		PreparedStatement stmt = c
+		PreparedStatement stmt = copytecConnection
 				.prepareStatement("SELECT  intCodPap, vcrNome, dblImpMono, dblImpColor, dblImpShade FROM tbl_papel");
 		// executa um select
 		ResultSet rs = stmt.executeQuery();
@@ -23,16 +35,15 @@ public class MigraPapel {
 			p.setMono(rs.getDouble("dblImpMono"));
 			p.setShade(rs.getDouble("dblImpShade"));
 			p.setColor(rs.getDouble("dblImpColor"));
-			retorno.add(p);
+			lista.add(p);
 		}
 		stmt.close();
-		return retorno;
 	}
 
-	public void insereDados(Connection c, List<Papel> lista) throws Exception {
+	protected void insereDados() throws Exception {
 		String sql = "INSERT INTO  tbl_papel (intCodPap, vcrNome, dblImpMono, dblImpColor, dblImpShade, tspVersao) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP);";
 		for (Papel p : lista) {
-			PreparedStatement stmt = c.prepareStatement(sql);
+			PreparedStatement stmt = seplocConnection.prepareStatement(sql);
 			stmt.setInt(1, p.getCod());
 			stmt.setString(2, p.getNome());
 			stmt.setDouble(3, p.getMono());
@@ -44,72 +55,29 @@ public class MigraPapel {
 
 	}
 
+	@Override
+	public void setConexoes(Connection copytec, Connection seploc) {
+		copytecConnection = copytec;
+		seplocConnection = seploc;
+
+	}
+
 	public static void main(String args[]) {
-		MigraPapel migra = new MigraPapel();
+		MigraPapel migra =  MigraPapel.getInstance(new ConnectionFactory().getConnection("dbcopytec2",
+					"root", ""), new ConnectionFactory().getConnection("seploc2", "root", ""));
 		try {
-			Connection c = new ConnectionFactory().getConnection("copytec",
-					"root", "");
-			List<Papel> lista = migra.seleciona(c);
-			for (Papel p : lista) {
+			 
+			 migra.migraDados();
+			for (Papel p : migra.getLista()) {
 				System.out.println(p.getCod() + " " + p.getNome());
 			}
-			c.close();
-			c = new ConnectionFactory().getConnection("seploc2", "root", "");
-			migra.insereDados(c, lista);
-			// c.commit();
-			c.close();
+			 
+			 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-}
-
-class Papel {
-	public Integer cod;
-	public String nome;
-	public Double mono;
-	public Double color;
-	public Double shade;
-
-	public Integer getCod() {
-		return cod;
-	}
-
-	public void setCod(Integer cod) {
-		this.cod = cod;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public Double getMono() {
-		return mono;
-	}
-
-	public void setMono(Double mono) {
-		this.mono = mono;
-	}
-
-	public Double getColor() {
-		return color;
-	}
-
-	public void setColor(Double color) {
-		this.color = color;
-	}
-
-	public Double getShade() {
-		return shade;
-	}
-
-	public void setShade(Double shade) {
-		this.shade = shade;
-	}
 
 }
+ 
