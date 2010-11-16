@@ -4,3 +4,7 @@ Para garantia de consistencia dos dados, a ordem de migração é a seguinte:
 1 - Entrega
 2 - Papel
 3 - Cliente (Essa classe migra Cliente, foneCli e Projeto)
+4 - Opcionais
+5 - Requisicoes
+6 - OpcionaisReqServ
+7 - LinhaRequisicoes

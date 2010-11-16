@@ -9,7 +9,11 @@ public abstract class Migra<T> {
 	protected Connection seplocConnection;
 	protected Connection copytecConnection;
 
-	public abstract void setConexoes(Connection copytec, Connection seploc);
+	public void setConexoes(Connection copytec, Connection seploc) {
+		copytecConnection = copytec;
+		seplocConnection = seploc;
+
+	}
 
 	public List<T> getLista() {
 		return lista;
