@@ -104,8 +104,8 @@
                   <a4j:commandButton value="#{msgs['botao.salvar']}"
                   action="#{opcionalCB.opcionalMB.cadastrar}"
                   reRender="opcionalList,cadOpcional"
-                  oncomplete="#{rich:component('confirmationMessage')}.show()"
-                   />                                              
+                  oncomplete="#{rich:component('confirmationMessage')}.show()"/>              
+                  <rich:spacer width="5"/>                                 
                   <a4j:commandButton value="#{msgs['botao.limpar']}" 
                   action="#{opcionalCB.opcionalMB.limpar}"
                   reRender="opcionalList,cadOpcional"
@@ -157,6 +157,7 @@
 								target="#{opcionalCB.opcionalMB.opcional}" />
 						</a4j:commandLink>
 						<rich:toolTip for="editlink" value="Editar Registro" />
+						<rich:spacer width="5"/>
 						<a4j:commandLink ajaxSingle="true" 
 						                 id="deletelink"
 							             reRender="opcionalList" 
