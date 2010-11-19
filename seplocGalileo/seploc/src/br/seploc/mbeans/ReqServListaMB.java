@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
 import br.seploc.dao.OpcionaisReqServDAO;
@@ -232,7 +235,7 @@ public class ReqServListaMB implements Serializable {
 				retorno = new ArrayList<Projeto>();
 				Projeto p = new Projeto();
 				p.setCodProj(0);
-				p.setProjeto("Cliente não tem projetos");
+				p.setProjeto("Cliente nï¿½o tem projetos");
 				retorno.add(p);
 			}else{
 				retorno = cliente.getProjetos();
@@ -242,7 +245,7 @@ public class ReqServListaMB implements Serializable {
 	}
 
 	public List<RequisicaoServico> getListaReqServ() {
-		// setar data de 60 dias atrás
+		// setar data de 60 dias atrï¿½s
 		Calendar calendarData = Calendar.getInstance();
 		  int numeroDiasParaSubtrair = -60;
 		  calendarData.add(Calendar.DATE, numeroDiasParaSubtrair);
@@ -259,4 +262,41 @@ public class ReqServListaMB implements Serializable {
 		return retorno;
 	}	
 	
+	public void editar(){
+		try{
+			reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}				
+	}
+	
+	public void apagar(){
+		
+	}
+	
+	public void imprimir(){
+		
+	}
+	
+	public void mostrar(){
+		try{
+			reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}		
+	}
+	
+	/**
+	 * Metodo para incluir mensagens globais no formulario
+	 * 
+	 * @param String
+	 *            message
+	 */
+	public static void addGlobalMessage(String message) {
+		FacesMessage facesMessage = new FacesMessage(message);
+		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	}
+		
 }
