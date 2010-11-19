@@ -70,7 +70,7 @@
                                  <a4j:support  event="onchange" reRender="listaMenu,grupo" ajaxSingle="true"/>
                            </h:selectOneMenu>  
                            
-                       	   <h:outputText value=" Permissão de Escrita: " />
+                       	   <h:outputText value=" Permissao de Escrita: " />
                            <h:selectOneMenu value="#{grupoMenuCB.grupoMenuMB.escrita}" id="permEscrita" >                                                                
                                 <t:selectItems value="#{grupoMenuCB.grupoMenuMB.comboEscrita}" 
                                                var="element2" 
@@ -81,11 +81,11 @@
                        </a4j:outputPanel>
                     </fieldset>
     				
-    				<fieldset><legend>Associação</legend>
+    				<fieldset><legend>Associacao</legend>
 			        <rich:listShuttle 
 			        		id="listaMenu"
 			        		var="items"
-			        		sourceValue="#{grupoMenuCB.grupoMenuMB.todosMenu}"
+			        		sourceValue="#{grupoMenuCB.grupoMenuMB.menuDisponivel}"
 			        		targetValue="#{grupoMenuCB.grupoMenuMB.menuAuxiliar}"        		 
 			            	sourceCaptionLabel="Lista de Menus"
 			            	targetCaptionLabel="Lista Menu Associados"
