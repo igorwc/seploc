@@ -20,6 +20,7 @@ public class GrupoMenuMB  implements Serializable {
 	private List<Menu> menuAuxiliar;
 	private List<Menu> menuEscrita;
 	private List<Menu> menuLeitura;
+	private List<Menu> menuDisponivel;
 	private List<Grupo> listaGrupos;
 	private List<String> comboEscrita;
 	private String escrita;
@@ -41,10 +42,7 @@ public class GrupoMenuMB  implements Serializable {
 		setGrupoDAO(new GrupoDAO());
 		grupo = new Grupo();		
 		listaGrupos = grupoDAO.getLista();
-		menuAuxiliar = null;
-		comboEscrita = new ArrayList<String>();
-		comboEscrita.add("Não");
-		comboEscrita.add("Sim");		
+		menuAuxiliar = null;	
 	}
 
 	// GETTER E SETTERS
@@ -86,7 +84,20 @@ public class GrupoMenuMB  implements Serializable {
 		this.menuEscrita = menuEscrita;
 	}
 
+	public List<Menu> getMenuDisponivel() {
+		
+		
+		return menuDisponivel;
+	}
+
+	public void setMenuDisponivel(List<Menu> menuDisponivel) {
+		this.menuDisponivel = menuDisponivel;
+	}
+
 	public List<String> getComboEscrita() {
+		comboEscrita = new ArrayList<String>();
+		comboEscrita.add("Sim");
+		comboEscrita.add("Não");	
 		return comboEscrita;
 	}
 
