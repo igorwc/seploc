@@ -155,8 +155,7 @@
   <managed-bean-class>br.seploc.controllers.GrupoCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
- <!--Fim dos Cadastros 
- Requisicao -->
+ <!-- Requisicao Cliente-->
  <managed-bean>
   <managed-bean-name>reqServClienteMB</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.ReqServClienteMB</managed-bean-class>
@@ -172,6 +171,7 @@
   <managed-bean-class>br.seploc.controllers.ReqServClientePeriodoCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
+ <!-- Requisicao Periodo -->
  <managed-bean>
   <managed-bean-name>reqClientePeriodoMB</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.ReqServClientePeriodoMB</managed-bean-class>
@@ -190,6 +190,17 @@
    <to-view-id>/principal.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
+ <!-- Requisicao Lista-->
+ <managed-bean>
+  <managed-bean-name>reqServListaMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.ReqServListaMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>reqServListaCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.ReqServListaCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
  <!--
  Validadores 
  Validador de CPF -->
