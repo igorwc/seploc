@@ -1,20 +1,23 @@
 div.topo_esq {
-	background-color: #336433;
+	background-image: url('../imgs/bg2.jpg');
 	float:left;
-	width:35%;	
+	width:5%;	
 }
 div.topo_cen {
+	background-image: url('../imgs/bg2.jpg');
 	float:left;
-	width:30%;	
+	text-align: botton;
+	margin-left: auto; 
+	margin-right: auto; 
+	width:90%;	
 }
 div.topo_dir {
-	background-color: #336433;
+	background-image: url('../imgs/bg2.jpg'); /*336433*/ 
 	float:right;
-	width:35%;		
+	width:5%;		
 }
-
 #rodape {
-	background-color: #336433;	
+	background-color: #649b64;	
 }
 #ur {    
 	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
