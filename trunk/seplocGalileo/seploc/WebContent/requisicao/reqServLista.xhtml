@@ -178,12 +178,11 @@
 							<rich:toolTip for="printlinklinha" value="Imprimir Registro" />
 						    <rich:spacer width="5px"/>
 							<a4j:commandLink ajaxSingle="true" id="viewlinklinha"
-								reRender="reqServList"
-								action="#{reqServListaCB.reqServListaMB.mostrar}"
+								reRender="reqServListTodos,modalReqServ"								
 								oncomplete="#{rich:component('modalReqServ')}.show();return false;">
 								<h:graphicImage value="/imgs/view_icon.gif" style="border:0" />
-								<f:setPropertyActionListener value="#{req}"
-									target="#{reqServListaCB.reqServListaMB.reqServico}" />
+								<f:setPropertyActionListener value="#{req.numReq}"
+									target="#{reqServListaCB.reqServListaMB.numReqVisualizar}" />
 							</a4j:commandLink>
 							<rich:toolTip for="viewlinklinha" value="Mostrar Registro" />
 							
@@ -199,8 +198,8 @@
 			</h:form>
 
 			<!-- Modal Mostrar Requisicao -->
-			<rich:modalPanel id="modalReqServ" autosized="true" width="500"
-				height="600">
+			<rich:modalPanel id="modalReqServ" autosized="true" width="700"
+				height="200">
 				<f:facet name="header">
 					<h:outputText value="Requisicao de Servico"
 						style="padding-right:15px;" />
@@ -212,31 +211,24 @@
 							operation="hide" event="onclick" />
 					</h:panelGroup>
 				</f:facet>
-				<table>
+				<table width="700" border="0">
 					<tr>
-						<td><h:outputText value="Numero:" styleClass="tituloCampo"/></td>
-						<td></td>
+						<td width="25%"><h:outputText value="Numero:" styleClass="tituloCampo"/></td>
+						<td width="25%"><h:outputText value="Valor Total (R$):" styleClass="tituloCampo" /></td>
+						<td width="50%"><h:outputText value="Entrega:" styleClass="tituloCampo"/></td>
 					</tr>
 					<tr>												
-						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.numReq}" /></td>
-						<td></td>
+						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.numReq}" styleClass="texto"><f:convertNumber pattern="#000000" /></h:outputText></td>
+						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.valorTotal}" styleClass="texto"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText></td>
+						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.entrega.local}"  styleClass="texto"/></td>
 					</tr>
 					<tr>
-						<td><h:outputText value="Cliente:" styleClass="tituloCampo"/></td>						
-						<td><h:outputText value="Valor Total (R$):" styleClass="tituloCampo" /></td>						
+						<td colspan="2"><h:outputText value="Cliente:" styleClass="tituloCampo"/></td>
+						<td colspan="1"><h:outputText value="Projeto:" styleClass="tituloCampo"/></td>												
 					</tr>
 					<tr>
-						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.projeto.cliente.fantasia}" /></td>						
-						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.valorTotal}"/></td>												
-					</tr>
-					<tr>
-						<td><h:outputText value="Projeto:" styleClass="tituloCampo"/></td>						
-						<td><h:outputText value="Entrega:" styleClass="tituloCampo"/></td>
-												
-					</tr>
-					<tr>
-						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.projeto.projeto}" /></td>
-						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.entrega.local}" /></td>						
+						<td colspan="2"><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.projeto.cliente.fantasia}"  styleClass="texto"/></td>
+						<td colspan="1"><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.projeto.projeto}"  styleClass="texto"/></td>																
 					</tr>
 				</table>
 				<h:form>
