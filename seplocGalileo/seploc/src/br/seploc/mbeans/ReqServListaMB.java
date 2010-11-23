@@ -16,6 +16,7 @@ public class ReqServListaMB implements Serializable {
 	private RequisicaoServico reqServico;
 	private RequisicaoServicoDAO reqServicoDAO;
 	private int numReqBusca;
+	private int numReqVisualizar;
 	
 	// CONSTRUTOR
 	/**
@@ -50,6 +51,20 @@ public class ReqServListaMB implements Serializable {
 		this.numReqBusca = numReqBusca;
 	}
 	
+	public int getNumReqVisualizar() {
+		return numReqVisualizar;
+	}
+
+	public void setNumReqVisualizar(int numReqVisualizar) {
+		this.numReqVisualizar = numReqVisualizar;
+		try{
+		reqServico = reqServicoDAO.recupera(numReqVisualizar);
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}		
+	}
+
 	public List<RequisicaoServico> getListaReqServ() {
 		// setar data de 60 dias atras
 		Calendar calendarData = Calendar.getInstance();
