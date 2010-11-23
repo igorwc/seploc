@@ -144,12 +144,12 @@ public class RequisicaoServicoDAO extends
 		RequisicaoServico reqServ = em.find(RequisicaoServico.class, id);
 		if (reqServ == null) {
 			em.getTransaction().rollback();
-			throw new RecordNotFound("Requisição de Serviço não encontrado!");
+			throw new RecordNotFound("Requisiï¿½ï¿½o de Serviï¿½o nï¿½o encontrado!");
 		} else {
 			if (verificaFilhos(id)) {
 				em.getTransaction().rollback();
 				throw new ParentDeleteException(
-						"Requisição tem registros dependentes...");
+						"Requisiï¿½ï¿½o tem registros dependentes...");
 			} else {
 				em.remove(reqServ);
 			}
@@ -189,7 +189,7 @@ public class RequisicaoServicoDAO extends
 		OpcionaisReqServ oprs;
 		if (qtd == null || qtd.intValue() == 0) {
 			throw new FieldNotNullException(
-					"Quantidade de opcionais não pode ser nulo");
+					"Quantidade de opcionais nï¿½o pode ser nulo");
 		} else {
 			if (rq.getOpcionais().size() != 0) {
 				for (ReqServicosOpcionais rso : rq.getOpcionais()) {
@@ -270,6 +270,15 @@ public class RequisicaoServicoDAO extends
 	
 	public void refresh(RequisicaoServico reqServico){		
 		em.refresh(reqServico);		
+	}
+	
+	public List<RequisicaoServico> filtraReqServ(Integer projeto, Integer numReqServ){
+		List<RequisicaoServico> resultado = null;
+		
+		if ((projeto == null || projeto.intValue() == -1) && numReqServ == 0){
+			
+		}
+		return resultado;
 	}
 
 }
