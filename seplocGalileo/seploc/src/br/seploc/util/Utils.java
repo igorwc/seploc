@@ -1,6 +1,8 @@
 package br.seploc.util;
 
+import java.sql.Date;
 import java.text.MessageFormat;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -42,4 +44,18 @@ public class Utils {
 
 		return text;
 	}
+	
+	public static Date getCalcularDataFrente(Calendar data, int dias){		
+		data.add(Calendar.DATE, dias);
+		java.sql.Date diaParaFrete = new java.sql.Date(data.getTimeInMillis());		  
+		
+		return diaParaFrete;
+	}
+	
+	public static Date getCalcularDataParaTras(Calendar data, int dias){		
+		data.add(Calendar.DATE, dias);
+		java.sql.Date diaParaTras = new java.sql.Date(data.getTimeInMillis());		  
+		
+		return diaParaTras;
+	}	
 }
