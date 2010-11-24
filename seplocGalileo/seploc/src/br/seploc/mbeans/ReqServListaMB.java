@@ -2,6 +2,7 @@ package br.seploc.mbeans;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -17,6 +18,11 @@ public class ReqServListaMB implements Serializable {
 	private RequisicaoServicoDAO reqServicoDAO;
 	private int numReqBusca;
 	private int numReqVisualizar;
+	private int projetoID;
+	private int clienteID;
+	private final int umDia = 24*60*60*60;
+	private Date dataInicio = new Date(Calendar.getInstance().getTimeInMillis()-(umDia*30*1000));
+	private Date dataFim = new Date(Calendar.getInstance().getTimeInMillis());
 	
 	// CONSTRUTOR
 	/**
@@ -63,6 +69,39 @@ public class ReqServListaMB implements Serializable {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());
 		}		
+	}
+
+	public int getProjetoID() {
+		return projetoID;
+	}
+
+	public void setProjetoID(int projetoID) {
+		this.projetoID = projetoID;
+	}
+
+	public int getClienteID() {
+		return clienteID;
+	}
+
+	public void setClienteID(int clienteID) {
+		this.clienteID = clienteID;
+	}
+
+
+	public Date getDataInicio() {
+		return dataInicio;
+	}
+
+	public void setDataInicio(Date dataInicio) {
+		this.dataInicio = dataInicio;
+	}
+
+	public Date getDataFim() {
+		return dataFim;
+	}
+
+	public void setDataFim(Date dataFim) {
+		this.dataFim = dataFim;
 	}
 
 	public List<RequisicaoServico> getListaReqServ() {
@@ -113,6 +152,8 @@ public class ReqServListaMB implements Serializable {
 			addGlobalMessage(e.getMessage());
 		}		
 	}
+	
+
 	
 	/**
 	 * Metodo para incluir mensagens globais no formulario
