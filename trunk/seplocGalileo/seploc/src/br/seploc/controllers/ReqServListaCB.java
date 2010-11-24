@@ -1,10 +1,14 @@
 package br.seploc.controllers;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.context.FacesContext;
 
 import br.seploc.mbeans.ReqServListaMB;
+import br.seploc.pojos.RequisicaoServico;
 
 public class ReqServListaCB implements Serializable{
 	
@@ -49,4 +53,16 @@ public class ReqServListaCB implements Serializable{
 		return retorno;
 	}		
 
+	public List<RequisicaoServico> getGridReqServ(){
+		List<RequisicaoServico> lista = new ArrayList<RequisicaoServico>();
+		Date dataInicio = (Date) reqServListaMB.getDataInicio();
+		Date dataFim = (Date) reqServListaMB.getDataFim();
+		int numeroReqServ = reqServListaMB.getNumReqBusca();
+		int clienteID = reqServListaMB.getClienteID();
+		int projetoID = reqServListaMB.getProjetoID();
+
+		lista = reqServListaMB.getReqServicoDAO().filtraReqServ(projetoID , numeroReqServ, clienteID, dataInicio, dataFim);
+				
+		return lista;
+	}	
 }

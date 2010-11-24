@@ -271,22 +271,30 @@ public class RequisicaoServicoDAO extends
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<RequisicaoServico> filtraReqServ(Integer projeto, Integer numReqServ){
+	public List<RequisicaoServico> filtraReqServ(int projeto, int numReqServ, int cliente, Date dataIni, Date dataFim){
 		List<RequisicaoServico> resultado = null;
 		
-		if ((projeto.intValue() == 0) && (numReqServ == 0)){
-			resultado = this.getLista();
-		} else if ((projeto.intValue() != 0) && (numReqServ == 0)){
+		if ((projeto == 0) && (numReqServ == 0) && (cliente == 0)){
+			Query q = em.createNamedQuery("RequisicaoServico.RetornaRequisicoesLimitadoTempo")
+            .setParameter("data", dataIni);
+			resultado = (List<RequisicaoServico>) q.getResultList();
+		} else if ((projeto > 0) && (numReqServ == 0) && (cliente == 0)){
 			Query q = em.createNamedQuery("RequisicaoServico.FiltraProjeto")
             .setParameter("projeto", projeto);
 			resultado = (List<RequisicaoServico>) q.getResultList();
-		} else if ((projeto.intValue() == 0) && (numReqServ != 0)){
+		} else if (numReqServ > 0){
 			Query q = em.createNamedQuery("RequisicaoServico.FiltraReqServ")
             .setParameter("numReq", numReqServ);
 			resultado = (List<RequisicaoServico>) q.getResultList();
-		} else if ((projeto.intValue() != 0) && (numReqServ != 0)){
-			Query q = em.createNamedQuery("RequisicaoServico.FiltraProjetoReqServ")
-			.setParameter("projeto", projeto).setParameter("numReq", numReqServ);
+		} else if ((projeto == 0) && (numReqServ == 0) && (cliente > 0)){
+			Query q = em.createNamedQuery("RequisicaoServico.FiltraCliente")
+			.setParameter("cliente", cliente)
+			.setParameter("dataInicio", dataIni)
+			.setParameter("dataFinal", dataFim);
+			resultado = (List<RequisicaoServico>) q.getResultList();
+		} else if ((projeto > 0) && (numReqServ == 0) && (cliente > 0)){
+			Query q = em.createNamedQuery("RequisicaoServico.FiltraProjeto")
+            .setParameter("projeto", projeto);
 			resultado = (List<RequisicaoServico>) q.getResultList();
 		}
 		return resultado;

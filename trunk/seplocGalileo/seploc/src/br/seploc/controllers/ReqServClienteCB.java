@@ -1,9 +1,13 @@
 package br.seploc.controllers;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.context.FacesContext;
 
 import br.seploc.mbeans.ReqServClienteMB;
+import br.seploc.pojos.RequisicaoServico;
 
 public class ReqServClienteCB implements Serializable{
 
@@ -33,7 +37,7 @@ public class ReqServClienteCB implements Serializable{
 	}
 
 	/**
-	 * Metodo irá formatar o numero existente no banco para um numero de formato 000009  
+	 * Metodo irï¿½ formatar o numero existente no banco para um numero de formato 000009  
 	 * @param num
 	 * @return
 	 */
@@ -48,4 +52,5 @@ public class ReqServClienteCB implements Serializable{
 		
 		return retorno;
 	}	
+	
 }

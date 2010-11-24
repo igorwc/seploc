@@ -43,12 +43,9 @@ import br.seploc.dao.exceptions.FieldNotNullException;
 	@NamedNativeQuery(name = "RequisicaoServico.FiltraReqServ", query = " SELECT * "
 		+ "FROM tbl_reqserv " +
 		"where intNumreq = :numReq", resultSetMapping = "RequisicaoServico.implicit"),
-	@NamedNativeQuery(name = "RequisicaoServico.FiltraProjetoReqServ", query = " SELECT * "
+	@NamedNativeQuery(name = "RequisicaoServico.FiltraCliente", query = " SELECT * "
 		+ "FROM tbl_reqserv " +
-		"where intCodProj = :projeto and intNumreq = :numReq", resultSetMapping = "RequisicaoServico.implicit"),
-	@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoesPorPeriodo", query = " SELECT * "
-		+ "FROM tbl_reqserv " +
-		"where datData >= :dataInicio and datData <= :dataFim " +
+		"where datData between :dataInicio and :dataFinal " +
 		"and intCodProj in (select intCodProj FROM tbl_projetos where intClienteId = :clienteId) ", resultSetMapping = "RequisicaoServico.implicit")
 })
 public class RequisicaoServico implements Serializable {
