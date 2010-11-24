@@ -238,7 +238,7 @@ public class ReqServClienteMB implements Serializable {
 				retorno = new ArrayList<Projeto>();
 				Projeto p = new Projeto();
 				p.setCodProj(0);
-				p.setProjeto("Cliente não tem projetos");
+				p.setProjeto("Cliente nï¿½o tem projetos");
 				retorno.add(p);
 			}else{
 				retorno = cliente.getProjetos();
@@ -248,7 +248,7 @@ public class ReqServClienteMB implements Serializable {
 	}
 
 	public List<RequisicaoServico> getListaReqServ() {
-		// setar data de 60 dias atrás
+		// setar data de 60 dias atrï¿½s
 		Calendar calendarData = Calendar.getInstance();
 		  int numeroDiasParaSubtrair = -60;
 		  calendarData.add(Calendar.DATE, numeroDiasParaSubtrair);
@@ -268,7 +268,7 @@ public class ReqServClienteMB implements Serializable {
 	public void cadastrar() {
 		if (reqServico.getNumReq() == null || reqServico.getNumReq() == 0) {
 			try {
-				//A linha ou o opcional é item obrigatorio da requisição
+				//A linha ou o opcional ï¿½ item obrigatorio da requisiï¿½ï¿½o
 				boolean existeLinha = false;
 				boolean existeOpcional = false;
 				
@@ -276,7 +276,7 @@ public class ReqServClienteMB implements Serializable {
 				if (linhaReqServ.getQuant() >= 1) existeLinha = true;
 				
 				reqServico.setValorTotal(0.0);
-				// setar data de criação da requisição
+				// setar data de criaï¿½ï¿½o da requisiï¿½ï¿½o
 				java.util.Date data = new java.util.Date();
 				java.sql.Date hoje = new java.sql.Date(data.getTime());
 				reqServico.setData(hoje);
@@ -296,11 +296,11 @@ public class ReqServClienteMB implements Serializable {
 				reqServico.setVisivelNf(0);
 				reqServico.setVisivelReq(0);
 				
-				// adicionar a requisição de serviço se um dos itens obrigatoriso existirem
+				// adicionar a requisiï¿½ï¿½o de serviï¿½o se um dos itens obrigatoriso existirem
 				if (existeLinha || existeOpcional){
 					reqServicoDAO.adiciona(reqServico);
 				} else {
-					throw new Exception("Requisição de Serviço precisa de uma linha ou de um opcional!"); 
+					throw new Exception("Requisiï¿½ï¿½o de Serviï¿½o precisa de uma linha ou de um opcional!"); 
 				}
 
 				// recuperar a requisicao				
@@ -346,7 +346,7 @@ public class ReqServClienteMB implements Serializable {
 				}				
 				//reqServicoDAO.altera(reqServico);				
 				setValorTotalReq(temp0.getValorTotal().toString());
-				addGlobalMessage("Inclusão feita com sucesso!");
+				addGlobalMessage("Inclusï¿½o feita com sucesso!");
 			} catch (ValidatorException e) {
 				addGlobalMessage(e.getMessage());
 			} catch (Exception e) {
@@ -394,7 +394,7 @@ public class ReqServClienteMB implements Serializable {
 						temp.setValorTotal(temp.getValorTotal()
 								+ linhaReqServ.getValorUnit());
 					}
-					// verificar se existe alteração na entrega
+					// verificar se existe alteraï¿½ï¿½o na entrega
 					if (!temp.getEntrega().equals(entrega)){
 						temp.setEntrega(entrega);
 					}					
@@ -406,7 +406,7 @@ public class ReqServClienteMB implements Serializable {
 					reqServico = reqServicoDAO.recupera(temp.getNumReq());
 					setValorTotalReq(reqServico.getValorTotal().toString());
 					temp.setProjeto(reqServico.getProjeto());
-					addGlobalMessage("Atualização feita com sucesso!");
+					addGlobalMessage("AtualizaÃ§Ã£o feita com sucesso!");
 				}
 				
 			} catch (Exception e) {
@@ -433,7 +433,7 @@ public class ReqServClienteMB implements Serializable {
 	public void apagar() {
 		try {
 			reqServicoDAO.remove(reqServico.getNumReq());
-			addGlobalMessage("Excluído com sucesso!");
+			addGlobalMessage("Excluï¿½do com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
@@ -466,7 +466,7 @@ public class ReqServClienteMB implements Serializable {
 			Exception {
 		Papel papel = new Papel();
 
-		// verificar se o nome do papel informado é válido
+		// verificar se o nome do papel informado ï¿½ vï¿½lido
 		if (this.validatePapeis(nome)) {
 			PapelDAO papelDAO = new PapelDAO();
 
@@ -495,7 +495,7 @@ public class ReqServClienteMB implements Serializable {
 			}
 		}
 		if (!flag) {
-			FacesMessage message = new FacesMessage("Nome Papel Inválido");
+			FacesMessage message = new FacesMessage("Nome Papel Invï¿½lido");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
