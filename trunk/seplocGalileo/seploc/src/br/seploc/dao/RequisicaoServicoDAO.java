@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import br.seploc.dao.exceptions.FieldNotNullException;
@@ -20,7 +19,6 @@ import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.ReqServicosOpcionaisPK;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.util.GenericDAO;
-import br.seploc.util.PersistenceServiceFactory;
 
 public class RequisicaoServicoDAO extends
 		GenericDAO<RequisicaoServico, Integer> implements Serializable{
@@ -144,12 +142,12 @@ public class RequisicaoServicoDAO extends
 		RequisicaoServico reqServ = em.find(RequisicaoServico.class, id);
 		if (reqServ == null) {
 			em.getTransaction().rollback();
-			throw new RecordNotFound("Requisi��o de Servi�o n�o encontrado!");
+			throw new RecordNotFound("Requisição de Servição não encontrado!");
 		} else {
 			if (verificaFilhos(id)) {
 				em.getTransaction().rollback();
 				throw new ParentDeleteException(
-						"Requisi��o tem registros dependentes...");
+						"Requisição tem registros dependentes...");
 			} else {
 				em.remove(reqServ);
 			}
@@ -189,7 +187,7 @@ public class RequisicaoServicoDAO extends
 		OpcionaisReqServ oprs;
 		if (qtd == null || qtd.intValue() == 0) {
 			throw new FieldNotNullException(
-					"Quantidade de opcionais n�o pode ser nulo");
+					"Quantidade de opcionais não pode ser nulo");
 		} else {
 			if (rq.getOpcionais().size() != 0) {
 				for (ReqServicosOpcionais rso : rq.getOpcionais()) {
@@ -272,11 +270,24 @@ public class RequisicaoServicoDAO extends
 		em.refresh(reqServico);		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<RequisicaoServico> filtraReqServ(Integer projeto, Integer numReqServ){
 		List<RequisicaoServico> resultado = null;
 		
-		if ((projeto == null || projeto.intValue() == -1) && numReqServ == 0){
-			
+		if ((projeto.intValue() == 0) && (numReqServ == 0)){
+			resultado = this.getLista();
+		} else if ((projeto.intValue() != 0) && (numReqServ == 0)){
+			Query q = em.createNamedQuery("RequisicaoServico.FiltraProjeto")
+            .setParameter("projeto", projeto);
+			resultado = (List<RequisicaoServico>) q.getResultList();
+		} else if ((projeto.intValue() == 0) && (numReqServ != 0)){
+			Query q = em.createNamedQuery("RequisicaoServico.FiltraReqServ")
+            .setParameter("numReq", numReqServ);
+			resultado = (List<RequisicaoServico>) q.getResultList();
+		} else if ((projeto.intValue() != 0) && (numReqServ != 0)){
+			Query q = em.createNamedQuery("RequisicaoServico.FiltraProjetoReqServ")
+			.setParameter("projeto", projeto).setParameter("numReq", numReqServ);
+			resultado = (List<RequisicaoServico>) q.getResultList();
 		}
 		return resultado;
 	}
