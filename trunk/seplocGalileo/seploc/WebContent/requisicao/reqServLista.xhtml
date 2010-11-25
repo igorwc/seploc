@@ -65,22 +65,82 @@
 
 					<!-- Formulario -->
 					<center><rich:panel
-						header="Procurar Requisicoes de Servico" style="width: 800px"
-						bodyClass="formulario">
+						header="Procurar Requisicoes de Servico" style="width: 1000px"
+						bodyClass="formulario" id="reqServFiltros">
 						<table border="0">
 							<tr align="left">
-								<td><h:outputText value="Numero Requisicao: "
-									styleClass="texto" /></td>
+								<td width="100px"><h:outputText value="Requisicao: " styleClass="texto" /></td>
+								<td width="250px"><h:outputText value="Cliente: " styleClass="texto" /></td>
+								<td width="250px"><h:outputText value="Projeto: " styleClass="texto" /></td>								
+								<td width="200px"><h:outputText value="Data Início: " styleClass="texto" /></td>
+								<td width="200px"><h:outputText value="Data Fim: " styleClass="texto" /></td>
+							</tr>
+							<tr>
 								<td><h:inputText
-									value="#{reqServClienteCB.reqServMB.numReqBusca}" id="numReq"
+									value="#{reqServListaCB.reqServListaMB.numReqBusca}" id="numReq"
 									size="10" /></td>
-								<td><!-- Botoes --> <a4j:commandButton
-									value="#{msgs['botao.salvar']}"
-									action="#{reqServClienteCB.reqServMB.cadastrar}"
-									reRender="reqServ"
-									oncomplete="#{rich:component('confirmationMessage')}.show()" />
-
-								</td>
+								<td><h:inputText value="#{reqServListaCB.reqServListaMB.cliente.fantasia}" 
+								         id="cliente" 
+								         readonly="true"
+								         size="30"
+								         />
+								    <a4j:commandLink ajaxSingle="true" 
+												 id="modaleditcli" 
+												 oncomplete="#{rich:component('modalCliente')}.show();return false;">
+										<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
+									</a4j:commandLink></td>
+								<td valign="top"><h:inputText value="#{reqServListaCB.reqServListaMB.projeto.projeto}"									 						 
+										 id="projeto" 										 
+										 size="30"
+										 readonly="true"/>										 
+									<a4j:commandLink ajaxSingle="true" 
+						   						 id="editlinkproj" 
+												 oncomplete="#{rich:component('modalProjeto')}.show();return false;">
+										<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
+									</a4j:commandLink></td>
+								<td>
+	                                <rich:calendar value="#{reqServListaCB.reqServListaMB.dataInicio}"
+	                                           locale="#{reqServListaCB.locale}"
+	                                           popup="true"
+	                                           datePattern="dd/MM/yyyy"
+	                                           showApplyButton="false" 
+	                                           cellWidth="15px" 
+	                                           cellHeight="22px" 
+	                                           style="block:inline" >
+	                                           <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+	                                           <a4j:support event="onchanged" action="#{reqServListaCB.validateDatas}" reRender="dataInvalidaMsg" />
+	                                </rich:calendar></td>
+								<td>
+	                                <rich:calendar value="#{reqServListaCB.reqServListaMB.dataFim}"
+	                                           locale="#{reqServListaCB.locale}"
+	                                           popup="true"
+	                                           datePattern="dd/MM/yyyy"
+	                                           showApplyButton="false" 
+	                                           cellWidth="15px" 
+	                                           cellHeight="22px" 
+	                                           style="block:inline" >
+	                                           <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+	                                           <a4j:support event="onchanged" action="#{reqServListaCB.validateDatas}" reRender="dataInvalidaMsg" />
+	                                </rich:calendar></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td colspan="2">
+									<a4j:outputPanel id="dataInvalidaMsg">
+                                		<h:outputText value="#{reqServListaCB.datasInvalidasMsg}" 
+                                					  rendered="#{reqServListaCB.reqServListaMB.datasInvalidas}" 
+                                					  styleClass="error"/>
+                                	</a4j:outputPanel></td>
+							</tr>
+							<tr>
+								<td colspan="5" align="center">
+								<!-- Botoes --> <a4j:commandButton
+									value="#{msgs['botao.limpar']}"
+									action="#{reqServListaCB.reqServListaMB.limpar}"
+									reRender="reqServFiltros"									
+									/></td>
 							</tr>
 						</table>
 
@@ -88,7 +148,7 @@
 					<!-- fim Formulario -->
 
 					<!-- === GRID === -->
-					<rich:dataTable value="#{reqServListaCB.reqServListaMB.listaReqServ}"
+					<rich:dataTable value="#{reqServListaCB.gridReqServ}"
 						var="req" rowClasses="row1, row2" id="reqServListTodos" rows="12"
 						onRowMouseOver="this.style.backgroundColor='#E0EEEE'"
 						onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"
@@ -293,6 +353,119 @@
 							<rich:datascroller id="dsrs" renderIfSinglePage="true"></rich:datascroller>
 						</f:facet>
 					</rich:dataTable>
+				</h:form>
+			</rich:modalPanel>
+
+			<!-- Modal Projeto -->
+			<rich:modalPanel id="modalProjeto" autosized="true" width="300" height="300">
+				<f:facet name="header" >
+					<h:outputText value="Busca Projeto" style="padding-right:15px;" />
+				</f:facet>
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/imgs/icons/close.png" id="hidemodalproj" />
+						<rich:componentControl for="modalProjeto" attachTo="hidemodalproj" 
+						operation="hide" event="onclick" />
+					</h:panelGroup>
+				</f:facet>
+				<h:form>
+					<rich:dataTable value="#{reqServListaCB.reqServListaMB.todosProjetos}" var="proj" rows="10"
+						reRender="dsProjeto" id="simpletable" >
+						<f:facet name="header">
+							<rich:columnGroup>
+								<rich:column colspan="2">
+									<h:outputText value="Filtro de Projeto" />
+								</rich:column>
+								<rich:column breakBefore="true">
+									<h:outputText value="Projeto" />
+								</rich:column>
+								<rich:column>							
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+						
+						<rich:column filterBy="#{proj.projeto}" 
+									 filterEvent="onkeyup"
+									 filterValue="#{reqServListaCB.reqServListaMB.filtroProjeto}">
+							<h:outputText value="#{proj.projeto}" />
+						</rich:column>
+						
+						<rich:column styleClass="col1">
+							<a4j:commandLink ajaxSingle="true" 
+								                 id="edtlinkproj" 
+							    				 reRender="reqServList,modalProjeto" 
+							    				 oncomplete=" #{rich:component('modalProjeto')}.hide();"
+							    				 >
+								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+		
+								<f:setPropertyActionListener value="#{proj}"
+										target="#{reqServListaCB.reqServListaMB.projeto}" />
+							</a4j:commandLink>
+						</rich:column>  
+						<f:facet name="footer">
+							<rich:datascroller id="dsProjeto" renderIfSinglePage="true"></rich:datascroller>
+						</f:facet>
+					</rich:dataTable>	
+				</h:form>
+			</rich:modalPanel>		   
+
+			<!-- Modal Cliente -->
+			<rich:modalPanel id="modalCliente" autosized="true" width="300" height="300">
+				<f:facet name="header" >
+					<h:outputText value="Busca Cliente" style="padding-right:15px;" />
+				</f:facet>
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/imgs/icons/close.png" id="hidemodalcli" />
+						<rich:componentControl for="modalCliente" attachTo="hidemodalcli" 
+						operation="hide" event="onclick" />
+					</h:panelGroup>
+				</f:facet>
+				<h:form>
+					<rich:dataTable value="#{appBean.listaClientes}" var="cli" rows="10"
+						reRender="dsCliente" id="simpletable" >
+						<f:facet name="header">
+							<rich:columnGroup>
+								<rich:column colspan="3">
+									<h:outputText value="Filtro de Cliente" />
+								</rich:column>
+								<rich:column breakBefore="true">
+									<h:outputText value="CNPJ/CPF" />
+								</rich:column>
+								<rich:column>
+									<h:outputText value="Cliente" />
+								</rich:column>
+								<rich:column>							
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+						
+						<rich:column>
+							<h:outputText value="#{cli.cnpj}" />
+							<h:outputText value="#{cli.cpf}" />
+						</rich:column>
+						<rich:column filterBy="#{cli.fantasia}" 
+									 filterEvent="onkeyup"
+									 filterValue="#{reqServListaCB.reqServListaMB.filtroCliente}" >
+							<h:outputText value="#{cli.fantasia}" />
+						</rich:column>
+						
+						<rich:column styleClass="col1">
+							<a4j:commandLink ajaxSingle="true" 
+								                 id="editlinkcli" 
+							    				 reRender="reqServList,modalCliente" 
+							    				 oncomplete=" #{rich:component('modalCliente')}.hide();"
+							    				 >
+								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+		
+								<f:setPropertyActionListener value="#{cli}"
+										target="#{reqServListaCB.reqServListaMB.cliente}" />
+							</a4j:commandLink>
+						</rich:column>  
+						<f:facet name="footer">
+							<rich:datascroller id="dsCliente" renderIfSinglePage="true"></rich:datascroller>
+						</f:facet>
+					</rich:dataTable>	
 				</h:form>
 			</rich:modalPanel>
 
