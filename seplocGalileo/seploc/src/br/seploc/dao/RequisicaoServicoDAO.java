@@ -3,6 +3,7 @@ package br.seploc.dao;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -271,7 +272,7 @@ public class RequisicaoServicoDAO extends
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<RequisicaoServico> filtraReqServ(int projeto, int numReqServ, int cliente, Date dataIni, Date dataFim){
+	public List<RequisicaoServico> filtraReqServ(int projeto, int numReqServ, int cliente, Calendar dataIni, Calendar dataFim){
 		List<RequisicaoServico> resultado = null;
 		
 		if ((projeto == 0) && (numReqServ == 0) && (cliente == 0)){
@@ -288,7 +289,7 @@ public class RequisicaoServicoDAO extends
 			resultado = (List<RequisicaoServico>) q.getResultList();
 		} else if ((projeto == 0) && (numReqServ == 0) && (cliente > 0)){
 			Query q = em.createNamedQuery("RequisicaoServico.FiltraCliente")
-			.setParameter("cliente", cliente)
+			.setParameter("clienteId", cliente)
 			.setParameter("dataInicio", dataIni)
 			.setParameter("dataFinal", dataFim);
 			resultado = (List<RequisicaoServico>) q.getResultList();

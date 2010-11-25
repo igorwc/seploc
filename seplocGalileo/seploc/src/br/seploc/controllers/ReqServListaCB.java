@@ -1,9 +1,12 @@
 package br.seploc.controllers;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.context.FacesContext;
 
@@ -14,10 +17,13 @@ public class ReqServListaCB implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	private ReqServListaMB reqServListaMB;
+	private String datasInvalidasMsg;
+	private Locale locale;
 	
 	// CONSTRUTOR
 	public ReqServListaCB(){
-		this.setReqServListaMB(this.loadReqServList());
+		locale = new Locale("pt", "br");
+		this.setReqServListaMB(this.loadReqServList());		
 	}
 	
 	public ReqServListaMB getReqServListaMB() {
@@ -26,6 +32,22 @@ public class ReqServListaCB implements Serializable{
 
 	public void setReqServListaMB(ReqServListaMB reqServListaMB) {
 		this.reqServListaMB = reqServListaMB;
+	}
+
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setDatasInvalidasMsg(String datasInvalidasMsg) {
+		this.datasInvalidasMsg = datasInvalidasMsg;
+	}
+
+	public String getDatasInvalidasMsg() {
+		return datasInvalidasMsg;
 	}
 
 	public ReqServListaMB loadReqServList(){
@@ -55,8 +77,10 @@ public class ReqServListaCB implements Serializable{
 
 	public List<RequisicaoServico> getGridReqServ(){
 		List<RequisicaoServico> lista = new ArrayList<RequisicaoServico>();
-		Date dataInicio = (Date) reqServListaMB.getDataInicio();
-		Date dataFim = (Date) reqServListaMB.getDataFim();
+		Calendar dataInicio = new GregorianCalendar(Locale.getDefault());
+		Calendar dataFim = new GregorianCalendar(Locale.getDefault());
+		dataInicio.setTime(reqServListaMB.getDataInicio());	
+		dataFim.setTime(reqServListaMB.getDataFim()); 
 		int numeroReqServ = reqServListaMB.getNumReqBusca();
 		int clienteID = reqServListaMB.getClienteID();
 		int projetoID = reqServListaMB.getProjetoID();
@@ -64,5 +88,16 @@ public class ReqServListaCB implements Serializable{
 		lista = reqServListaMB.getReqServicoDAO().filtraReqServ(projetoID , numeroReqServ, clienteID, dataInicio, dataFim);
 				
 		return lista;
+	}	
+	
+	public void validateDatas() {
+		Date dataInicio = reqServListaMB.getDataInicio();
+		Date dataFim = reqServListaMB.getDataFim();
+		if (dataInicio.getTime() > dataFim.getTime()) {
+			setDatasInvalidasMsg("A data final deve ser maior que a data inicial.");
+			reqServListaMB.setDatasInvalidas(true);
+		} else {
+			reqServListaMB.setDatasInvalidas(false);
+		}
 	}	
 }

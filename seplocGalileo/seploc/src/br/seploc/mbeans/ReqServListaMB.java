@@ -1,14 +1,18 @@
 package br.seploc.mbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+//import java.sql.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import br.seploc.dao.RequisicaoServicoDAO;
+import br.seploc.pojos.Cliente;
+import br.seploc.pojos.Projeto;
 import br.seploc.pojos.RequisicaoServico;
 
 public class ReqServListaMB implements Serializable {
@@ -23,13 +27,29 @@ public class ReqServListaMB implements Serializable {
 	private final int umDia = 24*60*60*60;
 	private Date dataInicio = new Date(Calendar.getInstance().getTimeInMillis()-(umDia*30*1000));
 	private Date dataFim = new Date(Calendar.getInstance().getTimeInMillis());
+	private String filtroProjeto;
+	private String filtroCliente;
+	private Cliente cliente;
+	private Projeto projeto;
+	private boolean datasInvalidas = false;
+	
 	
 	// CONSTRUTOR
 	/**
 	 * Construtor da classe
 	 */
 	public ReqServListaMB() {
+		this.load();
+	}
+	
+	private void load(){
 		reqServicoDAO = new RequisicaoServicoDAO();		
+		reqServico = new RequisicaoServico();
+		cliente = new Cliente();
+		projeto = new Projeto();
+		numReqBusca = 0;
+		projetoID = 0;
+		clienteID = 0;		
 	}
 
 	// GETTERS E SETTERS
@@ -72,6 +92,9 @@ public class ReqServListaMB implements Serializable {
 	}
 
 	public int getProjetoID() {
+		if (projeto.getCodProj() != null) {
+			projetoID = projeto.getCodProj();
+		}
 		return projetoID;
 	}
 
@@ -80,6 +103,9 @@ public class ReqServListaMB implements Serializable {
 	}
 
 	public int getClienteID() {
+		if (cliente.getIdCliente() != null) {
+			clienteID = cliente.getIdCliente();
+		}
 		return clienteID;
 	}
 
@@ -102,6 +128,46 @@ public class ReqServListaMB implements Serializable {
 
 	public void setDataFim(Date dataFim) {
 		this.dataFim = dataFim;
+	}
+
+	public void setFiltroProjeto(String filtroProjeto) {
+		this.filtroProjeto = filtroProjeto;
+	}
+
+	public String getFiltroProjeto() {
+		return filtroProjeto;
+	}
+
+	public void setFiltroCliente(String filtroCliente) {
+		this.filtroCliente = filtroCliente;
+	}
+
+	public String getFiltroCliente() {
+		return filtroCliente;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public Projeto getProjeto() {
+		return projeto;
+	}
+
+	public void setProjeto(Projeto projeto) {
+		this.projeto = projeto;
+	}
+
+	public void setDatasInvalidas(boolean datasInvalidas) {
+		this.datasInvalidas = datasInvalidas;
+	}
+
+	public boolean isDatasInvalidas() {
+		return datasInvalidas;
 	}
 
 	public List<RequisicaoServico> getListaReqServ() {
@@ -153,7 +219,33 @@ public class ReqServListaMB implements Serializable {
 		}		
 	}
 	
+	public void pesquisar(){
+		
+	}
+	
+	public void limpar(){
+		System.out.println("Limpar campos!");
+		this.load();	
+	}	
+	
+	public List<Projeto> getTodosProjetos() {
 
+		List<Projeto> retorno = null;
+//		if (cliente == null || cliente.getIdCliente().intValue() == 0) {
+//			retorno = new ArrayList<Projeto>();
+//		} else {
+//			if(cliente.getProjetos().isEmpty()){
+//				retorno = new ArrayList<Projeto>();
+//				Projeto p = new Projeto();
+//				p.setCodProj(0);
+//				p.setProjeto("Cliente não tem projetos");
+//				retorno.add(p);
+//			}else{
+//				retorno = cliente.getProjetos();
+//			}
+//		}
+		return retorno;
+	}	
 	
 	/**
 	 * Metodo para incluir mensagens globais no formulario
