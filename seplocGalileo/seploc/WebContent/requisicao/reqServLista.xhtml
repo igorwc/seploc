@@ -76,9 +76,11 @@
 								<td width="200px"><h:outputText value="Data Fim: " styleClass="texto" /></td>
 							</tr>
 							<tr>
-								<td><h:inputText
-									value="#{reqServListaCB.reqServListaMB.numReqBusca}" id="numReq"
-									size="10" /></td>
+								<td><h:inputText value="#{reqServListaCB.reqServListaMB.numReqBusca}" 
+												 id="numReq"
+												 size="10">
+										<a4j:support event="onChange" reRender="reqServListTodos"/>
+									</h:inputText></td>
 								<td><h:inputText value="#{reqServListaCB.reqServListaMB.cliente.fantasia}" 
 								         id="cliente" 
 								         readonly="true"
@@ -106,9 +108,9 @@
 	                                           showApplyButton="false" 
 	                                           cellWidth="15px" 
 	                                           cellHeight="22px" 
-	                                           style="block:inline" >
+	                                           style="block:inline">
 	                                           <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
-	                                           <a4j:support event="onchanged" action="#{reqServListaCB.validateDatas}" reRender="dataInvalidaMsg" />
+	                                           <a4j:support event="onchanged" action="#{reqServListaCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos" />
 	                                </rich:calendar></td>
 								<td>
 	                                <rich:calendar value="#{reqServListaCB.reqServListaMB.dataFim}"
@@ -120,7 +122,7 @@
 	                                           cellHeight="22px" 
 	                                           style="block:inline" >
 	                                           <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
-	                                           <a4j:support event="onchanged" action="#{reqServListaCB.validateDatas}" reRender="dataInvalidaMsg" />
+	                                           <a4j:support event="onchanged" action="#{reqServListaCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos" />
 	                                </rich:calendar></td>
 							</tr>
 							<tr>
@@ -136,11 +138,20 @@
 							</tr>
 							<tr>
 								<td colspan="5" align="center">
-								<!-- Botoes --> <a4j:commandButton
+								<!-- Botoes --> 
+								<a4j:commandButton
+									value="Pesquisar Número Requisição"
+									action="#{reqServListaCB.reqServListaMB.pesquisar}"
+									reRender="reqServFiltros,reqServListTodos"/>									
+								<a4j:commandButton
+									value="Iniciar Datas"
+									action="#{reqServListaCB.reqServListaMB.iniciarDatas}"
+									reRender="reqServFiltros,reqServListTodos"/>
+								<a4j:commandButton
 									value="#{msgs['botao.limpar']}"
 									action="#{reqServListaCB.reqServListaMB.limpar}"
-									reRender="reqServFiltros"									
-									/></td>
+									reRender="reqServFiltros,reqServListTodos"/>																		
+								</td>
 							</tr>
 						</table>
 
@@ -373,10 +384,16 @@
 						reRender="dsProjeto" id="simpletable" >
 						<f:facet name="header">
 							<rich:columnGroup>
-								<rich:column colspan="2">
+								<rich:column colspan="4">
 									<h:outputText value="Filtro de Projeto" />
 								</rich:column>
 								<rich:column breakBefore="true">
+									<h:outputText value="CNPJ/CPF" />
+								</rich:column>
+								<rich:column>
+									<h:outputText value="Cliente" />
+								</rich:column>
+								<rich:column>								
 									<h:outputText value="Projeto" />
 								</rich:column>
 								<rich:column>							
@@ -384,11 +401,19 @@
 							</rich:columnGroup>
 						</f:facet>
 						
+						<rich:column>
+							<h:outputText value="#{proj.cliente.cnpj}" />
+							<h:outputText value="#{proj.cliente.cpf}" />
+						</rich:column>
+						<rich:column filterBy="#{proj.cliente.fantasia}" 
+									 filterEvent="onkeyup">
+							<h:outputText value="#{proj.cliente.fantasia}" />
+						</rich:column>
 						<rich:column filterBy="#{proj.projeto}" 
 									 filterEvent="onkeyup"
 									 filterValue="#{reqServListaCB.reqServListaMB.filtroProjeto}">
 							<h:outputText value="#{proj.projeto}" />
-						</rich:column>
+						</rich:column>					
 						
 						<rich:column styleClass="col1">
 							<a4j:commandLink ajaxSingle="true" 
