@@ -264,7 +264,7 @@ public class ReqServClienteMB implements Serializable {
 
 		return retorno;
 	}
-
+	
 	public void cadastrar() {
 		if (reqServico.getNumReq() == null || reqServico.getNumReq() == 0) {
 			try {
@@ -300,7 +300,7 @@ public class ReqServClienteMB implements Serializable {
 				if (existeLinha || existeOpcional){
 					reqServicoDAO.adiciona(reqServico);
 				} else {
-					throw new Exception("Requisi��o de Servi�o precisa de uma linha ou de um opcional!"); 
+					throw new Exception("Requisição de Serviço precisa de uma linha ou de um opcional!"); 
 				}
 
 				// recuperar a requisicao				
@@ -323,7 +323,9 @@ public class ReqServClienteMB implements Serializable {
 				// adicionar a linha
 				if (existeLinha) {
 					// transformar o nomePapel em Objeto Papel
-					papel = this.converterToPapel(this.nomePapel);
+					//papel = this.converterToPapel(this.nomePapel);
+					//PapelDAO papelDAO = new PapelDAO();
+					//papel = papelDAO.recupera(papel.getCodPapel());
 					linhaReqServ.setPapel(papel);
 					double valorPapel = 0.0;
 					// verificar a cor em uso
@@ -346,7 +348,7 @@ public class ReqServClienteMB implements Serializable {
 				}				
 				//reqServicoDAO.altera(reqServico);				
 				setValorTotalReq(temp0.getValorTotal().toString());
-				addGlobalMessage("Inclus�o feita com sucesso!");
+				addGlobalMessage("Inclusão feita com sucesso!");
 			} catch (ValidatorException e) {
 				addGlobalMessage(e.getMessage());
 			} catch (Exception e) {
@@ -369,7 +371,9 @@ public class ReqServClienteMB implements Serializable {
 					// adicionar a linha
 					if (linhaReqServ.getQuant() >= 1) {
 						// transformar o nomePapel em Objeto Papel
-						papel = this.converterToPapel(this.nomePapel);
+						//papel = this.converterToPapel(this.nomePapel);
+						//PapelDAO papelDAO = new PapelDAO();
+						//papel = papelDAO.recupera(papel.getCodPapel());						
 						linhaReqServ.setPapel(papel);
 						double valorPapel = 0.0;
 						// verificar a cor em uso
@@ -433,7 +437,7 @@ public class ReqServClienteMB implements Serializable {
 	public void apagar() {
 		try {
 			reqServicoDAO.remove(reqServico.getNumReq());
-			addGlobalMessage("Exclu�do com sucesso!");
+			addGlobalMessage("Excluído com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
@@ -495,7 +499,7 @@ public class ReqServClienteMB implements Serializable {
 			}
 		}
 		if (!flag) {
-			FacesMessage message = new FacesMessage("Nome Papel Inv�lido");
+			FacesMessage message = new FacesMessage("Nome Papel Inválido");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}

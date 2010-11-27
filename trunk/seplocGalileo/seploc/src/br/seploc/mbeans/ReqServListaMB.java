@@ -10,6 +10,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.Projeto;
@@ -23,10 +24,9 @@ public class ReqServListaMB implements Serializable {
 	private int numReqBusca;
 	private int numReqVisualizar;
 	private int projetoID;
-	private int clienteID;
-	private final int umDia = 24*60*60*60;
-	private Date dataInicio = new Date(Calendar.getInstance().getTimeInMillis()-(umDia*30*1000));
-	private Date dataFim = new Date(Calendar.getInstance().getTimeInMillis());
+	private int clienteID;	
+	private Date dataInicio;	
+	private Date dataFim;
 	private String filtroProjeto;
 	private String filtroCliente;
 	private Cliente cliente;
@@ -40,6 +40,7 @@ public class ReqServListaMB implements Serializable {
 	 */
 	public ReqServListaMB() {
 		this.load();
+		this.getIniciarDatas();
 	}
 	
 	private void load(){
@@ -49,8 +50,9 @@ public class ReqServListaMB implements Serializable {
 		projeto = new Projeto();
 		numReqBusca = 0;
 		projetoID = 0;
-		clienteID = 0;		
+		clienteID = 0;
 	}
+	
 
 	// GETTERS E SETTERS
 	public void setReqServico(RequisicaoServico reqServico) {
@@ -227,23 +229,27 @@ public class ReqServListaMB implements Serializable {
 		System.out.println("Limpar campos!");
 		this.load();	
 	}	
+
+	private Calendar getDayAgo(int dias){
+		Calendar dia = Calendar.getInstance();
+		//dias atras
+		dias = dias * -1;
+		dia.add(Calendar.DATE, dias);
+		System.out.println(dia.getTime());
+		return dia;
+	}
+	
+	public void getIniciarDatas(){
+		dataInicio = new Date(this.getDayAgo(30).getTimeInMillis());
+		dataFim = new Date(Calendar.getInstance().getTimeInMillis());		
+	}
 	
 	public List<Projeto> getTodosProjetos() {
 
 		List<Projeto> retorno = null;
-//		if (cliente == null || cliente.getIdCliente().intValue() == 0) {
-//			retorno = new ArrayList<Projeto>();
-//		} else {
-//			if(cliente.getProjetos().isEmpty()){
-//				retorno = new ArrayList<Projeto>();
-//				Projeto p = new Projeto();
-//				p.setCodProj(0);
-//				p.setProjeto("Cliente não tem projetos");
-//				retorno.add(p);
-//			}else{
-//				retorno = cliente.getProjetos();
-//			}
-//		}
+		ProjetoDAO projetoDAO = new ProjetoDAO();
+		retorno = projetoDAO.getLista();
+		
 		return retorno;
 	}	
 	

@@ -4,6 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:rich="http://richfaces.org/rich"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
       template="../templatepage/masterpage.xhtml">
 
 <!-- TAXINOMIA -->      
@@ -148,6 +149,8 @@
 											<td><h:inputText id="for" value="#{reqServClienteCB.reqServMB.linhaReqServ.formato}" size="5"/></td>
 											<td><h:inputText id="dim" value="#{reqServClienteCB.reqServMB.linhaReqServ.dimensao}" size="5"/></td>
 											<td>
+											
+											<!--												
 												<rich:comboBox selectFirstOnUpdate="false"
 				                                   defaultLabel="Nome do Papel"
 				                                   id="papel" 
@@ -155,8 +158,18 @@
 				                                   >	                                   
 					                         		<f:selectItems value="#{appBean.papeis}" />  
 				                    			</rich:comboBox>
+				                    		-->	
+				                    			<h:selectOneMenu value="#{reqServClienteCB.reqServMB.papel.codPapel}" id="papel">
+					                                <f:selectItem itemLabel="Selecione" itemValue="-1"></f:selectItem>
+					                                <t:selectItems value="#{reqServClienteCB.reqServMB.todosPapeis}"
+					                                			   var="papel" 
+					                                               itemLabel="#{papel.nome}" 
+					                                               itemValue="#{papel.codPapel}" />					                                	                    			
+				                    			</h:selectOneMenu>
+				                    			
 				                    		</td>							
 											<td>
+												<!--
 												<rich:comboBox selectFirstOnUpdate="false"
 				                                   defaultLabel="Tipo"
 				                                   id="Impressao" 
@@ -168,7 +181,13 @@
 				                         		<f:selectItem id="impShade" itemLabel="Shade" itemValue="Shade" />
 				                        		<rich:ajaxValidator event="onkeyup"  />    
 				                        		<rich:ajaxValidator event="onchange"  />   
-				                    			</rich:comboBox>
+				                    			</rich:comboBox>-->
+				                    			
+				                    			<h:selectOneMenu value="#{reqServClienteCB.reqServMB.linhaReqServ.impressao}" id="Impressao">
+				                    				<f:selectItem itemLabel="MONO" itemValue="Mono"/>
+				                    				<f:selectItem itemLabel="COLOR" itemValue="Color"/>
+				                    				<f:selectItem itemLabel="SHADE" itemValue="Shade"/>
+				                    			</h:selectOneMenu>
 				                    		</td>							
 											<td><h:inputText id="quant" value="#{reqServClienteCB.reqServMB.linhaReqServ.quant}" size="5"/></td>							
 										</tr>
