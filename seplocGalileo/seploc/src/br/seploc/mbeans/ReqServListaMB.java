@@ -245,8 +245,8 @@ public class ReqServListaMB implements Serializable {
 	}
 	
 	public List<Projeto> getTodosProjetos() {
-
 		List<Projeto> retorno = null;
+
 		ProjetoDAO projetoDAO = new ProjetoDAO();
 		retorno = projetoDAO.getLista();
 		
