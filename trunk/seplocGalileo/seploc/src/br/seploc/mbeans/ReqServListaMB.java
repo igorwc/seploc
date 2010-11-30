@@ -40,7 +40,7 @@ public class ReqServListaMB implements Serializable {
 	 */
 	public ReqServListaMB() {
 		this.load();
-		this.getIniciarDatas();
+		this.iniciarDatas();
 	}
 	
 	private void load(){
@@ -239,7 +239,7 @@ public class ReqServListaMB implements Serializable {
 		return dia;
 	}
 	
-	public void getIniciarDatas(){
+	public void iniciarDatas(){
 		dataInicio = new Date(this.getDayAgo(30).getTimeInMillis());
 		dataFim = new Date(Calendar.getInstance().getTimeInMillis());		
 	}
