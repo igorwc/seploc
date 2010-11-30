@@ -268,7 +268,7 @@ public class ReqServClienteMB implements Serializable {
 	public void cadastrar() {
 		if (reqServico.getNumReq() == null || reqServico.getNumReq() == 0) {
 			try {
-				//A linha ou o opcional � item obrigatorio da requisi��o
+				//A linha ou o opcional item obrigatorio da requisicao
 				boolean existeLinha = false;
 				boolean existeOpcional = false;
 				
@@ -276,7 +276,7 @@ public class ReqServClienteMB implements Serializable {
 				if (linhaReqServ.getQuant() >= 1) existeLinha = true;
 				
 				reqServico.setValorTotal(0.0);
-				// setar data de cria��o da requisi��o
+				// setar data de criacao da requisicao
 				java.util.Date data = new java.util.Date();
 				java.sql.Date hoje = new java.sql.Date(data.getTime());
 				reqServico.setData(hoje);
@@ -296,7 +296,7 @@ public class ReqServClienteMB implements Serializable {
 				reqServico.setVisivelNf(0);
 				reqServico.setVisivelReq(0);
 				
-				// adicionar a requisi��o de servi�o se um dos itens obrigatoriso existirem
+				// adicionar a requisicao de servico se um dos itens obrigatoriso existirem
 				if (existeLinha || existeOpcional){
 					reqServicoDAO.adiciona(reqServico);
 				} else {
@@ -310,9 +310,6 @@ public class ReqServClienteMB implements Serializable {
 				
 				//reqServicoDAO.refresh(reqServico);
 				
-				
-				
-
 				// adicionar o opcional
 				if (existeOpcional) {
 					reqServicoDAO.addOpcional(temp0, opcional,
@@ -324,8 +321,8 @@ public class ReqServClienteMB implements Serializable {
 				if (existeLinha) {
 					// transformar o nomePapel em Objeto Papel
 					//papel = this.converterToPapel(this.nomePapel);
-					//PapelDAO papelDAO = new PapelDAO();
-					//papel = papelDAO.recupera(papel.getCodPapel());
+					PapelDAO papelDAO = new PapelDAO();
+					papel = papelDAO.recupera(papel.getCodPapel());
 					linhaReqServ.setPapel(papel);
 					double valorPapel = 0.0;
 					// verificar a cor em uso
@@ -372,36 +369,35 @@ public class ReqServClienteMB implements Serializable {
 					if (linhaReqServ.getQuant() >= 1) {
 						// transformar o nomePapel em Objeto Papel
 						//papel = this.converterToPapel(this.nomePapel);
-						//PapelDAO papelDAO = new PapelDAO();
-						//papel = papelDAO.recupera(papel.getCodPapel());						
+						PapelDAO papelDAO = new PapelDAO();
+						papel = papelDAO.recupera(papel.getCodPapel());						
 						linhaReqServ.setPapel(papel);
 						double valorPapel = 0.0;
 						// verificar a cor em uso
-						if (linhaReqServ.getImpressao()
-								.equalsIgnoreCase("Mono"))
+						if (linhaReqServ.getImpressao().equalsIgnoreCase("Mono"))
 							valorPapel = papel.getImpMono();
-						if (linhaReqServ.getImpressao().equalsIgnoreCase(
-								"Color"))
+						if (linhaReqServ.getImpressao().equalsIgnoreCase("Color"))
 							valorPapel = papel.getImpColor();
-						if (linhaReqServ.getImpressao().equalsIgnoreCase(
-								"Shade"))
+						if (linhaReqServ.getImpressao().equalsIgnoreCase("Shade"))
 							valorPapel = papel.getImpShade();
 
-						double valorUnit = (linhaReqServ.getDimensao() * linhaReqServ
-								.getFormato()) + valorPapel;
+						double valorUnit = (linhaReqServ.getDimensao() * 
+											linhaReqServ.getFormato()) + valorPapel;
 						linhaReqServ.setValorSubUnit(valorUnit);
-						linhaReqServ.setValorUnit(valorUnit
-								* linhaReqServ.getQuant());
+						linhaReqServ.setValorUnit(valorUnit	* linhaReqServ.getQuant());
 
 						reqServicoDAO.addLinha(temp, linhaReqServ);
 
 						temp.setValorTotal(temp.getValorTotal()
 								+ linhaReqServ.getValorUnit());
 					}
-					// verificar se existe altera��o na entrega
-					if (!temp.getEntrega().equals(entrega)){
-						temp.setEntrega(entrega);
-					}					
+					// verificar se existe alteracao na entrega
+					if (entrega.getCodEntrega() != null){
+						
+						if (!temp.getEntrega().equals(entrega)){
+							temp.setEntrega(entrega);
+						}					
+					}
 					// verificar se foi alterado o projeto
 					if (!temp.getProjeto().equals(projeto)){
 						temp.setProjeto(projeto);
