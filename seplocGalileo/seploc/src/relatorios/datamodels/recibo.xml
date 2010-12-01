@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <numReq />
+    <dataReq />
+    <cliente>
+        <id />
+        <CNPJ />
+        <CPF />
+        <razao />
+        <cep />
+        <ender />
+        <bairro />
+        <cidade />
+        <estado />
+    </cliente>
+    <projeto>
+        <cod />
+        <desc />
+    </projeto>
+    <items
+        desc="Lista de Itens das requisição. Inclui opcionais e linhas de requisicao" >
+        <item>
+            <numReq></numReq>
+            <nmItem></nmItem>
+            <formato></formato>
+            <dimensao></dimensao>
+            <nomePapel></nomePapel>
+            <impressao></impressao>
+            <qtd></qtd>
+            <subTotal></subTotal>
+            <valorItem></valorItem>
+            <numLinha></numLinha></item></items>
+</root>
