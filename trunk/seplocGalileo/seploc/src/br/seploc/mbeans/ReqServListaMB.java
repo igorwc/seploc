@@ -3,6 +3,7 @@ package br.seploc.mbeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 //import java.sql.Date;
 import java.util.List;
@@ -180,6 +181,7 @@ public class ReqServListaMB implements Serializable {
 		  java.sql.Date dias60 = new java.sql.Date(calendarData.getTimeInMillis());		  
 		
 		List<RequisicaoServico> retorno = reqServicoDAO.getListaSinceDate(dias60);
+		
 		return retorno;
 	}
 	
@@ -194,7 +196,8 @@ public class ReqServListaMB implements Serializable {
 	
 	public void apagar(){
 		try{
-			reqServicoDAO.remove(this.reqServico.getNumReq());
+			reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+			reqServicoDAO.remove(reqServico.getNumReq());
 			addGlobalMessage("Requisição Excluido!");
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -64,9 +64,10 @@
 				<rich:panel header="Requisicao de Servico">
 
 					<!-- Formulario -->
-					<center><rich:panel
-						header="Procurar Requisicoes de Servico" style="width: 1000px"
-						bodyClass="formulario" id="reqServFiltros">
+					<center><rich:panel	header="Procurar Requisicoes de Servico" 
+										style="width: 1000px"
+										bodyClass="formulario2" 
+										id="reqServFiltros">
 						<table border="0">
 							<tr align="left">
 								<td width="100px"><h:outputText value="Requisicao: " styleClass="texto" /></td>
@@ -142,11 +143,13 @@
 								<a4j:commandButton
 									value="Pesquisar Número Requisição"
 									action="#{reqServListaCB.reqServListaMB.pesquisar}"
-									reRender="reqServFiltros,reqServListTodos"/>									
+									reRender="reqServFiltros,reqServListTodos"/>
+								<rich:spacer width="5px"/>									
 								<a4j:commandButton
 									value="Iniciar Datas"
 									action="#{reqServListaCB.reqServListaMB.iniciarDatas}"
 									reRender="reqServFiltros,reqServListTodos"/>
+								<rich:spacer width="5px"/>
 								<a4j:commandButton
 									value="#{msgs['botao.limpar']}"
 									action="#{reqServListaCB.reqServListaMB.limpar}"
@@ -160,10 +163,14 @@
 
 					<!-- === GRID === -->
 					<rich:dataTable value="#{reqServListaCB.gridReqServ}"
-						var="req" rowClasses="row1, row2" id="reqServListTodos" rows="12"
-						onRowMouseOver="this.style.backgroundColor='#E0EEEE'"
-						onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"
-						width="1000" align="center">
+									var="req" 
+									rowClasses="row1, row2" 
+									id="reqServListTodos" 
+									rows="12"
+									onRowMouseOver="this.style.backgroundColor='#E0EEEE'"
+									onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"
+									width="1000" 
+									align="center">
 						<f:facet name="header">
 							<rich:columnGroup>
 
@@ -221,41 +228,46 @@
 
 						<rich:column>
 						    
-							<a4j:commandLink ajaxSingle="true" id="editlinklinha"
-								reRender="reqServList" action="#{reqServListaCB.reqServListaMB.editar}">
+							<a4j:commandLink ajaxSingle="true" 
+											 id="editlinkreq"
+											 reRender="reqServList" 
+											 action="#{reqServListaCB.reqServListaMB.editar}">
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 								<f:setPropertyActionListener value="#{req}"
 									target="#{reqServListaCB.reqServListaMB.reqServico}" />
 							</a4j:commandLink>
-							<rich:toolTip for="editlinklinha" value="Editar Registro" />
+							<rich:toolTip for="editlinkreq" value="Editar Registro" />
 						    <rich:spacer width="5px"/>
-							<a4j:commandLink ajaxSingle="true" id="deletelinklinha"
-								reRender="reqServList"
-								action="#{reqServListaCB.reqServListaMB.apagar}"
-								oncomplete="#{rich:component('confirmationMessage')}.show()">
+							<a4j:commandLink ajaxSingle="true" 
+											 id="deletelinkreq"
+											 reRender="reqServListTodos"
+											 action="#{reqServListaCB.reqServListaMB.apagar}"
+											 oncomplete="#{rich:component('confirmationMessage')}.show();">
 								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{req}"
 									target="#{reqServListaCB.reqServListaMB.reqServico}" />
 							</a4j:commandLink>
-							<rich:toolTip for="deletelinklinha" value="Apagar Registro" />
+							<rich:toolTip for="deletelinkreq" value="Apagar Registro" />
 						    <rich:spacer width="5px"/>
-							<a4j:commandLink ajaxSingle="true" id="printlinklinha"
-								reRender="reqServList"
-								action="#{reqServListaCB.reqServListaMB.imprimir}">
+							<a4j:commandLink ajaxSingle="true" 
+											 id="printlinkreq"
+											 reRender="reqServList"
+											 action="#{reqServListaCB.reqServListaMB.imprimir}">
 								<h:graphicImage value="/imgs/print_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{req}"
 									target="#{reqServListaCB.reqServListaMB.reqServico}" />
 							</a4j:commandLink>
-							<rich:toolTip for="printlinklinha" value="Imprimir Registro" />
+							<rich:toolTip for="printlinkreq" value="Imprimir Registro" />
 						    <rich:spacer width="5px"/>
-							<a4j:commandLink ajaxSingle="true" id="viewlinklinha"
-								reRender="reqServListTodos,modalReqServ"								
-								oncomplete="#{rich:component('modalReqServ')}.show();return false;">
+							<a4j:commandLink ajaxSingle="true" 
+											 id="viewlinkreq"												
+											 reRender="reqServListTodos,modalReqServ"								
+											 oncomplete="#{rich:component('modalReqServ')}.show();return false;">
 								<h:graphicImage value="/imgs/view_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{req.numReq}"
 									target="#{reqServListaCB.reqServListaMB.numReqVisualizar}" />
 							</a4j:commandLink>
-							<rich:toolTip for="viewlinklinha" value="Mostrar Registro" />
+							<rich:toolTip for="viewlinkreq" value="Mostrar Registro" />
 							
 
 						</rich:column>
@@ -493,7 +505,40 @@
 					</rich:dataTable>	
 				</h:form>
 			</rich:modalPanel>
-
+			
+	      	<!-- Confirmacao -->
+	        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+	        <f:facet name="header">
+	            <h:outputText value="Requisicao de Servicos"
+	                style="padding-right:15px;" />
+	        </f:facet>
+	        <f:facet name="controls">
+	            <h:panelGroup>
+	                <h:graphicImage value="/imgs/icons/close.png"
+	                    styleClass="hidelink" id="hidelink2" />
+	                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+	                    operation="hide" event="onclick" />
+	            </h:panelGroup>
+	        </f:facet>
+	        <h:form>
+	            <table width="100%">
+	                <tbody>
+	                    <tr>
+	                        <td align="center" width="100%">
+	                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td align="center" width="100%"><a4j:commandButton
+	                            value="OK"
+	                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+	                        </td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	        </h:form>
+	    </rich:modalPanel>
+    
 		</f:view>
 	</ui:define>
 </ui:composition>
