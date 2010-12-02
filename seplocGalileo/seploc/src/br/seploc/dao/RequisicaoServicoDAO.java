@@ -164,12 +164,12 @@ public class RequisicaoServicoDAO extends
 		Number contagemOpcional = 0;
 		boolean retorno = false;
 		Query q1 = em.createQuery(
-				"SELECT count(lr.id) FROM br.seploc.pojos.LinhaRequisicao lr"
-						+ " where lr.id.NumRequisicao = :numReq").setParameter(
+				"SELECT count(1) FROM br.seploc.pojos.LinhaRequisicao lr"
+						+ " where lr.id.numRequisicao = :numReq").setParameter(
 				"numReq", numReqServ);
 		Query q2 = em.createQuery(
 				"SELECT count(or.id) FROM br.seploc.pojos.ReqServicosOpcionais or"
-						+ " where or.id.NumRequisicao = :numReq").setParameter(
+						+ " where or.id.numRequisicao = :numReq").setParameter(
 				"numReq", numReqServ);
 
 		contagemLinha = (Number) q1.getSingleResult();
