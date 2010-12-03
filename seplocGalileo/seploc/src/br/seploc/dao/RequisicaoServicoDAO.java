@@ -145,19 +145,51 @@ public class RequisicaoServicoDAO extends
 			em.getTransaction().rollback();
 			throw new RecordNotFound("Requisição de Servição não encontrado!");
 		} else {
-			if (verificaFilhos(id)) {
-				em.getTransaction().rollback();
-				throw new ParentDeleteException(
-						"Requisição tem registros dependentes...");
-			} else {
-				em.remove(reqServ);
-			}
+//			if (verificaFilhos(id)) {
+//				em.getTransaction().rollback();
+//				throw new ParentDeleteException(
+//						"Requisição tem registros dependentes...");
+//			} else {
+//				em.remove(reqServ);
+//			}
+			removerLinhas(id);
+			removerOpcionais(id);
+			em.remove(reqServ);
 		}
 		em.getTransaction().commit();
 
 		return null;
 	}
 
+	protected void removerLinhas(Integer numReqServ) throws Exception {
+		@SuppressWarnings("unused")
+		Number contagemLinha = 0;
+		try {
+			Query q1 = em.createQuery(
+					"DELETE FROM br.seploc.pojos.LinhaRequisicao lr " +
+					"where lr.id.numRequisicao = :numReq").setParameter("numReq", numReqServ);
+			q1.executeUpdate();
+		
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+		}
+		
+	}
+	
+	protected void removerOpcionais(Integer numReqServ) throws Exception {
+		@SuppressWarnings("unused")
+		Number contagemOpcional = 0;
+		try {
+			Query q1 = em.createQuery(
+					"DELETE FROM br.seploc.pojos.ReqServicosOpcionais o " +
+					"where o.id.intNumReq = :numReq").setParameter("numReq", numReqServ);			
+			q1.executeUpdate();			
+
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+		}		
+	}
+	
 	@Override
 	protected boolean verificaFilhos(Integer numReqServ) throws Exception {
 		Number contagemLinha = 0;
@@ -174,7 +206,7 @@ public class RequisicaoServicoDAO extends
 
 		contagemLinha = (Number) q1.getSingleResult();
 		contagemOpcional = (Number) q2.getSingleResult();
-
+	
 		if (contagemLinha.intValue() != 0 || contagemOpcional.intValue() != 0)
 			retorno = true;
 
