@@ -95,7 +95,7 @@
 								<h:outputText value="R$ #{reqServClienteCB.reqServMB.valorTotalReq}" /></td>
 							<td width="5%"></td>
 							<td width="20%" rowspan="2" align="center">
-								<fieldset><legend class="texto">Número Requisicao</legend>
+								<fieldset><legend class="texto">Numero Requisicao</legend>
 									<h:outputText value="#{reqServClienteCB.reqServMB.reqServico.numReq}" styleClass="numeroRequisicao">
 										<f:convertNumber pattern="#000000"/></h:outputText>
 								</fieldset></td>
@@ -309,12 +309,13 @@
 	               	</rich:dataTable> 
 	               	
 	               <!-- === GRID OP === -->
-	               <rich:dataTable value="#{reqServClienteCB.reqServMB.reqServico.opcionais}" var="op"    
-	                   rowClasses="row1, row2" id="opList" rows="10"	                   
-	                   onRowMouseOver="this.style.backgroundColor='#E0EEEE'"  
-	                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
-	                   width="1000"
-	                   align="center">  
+	               <rich:dataTable value="#{reqServClienteCB.reqServMB.reqServico.opcionais}" 
+	               				var="op"    
+	                   			rowClasses="row1, row2" id="opList" rows="10"	                   
+	                   			onRowMouseOver="this.style.backgroundColor='#E0EEEE'"  
+	                   			onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+	                   			width="1000"
+	                   			align="center">  
 	                   <f:facet name="header">  
 	                       <rich:columnGroup>
 							   <rich:column breakBefore="true" width="810">  
