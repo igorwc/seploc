@@ -65,15 +65,14 @@
 
 					<!-- Formulario -->
 					<center><rich:panel	header="Procurar Requisicoes de Servico" 
-										style="width: 1000px"
-										bodyClass="formulario2" 
+										style="width: 1000px"										
 										id="reqServFiltros">
 						<table border="0">
 							<tr align="left">
 								<td width="100px"><h:outputText value="Requisicao: " styleClass="texto" /></td>
 								<td width="250px"><h:outputText value="Cliente: " styleClass="texto" /></td>
 								<td width="250px"><h:outputText value="Projeto: " styleClass="texto" /></td>								
-								<td width="200px"><h:outputText value="Data Início: " styleClass="texto" /></td>
+								<td width="200px"><h:outputText value="Data Inicio: " styleClass="texto" /></td>
 								<td width="200px"><h:outputText value="Data Fim: " styleClass="texto" /></td>
 							</tr>
 							<tr>
@@ -141,7 +140,7 @@
 								<td colspan="5" align="center">
 								<!-- Botoes --> 
 								<a4j:commandButton
-									value="Pesquisar Número Requisição"
+									value="Pesquisar Numero Requisicao"
 									action="#{reqServListaCB.reqServListaMB.pesquisar}"
 									reRender="reqServFiltros,reqServListTodos"/>
 								<rich:spacer width="5px"/>									
