@@ -2,6 +2,7 @@ package br.seploc.controllers;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -86,7 +87,7 @@ public class ReqServListaCB implements Serializable{
 		int projetoID = reqServListaMB.getProjetoID();
 
 		lista = reqServListaMB.getReqServicoDAO().filtraReqServ(projetoID , numeroReqServ, clienteID, dataInicio, dataFim);
-				
+		Collections.reverse(lista);		
 		return lista;
 	}	
 	

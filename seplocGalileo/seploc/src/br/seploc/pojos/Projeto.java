@@ -86,7 +86,7 @@ public class Projeto implements Serializable  {
 	}
 
 	public void setProjeto(String projeto) {
-		this.projeto = projeto;
+		this.projeto = projeto.toUpperCase();
 	}
 
 	public Timestamp getVersao() {

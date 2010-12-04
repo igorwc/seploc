@@ -14,7 +14,10 @@ import javax.faces.context.FacesContext;
 import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.pojos.Cliente;
+import br.seploc.pojos.LinhaRequisicao;
+import br.seploc.pojos.LinhaRequisicaoPK;
 import br.seploc.pojos.Projeto;
+import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
 
 public class ReqServListaMB implements Serializable {
@@ -185,6 +188,15 @@ public class ReqServListaMB implements Serializable {
 		return retorno;
 	}
 	
+	public List<ReqServicosOpcionais> getGridOpcionais(){
+		List<ReqServicosOpcionais> lista = new ArrayList<ReqServicosOpcionais>();
+		if (reqServico.getOpcionais() != null) {
+			lista = reqServico.getOpcionais();
+		}
+		
+		return lista;
+	}
+	
 	public void editar(){
 		try{
 			reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
@@ -225,7 +237,7 @@ public class ReqServListaMB implements Serializable {
 	}
 	
 	public void pesquisar(){
-		
+
 	}
 	
 	public void limpar(){

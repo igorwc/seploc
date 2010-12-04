@@ -145,49 +145,39 @@ public class RequisicaoServicoDAO extends
 			em.getTransaction().rollback();
 			throw new RecordNotFound("Requisição de Servição não encontrado!");
 		} else {
-//			if (verificaFilhos(id)) {
-//				em.getTransaction().rollback();
-//				throw new ParentDeleteException(
-//						"Requisição tem registros dependentes...");
-//			} else {
-//				em.remove(reqServ);
-//			}
-			removerLinhas(id);
-			removerOpcionais(id);
 			em.remove(reqServ);
 		}
 		em.getTransaction().commit();
 
 		return null;
 	}
-
-	protected void removerLinhas(Integer numReqServ) throws Exception {
-		@SuppressWarnings("unused")
-		Number contagemLinha = 0;
-		try {
-			Query q1 = em.createQuery(
-					"DELETE FROM br.seploc.pojos.LinhaRequisicao lr " +
-					"where lr.id.numRequisicao = :numReq").setParameter("numReq", numReqServ);
-			q1.executeUpdate();
-		
-		} catch (Exception e) {
-			em.getTransaction().rollback();
-		}
-		
-	}
 	
-	protected void removerOpcionais(Integer numReqServ) throws Exception {
-		@SuppressWarnings("unused")
-		Number contagemOpcional = 0;
-		try {
-			Query q1 = em.createQuery(
-					"DELETE FROM br.seploc.pojos.ReqServicosOpcionais o " +
-					"where o.id.intNumReq = :numReq").setParameter("numReq", numReqServ);			
-			q1.executeUpdate();			
-
-		} catch (Exception e) {
+	public LinhaRequisicao removeLinha(LinhaRequisicao l) throws Exception {
+		em.getTransaction().begin();
+		LinhaRequisicao linhaReqServ = em.find(LinhaRequisicao.class, l.getId());
+		if (linhaReqServ == null) {
 			em.getTransaction().rollback();
-		}		
+			throw new RecordNotFound("Linha de Requisição não encontrado!");
+		} else {
+			em.remove(linhaReqServ);
+		}
+		em.getTransaction().commit();
+		
+		return null;
+	}
+
+	public ReqServicosOpcionais removeOpcionais(ReqServicosOpcionaisPK id) throws Exception {
+		em.getTransaction().begin();
+		ReqServicosOpcionais opcionalReqServ = em.find(ReqServicosOpcionais.class, id);
+		if (opcionalReqServ == null) {
+			em.getTransaction().rollback();
+			throw new RecordNotFound("Opcional da Requisição não encontrado!");
+		} else {
+			em.remove(opcionalReqServ);
+		}
+		em.getTransaction().commit();
+		
+		return null;
 	}
 	
 	@Override

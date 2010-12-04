@@ -109,7 +109,7 @@ public class LinhaRequisicao implements Serializable {
 	}
 
 	public void setNomeArquivo(String nomeArquivo) {
-		this.nomeArquivo = nomeArquivo;
+		this.nomeArquivo = nomeArquivo.toUpperCase();
 	}
 
 	public Double getFormato() {

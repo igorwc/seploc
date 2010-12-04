@@ -82,7 +82,7 @@ public class RequisicaoServico implements Serializable {
 	private Timestamp versao;
 
 	@OneToMany(mappedBy = "reqServico", cascade = { CascadeType.MERGE,
-			CascadeType.PERSIST })
+			CascadeType.PERSIST, CascadeType.REMOVE })
 	private List<LinhaRequisicao> linhaRequisicao;
 
 	@ManyToOne(fetch = FetchType.LAZY)
