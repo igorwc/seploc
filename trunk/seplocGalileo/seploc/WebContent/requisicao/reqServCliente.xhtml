@@ -92,7 +92,8 @@
 							<td width="15%">
 								<h:outputText value="Valor Total:" styleClass="texto"/></td>
 							<td width="20%">
-								<h:outputText value="R$ #{reqServClienteCB.reqServMB.valorTotalReq}" /></td>
+								<h:outputText value="#{reqServClienteCB.reqServMB.valorTotalReq}" >
+								<f:convertNumber type="currency" currencySymbol="R$"/></h:outputText></td>
 							<td width="5%"></td>
 							<td width="20%" rowspan="2" align="center">
 								<fieldset><legend class="texto">Numero Requisicao</legend>
@@ -286,7 +287,7 @@
 							<a4j:commandLink ajaxSingle="true" 
 											 id="editlinklinha" 
 							    			 reRender="reqServ" 
-							    			 action="#{reqServClienteCB.reqServMB.editar}" >
+							    			 action="#{reqServClienteCB.reqServMB.editarLinha}" >
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 								<f:setPropertyActionListener value="#{linha}"
 									target="#{reqServClienteCB.reqServMB.linhaReqServ}" />
@@ -295,7 +296,7 @@
 							<a4j:commandLink ajaxSingle="true" 
 											 id="deletelinklinha"
 											 reRender="linhaList" 
-											 action="#{reqServClienteCB.reqServMB.apagar}" 
+											 action="#{reqServClienteCB.reqServMB.apagarLinha}" 
 											 oncomplete="#{rich:component('confirmationMessage')}.show()">
 								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{linha}"
@@ -350,7 +351,7 @@
 							    			 action="#{reqServClienteCB.reqServMB.editarOpcional}" >
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 								<f:setPropertyActionListener value="#{op}"
-									target="#{reqServClienteCB.reqServMB.opcional}" />
+									target="#{reqServClienteCB.reqServMB.opcionalReqServ}" />
 							</a4j:commandLink>
 							<rich:toolTip for="editlinklinha" value="Editar Registro" />
 							<a4j:commandLink ajaxSingle="true"
@@ -360,7 +361,7 @@
 											 oncomplete="#{rich:component('confirmationMessage')}.show()">
 								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{op}"
-									target="#{reqServClienteCB.reqServMB.opcional}" />
+									target="#{reqServClienteCB.reqServMB.opcionalReqServ}" />
 							</a4j:commandLink>
 							<rich:toolTip for="deletelinklinha" value="Apagar Registro" />
 						</rich:column> 

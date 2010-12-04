@@ -15,6 +15,7 @@ import br.seploc.pojos.OpcionaisReqServ;
 import br.seploc.pojos.Entrega;
 import br.seploc.pojos.Papel;
 import br.seploc.pojos.Projeto;
+import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
@@ -34,12 +35,13 @@ public class ReqServClienteMB implements Serializable {
 	private Papel papel;
 	private Projeto projeto;
 	private LinhaRequisicao linhaReqServ;
+	private ReqServicosOpcionais opcionalReqServ;
 	private String nomePapel;
 	private String filtroOpcional;
 	private String filtroEntrega;
 	private String filtroProjeto;
 	private String filtroCliente;
-	private String valorTotalReq;
+	private double valorTotalReq;
 	private int quantidadeOpcional;
 	private int numReqAtual;
 	private int numReqBusca;
@@ -60,7 +62,7 @@ public class ReqServClienteMB implements Serializable {
 		reqServico = new RequisicaoServico();
 		reqServicoDAO = new RequisicaoServicoDAO();
 		filtroCliente = "";
-		valorTotalReq = "0,00";		
+		valorTotalReq = 0;		
 	}
 
 	// GETTERS E SETTERS
@@ -152,11 +154,11 @@ public class ReqServClienteMB implements Serializable {
 		this.quantidadeOpcional = quantidadeOpcional;
 	}
 
-	public void setValorTotalReq(String valorTotalReq) {
+	public void setValorTotalReq(double valorTotalReq) {
 		this.valorTotalReq = valorTotalReq;
 	}
 
-	public String getValorTotalReq() {
+	public double getValorTotalReq() {
 		return valorTotalReq;
 	}
 
@@ -174,6 +176,14 @@ public class ReqServClienteMB implements Serializable {
 
 	public LinhaRequisicao getLinhaReqServ() {
 		return linhaReqServ;
+	}
+
+	public void setOpcionalReqServ(ReqServicosOpcionais opcionalReqServ) {
+		this.opcionalReqServ = opcionalReqServ;
+	}
+
+	public ReqServicosOpcionais getOpcionalReqServ() {
+		return opcionalReqServ;
 	}
 
 	public void setNumReqAtual(int numReqSelecionado) {
@@ -344,7 +354,7 @@ public class ReqServClienteMB implements Serializable {
 							+ linhaReqServ.getValorUnit());					
 				}				
 				//reqServicoDAO.altera(reqServico);				
-				setValorTotalReq(temp0.getValorTotal().toString());
+				setValorTotalReq(temp0.getValorTotal());
 				addGlobalMessage("Inclusão feita com sucesso!");
 			} catch (ValidatorException e) {
 				addGlobalMessage(e.getMessage());
@@ -362,8 +372,6 @@ public class ReqServClienteMB implements Serializable {
 					if (quantidadeOpcional >= 1) {
 						reqServicoDAO.addOpcional(temp, opcional,
 								quantidadeOpcional);
-						temp.setValorTotal(temp.getValorTotal()
-								+ (opcional.getValorItem() * quantidadeOpcional));
 					}
 					// adicionar a linha
 					if (linhaReqServ.getQuant() >= 1) {
@@ -387,24 +395,23 @@ public class ReqServClienteMB implements Serializable {
 						linhaReqServ.setValorUnit(valorUnit	* linhaReqServ.getQuant());
 
 						reqServicoDAO.addLinha(temp, linhaReqServ);
-
-						temp.setValorTotal(temp.getValorTotal()
-								+ linhaReqServ.getValorUnit());
 					}
 					// verificar se existe alteracao na entrega
 					if (entrega.getCodEntrega() != null){
-						
-						if (!temp.getEntrega().equals(entrega)){
+						if (temp.getEntrega() == null){
+							temp.setEntrega(entrega);
+						} else if (!temp.getEntrega().equals(entrega)){
 							temp.setEntrega(entrega);
 						}					
 					}
 					// verificar se foi alterado o projeto
 					if (!temp.getProjeto().equals(projeto)){
 						temp.setProjeto(projeto);
-					}
+					}					
+					temp.setValorTotal(this.calcularTotal(temp));					
 					reqServicoDAO.altera(temp);
 					reqServico = reqServicoDAO.recupera(temp.getNumReq());
-					setValorTotalReq(reqServico.getValorTotal().toString());
+					setValorTotalReq(reqServico.getValorTotal());
 					temp.setProjeto(reqServico.getProjeto());
 					addGlobalMessage("Atualização feita com sucesso!");
 				}
@@ -416,11 +423,32 @@ public class ReqServClienteMB implements Serializable {
 		}
 		this.limparLinhaOpcional();
 	}
+	
+	protected double calcularTotal(RequisicaoServico reqServ){
+		double retorno = 0;
+		//opcionais
+		if (reqServ.getOpcionais() != null){
+			for (ReqServicosOpcionais op : reqServ.getOpcionais()){
+				retorno = retorno + (op.getQuantidade() * op.getOpcionaisReqServ().getValorItem());
+			}			 
+		}
+		//linhas
+		if (reqServ.getLinhaRequisicao() != null){
+			for (LinhaRequisicao lr : reqServ.getLinhaRequisicao()){
+				retorno = retorno + lr.getValorUnit();
+			}
+		}
+		//entrega
+		if (reqServ.getEntrega() != null){
+			retorno = retorno + reqServ.getEntrega().getPreco();
+		}
+		
+		return retorno;
+	}
 
-	public void editar() {
+	public void editarLinha() {
 		try {
-			reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
-
+			papel = linhaReqServ.getPapel(); 
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());
@@ -428,6 +456,13 @@ public class ReqServClienteMB implements Serializable {
 	}
 	
 	public void editarOpcional() {
+		try {
+			opcional = opcionalReqServ.getOpcionaisReqServ();
+			quantidadeOpcional = opcionalReqServ.getQuantidade();
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}
 	}	
 
 	public void apagar() {
@@ -439,7 +474,27 @@ public class ReqServClienteMB implements Serializable {
 		}
 		this.limpar();
 	}
+	
+	public void apagarLinha(){
+		try {
+			reqServicoDAO.removeLinha(linhaReqServ);
+			reqServico.setValorTotal(reqServico.getValorTotal() - linhaReqServ.getValorSubUnit());
+			reqServicoDAO.altera(reqServico);
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}
+	}	
 
+	public void apagarOpcional(){
+		try {
+			reqServicoDAO.removeOpcionais(opcionalReqServ.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}
+	}	
+	
 	public void limpar() {
 		cliente = new Cliente();
 		cliente.setIdCliente(0);
@@ -448,10 +503,11 @@ public class ReqServClienteMB implements Serializable {
 		papel = new Papel();
 		projeto = new Projeto();
 		linhaReqServ = new LinhaRequisicao();
+		opcionalReqServ = new ReqServicosOpcionais();
 		reqServico = new RequisicaoServico();
 		reqServicoDAO = new RequisicaoServicoDAO();
 		filtroCliente = "";
-		valorTotalReq = "0,00";	
+		valorTotalReq = 0;	
 	}
 
 	public void limparLinhaOpcional() {
@@ -460,48 +516,6 @@ public class ReqServClienteMB implements Serializable {
 		nomePapel = "";
 		quantidadeOpcional = 0;
 		linhaReqServ = new LinhaRequisicao();
-	}
-
-	private Papel converterToPapel(String nome) throws ValidatorException,
-			Exception {
-		Papel papel = new Papel();
-
-		// verificar se o nome do papel informado � v�lido
-		if (this.validatePapeis(nome)) {
-			PapelDAO papelDAO = new PapelDAO();
-
-			if (papelDAO.getListaPapelPorNome(nome).size() > 1) {
-				throw new Exception(
-						"Existe mais de um papel como o mesmo nome!");
-			} else {
-				for (Papel p : papelDAO.getListaPapelPorNome(nome)) {
-					papel = p;
-				}
-			}
-		}
-
-		return papel;
-	}
-
-	private boolean validatePapeis(String nomePapel) {
-		PapelDAO papelDAO = new PapelDAO();
-		List<String> papeis = papelDAO.getPapeis();
-
-		String nome = nomePapel.toString();
-		boolean flag = false;
-		for (String s : papeis) {
-			if (s.toUpperCase().startsWith(nome.toUpperCase())) {
-				flag = true;
-			}
-		}
-		if (!flag) {
-			FacesMessage message = new FacesMessage("Nome Papel Inválido");
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
-		}
-
-		return flag;
-
 	}
 
 	public static void addGlobalMessage(String message) {
