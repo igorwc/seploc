@@ -190,6 +190,13 @@
    <to-view-id>/principal.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/requisicao/reqServLista.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>reqServ</from-outcome>
+   <to-view-id>/requisicao/reqServCliente.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
  <!-- Requisicao Lista-->
  <managed-bean>
   <managed-bean-name>reqServListaMB</managed-bean-name>
