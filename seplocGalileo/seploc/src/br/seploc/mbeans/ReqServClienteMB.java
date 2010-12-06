@@ -64,7 +64,6 @@ public class ReqServClienteMB implements Serializable {
 		reqServicoDAO = new RequisicaoServicoDAO();
 		filtroCliente = "";
 		valorTotalReq = 0;		
-		getReqServSessao();
 	}
 
 	// GETTERS E SETTERS
@@ -513,7 +512,7 @@ public class ReqServClienteMB implements Serializable {
 		linhaReqServ = new LinhaRequisicao();
 	}
 	
-	protected void getReqServSessao(){
+	public void getReqServSessao(){
 		try {			
 			numReqSessao = (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("numReqServ");
 			if (numReqSessao > 0 && numReqSessao != null){
@@ -521,6 +520,7 @@ public class ReqServClienteMB implements Serializable {
 				projeto = reqServico.getProjeto();
 				cliente = projeto.getCliente();
 				entrega = reqServico.getEntrega();
+				valorTotalReq = reqServico.getValorTotal();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
