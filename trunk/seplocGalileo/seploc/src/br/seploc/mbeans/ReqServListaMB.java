@@ -3,9 +3,7 @@ package br.seploc.mbeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-//import java.sql.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -14,8 +12,6 @@ import javax.faces.context.FacesContext;
 import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.pojos.Cliente;
-import br.seploc.pojos.LinhaRequisicao;
-import br.seploc.pojos.LinhaRequisicaoPK;
 import br.seploc.pojos.Projeto;
 import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
@@ -197,13 +193,9 @@ public class ReqServListaMB implements Serializable {
 		return lista;
 	}
 	
-	public void editar(){
-		try{
-			reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
-		} catch (Exception e) {
-			e.printStackTrace();
-			addGlobalMessage(e.getMessage());
-		}				
+	public String editar(){		
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("numReqServ", reqServico.getNumReq());
+		return "reqServ";				
 	}
 	
 	public void apagar(){
@@ -239,6 +231,15 @@ public class ReqServListaMB implements Serializable {
 	public void pesquisar(){
 
 	}
+	
+	public void mostrarMapa(){
+		try{
+			reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}	
+	}	
 	
 	public void limpar(){
 		System.out.println("Limpar campos!");

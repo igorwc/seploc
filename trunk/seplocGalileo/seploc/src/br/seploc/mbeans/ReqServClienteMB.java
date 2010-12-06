@@ -22,7 +22,7 @@ import br.seploc.dao.EntregaDAO;
 import br.seploc.dao.OpcionaisReqServDAO;
 import br.seploc.dao.PapelDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
-import br.seploc.dao.exceptions.RecordNotFound;
+
 
 public class ReqServClienteMB implements Serializable {
 
@@ -45,6 +45,7 @@ public class ReqServClienteMB implements Serializable {
 	private int quantidadeOpcional;
 	private int numReqAtual;
 	private int numReqBusca;
+	private Integer numReqSessao;
 	
 
 	// CONSTRUTOR
@@ -63,6 +64,7 @@ public class ReqServClienteMB implements Serializable {
 		reqServicoDAO = new RequisicaoServicoDAO();
 		filtroCliente = "";
 		valorTotalReq = 0;		
+		getReqServSessao();
 	}
 
 	// GETTERS E SETTERS
@@ -295,9 +297,7 @@ public class ReqServClienteMB implements Serializable {
 				// adicionar a entrega
 				if (entrega.getCodEntrega() != null	){
 					reqServico.setEntrega(entrega);
-					reqServico.setValorEnt(entrega.getPreco());
-					reqServico.setValorTotal(reqServico.getValorTotal()
-							+ entrega.getPreco());					
+					reqServico.setValorEnt(entrega.getPreco());				
 				} else {
 					reqServico.setValorEnt(0.0);
 				}
@@ -313,19 +313,14 @@ public class ReqServClienteMB implements Serializable {
 					throw new Exception("Requisição de Serviço precisa de uma linha ou de um opcional!"); 
 				}
 
-				// recuperar a requisicao				
-				int numReq = reqServico.getNumReq();				
-				//reqServico = reqServicoDAO.recupera(numReq);
-				RequisicaoServico temp0 = reqServicoDAO.recupera(numReq);
-				
+				// recuperar a requisicao							
+				reqServico = reqServicoDAO.recupera(reqServico.getNumReq());								
 				//reqServicoDAO.refresh(reqServico);
 				
 				// adicionar o opcional
 				if (existeOpcional) {
-					reqServicoDAO.addOpcional(temp0, opcional,
-							quantidadeOpcional);
-					temp0.setValorTotal(temp0.getValorTotal()
-							+ (opcional.getValorItem() * quantidadeOpcional));					
+					reqServicoDAO.addOpcional(reqServico, opcional,
+							quantidadeOpcional);				
 				}
 				// adicionar a linha
 				if (existeLinha) {
@@ -349,12 +344,11 @@ public class ReqServClienteMB implements Serializable {
 					linhaReqServ.setValorUnit(valorUnit
 							* linhaReqServ.getQuant());
 
-					reqServicoDAO.addLinha(reqServico, linhaReqServ);
-					reqServico.setValorTotal(reqServico.getValorTotal()
-							+ linhaReqServ.getValorUnit());					
+					reqServicoDAO.addLinha(reqServico, linhaReqServ);					
 				}				
-				//reqServicoDAO.altera(reqServico);				
-				setValorTotalReq(temp0.getValorTotal());
+				reqServicoDAO.altera(reqServico);
+				calcularTotal(reqServico);
+				setValorTotalReq(reqServico.getValorTotal());
 				addGlobalMessage("Inclusão feita com sucesso!");
 			} catch (ValidatorException e) {
 				addGlobalMessage(e.getMessage());
@@ -372,6 +366,7 @@ public class ReqServClienteMB implements Serializable {
 					if (quantidadeOpcional >= 1) {
 						reqServicoDAO.addOpcional(temp, opcional,
 								quantidadeOpcional);
+						
 					}
 					// adicionar a linha
 					if (linhaReqServ.getQuant() >= 1) {
@@ -397,7 +392,7 @@ public class ReqServClienteMB implements Serializable {
 						reqServicoDAO.addLinha(temp, linhaReqServ);
 					}
 					// verificar se existe alteracao na entrega
-					if (entrega.getCodEntrega() != null){
+					if (entrega != null){
 						if (temp.getEntrega() == null){
 							temp.setEntrega(entrega);
 						} else if (!temp.getEntrega().equals(entrega)){
@@ -516,6 +511,21 @@ public class ReqServClienteMB implements Serializable {
 		nomePapel = "";
 		quantidadeOpcional = 0;
 		linhaReqServ = new LinhaRequisicao();
+	}
+	
+	protected void getReqServSessao(){
+		try {			
+			numReqSessao = (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("numReqServ");
+			if (numReqSessao > 0 && numReqSessao != null){
+				reqServico = reqServicoDAO.recupera(numReqSessao);
+				projeto = reqServico.getProjeto();
+				cliente = projeto.getCliente();
+				entrega = reqServico.getEntrega();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}
 	}
 
 	public static void addGlobalMessage(String message) {

@@ -192,11 +192,9 @@
 								<rich:column width="100">
 									<h:outputText value="Valor (R$)" />
 								</rich:column>
-								<rich:column width="50">
-									<h:outputText value="Mapa" />
-								</rich:column>
-
-								<rich:column width="100" />
+								<rich:column width="150">
+									<h:outputText value="Funcionalidades" />
+								</rich:column>								
 
 							</rich:columnGroup>
 						</f:facet>
@@ -223,10 +221,19 @@
 							</h:outputText>
 						</rich:column>
 
-						<rich:column />
-
-						<rich:column>
-						    
+						<rich:column style="text-align:center">						    
+						    <a4j:commandLink ajaxSingle="true" 
+											 id="maplinkreq"
+											 reRender="reqServList" 
+											 oncomplete="#{rich:component('modalMapa')}.show();return true"
+											 action="#{reqServListaCB.reqServListaMB.mostrarMapa}">
+								<h:graphicImage value="/imgs/mapa_icon.png" style="border:0" />
+								<f:setPropertyActionListener value="#{req}"
+									target="#{reqServListaCB.reqServListaMB.reqServico}" />
+							</a4j:commandLink>
+							<rich:toolTip for="maplinkreq" value="Mostrar Mapa" />
+						    <rich:spacer width="5px"/>							
+							<!-- editar -->							    
 							<a4j:commandLink ajaxSingle="true" 
 											 id="editlinkreq"
 											 reRender="reqServList" 
@@ -237,6 +244,7 @@
 							</a4j:commandLink>
 							<rich:toolTip for="editlinkreq" value="Editar Registro" />
 						    <rich:spacer width="5px"/>
+						    <!-- remover -->
 							<a4j:commandLink ajaxSingle="true" 
 											 id="deletelinkreq"
 											 reRender="reqServListTodos"
@@ -248,6 +256,7 @@
 							</a4j:commandLink>
 							<rich:toolTip for="deletelinkreq" value="Apagar Registro" />
 						    <rich:spacer width="5px"/>
+						    <!-- imprimir -->
 							<a4j:commandLink ajaxSingle="true" 
 											 id="printlinkreq"
 											 reRender="reqServList"
@@ -258,6 +267,7 @@
 							</a4j:commandLink>
 							<rich:toolTip for="printlinkreq" value="Imprimir Registro" />
 						    <rich:spacer width="5px"/>
+						    <!-- mostrar -->
 							<a4j:commandLink ajaxSingle="true" 
 											 id="viewlinkreq"												
 											 reRender="reqServListTodos,modalReqServ"								
@@ -551,6 +561,34 @@
 					</rich:dataTable>	
 				</h:form>
 			</rich:modalPanel>
+			
+			<!-- Modal Mapa -->
+	        <rich:modalPanel id="modalMapa" autosized="true" width="200">
+	        <f:facet name="header">
+	            <h:outputText value="Mapa da Requisicao Servicos"
+	                style="padding-right:15px;" />
+	        </f:facet>
+	        <f:facet name="controls">
+	            <h:panelGroup>
+	                <h:graphicImage value="/imgs/icons/close.png"
+	                    styleClass="hidelink" id="hidelink3" />
+	                <rich:componentControl for="modalMapa" attachTo="hidelink3"
+	                    operation="hide" event="onclick" />
+	            </h:panelGroup>
+	        </f:facet>
+	        <h:form>
+	            <table width="100%">
+	                <tbody>
+	                    <tr>
+	                        <td align="center" width="100%">
+	                        	<h:graphicImage id="mapa" value="/imgs/mapa.png"/>
+	                        	<rich:toolTip for="mapa" value="Não possue Mapa!" />
+	                        </td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	        </h:form>
+	    	</rich:modalPanel>
 			
 	      	<!-- Confirmacao -->
 	        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
