@@ -221,7 +221,8 @@
 							</h:outputText>
 						</rich:column>
 
-						<rich:column style="text-align:center">						    
+						<rich:column style="text-align:center">		
+							<!-- mapa -->				    
 						    <a4j:commandLink ajaxSingle="true" 
 											 id="maplinkreq"
 											 reRender="reqServList" 
@@ -244,6 +245,16 @@
 							</a4j:commandLink>
 							<rich:toolTip for="editlinkreq" value="Editar Registro" />
 						    <rich:spacer width="5px"/>
+						    <!-- duplicar -->
+							<a4j:commandLink ajaxSingle="true" 
+											 id="duplinkreq"												
+											 reRender="reqServListTodos"								
+											 action="#{reqServListaCB.reqServListaMB.duplicar}">
+								<h:graphicImage value="/imgs/duplica_icon.gif" style="border:0" />
+								<f:setPropertyActionListener value="#{req}"
+									target="#{reqServListaCB.reqServListaMB.reqServico}" />
+							</a4j:commandLink>
+							<rich:toolTip for="duplinkreq" value="Duplicar Registro" />							    
 						    <!-- remover -->
 							<a4j:commandLink ajaxSingle="true" 
 											 id="deletelinkreq"
@@ -277,7 +288,7 @@
 									target="#{reqServListaCB.reqServListaMB.numReqVisualizar}" />
 							</a4j:commandLink>
 							<rich:toolTip for="viewlinkreq" value="Mostrar Registro" />
-							
+						
 
 						</rich:column>
 

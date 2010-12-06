@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.pojos.Cliente;
+import br.seploc.pojos.LinhaRequisicao;
 import br.seploc.pojos.Projeto;
 import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
@@ -245,6 +246,64 @@ public class ReqServListaMB implements Serializable {
 		System.out.println("Limpar campos!");
 		this.load();	
 	}	
+
+	public String duplicar(){
+		try{
+			reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+			RequisicaoServico temp = new RequisicaoServico();
+			// setar data de criacao da requisicao
+			java.util.Date data = new java.util.Date();
+			java.sql.Date hoje = new java.sql.Date(data.getTime());
+			temp.setData(hoje);
+			// projeto
+			temp.setProjeto(reqServico.getProjeto());
+			// entrega
+			if (reqServico.getEntrega() != null) {
+			temp.setEntrega(reqServico.getEntrega());
+			temp.setValorEnt(reqServico.getEntrega().getPreco());
+			} else {
+				temp.setValorEnt(0.0);
+			}
+			// inserir valores iniciais
+			temp.setStatus(0);
+			temp.setVisivelNf(0);
+			temp.setVisivelReq(0);			
+			// criar reqServ
+			reqServicoDAO.adiciona(temp);
+			// recuperar a requisicao							
+			temp = reqServicoDAO.recupera(temp.getNumReq());	
+			// opcionais
+			if (reqServico.getOpcionais() != null){
+				for (ReqServicosOpcionais ro : reqServico.getOpcionais()){
+					reqServicoDAO.addOpcional(temp, ro.getOpcionaisReqServ(), ro.getQuantidade());
+				}
+			}
+			// linhas requisicao
+			if (reqServico.getLinhaRequisicao() != null){
+				for (LinhaRequisicao l : reqServico.getLinhaRequisicao()){
+					LinhaRequisicao linha = new LinhaRequisicao();
+					linha.setNomeArquivo(l.getNomeArquivo());
+					linha.setDimensao(l.getDimensao());
+					linha.setFormato(l.getFormato());
+					linha.setPapel(l.getPapel());
+					linha.setImpressao(l.getImpressao());
+					linha.setQuant(l.getQuant());
+					linha.setValorUnit(l.getValorUnit());
+					linha.setValorSubUnit(l.getValorSubUnit());
+					reqServicoDAO.addLinha(temp, linha);
+				}
+			}
+			// totais
+			temp.setValorTotal(reqServico.getValorTotal());
+			temp.setValorDesconto(reqServico.getValorDesconto());
+			
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("numReqServ", temp.getNumReq());
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}		
+		return "reqServ";				
+	}
 
 	private Calendar getDayAgo(int dias){
 		Calendar dia = Calendar.getInstance();
