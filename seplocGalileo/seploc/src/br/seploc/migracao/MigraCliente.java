@@ -10,6 +10,7 @@ import br.seploc.migracao.beans.Cliente;
 import br.seploc.migracao.beans.FoneCli;
 import br.seploc.migracao.beans.OpcionalReqServ;
 import br.seploc.migracao.beans.Projeto;
+import br.seploc.util.UtilsArquivo;
 
 public class MigraCliente extends Migra<Cliente> {
 
@@ -45,7 +46,7 @@ public class MigraCliente extends Migra<Cliente> {
 						+ "vcrFantasia, txtobs, vcrMapa, intEntregaPadrao, intPapelPadrao FROM tbl_clientes ");
 		// executa um select
 		ResultSet rs = stmt.executeQuery();
-		// iterano ResultSet
+		// itera no ResultSet
 		while (rs.next()) {
 			Cliente cl = new Cliente();
 			cl.setId(idCliente);
@@ -105,9 +106,12 @@ public class MigraCliente extends Migra<Cliente> {
 						+ "where intPapelPadrao not in (SELECT intCodPap FROM tbl_papel)");
 		rs = stmt.executeQuery();
 		if (rs.next()) {
+			String papelProblema = "";
 			int regs = rs.getInt(1);
 			if (regs != 0) {
+				rs.close();
 				stmt.close();
+				papelProblema += "Registros Problematicos (" + regs + ")\n";
 				System.out.println("Registros Problematicos (" + regs + "): ");
 				stmt = copytecConnection
 						.prepareStatement("SELECT  vcrCnpj, vcrRazao "
@@ -116,12 +120,62 @@ public class MigraCliente extends Migra<Cliente> {
 								+ " order by vcrCnpj asc");
 
 				rs = stmt.executeQuery();
+				int cont = 1;
 				while (rs.next()) {
-					System.out.println("CNPJ: " + rs.getInt("vcrCnpj")
+					papelProblema += cont + ") CNPJ: " + rs.getString("vcrCnpj")
+							+ "\t\t\tRazao: " + rs.getString("vcrRazao") + "\n";
+					System.out.println("CNPJ: " + rs.getString("vcrCnpj")
 							+ " Razao: " + rs.getString("vcrRazao"));
 				}
 
+				rs.close();
+				stmt.close();
+				UtilsArquivo.salvar("c:\\temp\\clienteSemPappel.txt",
+						papelProblema, false);
 			}
+		} else {
+			rs.close();
+			stmt.close();
+		}
+
+		//verifica projetos sem clientes
+		stmt = copytecConnection
+				.prepareStatement("SELECT count(*) " +
+								  "FROM tbl_projetos " +
+								  "WHERE vcrCnpj NOT IN " +
+								  			"( SELECT vcrCnpj FROM tbl_clientes )");
+		rs = stmt.executeQuery();
+		if (rs.next()) {
+			String projetosProblema = "";
+			int regs = rs.getInt(1);
+			if (regs != 0) {
+				rs.close();
+				stmt.close();
+				projetosProblema += "Registros Problematicos (" + regs + ")\n";
+				System.out.println("Registros Problematicos (" + regs + "): ");
+				stmt = copytecConnection
+						.prepareStatement("SELECT  intCodProj, vcrProjeto, vcrCnpj "
+								+  "FROM tbl_projetos " +
+								  "WHERE vcrCnpj NOT IN " +
+						  			"( SELECT vcrCnpj FROM tbl_clientes )"
+								+ " order by intCodProj asc");
+
+				rs = stmt.executeQuery();
+				while (rs.next()) {
+					projetosProblema += "Codigo Projeto : " + rs.getInt("intCodProj") + "\t\t\tDESCRICAO: " + rs.getString("vcrProjeto")
+							+ "\t\t\tCNPJ: " + rs.getString("vcrCnpj") + "\n";
+					System.out.println("Codigo Projeto : " + rs.getInt("intCodProj") + "\tDESCRICAO: " + rs.getString("vcrProjeto")
+							+ "\tcnpj: " + rs.getString("vcrCnpj"));
+				}
+
+				rs.close();
+				stmt.close();
+				UtilsArquivo.salvar("c:\\temp\\projetosSemCliente.txt",
+						projetosProblema, false);
+			}
+		} else {
+			rs.close();
+			stmt.close();
 		}
 	}
 
@@ -132,11 +186,11 @@ public class MigraCliente extends Migra<Cliente> {
 					+ "vcrCpf, vcrEnder, vcrBairro, vcrCidade, vcrEstado, vcrCep, vcrEmail,"
 					+ "vcrInscricao, intBalcao, vcrFantasia, txtobs, vcrMapa, intEntregaPadrao, "
 					+ "intPapelPadrao, tspVersao) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP)";
-			
+
 			for (Cliente cl : listaClientes) {
 				PreparedStatement stmt = seplocConnection.prepareStatement(sql);
 				controleCliente = cl;
-				if(cl.getCnpj() == null){
+				if (cl.getCnpj() == null) {
 					cl.setCnpj(" ");
 				}
 				if (cl.getCnpj().length() == 19 && cl.getCnpj().endsWith("99")) {
@@ -161,13 +215,13 @@ public class MigraCliente extends Migra<Cliente> {
 				stmt.setString(14, cl.getObs());
 				stmt.setString(15, cl.getMapa());
 				stmt.setInt(16, cl.getEntrega());
-				if (cl.getPapel() == null || cl.getPapel()== 0){
-					stmt.setNull(17,java.sql.Types.INTEGER);
-				}else{
+				if (cl.getPapel() == null || cl.getPapel() == 0) {
+					stmt.setNull(17, java.sql.Types.INTEGER);
+				} else {
 					stmt.setInt(17, cl.getPapel());
 				}
 				stmt.execute();
-			
+
 				stmt.close();
 			}
 			sql = " INSERT INTO tbl_fonecli (intClienteId ,vcrFoneRes "
@@ -175,7 +229,7 @@ public class MigraCliente extends Migra<Cliente> {
 					+ "VALUES (?, ? , ? , ? , ? ,CURRENT_TIMESTAMP) ";
 			for (br.seploc.migracao.beans.FoneCli fone : listaTel) {
 				PreparedStatement stmt = seplocConnection.prepareStatement(sql);
-				 
+
 				stmt.setInt(1, fone.getId());
 				stmt.setString(2, fone.getFoneR());
 				stmt.setString(3, fone.getFoneCom());
