@@ -98,7 +98,7 @@ public class RequisicaoServico implements Serializable {
 	// private Cobrador cobrador;
 
 	@OneToMany(mappedBy = "reqServico", cascade = { CascadeType.MERGE,
-			CascadeType.PERSIST })
+			CascadeType.PERSIST, CascadeType.REMOVE })
 	private List<ReqServicosOpcionais> opcionais;
 
 	@OneToMany(mappedBy = "reqServico")

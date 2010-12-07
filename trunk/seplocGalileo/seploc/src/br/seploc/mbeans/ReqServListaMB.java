@@ -202,8 +202,9 @@ public class ReqServListaMB implements Serializable {
 	public void apagar(){
 		try{
 			reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+			Integer numReq = reqServico.getNumReq();
 			reqServicoDAO.remove(reqServico.getNumReq());
-			addGlobalMessage("Requisição Excluido!");
+			addGlobalMessage("Requisição "+String.format("%06d", numReq)+" Excluido!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());
