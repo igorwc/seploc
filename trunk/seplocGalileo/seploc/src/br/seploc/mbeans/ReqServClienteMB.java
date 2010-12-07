@@ -56,6 +56,7 @@ public class ReqServClienteMB implements Serializable {
 		cliente = new Cliente();
 		cliente.setIdCliente(0);
 		opcional = new OpcionaisReqServ();
+		opcionalReqServ = new ReqServicosOpcionais();
 		entrega = new Entrega();
 		papel = new Papel();
 		projeto = new Projeto();
@@ -81,6 +82,14 @@ public class ReqServClienteMB implements Serializable {
 
 	public void setOpcional(OpcionaisReqServ opcional) {
 		this.opcional = opcional;
+	}
+
+	public ReqServicosOpcionais getOpcionalReqServ() {
+		return opcionalReqServ;
+	}
+
+	public void setOpcionalReqServ(ReqServicosOpcionais opcionalReqServ) {
+		this.opcionalReqServ = opcionalReqServ;
 	}
 
 	public Entrega getEntrega() {
@@ -177,14 +186,6 @@ public class ReqServClienteMB implements Serializable {
 
 	public LinhaRequisicao getLinhaReqServ() {
 		return linhaReqServ;
-	}
-
-	public void setOpcionalReqServ(ReqServicosOpcionais opcionalReqServ) {
-		this.opcionalReqServ = opcionalReqServ;
-	}
-
-	public ReqServicosOpcionais getOpcionalReqServ() {
-		return opcionalReqServ;
 	}
 
 	public void setNumReqAtual(int numReqSelecionado) {
@@ -472,7 +473,8 @@ public class ReqServClienteMB implements Serializable {
 	public void apagarLinha(){
 		try {
 			reqServicoDAO.removeLinha(linhaReqServ);
-			reqServico.setValorTotal(reqServico.getValorTotal() - linhaReqServ.getValorSubUnit());
+			calcularTotal(reqServico);
+			reqServico.setValorTotal(reqServico.getValorTotal());
 			reqServicoDAO.altera(reqServico);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -483,6 +485,9 @@ public class ReqServClienteMB implements Serializable {
 	public void apagarOpcional(){
 		try {
 			reqServicoDAO.removeOpcionais(opcionalReqServ.getId());
+			calcularTotal(reqServico);
+			reqServico.setValorTotal(reqServico.getValorTotal());
+			reqServicoDAO.altera(reqServico);			
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());
