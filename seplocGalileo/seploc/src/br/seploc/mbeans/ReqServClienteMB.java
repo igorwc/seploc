@@ -471,11 +471,18 @@ public class ReqServClienteMB implements Serializable {
 	}
 	
 	public void apagarLinha(){
-		try {
-			reqServicoDAO.removeLinha(linhaReqServ);
-			calcularTotal(reqServico);
-			reqServico.setValorTotal(reqServico.getValorTotal());
+		try {			
+			// remove a linha
+			reqServico.getLinhaRequisicao().remove(linhaReqServ);
 			reqServicoDAO.altera(reqServico);
+			// remover do banco
+			reqServicoDAO.removeLinha(linhaReqServ);
+			// recalcula os valores			
+			reqServico.setValorTotal(calcularTotal(reqServico));
+			reqServicoDAO.altera(reqServico);
+			// setar o valor do form
+			valorTotalReq = reqServico.getValorTotal();
+			addGlobalMessage("Linha removido com sucesso!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());
@@ -484,10 +491,17 @@ public class ReqServClienteMB implements Serializable {
 
 	public void apagarOpcional(){
 		try {
+			// remove o opcional do objeto
+			reqServico.getOpcionais().remove(opcionalReqServ);
+			reqServicoDAO.altera(reqServico);
+			// remove o opcional do banco
 			reqServicoDAO.removeOpcionais(opcionalReqServ.getId());
-			calcularTotal(reqServico);
-			reqServico.setValorTotal(reqServico.getValorTotal());
-			reqServicoDAO.altera(reqServico);			
+			// recalcula os valores			
+			reqServico.setValorTotal(calcularTotal(reqServico));
+			reqServicoDAO.altera(reqServico);
+			// setar o valor do form
+			valorTotalReq = reqServico.getValorTotal();
+			addGlobalMessage("Opcional removido com sucesso!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());

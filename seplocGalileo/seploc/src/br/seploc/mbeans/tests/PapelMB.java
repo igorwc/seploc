@@ -14,12 +14,13 @@ public class PapelMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Papel papel;
 	private PapelDAO papelDAO;
+	private String filtroPapel;
 	static int quantidade = 0;
 
 	public void cadastra() {
 		if (papel.getCodPapel() == null || papel.getCodPapel() == 0) {
 			papelDAO.adiciona(papel);
-			addGlobalMessage("Inclusão feita com sucesso!");
+			addGlobalMessage("Inclusï¿½o feita com sucesso!");
 		} else {
 			Papel temp;
 			temp = papelDAO.recupera(papel.getCodPapel());
@@ -29,7 +30,7 @@ public class PapelMB implements Serializable {
 				temp.setImpMono(papel.getImpMono());
 				temp.setImpShade(papel.getImpShade());
 				papelDAO.altera(temp);
-				addGlobalMessage("Atualização feita com sucesso!");
+				addGlobalMessage("Atualizaï¿½ï¿½o feita com sucesso!");
 			}
 
 		}
@@ -43,7 +44,7 @@ public class PapelMB implements Serializable {
 	}
 
 	/**
-	 * Método para incluir mensagens globais no formulário de cadastro
+	 * Mï¿½todo para incluir mensagens globais no formulï¿½rio de cadastro
 	 * 
 	 * @param String
 	 *            message
@@ -56,7 +57,7 @@ public class PapelMB implements Serializable {
 	public void apaga() {
 		try {
 			papelDAO.remove(papel.getCodPapel());
-			addGlobalMessage("Papel excluído com sucesso!");
+			addGlobalMessage("Papel excluï¿½do com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
@@ -84,6 +85,14 @@ public class PapelMB implements Serializable {
 		papelDAO = new PapelDAO();
 		System.out.println("\n\n\n\n\n\n\nContrui PapelMB\n\n\n\n\n\n\n\n\n\n\n");
 	}
+	public void setFiltroPapel(String filtroPapel) {
+		this.filtroPapel = filtroPapel;
+	}
+
+	public String getFiltroPapel() {
+		return filtroPapel;
+	}
+
 	// SETTERS AND GETTERS
 	public List<Papel> getLista() {
 		return papelDAO.getLista();
