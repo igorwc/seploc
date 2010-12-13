@@ -177,7 +177,9 @@
                        </rich:columnGroup>  
                    </f:facet>  
   
-                   <rich:column>  
+                   <rich:column filterBy="#{papel.nome}" 
+							 	filterEvent="onkeyup"
+							 	filterValue="#{papelCB.papelMB.filtroPapel}">  
 		               <h:outputText value="#{papel.nome}" />  
                    </rich:column>  
   

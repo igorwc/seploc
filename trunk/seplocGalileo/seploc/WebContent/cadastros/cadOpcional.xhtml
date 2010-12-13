@@ -139,7 +139,9 @@
                        </rich:columnGroup>  
                    </f:facet>  
   
-                   <rich:column>  
+                   <rich:column filterBy="#{opcional.nomeItem}" 
+							 	filterEvent="onkeyup"
+							 	filterValue="#{opcionalCB.opcionalMB.filtroOpcional}">  
 		               <h:outputText value="#{opcional.nomeItem}" />  
                    </rich:column>  
   

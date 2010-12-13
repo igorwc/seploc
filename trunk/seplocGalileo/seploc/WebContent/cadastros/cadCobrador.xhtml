@@ -156,7 +156,9 @@
                        </rich:columnGroup>  
                    </f:facet>  
   
-                   <rich:column>  
+                   <rich:column filterBy="#{cobrador.nome}" 
+							 	filterEvent="onkeyup"
+							 	filterValue="#{cobradorCB.cobradorMB.filtroCobrador}">  
 		               <h:outputText value="#{cobrador.nome}" />  
                    </rich:column>  
   

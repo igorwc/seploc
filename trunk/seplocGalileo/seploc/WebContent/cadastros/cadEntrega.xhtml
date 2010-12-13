@@ -66,40 +66,35 @@
            <rich:panel header="Entrega">
 			   <!-- Formulario -->
 			   <center>
-               <rich:panel header="Cadastro de Entrega" style="width: 500px" bodyClass="formulario">
+               <rich:panel header="Cadastro de Entrega" style="width: 600px" bodyClass="formulario">
                  
-                 <table	border="0">                 
+                 <table	border="0" width="90%">                 
 					<tr align="left">
-					<td><h:outputText value="Local Entrega: " styleClass="texto"/></td>
-					<td><h:inputText value="#{entregaCB.entregaMB.entrega.local}" 
-									 required="true"
-									 requiredMessage="O local deve ser informado"
-									 validator="#{entregaCB.validateLocal}"
-									 id="localEntrega">             
-                           <rich:ajaxValidator event="onkeyup" />                           
-                        </h:inputText>
-                        <h:inputHidden value="#{entregaCB.entregaMB.entrega.codEntrega}" />
-                    </td>                    
+						<td width="20%"><h:outputText value="Local Entrega: " styleClass="texto"/></td>
+						<td width="30%"><h:inputText value="#{entregaCB.entregaMB.entrega.local}" 
+										 required="true"
+										 requiredMessage="O local deve ser informado"
+										 validator="#{entregaCB.validateLocal}"
+										 id="localEntrega">             
+	                           <rich:ajaxValidator event="onkeyup" />                           
+	                        </h:inputText>
+	                        <h:inputHidden value="#{entregaCB.entregaMB.entrega.codEntrega}" />
+	                    </td>
+	                    <td width="20%"><h:outputText value="Preço (R$): " styleClass="texto"/></td>
+						<td width="30%"><h:inputText value="#{entregaCB.entregaMB.entrega.preco}" 
+						                 id="preco"
+						                 converterMessage="valor deve ser um número."
+						                 validatorMessage="valor deve ser um número."
+						                 alt="signed-decimal" 
+						                 styleClass="seploccurrency">
+						           <f:converter converterId="SeplocCurrencyConverter" />
+						          <rich:ajaxValidator event="onkeyup"/>
+						     </h:inputText></td>                                        
 					</tr>
 					<tr>
 					<td colspan="2"><rich:message for="localEntrega" styleClass="error"/></td>
-					</tr>
-					
-					<tr align="left">
-					<td><h:outputText value="Preço (R$): " styleClass="texto"/></td>
-					<td><h:inputText value="#{entregaCB.entregaMB.entrega.preco}" 
-					                 id="preco"
-					                 converterMessage="valor deve ser um número."
-					                 validatorMessage="valor deve ser um número."
-					                 alt="signed-decimal" 
-					                 styleClass="seploccurrency">
-					           <f:converter converterId="SeplocCurrencyConverter" />
-					          <rich:ajaxValidator event="onkeyup"/>
-					     </h:inputText></td>					
-					</tr>
-					<tr>
 					<td colspan="2"><rich:message for="preco" styleClass="error"/> </td>
-					</tr>
+					</tr>					
 				  </table> 
                   <br/>
 					<a4j:commandButton value="#{msgs['botao.salvar']}" 
@@ -109,6 +104,9 @@
 					<a4j:commandButton value="#{msgs['botao.limpar']}" 
                    action="#{entregaCB.entregaMB.limpar}"
                    reRender="entregaList,cadEntrega" />
+                   	<a4j:commandButton value="#{msgs['botao.pesquisar']}" 
+                   action="#{entregaCB.pesquisar}"
+                   reRender="entregaList,cadEntrega" />
                </rich:panel>
                </center>
                <rich:dataTable value="#{entregaCB.listaEntregas}" var="entrega"    
@@ -116,7 +114,7 @@
                    columnClasses="400,50,50" 
                    onRowMouseOver="this.style.backgroundColor='#E0EEEE'"  
                    onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
-                   width="500"
+                   width="600"
                    align="center">  
                    <f:facet name="header">  
                        <rich:columnGroup>  

@@ -22,6 +22,7 @@ public class EntregaCB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private EntregaMB entregaMB;
+	private boolean pesquisaLocal = false;
 
 	// CONSTRUTOR
 	/**
@@ -32,6 +33,14 @@ public class EntregaCB implements Serializable {
 	}
 		
 	// SETTERS AND GETTERS
+
+	public void setPesquisaLocal(boolean pesquisaLocal) {
+		this.pesquisaLocal = pesquisaLocal;
+	}
+
+	public boolean isPesquisaLocal() {
+		return pesquisaLocal;
+	}
 
 	/**
 	 * @param entregaMB
@@ -53,11 +62,21 @@ public class EntregaCB implements Serializable {
 	 * @return List<Entrega>
 	 */
 	public List<Entrega> getListaEntregas() {
-		 List<Entrega> lista = entregaMB.getLista();
-		 for(Entrega e : lista){
-			 System.out.println(e);
+		List<Entrega> lista;
+		 if (pesquisaLocal) {
+			 lista = entregaMB.getListaPorLocal();
+			 pesquisaLocal = false;
+		 } else {
+			 lista = entregaMB.getLista();
+			 for(Entrega e : lista){
+				 System.out.println(e);
+			 }			 
 		 }
 		return lista;
+	}
+	
+	public void pesquisar(){
+		this.pesquisaLocal = true;
 	}
 	
 	// METODOS

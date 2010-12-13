@@ -15,6 +15,7 @@ public class CobradorMB implements Serializable {
 	static int quantidade = 0;
 	private Cobrador cobrador;
 	private CobradorDAO cobradorDAO;
+	private String filtroCobrador;
 	
 	//CONSTRUTOR
 	/**
@@ -25,7 +26,7 @@ public class CobradorMB implements Serializable {
 	}
 	
 	/**
-	 * Metodo de inicialização
+	 * Metodo de inicializaï¿½ï¿½o
 	 */
 	public void init(){
 		quantidade++;
@@ -33,6 +34,14 @@ public class CobradorMB implements Serializable {
 		cobrador = new Cobrador();
 		cobradorDAO = new CobradorDAO();
 		System.out.println("\n\n\n\n\n\n\nContrui CobradorMB\n\n\n\n\n\n\n\n\n\n\n");
+	}
+
+	public void setFiltroCobrador(String filtroCobrador) {
+		this.filtroCobrador = filtroCobrador;
+	}
+
+	public String getFiltroCobrador() {
+		return filtroCobrador;
 	}
 
 	// SETTERS AND GETTERS
@@ -83,7 +92,7 @@ public class CobradorMB implements Serializable {
 	public void cadastrar() {
 		if (cobrador.getCodCobrador() == null || cobrador.getCodCobrador() == 0) {
 			cobradorDAO.adiciona(cobrador);
-			addGlobalMessage("Inclusão feita com sucesso!");
+			addGlobalMessage("Inclusï¿½o feita com sucesso!");
 		} else {
 			Cobrador temp;
 			temp = cobradorDAO.recupera(cobrador.getCodCobrador());
@@ -94,7 +103,7 @@ public class CobradorMB implements Serializable {
 				temp.setFoneContato(cobrador.getFoneContato());	
 				
 				cobradorDAO.altera(temp);
-				addGlobalMessage("Atualização feita com sucesso!");
+				addGlobalMessage("Atualizaï¿½ï¿½o feita com sucesso!");
 			}
 		}
 		cobrador = new Cobrador();
@@ -120,7 +129,7 @@ public class CobradorMB implements Serializable {
 	}
 
 	/**
-	 * Método para incluir mensagens globais no formulário de cadastro
+	 * Mï¿½todo para incluir mensagens globais no formulï¿½rio de cadastro
 	 * 
 	 * @param String
 	 *            message
@@ -136,7 +145,7 @@ public class CobradorMB implements Serializable {
 	public void apagar() {
 		try {
 			cobradorDAO.remove(cobrador.getCodCobrador());
-			addGlobalMessage("Excluído com sucesso!");
+			addGlobalMessage("Excluï¿½do com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
