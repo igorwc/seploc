@@ -14,7 +14,7 @@ public class EntregaMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 	static int quantidade = 0;
 	private Entrega entrega;
-	private EntregaDAO entregaDAO;
+	private EntregaDAO entregaDAO;	
 	
 	//CONSTRUTOR
 	/**
@@ -25,7 +25,7 @@ public class EntregaMB implements Serializable {
 	}
 	
 	/**
-	 * Metodo de inicialização
+	 * Metodo de inicializaï¿½ï¿½o
 	 */
 	public void init(){
 		quantidade++;		
@@ -83,7 +83,7 @@ public class EntregaMB implements Serializable {
 		if (entrega.getCodEntrega() == null || entrega.getCodEntrega() == 0) {
 			try {
 				entregaDAO.adiciona(entrega);
-				addGlobalMessage("Inclusão feita com sucesso!");			
+				addGlobalMessage("Inclusï¿½o feita com sucesso!");			
 			} catch (Exception e) {
 				addGlobalMessage(e.getMessage());
 			}
@@ -97,7 +97,7 @@ public class EntregaMB implements Serializable {
 				
 				try {
 					entregaDAO.altera(temp);
-					addGlobalMessage("Atualização feita com sucesso!");					
+					addGlobalMessage("Atualizaï¿½ï¿½o feita com sucesso!");					
 				} catch (Exception e) {
 					addGlobalMessage(e.getMessage());
 				}
@@ -131,15 +131,20 @@ public class EntregaMB implements Serializable {
 	public void apagar() {
 		try {
 			entregaDAO.remove(entrega.getCodEntrega());
-			addGlobalMessage("Excluído com sucesso!");
+			addGlobalMessage("Excluï¿½do com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
 		entrega = new Entrega();
 	}	
+	
+	public List<Entrega> getListaPorLocal(){
+		List<Entrega> retorno = entregaDAO.getEntregasPorLocal(entrega.getLocal());
+		return retorno;
+	}
 
 	/**
-	 * Método para incluir mensagens globais no formulário de cadastro
+	 * Mï¿½todo para incluir mensagens globais no formulï¿½rio de cadastro
 	 * 
 	 * @param String
 	 *            message

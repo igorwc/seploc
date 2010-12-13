@@ -15,6 +15,7 @@ public class OpcionalMB implements Serializable {
 	static int quantidade = 0;
 	private OpcionaisReqServ opcional;
 	private OpcionaisReqServDAO opcionalDAO;
+	private String filtroOpcional;
 	
 	//CONSTRUTOR
 	/**
@@ -25,12 +26,20 @@ public class OpcionalMB implements Serializable {
 	}
 	
 	/**
-	 * Metodo de inicialização
+	 * Metodo de inicializaï¿½ï¿½o
 	 */
 	public void init(){
 		quantidade++;
 		opcional = new OpcionaisReqServ();
 		opcionalDAO = new OpcionaisReqServDAO();
+	}
+
+	public void setFiltroOpcional(String filtroOpcional) {
+		this.filtroOpcional = filtroOpcional;
+	}
+
+	public String getFiltroOpcional() {
+		return filtroOpcional;
 	}
 
 	// SETTERS AND GETTERS
@@ -81,7 +90,7 @@ public class OpcionalMB implements Serializable {
 		try {
 			if (opcional.getCodOpReqServ() == null	|| opcional.getCodOpReqServ() == 0) {
 				opcionalDAO.adiciona(opcional);
-				addGlobalMessage("Inclusão feita com sucesso!");
+				addGlobalMessage("Inclusï¿½o feita com sucesso!");
 			} else {
 				OpcionaisReqServ temp;
 				temp = opcionalDAO.recupera(opcional.getCodOpReqServ());
@@ -90,11 +99,11 @@ public class OpcionalMB implements Serializable {
 					temp.setNomeItem(opcional.getNomeItem().trim());
 					temp.setValorItem(opcional.getValorItem());
 					opcionalDAO.altera(temp);
-					addGlobalMessage("Atualização feita com sucesso!");
+					addGlobalMessage("Atualizaï¿½ï¿½o feita com sucesso!");
 				}
 			}
 		} catch (Exception e) {
-			addGlobalMessage("Não foi possível realizar a operação!");
+			addGlobalMessage("Nï¿½o foi possï¿½vel realizar a operaï¿½ï¿½o!");
 		}
 		this.limpar();
 
@@ -106,7 +115,7 @@ public class OpcionalMB implements Serializable {
 	public void apagar() {
 		try {
 			opcionalDAO.remove(opcional.getCodOpReqServ());
-			addGlobalMessage("Opcional excluído com sucesso!");
+			addGlobalMessage("Opcional excluï¿½do com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
@@ -133,7 +142,7 @@ public class OpcionalMB implements Serializable {
 
 	
 	/**
-	 * Método para incluir mensagens globais no formulário de cadastro
+	 * Mï¿½todo para incluir mensagens globais no formulï¿½rio de cadastro
 	 * 
 	 * @param String
 	 *            message
