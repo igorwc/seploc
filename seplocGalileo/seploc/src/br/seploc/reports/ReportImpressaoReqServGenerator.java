@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +35,7 @@ public class ReportImpressaoReqServGenerator {
 	private int qtdItens;
 	private Date dataAlteracao;
 	private String operador;
+	private ArrayList subtotais;
 
 	private ReportImpressaoReqServGenerator() {
 		dados = new ArrayList<ArrayList<ImpressaoBean>>();
@@ -196,11 +199,19 @@ public class ReportImpressaoReqServGenerator {
 		Map map = new HashMap();
 		map.put("cliente",cliente);
 		map.put("dados", dados);
+		map.put("subs",subtotais);
+		System.out.println(dados.size() +""+ subtotais.size());
+		System.out.println(subtotais);
+		map.put("paginacao", 1);
+		NumberFormat formatter =  new DecimalFormat("0.00"); 
+		map.put("entrega",formatter.format(entrega));
 		return map;
 	}
 	public void geraDados() {
 		int contador = 1;
 		int flag = 1;
+		double subtotal = 0.0;
+		int paginacao = 0;
 		recuperaNomeProjeto();
 		recuperaDadosCliente();
 		verificaEntrega();
@@ -229,33 +240,42 @@ public class ReportImpressaoReqServGenerator {
 			stmt.setInt(1, numRequisicao);
 			stmt.setInt(2, numRequisicao);
 			ResultSet rs = stmt.executeQuery();
-			int aux = 12;
-			ArrayList<ImpressaoBean> pagina = null;
+			int aux = 1;
+			ArrayList<ImpressaoBean> pagina = new ArrayList<ImpressaoBean>();
+			subtotais = new ArrayList ();
 			while (rs.next()) {
 				if (aux == 12) {
-					pagina = new ArrayList<ImpressaoBean>();
 					dados.add(pagina);
-					aux--;
-				} else if (aux == 1) {
-					aux = 12;
+					pagina = new ArrayList<ImpressaoBean>();
+					subtotais.add( subtotal);
+					subtotal = 0.0;
+					aux = 1;
+//					aux--;
+//				} else if (aux == 1) {
+////					aux = 12;
+//					
+//					paginacao++;
+					
 				} else {
-					aux--;
+					aux++;
 				}
 				// elemento.add((contador++) + "");
 				// null as formato ,null as dimensao , null as nomePapel , null
 				// as impressao,
+				NumberFormat formatter =    new DecimalFormat("0.00"); 
 				ImpressaoBean bean = new ImpressaoBean();
 				bean.setNomePapel(rs.getString("nomePapel"));
 				bean.setNumReq(rs.getInt("numReq") + "");
 				bean.setSeq((contador++) + "");
 				bean.setItem(rs.getString("item"));
-				bean.setFormato(rs.getDouble("formato") + "");
-				bean.setDimensao(rs.getDouble("dimensao") + "");
+				bean.setFormato(formatter.format(rs.getDouble("formato"))  + "");
+				bean.setDimensao(formatter.format(rs.getDouble("dimensao")) + "");
 				bean.setImpressao(rs.getString("impressao"));
 				bean.setLinha(rs.getInt("linha") + "");
 				bean.setQtd(rs.getInt("qtd") + "");
-				bean.setSubTotal(rs.getDouble("subTotal") + "");
-				bean.setValorItem(rs.getDouble("valorItem") + "");
+				bean.setSubTotal(formatter.format(rs.getDouble("subTotal")) + "");
+				bean.setValorItem(formatter.format(rs.getDouble("valorItem")) + "");
+				subtotal+= rs.getDouble("subTotal");
 				pagina.add(bean);
 				// elemento.add(rs.getInt("numReq") + "");
 				// elemento.add(rs.getString("item"));
