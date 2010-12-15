@@ -12,7 +12,9 @@
 <body style="font: serif;font-size: 9px;">
  
  <div>
+ <#assign counter=0>
  <#list dados as linha>
+ 
 <center>
 
 <table style="text-align: left; width: 85%;" border="1">
@@ -102,11 +104,12 @@
 		<table width="100%">
 		<tr>
 		<td style="width: 5%">Entrega: </td>
-		<td style="width: 10%">R$ 0,00</td>
+		<td style="width: 10%">R$ ${entrega}</td>
 		<td style="width: 5%">Opcionais:</td>
-		<td style="width: 60%">Requisição sem Opcionais</td>
+		<td style="width: 60%">Requisi&ccedil;&atilde;o sem Opcionais</td>
 		<td style="width: 15%;text-align: right;" >Total do Projeto (R$): </td>
-		<td style="width: 5%;text-align: left;">1.05</td>
+		<#assign x = linha_index>
+		<td style="width: 5%;text-align: left;">${subs[x]}</td>
 		</tr>
 		</table>
 		</td>
@@ -193,8 +196,8 @@
                     <td>${elemento.nomePapel}</td>
                     <td>${elemento.impressao}</td>
                     <td>${elemento.qtd}</td>
-                    <td>${elemento.subTotal}</td>
                     <td>${elemento.valorItem}</td>
+                    <td>${elemento.subTotal}</td>
                 </tr>
                 </#list>
             </tbody>
@@ -205,16 +208,15 @@
         <td style="width: 5%">Entrega: </td>
         <td style="width: 10%">R$ 0,00</td>
         <td style="width: 5%">Opcionais:</td>
-        <td style="width: 60%">Requisição sem Opcionais</td>
+        <td style="width: 60%">Requisi&ccedil;&atilde;o sem Opcionais</td>
         <td style="width: 15%;text-align: right;" >Total do Projeto (R$): </td>
-        <td style="width: 5%;text-align: left;">1.05</td>
+        <td style="width: 5%;text-align: left;">${subs[x]}</td>
         </tr>
         </table>
         </td>
     </tr>
 </table>
 </center>
-
   </#list>
 </div>
 <p style="page-break-after: always"></p>
