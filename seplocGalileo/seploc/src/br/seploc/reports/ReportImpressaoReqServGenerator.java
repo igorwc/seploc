@@ -113,6 +113,8 @@ public class ReportImpressaoReqServGenerator {
 				}
 				if(data != null){
 					dataAlteracao = new Date(data.getTime());
+				}else{
+					dataAlteracao = new Date();
 				}
 			}
 		} catch (Exception e) {
@@ -205,6 +207,9 @@ public class ReportImpressaoReqServGenerator {
 		map.put("paginacao", 1);
 		NumberFormat formatter =  new DecimalFormat("0.00"); 
 		map.put("entrega",formatter.format(entrega));
+		map.put("operador", operador);
+		map.put("data_alteracao", dataAlteracao);
+		map.put("current_date", new Date());
 		return map;
 	}
 	public void geraDados() {
@@ -244,7 +249,7 @@ public class ReportImpressaoReqServGenerator {
 			ArrayList<ImpressaoBean> pagina = new ArrayList<ImpressaoBean>();
 			subtotais = new ArrayList ();
 			while (rs.next()) {
-				if (aux == 12) {
+				if (aux == 13) {
 					dados.add(pagina);
 					pagina = new ArrayList<ImpressaoBean>();
 					subtotais.add( subtotal);
