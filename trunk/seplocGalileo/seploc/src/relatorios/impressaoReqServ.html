@@ -7,31 +7,44 @@
 
 <title>IMPRESS&Atilde;O REQUISI&Ccedil;&Atilde;O SERVI&Ccedil;O</title>
 <style type="text/css">
-#reqtable
-{
-font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
-width:100%;
-border-collapse:collapse;
+.reqtable {
+	font-family: Arial, Helvetica, sans-serif;
+	width: 100%;
 }
-#reqtable td, #reqtable th 
-{
-font-size:10px;
-border:1px solid #98bf21;
-padding:3px 7px 2px 7px;
+.cab {
+   font-weight: bold;
 }
-#reqtable th 
-{
-font-size:12px;
-text-align:left;
-padding-top:5px;
-padding-bottom:4px;
-background-color:#CCCCCC;
-color:#ffffff;
+
+.reqtable th {
+	padding: 3px 5px 2px 5px;
+	font-size: 12px;
+	text-align: left;
+	padding-top: 5px;
+	padding-bottom: 4px;
+	background-color: #ffffff;
+	color: #000000;
+	border: 1px solid #000000;
 }
-#reqtable tr.alt td 
-{
-color:#000000;
-background-color:#EAF2D3;
+
+.reqtable td {
+	font-size: 10px;
+	border: 0px solid #000000;
+	padding: 3px 5px 2px 5px;
+}
+
+.reqtable tr.alt td {
+	color: #000000;
+	background-color: #eeeeee;
+}
+
+.tabprim {
+	font-family: Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+}
+
+.tabprim td,#tabprim th {
+	font-size: 12px;
+	padding: 3px 5px 2px 5px;
 }
 </style>
 
@@ -42,11 +55,11 @@ background-color:#EAF2D3;
 
 <center>
 
-<table style="text-align: left; width: 85%;" border="1">
+<table style="text-align: left; width: 85%;" border="1" class="tabprim">
 	<tr>
 		<td>
-		<table style="text-align: left; width: 85%;" border="0"
-			cellpadding="2" cellspacing="2">
+		<table style="text-align: left; width: 100%;" border="0"
+			cellpadding="2" cellspacing="2" class="tabprim">
 			<tbody>
 				<tr>
 					<td>Copytec - M. Alves dos Santos - ME<br>
@@ -57,15 +70,19 @@ background-color:#EAF2D3;
 
 					CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0</td>
 
+					<td valign="bottom">Impressao:
+					${current_date?string("yyyy-MM-dd")}<br>
+
+					Pagina: ${paginacao}/${paginacao_total}</td>
 				</tr>
 
 			</tbody>
 		</table>
 
-		<hr />
+		<hr style="color: #000000;" size="1">
 
 		<table style="text-align: left; width: 100%;" border="0"
-			cellpadding="2" cellspacing="2">
+			cellpadding="2" cellspacing="2" class="tabprim">
 
 			<tbody>
 				<tr>
@@ -94,39 +111,38 @@ background-color:#EAF2D3;
 			</tbody>
 		</table>
 
-		<hr />
+		<hr style="color: #000000;" size="1">
 		<table style="text-align: left; width: 100%;" border="1"
-			cellpadding="2" cellspacing="2">
-
+			cellpadding="2" cellspacing="2" class="reqtable">
 			<tbody>
-				<tr>
-					<td>Item</td>
-					<td>Nome Arquivo</td>
-					<td>Form.</td>
-					<td>Dim</td>
-					<td>Papel</td>
-					<td>Imp.</td>
-					<td>Quant.</td>
-					<td>V. Unit</td>
-					<td>Sub. T</td>
+				<tr class="cab">
+					<th>Item</th>
+					<th>Nome Arquivo</th>
+					<th>Formato</th>
+					<th>Dimens&atilde;o</th>
+					<th>Papel</th>
+					<th>Impress&atilde;o</th>
+					<th>Quantidade</th>
+					<th>Valor Unit</th>
+					<th>SubTotal</th>
 				</tr>
-				<#list linha as elemento>
-				<tr>
+				<#assign row=0> <#list linha as elemento>
+				<tr class='
+					<#if (row % 2) == 0>alt<#else>nada</#if>' >
 					<td>${elemento.seq}</td>
-					<td>${elemento.item}</td>
-					<td>${elemento.formato}</td>
-					<td>${elemento.dimensao}</td>
-					<td>${elemento.nomePapel}</td>
-					<td>${elemento.impressao}</td>
-					<td>${elemento.qtd}</td>
-					<td>${elemento.subTotal}</td>
-					<td>${elemento.valorItem}</td>
-				</tr>
-				</#list>
-			</tbody>
+                <td>${elemento.item}</td>
+                <td>${elemento.formato}</td>
+                <td>${elemento.dimensao}</td>
+                <td>${elemento.nomePapel}</td>
+                <td>${elemento.impressao}</td>
+                <td>${elemento.qtd}</td>
+                <td>${elemento.valorItem}</td>
+                <td>${elemento.subTotal}</td>
+            </tr>
+				<#assign row = row + 1> </#list>
 		</table>
-		<hr />
-		<table width="100%">
+		<hr style="color: #000000;" size="1">
+		<table width="100%" class="tabprim">
 			<tr>
 				<td style="width: 5%">Entrega:</td>
 				<td style="width: 10%">R$ ${entrega}</td>
@@ -138,6 +154,18 @@ background-color:#EAF2D3;
 				<td style="width: 5%; text-align: left;">${subs[x]}</td>
 			</tr>
 		</table>
+		<hr>
+		<table width="100%" class="tabprim">
+			<tr>
+				<td style="width: 5%">Operador:</td>
+				<td style="width: 10%">${operador}</td>
+				<td style="width: 20%; text-align: right;">Data &uacute;ltima
+				modifica&ccedil;&atilde;o:</td>
+				<td style="width: 30%; text-align: left;">${data_alteracao?string("yyyy-MM-dd")}</td>
+				<td colspan="2" style="width: 30%; text-align: left;">Recebido
+				por:</td>
+			</tr>
+		</table>
 		</td>
 	</tr>
 </table>
@@ -145,11 +173,11 @@ background-color:#EAF2D3;
 <br>
 <br>
 <center>
-<table style="text-align: left; width: 85%;" border="1">
+<table style="text-align: left; width: 85%;" border="1" class="tabprim">
 	<tr>
 		<td>
-		<table style="text-align: left; width: 85%;" border="0"
-			cellpadding="2" cellspacing="2">
+		<table style="text-align: left; width: 100%;" border="0"
+			cellpadding="2" cellspacing="2" class="tabprim">
 			<tbody>
 				<tr>
 					<td>Copytec - M. Alves dos Santos - ME<br>
@@ -160,15 +188,19 @@ background-color:#EAF2D3;
 
 					CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0</td>
 
+					<td valign="bottom">Impressao:
+					${current_date?string("yyyy-MM-dd")}<br>
+
+					Pagina: ${paginacao}/${paginacao_total}</td>
 				</tr>
 
 			</tbody>
 		</table>
 
-		<hr />
+		<hr style="color: #000000;" size="1">
 
 		<table style="text-align: left; width: 100%;" border="0"
-			cellpadding="2" cellspacing="2">
+			cellpadding="2" cellspacing="2" class="tabprim">
 
 			<tbody>
 				<tr>
@@ -197,49 +229,51 @@ background-color:#EAF2D3;
 			</tbody>
 		</table>
 
-		<hr />
-		<table style="text-align: left; width: 100%;" border="0"
-			cellpadding="2" cellspacing="2" id="reqtable">
-			<tr>
-				<th>Item</th>
-				<th>Nome Arquivo</th>
-				<th>Form.</th>
-				<th>Dim</th>
-				<th>Papel</th>
-				<th>Imp.</th>
-				<th>Quant.</th>
-				<th>V. Unit</th>
-				<th>Sub. T</th>
-			</tr>
-			<#assign row=0>
-			<#list linha as elemento>
-			<tr   class= '<#if (row % 2) == 0>alt<#else>nada</#if>' >
-				<td>${elemento.seq}</td>
-				<td>${elemento.item}</td>
-				<td>${elemento.formato}</td>
-				<td>${elemento.dimensao}</td>
-				<td>${elemento.nomePapel}</td>
-				<td>${elemento.impressao}</td>
-				<td>${elemento.qtd}</td>
-				<td>${elemento.valorItem}</td>
-				<td>${elemento.subTotal}</td>
-			</tr>
-			 <#assign row = row + 1>
-			</#list>
+		<hr style="color: #000000;" size="1">
+		<table style="text-align: left; width: 100%;" border="1"
+			cellpadding="2" cellspacing="2" class="reqtable">
+			<tbody>
+				<tr>
+					<th>Item</th>
+					<th>Nome Arquivo</th>
+					<th>Formato</th>
+					<th>Dimens&atilde;o</th>
+					<th>Papel</th>
+					<th>Impress&atilde;o</th>
+					<th>Quantidade</th>
+					<th>Valor Unit</th>
+					<th>SubTotal</th>
+				</tr>
+				<#assign row=0> <#list linha as elemento>
+				<tr class='
+					<#if (row % 2) == 0>alt<#else>nada</#if>' >
+					<td>${elemento.seq}</td>
+                <td>${elemento.item}</td>
+                <td>${elemento.formato}</td>
+                <td>${elemento.dimensao}</td>
+                <td>${elemento.nomePapel}</td>
+                <td>${elemento.impressao}</td>
+                <td>${elemento.qtd}</td>
+                <td>${elemento.valorItem}</td>
+                <td>${elemento.subTotal}</td>
+            </tr>
+				<#assign row = row + 1> </#list>
 		</table>
-		<hr />
-		<table width="100%">
+		<hr style="color: #000000;" size="1">
+		<table width="100%" class="tabprim">
 			<tr>
 				<td style="width: 5%">Entrega:</td>
-				<td style="width: 10%">R$ 0,00</td>
-				<td style="width: 20%"></td>
-				<td style="width: 30%"></td>
-				<td colspan="2" style="width: 30%; text-align: right;">Total do
-				Projeto (R$): ${subs[x]}</td>
+				<td style="width: 10%">R$ ${entrega}</td>
+				<td style="width: 5%">Opcionais:</td>
+				<td style="width: 60%">Requisi&ccedil;&atilde;o sem Opcionais</td>
+				<td style="width: 15%; text-align: right;">Total do Projeto
+				(R$):</td>
+				<#assign x = linha_index>
+				<td style="width: 5%; text-align: left;">${subs[x]}</td>
 			</tr>
 		</table>
 		<hr>
-		<table width="100%">
+		<table width="100%" class="tabprim">
 			<tr>
 				<td style="width: 5%">Operador:</td>
 				<td style="width: 10%">${operador}</td>
