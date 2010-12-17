@@ -210,6 +210,7 @@ public class ReportImpressaoReqServGenerator {
 		map.put("operador", operador);
 		map.put("data_alteracao", dataAlteracao);
 		map.put("current_date", new Date());
+		map.put("paginacao_total", dados.size());
 		return map;
 	}
 	public void geraDados() {
@@ -347,9 +348,10 @@ public class ReportImpressaoReqServGenerator {
 //		}
 		try {
 			String s = FreemarkerUtils.parseTemplate(getDataModel(), "impressaoReqServ.html");
-			OutputStream os = new FileOutputStream("impressaoReqServ.pdf");
+			OutputStream os = new FileOutputStream("src/relatorios/impressaoReqServ.pdf");
+			System.out.println(s);
 			Html2Pdf.convert(s, os);
-			os.close();
+//			os.close();
 			System.out.println(s);
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
