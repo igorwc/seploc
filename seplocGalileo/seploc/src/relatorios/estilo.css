@@ -7,7 +7,6 @@ margin: 0.25in;
 -fs-flow-right: "right";
 border: thin solid black;
 padding: 1em;
-p { page-break-after: always } 
 }
 
 #header {
