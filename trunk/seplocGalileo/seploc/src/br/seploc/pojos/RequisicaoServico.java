@@ -76,6 +76,9 @@ public class RequisicaoServico implements Serializable {
 
 	@Column(name = "intVisivelReq")
 	private Integer visivelReq;
+	
+	@Column(name = "intOrcamento")
+	private int orcamento;	
 
 	@Version
 	@Column(name = "tspVersao")
@@ -116,6 +119,7 @@ public class RequisicaoServico implements Serializable {
 		setSaidasMotoqueiros(new ArrayList<SaidaMotoqueiro>());
 		setStatusCobrancas(new ArrayList<StatusCobranca>());
 		setLinhaRequisicao(new ArrayList<LinhaRequisicao>());
+		setOrcamento(0);
 	}
 
 	public Integer getNumReq() {
@@ -172,6 +176,14 @@ public class RequisicaoServico implements Serializable {
 
 	public void setVisivelReq(Integer visivelReq) {
 		this.visivelReq = visivelReq;
+	}
+
+	public void setOrcamento(int orcamento) {
+		this.orcamento = orcamento;
+	}
+
+	public int getOrcamento() {
+		return orcamento;
 	}
 
 	public Timestamp getVersao() {
