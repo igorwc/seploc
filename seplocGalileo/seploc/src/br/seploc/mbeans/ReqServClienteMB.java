@@ -74,6 +74,10 @@ public class ReqServClienteMB implements Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+		this.projeto = new Projeto();
+		this.filtroProjeto = "";
+		System.out.println("Limpou o cliente");
+		System.out.println("cliente: "+cliente.getFantasia().toString());		
 	}
 
 	public OpcionaisReqServ getOpcional() {
@@ -114,6 +118,7 @@ public class ReqServClienteMB implements Serializable {
 
 	public void setProjeto(Projeto projeto) {
 		this.projeto = projeto;
+		System.out.println("Projeto setado: "+projeto.getProjeto().toString());
 	}
 
 	public String getFiltroOpcional() {
@@ -146,6 +151,7 @@ public class ReqServClienteMB implements Serializable {
 
 	public void setFiltroProjeto(String filtroProjeto) {
 		this.filtroProjeto = filtroProjeto;
+		System.out.println("filtroProj: "+filtroProjeto.toString());
 	}
 
 	public String getFiltroCliente() {
@@ -254,6 +260,7 @@ public class ReqServClienteMB implements Serializable {
 				retorno.add(p);
 			}else{
 				retorno = cliente.getProjetos();
+				System.out.println("cli: "+cliente.getFantasia().toString());
 			}
 		}
 		return retorno;
@@ -305,6 +312,7 @@ public class ReqServClienteMB implements Serializable {
 				reqServico.setStatus(0);
 				reqServico.setVisivelNf(0);
 				reqServico.setVisivelReq(0);
+				reqServico.setOrcamento(0);
 				
 				// adicionar a requisicao de servico se um dos itens obrigatoriso existirem
 				if (existeLinha || existeOpcional){
@@ -400,9 +408,11 @@ public class ReqServClienteMB implements Serializable {
 						}					
 					}
 					// verificar se foi alterado o projeto
-					if (!temp.getProjeto().equals(projeto)){
-						temp.setProjeto(projeto);
-					}					
+					Projeto p = this.projeto;
+					if (!temp.getProjeto().equals(p)){
+						temp.setProjeto(projeto);						
+					}			
+					
 					temp.setValorTotal(this.calcularTotal(temp));					
 					reqServicoDAO.altera(temp);
 					reqServico = reqServicoDAO.recupera(temp.getNumReq());
