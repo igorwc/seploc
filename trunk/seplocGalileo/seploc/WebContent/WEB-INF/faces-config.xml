@@ -166,15 +166,26 @@
   <managed-bean-class>br.seploc.controllers.ReqServClienteCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
+ <!-- Requisicao Periodo -->
  <managed-bean>
   <managed-bean-name>reqClientePeriodoCB</managed-bean-name>
   <managed-bean-class>br.seploc.controllers.ReqServClientePeriodoCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>
- <!-- Requisicao Periodo -->
+ </managed-bean> 
  <managed-bean>
   <managed-bean-name>reqClientePeriodoMB</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.ReqServClientePeriodoMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <!-- Requisicao Saida -->
+ <managed-bean>
+  <managed-bean-name>reqServListaSaidaCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.ReqServListaSaidaCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>reqServListaSaidaMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.ReqServListaSaidaMB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
  <!-- Regras Navegação -->
