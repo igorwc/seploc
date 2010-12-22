@@ -167,6 +167,10 @@ public class ReqServListaSaidaMB implements Serializable {
 
 	}
 	
+	public void limpar(){
+		
+	}
+	
 	private Calendar getDayAgo(int dias){
 		Calendar dia = Calendar.getInstance();
 		//dias atras
