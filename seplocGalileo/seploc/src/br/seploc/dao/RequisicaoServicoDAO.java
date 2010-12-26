@@ -10,15 +10,16 @@ import java.util.List;
 import javax.persistence.Query;
 
 import br.seploc.dao.exceptions.FieldNotNullException;
-import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.LinhaRequisicao;
 import br.seploc.pojos.LinhaRequisicaoPK;
 import br.seploc.pojos.OpcionaisReqServ;
+import br.seploc.pojos.ReqServUsuario;
 import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.ReqServicosOpcionaisPK;
 import br.seploc.pojos.RequisicaoServico;
+import br.seploc.pojos.Usuario;
 import br.seploc.util.GenericDAO;
 
 public class RequisicaoServicoDAO extends
@@ -66,7 +67,7 @@ public class RequisicaoServicoDAO extends
 				}
 				t.setLinhaRequisicao(linhas);
 			}
-
+			
 			em.merge(t);
 
 		}
@@ -292,6 +293,27 @@ public class RequisicaoServicoDAO extends
 	public void refresh(RequisicaoServico reqServico){		
 		em.refresh(reqServico);		
 	}
+	
+	public void registraUsuarioCriador(Usuario u, RequisicaoServico r){
+		ReqServUsuario usuario = new ReqServUsuario(u.getLogin(), r.getNumReq());
+		em.getTransaction().begin();
+		em.merge(usuario);
+		em.getTransaction().commit();		
+
+	}
+
+	public void registraUsuarioAlterador(Usuario u, RequisicaoServico r){		
+		em.getTransaction().begin();
+		ReqServUsuario usuario = em.find(ReqServUsuario.class, r.getNumReq());
+		usuario.setLoginAlteracao(u.getLogin());
+		// setar data de criacao da requisicao
+		java.util.Date data = new java.util.Date();
+		java.sql.Date hoje = new java.sql.Date(data.getTime());
+		usuario.setDataAlteracao(hoje);
+		em.merge(usuario);
+		em.getTransaction().commit();		
+
+	}	
 	
 	@SuppressWarnings("unchecked")
 	public List<RequisicaoServico> filtraReqServ(int projeto, int numReqServ, int cliente, Calendar dataIni, Calendar dataFim){

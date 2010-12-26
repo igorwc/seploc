@@ -17,11 +17,14 @@ import br.seploc.pojos.Papel;
 import br.seploc.pojos.Projeto;
 import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
+import br.seploc.pojos.Usuario;
+import br.seploc.util.SessionObjectsManager;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
 import br.seploc.dao.OpcionaisReqServDAO;
 import br.seploc.dao.PapelDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
+import br.seploc.dao.UsuarioDAO;
 
 
 public class ReqServClienteMB implements Serializable {
@@ -357,6 +360,7 @@ public class ReqServClienteMB implements Serializable {
 				reqServicoDAO.altera(reqServico);
 				calcularTotal(reqServico);
 				setValorTotalReq(reqServico.getValorTotal());
+				usuarioCriouReqServ(reqServico);
 				addGlobalMessage("Inclusão feita com sucesso!");
 			} catch (ValidatorException e) {
 				addGlobalMessage(e.getMessage());
@@ -418,6 +422,7 @@ public class ReqServClienteMB implements Serializable {
 					reqServico = reqServicoDAO.recupera(temp.getNumReq());
 					setValorTotalReq(reqServico.getValorTotal());
 					temp.setProjeto(reqServico.getProjeto());
+					usuarioAlterouReqServ(reqServico);
 					addGlobalMessage("Atualização feita com sucesso!");
 				}
 				
@@ -554,6 +559,30 @@ public class ReqServClienteMB implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());
+		}
+	}
+	
+	public void usuarioCriouReqServ(RequisicaoServico r){
+		String login;
+		//login = SessionObjectsManager.recuperaObjetoSessao("loginUser").toString();
+		login = "gustavo";
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		List<Usuario> lu = usuarioDAO.getListaUsuariosPorLogin(login);
+		for (Usuario u : lu){
+			System.out.println("Usuario: "+u.getLogin());
+			reqServicoDAO.registraUsuarioCriador(u, r);
+		}				
+	}
+	
+	public void usuarioAlterouReqServ(RequisicaoServico r){
+		String login;
+		//login = SessionObjectsManager.recuperaObjetoSessao("loginUser").toString();
+		login = "gustavo";
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		List<Usuario> lu = usuarioDAO.getListaUsuariosPorLogin(login);
+		for (Usuario u : lu){
+			System.out.println("Usuario: "+u.getLogin());
+			reqServicoDAO.registraUsuarioAlterador(u, r);
 		}
 	}
 
