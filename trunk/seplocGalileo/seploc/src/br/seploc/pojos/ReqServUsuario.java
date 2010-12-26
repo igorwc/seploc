@@ -11,8 +11,12 @@ import java.util.Date;
 public class ReqServUsuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private ReqServUsuarioPK id;
+	@Id
+	@Column(name = "intNumReq", nullable = false)
+	private Integer numReqServ;
+	
+	@Column(name = "vcrLogin", nullable = false, length = 30)
+	private String login;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "datData")
@@ -42,28 +46,29 @@ public class ReqServUsuario implements Serializable {
 
 	}
 
-	public ReqServUsuario(ReqServUsuarioPK id) {
-		this.id = id;
+	public ReqServUsuario(Integer numReqServ) {
+		this.setNumReqServ(numReqServ);
 	}
 
-	public ReqServUsuario(String vcrLogin, int intNumReq) {
-		this.id = new ReqServUsuarioPK(vcrLogin, intNumReq);
+	public ReqServUsuario(String vcrLogin, Integer intNumReq) {
+		this.setNumReqServ(intNumReq);
+		this.setLogin(vcrLogin);
 	}
-	@Transient
-	public Integer getIntNumReq() {
-		return getId().getIntNumReq();
-	}
-
-	@Transient
-	public String getVcrLogin() {
-		return getId().getVcrLogin();
-	}
-	public ReqServUsuarioPK getId() {
-		return id;
+	
+	public void setNumReqServ(Integer numReqServ) {
+		this.numReqServ = numReqServ;
 	}
 
-	public void setId(ReqServUsuarioPK id) {
-		this.id = id;
+	public Integer getNumReqServ() {
+		return numReqServ;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getLogin() {
+		return login;
 	}
 
 	public Date getData() {
@@ -122,7 +127,7 @@ public class ReqServUsuario implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((numReqServ == null) ? 0 : numReqServ.hashCode());
 		return result;
 	}
 
@@ -135,10 +140,10 @@ public class ReqServUsuario implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ReqServUsuario other = (ReqServUsuario) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (numReqServ == null) {
+			if (other.numReqServ != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!numReqServ.equals(other.numReqServ))
 			return false;
 		return true;
 	}
@@ -146,7 +151,7 @@ public class ReqServUsuario implements Serializable {
 	@Override
 	public String toString() {
 		return "ReqServUsuario ["
-				+ (getId() != null ? "getId()=" + getId() : "") + "]";
+				+ (getNumReqServ() != null ? "getNumReqServ()=" + getNumReqServ() : "") + "]";
 	}
 
 }

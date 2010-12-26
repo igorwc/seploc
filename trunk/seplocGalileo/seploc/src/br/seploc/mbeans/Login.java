@@ -63,6 +63,7 @@ public class Login {
 				&& user.getPassword().equals(password)) {
 			loginOk = true;
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogado", loginOk);
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loginUser", user.getLogin());
 			return "principal";
 		} else
 			return "login";
