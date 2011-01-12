@@ -8,6 +8,7 @@ import br.seploc.dao.exceptions.LoginExistenteException;
 import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Usuario;
+import br.seploc.util.DesEncrypter;
 import br.seploc.util.GenericDAO;
 
 public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
@@ -21,7 +22,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 			em.getTransaction().commit();
 		} else {
 			em.getTransaction().rollback();
-			throw new LoginExistenteException("Login já em uso");
+			throw new LoginExistenteException("Login jï¿½ em uso");
 		}		
 	}
 
@@ -33,7 +34,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 			em.getTransaction().commit();
 		} else {
 			em.getTransaction().rollback();
-			throw new LoginExistenteException("Login já em uso");			
+			throw new LoginExistenteException("Login jï¿½ em uso");			
 		}
 		return t;
 	}
@@ -191,7 +192,46 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 		// return (List<Usuario>) q.getResultList();
 		return null;
 	}
+	public Usuario recupera (String login, String senha){
+		boolean flag = false;
+		Usuario retorno = null;
+		if (!em.getTransaction().isActive()) {
+			flag = true;
+			em.getTransaction().begin();
+		} 
+		DesEncrypter encrypter = new DesEncrypter();
+		System.out.println("Senha Recebida: "+ senha);
+		System.out.println("Senha Encriptada: "+ encrypter.encrypt(senha));
+		
+		Query q = em.createNamedQuery("Usuario.RecuperaLogin").setParameter(1, login).setParameter(2, encrypter.encrypt(senha));
 
+		try {
+			retorno = (Usuario)q.getSingleResult();
+			if (flag) {
+				em.getTransaction().commit();
+			}
+			return retorno;
+			
+		} catch (Exception e) {
+			if (flag) {
+				em.getTransaction().rollback();
+			}
+			return null;
+		}
+		 
+//		if (q.getResultList() == null || q.getResultList().size() == 0)
+//		    return retorno;
+//		else{
+//			retorno = (Usuario)q.getResultList().get(0);
+//			System.out.println(retorno.getPassword());
+//			em.refresh(retorno);
+//			if (flag) {
+//				retorno = recupera(retorno.getId());
+//				em.getTransaction().commit();
+//			}
+//			return retorno;
+//		}
+	}
 	@Override
 	protected void ajustaPojo(Usuario pojo) {
 		// TODO Auto-generated method stub
