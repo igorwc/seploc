@@ -31,68 +31,61 @@ import br.seploc.util.DesEncrypter;
 		@NamedNativeQuery(name = "Usuario.RetornaUsuarios", query = " SELECT * "
 				+ "FROM tbl_usuario u", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuariosPorGrupo", query = " SELECT * "
-				+ "FROM tbl_usuario u "
-				+ "where intGrupo = :grupo", resultSetMapping = "Usuario.implicit"), 
+				+ "FROM tbl_usuario u " + "where intGrupo = :grupo", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaRequisicoesPorUsuario", query = " SELECT * "
 				+ "FROM tbl_usuario u "
-				+ "where vcrLogin in " 
-					             + "(SELECT vcrLogin FROM tbl_reqservusuario " 
-					             + " WHERE vcrLogin = :login)", resultSetMapping = "Usuario.implicit"),
+				+ "where vcrLogin in "
+				+ "(SELECT vcrLogin FROM tbl_reqservusuario "
+				+ " WHERE vcrLogin = :login)", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuariosPorNome", query = " SELECT * "
-					    				+ "FROM tbl_usuario u "
-					    				+ "where vcrNome like :nome", resultSetMapping = "Usuario.implicit"),
+				+ "FROM tbl_usuario u " + "where vcrNome like :nome", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuariosPorLogin", query = " SELECT * "
-				+ "FROM tbl_usuario u "
-				+ "where vcrlogin like :login", resultSetMapping = "Usuario.implicit")
-		,
+				+ "FROM tbl_usuario u " + "where vcrlogin like :login", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuarioPorLogin", query = " SELECT * "
-				+ "FROM tbl_usuario u "
-				+ "where vcrlogin = :login", resultSetMapping = "Usuario.implicit")
-		,
+				+ "FROM tbl_usuario u " + "where vcrlogin = :login", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuarioPorCpf", query = " SELECT * "
-				+ "FROM tbl_usuario u "
-				+ "where vcrcpf = :cpf", resultSetMapping = "Usuario.implicit")				
-})
+				+ "FROM tbl_usuario u " + "where vcrcpf = :cpf", resultSetMapping = "Usuario.implicit"),
+		@NamedNativeQuery(name = "Usuario.RecuperaLogin", query = "SELECT *"
+				+ " FROM tbl_usuario "
+				+ "WHERE vcrLogin = ? and vcrPassword = ?", resultSetMapping = "Usuario.implicit") })
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "intCodUsr", length=30)
+	@Column(name = "intCodUsr", length = 30)
 	@GeneratedValue(generator = "usr_id", strategy = GenerationType.TABLE)
-	@TableGenerator(name = "usr_id", table = "ID_GEN", 
-			        allocationSize = 1, initialValue = 1, pkColumnName = "NOME_ID", 
-			        valueColumnName = "VAL_ID", pkColumnValue = "USR_GEN")
+	@TableGenerator(name = "usr_id", table = "ID_GEN", allocationSize = 1, initialValue = 1, pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "USR_GEN")
 	private Integer id;
-	
-	@Column(name = "vcrLogin", length=30,nullable=false)
+
+	@Column(name = "vcrLogin", length = 30, nullable = false)
 	private String login;
 
-	@Column(name = "vcrPassword", length=30)
+	@Column(name = "vcrPassword", length = 30, nullable = false)
 	private String password;
-	
+
 	@Column(name = "vcrCpf", length = 20)
 	private String cpf;
 
 	@Column(name = "intPermissao")
 	private Integer permissao;
 
-	@Column(name = "vcrIpMaquina", length=20)
+	@Column(name = "vcrIpMaquina", length = 20)
 	private String ipMaquina;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "intGrupo", referencedColumnName = "intGrupo")
 	private Grupo grupo;
-	
+
 	@Version
 	@Column(name = "tspVersao")
 	private Timestamp versao;
-	
-	@Column(name = "vcrNome", length=100)
+
+	@Column(name = "vcrNome", length = 100)
 	private String nome;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="usuario")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
 	private List<ReqServUsuario> reqServUsuario;
-	
+
 	public Usuario() {
 		setReqServUsuario(new ArrayList<ReqServUsuario>());
 	}
@@ -143,6 +136,12 @@ public class Usuario implements Serializable {
 		this.cpf = cpf;
 	}
 
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
+
 	public Usuario(String login, String nome, String password, String cpf,
 			Integer permissao, String ipMaquina) {
 		this();
@@ -174,7 +173,8 @@ public class Usuario implements Serializable {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -204,8 +204,9 @@ public class Usuario implements Serializable {
 			this.password = decrypted;
 
 		} catch (Exception e) {
+			
 		}
-		return password;
+		return this.password;
 	}
 
 	public void setPassword(String password) {
@@ -300,8 +301,7 @@ public class Usuario implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Usuario [" 				
-				+ (login != null ? "login=" + login + ", " : "")
+		return "Usuario [" + (login != null ? "login=" + login + ", " : "")
 				+ (nome != null ? "nome=" + nome : "") + "]"
 				+ (ipMaquina != null ? "ipMaquina=" + ipMaquina + ", " : "")
 				+ (grupo != null ? "grupo=" + grupo + ", " : "");
@@ -315,5 +315,4 @@ public class Usuario implements Serializable {
 		return reqServUsuario;
 	}
 
-	
 }
