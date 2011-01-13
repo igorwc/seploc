@@ -19,7 +19,7 @@
 			<h:form id="loginForm" prependId="false">
 			<br/><br/>			
 				<h:panelGrid columns="2" styleClass="login">
-					<h:outputLabel value="Usuário" for="un" />
+					<h:outputLabel value="Usuário" for="username" />
 					<h:inputText id="username" value="#{login.userName}" 
 					                           required="true"
 					                           requiredMessage="Login deve ser informado"
@@ -27,13 +27,13 @@
 					                           <f:validateLength minimum="1"/>
 					</h:inputText> 
 					                           
-					<h:outputLabel value="Senha" for="pw" />
+					<h:outputLabel value="Senha" for="passwd" />
 					<h:inputSecret id="passwd" value="#{login.password}" size="21"/>
 
-					<h:outputLabel value="Nova Senha" for="pw" />
+					<h:outputLabel value="Nova Senha" for="newpasswd" />
 					<h:inputSecret id="newpasswd" size="21"/>
 
-					<h:outputLabel value="Repetir Senha" for="pw" />
+					<h:outputLabel value="Repetir Senha" for="renewpasswd" />
 					<h:inputSecret id="renewpasswd" size="21"/>
 
 				</h:panelGrid>
