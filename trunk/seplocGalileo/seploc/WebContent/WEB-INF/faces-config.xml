@@ -166,12 +166,12 @@
   <managed-bean-class>br.seploc.controllers.ReqServClienteCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
- <!-- Requisicao Periodo -->
- <managed-bean>
+  <!-- Requisicao Periodo -->
+<managed-bean>
   <managed-bean-name>reqClientePeriodoCB</managed-bean-name>
   <managed-bean-class>br.seploc.controllers.ReqServClientePeriodoCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
- </managed-bean> 
+ </managed-bean>
  <managed-bean>
   <managed-bean-name>reqClientePeriodoMB</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.ReqServClientePeriodoMB</managed-bean-class>
@@ -193,12 +193,12 @@
   <from-view-id>/login.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>login</from-outcome>
-   <to-view-id>/login.xhtml</to-view-id>
+   <to-view-id>/paginas/login.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
   <navigation-case>
    <from-outcome>principal</from-outcome>
-   <to-view-id>/principal.xhtml</to-view-id>
+   <to-view-id>/paginas/principal.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
  <navigation-rule>
@@ -206,6 +206,20 @@
   <navigation-case>
    <from-outcome>reqServ</from-outcome>
    <to-view-id>/requisicao/reqServCliente.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <navigation-case>
+   <from-outcome>login</from-outcome>
+   <to-view-id>/paginas/login.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+ </navigation-rule>
+  <navigation-rule>
+  <navigation-case>
+   <from-outcome>principal</from-outcome>
+   <to-view-id>/paginas/principal.xhtml</to-view-id>
+   <redirect/>
   </navigation-case>
  </navigation-rule>
  <!-- Requisicao Lista-->
@@ -242,4 +256,11 @@
    <var>msgs</var>
   </resource-bundle>
  </application>
+ <!-- DESCOMENTAR TRECHO ABAIXO QUANDO QUISER UTILIZAR AUTENTICAÇÃO -->
+
+ <lifecycle>
+  <phase-listener id="AuthorizationListener">br.seploc.security.AuthorizationListener</phase-listener>
+  
+ </lifecycle> 
+
 </faces-config>
