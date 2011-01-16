@@ -1,8 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ImpressaoRqServ" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.464100000000001"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ImpressaoRqServ" pageWidth="595" pageHeight="411" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.1000000000000005"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="33"/>
+	<property name="ireport.y" value="144"/>
+	<subDataset name="LinhasOpcionais">
+		<parameter name="ReqNum" class="java.lang.Integer" isForPrompting="false">
+			<defaultValueExpression><![CDATA[(java.lang.Integer)$P{REPORT_PARAMETERS_MAP}.get( "CodReq" )]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select * from
+(
+(select li.intNumreq as numReq, li.vcrNomeArq as item, li.dblFormato as formato ,
+li.dblDimensao as dimensao,pa.vcrNome as nomePapel,li.vcrImpressao as impressao,li.intQuant as qtd, li.dblValorUnit as subTotal,
+ li.dblValorSubUnit as valorItem, li.intNumLin as linha
+from tbl_linhareq li,tbl_papel pa, tbl_reqserv rr
+where li.intCodPap = pa.intCodPap
+and rr.intNumReq = $P{ReqNum}
+and rr.intNumReq = li.intNumReq)
+union
+(SELECT r.intNumreq as numReq,op.vcrNomeItem as item,null as formato ,null as dimensao , null as nomePapel ,  null as impressao,
+rso.intQuant as qtd ,  (op.dblValorItem*rso.intQuant) as subTotal, op.dblValorItem as valorItem, null as linha
+FROM tbl_reqserv r,tbl_opcionaisreqserv op, tbl_reqservopcionais rso
+WHERE
+rso.intNumReq = r.intNumReq and
+rso.intCodOp = op.intCod and
+r.intNumReq = $P{ReqNum}  )
+) as tabela3]]>
+		</queryString>
+		<field name="numReq" class="java.lang.Integer"/>
+		<field name="item" class="java.lang.String"/>
+		<field name="formato" class="java.lang.Double"/>
+		<field name="dimensao" class="java.lang.Double"/>
+		<field name="nomePapel" class="java.lang.String"/>
+		<field name="impressao" class="java.lang.String"/>
+		<field name="qtd" class="java.lang.Integer"/>
+		<field name="subTotal" class="java.lang.Double"/>
+		<field name="valorItem" class="java.lang.Double"/>
+		<variable name="SomaTotal" class="java.lang.Double" incrementType="Group" incrementGroup="Soma" calculation="Sum">
+			<variableExpression><![CDATA[$F{subTotal}]]></variableExpression>
+			<initialValueExpression><![CDATA[]]></initialValueExpression>
+		</variable>
+		<group name="Soma">
+			<groupExpression><![CDATA[$F{subTotal}]]></groupExpression>
+		</group>
+	</subDataset>
 	<parameter name="CodReq" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -132,11 +173,190 @@ CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
 			</textField>
 		</band>
 	</pageHeader>
-	<columnHeader>
-		<band height="109" splitType="Stretch"/>
-	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="105" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" x="0" y="0" width="543" height="102"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="LinhasOpcionais">
+						<datasetParameter name="ReqNum">
+							<datasetParameterExpression><![CDATA[(java.lang.Integer)$P{REPORT_PARAMETERS_MAP}.get( "CodReq" )]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="203">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[Static text]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[Descrição]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[Static textss]]></text>
+							</staticText>
+						</jr:columnFooter>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="203" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{item}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="52">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30"/>
+								<textElement/>
+								<text><![CDATA[Form.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="30" rowSpan="1"/>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="50" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{formato}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="54">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="49" height="30"/>
+								<textElement/>
+								<text><![CDATA[Dim]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="30" rowSpan="1"/>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="49" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{dimensao}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="53">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="48" height="30"/>
+								<textElement/>
+								<text><![CDATA[Papel]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="30" rowSpan="1"/>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="48" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{nomePapel}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="54" height="30"/>
+								<textElement/>
+								<text><![CDATA[Imp.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="30" rowSpan="1"/>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="54" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{impressao}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="54">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="52" height="30"/>
+								<textElement/>
+								<text><![CDATA[Quant.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="30" rowSpan="1"/>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="52" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Integer"><![CDATA[$F{qtd}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1"/>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="47" height="30"/>
+								<textElement/>
+								<text><![CDATA[V. Unit]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="30" rowSpan="1"/>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="47" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{valorItem}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="53">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<textField evaluationTime="Report" pattern="¤ #,##0.00">
+								<reportElement x="0" y="0" width="52" height="17"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$V{SomaTotal}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="52" height="30"/>
+								<textElement/>
+								<text><![CDATA[Sub. T]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="30" rowSpan="1"/>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="52" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{subTotal}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
 	</detail>
 	<columnFooter>
 		<band height="45" splitType="Stretch"/>
