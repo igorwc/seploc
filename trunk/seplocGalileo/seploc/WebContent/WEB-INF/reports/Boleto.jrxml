@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Boleto" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="style1"/>
+	<parameter name="ReqServ" class="java.lang.Integer"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Desenvolvimento\\workspace\\galileo\\seploc\\WebContent\\WEB-INF\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     *
+FROM
+     `id_gen` id_gen]]>
+	</queryString>
+	<field name="NOME_ID" class="java.lang.String"/>
+	<field name="VAL_ID" class="java.lang.Integer"/>
+	<group name="dfsdf">
+		<groupExpression><![CDATA[$P{REPORT_MAX_COUNT}]]></groupExpression>
+		<groupHeader>
+			<band height="160" splitType="Prevent">
+				<subreport>
+					<reportElement x="0" y="0" width="555" height="96"/>
+					<subreportParameter name="CodReq">
+						<subreportParameterExpression><![CDATA[$P{ReqServ}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "ImpressaoRqServ.jasper"]]></subreportExpression>
+				</subreport>
+			</band>
+			<band height="152" splitType="Prevent">
+				<subreport>
+					<reportElement x="0" y="0" width="555" height="106"/>
+					<subreportParameter name="CodReq">
+						<subreportParameterExpression><![CDATA[$P{ReqServ}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "ImpressaoRqServ.jasper"]]></subreportExpression>
+				</subreport>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+</jasperReport>
