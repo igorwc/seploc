@@ -56,7 +56,7 @@ public class EmpresaBean {
 		String dados = "Razão: "+ razao+"\n"+
 		"Endereço: "+ endereco+"\n"+
 		 cep+" - "+foneFax+"\n"+
-		"Razão: "+ razao+"\n";
+		"Identificação: "+ identificacao+"\n";
 		
 
 		return dados;
