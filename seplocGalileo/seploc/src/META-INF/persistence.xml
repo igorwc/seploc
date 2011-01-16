@@ -20,7 +20,7 @@
 		<class>br.seploc.pojos.StatusCobrancaPK</class>
 		<class>br.seploc.pojos.StatusCobranca</class>
 		<class>br.seploc.pojos.SaidaMotoqueiro</class>
-		<class>br.seploc.pojos.ReqServUsuarioPK</class>
+		<!-- <class>br.seploc.pojos.ReqServUsuarioPK</class> -->
 		<class>br.seploc.pojos.ReqServUsuario</class>
 		<class>br.seploc.pojos.Projeto</class>
 		<class>br.seploc.pojos.ParametroProg</class>
