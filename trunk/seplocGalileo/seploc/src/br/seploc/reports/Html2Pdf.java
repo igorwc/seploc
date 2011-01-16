@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import org.w3c.dom.Document;
 import org.w3c.tidy.Tidy;
 import org.xhtmlrenderer.pdf.ITextRenderer;
+import org.xhtmlrenderer.pdf.PDFEncryption;
 
 import com.itextpdf.text.DocumentException;
 
