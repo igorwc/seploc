@@ -197,15 +197,15 @@ public class Usuario implements Serializable {
 	}
 
 	public String getPassword() {
-		try {
-			// Create encrypter/decrypter class
-			DesEncrypter encrypter = new DesEncrypter();
-			String decrypted = encrypter.decrypt(this.password);
-			this.password = decrypted;
-
-		} catch (Exception e) {
-			
-		}
+//		try {
+//			// Create encrypter/decrypter class
+//			DesEncrypter encrypter = new DesEncrypter();
+//			String decrypted = encrypter.decrypt(this.password);
+//			this.password = decrypted;
+//
+//		} catch (Exception e) {
+//			
+//		}
 		return this.password;
 	}
 
