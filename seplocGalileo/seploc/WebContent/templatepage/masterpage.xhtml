@@ -48,7 +48,7 @@
     	Seploc <img src="../imgs/ponto.png"/> 
     	Principal
     </ui:insert></td>
-	<td align="right" class="texto">Bem-vindo, <ui:insert name="topo">#{login.userName}</ui:insert> &nbsp;&nbsp;</td>
+	<td align="right" class="texto"><h:outputText value="Bem-vindo, "  rendered="#{sessionScope.usuarioLogado}"/><ui:insert name="topo"><h:outputText value="#{login.userName}" rendered="#{sessionScope.usuarioLogado}"/></ui:insert> &nbsp;&nbsp;</td>
   </tr>  
   <!-- MENU -->
   <tr>
@@ -72,7 +72,9 @@
 							</rich:menuItem>
 							<rich:menuItem submitMode="ajax" value="#{msgs['menu.raiz.seploc.sobre']}" action="#" icon="../imgs/icons/open.gif" />
 							<rich:menuSeparator id="menuSeparator1" />
-							<rich:menuItem submitMode="ajax" value="#{msgs['menu.raiz.seploc.sair']}" icon="../imgs/icons/sair.gif" action="#" onclick="document.location.href='login.jsf'" />
+							<rich:menuItem submitMode="ajax" value="#{msgs['menu.raiz.seploc.sair']}" icon="../imgs/icons/sair.gif" action="#{login.logoff}"  >
+							 
+							</rich:menuItem>
 						</rich:dropDownMenu>
 
 						<!-- MENU ATENDIMENTO -->						
