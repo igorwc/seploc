@@ -70,7 +70,6 @@ public class UtilsArquivo {
 	}
 
 	public static void limpaDiretorio(String diretorio) {
-		// Cria um diretorio
 		File dir = new File(diretorio);
 		if (dir.exists()) {
 			File[] lista = dir.listFiles();
