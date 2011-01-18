@@ -15,16 +15,10 @@ public class ReqServUsuario implements Serializable {
 	@Column(name = "intNumReq", nullable = false)
 	private Integer numReqServ;
 	
-	@Column(name = "vcrLogin", nullable = false, length = 30)
-	private String login;
-
 	@Temporal(TemporalType.DATE)
 	@Column(name = "datData")
 	private Date data;
-	
-	@Column(name = "vcrLoginAlter", length=30)
-	private String loginAlteracao;
-	
+		
 	@Temporal(TemporalType.DATE)
 	@Column(name = "datdataAlter")
 	private Date dataAlteracao;
@@ -33,9 +27,17 @@ public class ReqServUsuario implements Serializable {
 	@Column(name = "tspVersao")
 	private Timestamp versao;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "vcrLogin", referencedColumnName = "vcrLogin", updatable = false, insertable = false)
+//	@ManyToOne(fetch = FetchType.EAGER)
+//	@JoinColumn(name = "vcrLogin", referencedColumnName = "vcrLogin", updatable = false, insertable = false)
+//	private Usuario usuario;
+
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "intCodUsr", referencedColumnName = "intCodUsr", updatable = false, insertable = false)
 	private Usuario usuario;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "intCodUsrAlter", referencedColumnName = "intCodUsr", updatable = false, insertable = false)
+	private Usuario usuarioAlteracao;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "intNumReq", referencedColumnName = "intNumReq", updatable = false, insertable = false)
@@ -47,12 +49,12 @@ public class ReqServUsuario implements Serializable {
 	}
 
 	public ReqServUsuario(Integer numReqServ) {
-		this.setNumReqServ(numReqServ);
+		this.setNumReqServ(numReqServ);		
 	}
 
-	public ReqServUsuario(String vcrLogin, Integer intNumReq) {
-		this.setNumReqServ(intNumReq);
-		this.setLogin(vcrLogin);
+	public ReqServUsuario(Usuario usuario, RequisicaoServico reqServ) {
+		this.setNumReqServ(reqServ.getNumReq());
+		this.setUsuario(usuario);
 	}
 	
 	public void setNumReqServ(Integer numReqServ) {
@@ -63,28 +65,12 @@ public class ReqServUsuario implements Serializable {
 		return numReqServ;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
 	public Date getData() {
 		return data;
 	}
 
 	public void setData(Date data) {
 		this.data = data;
-	}
-
-	public String getLoginAlteracao() {
-		return loginAlteracao;
-	}
-
-	public void setLoginAlteracao(String loginAlteracao) {
-		this.loginAlteracao = loginAlteracao;
 	}
 
 	public Date getDataAlteracao() {
@@ -109,6 +95,14 @@ public class ReqServUsuario implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public void setUsuarioAlteracao(Usuario usuarioAlteracao) {
+		this.usuarioAlteracao = usuarioAlteracao;
+	}
+
+	public Usuario getUsuarioAlteracao() {
+		return usuarioAlteracao;
 	}
 
 	public RequisicaoServico getReqServico() {
