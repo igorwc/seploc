@@ -372,7 +372,7 @@ public class ReportImpressaoReqServGenerator {
 		Connection conexao = new ConnectionFactory().getConnection("seploc2",
 				"root", "");
 		rr.setConnection(conexao);
-		rr.setNumRequisicao(4880);
+		rr.setNumRequisicao(10);
 		rr.geraDados();
 		rr.imprimeDados();
 		try {
