@@ -8,10 +8,12 @@ public abstract class Migra<T> {
 	protected List<T> lista;
 	protected Connection seplocConnection;
 	protected Connection copytecConnection;
+	protected int registrosInseridos;
 
 	public void setConexoes(Connection copytec, Connection seploc) {
 		copytecConnection = copytec;
 		seplocConnection = seploc;
+		registrosInseridos = 0;
 
 	}
 
@@ -31,13 +33,14 @@ public abstract class Migra<T> {
 	public void migraDados() throws Exception{
 		seleciona();
 		insereDados();
+		cqMigracao();
 		fechaConexoes();
 	}
 	
 	protected abstract void seleciona() throws Exception;
 
 	protected abstract void insereDados()  throws Exception;
-
+	protected abstract void cqMigracao() throws Exception;
 	public void setLista(List<T> lista) {
 		this.lista = lista;
 	}

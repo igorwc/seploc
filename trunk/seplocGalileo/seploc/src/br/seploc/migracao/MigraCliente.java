@@ -269,4 +269,10 @@ public class MigraCliente extends Migra<Cliente> {
 		}
 	}
 
+	@Override
+	protected void cqMigracao() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
