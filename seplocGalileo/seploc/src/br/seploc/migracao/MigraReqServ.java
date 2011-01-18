@@ -88,6 +88,12 @@ public class MigraReqServ extends Migra<RequisicaoServico>{
 		}
 	}
 
+	@Override
+	protected void cqMigracao() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
  

@@ -10,15 +10,16 @@ public class ConnectionFactory {
 			return DriverManager.getConnection("jdbc:mysql://localhost/"+BD,
 					user, passwd);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
-	public Connection getConnectionSeploc() {
-		try {
-			return DriverManager.getConnection("jdbc:mysql://localhost/fj21",
-					"root", "");
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
+//	public Connection getConnectionSeploc() {
+//		try {
+//			return DriverManager.getConnection("jdbc:mysql://localhost/fj21",
+//					"root", "");
+//		} catch (SQLException e) {
+//			throw new RuntimeException(e);
+//		}
+//	}
 }

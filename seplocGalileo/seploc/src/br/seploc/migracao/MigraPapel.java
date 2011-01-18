@@ -79,5 +79,11 @@ public class MigraPapel extends Migra<Papel> {
 		}
 	}
 
+	@Override
+	protected void cqMigracao() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
  
