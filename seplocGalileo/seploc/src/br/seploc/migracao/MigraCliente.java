@@ -3,8 +3,11 @@ package br.seploc.migracao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.seploc.migracao.beans.Cliente;
 import br.seploc.migracao.beans.FoneCli;
@@ -18,9 +21,32 @@ public class MigraCliente extends Migra<Cliente> {
 	List<FoneCli> listaTel;
 	List<Projeto> listaProj;
 	Integer idCliente = 1;
+	private static MigraCliente obj;
 
-	public static MigraCliente getInstance(Connection copytec, Connection seploc) {
-		MigraCliente obj = new MigraCliente();
+	public static MigraCliente getInstance(Connection copytec, Connection seploc)
+			throws Exception {
+		if (obj == null) {
+			obj = new MigraCliente();
+		}
+		if (copytec == null || seploc == null) {
+			throw new Exception("Não foi possível criar a instancia do objeto");
+		}
+		obj.setConexoes(copytec, seploc);
+		return obj;
+	}
+
+	public static MigraCliente getInstance(String[] bancoOrigem,
+			String[] bancoDestino) throws Exception {
+		if (obj == null) {
+			obj = new MigraCliente();
+		}
+		if (bancoDestino.length != 3 || bancoOrigem.length != 3) {
+			throw new Exception("Não foi possível criar a instancia do objeto");
+		}
+		Connection copytec = new ConnectionFactory().getConnection(
+				bancoOrigem[0], bancoOrigem[1], bancoOrigem[2]);
+		Connection seploc = new ConnectionFactory().getConnection(
+				bancoDestino[0], bancoDestino[1], bancoDestino[2]);
 		obj.setConexoes(copytec, seploc);
 		return obj;
 	}
@@ -122,10 +148,11 @@ public class MigraCliente extends Migra<Cliente> {
 				rs = stmt.executeQuery();
 				int cont = 1;
 				while (rs.next()) {
-					papelProblema += cont + ") CNPJ: " + rs.getString("vcrCnpj")
-							+ "\t\t\tRazao: " + rs.getString("vcrRazao") + "\n";
-					System.out.println("CNPJ: " + rs.getString("vcrCnpj")
-							+ " Razao: " + rs.getString("vcrRazao"));
+					papelProblema += cont + ") CNPJ: "
+							+ rs.getString("vcrCnpj") + "\t\t\tRazao: "
+							+ rs.getString("vcrRazao") + "\n";
+//					System.out.println("CNPJ: " + rs.getString("vcrCnpj")
+//							+ " Razao: " + rs.getString("vcrRazao"));
 				}
 
 				rs.close();
@@ -138,12 +165,10 @@ public class MigraCliente extends Migra<Cliente> {
 			stmt.close();
 		}
 
-		//verifica projetos sem clientes
-		stmt = copytecConnection
-				.prepareStatement("SELECT count(*) " +
-								  "FROM tbl_projetos " +
-								  "WHERE vcrCnpj NOT IN " +
-								  			"( SELECT vcrCnpj FROM tbl_clientes )");
+		// verifica projetos sem clientes
+		stmt = copytecConnection.prepareStatement("SELECT count(*) "
+				+ "FROM tbl_projetos " + "WHERE vcrCnpj NOT IN "
+				+ "( SELECT vcrCnpj FROM tbl_clientes )");
 		rs = stmt.executeQuery();
 		if (rs.next()) {
 			String projetosProblema = "";
@@ -155,17 +180,21 @@ public class MigraCliente extends Migra<Cliente> {
 				System.out.println("Registros Problematicos (" + regs + "): ");
 				stmt = copytecConnection
 						.prepareStatement("SELECT  intCodProj, vcrProjeto, vcrCnpj "
-								+  "FROM tbl_projetos " +
-								  "WHERE vcrCnpj NOT IN " +
-						  			"( SELECT vcrCnpj FROM tbl_clientes )"
+								+ "FROM tbl_projetos "
+								+ "WHERE vcrCnpj NOT IN "
+								+ "( SELECT vcrCnpj FROM tbl_clientes )"
 								+ " order by intCodProj asc");
 
 				rs = stmt.executeQuery();
 				while (rs.next()) {
-					projetosProblema += "Codigo Projeto : " + rs.getInt("intCodProj") + "\t\t\tDESCRICAO: " + rs.getString("vcrProjeto")
-							+ "\t\t\tCNPJ: " + rs.getString("vcrCnpj") + "\n";
-					System.out.println("Codigo Projeto : " + rs.getInt("intCodProj") + "\tDESCRICAO: " + rs.getString("vcrProjeto")
-							+ "\tcnpj: " + rs.getString("vcrCnpj"));
+					projetosProblema += "Codigo Projeto : "
+							+ rs.getInt("intCodProj") + "\t\t\tDESCRICAO: "
+							+ rs.getString("vcrProjeto") + "\t\t\tCNPJ: "
+							+ rs.getString("vcrCnpj") + "\n";
+//					System.out.println("Codigo Projeto : "
+//							+ rs.getInt("intCodProj") + "\tDESCRICAO: "
+//							+ rs.getString("vcrProjeto") + "\tcnpj: "
+//							+ rs.getString("vcrCnpj"));
 				}
 
 				rs.close();
@@ -181,6 +210,7 @@ public class MigraCliente extends Migra<Cliente> {
 
 	protected void insereDados() throws Exception {
 		Cliente controleCliente = null;
+//		Map< String, Integer> conversao = new HashMap<String, Integer>();
 		try {
 			String sql = "INSERT INTO  tbl_clientes (intClienteId, vcrCnpj, vcrRazao, "
 					+ "vcrCpf, vcrEnder, vcrBairro, vcrCidade, vcrEstado, vcrCep, vcrEmail,"
@@ -190,9 +220,9 @@ public class MigraCliente extends Migra<Cliente> {
 			for (Cliente cl : listaClientes) {
 				PreparedStatement stmt = seplocConnection.prepareStatement(sql);
 				controleCliente = cl;
-				if (cl.getCnpj() == null) {
-					cl.setCnpj(" ");
-				}
+//				if (cl.getCnpj() == null) {
+//					cl.setCnpj(" ");
+//				}
 				if (cl.getCnpj().length() == 19 && cl.getCnpj().endsWith("99")) {
 					cl.setCnpj(null);
 				}
@@ -200,21 +230,85 @@ public class MigraCliente extends Migra<Cliente> {
 					cl.setCpf(null);
 				}
 				stmt.setInt(1, cl.getId());
-				stmt.setString(2, cl.getCnpj());
+				if (cl.getCnpj() == null) {
+					stmt.setNull(2, java.sql.Types.VARCHAR);
+				} else if (cl.getCnpj().length() > 20) {
+//					conversao.put(cl.getCnpj(),cl.getId());
+					stmt.setNull(2, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(2, cl.getCnpj());
+				}
+//				stmt.setString(2, cl.getCnpj());
 				stmt.setString(3, cl.getRazao());
-				stmt.setString(4, cl.getCpf());
-				stmt.setString(5, cl.getEndereco());
-				stmt.setString(6, cl.getBairro());
-				stmt.setString(7, cl.getCidade());
-				stmt.setString(8, cl.getEstado());
-				stmt.setString(9, cl.getCep());
-				stmt.setString(10, cl.getEmail());
-				stmt.setString(11, cl.getInscricao());
-				stmt.setInt(12, cl.getBalcao());
-				stmt.setString(13, cl.getFantasia());
-				stmt.setString(14, cl.getObs());
-				stmt.setString(15, cl.getMapa());
-				stmt.setInt(16, cl.getEntrega());
+				if (cl.getCpf() == null) {
+					stmt.setNull(4, java.sql.Types.VARCHAR);
+				} else if (cl.getCpf().length() > 20) {
+//					conversao.put(cl.getCnpj(),cl.getId());
+					stmt.setNull(4, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(4, cl.getCpf());
+				}
+//				stmt.setString(4, cl.getCpf());
+				if (cl.getEndereco() == null) {
+					stmt.setNull(5, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(5, cl.getEndereco());
+				}
+				if (cl.getBairro() == null) {
+					stmt.setNull(6, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(6, cl.getBairro());
+				}
+				if (cl.getCidade() == null) {
+					stmt.setNull(7, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(7, cl.getCidade());
+				}
+				if (cl.getEstado() == null) {
+					stmt.setNull(8, java.sql.Types.CHAR);
+				} else {
+					stmt.setString(8, cl.getEstado());
+				}
+				if (cl.getCep() == null) {
+					stmt.setNull(9, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(9, cl.getCep());
+				}
+				if (cl.getEmail() == null) {
+					stmt.setNull(10, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(10, cl.getEmail());
+				}
+				if (cl.getInscricao() == null) {
+					stmt.setNull(11, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(11, cl.getInscricao());
+				}
+				if (cl.getBalcao() == null) {
+					stmt.setNull(12, java.sql.Types.INTEGER);
+				} else {
+					stmt.setInt(12, cl.getBalcao());
+				}
+				if (cl.getFantasia() == null) {
+					stmt.setNull(13, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(13, cl.getFantasia());
+				}
+				if (cl.getObs() == null) {
+					stmt.setNull(14, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(14, cl.getObs());
+				}
+				if (cl.getMapa() == null) {
+					stmt.setNull(15, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(15, cl.getMapa());
+				}
+				if (cl.getEntrega() == null) {
+					stmt.setNull(16, java.sql.Types.INTEGER);
+				} else {
+					stmt.setInt(16, cl.getEntrega());
+				}
 				if (cl.getPapel() == null || cl.getPapel() == 0) {
 					stmt.setNull(17, java.sql.Types.INTEGER);
 				} else {
@@ -231,10 +325,26 @@ public class MigraCliente extends Migra<Cliente> {
 				PreparedStatement stmt = seplocConnection.prepareStatement(sql);
 
 				stmt.setInt(1, fone.getId());
-				stmt.setString(2, fone.getFoneR());
-				stmt.setString(3, fone.getFoneCom());
-				stmt.setString(4, fone.getFax());
-				stmt.setString(5, fone.getCel());
+				if (fone.getFoneR() == null) {
+					stmt.setNull(2, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(2, fone.getFoneR());
+				}
+				if (fone.getFoneCom() == null) {
+					stmt.setNull(3, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(3, fone.getFoneCom());
+				}
+				if (fone.getFax() == null) {
+					stmt.setNull(4, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(4, fone.getFax());
+				}
+				if (fone.getCel() == null) {
+					stmt.setNull(5, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(5, fone.getCel());
+				}
 				stmt.execute();
 				stmt.close();
 			}
@@ -245,6 +355,11 @@ public class MigraCliente extends Migra<Cliente> {
 				PreparedStatement stmt = seplocConnection.prepareStatement(sql);
 				stmt.setInt(1, p.getCodProj());
 				stmt.setInt(2, p.getId());
+				if ( p.getDescProj() == null) {
+					stmt.setNull(3, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(3,  p.getDescProj());
+				}
 				stmt.setString(3, p.getDescProj());
 				stmt.execute();
 				stmt.close();
@@ -256,14 +371,50 @@ public class MigraCliente extends Migra<Cliente> {
 	}
 
 	public static void main(String args[]) {
-		MigraCliente migra = MigraCliente.getInstance(new ConnectionFactory()
-				.getConnection("dbcopytec2", "root", ""),
-				new ConnectionFactory().getConnection("seploc2", "root", ""));
+		String[] origem = { "dbcopytec", "root", "" };
+		String[] destino = { "seplocteste", "root", "" };
+		// MigraCliente migra = MigraCliente.getInstance(new ConnectionFactory()
+		// .getConnection("dbcopytec2", "root", ""),
+		// new ConnectionFactory().getConnection("seploc2", "root", ""));
 		try {
+			MigraCliente migra = MigraCliente.getInstance(origem, destino);
 			migra.migraDados();
 
 			System.out.println("terminou");
 		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+
+	private void cqMigracao(String tabela) throws Exception {
+		int regSeploc = 0, regCopytec = 0, diferenca = 0;
+		try {
+			PreparedStatement stmtCopytec = copytecConnection
+					.prepareStatement("SELECT count(*) FROM " + tabela + " ");
+			PreparedStatement stmtseploc = seplocConnection
+					.prepareStatement("SELECT count(*) FROM " + tabela + " ");
+			ResultSet rsCopytec = stmtCopytec.executeQuery();
+			ResultSet rsSeploc = stmtseploc.executeQuery();
+			if (rsCopytec.next()) {
+				regCopytec = rsCopytec.getInt(1);
+			}
+			if (rsSeploc.next()) {
+				regSeploc = rsSeploc.getInt(1);
+			}
+			rsCopytec.close();
+			rsSeploc.close();
+			stmtCopytec.close();
+			stmtseploc.close();
+			String saida = "";
+			saida += "REGISTROS COPYTEC " + tabela + ": " + regCopytec + "\n"
+					+ "REGISTROS SEPLOC " + tabela + ": " + regSeploc + "\n"
+					+ "-----------------------------\n"
+					+ "DIFERENCA REGISTROS " + tabela + ": "
+					+ (regCopytec - regSeploc) + "\n" + "REGISTROS INSERIDOS: "
+					+ registrosInseridos + "\n";
+			System.out.println(saida);
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -271,8 +422,9 @@ public class MigraCliente extends Migra<Cliente> {
 
 	@Override
 	protected void cqMigracao() throws Exception {
-		// TODO Auto-generated method stub
-		
+		cqMigracao("tbl_clientes");
+		cqMigracao("tbl_fonecli");
+		cqMigracao("tbl_projetos");
 	}
 
 }

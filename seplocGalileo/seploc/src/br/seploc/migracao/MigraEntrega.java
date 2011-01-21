@@ -5,18 +5,41 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import br.seploc.migracao.beans.Entrega;
 
 public class MigraEntrega extends Migra<Entrega> {
 
+	private static MigraEntrega obj;
+
 	private MigraEntrega() {
 		lista = new ArrayList<Entrega>();
 	}
 
-	public static MigraEntrega getInstance(Connection copytec, Connection seploc) {
-		MigraEntrega obj = new MigraEntrega();
+	public static MigraEntrega getInstance(Connection copytec, Connection seploc)
+			throws Exception {
+		if (obj == null) {
+			obj = new MigraEntrega();
+		}
+		if (copytec == null || seploc == null) {
+			throw new Exception("Não foi possível criar a instancia do objeto");
+		}
+		obj.setConexoes(copytec, seploc);
+		return obj;
+	}
+
+	public static MigraEntrega getInstance(String[] bancoOrigem,
+			String[] bancoDestino) throws Exception {
+		if (obj == null) {
+			obj = new MigraEntrega();
+		}
+		if (bancoDestino.length != 3 || bancoOrigem.length != 3) {
+			throw new Exception("Não foi possível criar a instancia do objeto");
+		}
+		Connection copytec = new ConnectionFactory().getConnection(
+				bancoOrigem[0], bancoOrigem[1], bancoOrigem[2]);
+		Connection seploc = new ConnectionFactory().getConnection(
+				bancoDestino[0], bancoDestino[1], bancoDestino[2]);
 		obj.setConexoes(copytec, seploc);
 		return obj;
 	}
@@ -86,8 +109,8 @@ public class MigraEntrega extends Migra<Entrega> {
 					+ "REGISTROS SEPLOC TBL_ENTREGA: " + regSeploc + "\n"
 					+ "-----------------------------\n"
 					+ "DIFERENCA REGISTROS TBL_ENTREGA: "
-					+ (regCopytec - regSeploc) + "\n" +
-					"REGISTROS INSERIDOS: "+registrosInseridos;
+					+ (regCopytec - regSeploc) + "\n" + "REGISTROS INSERIDOS: "
+					+ registrosInseridos;
 			System.out.println(saida);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -96,17 +119,15 @@ public class MigraEntrega extends Migra<Entrega> {
 	}
 
 	public static void main(String args[]) {
-		MigraEntrega migra = MigraEntrega.getInstance(new ConnectionFactory()
-				.getConnection("dbcopytec2", "root", ""),
-				new ConnectionFactory()
-						.getConnection("seplocteste", "root", ""));
+		String[] origem = { "dbcopytec", "root", "" };
+		String[] destino = { "seplocteste", "root", "" };
 
 		try {
-
+			MigraEntrega migra = MigraEntrega.getInstance(origem, destino);
 			migra.migraDados();
-			for (Entrega e : migra.getLista()) {
-				System.out.println(e.getCod() + " " + e.getLocal());
-			}
+//			for (Entrega e : migra.getLista()) {
+//				System.out.println(e.getCod() + " " + e.getLocal());
+//			}
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -6,9 +6,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.seploc.migracao.beans.Cliente;
 import br.seploc.migracao.beans.Opcional;
 
-public class MigraOpcionais {
+public class MigraOpcionais extends Migra<Cliente> {
 	
 	public List<Opcional> seleciona(Connection c) throws Exception {
 		int cont = 1;
@@ -49,14 +50,14 @@ public class MigraOpcionais {
 	public static void main(String[] args) {
 		MigraOpcionais migra = new MigraOpcionais();
 		try {
-			Connection c = new ConnectionFactory().getConnection("copytec",
+			Connection c = new ConnectionFactory().getConnection("dbcopytec",
 					"root", "");
 			List<Opcional> lista = migra.seleciona(c);
 			for (Opcional op : lista) {
 				System.out.println(op.getId()+ " " + op.getVcrNomeItem());
 			}
 			c.close();
-			c = new ConnectionFactory().getConnection("seploc2", "root", "");
+			c = new ConnectionFactory().getConnection("seplocteste", "root", "");
 			migra.insereDados(c, lista);
 			// c.commit();
 			c.close();
@@ -65,6 +66,24 @@ public class MigraOpcionais {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	protected void cqMigracao() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void insereDados() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void seleciona() throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
