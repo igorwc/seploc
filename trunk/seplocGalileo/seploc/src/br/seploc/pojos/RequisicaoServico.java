@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
@@ -60,7 +61,7 @@ public class RequisicaoServico implements Serializable {
 	private Date data;
 
 	@Column(name = "dblValorEnt")
-	private Double valorEnt;
+	private Double valorEnt;	
 
 	@Column(name = "dblValorTotal")
 	private Double valorTotal;
@@ -104,24 +105,31 @@ public class RequisicaoServico implements Serializable {
 			CascadeType.PERSIST, CascadeType.REMOVE })
 	private List<ReqServicosOpcionais> opcionais;
 
-	@OneToMany(mappedBy = "reqServico")
-	private List<ReqServUsuario> requisicoesUsuarios;
+//	@OneToMany(mappedBy = "reqServico")
+//	private List<ReqServUsuario> requisicoesUsuarios;
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE,
+			CascadeType.PERSIST, CascadeType.REMOVE })
+	@JoinColumn(name = "intNumReq", referencedColumnName = "intNumReq")
+	private ReqServUsuario requisicaoUsuario;
 
 	@OneToMany(mappedBy = "reqServico")
 	private List<SaidaMotoqueiro> saidasMotoqueiros;
 
-	@OneToMany(mappedBy = "reqServico")
-	private List<StatusCobranca> statusCobrancas;
+//	@OneToMany(mappedBy = "reqServico")
+//	private List<StatusCobranca> statusCobrancas;
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE,
+			CascadeType.PERSIST, CascadeType.REMOVE })
+	@JoinColumn(name = "intNumReq", referencedColumnName = "intNumReq")
+	private StatusCobranca statusCobranca;	
+	
 
 	public RequisicaoServico() {
-		setOpcionais(new ArrayList<ReqServicosOpcionais>());
-		setRequisicoesUsuarios(new ArrayList<ReqServUsuario>());
+		setOpcionais(new ArrayList<ReqServicosOpcionais>());		
 		setSaidasMotoqueiros(new ArrayList<SaidaMotoqueiro>());
-		setStatusCobrancas(new ArrayList<StatusCobranca>());
-		setLinhaRequisicao(new ArrayList<LinhaRequisicao>());
-		setOrcamento(0);
-	}
-
+		setLinhaRequisicao(new ArrayList<LinhaRequisicao>());		
+		setOrcamento(0);	
+	}	
+	
 	public Integer getNumReq() {
 		return numReq;
 	}
@@ -234,12 +242,12 @@ public class RequisicaoServico implements Serializable {
 		this.opcionais = opcionais;
 	}
 
-	public List<ReqServUsuario> getRequisicoesUsuarios() {
-		return requisicoesUsuarios;
+	public void setRequisicaoUsuario(ReqServUsuario requisicaoUsuario) {
+		this.requisicaoUsuario = requisicaoUsuario;
 	}
 
-	public void setRequisicoesUsuarios(List<ReqServUsuario> requisicoesUsuarios) {
-		this.requisicoesUsuarios = requisicoesUsuarios;
+	public ReqServUsuario getRequisicaoUsuario() {
+		return requisicaoUsuario;
 	}
 
 	public List<SaidaMotoqueiro> getSaidasMotoqueiros() {
@@ -250,12 +258,12 @@ public class RequisicaoServico implements Serializable {
 		this.saidasMotoqueiros = saidasMotoqueiros;
 	}
 
-	public List<StatusCobranca> getStatusCobrancas() {
-		return statusCobrancas;
+	public StatusCobranca getStatusCobranca() {
+		return statusCobranca;
 	}
 
-	public void setStatusCobrancas(List<StatusCobranca> statusCobrancas) {
-		this.statusCobrancas = statusCobrancas;
+	public void setStatusCobranca(StatusCobranca statusCobranca) {
+		this.statusCobranca = statusCobranca;
 	}
 
 	public static long getSerialversionuid() {
