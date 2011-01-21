@@ -66,7 +66,7 @@ public class RequisicaoServicoDAO extends
 					em.persist(t);
 				}
 				t.setLinhaRequisicao(linhas);
-			}
+			}			
 			
 			em.merge(t);
 
@@ -295,7 +295,7 @@ public class RequisicaoServicoDAO extends
 	}
 	
 	public void registraUsuarioCriador(Usuario u, RequisicaoServico r){
-		ReqServUsuario usuario = new ReqServUsuario(u.getLogin(), r.getNumReq());
+		ReqServUsuario usuario = new ReqServUsuario(u, r);
 		em.getTransaction().begin();
 		em.merge(usuario);
 		em.getTransaction().commit();		
@@ -305,7 +305,7 @@ public class RequisicaoServicoDAO extends
 	public void registraUsuarioAlterador(Usuario u, RequisicaoServico r){		
 		em.getTransaction().begin();
 		ReqServUsuario usuario = em.find(ReqServUsuario.class, r.getNumReq());
-		usuario.setLoginAlteracao(u.getLogin());
+		usuario.setUsuario(u);
 		// setar data de criacao da requisicao
 		java.util.Date data = new java.util.Date();
 		java.sql.Date hoje = new java.sql.Date(data.getTime());
