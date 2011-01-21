@@ -17,6 +17,7 @@ public abstract class Migra<T> {
 
 	}
 
+	
 	public List<T> getLista() {
 		return lista;
 	}

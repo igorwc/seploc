@@ -3,6 +3,7 @@ package br.seploc.migracao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import br.seploc.migracao.beans.Papel;
@@ -13,8 +14,32 @@ public class MigraPapel extends Migra<Papel> {
 		// TODO Auto-generated constructor stub
 	}
 
-	public static MigraPapel getInstance(Connection copytec, Connection seploc) {
-		MigraPapel obj = new MigraPapel();
+	private static MigraPapel obj;
+
+	public static MigraPapel getInstance(Connection copytec, Connection seploc)
+			throws Exception {
+		if (obj == null) {
+			obj = new MigraPapel();
+		}
+		if (copytec == null || seploc == null) {
+			throw new Exception("Não foi possível criar a instancia do objeto");
+		}
+		obj.setConexoes(copytec, seploc);
+		return obj;
+	}
+
+	public static MigraPapel getInstance(String[] bancoOrigem,
+			String[] bancoDestino) throws Exception {
+		if (obj == null) {
+			obj = new MigraPapel();
+		}
+		if (bancoDestino.length != 3 || bancoOrigem.length != 3) {
+			throw new Exception("Não foi possível criar a instancia do objeto");
+		}
+		Connection copytec = new ConnectionFactory().getConnection(
+				bancoOrigem[0], bancoOrigem[1], bancoOrigem[2]);
+		Connection seploc = new ConnectionFactory().getConnection(
+				bancoDestino[0], bancoDestino[1], bancoDestino[2]);
 		obj.setConexoes(copytec, seploc);
 		return obj;
 	}
@@ -63,27 +88,50 @@ public class MigraPapel extends Migra<Papel> {
 	}
 
 	public static void main(String args[]) {
-		MigraPapel migra =  MigraPapel.getInstance(new ConnectionFactory().getConnection("dbcopytec2",
-					"root", ""), new ConnectionFactory().getConnection("seploc2", "root", ""));
+		String[] origem = { "dbcopytec", "root", "" };
+		String[] destino = { "seplocteste", "root", "" };
 		try {
-			 
-			 migra.migraDados();
-			for (Papel p : migra.getLista()) {
-				System.out.println(p.getCod() + " " + p.getNome());
-			}
-			 
-			 
+			MigraPapel migra = MigraPapel.getInstance(origem, destino);
+			migra.migraDados();
+
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 
 	@Override
 	protected void cqMigracao() throws Exception {
-		// TODO Auto-generated method stub
-		
+		int regSeploc = 0, regCopytec = 0, diferenca = 0;
+		try {
+			PreparedStatement stmtCopytec = copytecConnection
+					.prepareStatement("SELECT count(*) FROM tbl_papel");
+			PreparedStatement stmtseploc = seplocConnection
+					.prepareStatement("SELECT count(*) FROM tbl_papel");
+			ResultSet rsCopytec = stmtCopytec.executeQuery();
+			ResultSet rsSeploc = stmtseploc.executeQuery();
+			if (rsCopytec.next()) {
+				regCopytec = rsCopytec.getInt(1);
+			}
+			if (rsSeploc.next()) {
+				regSeploc = rsSeploc.getInt(1);
+			}
+			rsCopytec.close();
+			rsSeploc.close();
+			stmtCopytec.close();
+			stmtseploc.close();
+			String saida = "";
+			saida += "REGISTROS COPYTEC TBL_PAPEL: " + regCopytec + "\n"
+					+ "REGISTROS SEPLOC TBL_PAPEL: " + regSeploc + "\n"
+					+ "-----------------------------\n"
+					+ "DIFERENCA REGISTROS TBL_PAPEL: "
+					+ (regCopytec - regSeploc) + "\n" + "REGISTROS INSERIDOS: "
+					+ registrosInseridos;
+			System.out.println(saida);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
- 

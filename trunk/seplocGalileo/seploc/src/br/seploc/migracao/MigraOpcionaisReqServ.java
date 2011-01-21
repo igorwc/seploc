@@ -75,7 +75,7 @@ public class MigraOpcionaisReqServ {
 		PreparedStatement stmt = copytecConnection
 				.prepareStatement("SELECT  intNumReq, intCodOp, vcrCod, intQuant" +
 								  " FROM tbl_reqservopcionais " +
-								  "where intNumReq in (select intNumReq from seploc2.tbl_reqserv) " +
+								  "where intNumReq in (select intNumReq from seplocteste.tbl_reqserv) " +
 								  "order by intNumReq,intCodOp asc");
 		// executa um select
 		ResultSet rs = stmt.executeQuery();
@@ -106,10 +106,10 @@ public class MigraOpcionaisReqServ {
 								  "where intNumReq not in (select intNumReq from tbl_reqserv) " +
 								  "order by intNumReq,intCodOp asc");
 				  rs = stmt.executeQuery();
-				  while(rs.next()){
-					  System.out.println("intNumReq: " + rs.getInt("intNumReq")
-								+" Mnemonico: "+ rs.getString("vcrCod")+" quantidade: "+rs.getInt("intQuant"));
-				  }
+//				  while(rs.next()){
+//					  System.out.println("intNumReq: " + rs.getInt("intNumReq")
+//								+" Mnemonico: "+ rs.getString("vcrCod")+" quantidade: "+rs.getInt("intQuant"));
+//				  }
 			  
 		  }
 		}
@@ -146,8 +146,8 @@ public class MigraOpcionaisReqServ {
 	public static void main(String[] args) {
 		
 		try {
-				MigraOpcionaisReqServ migra = new MigraOpcionaisReqServ(new ConnectionFactory().getConnection("dbcopytec2",
-					"root", ""),new ConnectionFactory().getConnection("seploc2", "root", ""));
+				MigraOpcionaisReqServ migra = new MigraOpcionaisReqServ(new ConnectionFactory().getConnection("dbcopytec",
+					"root", ""),new ConnectionFactory().getConnection("seplocteste", "root", ""));
 			List<OpcionalReqServ> lista = migra.seleciona();
 			for (OpcionalReqServ op : lista) {
 				System.out.println(op);

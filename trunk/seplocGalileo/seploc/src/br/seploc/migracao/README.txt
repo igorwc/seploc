@@ -8,3 +8,6 @@ Para garantia de consistencia dos dados, a ordem de migração é a seguinte:
 5 - Requisicoes
 6 - OpcionaisReqServ
 7 - LinhaRequisicoes
+8 - Cobrador
+9 - StatusCobranca
+10 - SaidaMotoqueiro
