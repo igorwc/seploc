@@ -4,6 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
 	template="../templatepage/masterpage.xhtml">
 
 	<!-- TAXINOMIA -->
@@ -72,11 +73,12 @@
 								<td width="100px"><h:outputText value="Requisicao: " styleClass="texto" /></td>
 								<td width="250px"><h:outputText value="Cliente: " styleClass="texto" /></td>
 								<td width="250px"><h:outputText value="Projeto: " styleClass="texto" /></td>								
-								<td width="200px"><h:outputText value="Data Inicio: " styleClass="texto" /></td>
-								<td width="200px"><h:outputText value="Data Fim: " styleClass="texto" /></td>
+								<td width="100px"><h:outputText value="Motoqueiro: " styleClass="texto" /></td>								
+								<td width="150px"><h:outputText value="Data Inicio: " styleClass="texto" /></td>
+								<td width="150px"><h:outputText value="Data Fim: " styleClass="texto" /></td>
 							</tr>
 							<tr>
-								<td><h:inputText value="#{reqServListaSaidaCB.reqServSaidasMB.numReqBusca}" 
+								<td><h:inputText value="#{reqServListaSaidaCB.reqServSaidasMB.reqServico.numReq}" 
 												 id="numReq"
 												 size="10">
 										<a4j:support event="onChange" reRender="reqServListTodos"/>
@@ -99,7 +101,15 @@
 						   						 id="editlinkproj" 
 												 oncomplete="#{rich:component('modalProjeto')}.show();return false;">
 										<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
-									</a4j:commandLink></td>
+									</a4j:commandLink></td>									
+								<td>
+									<h:selectOneMenu value="#{reqServListaSaidaCB.reqServSaidasMB.cobrador}" id="cobrador">
+					                                <f:selectItem itemLabel="Selecione" itemValue="-1"></f:selectItem>
+					                                <t:selectItems value="#{reqServListaSaidaCB.reqServSaidasMB.todosCobradores}"
+					                                			   var="cobrador" 
+					                                               itemLabel="#{cobrador.nome}" 
+					                                               itemValue="#{cobrador.codCobrador}" />					                                	                    			
+				                    			</h:selectOneMenu></td>								
 								<td>
 	                                <rich:calendar value="#{reqServListaSaidaCB.reqServSaidasMB.dataInicio}"
 	                                           locale="#{reqServListaSaidaCB.locale}"
@@ -112,6 +122,14 @@
 	                                           <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
 	                                           <a4j:support event="onchanged" action="#{reqServListaSaidaCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos" />
 	                                </rich:calendar></td>
+	                            <td>
+	                                <h:selectOneMenu value="#{reqServListaSaidaCB.reqServSaidasMB}" id="papel">
+					                                <f:selectItem itemLabel="Selecione" itemValue="-1"></f:selectItem>
+					                                <t:selectItems value="#{reqServClienteCB.reqServMB.todosPapeis}"
+					                                			   var="papel" 
+					                                               itemLabel="#{papel.nome}" 
+					                                               itemValue="#{papel.codPapel}" />					                                	                    			
+				                    			</h:selectOneMenu></td>
 								<td>
 	                                <rich:calendar value="#{reqServListaSaidaCB.reqServSaidasMB.dataFim}"
 	                                           locale="#{reqServListaSaidaCB.locale}"
@@ -139,6 +157,11 @@
 							<tr>
 								<td colspan="5" align="center">
 								<!-- Botoes --> 
+								<a4j:commandButton
+									value="Atualizar Registro"
+									action="#{reqServListaSaidaCB.reqServSaidasMB.cadastrar}"
+									reRender="reqServFiltros,reqServListTodos"/>
+								<rich:spacer width="5px"/>								
 								<a4j:commandButton
 									value="Pesquisar Numero Requisicao"
 									action="#{reqServListaSaidaCB.reqServSaidasMB.pesquisar}"
