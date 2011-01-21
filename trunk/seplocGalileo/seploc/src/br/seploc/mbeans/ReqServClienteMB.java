@@ -15,6 +15,7 @@ import br.seploc.pojos.OpcionaisReqServ;
 import br.seploc.pojos.Entrega;
 import br.seploc.pojos.Papel;
 import br.seploc.pojos.Projeto;
+import br.seploc.pojos.ReqServUsuario;
 import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.pojos.Usuario;
@@ -49,7 +50,7 @@ public class ReqServClienteMB implements Serializable {
 	private int numReqAtual;
 	private int numReqBusca;
 	private Integer numReqSessao;
-	
+	private ReqServUsuario reqServUsuario;
 
 	// CONSTRUTOR
 	/**
@@ -213,6 +214,14 @@ public class ReqServClienteMB implements Serializable {
 		this.numReqBusca = numReqBusca;
 	}
 
+	public void setReqServUsuario(ReqServUsuario reqServUsuario) {
+		this.reqServUsuario = reqServUsuario;
+	}
+
+	public ReqServUsuario getReqServUsuario() {
+		return reqServUsuario;
+	}
+
 	public RequisicaoServicoDAO getReqServicoDAO() {
 		return reqServicoDAO;
 	}
@@ -317,6 +326,18 @@ public class ReqServClienteMB implements Serializable {
 				reqServico.setVisivelReq(0);
 				reqServico.setOrcamento(0);
 				
+				// usuario que criou a requisicao
+				//String login;
+				//login = SessionObjectsManager.recuperaObjetoSessao("loginUser").toString();
+				//login = "gustavo";
+				//UsuarioDAO usuarioDAO = new UsuarioDAO();
+				//List<Usuario> lu = usuarioDAO.getListaUsuariosPorLogin(login);
+				//for (Usuario u : lu){
+//					System.out.println("Usuario: "+u.getLogin());
+					 
+					 
+//				}								
+								
 				// adicionar a requisicao de servico se um dos itens obrigatoriso existirem
 				if (existeLinha || existeOpcional){
 					reqServicoDAO.adiciona(reqServico);
@@ -325,7 +346,14 @@ public class ReqServClienteMB implements Serializable {
 				}
 
 				// recuperar a requisicao							
-				reqServico = reqServicoDAO.recupera(reqServico.getNumReq());								
+				reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+				
+				// registrar usuario que criou a requisicao
+				Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");
+				System.out.println("Usuario Criador: "+user.getLogin());
+				reqServUsuario = new ReqServUsuario(user, reqServico);
+				reqServico.setRequisicaoUsuario(reqServUsuario);
+				
 				//reqServicoDAO.refresh(reqServico);
 				
 				// adicionar o opcional
@@ -359,8 +387,7 @@ public class ReqServClienteMB implements Serializable {
 				}				
 				reqServicoDAO.altera(reqServico);
 				calcularTotal(reqServico);
-				setValorTotalReq(reqServico.getValorTotal());
-				usuarioCriouReqServ(reqServico);
+				setValorTotalReq(reqServico.getValorTotal());				
 				addGlobalMessage("Inclusão feita com sucesso!");
 			} catch (ValidatorException e) {
 				addGlobalMessage(e.getMessage());
@@ -548,8 +575,8 @@ public class ReqServClienteMB implements Serializable {
 	
 	public void getReqServSessao(){
 		try {			
-			numReqSessao = (Integer) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("numReqServ");
-			if (numReqSessao > 0 && numReqSessao != null){
+			numReqSessao = (Integer) SessionObjectsManager.recuperaObjetoSessao("numReqServ");
+			if (numReqSessao != null && numReqSessao > 0){
 				reqServico = reqServicoDAO.recupera(numReqSessao);
 				projeto = reqServico.getProjeto();
 				cliente = projeto.getCliente();

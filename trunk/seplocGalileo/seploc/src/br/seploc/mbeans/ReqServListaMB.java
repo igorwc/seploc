@@ -16,6 +16,7 @@ import br.seploc.pojos.LinhaRequisicao;
 import br.seploc.pojos.Projeto;
 import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
+import br.seploc.util.SessionObjectsManager;
 
 public class ReqServListaMB implements Serializable {
 	
@@ -195,7 +196,7 @@ public class ReqServListaMB implements Serializable {
 	}
 	
 	public String editar(){		
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("numReqServ", reqServico.getNumReq());
+		SessionObjectsManager.adicionaObjetoSessao("numReqServ", reqServico.getNumReq());
 		return "reqServ";				
 	}
 	
