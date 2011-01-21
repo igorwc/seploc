@@ -8,17 +8,24 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import br.seploc.dao.CobradorDAO;
 import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
+import br.seploc.dao.StatusCobrancaDAO;
 import br.seploc.pojos.Cliente;
+import br.seploc.pojos.Cobrador;
 import br.seploc.pojos.Projeto;
 import br.seploc.pojos.RequisicaoServico;
+import br.seploc.pojos.StatusCobranca;
 
 public class ReqServListaSaidaMB implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private RequisicaoServico reqServico;
 	private RequisicaoServicoDAO reqServicoDAO;
+	private Cobrador cobrador;	
+	private StatusCobranca statusCobranca;
+	private StatusCobrancaDAO statusCobrancaDAO;
 	private int numReqBusca;
 	private int numReqVisualizar;
 	private int projetoID;
@@ -31,6 +38,7 @@ public class ReqServListaSaidaMB implements Serializable {
 	private Projeto projeto;
 	private boolean datasInvalidas = false;
 
+	
 	// CONTRUTOR
 	public ReqServListaSaidaMB(){
 		this.load();
@@ -62,6 +70,30 @@ public class ReqServListaSaidaMB implements Serializable {
 
 	public void setReqServicoDAO(RequisicaoServicoDAO reqServicoDAO) {
 		this.reqServicoDAO = reqServicoDAO;
+	}
+
+	public Cobrador getCobrador() {
+		return cobrador;
+	}
+
+	public void setCobrador(Cobrador cobrador) {
+		this.cobrador = cobrador;
+	}
+
+	public StatusCobranca getStatusCobranca() {
+		return statusCobranca;
+	}
+
+	public void setStatusCobranca(StatusCobranca statusCobranca) {
+		this.statusCobranca = statusCobranca;
+	}
+
+	public StatusCobrancaDAO getStatusCobrancaDAO() {
+		return statusCobrancaDAO;
+	}
+
+	public void setStatusCobrancaDAO(StatusCobrancaDAO statusCobrancaDAO) {
+		this.statusCobrancaDAO = statusCobrancaDAO;
 	}
 
 	public int getNumReqBusca() {
@@ -171,6 +203,10 @@ public class ReqServListaSaidaMB implements Serializable {
 		
 	}
 	
+	public void cadastrar(){
+		
+	}
+	
 	private Calendar getDayAgo(int dias){
 		Calendar dia = Calendar.getInstance();
 		//dias atras
@@ -193,6 +229,15 @@ public class ReqServListaSaidaMB implements Serializable {
 		
 		return retorno;
 	}		
+	
+	public List<Cobrador> getTodosCobradores(){
+		List<Cobrador> retorno = null;
+		
+		CobradorDAO cobradorDAO = new CobradorDAO();
+		retorno = cobradorDAO.getLista();
+		
+		return retorno;
+	}
 	
 	/**
 	 * Metodo para incluir mensagens globais no formulario
