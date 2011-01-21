@@ -11,9 +11,14 @@ import java.util.Date;
 public class ReqServUsuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "intNumReq", nullable = false)
-	private Integer numReqServ;
+//	@Id
+//	@Column(name = "intNumReq", nullable = false)
+//	private Integer numReqServ;
+	
+	@Id	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "intNumReq", referencedColumnName = "intNumReq", updatable = false, insertable = false)
+	private RequisicaoServico reqServico;	
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "datData")
@@ -39,31 +44,26 @@ public class ReqServUsuario implements Serializable {
 	@JoinColumn(name = "intCodUsrAlter", referencedColumnName = "intCodUsr", updatable = false, insertable = false)
 	private Usuario usuarioAlteracao;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "intNumReq", referencedColumnName = "intNumReq", updatable = false, insertable = false)
-	private RequisicaoServico reqServico;
-
-	
 	public ReqServUsuario() {
 
 	}
 
-	public ReqServUsuario(Integer numReqServ) {
-		this.setNumReqServ(numReqServ);		
+	public ReqServUsuario(RequisicaoServico requisicao) {
+		this.setReqServico(requisicao);		
 	}
 
 	public ReqServUsuario(Usuario usuario, RequisicaoServico reqServ) {
-		this.setNumReqServ(reqServ.getNumReq());
+		this.setReqServico(reqServ);
 		this.setUsuario(usuario);
 	}
 	
-	public void setNumReqServ(Integer numReqServ) {
-		this.numReqServ = numReqServ;
-	}
-
-	public Integer getNumReqServ() {
-		return numReqServ;
-	}
+//	public void setNumReqServ(Integer numReqServ) {
+//		this.numReqServ = numReqServ;
+//	}
+//
+//	public Integer getNumReqServ() {
+//		return numReqServ;
+//	}
 
 	public Date getData() {
 		return data;
@@ -121,7 +121,7 @@ public class ReqServUsuario implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((numReqServ == null) ? 0 : numReqServ.hashCode());
+		result = prime * result + ((reqServico == null) ? 0 : reqServico.hashCode());
 		return result;
 	}
 
@@ -134,10 +134,10 @@ public class ReqServUsuario implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ReqServUsuario other = (ReqServUsuario) obj;
-		if (numReqServ == null) {
-			if (other.numReqServ != null)
+		if (reqServico == null) {
+			if (other.reqServico != null)
 				return false;
-		} else if (!numReqServ.equals(other.numReqServ))
+		} else if (!reqServico.equals(other.reqServico))
 			return false;
 		return true;
 	}
@@ -145,7 +145,7 @@ public class ReqServUsuario implements Serializable {
 	@Override
 	public String toString() {
 		return "ReqServUsuario ["
-				+ (getNumReqServ() != null ? "getNumReqServ()=" + getNumReqServ() : "") + "]";
+				+ (getReqServico().getNumReq() != null ? "getNumReqServ()=" + getReqServico().getNumReq() : "") + "]";
 	}
 
 }

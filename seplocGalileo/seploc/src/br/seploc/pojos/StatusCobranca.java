@@ -6,29 +6,35 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.Version;
 
 @Entity
 @Table(name = "tbl_statuscobranca")
 @SqlResultSetMapping(name = "StatusCobranca.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.StatusCobranca.class))
-@NamedNativeQueries({ @NamedNativeQuery(name = "StatusCobranca.RetornaStatusCobrancas", query = " SELECT * "
-		+ "FROM tbl_statuscobranca sc", resultSetMapping = "StatusCobranca.implicit") })
+@NamedNativeQueries({ 
+	@NamedNativeQuery(name = "StatusCobranca.RetornaStatusCobrancas", query = " SELECT * "
+		+ "FROM tbl_statuscobranca sc where datData between :dataInicio and :dataFinal", resultSetMapping = "StatusCobranca.implicit"),
+	@NamedNativeQuery(name = "StatusCobranca.FiltraRequisicao", query = " SELECT * "
+		+ "FROM tbl_statuscobranca sc "
+		+ "and intNumReq = :id) ", resultSetMapping = "StatusCobranca.implicit")		
+})
+	
 public class StatusCobranca implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private StatusCobrancaPK id;
+	@Id
+	@Column(name = "intNumreq")
+	private Integer numReq;
 
 	// @Temporal( TemporalType.DATE)
 	@Column(name = "datDataCobr")
@@ -51,36 +57,27 @@ public class StatusCobranca implements Serializable {
 	private Cobrador cobrador;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "intNumreq", referencedColumnName = "intNumreq", updatable = false, insertable = false)
+	@JoinColumn(name = "intNumreq", referencedColumnName = "intNumReq", updatable = false, insertable = false)
 	private RequisicaoServico reqServico;
 
 	public StatusCobranca() {
 	}
 
-	public StatusCobranca(StatusCobrancaPK id) {
-		this.id = id;
+	public StatusCobranca(Integer numReq) {
+		this.numReq = numReq;
 	}
 
 	public StatusCobranca(Integer intCodCobr, Integer intNumreq) {
-		this.id = new StatusCobrancaPK(intCodCobr, intNumreq);
+		this.numReq = intNumreq;
+		this.cobrador.setCodCobrador(intCodCobr);
 	}
 
-	@Transient
-	public Integer getIntCodCobr() {
-		return getId().getIntCodCobr();
+	public Integer getNumReq() {
+		return numReq;
 	}
 
-	@Transient
-	public Integer getIntNumreq() {
-		return getId().getIntNumreq();
-	}
-
-	public StatusCobrancaPK getId() {
-		return id;
-	}
-
-	public void setId(StatusCobrancaPK id) {
-		this.id = id;
+	public void setNumReq(Integer numReq) {
+		this.numReq = numReq;
 	}
 
 	public Date getDataCobranca() {
@@ -120,8 +117,7 @@ public class StatusCobranca implements Serializable {
 	}
 
 	public void setCobrador(Cobrador cobrador) {
-		this.cobrador = cobrador;
-		this.id.setIntCodCobr(cobrador.getCodCobrador());
+		this.cobrador = cobrador;		
 	}
 
 	public RequisicaoServico getReqServico() {
@@ -140,7 +136,7 @@ public class StatusCobranca implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((numReq == null) ? 0 : numReq.hashCode());
 		return result;
 	}
 
@@ -153,10 +149,10 @@ public class StatusCobranca implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		StatusCobranca other = (StatusCobranca) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (numReq == null) {
+			if (other.numReq != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!numReq.equals(other.numReq))
 			return false;
 		return true;
 	}
@@ -164,7 +160,7 @@ public class StatusCobranca implements Serializable {
 	@Override
 	public String toString() {
 		return "StatusCobranca ["
-				+ (id != null ? "id=" + id + ", " : "")
+				+ (numReq != null ? "id=" + numReq + ", " : "")
 				+ (dataCobranca != null ? "dataCobranca=" + dataCobranca + ", "
 						: "")
 				+ (dataPagamento != null ? "dataPagamento=" + dataPagamento
