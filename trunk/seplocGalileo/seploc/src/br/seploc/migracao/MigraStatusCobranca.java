@@ -89,23 +89,23 @@ public class MigraStatusCobranca extends Migra<StatusCobranca> {
 
 	@Override
 	protected void seleciona() throws Exception {
-		String sql = "SELECT intCodCobr, vcrNome, vcrFoneCon FROM tbl_cobrador  where intCodCobr not in (select intCodCobr from   "
-			+ bancoDestino[0] + ".tbl_cobrador)";
-		lista = new ArrayList<Cobrador>();
-		// pega o Statement
-		PreparedStatement stmt = copytecConnection
-				.prepareStatement(sql);
-//		System.out.println(sql);
-		// executa um select
-		ResultSet rs = stmt.executeQuery();
-		// itera no ResultSet
-		while (rs.next()) {
-			Cobrador c = new Cobrador(rs.getInt("intCodCobr"), rs
-					.getString("vcrNome"), rs.getString("vcrFoneCon"),
-					new Character('S'));
-			lista.add(c);
-		}
-		stmt.close();
+//		String sql = "SELECT intCodCobr, vcrNome, vcrFoneCon FROM tbl_cobrador  where intCodCobr not in (select intCodCobr from   "
+//			+ bancoDestino[0] + ".tbl_cobrador)";
+//		lista = new ArrayList<Cobrador>();
+//		// pega o Statement
+//		PreparedStatement stmt = copytecConnection
+//				.prepareStatement(sql);
+////		System.out.println(sql);
+//		// executa um select
+//		ResultSet rs = stmt.executeQuery();
+//		// itera no ResultSet
+//		while (rs.next()) {
+//			Cobrador c = new Cobrador(rs.getInt("intCodCobr"), rs
+//					.getString("vcrNome"), rs.getString("vcrFoneCon"),
+//					new Character('S'));
+//			lista.add(c);
+//		}
+//		stmt.close();
 	}
 
 }
