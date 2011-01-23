@@ -16,9 +16,7 @@
 		<class>br.seploc.pojos.Entrega</class>
 		<class>br.seploc.pojos.LinhaRequisicaoPK</class>
 		<class>br.seploc.pojos.LinhaRequisicao</class>
-		<class>br.seploc.pojos.OpcionaisReqServ</class>
-		<class>br.seploc.pojos.StatusCobrancaPK</class>
-		<class>br.seploc.pojos.StatusCobranca</class>
+		<class>br.seploc.pojos.OpcionaisReqServ</class>		
 		<class>br.seploc.pojos.SaidaMotoqueiro</class>		
 		<class>br.seploc.pojos.ReqServUsuario</class>
 		<class>br.seploc.pojos.Projeto</class>

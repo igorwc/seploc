@@ -7,16 +7,17 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 import br.seploc.dao.CobradorDAO;
 import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
-import br.seploc.dao.StatusCobrancaDAO;
-import br.seploc.pojos.Cliente;
+import br.seploc.dao.SaidaMotoqueiroDAO;
 import br.seploc.pojos.Cobrador;
 import br.seploc.pojos.Projeto;
 import br.seploc.pojos.RequisicaoServico;
-import br.seploc.pojos.StatusCobranca;
+import br.seploc.pojos.SaidaMotoqueiro;
+
 
 public class ReqServListaSaidaMB implements Serializable {
 	
@@ -24,18 +25,11 @@ public class ReqServListaSaidaMB implements Serializable {
 	private RequisicaoServico reqServico;
 	private RequisicaoServicoDAO reqServicoDAO;
 	private Cobrador cobrador;	
-	private StatusCobranca statusCobranca;
-	private StatusCobrancaDAO statusCobrancaDAO;
-	private int numReqBusca;
-	private int numReqVisualizar;
-	private int projetoID;
-	private int clienteID;	
+	private SaidaMotoqueiro saidaMotoqueiro;
+	private SaidaMotoqueiroDAO saidaMotoqueiroDAO;		
 	private Date dataInicio;	
-	private Date dataFim;
-	private String filtroProjeto;
-	private String filtroCliente;
-	private Cliente cliente;
-	private Projeto projeto;
+	private Date dataFim;	
+	private String nomeCliente;
 	private boolean datasInvalidas = false;
 
 	
@@ -48,11 +42,8 @@ public class ReqServListaSaidaMB implements Serializable {
 	private void load(){
 		reqServicoDAO = new RequisicaoServicoDAO();		
 		reqServico = new RequisicaoServico();
-		cliente = new Cliente();
-		projeto = new Projeto();
-		numReqBusca = 0;
-		projetoID = 0;
-		clienteID = 0;
+		saidaMotoqueiroDAO = new SaidaMotoqueiroDAO();		
+		nomeCliente = "";
 	}
 
 	// GETTERS E SETTERS
@@ -80,52 +71,28 @@ public class ReqServListaSaidaMB implements Serializable {
 		this.cobrador = cobrador;
 	}
 
-	public StatusCobranca getStatusCobranca() {
-		return statusCobranca;
+	public void setSaidaMotoqueiro(SaidaMotoqueiro saidaMotoqueiro) {
+		this.saidaMotoqueiro = saidaMotoqueiro;
 	}
 
-	public void setStatusCobranca(StatusCobranca statusCobranca) {
-		this.statusCobranca = statusCobranca;
+	public SaidaMotoqueiro getSaidaMotoqueiro() {
+		return saidaMotoqueiro;
 	}
 
-	public StatusCobrancaDAO getStatusCobrancaDAO() {
-		return statusCobrancaDAO;
+	public SaidaMotoqueiroDAO getSaidaMotoqueiroDAO() {
+		return saidaMotoqueiroDAO;
 	}
 
-	public void setStatusCobrancaDAO(StatusCobrancaDAO statusCobrancaDAO) {
-		this.statusCobrancaDAO = statusCobrancaDAO;
+	public void setSaidaMotoqueiroDAO(SaidaMotoqueiroDAO saidaMotoqueiroDAO) {
+		this.saidaMotoqueiroDAO = saidaMotoqueiroDAO;
 	}
 
-	public int getNumReqBusca() {
-		return numReqBusca;
+	public String getNomeCliente() {
+		return nomeCliente;
 	}
 
-	public void setNumReqBusca(int numReqBusca) {
-		this.numReqBusca = numReqBusca;
-	}
-
-	public int getNumReqVisualizar() {
-		return numReqVisualizar;
-	}
-
-	public void setNumReqVisualizar(int numReqVisualizar) {
-		this.numReqVisualizar = numReqVisualizar;
-	}
-
-	public int getProjetoID() {
-		return projetoID;
-	}
-
-	public void setProjetoID(int projetoID) {
-		this.projetoID = projetoID;
-	}
-
-	public int getClienteID() {
-		return clienteID;
-	}
-
-	public void setClienteID(int clienteID) {
-		this.clienteID = clienteID;
+	public void setNomeCliente(String nomeCliente) {
+		this.nomeCliente = nomeCliente;
 	}
 
 	public Date getDataInicio() {
@@ -142,38 +109,6 @@ public class ReqServListaSaidaMB implements Serializable {
 
 	public void setDataFim(Date dataFim) {
 		this.dataFim = dataFim;
-	}
-
-	public String getFiltroProjeto() {
-		return filtroProjeto;
-	}
-
-	public void setFiltroProjeto(String filtroProjeto) {
-		this.filtroProjeto = filtroProjeto;
-	}
-
-	public String getFiltroCliente() {
-		return filtroCliente;
-	}
-
-	public void setFiltroCliente(String filtroCliente) {
-		this.filtroCliente = filtroCliente;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public Projeto getProjeto() {
-		return projeto;
-	}
-
-	public void setProjeto(Projeto projeto) {
-		this.projeto = projeto;
 	}
 
 	public boolean isDatasInvalidas() {
@@ -204,6 +139,40 @@ public class ReqServListaSaidaMB implements Serializable {
 	}
 	
 	public void cadastrar(){
+		if (saidaMotoqueiro.getNumSaida() == null || saidaMotoqueiro.getNumSaida() == 0) {
+			try {
+				// setar data de criacao da requisicao
+				java.util.Date data = new java.util.Date();
+				java.sql.Date hoje = new java.sql.Date(data.getTime());
+				
+				saidaMotoqueiro = new SaidaMotoqueiro();		
+				saidaMotoqueiro.setCobrador(cobrador);
+				saidaMotoqueiro.setDataCobranca(hoje);
+				saidaMotoqueiro.setDescCliente(nomeCliente);
+				if(reqServico.getNumReq() != null || reqServico.getNumReq() > 0) {					
+					saidaMotoqueiro.setReqServico(reqServico);
+				}
+				
+				this.saidaMotoqueiroDAO.adiciona(saidaMotoqueiro);
+				
+			} catch (ValidatorException e) {
+				addGlobalMessage(e.getMessage());
+			} catch (Exception e) {
+				addGlobalMessage(e.getMessage());
+			}
+		} else {
+			try {				
+				saidaMotoqueiro = saidaMotoqueiroDAO.recuperaPorReq(reqServico.getNumReq());		
+				saidaMotoqueiro.setCobrador(cobrador);
+				
+				this.saidaMotoqueiroDAO.altera(saidaMotoqueiro);
+				
+			} catch (ValidatorException e) {
+				addGlobalMessage(e.getMessage());
+			} catch (Exception e) {
+				addGlobalMessage(e.getMessage());
+			}			
+		}
 		
 	}
 	
@@ -220,15 +189,6 @@ public class ReqServListaSaidaMB implements Serializable {
 		dataInicio = new Date(this.getDayAgo(30).getTimeInMillis());
 		dataFim = new Date(Calendar.getInstance().getTimeInMillis());		
 	}
-	
-	public List<Projeto> getTodosProjetos() {
-		List<Projeto> retorno = null;
-
-		ProjetoDAO projetoDAO = new ProjetoDAO();
-		retorno = projetoDAO.getLista();
-		
-		return retorno;
-	}		
 	
 	public List<Cobrador> getTodosCobradores(){
 		List<Cobrador> retorno = null;

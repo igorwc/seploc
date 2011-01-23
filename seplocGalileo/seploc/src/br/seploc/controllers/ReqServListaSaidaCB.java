@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 
 import br.seploc.mbeans.ReqServListaSaidaMB;
 import br.seploc.pojos.RequisicaoServico;
+import br.seploc.pojos.SaidaMotoqueiro;
 
 public class ReqServListaSaidaCB implements Serializable{
 	
@@ -75,17 +76,22 @@ public class ReqServListaSaidaCB implements Serializable{
 		return retorno;
 	}		
 
-	public List<RequisicaoServico> getGridReqServ(){
-		List<RequisicaoServico> lista = new ArrayList<RequisicaoServico>();
-		Calendar dataInicio = new GregorianCalendar(Locale.getDefault());
-		Calendar dataFim = new GregorianCalendar(Locale.getDefault());
-		dataInicio.setTime(reqServSaidasMB.getDataInicio());	
-		dataFim.setTime(reqServSaidasMB.getDataFim()); 
-		int numeroReqServ = reqServSaidasMB.getNumReqBusca();
-		int clienteID = reqServSaidasMB.getClienteID();
-		int projetoID = reqServSaidasMB.getProjetoID();
+	@SuppressWarnings("null")
+	public List<SaidaMotoqueiro> getGridSaida(){
+		List<SaidaMotoqueiro> lista = new ArrayList<SaidaMotoqueiro>();
+		Calendar dI = new GregorianCalendar(Locale.getDefault());
+		Calendar dF = new GregorianCalendar(Locale.getDefault());
+		dI.setTime(reqServSaidasMB.getDataInicio());	
+		dF.setTime(reqServSaidasMB.getDataFim()); 
+		java.sql.Date dataInicio = (java.sql.Date) dI.getTime();
+		java.sql.Date dataFim = (java.sql.Date) dF.getTime();
+		Integer numeroReqServ = reqServSaidasMB.getSaidaMotoqueiro().getReqServico().getNumReq();
 
-		lista = reqServSaidasMB.getReqServicoDAO().filtraReqServ(projetoID , numeroReqServ, clienteID, dataInicio, dataFim);
+		if (numeroReqServ != null || numeroReqServ > 0){
+			lista = reqServSaidasMB.getSaidaMotoqueiroDAO().getLista(numeroReqServ);
+		} else {
+			lista = reqServSaidasMB.getSaidaMotoqueiroDAO().getLista(dataInicio,dataFim);
+		}
 		Collections.reverse(lista);		
 		return lista;
 	}	

@@ -115,14 +115,6 @@ public class RequisicaoServico implements Serializable {
 	@OneToMany(mappedBy = "reqServico")
 	private List<SaidaMotoqueiro> saidasMotoqueiros;
 
-//	@OneToMany(mappedBy = "reqServico")
-//	private List<StatusCobranca> statusCobrancas;
-	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE,
-			CascadeType.PERSIST, CascadeType.REMOVE })
-	@JoinColumn(name = "intNumReq", referencedColumnName = "intNumReq")
-	private StatusCobranca statusCobranca;	
-	
-
 	public RequisicaoServico() {
 		setOpcionais(new ArrayList<ReqServicosOpcionais>());		
 		setSaidasMotoqueiros(new ArrayList<SaidaMotoqueiro>());
@@ -256,14 +248,6 @@ public class RequisicaoServico implements Serializable {
 
 	public void setSaidasMotoqueiros(List<SaidaMotoqueiro> saidasMotoqueiros) {
 		this.saidasMotoqueiros = saidasMotoqueiros;
-	}
-
-	public StatusCobranca getStatusCobranca() {
-		return statusCobranca;
-	}
-
-	public void setStatusCobranca(StatusCobranca statusCobranca) {
-		this.statusCobranca = statusCobranca;
 	}
 
 	public static long getSerialversionuid() {

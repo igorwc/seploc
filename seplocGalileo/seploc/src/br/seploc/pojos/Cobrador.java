@@ -58,12 +58,8 @@ public class Cobrador implements Serializable {
 	@OneToMany(mappedBy = "cobrador")
 	private List<SaidaMotoqueiro> saidaMotoqueiros;
 
-	@OneToMany(mappedBy = "cobrador")
-	private List<StatusCobranca> statusCobrancas;
-
 	public Cobrador() {
 		setSaidaMotoqueiros(new ArrayList<SaidaMotoqueiro>());
-		setStatusCobrancas(new ArrayList<StatusCobranca>());
 	}
 
 	
@@ -126,14 +122,6 @@ public class Cobrador implements Serializable {
 
 	public void setSaidaMotoqueiros(List<SaidaMotoqueiro> saidaMotoqueiros) {
 		this.saidaMotoqueiros = saidaMotoqueiros;
-	}
-
-	public List<StatusCobranca> getStatusCobrancas() {
-		return statusCobrancas;
-	}
-
-	public void setStatusCobrancas(List<StatusCobranca> statusCobrancas) {
-		this.statusCobrancas = statusCobrancas;
 	}
 
 	public static long getSerialversionuid() {
