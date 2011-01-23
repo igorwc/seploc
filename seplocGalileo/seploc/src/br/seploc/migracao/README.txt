@@ -11,3 +11,6 @@ Para garantia de consistencia dos dados, a ordem de migração é a seguinte:
 8 - Cobrador
 9 - StatusCobranca
 10 - SaidaMotoqueiro
+11 - Grupo
+12 - Menu --> Se precisar
+13 - GrupoMenu
