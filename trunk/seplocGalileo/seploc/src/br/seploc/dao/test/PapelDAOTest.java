@@ -91,7 +91,11 @@ public class PapelDAOTest {
 
 	@Test
 	public final void testGetLista() {
-		fail("Not yet implemented"); // TODO
+		PapelDAO papelDAO = new PapelDAO();
+		List<Papel> retorno = papelDAO.getLista();
+		for (Papel l : retorno){
+			System.out.println(l.getNome()+"\n");
+		}
 	}
 
 }

@@ -3,17 +3,20 @@ package br.seploc.pojos;
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -22,7 +25,17 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name="tbl_saidamotoqueiro")
+@SqlResultSetMapping(name = "SaidaMotoqueiro.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.SaidaMotoqueiro.class))
+@NamedNativeQueries({ 
+	@NamedNativeQuery(name = "SaidaMotoqueiro.RetornaSaidaMotoqueiro", query = " SELECT * "
+		+ "FROM tbl_saidamotoqueiro sm where datData between :dataInicio and :dataFinal", resultSetMapping = "SaidaMotoqueiro.implicit"),
+	@NamedNativeQuery(name = "SaidaMotoqueiro.FiltraRequisicao", query = " SELECT * "
+		+ "FROM tbl_saidamotoqueiro sm "
+		+ "and sm.intNumReq = :numReq) ", resultSetMapping = "SaidaMotoqueiro.implicit")		
+})
+
 public class SaidaMotoqueiro implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
