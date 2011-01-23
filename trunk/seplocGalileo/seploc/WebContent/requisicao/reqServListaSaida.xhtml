@@ -71,11 +71,10 @@
 						<table border="0">
 							<tr align="left">
 								<td width="100px"><h:outputText value="Requisicao: " styleClass="texto" /></td>
-								<td width="250px"><h:outputText value="Cliente: " styleClass="texto" /></td>
-								<td width="250px"><h:outputText value="Projeto: " styleClass="texto" /></td>								
-								<td width="100px"><h:outputText value="Motoqueiro: " styleClass="texto" /></td>								
-								<td width="150px"><h:outputText value="Data Inicio: " styleClass="texto" /></td>
-								<td width="150px"><h:outputText value="Data Fim: " styleClass="texto" /></td>
+								<td width="250px"><h:outputText value="Cliente: " styleClass="texto" /></td>															
+								<td width="250px"><h:outputText value="Motoqueiro: " styleClass="texto" /></td>								
+								<td width="200px"><h:outputText value="Data Inicio: " styleClass="texto" /></td>
+								<td width="200px"><h:outputText value="Data Fim: " styleClass="texto" /></td>
 							</tr>
 							<tr>
 								<td><h:inputText value="#{reqServListaSaidaCB.reqServSaidasMB.reqServico.numReq}" 
@@ -83,7 +82,7 @@
 												 size="10">
 										<a4j:support event="onChange" reRender="reqServListTodos"/>
 									</h:inputText></td>
-								<td><h:inputText value="#{reqServListaSaidaCB.reqServSaidasMB.cliente.fantasia}" 
+								<td><h:inputText value="#{reqServListaSaidaCB.reqServSaidasMB.saidaMotoqueiro.descCliente}" 
 								         id="cliente" 
 								         readonly="true"
 								         size="30"
@@ -92,18 +91,9 @@
 												 id="modaleditcli" 
 												 oncomplete="#{rich:component('modalCliente')}.show();return false;">
 										<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
-									</a4j:commandLink></td>
-								<td valign="top"><h:inputText value="#{reqServListaSaidaCB.reqServSaidasMB.projeto.projeto}"									 						 
-										 id="projeto" 										 
-										 size="30"
-										 readonly="true"/>										 
-									<a4j:commandLink ajaxSingle="true" 
-						   						 id="editlinkproj" 
-												 oncomplete="#{rich:component('modalProjeto')}.show();return false;">
-										<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
-									</a4j:commandLink></td>									
+									</a4j:commandLink></td>						
 								<td>
-									<h:selectOneMenu value="#{reqServListaSaidaCB.reqServSaidasMB.cobrador}" id="cobrador">
+									<h:selectOneMenu value="#{reqServListaSaidaCB.reqServSaidasMB.cobrador.codCobrador}" id="cobrador">
 					                                <f:selectItem itemLabel="Selecione" itemValue="-1"></f:selectItem>
 					                                <t:selectItems value="#{reqServListaSaidaCB.reqServSaidasMB.todosCobradores}"
 					                                			   var="cobrador" 
@@ -122,14 +112,6 @@
 	                                           <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
 	                                           <a4j:support event="onchanged" action="#{reqServListaSaidaCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos" />
 	                                </rich:calendar></td>
-	                            <td>
-	                                <h:selectOneMenu value="#{reqServListaSaidaCB.reqServSaidasMB}" id="papel">
-					                                <f:selectItem itemLabel="Selecione" itemValue="-1"></f:selectItem>
-					                                <t:selectItems value="#{reqServClienteCB.reqServMB.todosPapeis}"
-					                                			   var="papel" 
-					                                               itemLabel="#{papel.nome}" 
-					                                               itemValue="#{papel.codPapel}" />					                                	                    			
-				                    			</h:selectOneMenu></td>
 								<td>
 	                                <rich:calendar value="#{reqServListaSaidaCB.reqServSaidasMB.dataFim}"
 	                                           locale="#{reqServListaSaidaCB.locale}"
