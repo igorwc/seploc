@@ -11,11 +11,10 @@ import java.util.Date;
 public class ReqServUsuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-//	@Id
-//	@Column(name = "intNumReq", nullable = false)
-//	private Integer numReqServ;
+	@Id
+	@Column(name = "intNumReq", nullable = false)
+	private Integer numReqServ;
 	
-	@Id	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "intNumReq", referencedColumnName = "intNumReq", updatable = false, insertable = false)
 	private RequisicaoServico reqServico;	
@@ -123,6 +122,14 @@ public class ReqServUsuario implements Serializable {
 		int result = 1;
 		result = prime * result + ((reqServico == null) ? 0 : reqServico.hashCode());
 		return result;
+	}
+
+	public Integer getNumReqServ() {
+		return numReqServ;
+	}
+
+	public void setNumReqServ(Integer numReqServ) {
+		this.numReqServ = numReqServ;
 	}
 
 	@Override
