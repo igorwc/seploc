@@ -12,7 +12,6 @@ import java.util.Locale;
 import javax.faces.context.FacesContext;
 
 import br.seploc.mbeans.ReqServListaSaidaMB;
-import br.seploc.pojos.RequisicaoServico;
 import br.seploc.pojos.SaidaMotoqueiro;
 
 public class ReqServListaSaidaCB implements Serializable{

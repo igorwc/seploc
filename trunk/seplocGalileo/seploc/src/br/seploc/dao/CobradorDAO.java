@@ -71,6 +71,14 @@ public class CobradorDAO extends GenericDAO<Cobrador, Integer> {
 		em.getTransaction().commit();
 		return (List<Cobrador>) q.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Cobrador> getListaAtivos() {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Cobrador.RetornaCobradoresAtivos");
+		em.getTransaction().commit();
+		return (List<Cobrador>) q.getResultList();
+	}	
 
 	@Override
 	protected boolean verificaFilhos(Integer id) throws Exception {

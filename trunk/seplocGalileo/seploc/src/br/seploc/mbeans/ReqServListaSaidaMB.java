@@ -10,11 +10,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
 import br.seploc.dao.CobradorDAO;
-import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.dao.SaidaMotoqueiroDAO;
 import br.seploc.pojos.Cobrador;
-import br.seploc.pojos.Projeto;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.pojos.SaidaMotoqueiro;
 
@@ -30,6 +28,7 @@ public class ReqServListaSaidaMB implements Serializable {
 	private Date dataInicio;	
 	private Date dataFim;	
 	private String nomeCliente;
+	private Integer numReqVisualizar;
 	private boolean datasInvalidas = false;
 
 	
@@ -61,6 +60,14 @@ public class ReqServListaSaidaMB implements Serializable {
 
 	public void setReqServicoDAO(RequisicaoServicoDAO reqServicoDAO) {
 		this.reqServicoDAO = reqServicoDAO;
+	}
+
+	public void setNumReqVisualizar(Integer numReqVisualizar) {
+		this.numReqVisualizar = numReqVisualizar;
+	}
+
+	public Integer getNumReqVisualizar() {
+		return numReqVisualizar;
 	}
 
 	public Cobrador getCobrador() {
@@ -138,6 +145,14 @@ public class ReqServListaSaidaMB implements Serializable {
 		
 	}
 	
+	public void apagar(){
+
+	}
+	
+	public void editar(){
+		
+	}	
+	
 	public void cadastrar(){
 		if (saidaMotoqueiro.getNumSaida() == null || saidaMotoqueiro.getNumSaida() == 0) {
 			try {
@@ -194,7 +209,7 @@ public class ReqServListaSaidaMB implements Serializable {
 		List<Cobrador> retorno = null;
 		
 		CobradorDAO cobradorDAO = new CobradorDAO();
-		retorno = cobradorDAO.getLista();
+		retorno = cobradorDAO.getListaAtivos();
 		
 		return retorno;
 	}
