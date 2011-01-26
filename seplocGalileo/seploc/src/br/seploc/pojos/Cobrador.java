@@ -24,8 +24,10 @@ import javax.persistence.Version;
 @SqlResultSetMapping(name = "Cobrador.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Cobrador.class))
 @NamedNativeQueries( {
 		@NamedNativeQuery(name = "Cobrador.RetornaCobradores", query = " SELECT * " +
-				"FROM tbl_cobrador c", resultSetMapping = "Cobrador.implicit")
-		,
+				"FROM tbl_cobrador c", resultSetMapping = "Cobrador.implicit"),
+		@NamedNativeQuery(name = "Cobrador.RetornaCobradoresAtivos", query = " SELECT * " +
+				"FROM tbl_cobrador c" +
+				" WHERE c.chrAtivo = 'S' ", resultSetMapping = "Cobrador.implicit"),				
 		@NamedNativeQuery(name = "Cobrador.FiltraCobradores", query = " SELECT * "
 				+ "FROM tbl_cobrador c"
 				+ " WHERE c.vcrNome like :nome", resultSetMapping = "Cobrador.implicit")

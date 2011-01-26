@@ -326,6 +326,7 @@ public class ReqServClienteMB implements Serializable {
 				reqServico.setVisivelReq(0);
 				reqServico.setOrcamento(0);
 				
+				
 				// usuario que criou a requisicao
 				//String login;
 				//login = SessionObjectsManager.recuperaObjetoSessao("loginUser").toString();

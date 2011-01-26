@@ -17,6 +17,7 @@ import br.seploc.util.Utils;
 public class Login {
 	private boolean loginOk;
 	private String userName;
+	private String userNameFull;
 	private String password;
 	private boolean newPasswordOk;
 	private String newPassword;
@@ -42,6 +43,14 @@ public class Login {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public void setUserNameFull(String userNameFull) {
+		this.userNameFull = userNameFull;
+	}
+
+	public String getUserNameFull() {
+		return userNameFull;
 	}
 
 	public String getPassword() {
@@ -138,6 +147,7 @@ public class Login {
 		SessionObjectsManager.adicionaObjetoSessao("usuarioSessao", this.user);
 		falhaLogin = false;
 		userName = this.user.getLogin();
+		userNameFull = this.user.getNome();
 		return "principal";
 		// }
 		// else {
