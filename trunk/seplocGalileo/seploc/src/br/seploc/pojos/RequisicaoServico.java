@@ -30,23 +30,23 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "tbl_reqserv")
 @SqlResultSetMapping(name = "RequisicaoServico.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.RequisicaoServico.class))
-@NamedNativeQueries( { 
-	@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoes", query = " SELECT * "
-		+ "FROM tbl_reqserv", resultSetMapping = "RequisicaoServico.implicit"),
-	@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoesLimitadoTempo", query = " SELECT * "
-		+ "FROM tbl_reqserv " +
-		"where datData >= :data", resultSetMapping = "RequisicaoServico.implicit"),
-	@NamedNativeQuery(name = "RequisicaoServico.FiltraProjeto", query = " SELECT * "
-		+ "FROM tbl_reqserv " +
-	 	"where intCodProj = :projeto", resultSetMapping = "RequisicaoServico.implicit"),			
-	@NamedNativeQuery(name = "RequisicaoServico.FiltraReqServ", query = " SELECT * "
-		+ "FROM tbl_reqserv " +
-		"where intNumreq = :numReq", resultSetMapping = "RequisicaoServico.implicit"),
-	@NamedNativeQuery(name = "RequisicaoServico.FiltraCliente", query = " SELECT * "
-		+ "FROM tbl_reqserv " +
-		"where datData between :dataInicio and :dataFinal " +
-		"and intCodProj in (select intCodProj FROM tbl_projetos where intClienteId = :clienteId) ", resultSetMapping = "RequisicaoServico.implicit")
-})
+@NamedNativeQueries( {
+		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoes", query = " SELECT * "
+				+ "FROM tbl_reqserv", resultSetMapping = "RequisicaoServico.implicit"),
+		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoesLimitadoTempo", query = " SELECT * "
+				+ "FROM tbl_reqserv " + "where datData >= :data", resultSetMapping = "RequisicaoServico.implicit"),
+		@NamedNativeQuery(name = "RequisicaoServico.FiltraProjeto", query = " SELECT * "
+				+ "FROM tbl_reqserv " + "where intCodProj = :projeto", resultSetMapping = "RequisicaoServico.implicit"),
+		@NamedNativeQuery(name = "RequisicaoServico.FiltraReqServ", query = " SELECT * "
+				+ "FROM tbl_reqserv " + "where intNumreq = :numReq", resultSetMapping = "RequisicaoServico.implicit"),
+		@NamedNativeQuery(name = "RequisicaoServico.FiltraCliente", query = " SELECT * "
+				+ "FROM tbl_reqserv "
+				+ "where datData between :dataInicio and :dataFinal "
+				+ "and intCodProj in (select intCodProj FROM tbl_projetos where intClienteId = :clienteId) ", resultSetMapping = "RequisicaoServico.implicit"),
+		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoesPorPeriodo", query = " SELECT * "
+				+ "FROM tbl_reqserv "
+				+ "where datData >= :dataInicio and datData <= :dataFim "
+				+ "and intCodProj in (select intCodProj FROM tbl_projetos where intClienteId = :clienteId) ", resultSetMapping = "RequisicaoServico.implicit") })
 public class RequisicaoServico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -61,11 +61,11 @@ public class RequisicaoServico implements Serializable {
 	private Date data;
 
 	@Column(name = "dblValorEnt")
-	private Double valorEnt;	
+	private Double valorEnt;
 
 	@Column(name = "dblValorTotal")
 	private Double valorTotal;
-	
+
 	@Column(name = "dblValorDesc")
 	private Double valorDesconto;
 
@@ -77,9 +77,9 @@ public class RequisicaoServico implements Serializable {
 
 	@Column(name = "intVisivelReq")
 	private Integer visivelReq;
-	
+
 	@Column(name = "intOrcamento")
-	private int orcamento;	
+	private int orcamento;
 
 	@Version
 	@Column(name = "tspVersao")
@@ -105,8 +105,8 @@ public class RequisicaoServico implements Serializable {
 			CascadeType.PERSIST, CascadeType.REMOVE })
 	private List<ReqServicosOpcionais> opcionais;
 
-//	@OneToMany(mappedBy = "reqServico")
-//	private List<ReqServUsuario> requisicoesUsuarios;
+	// @OneToMany(mappedBy = "reqServico")
+	// private List<ReqServUsuario> requisicoesUsuarios;
 	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE,
 			CascadeType.PERSIST, CascadeType.REMOVE })
 	@JoinColumn(name = "intNumReq", referencedColumnName = "intNumReq")
@@ -116,12 +116,12 @@ public class RequisicaoServico implements Serializable {
 	private List<SaidaMotoqueiro> saidasMotoqueiros;
 
 	public RequisicaoServico() {
-		setOpcionais(new ArrayList<ReqServicosOpcionais>());		
+		setOpcionais(new ArrayList<ReqServicosOpcionais>());
 		setSaidasMotoqueiros(new ArrayList<SaidaMotoqueiro>());
-		setLinhaRequisicao(new ArrayList<LinhaRequisicao>());		
-		setOrcamento(0);	
-	}	
-	
+		setLinhaRequisicao(new ArrayList<LinhaRequisicao>());
+		setOrcamento(0);
+	}
+
 	public Integer getNumReq() {
 		return numReq;
 	}
