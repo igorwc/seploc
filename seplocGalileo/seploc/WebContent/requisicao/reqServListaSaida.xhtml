@@ -164,135 +164,106 @@
 
 					</rich:panel></center>
 					<!-- fim Formulario -->
-					
-					
-					
-			<!-- Modal Projeto -->
-			<rich:modalPanel id="modalProjeto" autosized="true" width="300" height="300">
-				<f:facet name="header" >
-					<h:outputText value="Busca Projeto" style="padding-right:15px;" />
-				</f:facet>
-				<f:facet name="controls">
-					<h:panelGroup>
-						<h:graphicImage value="/imgs/icons/close.png" id="hidemodalproj" />
-						<rich:componentControl for="modalProjeto" attachTo="hidemodalproj" 
-						operation="hide" event="onclick" />
-					</h:panelGroup>
-				</f:facet>
-				<h:form>
-					<rich:dataTable value="#{reqServListaSaidaCB.reqServSaidasMB.todosProjetos}" var="proj" rows="10"
-						reRender="dsProjeto" id="simpletable" >
-						<f:facet name="header">
-							<rich:columnGroup>
-								<rich:column colspan="4">
-									<h:outputText value="Filtro de Projeto" />
-								</rich:column>
-								<rich:column breakBefore="true">
-									<h:outputText value="CNPJ/CPF" />
-								</rich:column>
-								<rich:column>
-									<h:outputText value="Cliente" />
-								</rich:column>
-								<rich:column>								
-									<h:outputText value="Projeto" />
-								</rich:column>
-								<rich:column>							
-								</rich:column>
-							</rich:columnGroup>
-						</f:facet>
-						
-						<rich:column>
-							<h:outputText value="#{proj.cliente.cnpj}" />
-							<h:outputText value="#{proj.cliente.cpf}" />
-						</rich:column>
-						<rich:column filterBy="#{proj.cliente.fantasia}" 
-									 filterEvent="onkeyup">
-							<h:outputText value="#{proj.cliente.fantasia}" />
-						</rich:column>
-						<rich:column filterBy="#{proj.projeto}" 
-									 filterEvent="onkeyup"
-									 filterValue="#{reqServListaSaidaCB.reqServSaidasMB.filtroProjeto}">
-							<h:outputText value="#{proj.projeto}" />
-						</rich:column>					
-						
-						<rich:column styleClass="col1">
-							<a4j:commandLink ajaxSingle="true" 
-								                 id="edtlinkproj" 
-							    				 reRender="reqServList,modalProjeto" 
-							    				 oncomplete=" #{rich:component('modalProjeto')}.hide();"
-							    				 >
-								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
-		
-								<f:setPropertyActionListener value="#{proj}"
-										target="#{reqServListaSaidaCB.reqServSaidasMB.projeto}" />
-							</a4j:commandLink>
-						</rich:column>  
-						<f:facet name="footer">
-							<rich:datascroller id="dsProjeto" renderIfSinglePage="true"></rich:datascroller>
-						</f:facet>
-					</rich:dataTable>	
-				</h:form>
-			</rich:modalPanel>		   
 
-			<!-- Modal Cliente -->
-			<rich:modalPanel id="modalCliente" autosized="true" width="300" height="300">
-				<f:facet name="header" >
-					<h:outputText value="Busca Cliente" style="padding-right:15px;" />
-				</f:facet>
-				<f:facet name="controls">
-					<h:panelGroup>
-						<h:graphicImage value="/imgs/icons/close.png" id="hidemodalcli" />
-						<rich:componentControl for="modalCliente" attachTo="hidemodalcli" 
-						operation="hide" event="onclick" />
-					</h:panelGroup>
-				</f:facet>
-				<h:form>
-					<rich:dataTable value="#{appBean.listaClientes}" var="cli" rows="10"
-						reRender="dsCliente" id="simpletable" >
+					<!-- === GRID === -->
+					<rich:dataTable value="#{reqServListaSaidaCB.gridSaida}"
+									var="sai" 
+									rowClasses="row1, row2" 
+									id="reqServListTodos" 
+									rows="12"
+									onRowMouseOver="this.style.backgroundColor='#E0EEEE'"
+									onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"
+									width="1000" 
+									align="center">
 						<f:facet name="header">
 							<rich:columnGroup>
-								<rich:column colspan="3">
-									<h:outputText value="Filtro de Cliente" />
+
+								<rich:column colspan="7">
+									<h:outputText value="Listar Saidas Motoqueiros" />
 								</rich:column>
-								<rich:column breakBefore="true">
-									<h:outputText value="CNPJ/CPF" />
+
+								<rich:column breakBefore="true" width="100">
+									<h:outputText value="Numero" />
 								</rich:column>
-								<rich:column>
+								<rich:column width="400">
 									<h:outputText value="Cliente" />
 								</rich:column>
-								<rich:column>							
+								<rich:column width="300">
+									<h:outputText value="Motoqueiro" />
 								</rich:column>
+								<rich:column width="100">
+									<h:outputText value="Data Saida" />
+								</rich:column>
+								<rich:column width="100">
+									<h:outputText value="Status" />
+								</rich:column>
+								<rich:column width="150">
+									<h:outputText value="" />
+								</rich:column>								
+
 							</rich:columnGroup>
 						</f:facet>
-						
+
+						<rich:column style="text-align:center">
+							<h:outputText value="#{sai.reqServico.numReq}">
+								<f:convertNumber pattern="#000000" />
+							</h:outputText>
+						</rich:column>
 						<rich:column>
-							<h:outputText value="#{cli.cnpj}" />
-							<h:outputText value="#{cli.cpf}" />
+							<h:outputText value="#{sai.reqServico.projeto.cliente.fantasia}" />
 						</rich:column>
-						<rich:column filterBy="#{cli.fantasia}" 
-									 filterEvent="onkeyup"
-									 filterValue="#{reqServListaSaidaCB.reqServSaidasMB.filtroCliente}" >
-							<h:outputText value="#{cli.fantasia}" />
+						<rich:column>
+							<h:outputText value="#{sai.cobrador.nome}" />
 						</rich:column>
-						
-						<rich:column styleClass="col1">
+						<rich:column style="text-align:center">
+							<h:outputText value="#{sai.reqServico.status}" />							
+						</rich:column>
+						<rich:column style="text-align:center">
+							<h:outputText value="#{sai.reqServico.status}" />
+						</rich:column>
+
+						<rich:column style="text-align:center">		
+							<!-- editar -->							    
 							<a4j:commandLink ajaxSingle="true" 
-								                 id="editlinkcli" 
-							    				 reRender="reqServList,modalCliente" 
-							    				 oncomplete=" #{rich:component('modalCliente')}.hide();"
-							    				 >
+											 id="editlinkreq"
+											 reRender="reqServList" 
+											 action="#{reqServListaSaidaCB.reqServSaidasMB.editar}">
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
-		
-								<f:setPropertyActionListener value="#{cli}"
-										target="#{reqServListaSaidaCB.reqServSaidasMB.cliente}" />
+								<f:setPropertyActionListener value="#{sai}"
+									target="#{reqServListaSaidaCB.reqServSaidasMB.saidaMotoqueiro}" />
 							</a4j:commandLink>
-						</rich:column>  
+							<rich:toolTip for="editlinkreq" value="Editar Registro" />
+						    <rich:spacer width="5px"/>						    
+						    <!-- remover -->
+							<a4j:commandLink ajaxSingle="true" 
+											 id="deletelinkreq"
+											 reRender="reqServListTodos"
+											 action="#{reqServListaSaidaCB.reqServSaidasMB.apagar}"
+											 oncomplete="#{rich:component('confirmationMessage')}.show();">
+								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+								<f:setPropertyActionListener value="#{sai}"
+									target="#{reqServListaSaidaCB.reqServSaidasMB.saidaMotoqueiro}" />
+							</a4j:commandLink>
+							<rich:toolTip for="deletelinkreq" value="Apagar Registro" />
+						    <rich:spacer width="5px"/>						    
+						    <!-- mostrar -->
+							<a4j:commandLink ajaxSingle="true" 
+											 id="viewlinkreq"												
+											 reRender="reqServListTodos,modalReqServ"								
+											 oncomplete="#{rich:component('modalReqServ')}.show();return false;">
+								<h:graphicImage value="/imgs/view_icon.gif" style="border:0" />
+								<f:setPropertyActionListener value="#{sai.reqServico.numReq}"
+									target="#{reqServListaSaidaCB.reqServSaidasMB.numReqVisualizar}" />
+							</a4j:commandLink>
+							<rich:toolTip for="viewlinkreq" value="Mostrar Registro" />						
+
+						</rich:column>
+
 						<f:facet name="footer">
-							<rich:datascroller id="dsCliente" renderIfSinglePage="true"></rich:datascroller>
+							<rich:datascroller id="dsReq" maxPages="3"
+								renderIfSinglePage="true" />
 						</f:facet>
-					</rich:dataTable>	
-				</h:form>
-			</rich:modalPanel>
+					</rich:dataTable>					
 			
 	      	<!-- Confirmacao -->
 	        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
