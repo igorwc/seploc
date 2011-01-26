@@ -15,7 +15,7 @@
 	<ui:define name="conteudo">
 		<center><f:view>
 			<h:panelGrid columns="2" styleClass="loginTable">
-			<h:graphicImage alt="cadeado" url="imgs/cadeado.gif"></h:graphicImage>
+			 <h:graphicImage alt="cadeado" url="../imgs/cadeado.gif"></h:graphicImage>  
 			<h:form id="loginForm" prependId="false">
 			<br/><br/>			
 				<h:panelGrid columns="2" styleClass="login">
@@ -23,7 +23,7 @@
 					<h:inputText id="username" value="#{login.userName}" 
 					                           required="true"
 					                           requiredMessage="Login deve ser informado"
-					                            size="20">
+					                            size="21">
 					                           <f:validateLength minimum="1"/>
 					</h:inputText> 
 					                           
