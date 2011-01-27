@@ -80,8 +80,8 @@ public class ReqServListaCB implements Serializable{
 		List<RequisicaoServico> lista = new ArrayList<RequisicaoServico>();
 		Calendar dataInicio = new GregorianCalendar(Locale.getDefault());
 		Calendar dataFim = new GregorianCalendar(Locale.getDefault());
-		dataInicio.setTime(reqServListaMB.getDataInicio());	
-		dataFim.setTime(reqServListaMB.getDataFim()); 
+		dataInicio.setTime(reqServListaMB.getDataInicio());
+		dataFim.setTime(reqServListaMB.getDataFim());
 		int numeroReqServ = reqServListaMB.getNumReqBusca();
 		int clienteID = reqServListaMB.getClienteID();
 		int projetoID = reqServListaMB.getProjetoID();

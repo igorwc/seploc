@@ -28,10 +28,10 @@ import javax.persistence.Version;
 @SqlResultSetMapping(name = "SaidaMotoqueiro.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.SaidaMotoqueiro.class))
 @NamedNativeQueries({ 
 	@NamedNativeQuery(name = "SaidaMotoqueiro.RetornaSaidaMotoqueiro", query = " SELECT * "
-		+ "FROM tbl_saidamotoqueiro sm where datData between :dataInicio and :dataFinal", resultSetMapping = "SaidaMotoqueiro.implicit"),
+		+ "FROM tbl_saidamotoqueiro sm where datDataCobr between :dataInicio and :dataFinal", resultSetMapping = "SaidaMotoqueiro.implicit"),
 	@NamedNativeQuery(name = "SaidaMotoqueiro.FiltraRequisicao", query = " SELECT * "
 		+ "FROM tbl_saidamotoqueiro sm "
-		+ "and sm.intNumReq = :numReq) ", resultSetMapping = "SaidaMotoqueiro.implicit")		
+		+ " WHERE sm.intNumReq = :numReq ", resultSetMapping = "SaidaMotoqueiro.implicit")		
 })
 
 public class SaidaMotoqueiro implements Serializable {

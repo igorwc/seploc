@@ -1,7 +1,7 @@
 package br.seploc.dao;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Calendar;
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class SaidaMotoqueiroDAO extends
 		em.getTransaction().begin();
 		Query q = em.createNamedQuery("SaidaMotoqueiro.RetornaSaidaMotoqueiro");
 		q.setParameter("dataInicio", dataInicio);
-		q.setParameter("dataFim", dataFim);
+		q.setParameter("dataFinal", dataFim);
 		em.getTransaction().commit();
 		return (List<SaidaMotoqueiro>) q.getResultList();
 	}

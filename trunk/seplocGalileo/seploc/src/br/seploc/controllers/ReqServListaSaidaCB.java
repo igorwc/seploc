@@ -82,14 +82,20 @@ public class ReqServListaSaidaCB implements Serializable{
 		Calendar dF = new GregorianCalendar(Locale.getDefault());
 		dI.setTime(reqServSaidasMB.getDataInicio());	
 		dF.setTime(reqServSaidasMB.getDataFim()); 
-		java.sql.Date dataInicio = (java.sql.Date) dI.getTime();
-		java.sql.Date dataFim = (java.sql.Date) dF.getTime();
-		Integer numeroReqServ = reqServSaidasMB.getSaidaMotoqueiro().getReqServico().getNumReq();
-
-		if (numeroReqServ != null || numeroReqServ > 0){
-			lista = reqServSaidasMB.getSaidaMotoqueiroDAO().getLista(numeroReqServ);
+		Date dataInicio = dI.getTime();
+		Date dataFim = dF.getTime();
+		Integer numeroReqServ;
+		if (reqServSaidasMB.getSaidaMotoqueiro() == null) {
+			numeroReqServ = null;
 		} else {
+			numeroReqServ = reqServSaidasMB.getSaidaMotoqueiro().getReqServico().getNumReq();
+		}
+		 
+
+		if (numeroReqServ == null || numeroReqServ == 0){
 			lista = reqServSaidasMB.getSaidaMotoqueiroDAO().getLista(dataInicio,dataFim);
+		} else {
+			lista = reqServSaidasMB.getSaidaMotoqueiroDAO().getLista(numeroReqServ);
 		}
 		Collections.reverse(lista);		
 		return lista;
