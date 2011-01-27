@@ -27,7 +27,7 @@ import javax.persistence.Version;
 				"FROM tbl_cobrador c", resultSetMapping = "Cobrador.implicit"),
 		@NamedNativeQuery(name = "Cobrador.RetornaCobradoresAtivos", query = " SELECT * " +
 				"FROM tbl_cobrador c" +
-				" WHERE c.chrAtivo = 'S' ", resultSetMapping = "Cobrador.implicit"),				
+				" WHERE c.chrAtivo = 'S'", resultSetMapping = "Cobrador.implicit"),				
 		@NamedNativeQuery(name = "Cobrador.FiltraCobradores", query = " SELECT * "
 				+ "FROM tbl_cobrador c"
 				+ " WHERE c.vcrNome like :nome", resultSetMapping = "Cobrador.implicit")

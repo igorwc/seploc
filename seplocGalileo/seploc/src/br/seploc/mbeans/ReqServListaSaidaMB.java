@@ -1,6 +1,7 @@
 package br.seploc.mbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import br.seploc.dao.CobradorDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.dao.SaidaMotoqueiroDAO;
 import br.seploc.pojos.Cobrador;
+import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.pojos.SaidaMotoqueiro;
 
@@ -130,7 +132,7 @@ public class ReqServListaSaidaMB implements Serializable {
 	
 	public void mostrar(){
 		try{
-			reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+			reqServico = reqServicoDAO.recupera(numReqVisualizar);
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());
@@ -146,11 +148,26 @@ public class ReqServListaSaidaMB implements Serializable {
 	}
 	
 	public void apagar(){
-
+		try {
+		saidaMotoqueiro = saidaMotoqueiroDAO.recupera(saidaMotoqueiro.getNumSaida());
+		Integer numSaida = saidaMotoqueiro.getNumSaida();
+		saidaMotoqueiroDAO.remove(numSaida);
+		addGlobalMessage("Saida Excluido!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}
 	}
 	
 	public void editar(){
+		try{
+		saidaMotoqueiro = saidaMotoqueiroDAO.recupera(saidaMotoqueiro.getNumSaida());
+		reqServico = saidaMotoqueiro.getReqServico();
 		
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}		
 	}	
 	
 	public void cadastrar(){
@@ -190,6 +207,15 @@ public class ReqServListaSaidaMB implements Serializable {
 		}
 		
 	}
+	
+	public List<ReqServicosOpcionais> getGridOpcionais(){
+		List<ReqServicosOpcionais> lista = new ArrayList<ReqServicosOpcionais>();
+		if (reqServico.getOpcionais() != null) {
+			lista = reqServico.getOpcionais();
+		}
+		
+		return lista;
+	}	
 	
 	private Calendar getDayAgo(int dias){
 		Calendar dia = Calendar.getInstance();
