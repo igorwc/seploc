@@ -392,8 +392,10 @@ public class ReqServClienteMB implements Serializable {
 				addGlobalMessage("Inclusão feita com sucesso!");
 			} catch (ValidatorException e) {
 				addGlobalMessage(e.getMessage());
+				e.printStackTrace();
 			} catch (Exception e) {
 				addGlobalMessage(e.getMessage());
+				e.printStackTrace();
 			}
 		} else {
 			RequisicaoServico temp;
@@ -456,6 +458,7 @@ public class ReqServClienteMB implements Serializable {
 				
 			} catch (Exception e) {
 				addGlobalMessage(e.getMessage());
+				e.printStackTrace();
 			}
 
 		}

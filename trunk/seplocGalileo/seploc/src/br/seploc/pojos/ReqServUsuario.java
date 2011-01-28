@@ -36,11 +36,13 @@ public class ReqServUsuario implements Serializable {
 //	private Usuario usuario;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "intCodUsr", referencedColumnName = "intCodUsr", updatable = false, insertable = false)
+	@JoinColumn(name = "intCodUsr", referencedColumnName = "intCodUsr" )
+//	@Column(name="intCodUsrAlter")
 	private Usuario usuario;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "intCodUsrAlter", referencedColumnName = "intCodUsr", updatable = false, insertable = false)
+	@JoinColumn(name = "intCodUsrAlter", referencedColumnName = "intCodUsr" )
+//	@Column(name="intCodUsrAlter" )
 	private Usuario usuarioAlteracao;
 
 	public ReqServUsuario() {
@@ -54,6 +56,8 @@ public class ReqServUsuario implements Serializable {
 	public ReqServUsuario(Usuario usuario, RequisicaoServico reqServ) {
 		this.setReqServico(reqServ);
 		this.setUsuario(usuario);
+		this.setNumReqServ(reqServ.getNumReq());
+		this.setUsuarioAlteracao(null);
 	}
 	
 //	public void setNumReqServ(Integer numReqServ) {
