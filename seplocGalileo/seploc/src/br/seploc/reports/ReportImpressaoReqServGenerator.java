@@ -21,6 +21,8 @@ import com.lowagie.text.DocumentException;
 import br.seploc.migracao.ConnectionFactory;
 import br.seploc.reports.beans.ClienteBean;
 import br.seploc.reports.beans.ImpressaoBean;
+import br.seploc.util.HtmlManipulator;
+import br.seploc.util.UtilsArquivo;
 import freemarker.template.TemplateException;
 
 public class ReportImpressaoReqServGenerator {
@@ -349,8 +351,9 @@ public class ReportImpressaoReqServGenerator {
 		try {
 			String s = FreemarkerUtils.parseTemplate(getDataModel(), "impressaoReqServ.html");
 			OutputStream os = new FileOutputStream("src/relatorios/impressaoReqServ.pdf");
-			System.out.println(s);
-			Html2Pdf.convert(s, os);
+//			System.out.println(s);
+//			Html2Pdf.convert(s, os);
+			UtilsArquivo.salvar("src/relatorios/impressaoReqServ2.html",HtmlManipulator.converteParaHtml(s), false);
 //			os.close();
 			System.out.println(s);
 		} catch (TemplateException e) {
@@ -372,7 +375,7 @@ public class ReportImpressaoReqServGenerator {
 		Connection conexao = new ConnectionFactory().getConnection("seploc2",
 				"root", "");
 		rr.setConnection(conexao);
-		rr.setNumRequisicao(10);
+		rr.setNumRequisicao(109251);
 		rr.geraDados();
 		rr.imprimeDados();
 		try {
