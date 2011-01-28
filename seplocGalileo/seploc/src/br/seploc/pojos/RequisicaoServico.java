@@ -53,7 +53,7 @@ public class RequisicaoServico implements Serializable {
 	@Id
 	@GeneratedValue(generator = "reqserv_id", strategy = GenerationType.TABLE)
 	@TableGenerator(name = "reqserv_id", table = "ID_GEN", allocationSize = 1, initialValue = 1, pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "REQ_SERV_GEN")
-	@Column(name = "intNumreq")
+	@Column(name = "intNumReq")
 	private Integer numReq;
 
 	@Temporal(TemporalType.DATE)
@@ -107,8 +107,7 @@ public class RequisicaoServico implements Serializable {
 
 	// @OneToMany(mappedBy = "reqServico")
 	// private List<ReqServUsuario> requisicoesUsuarios;
-	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE,
-			CascadeType.PERSIST, CascadeType.REMOVE })
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL})
 	@JoinColumn(name = "intNumReq", referencedColumnName = "intNumReq")
 	private ReqServUsuario requisicaoUsuario;
 

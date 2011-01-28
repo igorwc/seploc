@@ -185,7 +185,7 @@
 								<rich:column breakBefore="true" width="100">
 									<h:outputText value="Numero" />
 								</rich:column>
-								<rich:column width="400">
+								<rich:column width="320">
 									<h:outputText value="Cliente" />
 								</rich:column>
 								<rich:column width="300">
@@ -197,6 +197,9 @@
 								<rich:column width="100">
 									<h:outputText value="Status" />
 								</rich:column>
+								<rich:column width="80">
+									<h:outputText value="Balcao" />
+								</rich:column>								
 								<rich:column width="150">
 									<h:outputText value="" />
 								</rich:column>								
@@ -221,7 +224,9 @@
 						<rich:column style="text-align:center">
 							<h:outputText value="#{sai.reqServico.status}" />
 						</rich:column>
-
+						<rich:column style="text-align:center">
+							<h:outputText value="#{sai.reqServico.projeto.cliente.balcao==0 ? 'NAO' : 'SIM'}" />
+						</rich:column>
 						<rich:column style="text-align:center">		
 							<!-- editar -->							    
 							<a4j:commandLink ajaxSingle="true" 

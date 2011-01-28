@@ -183,12 +183,15 @@
 								<rich:column width="300">
 									<h:outputText value="Cliente" />
 								</rich:column>
-								<rich:column width="400">
+								<rich:column width="340">
 									<h:outputText value="Projeto" />
 								</rich:column>
 								<rich:column width="100">
 									<h:outputText value="Data" />
 								</rich:column>
+								<rich:column width="60">
+									<h:outputText value="Balcao" />
+								</rich:column>								
 								<rich:column width="100">
 									<h:outputText value="Valor (R$)" />
 								</rich:column>
@@ -215,6 +218,9 @@
 								<f:convertDateTime pattern="dd-MM-yyyy" />
 							</h:outputText>
 						</rich:column>
+						<rich:column style="text-align:center">
+							<h:outputText value="#{req.projeto.cliente.balcao==0 ? 'NAO' : 'SIM'}" />
+						</rich:column>						
 						<rich:column style="text-align:center">
 							<h:outputText value="#{req.valorTotal}">
 								<f:convertNumber type="currency" currencySymbol="R$" />
