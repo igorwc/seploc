@@ -71,7 +71,7 @@ public class MigraEntrega extends Migra<Entrega> {
 		lista = new ArrayList<Entrega>();
 		// pega o Statement
 		PreparedStatement stmt = copytecConnection
-				.prepareStatement("SELECT intCodEnt, vcrLocal, dblPreco FROM tbl_entrega where intCodEnt not in (select intCodEnt from seplocteste.tbl_entrega)");
+				.prepareStatement("SELECT intCodEnt, vcrLocal, dblPreco FROM tbl_entrega where intCodEnt not in (select intCodEnt from seploc2.tbl_entrega)");
 		// executa um select
 		ResultSet rs = stmt.executeQuery();
 		// itera no ResultSet
@@ -120,7 +120,7 @@ public class MigraEntrega extends Migra<Entrega> {
 
 	public static void main(String args[]) {
 		String[] origem = { "dbcopytec", "root", "" };
-		String[] destino = { "seplocteste", "root", "" };
+		String[] destino = { "seploc2", "root", "" };
 
 		try {
 			MigraEntrega migra = MigraEntrega.getInstance(origem, destino);

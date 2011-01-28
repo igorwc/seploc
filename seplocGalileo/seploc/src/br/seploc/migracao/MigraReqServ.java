@@ -54,7 +54,7 @@ public class MigraReqServ extends Migra<RequisicaoServico>{
 				.prepareStatement("SELECT  intNumreq, datData, vcrCnpj, intCodProj, "
 						+ "intCodEnt, dblValorTotal, intStatus,intCodCobr, "
 						+ "intVisivelNf, intVisivelReq, dblValorEnt FROM tbl_reqserv "
-						+ "where intCodProj in (select intCodProj from seplocteste.tbl_projetos )");
+						+ "where intCodProj in (select intCodProj from seploc2.tbl_projetos )");
 		// executa um select
 		ResultSet rs = stmt.executeQuery();
 		// itera no ResultSet
@@ -78,7 +78,7 @@ public class MigraReqServ extends Migra<RequisicaoServico>{
 	}
 	public static void main(String args[]) {
 		MigraReqServ migra = MigraReqServ.getInstance(new ConnectionFactory().getConnection("dbcopytec",
-					"root", ""), new ConnectionFactory().getConnection("seplocteste", "root", ""));
+					"root", ""), new ConnectionFactory().getConnection("seploc2", "root", ""));
 		try {
 			migra.migraDados();
 			System.out.println("terminou");

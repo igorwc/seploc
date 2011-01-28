@@ -89,7 +89,7 @@ public class MigraPapel extends Migra<Papel> {
 
 	public static void main(String args[]) {
 		String[] origem = { "dbcopytec", "root", "" };
-		String[] destino = { "seplocteste", "root", "" };
+		String[] destino = { "seploc2", "root", "" };
 		try {
 			MigraPapel migra = MigraPapel.getInstance(origem, destino);
 			migra.migraDados();

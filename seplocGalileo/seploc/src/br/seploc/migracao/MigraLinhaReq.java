@@ -85,7 +85,7 @@ public class MigraLinhaReq extends Migra {
 				.prepareStatement("SELECT intNumreq, intNumLin, vcrNomeArq, dblFormato, dblDimensao,"
 						+ " intCodPap, vcrImpressao, intQuant, dblValorUnit, dblValorSubUnit "
 						+ "FROM tbl_linhareq "
-						+ "where intNumReq in (select intNumReq from seplocteste.tbl_reqserv) "
+						+ "where intNumReq in (select intNumReq from seploc2.tbl_reqserv) "
 						+ "order by intNumReq asc");
 		// executa um select
 		ResultSet rs = stmt.executeQuery();
@@ -108,7 +108,7 @@ public class MigraLinhaReq extends Migra {
 		stmt = copytecConnection
 				.prepareStatement("SELECT  count(intNumReq ) "
 						+ "FROM tbl_linhareq "
-						+ "where intNumReq not in (select intNumReq from seplocteste.tbl_reqserv) ");
+						+ "where intNumReq not in (select intNumReq from seploc2.tbl_reqserv) ");
 		rs = stmt.executeQuery();
 		if (rs.next()) {
 			int regs = rs.getInt(1);
@@ -119,23 +119,23 @@ public class MigraLinhaReq extends Migra {
 						.prepareStatement("SELECT intNumreq, intNumLin, vcrNomeArq, dblFormato, dblDimensao, "
 								+ "intCodPap, vcrImpressao, intQuant, dblValorUnit, dblValorSubUnit "
 								+ "FROM tbl_linhareq "
-								+ "where intNumReq not in (select intNumReq from seplocteste.tbl_reqserv) "
+								+ "where intNumReq not in (select intNumReq from seploc2.tbl_reqserv) "
 								+ "order by intNumReq asc");
 				rs = stmt.executeQuery();
-				while (rs.next()) {
-					LinhaRequisicao lr = new LinhaRequisicao();
-					lr.setIntNumreq(rs.getInt("intNumReq"));
-					lr.setIntNumLin(rs.getInt("intNumLin"));
-					lr.setVcrNomeArq(rs.getString("vcrNomeArq"));
-					lr.setDblFormato(rs.getDouble("dblFormato"));
-					lr.setDblDimensao(rs.getDouble("dblDimensao"));
-					lr.setIntCodPap(rs.getInt("intCodPap"));
-					lr.setVcrImpressao(rs.getString("vcrImpressao"));
-					lr.setIntQuant(rs.getInt("intQuant"));
-					lr.setDblValorUnit(rs.getDouble("dblValorUnit"));
-					lr.setDblValorSubUnit(rs.getDouble("dblValorSubUnit"));
-					System.out.println(lr);
-				}
+//				while (rs.next()) {
+//					LinhaRequisicao lr = new LinhaRequisicao();
+//					lr.setIntNumreq(rs.getInt("intNumReq"));
+//					lr.setIntNumLin(rs.getInt("intNumLin"));
+//					lr.setVcrNomeArq(rs.getString("vcrNomeArq"));
+//					lr.setDblFormato(rs.getDouble("dblFormato"));
+//					lr.setDblDimensao(rs.getDouble("dblDimensao"));
+//					lr.setIntCodPap(rs.getInt("intCodPap"));
+//					lr.setVcrImpressao(rs.getString("vcrImpressao"));
+//					lr.setIntQuant(rs.getInt("intQuant"));
+//					lr.setDblValorUnit(rs.getDouble("dblValorUnit"));
+//					lr.setDblValorSubUnit(rs.getDouble("dblValorSubUnit"));
+//					System.out.println(lr);
+//				}
 			}
 		}
 		stmt.close();
@@ -144,7 +144,7 @@ public class MigraLinhaReq extends Migra {
 	public static void main(String args[]) {
 		MigraLinhaReq migra = MigraLinhaReq.getInstance(new ConnectionFactory()
 				.getConnection("dbcopytec", "root", ""),
-				new ConnectionFactory().getConnection("seplocteste", "root", ""));
+				new ConnectionFactory().getConnection("seploc2", "root", ""));
 		try {
 			migra.migraDados();
 
