@@ -167,7 +167,7 @@ public class MigraSaidaMotoqueiro extends Migra<SaidaMotoqueiro> {
 
 	public static void main(String args[]) {
 		String[] origem = { "dbcopytec", "root", "" };
-		String[] destino = { "seplocteste", "root", "" };
+		String[] destino = { "seploc2", "root", "" };
 
 		try {
 			MigraSaidaMotoqueiro migra = MigraSaidaMotoqueiro.getInstance(

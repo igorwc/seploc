@@ -75,7 +75,7 @@ public class MigraOpcionaisReqServ {
 		PreparedStatement stmt = copytecConnection
 				.prepareStatement("SELECT  intNumReq, intCodOp, vcrCod, intQuant" +
 								  " FROM tbl_reqservopcionais " +
-								  "where intNumReq in (select intNumReq from seplocteste.tbl_reqserv) " +
+								  "where intNumReq in (select intNumReq from seploc2.tbl_reqserv) " +
 								  "order by intNumReq,intCodOp asc");
 		// executa um select
 		ResultSet rs = stmt.executeQuery();
@@ -147,11 +147,11 @@ public class MigraOpcionaisReqServ {
 		
 		try {
 				MigraOpcionaisReqServ migra = new MigraOpcionaisReqServ(new ConnectionFactory().getConnection("dbcopytec",
-					"root", ""),new ConnectionFactory().getConnection("seplocteste", "root", ""));
+					"root", ""),new ConnectionFactory().getConnection("seploc2", "root", ""));
 			List<OpcionalReqServ> lista = migra.seleciona();
-			for (OpcionalReqServ op : lista) {
-				System.out.println(op);
-			}
+//			for (OpcionalReqServ op : lista) {
+//				System.out.println(op);
+//			}
 			  
 			migra.insereDados(lista);
 			// c.commit();

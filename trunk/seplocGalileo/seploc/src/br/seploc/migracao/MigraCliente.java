@@ -372,7 +372,7 @@ public class MigraCliente extends Migra<Cliente> {
 
 	public static void main(String args[]) {
 		String[] origem = { "dbcopytec", "root", "" };
-		String[] destino = { "seplocteste", "root", "" };
+		String[] destino = { "seploc2", "root", "" };
 		// MigraCliente migra = MigraCliente.getInstance(new ConnectionFactory()
 		// .getConnection("dbcopytec2", "root", ""),
 		// new ConnectionFactory().getConnection("seploc2", "root", ""));

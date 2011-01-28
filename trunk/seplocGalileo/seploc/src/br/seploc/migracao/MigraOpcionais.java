@@ -57,7 +57,7 @@ public class MigraOpcionais extends Migra<Cliente> {
 				System.out.println(op.getId()+ " " + op.getVcrNomeItem());
 			}
 			c.close();
-			c = new ConnectionFactory().getConnection("seplocteste", "root", "");
+			c = new ConnectionFactory().getConnection("seploc2", "root", "");
 			migra.insereDados(c, lista);
 			// c.commit();
 			c.close();
