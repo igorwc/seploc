@@ -34,6 +34,9 @@ public class GrupoMenu {
 
 	@Column(name = "chrEscrita")
 	private Character escrita;
+	
+	@Column(name = "chrVisivel")
+	private Character visivel;
 
 	@JoinColumn(name = "intMenu", referencedColumnName = "intMenu", updatable = false, insertable= false)
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -108,6 +111,14 @@ public class GrupoMenu {
 
 	public Grupo getGrupo() {
 		return grupo;
+	}
+
+	public Character getVisivel() {
+		return visivel;
+	}
+
+	public void setVisivel(Character visivel) {
+		this.visivel = visivel;
 	}
 
 	@Override

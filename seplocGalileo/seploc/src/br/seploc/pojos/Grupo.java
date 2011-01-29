@@ -3,7 +3,9 @@ package br.seploc.pojos;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,17 +29,14 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "tbl_grupo")
 @SqlResultSetMapping(name = "Grupo.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Grupo.class))
-@NamedNativeQueries( {
-		@NamedNativeQuery(name = "Grupo.RetornaGrupos", query = " SELECT * "
-				+ "FROM tbl_grupo g", resultSetMapping = "Grupo.implicit") 
-})
+@NamedNativeQueries( { @NamedNativeQuery(name = "Grupo.RetornaGrupos", query = " SELECT * "
+		+ "FROM tbl_grupo g", resultSetMapping = "Grupo.implicit") })
 public class Grupo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(generator = "grupo_id", strategy = GenerationType.TABLE)
-	@TableGenerator(name = "grupo_id", table = "ID_GEN", allocationSize = 1,initialValue= 1,
-			pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "GRUPO_GEN")
+	@TableGenerator(name = "grupo_id", table = "ID_GEN", allocationSize = 1, initialValue = 1, pkColumnName = "NOME_ID", valueColumnName = "VAL_ID", pkColumnValue = "GRUPO_GEN")
 	@Column(name = "intGrupo")
 	private Integer codGrupo;
 
@@ -50,7 +49,7 @@ public class Grupo implements Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "grupo")
 	private List<GrupoMenu> grupoMenus;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "grupo")
 	private List<Usuario> usuarios;
 
@@ -123,6 +122,19 @@ public class Grupo implements Serializable {
 		result = prime * result + codGrupo;
 		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
 		return result;
+	}
+
+	public Map<String, Boolean> retornaPermissoes() {
+		Map<String, Boolean> retorno = new HashMap<String, Boolean>();
+		for(GrupoMenu gm : this.getGrupoMenus()){
+			boolean visivel = false;
+			if(gm.getVisivel() == 'S'){
+				visivel = true;
+			}
+			retorno.put(gm.getMenu().getMenu(), visivel);
+		}
+		
+		return retorno;
 	}
 
 	@Override
