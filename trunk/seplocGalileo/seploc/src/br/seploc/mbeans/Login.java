@@ -1,16 +1,16 @@
 package br.seploc.mbeans;
 
 import java.util.Locale;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import br.seploc.dao.UsuarioDAO;
 import br.seploc.pojos.Usuario;
+import br.seploc.util.MENUS;
 import br.seploc.util.SessionObjectsManager;
 import br.seploc.util.Utils;
 
@@ -30,7 +30,7 @@ public class Login {
 	public Login() {
 		loginOk = false;
 		userName = "";
-		
+
 	}
 
 	public boolean isLoginOk() {
@@ -148,6 +148,7 @@ public class Login {
 		falhaLogin = false;
 		userName = this.user.getLogin();
 		userNameFull = this.user.getNome();
+		processaMenus();
 		return "principal";
 		// }
 		// else {
@@ -155,6 +156,15 @@ public class Login {
 		// falhaLogin = true;
 		// return "login";
 		// }
+	}
+
+	private void processaMenus() {
+		Map<String, Boolean> permissoesMenus = this.user.getGrupo()
+				.retornaPermissoes();
+		for(MENUS m: MENUS.values()){
+			SessionObjectsManager.adicionaObjetoSessao(m.getNome(), !permissoesMenus.get(m.getNome()));
+			System.out.println(m.getNome()+","+ permissoesMenus.get(m.getNome()));
+		}
 	}
 
 	// }
