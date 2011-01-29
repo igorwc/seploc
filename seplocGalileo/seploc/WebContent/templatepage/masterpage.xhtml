@@ -67,10 +67,10 @@
 									<h:outputText value="#{msgs['menu.raiz.seploc']}" />
 								</h:panelGroup>
 							</f:facet>
-							<rich:menuItem submitMode="ajax" value="#{msgs['menu.raiz.seploc.parametro']}" action="#"
+							<rich:menuItem disabled="#{sessionScope.PARAMETROS}"  submitMode="ajax" value="#{msgs['menu.raiz.seploc.parametro']}" action="#"
 								icon="../imgs/icons/create_doc.gif">
 							</rich:menuItem>
-							<rich:menuItem submitMode="ajax" value="#{msgs['menu.raiz.seploc.sobre']}" action="#" icon="../imgs/icons/open.gif" />
+							<rich:menuItem submitMode="ajax" value="#{msgs['menu.raiz.seploc.sobre']}" action="#" icon="../imgs/icons/open.gif"  />
 							<rich:menuSeparator id="menuSeparator1" />
 							<rich:menuItem submitMode="ajax" value="#{msgs['menu.raiz.seploc.sair']}" icon="../imgs/icons/sair.gif" action="#{login.logoff}"  >
 							 
@@ -85,11 +85,11 @@
 									<h:outputText value="#{msgs['menu.raiz.requisicao']}" />
 								</h:panelGroup>
 							</f:facet>
-							<rich:menuItem submitMode="ajax" value="#{msgs['menu.raiz.requisicao.clibalcao']}" icon="../imgs/icons/atendc.gif" onclick="document.location.href='../requisicao/reqServBalcao.jsf'" />
-							<rich:menuItem submitMode="nome" value="#{msgs['menu.raiz.requisicao.clicadastrado']}" icon="../imgs/icons/atendb.gif"  onclick="document.location.href='../requisicao/reqServCliente.jsf'" />
+							<rich:menuItem disabled="#{sessionScope.BALCAO}" submitMode="ajax" value="#{msgs['menu.raiz.requisicao.clibalcao']}" icon="../imgs/icons/atendc.gif" onclick="document.location.href='../requisicao/reqServBalcao.jsf'" />
+							<rich:menuItem disabled="#{sessionScope.REQ_CLIENTE}" submitMode="nome" value="#{msgs['menu.raiz.requisicao.clicadastrado']}" icon="../imgs/icons/atendb.gif"  onclick="document.location.href='../requisicao/reqServCliente.jsf'" />
 							<rich:menuSeparator id="menuSeparator2" />
-							<rich:menuItem submitMode="ajax" value="#{msgs['menu.raiz.requisicao.listarreq']}" action="#" icon="../imgs/icons/copy.gif" onclick="document.location.href='../requisicao/reqServLista.jsf'"/>
-							<rich:menuItem submitMode="ajax" value="#{msgs['menu.raiz.requisicao.listarreqsaida']}" action="#" icon="../imgs/icons/copy.gif" onclick="document.location.href='../requisicao/reqServListaSaida.jsf'"/>
+							<rich:menuItem disabled="#{sessionScope.REQUISICOES}" submitMode="ajax" value="#{msgs['menu.raiz.requisicao.listarreq']}" action="#" icon="../imgs/icons/copy.gif" onclick="document.location.href='../requisicao/reqServLista.jsf'"/>
+							<rich:menuItem disabled="#{sessionScope.SAIDA_REQ}" submitMode="ajax" value="#{msgs['menu.raiz.requisicao.listarreqsaida']}" action="#" icon="../imgs/icons/copy.gif" onclick="document.location.href='../requisicao/reqServListaSaida.jsf'"/>
 						</rich:dropDownMenu>
 
 						<!-- MENU CADASTRO -->						
@@ -100,15 +100,15 @@
 									<h:outputText value="#{msgs['menu.raiz.cadastros']}" />
 								</h:panelGroup>
 							</f:facet>
-							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.papel']}"    icon="../imgs/icons/papel.gif" onclick="document.location.href='../cadastros/cadPapel.jsf'" />
-							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.opcional']}" icon="../imgs/icons/lupa.gif" onclick="document.location.href='../cadastros/cadOpcional.jsf'" />
-							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.entrega']}"  icon="../imgs/icons/globo.gif" onclick="document.location.href='../cadastros/cadEntrega.jsf'" />							
-							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.cobrador']}" icon="../imgs/icons/pessoah.gif" onclick="document.location.href='../cadastros/cadCobrador.jsf'" />
-							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.usuario']}"  icon="../imgs/icons/pessoam.gif" onclick="document.location.href='../cadastros/cadUsuario.jsf'"  />
-							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.cliente']}"  icon="../imgs/icons/pessoas.gif" onclick="document.location.href='../cadastros/cadCliente.jsf'" />
-							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.projeto']}"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='../cadastros/cadProjeto.jsf'"  />
-							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.grupo']}"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='../cadastros/cadGrupo.jsf'"  />							
-							<rich:menuItem submitMode="none" value="#{msgs['menu.raiz.cadastros.grupomenu']}"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='../cadastros/cadGrupoMenu.jsf'"  />
+							<rich:menuItem disabled="#{sessionScope.PAPEL}"  submitMode="none" value="#{msgs['menu.raiz.cadastros.papel']}"    icon="../imgs/icons/papel.gif" onclick="document.location.href='../cadastros/cadPapel.jsf'" />
+							<rich:menuItem disabled="#{sessionScope.OPCIONAL}" submitMode="none" value="#{msgs['menu.raiz.cadastros.opcional']}" icon="../imgs/icons/lupa.gif" onclick="document.location.href='../cadastros/cadOpcional.jsf'" />
+							<rich:menuItem disabled="#{sessionScope.ENTREGA}" submitMode="none" value="#{msgs['menu.raiz.cadastros.entrega']}"  icon="../imgs/icons/globo.gif" onclick="document.location.href='../cadastros/cadEntrega.jsf'" />							
+							<rich:menuItem disabled="#{sessionScope.COBRADOR}" submitMode="none" value="#{msgs['menu.raiz.cadastros.cobrador']}" icon="../imgs/icons/pessoah.gif" onclick="document.location.href='../cadastros/cadCobrador.jsf'" />
+							<rich:menuItem disabled="#{sessionScope.USUARIO}" submitMode="none" value="#{msgs['menu.raiz.cadastros.usuario']}"  icon="../imgs/icons/pessoam.gif" onclick="document.location.href='../cadastros/cadUsuario.jsf'"  />
+							<rich:menuItem disabled="#{sessionScope.CLIENTE}" submitMode="none" value="#{msgs['menu.raiz.cadastros.cliente']}"  icon="../imgs/icons/pessoas.gif" onclick="document.location.href='../cadastros/cadCliente.jsf'" />
+							<rich:menuItem disabled="#{sessionScope.PROJETO}" submitMode="none" value="#{msgs['menu.raiz.cadastros.projeto']}"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='../cadastros/cadProjeto.jsf'"  />
+							<rich:menuItem disabled="#{sessionScope.GRUPO}" submitMode="none" value="#{msgs['menu.raiz.cadastros.grupo']}"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='../cadastros/cadGrupo.jsf'"  />							
+							<rich:menuItem disabled="#{sessionScope.ASSOCIAR_USUARIO}" submitMode="none" value="#{msgs['menu.raiz.cadastros.grupomenu']}"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='../cadastros/cadGrupoMenu.jsf'"  />
 						</rich:dropDownMenu>
 
 					</rich:toolBar>
