@@ -81,13 +81,21 @@
 								         required="true" 
 								         requiredMessage="O cliente deve ser informado."
 								         size="40"
-								         /></td>							
+								         /></td>
+							<td width="2%"></td>	         							
 							<td width="15%">
 								<h:outputText value="Valor Total:" styleClass="texto"/></td>
 							<td width="20%">
 								<h:outputText value="#{reqServClienteCB.reqServMB.valorTotalReq}" >
-								<f:convertNumber type="currency" currencySymbol="R$"/></h:outputText></td>							
-							<td width="10%"></td>
+								<f:convertNumber type="currency" currencySymbol="R$"/></h:outputText></td>
+							<td width="3%"></td>							
+							<td width="5%" rowspan="2">
+								<h:outputText value="Orcamento:" styleClass="texto"/>
+								<h:selectOneRadio value="#{reqServClienteCB.reqServMB.reqServico.orcamento}" id="orcamento" >
+									<f:selectItem itemLabel="SIM" itemValue="1"/>
+									<f:selectItem itemLabel="NAO" itemValue="0"/>				             		
+								</h:selectOneRadio>
+								</td>
 							<td width="20%" rowspan="2" align="center">
 								<fieldset><legend class="texto">Numero Requisicao</legend>
 									<h:outputText value="#{reqServClienteCB.reqServMB.reqServico.numReq}" styleClass="numeroRequisicao">
@@ -102,25 +110,22 @@
 										 id="projeto" 
 										 required="true"
 										 size="40"										  
-										 requiredMessage="O projeto deve ser informado."/></td>										
+										 requiredMessage="O projeto deve ser informado."/></td>	
+							<td></td>			 									
 							<td>
 	   							<h:outputText value="Local de Entrega: " styleClass="texto"/></td>
 	                   		<td>
 	                   			<h:inputText value="#{reqServClienteCB.reqServMB.entrega.local}"									 						 
 										 id="entrega" 
 										 size="35"
-										 readonly="true" /></td>																					
+										 readonly="true" /></td>																												
 							<td>
 						   		<a4j:commandLink ajaxSingle="true" 
 						   						 id="editlinkent" 
 												 oncomplete="#{rich:component('modalEntrega')}.show();return false;">
 									<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
-								</a4j:commandLink></td>			
-							<td><h:outputText value="Orcamento:" styleClass="texto"/>
-							    <h:selectOneMenu value="#{reqServClienteCB.reqServMB.reqServico.orcamento}" id="orcamento">
-				             		<f:selectItem itemLabel="NAO" itemValue="0"/>
-				             		<f:selectItem itemLabel="SIM" itemValue="1"/>				                    				
-				             	</h:selectOneMenu></td>				            				
+								</a4j:commandLink></td>									
+											            				
 						</tr>
 						<tr align="left">					
 							<td colspan="5" valign="top">
@@ -136,7 +141,7 @@
 											<th><h:outputText value="Quant"/></th>							
 										</tr>
 										<tr>
-											<td><h:inputText id="desc" value="#{reqServClienteCB.reqServMB.linhaReqServ.nomeArquivo}" size="50"/></td>
+											<td><h:inputText id="desc" value="#{reqServClienteCB.reqServMB.linhaReqServ.nomeArquivo}" size="55"/></td>
 											<td><h:inputText id="for" value="#{reqServClienteCB.reqServMB.linhaReqServ.formato}" size="5"/></td>
 											<td><h:inputText id="dim" value="#{reqServClienteCB.reqServMB.linhaReqServ.dimensao}" size="5"/></td>
 											<td><h:selectOneMenu value="#{reqServClienteCB.reqServMB.papel.codPapel}" id="papel">
@@ -157,7 +162,7 @@
 								</fieldset>
 								<!-- Fim Linha -->
 							</td>
-							<td colspan="2" valign="top">
+							<td colspan="3" valign="top">
 								<!-- Opcional -->
 								<fieldset><legend class="texto">Opcionais</legend>
 									<table>
