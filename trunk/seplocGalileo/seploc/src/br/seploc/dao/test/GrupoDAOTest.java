@@ -103,5 +103,12 @@ public class GrupoDAOTest {
 		}
 		Assert.assertTrue(lista.size() == 2);
 	}
-
+	@Test
+	public final void testPermissoes() {
+		GrupoDAO dao = new GrupoDAO();
+		Grupo  g = dao.recupera(3);
+		System.out.println(g.retornaPermissoes());
+		g = dao.recupera(2);
+		System.out.println(g.retornaPermissoes());
+	}
 }
