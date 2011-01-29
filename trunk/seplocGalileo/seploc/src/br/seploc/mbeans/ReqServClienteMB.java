@@ -24,6 +24,7 @@ import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
 import br.seploc.dao.OpcionaisReqServDAO;
 import br.seploc.dao.PapelDAO;
+import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.dao.UsuarioDAO;
 
@@ -45,10 +46,13 @@ public class ReqServClienteMB implements Serializable {
 	private String filtroEntrega;
 	private String filtroProjeto;
 	private String filtroCliente;
+	private String clienteBalcao;
+	private String projetoBalcao;
 	private double valorTotalReq;
 	private int quantidadeOpcional;
 	private int numReqAtual;
 	private int numReqBusca;
+	private int orcamento;
 	private Integer numReqSessao;
 	private ReqServUsuario reqServUsuario;
 
@@ -82,6 +86,22 @@ public class ReqServClienteMB implements Serializable {
 		this.filtroProjeto = "";
 		System.out.println("Limpou o cliente");
 		System.out.println("cliente: "+cliente.getFantasia().toString());		
+	}
+
+	public String getClienteBalcao() {
+		return clienteBalcao;
+	}
+
+	public void setClienteBalcao(String clienteBalcao) {
+		this.clienteBalcao = clienteBalcao;
+	}
+
+	public String getProjetoBalcao() {
+		return projetoBalcao;
+	}
+
+	public void setProjetoBalcao(String projetoBalcao) {
+		this.projetoBalcao = projetoBalcao;
 	}
 
 	public OpcionaisReqServ getOpcional() {
@@ -214,6 +234,14 @@ public class ReqServClienteMB implements Serializable {
 		this.numReqBusca = numReqBusca;
 	}
 
+	public void setOrcamento(int orcamento) {
+		this.orcamento = orcamento;
+	}
+
+	public int getOrcamento() {
+		return orcamento;
+	}
+
 	public void setReqServUsuario(ReqServUsuario reqServUsuario) {
 		this.reqServUsuario = reqServUsuario;
 	}
@@ -279,7 +307,7 @@ public class ReqServClienteMB implements Serializable {
 	}
 
 	public List<RequisicaoServico> getListaReqServ() {
-		// setar data de 60 dias atr�s
+		// setar data de 60 dias atras
 		Calendar calendarData = Calendar.getInstance();
 		  int numeroDiasParaSubtrair = -60;
 		  calendarData.add(Calendar.DATE, numeroDiasParaSubtrair);
@@ -294,6 +322,54 @@ public class ReqServClienteMB implements Serializable {
 				.getListaPorProjeto(cliente);
 
 		return retorno;
+	}
+	
+	public void cadastrarBalcao(){
+		Cliente c = null;		
+		Projeto p = null;
+		ProjetoDAO projDAO = new ProjetoDAO();
+		ClienteDAO cliDAO = new ClienteDAO();
+		try {
+			//criar o cliente
+			if (clienteBalcao == null || clienteBalcao == ""){
+				c = new Cliente("CLIENTE BALCAO");
+			} else {
+				c = new Cliente(clienteBalcao.toUpperCase());				
+			}
+			//indicar que o cliente eh balcao
+			c.setBalcao(1);
+			//criar um cnpj ficticio
+			c.setCpf("00000000000");
+			//cadastrar o cliente
+			cliDAO.adiciona(c);
+			
+			// criar o projeto
+			if (projetoBalcao == null || projetoBalcao == ""){
+				p = new Projeto("GERAL");
+			} else {
+				p = new Projeto(projetoBalcao.toUpperCase());
+			}		
+			p.setCliente(c);
+			projDAO = new ProjetoDAO();
+		
+			projDAO.adiciona(p);			
+			this.projeto = p;	
+			
+		} catch (Exception e) {
+			System.out.println("Nao foi possivel criar o projeto!");
+			addGlobalMessage("Nao foi possivel criar o projeto!");
+			e.printStackTrace();			
+		}
+
+		try {
+			p = projDAO.recupera(projeto.getCodProj());
+			this.projeto = p;
+			this.cadastrar();
+			
+		} catch (Exception e) {
+			addGlobalMessage("Ocorreu um erro ao criar a requisicao!");
+			e.printStackTrace();
+		}
 	}
 	
 	public void cadastrar() {
@@ -324,21 +400,7 @@ public class ReqServClienteMB implements Serializable {
 				reqServico.setStatus(0);
 				reqServico.setVisivelNf(0);
 				reqServico.setVisivelReq(0);
-				reqServico.setOrcamento(0);
 				
-				
-				// usuario que criou a requisicao
-				//String login;
-				//login = SessionObjectsManager.recuperaObjetoSessao("loginUser").toString();
-				//login = "gustavo";
-				//UsuarioDAO usuarioDAO = new UsuarioDAO();
-				//List<Usuario> lu = usuarioDAO.getListaUsuariosPorLogin(login);
-				//for (Usuario u : lu){
-//					System.out.println("Usuario: "+u.getLogin());
-					 
-					 
-//				}								
-								
 				// adicionar a requisicao de servico se um dos itens obrigatoriso existirem
 				if (existeLinha || existeOpcional){
 					reqServicoDAO.adiciona(reqServico);
@@ -353,6 +415,7 @@ public class ReqServClienteMB implements Serializable {
 				Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");
 				System.out.println("Usuario Criador: "+user.getLogin());
 				reqServUsuario = new ReqServUsuario(user, reqServico);
+				reqServUsuario.setData(hoje);
 				reqServico.setRequisicaoUsuario(reqServUsuario);
 				
 				//reqServicoDAO.refresh(reqServico);
@@ -446,6 +509,13 @@ public class ReqServClienteMB implements Serializable {
 					if (!temp.getProjeto().equals(p)){
 						temp.setProjeto(projeto);						
 					}			
+					
+					// registrar usuario que alterou a requisicao
+					Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");					 
+					System.out.println("Usuario Alterador: "+user.getLogin());
+					reqServUsuario = reqServico.getRequisicaoUsuario();
+					reqServUsuario.setUsuarioAlteracao(user);
+					reqServico.setRequisicaoUsuario(reqServUsuario);					
 					
 					temp.setValorTotal(this.calcularTotal(temp));					
 					reqServicoDAO.altera(temp);
