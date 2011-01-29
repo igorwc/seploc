@@ -173,7 +173,7 @@
 						<f:facet name="header">
 							<rich:columnGroup>
 
-								<rich:column colspan="7">
+								<rich:column colspan="8">
 									<h:outputText value="Listar Requisicoes de Servicos" />
 								</rich:column>
 
@@ -183,16 +183,20 @@
 								<rich:column width="300">
 									<h:outputText value="Cliente" />
 								</rich:column>
-								<rich:column width="340">
+								<rich:column width="300">
 									<h:outputText value="Projeto" />
 								</rich:column>
-								<rich:column width="100">
+								<rich:column width="80">
 									<h:outputText value="Data" />
 								</rich:column>
 								<rich:column width="60">
 									<h:outputText value="Balcao" />
+								</rich:column>
+								<rich:column width="80">
+									<h:outputText value="Orcamento" />
 								</rich:column>								
-								<rich:column width="100">
+																
+								<rich:column width="80">
 									<h:outputText value="Valor (R$)" />
 								</rich:column>
 								<rich:column width="150">
@@ -220,7 +224,10 @@
 						</rich:column>
 						<rich:column style="text-align:center">
 							<h:outputText value="#{req.projeto.cliente.balcao==0 ? 'NAO' : 'SIM'}" />
-						</rich:column>						
+						</rich:column>
+						<rich:column style="text-align:center">
+							<h:outputText value="#{req.orcamento==0 ? 'NAO' : 'SIM'}" />
+						</rich:column>																	
 						<rich:column style="text-align:center">
 							<h:outputText value="#{req.valorTotal}">
 								<f:convertNumber type="currency" currencySymbol="R$" />

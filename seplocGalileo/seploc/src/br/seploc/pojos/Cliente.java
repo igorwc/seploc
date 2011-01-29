@@ -120,6 +120,12 @@ public class Cliente implements Serializable {
 	}
 
 	
+	public Cliente(String razao) {
+		this();
+		this.razao = razao;
+		this.fantasia = razao;
+	}	
+	
 	public Cliente(String cnpj, String razao, String cpf, String endereco,
 			String bairro, String cidade, String estado, String cep,
 			String email, String fantasia) {
