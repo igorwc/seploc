@@ -181,7 +181,7 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 			throw new FieldNotNullException("O CPF/CNPJ deve ser preenchido");
 		}
 		if (c.getCnpj() == null || c.getCnpj().trim().equals("")) {
-			if (!(c.getCpf() == null) || !c.getCpf().trim().equals("")) {
+			if (!(c.getCpf() == null) || !c.getCpf().trim().equals("") || !c.getCpf().trim().equals("0")) {
 				List<Cliente> list = getClientesPorCPF(c.getCpf());
 				if (list != null && !list.isEmpty()) {
 					throw new UniqueKeyException("CPF Já cadastrado!");
@@ -189,9 +189,11 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 			}
 		} else {
 			if (!(c.getCnpj() == null) || !c.getCnpj().trim().equals("")) {
-				List<Cliente> list = getClientesPorCNPJ(c.getCnpj());
-				if (list != null && !list.isEmpty()) {
-					throw new UniqueKeyException("CNPJ Já cadastrado!");
+				if (c.getCnpj() != "0") {
+					List<Cliente> list = getClientesPorCNPJ(c.getCnpj());
+					if (list != null && !list.isEmpty()) {
+						throw new UniqueKeyException("CNPJ Já cadastrado!");
+					}
 				}
 			}
 		}
