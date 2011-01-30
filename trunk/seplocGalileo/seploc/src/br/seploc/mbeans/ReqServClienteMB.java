@@ -339,7 +339,8 @@ public class ReqServClienteMB implements Serializable {
 			//indicar que o cliente eh balcao
 			c.setBalcao(1);
 			//criar um cnpj ficticio
-			c.setCpf("00000000000");
+			c.setCpf("0");
+			c.setCnpj("0");
 			//cadastrar o cliente
 			cliDAO.adiciona(c);
 			
