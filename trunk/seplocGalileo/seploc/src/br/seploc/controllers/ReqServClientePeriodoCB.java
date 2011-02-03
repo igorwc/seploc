@@ -1,5 +1,6 @@
 package br.seploc.controllers;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
@@ -7,7 +8,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.ServletContext;
 
+import br.seploc.mbeans.AppServiceBean;
 import br.seploc.mbeans.ReqServClientePeriodoMB;
+import br.seploc.pojos.Cliente;
 import br.seploc.util.SessionObjectsManager;
 
 public class ReqServClientePeriodoCB {
@@ -48,12 +51,16 @@ public class ReqServClientePeriodoCB {
 		return clienteMB;
 	}
 
+	
 	public ReqServClientePeriodoCB() {
 		System.out.println("construiu ReqServClientePeriodoCB");
 		locale = new Locale("pt", "br");
 		this.setClientePeriodoMB(loadClientePeriodoMB());
 	}
 
+	public List<Cliente> getListaClientes() {
+		return AppServiceBean.getListaClientes();
+	}
 	// GETTERS AND SETTERS
 	public ReqServClientePeriodoMB getClientePeriodoMB() {
 		return clientePeriodoMB;
