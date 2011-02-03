@@ -114,10 +114,13 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 		return (List<Cliente>) q.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Cliente> getListaCache() {
 //		em.getTransaction().begin();
 		Query q = em.createNamedQuery("Cliente.RetornaClientes");
-		q.setHint("javax.persistence.cache.storeMode", "REFRESH");
+//		q.setHint("javax.persistence.cache.storeMode", "REFRESH");
+//		q.setHint("javax.persistence.cache.storeMode", "USE");
+//		q.setHint("org.hibernate.cacheable", "true");
 //		em.getTransaction().commit();
 		return (List<Cliente>) q.getResultList();
 	}
