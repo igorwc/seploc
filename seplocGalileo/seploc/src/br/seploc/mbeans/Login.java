@@ -10,11 +10,12 @@ import javax.faces.validator.ValidatorException;
 
 import br.seploc.dao.UsuarioDAO;
 import br.seploc.pojos.Usuario;
+import br.seploc.util.ListsLoader;
 import br.seploc.util.MENUS;
 import br.seploc.util.SessionObjectsManager;
 import br.seploc.util.Utils;
 
-public class Login {
+public class Login implements Runnable{
 	private boolean loginOk;
 	private String userName;
 	private String userNameFull;
@@ -108,6 +109,8 @@ public class Login {
 	}
 
 	public String validateLogin() {
+		(new ListsLoader()).start();
+
 		newPasswordOk = true;
 		Usuario usuario = null;
 		System.out.println("Entrou aqui!!!");
@@ -163,7 +166,7 @@ public class Login {
 				.retornaPermissoes();
 		for(MENUS m: MENUS.values()){
 			SessionObjectsManager.adicionaObjetoSessao(m.getNome(), !permissoesMenus.get(m.getNome()));
-			System.out.println(m.getNome()+","+ permissoesMenus.get(m.getNome()));
+//			System.out.println(m.getNome()+","+ permissoesMenus.get(m.getNome()));
 		}
 	}
 
@@ -204,5 +207,12 @@ public class Login {
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	}
+
+	@Override
+	public void run() {
+		AppServiceBean appBean = new AppServiceBean();
+		appBean.getListaClientes();
+		
 	}
 }
