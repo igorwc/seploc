@@ -25,25 +25,24 @@ import br.seploc.pojos.OpcionaisReqServ;
 
 public class AppServiceBean {
 
-	private List<String> locaisEntrega;
-	private List<String> papeis;
-	private List<String> opcionais;
-	private List<String> nomesCliente;
-	private String cidadeCorrente = "";
-    private List<Cliente> listaClientes;
-	private int tamanholistaPapel;
-	private int tamanholistaEntrega;
-	private int tamanholistaOpcionais;
-	private int tamanholistaClientes;
-	
-	private long ultimaConsultaCliente;
+	private static List<String> locaisEntrega;
+	private static List<String> papeis;
+	private static List<String> opcionais;
+	private static List<String> nomesCliente;
+	private static String cidadeCorrente = "";
+	private static List<Cliente> listaClientes;
+	private static int tamanholistaPapel;
+	private static int tamanholistaEntrega;
+	private static int tamanholistaOpcionais;
+	private static int tamanholistaClientes;
+	private static boolean isloaded;
+	private static long ultimaConsultaCliente;
 
-	
 	/**
 	 * @return the cidadeCorrente
 	 */
-	public String getCidadeCorrente() {
-		System.out.println("get = " + this.cidadeCorrente);
+	public static String getCidadeCorrente() {
+		System.out.println("get = " + AppServiceBean.cidadeCorrente);
 		return cidadeCorrente;
 	}
 
@@ -51,28 +50,28 @@ public class AppServiceBean {
 	 * @param cidadeCorrente
 	 *            the cidadeCorrente to set
 	 */
-	public void setCidadeCorrente(String cidadeCorrente) {
-		System.out.println("set = " + this.cidadeCorrente);
-		this.cidadeCorrente = cidadeCorrente;
+	public static void setCidadeCorrente(String cidadeCorrente) {
+		System.out.println("set = " + AppServiceBean.cidadeCorrente);
+		AppServiceBean.cidadeCorrente = cidadeCorrente;
 	}
 
-	public int getTamanholistaClientes() {
+	public static int getTamanholistaClientes() {
 		return tamanholistaClientes;
 	}
 
-	public void setTamanholistaClientes(int tamanholistaClientes) {
-		this.tamanholistaClientes = tamanholistaClientes;
+	public static void setTamanholistaClientes(int tamanholistaClientes) {
+		AppServiceBean.tamanholistaClientes = tamanholistaClientes;
 	}
 
-	public int getTamanholistaOpcionais() {
+	public static int getTamanholistaOpcionais() {
 		return tamanholistaOpcionais;
 	}
 
-	public void setTamanholistaOpcionais(int tamanholistaOpcionais) {
-		this.tamanholistaOpcionais = tamanholistaOpcionais;
+	public static void setTamanholistaOpcionais(int tamanholistaOpcionais) {
+		AppServiceBean.tamanholistaOpcionais = tamanholistaOpcionais;
 	}
 
-	public List<Cidade> getTodasCidades() {
+	public static List<Cidade> getTodasCidades() {
 
 		CidadeDAO cidadeDAO = new CidadeDAO();
 		List<Cidade> retorno = cidadeDAO.getLista();
@@ -80,29 +79,29 @@ public class AppServiceBean {
 		return retorno;
 	}
 
-	public List<SelectItem> getLocaisEntrega() {
+	public static List<SelectItem> getLocaisEntrega() {
 		ArrayList<SelectItem> retorno = new ArrayList<SelectItem>();
 		EntregaDAO entregaDAO = new EntregaDAO();
 		List<String> entregas = entregaDAO.getLocaisEntrega();
-		this.setLocaisEntrega(entregas);
+		AppServiceBean.setLocaisEntrega(entregas);
 		for (String b : entregas) {
 			retorno.add(new SelectItem(b));
 		}
 		return retorno;
 	}
 
-	public List<SelectItem> getNomesCliente() {
+	public static List<SelectItem> getNomesCliente() {
 		ArrayList<SelectItem> retorno = new ArrayList<SelectItem>();
 		ClienteDAO clienteDAO = new ClienteDAO();
 		List<String> clientes = clienteDAO.getNomesCliente();
-		this.setNomesCliente(clientes);
+		AppServiceBean.setNomesCliente(clientes);
 		for (String b : clientes) {
 			retorno.add(new SelectItem(b));
 		}
 		return retorno;
 	}
 
-	public List<SelectItem> getPapeis() {
+	public static List<SelectItem> getPapeis() {
 		ArrayList<SelectItem> retorno = new ArrayList<SelectItem>();
 		PapelDAO papelDAO = new PapelDAO();
 		List<String> papeis = papelDAO.getPapeis();
@@ -110,7 +109,7 @@ public class AppServiceBean {
 			retorno.add(new SelectItem(""));
 
 		}
-		this.setPapeis(papeis);
+		AppServiceBean.setPapeis(papeis);
 
 		for (String b : papeis) {
 			retorno.add(new SelectItem(b));
@@ -118,7 +117,7 @@ public class AppServiceBean {
 		return retorno;
 	}
 
-	public List<SelectItem> getOpcionais() {
+	public static List<SelectItem> getOpcionais() {
 		ArrayList<SelectItem> retorno = new ArrayList<SelectItem>();
 		OpcionaisReqServDAO opcionaisDAO = new OpcionaisReqServDAO();
 		List<String> opcionais = opcionaisDAO.getOpcionais();
@@ -126,7 +125,7 @@ public class AppServiceBean {
 			retorno.add(new SelectItem(""));
 
 		}
-		this.setOpcionais(opcionais);
+		AppServiceBean.setOpcionais(opcionais);
 
 		for (String b : opcionais) {
 			retorno.add(new SelectItem(b));
@@ -138,20 +137,20 @@ public class AppServiceBean {
 	 * @param locaisEntrega
 	 *            the locaisEntrega to set
 	 */
-	public void setLocaisEntrega(List<String> locaisEntrega) {
-		this.locaisEntrega = locaisEntrega;
-		this.setTamanholistaEntrega(locaisEntrega.size());
+	public static void setLocaisEntrega(List<String> locaisEntrega) {
+		AppServiceBean.locaisEntrega = locaisEntrega;
+		AppServiceBean.setTamanholistaEntrega(locaisEntrega.size());
 	}
 
-	public void setNomesCliente(List<String> nomesCliente) {
-		this.nomesCliente = nomesCliente;
-		this.setTamanholistaClientes(nomesCliente.size());
+	public static void setNomesCliente(List<String> nomesCliente) {
+		AppServiceBean.nomesCliente = nomesCliente;
+		AppServiceBean.setTamanholistaClientes(nomesCliente.size());
 	}
 
 	/**
 	 * @return the tamanholistaPapel
 	 */
-	public int getTamanholistaPapel() {
+	public static int getTamanholistaPapel() {
 		return tamanholistaPapel;
 	}
 
@@ -159,15 +158,15 @@ public class AppServiceBean {
 	 * @param tamanholistaPapel
 	 *            the tamanholistaPapel to set
 	 */
-	public void setTamanholistaPapel(int tamanholistaPapel) {
-		this.tamanholistaPapel = tamanholistaPapel;
+	public static void setTamanholistaPapel(int tamanholistaPapel) {
+		AppServiceBean.tamanholistaPapel = tamanholistaPapel;
 
 	}
 
 	/**
 	 * @return the tamanholistaEntrega
 	 */
-	public int getTamanholistaEntrega() {
+	public static int getTamanholistaEntrega() {
 		return tamanholistaEntrega;
 	}
 
@@ -175,23 +174,23 @@ public class AppServiceBean {
 	 * @param tamanholistaEntrega
 	 *            the tamanholistaEntrega to set
 	 */
-	public void setTamanholistaEntrega(int tamanholistaEntrega) {
-		this.tamanholistaEntrega = tamanholistaEntrega;
+	public static void setTamanholistaEntrega(int tamanholistaEntrega) {
+		AppServiceBean.tamanholistaEntrega = tamanholistaEntrega;
 	}
 
 	/**
 	 * @param papeis
 	 *            the papeis to set
 	 */
-	public void setPapeis(List<String> papeis) {
-		this.papeis = papeis;
-		this.setTamanholistaPapel(this.papeis.size());
+	public static void setPapeis(List<String> papeis) {
+		AppServiceBean.papeis = papeis;
+		AppServiceBean.setTamanholistaPapel(AppServiceBean.papeis.size());
 		System.out.println("Setou tamanho " + tamanholistaPapel);
 	}
 
-	public void setOpcionais(List<String> opcionais) {
-		this.opcionais = opcionais;
-		this.setTamanholistaOpcionais(this.opcionais.size());
+	public static void setOpcionais(List<String> opcionais) {
+		AppServiceBean.opcionais = opcionais;
+		AppServiceBean.setTamanholistaOpcionais(AppServiceBean.opcionais.size());
 		System.out.println("Setou tamanho " + tamanholistaOpcionais);
 	}
 
@@ -206,7 +205,7 @@ public class AppServiceBean {
 	 * @param value
 	 * @throws ValidatorException
 	 */
-	public void validatePapeis(FacesContext context, UIComponent component,
+	public static void validatePapeis(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
 		String valor = value.toString();
 		boolean flag = false;
@@ -216,14 +215,14 @@ public class AppServiceBean {
 			}
 		}
 		if (!flag) {
-			FacesMessage message = new FacesMessage("Nome Papel Inválido");
+			FacesMessage message = new FacesMessage("Nome Papel Invï¿½lido");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 
 	}
 
-	public List<Entrega> complemento(Object event) {
+	public static List<Entrega> complemento(Object event) {
 		String prefixo = event.toString().toLowerCase();
 		List<Entrega> retorno = new ArrayList<Entrega>();
 		EntregaDAO entregaDAO = new EntregaDAO();
@@ -242,7 +241,7 @@ public class AppServiceBean {
 	 * @param value
 	 * @throws ValidatorException
 	 */
-	public void validateEntrega(FacesContext context, UIComponent component,
+	public static void validateEntrega(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
 		String valor = value.toString();
 		boolean flag = false;
@@ -253,22 +252,23 @@ public class AppServiceBean {
 		}
 
 		if (!flag) {
-			FacesMessage message = new FacesMessage("Local de Entrega Inválido");
+			FacesMessage message = new FacesMessage("Local de Entrega InvÃ¡lido");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
 
 	}
-	public List<Cliente> getListaClientes( ) {
+
+	public static synchronized List<Cliente> getListaClientes() {
 		long today = 0;
-		 
-		ClienteDAO clienteDAO =  new ClienteDAO();
-		if (ultimaConsultaCliente == 0  ) {
+
+		ClienteDAO clienteDAO = new ClienteDAO();
+		if (ultimaConsultaCliente == 0) {
 			ultimaConsultaCliente = Calendar.getInstance().getTimeInMillis();
-			 
+
 			today = ultimaConsultaCliente;
 			listaClientes = clienteDAO.getLista();
-		}else{
+		} else {
 			today = Calendar.getInstance().getTimeInMillis();
 		}
 		long diff = today - ultimaConsultaCliente;
@@ -276,14 +276,18 @@ public class AppServiceBean {
 			listaClientes = clienteDAO.getLista();
 			ultimaConsultaCliente = Calendar.getInstance().getTimeInMillis();
 		}
-		 
+
 		return listaClientes;
 	}
 
-	public AppServiceBean() {
-		getListaClientes();
+	public static synchronized void carregaListas() {
+		if (!isloaded) {
+			isloaded = true;
+			getListaClientes();
+			
+		}
 	}
-	
-	
-	
+
+	 
+
 }
