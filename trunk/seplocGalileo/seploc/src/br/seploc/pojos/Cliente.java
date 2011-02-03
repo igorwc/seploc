@@ -20,17 +20,21 @@ import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.QueryHint;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Version;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "tbl_clientes")
 @SqlResultSetMapping(name = "Cliente.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Cliente.class))
 @NamedNativeQueries( {
 		@NamedNativeQuery(name = "Cliente.RetornaClientes", query = " SELECT * "
-				+ "FROM tbl_clientes c", resultSetMapping = "Cliente.implicit"),
+				+ "FROM tbl_clientes c", resultSetMapping = "Cliente.implicit",hints={@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
 				@NamedNativeQuery(name = "Cliente.RetornaClientePorFantasia", query = " SELECT * "
 				+ "FROM tbl_clientes c where vcrFantasia = :nome", resultSetMapping = "Cliente.implicit"),				
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorFantasia", query = " SELECT * "
@@ -41,7 +45,7 @@ import javax.persistence.Version;
 				+ "FROM tbl_clientes c where vcrCpf like :CPF", resultSetMapping = "Cliente.implicit"),				
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorCNPJ", query = " SELECT * "
 				+ "FROM tbl_clientes c where vcrCnpj like :CNPJ", resultSetMapping = "Cliente.implicit")
-})
+}) 
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
