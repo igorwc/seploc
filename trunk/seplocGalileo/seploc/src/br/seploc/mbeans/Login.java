@@ -15,7 +15,7 @@ import br.seploc.util.MENUS;
 import br.seploc.util.SessionObjectsManager;
 import br.seploc.util.Utils;
 
-public class Login implements Runnable{
+public class Login{
 	private boolean loginOk;
 	private String userName;
 	private String userNameFull;
@@ -173,49 +173,12 @@ public class Login implements Runnable{
 		}
 	}
 
-	// }
-	// public String validateLogin() {
-	// FacesContext context = FacesContext.getCurrentInstance();
-	// if (userName == null || password == null) {
-	//			
-	// String errorMsg = Utils.getMessageResourceString("messages",
-	// "login.invalido",
-	// null, context.getViewRoot().getLocale());
-	// addGlobalMessage(errorMsg);
-	// FacesMessage message = new FacesMessage(errorMsg);
-	// message.setSeverity(FacesMessage.SEVERITY_ERROR);
-	// throw new ValidatorException(message);
-	// }
-	// Usuario user = usuarioDAO.getUsuarioPorLogin(userName);
-	// if (user == null) {
-	// String errorMsg = Utils.getMessageResourceString("messages",
-	// "login.invalido",
-	// null,new Locale("pt"));
-	// addGlobalMessage(errorMsg);
-	// return null;
-	// // FacesMessage message = new FacesMessage(errorMsg);
-	// // message.setSeverity(FacesMessage.SEVERITY_ERROR);
-	// // throw new FacesException(errorMsg);
-	// }
-	// if (user.getLogin().equals(userName)
-	// && user.getPassword().equals(password)) {
-	// loginOk = true;
-	// FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogado",
-	// loginOk);
-	// return "principal";
-	// } else
-	// return "login";
-	// }
+
 
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
 
-	@Override
-	public void run() {
-		AppServiceBean appBean = new AppServiceBean();
-		appBean.getListaClientes();
-		
-	}
+	
 }
