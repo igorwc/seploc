@@ -31,6 +31,7 @@ public class Login implements Runnable{
 	public Login() {
 		loginOk = false;
 		userName = "";
+		falhaLogin = false;
 
 	}
 
@@ -105,6 +106,7 @@ public class Login implements Runnable{
 		NavigationHandler nh = context.getApplication().getNavigationHandler();
 		context.getViewRoot().setViewId("/paginas/login.xhtml");
 		this.loginOk = false;
+		falhaLogin = false;
 		return "login";
 	}
 
@@ -151,6 +153,7 @@ public class Login implements Runnable{
 		falhaLogin = false;
 		userName = this.user.getLogin();
 		userNameFull = this.user.getNome();
+		falhaLogin = false;
 		processaMenus();
 		return "principal";
 		// }
