@@ -13,6 +13,15 @@
 	<ui:define name="taxinomia" />      
        
 	<ui:define name="conteudo">
+	<style type="text/css">  
+	.error { 
+    font-weight: bold;
+    font-style:normal;
+    color:#FF0000;
+    font-size: 8pt;
+    font-family: tahoma, arial;
+}
+</style>
 		<center><f:view>
 			<h:panelGrid columns="2" styleClass="loginTable">
 			 <h:graphicImage alt="cadeado" url="../imgs/cadeado.gif"></h:graphicImage>  
@@ -37,9 +46,12 @@
 					<h:inputSecret id="renewpasswd" size="21"/>
 
 				</h:panelGrid>
-				
-				<h:messages  errorClass="error" layout="table" showDetail="true" showSummary="true" />
-				<rich:messages for="loginForm"  showDetail="true" showSummary="true" styleClass="error" />
+				<h:outputLabel value="Usuário e/ou Senha errado(s)" 
+				               rendered="#{login.falhaLogin}" 
+				               styleClass="error" /><br />
+				 <h:messages  errorClass="error" layout="table" showDetail="false" showSummary="true" />
+				 <rich:spacer></rich:spacer> 
+			<!--	<rich:messages for="loginForm"  showDetail="true" showSummary="true" styleClass="error" /> -->
 				<h:commandButton value="Entrar" action="#{login.validateLogin}" />
 				 <a4j:commandButton value="Salvar"
                   action="#{login.validateLogin}"
