@@ -1,10 +1,13 @@
 package br.seploc.controllers;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.faces.context.FacesContext;
 
+import br.seploc.mbeans.AppServiceBean;
 import br.seploc.mbeans.ReqServClienteMB;
+import br.seploc.pojos.Cliente;
 
 public class ReqServClienteCB implements Serializable{
 
@@ -22,6 +25,9 @@ public class ReqServClienteCB implements Serializable{
 		return reqServMB;
 	}
 
+	public List<Cliente> getListaClientes() {
+		return AppServiceBean.getListaClientes();
+	}
 	public void setReqServMB(ReqServClienteMB reqServMB) {
 		this.reqServMB = reqServMB;
 	}

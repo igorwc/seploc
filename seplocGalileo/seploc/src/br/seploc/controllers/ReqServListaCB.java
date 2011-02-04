@@ -11,24 +11,30 @@ import java.util.Locale;
 
 import javax.faces.context.FacesContext;
 
+import br.seploc.mbeans.AppServiceBean;
 import br.seploc.mbeans.ReqServListaMB;
+import br.seploc.pojos.Cliente;
 import br.seploc.pojos.RequisicaoServico;
 
-public class ReqServListaCB implements Serializable{
-	
+public class ReqServListaCB implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	private ReqServListaMB reqServListaMB;
 	private String datasInvalidasMsg;
 	private Locale locale;
-	
+
 	// CONSTRUTOR
-	public ReqServListaCB(){
+	public ReqServListaCB() {
 		locale = new Locale("pt", "br");
-		this.setReqServListaMB(this.loadReqServList());		
+		this.setReqServListaMB(this.loadReqServList());
 	}
-	
+
 	public ReqServListaMB getReqServListaMB() {
 		return reqServListaMB;
+	}
+
+	public List<Cliente> getListaClientes() {
+		return AppServiceBean.getListaClientes();
 	}
 
 	public void setReqServListaMB(ReqServListaMB reqServListaMB) {
@@ -51,32 +57,35 @@ public class ReqServListaCB implements Serializable{
 		return datasInvalidasMsg;
 	}
 
-	public ReqServListaMB loadReqServList(){
+	public ReqServListaMB loadReqServList() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		ReqServListaMB reqServListaMB = (ReqServListaMB) context.getApplication()
-		.evaluateExpressionGet(context, "#{reqServListaMB}", ReqServListaMB.class);
-		
+		ReqServListaMB reqServListaMB = (ReqServListaMB) context
+				.getApplication().evaluateExpressionGet(context,
+						"#{reqServListaMB}", ReqServListaMB.class);
+
 		return reqServListaMB;
 	}
-	
+
 	/**
-	 * Metodo ira formatar o numero existente no banco para um numero de formato 000009  
+	 * Metodo ira formatar o numero existente no banco para um numero de formato
+	 * 000009
+	 * 
 	 * @param num
 	 * @return
 	 */
-	public String getNumReqServFormatado(Integer num){
+	public String getNumReqServFormatado(Integer num) {
 		String retorno = num.toString();
 		StringBuffer str = new StringBuffer(retorno);
-		
-		while (str.length() < 6) {
-			str.append(0);			
-			retorno = str.reverse().toString();			
-		}		
-		
-		return retorno;
-	}		
 
-	public List<RequisicaoServico> getGridReqServ(){
+		while (str.length() < 6) {
+			str.append(0);
+			retorno = str.reverse().toString();
+		}
+
+		return retorno;
+	}
+
+	public List<RequisicaoServico> getGridReqServ() {
 		List<RequisicaoServico> lista = new ArrayList<RequisicaoServico>();
 		Calendar dataInicio = new GregorianCalendar(Locale.getDefault());
 		Calendar dataFim = new GregorianCalendar(Locale.getDefault());
@@ -86,11 +95,12 @@ public class ReqServListaCB implements Serializable{
 		int clienteID = reqServListaMB.getClienteID();
 		int projetoID = reqServListaMB.getProjetoID();
 
-		lista = reqServListaMB.getReqServicoDAO().filtraReqServ(projetoID , numeroReqServ, clienteID, dataInicio, dataFim);
-		Collections.reverse(lista);		
+		lista = reqServListaMB.getReqServicoDAO().filtraReqServ(projetoID,
+				numeroReqServ, clienteID, dataInicio, dataFim);
+		Collections.reverse(lista);
 		return lista;
-	}	
-	
+	}
+
 	public void validateDatas() {
 		Date dataInicio = reqServListaMB.getDataInicio();
 		Date dataFim = reqServListaMB.getDataFim();
@@ -100,5 +110,5 @@ public class ReqServListaCB implements Serializable{
 		} else {
 			reqServListaMB.setDatasInvalidas(false);
 		}
-	}	
+	}
 }
