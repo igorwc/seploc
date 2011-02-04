@@ -67,7 +67,7 @@ public class ClienteCB implements Serializable {
 			erro = true;
 		}
 		if(erro ){
-			addGlobalMessage("Campo(s) Obrigatório(s) não preenchido(s)!");
+			addGlobalMessage("Campo(s) Obrigatï¿½rio(s) nï¿½o preenchido(s)!");
 		}
 		return erro;
 	}
@@ -268,15 +268,12 @@ public class ClienteCB implements Serializable {
 			Object value) throws ValidatorException {
 		Application app = context.getApplication();
 		ExpressionFactory exprFactory = app.getExpressionFactory();
-		ValueExpression valueExpr = exprFactory.createValueExpression(
-				context.getELContext(), "#{appBean}", NavigationBean.class);
-		AppServiceBean appBean = (AppServiceBean) valueExpr.getValue(context
-				.getELContext());
-		System.out.println("Passou por auqi " + appBean.getPapeis().size());
-		if (appBean.getPapeis().size() == 1
-				&& appBean.getPapeis().get(0).equals("")) {
+		 
+		System.out.println("Passou por auqi " + AppServiceBean.getPapeis().size());
+		if (AppServiceBean.getPapeis().size() == 1
+				&& AppServiceBean.getPapeis().get(0).equals("")) {
 			FacesMessage message = new FacesMessage(
-					"Não existem papeis Cadastrados");
+					"NÃ£o existem papeis Cadastrados");
 			message.setSeverity(FacesMessage.SEVERITY_INFO);
 			System.out.println("Passou por auqi");
 			throw new ValidatorException(message);
@@ -429,7 +426,7 @@ public class ClienteCB implements Serializable {
 
 	/*
 	 * 
-	 * FUNÇÕES AUXILIARES
+	 * FUNï¿½ï¿½ES AUXILIARES
 	 */
 	/**
 	 * @param cpf
@@ -475,14 +472,14 @@ public class ClienteCB implements Serializable {
 		int soma = 0, mult = 11;
 		int[] var = new int[11];
 
-		// Recebe os números e realiza a multiplicação e soma.
+		// Recebe os nï¿½meros e realiza a multiplicaï¿½ï¿½o e soma.
 		for (int i = 0; i < 11; i++) {
 			var[i] = Integer.parseInt("" + cpf.charAt(i));
 			if (i < 9)
 				soma += (var[i] * --mult);
 		}
 
-		// Cria o primeiro dígito verificador.
+		// Cria o primeiro dï¿½gito verificador.
 		int resto = soma % 11;
 		if (resto < 2) {
 			var[9] = 0;
@@ -494,11 +491,11 @@ public class ClienteCB implements Serializable {
 		soma = 0;
 		mult = 11;
 
-		// Realiza a multiplicação e soma do segundo dígito.
+		// Realiza a multiplicaï¿½ï¿½o e soma do segundo dï¿½gito.
 		for (int i = 0; i < 10; i++)
 			soma += var[i] * mult--;
 
-		// Cria o segundo dígito verificador.
+		// Cria o segundo dï¿½gito verificador.
 		resto = soma % 11;
 		if (resto < 2) {
 			var[10] = 0;
@@ -509,8 +506,8 @@ public class ClienteCB implements Serializable {
 		int v1 = Integer.parseInt("" + cpf.charAt(9));
 		int v2 = Integer.parseInt("" + cpf.charAt(10));
 
-		// Confere os dígitos criados com os dígitados, se forem diferentes
-		// informa que o CPF é inválido.
+		// Confere os dï¿½gitos criados com os dï¿½gitados, se forem diferentes
+		// informa que o CPF ï¿½ invï¿½lido.
 		if (v1 != var[9] || v2 != var[10]) {
 			return false;
 		} else {
@@ -522,7 +519,7 @@ public class ClienteCB implements Serializable {
 	 * Valida CNPJ do cliente.
 	 * 
 	 * @param cnpj
-	 *            String valor com 14 dígitos
+	 *            String valor com 14 dï¿½gitos
 	 */
 	public boolean validaCNPJ(String cnpj) {
 		if (cnpj == null || cnpj.length() != 14)
@@ -530,7 +527,7 @@ public class ClienteCB implements Serializable {
 
 		try {
 			Long.parseLong(cnpj);
-		} catch (NumberFormatException e) { // CNPJ não possui somente números
+		} catch (NumberFormatException e) { // CNPJ nï¿½o possui somente nï¿½meros
 			return false;
 		}
 
