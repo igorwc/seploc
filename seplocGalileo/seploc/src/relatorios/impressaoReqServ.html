@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="estilo.css" media="print" />
 
 
-<title>IMPRESS&Atilde;O REQUISI&Ccedil;&Atilde;O SERVI&Ccedil;O</title>
+<title>Impress&atilde;o requisi&ccedil;&atilde;o servi&ccedil;o</title>
 <style type="text/css">
 .reqtable {
 	font-family: Arial, Helvetica, sans-serif;
@@ -127,8 +127,7 @@
 					<th>SubTotal</th>
 				</tr>
 				<#assign row=0> <#list linha as elemento>
-				<tr class='
-					<#if (row % 2) == 0>alt<#else>nada</#if>' >
+				<tr  class="<#if (row % 2) == 0 >alt<#else>nada</#if>" >
 					<td>${elemento.seq}</td>
                 <td>${elemento.item}</td>
                 <td>${elemento.formato}</td>
@@ -288,6 +287,8 @@
 	</tr>
 </table>
 </center>
+<br>
+<br>
 </#list></div>
 
 </body>
