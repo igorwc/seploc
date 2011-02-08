@@ -169,7 +169,7 @@ public class Login{
 				.retornaPermissoes();
 		for(MENUS m: MENUS.values()){
 			SessionObjectsManager.adicionaObjetoSessao(m.getNome(), !permissoesMenus.get(m.getNome()));
-//			System.out.println(m.getNome()+","+ permissoesMenus.get(m.getNome()));
+			System.out.println(m.getNome()+","+ permissoesMenus.get(m.getNome()));
 		}
 	}
 
