@@ -366,7 +366,19 @@ public class ReportImpressaoReqServGenerator {
 //		OutputStream os = new FileOutputStream(outputFile);
 
 	}
+//	public String geraPaginaHTML()    {
+//		try {
+//			String s = FreemarkerUtils.parseTemplate(getDataModel(), "impressaoReqServ.html");
+//			OutputStream os = new FileOutputStream("src/relatorios/impressaoReqServ.pdf");
+//			UtilsArquivo.salvar("src/relatorios/impressaoReqServ2.html",HtmlManipulator.converteParaHtml(s), false);
+//		} catch (TemplateException e) {
+//			e.printStackTrace();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		OutputStream os = new FileOutputStream(outputFile);
 
+//	}
 	/**
 	 * @param args
 	 */
