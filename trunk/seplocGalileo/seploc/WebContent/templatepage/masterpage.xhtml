@@ -54,7 +54,6 @@
   <tr>
     <td colspan="2">
       <ui:insert name="menu">
-      
 			<f:view>
 				<h:form>
 					<rich:toolBar>
@@ -110,7 +109,16 @@
 							<rich:menuItem disabled="#{sessionScope.GRUPO}" submitMode="none" value="#{msgs['menu.raiz.cadastros.grupo']}"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='../cadastros/cadGrupo.jsf'"  />							
 							<rich:menuItem disabled="#{sessionScope.ASSOCIAR_USUARIO}" submitMode="none" value="#{msgs['menu.raiz.cadastros.grupomenu']}"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='../cadastros/cadGrupoMenu.jsf'"  />
 						</rich:dropDownMenu>
-
+                        <!-- MENU RELATORIO -->                      
+                        <rich:dropDownMenu>
+                            <f:facet name="label">
+                                <h:panelGroup>                                              
+                                    <h:graphicImage value="../imgs/icons/ferramentas.gif" styleClass="pic" />
+                                    <h:outputText value="#{msgs['menu.raiz.relatorios']}" />
+                                </h:panelGroup>
+                            </f:facet>
+                            <rich:menuItem disabled="#{sessionScope.REL_CLIENTE}"  submitMode="none" value="#{msgs['menu.raiz.relatorios.clienteperiodo']}"    icon="../imgs/icons/copy.gif" onclick="document.location.href='../relatorios/reqServClientePorPeriodo.jsf'" />
+                        </rich:dropDownMenu>
 					</rich:toolBar>
 				</h:form>
 			</f:view>
