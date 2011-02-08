@@ -61,6 +61,9 @@ public class ReqServClientePeriodoCB {
 	public List<Cliente> getListaClientes() {
 		return AppServiceBean.getListaClientes();
 	}
+	public List<Cliente> getListaClientesCadastrados() {
+		return AppServiceBean.getListaClientesCadastrados();
+	}
 	// GETTERS AND SETTERS
 	public ReqServClientePeriodoMB getClientePeriodoMB() {
 		return clientePeriodoMB;
