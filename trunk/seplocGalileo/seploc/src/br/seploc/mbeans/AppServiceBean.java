@@ -31,12 +31,21 @@ public class AppServiceBean {
 	private static List<String> nomesCliente;
 	private static String cidadeCorrente = "";
 	private static List<Cliente> listaClientes;
+	private static List<Cliente> listaClientesCadastrados;
 	private static int tamanholistaPapel;
 	private static int tamanholistaEntrega;
 	private static int tamanholistaOpcionais;
 	private static int tamanholistaClientes;
 	private static boolean isloaded;
 	private static long ultimaConsultaCliente;
+	private static long ultimaConsultaClientesCadastrados;
+
+	static {
+		ultimaConsultaCliente = 0;
+		ultimaConsultaClientesCadastrados = 0;
+		listaClientesCadastrados = new ArrayList<Cliente>();
+		listaClientes = new ArrayList<Cliente>();
+	}
 
 	/**
 	 * @return the cidadeCorrente
@@ -190,7 +199,8 @@ public class AppServiceBean {
 
 	public static void setOpcionais(List<String> opcionais) {
 		AppServiceBean.opcionais = opcionais;
-		AppServiceBean.setTamanholistaOpcionais(AppServiceBean.opcionais.size());
+		AppServiceBean
+				.setTamanholistaOpcionais(AppServiceBean.opcionais.size());
 		System.out.println("Setou tamanho " + tamanholistaOpcionais);
 	}
 
@@ -205,8 +215,8 @@ public class AppServiceBean {
 	 * @param value
 	 * @throws ValidatorException
 	 */
-	public static void validatePapeis(FacesContext context, UIComponent component,
-			Object value) throws ValidatorException {
+	public static void validatePapeis(FacesContext context,
+			UIComponent component, Object value) throws ValidatorException {
 		String valor = value.toString();
 		boolean flag = false;
 		for (String s : papeis) {
@@ -241,8 +251,8 @@ public class AppServiceBean {
 	 * @param value
 	 * @throws ValidatorException
 	 */
-	public static void validateEntrega(FacesContext context, UIComponent component,
-			Object value) throws ValidatorException {
+	public static void validateEntrega(FacesContext context,
+			UIComponent component, Object value) throws ValidatorException {
 		String valor = value.toString();
 		boolean flag = false;
 		for (String s : locaisEntrega) {
@@ -280,14 +290,32 @@ public class AppServiceBean {
 		return listaClientes;
 	}
 
-	public static synchronized void carregaListas() {
-		if (!isloaded) {
-			isloaded = true;
-			getListaClientes();
-			
+	public static synchronized List<Cliente> getListaClientesCadastrados() {
+		long today = 0;
+
+		ClienteDAO clienteDAO = new ClienteDAO();
+		if (ultimaConsultaClientesCadastrados == 0) {
+			ultimaConsultaClientesCadastrados = Calendar.getInstance()
+					.getTimeInMillis();
+
+			today = ultimaConsultaClientesCadastrados;
+			listaClientesCadastrados = clienteDAO.getListaClientesCadastrados();
+		} else {
+			today = Calendar.getInstance().getTimeInMillis();
 		}
+		long diff = today - ultimaConsultaClientesCadastrados;
+		if (!(((diff / 1000) / 60) < 5)) {
+			listaClientesCadastrados = clienteDAO.getListaClientesCadastrados();
+			ultimaConsultaClientesCadastrados = Calendar.getInstance()
+					.getTimeInMillis();
+		}
+
+		return listaClientesCadastrados;
 	}
 
-	 
+	public static synchronized void carregaListas() {
+		getListaClientesCadastrados();
+		getListaClientes();
+	}
 
 }
