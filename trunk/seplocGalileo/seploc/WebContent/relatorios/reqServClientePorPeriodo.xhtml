@@ -324,7 +324,7 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
             </h:panelGroup>
         </f:facet>
         <h:form>
-            <rich:dataTable value="#{reqClientePeriodoCB.listaClientes}" var="cli" rows="10"
+            <rich:dataTable value="#{reqClientePeriodoCB.listaClientesCadastrados}" var="cli" rows="10"
                 reRender="dsCliente" id="simpletable" >
                 <f:facet name="header">
                     <rich:columnGroup>
