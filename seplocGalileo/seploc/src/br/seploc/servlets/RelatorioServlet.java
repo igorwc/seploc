@@ -43,7 +43,6 @@ public class RelatorioServlet extends HttpServlet {
 	 */
 	public RelatorioServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -53,7 +52,7 @@ public class RelatorioServlet extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// obtém a conexão com o banco de dados
+		// obtï¿½m a conexï¿½o com o banco de dados
 		ServletOutputStream servletOutputStream = response.getOutputStream();
 		ServletContext context = getServletContext();
 		InputStream reportStream = getServletConfig().getServletContext()
@@ -65,16 +64,16 @@ public class RelatorioServlet extends HttpServlet {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/seploc2", // coloque o IP se
-															// não for usado
+															// nï¿½o for usado
 															// localhost
-					"root", // mude para o nome do usuário do seu bd
-					""); // mude para a senha deste usuário
+					"root", // mude para o nome do usuï¿½rio do seu bd
+					""); // mude para a senha deste usuï¿½rio
 		} catch (Exception e) {
 			System.out.println("Erro ao obter conexao via DriverManager: "
 					+ e.getMessage());
 		}
 
-		// gera o relatório
+		// gera o relatï¿½rio
 		byte[] bytes = null;
 		try {
 
@@ -94,7 +93,7 @@ public class RelatorioServlet extends HttpServlet {
 				dd.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
 				dataFim =new Date(dd.getTimeInMillis());
 			}
-			// parâmetros, se houverem
+			// parï¿½metros, se houverem
 			Map parametros = new HashMap();
 			parametros.put("cliente_id", clientID.intValue());
 			parametros.put("data_inicio", dataInicio);
@@ -102,7 +101,7 @@ public class RelatorioServlet extends HttpServlet {
 			parametros.put("porcentagem", clientDesconto.doubleValue());
 			// JasperPrint impressao = JasperFillManager.fillReport(
 			// caminhoRelatorioJasper,parametros,ds);
-			// // direciona a saída do relatório para um stream
+			// // direciona a saï¿½da do relatï¿½rio para um stream
 			// System.out.println(context.getRealPath("/WEB-INF/reports/RelatorioRequisicao.jasper"));
 			// bytes =
 			// JasperRunManager.runReportToPdf(context.getRealPath("/WEB-INF/reports/RelatorioRequisicao.jasper"),parametros,conn);
@@ -156,7 +155,7 @@ public class RelatorioServlet extends HttpServlet {
 			// out.flush();
 			// out.close();
 			// // if (bytes != null && bytes.length > 0) {
-			// // // envia o relatório em formato PDF para o browser
+			// // // envia o relatï¿½rio em formato PDF para o browser
 			// // response.setContentType("application/pdf");
 			// //
 			// // response.setContentLength(bytes.length);
