@@ -35,12 +35,14 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @NamedNativeQueries( {
 		@NamedNativeQuery(name = "Cliente.RetornaClientes", query = " SELECT * "
 				+ "FROM tbl_clientes c", resultSetMapping = "Cliente.implicit",hints={@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
-				@NamedNativeQuery(name = "Cliente.RetornaClientePorFantasia", query = " SELECT * "
+		@NamedNativeQuery(name = "Cliente.RetornaClientePorFantasia", query = " SELECT * "
 				+ "FROM tbl_clientes c where vcrFantasia = :nome", resultSetMapping = "Cliente.implicit"),				
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorFantasia", query = " SELECT * "
 				+ "FROM tbl_clientes c where vcrFantasia like :nome", resultSetMapping = "Cliente.implicit"),				
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorRazao", query = " SELECT * "
-				+ "FROM tbl_clientes c where vcrRazao like :nome", resultSetMapping = "Cliente.implicit"),				
+				+ "FROM tbl_clientes c where vcrRazao like :nome", resultSetMapping = "Cliente.implicit"),	
+		@NamedNativeQuery(name = "Cliente.BuscaClientesCadastrados", query = " SELECT * "
+					+ "FROM tbl_clientes c where intBalcao = 0", resultSetMapping = "Cliente.implicit"),					
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorCPF", query = " SELECT * "
 				+ "FROM tbl_clientes c where vcrCpf like :CPF", resultSetMapping = "Cliente.implicit"),				
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorCNPJ", query = " SELECT * "
