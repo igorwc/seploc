@@ -42,7 +42,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorRazao", query = " SELECT * "
 				+ "FROM tbl_clientes c where vcrRazao like :nome", resultSetMapping = "Cliente.implicit"),	
 		@NamedNativeQuery(name = "Cliente.BuscaClientesCadastrados", query = " SELECT * "
-					+ "FROM tbl_clientes c where intBalcao = 0", resultSetMapping = "Cliente.implicit"),					
+					+ "FROM tbl_clientes c where intBalcao = 0", resultSetMapping = "Cliente.implicit",hints={@QueryHint(name = "org.hibernate.cacheable", value = "true")}),					
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorCPF", query = " SELECT * "
 				+ "FROM tbl_clientes c where vcrCpf like :CPF", resultSetMapping = "Cliente.implicit"),				
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorCNPJ", query = " SELECT * "
