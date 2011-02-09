@@ -17,21 +17,21 @@ import br.seploc.pojos.SaidaMotoqueiro;
 public class ReqServListaSaidaCB implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	private ReqServListaSaidaMB reqServSaidasMB;
+	private ReqServListaSaidaMB reqServSaidaMB;
 	private String datasInvalidasMsg;
 	private Locale locale;
 	
 	public ReqServListaSaidaCB(){
 		locale = new Locale("pt", "br");
-		this.setReqServSaidasMB(this.loadReqServList());
+		this.setReqServSaidaMB(this.loadReqServList());
 	}
 
-	public ReqServListaSaidaMB getReqServSaidasMB() {
-		return reqServSaidasMB;
+	public ReqServListaSaidaMB getReqServSaidaMB() {
+		return reqServSaidaMB;
 	}
 
-	public void setReqServSaidasMB(ReqServListaSaidaMB reqServSaidas) {
-		this.reqServSaidasMB = reqServSaidas;
+	public void setReqServSaidaMB(ReqServListaSaidaMB reqServSaidas) {
+		this.reqServSaidaMB = reqServSaidas;
 	}
 
 	public String getDatasInvalidasMsg() {
@@ -52,10 +52,10 @@ public class ReqServListaSaidaCB implements Serializable{
 	
 	public ReqServListaSaidaMB loadReqServList(){
 		FacesContext context = FacesContext.getCurrentInstance();
-		ReqServListaSaidaMB reqServListaSaidaMB = (ReqServListaSaidaMB) context.getApplication()
-		.evaluateExpressionGet(context, "#{reqServListaSaidaMB}", ReqServListaSaidaMB.class);
+		ReqServListaSaidaMB reqServSaidaMB = (ReqServListaSaidaMB) context.getApplication()
+		.evaluateExpressionGet(context, "#{reqServSaidaMB}", ReqServListaSaidaMB.class);
 		
-		return reqServListaSaidaMB;
+		return reqServSaidaMB;
 	}
 	
 	/**
@@ -74,41 +74,40 @@ public class ReqServListaSaidaCB implements Serializable{
 		
 		return retorno;
 	}		
-
-	@SuppressWarnings("null")
+	
 	public List<SaidaMotoqueiro> getGridSaida(){
 		List<SaidaMotoqueiro> lista = new ArrayList<SaidaMotoqueiro>();
 		Calendar dI = new GregorianCalendar(Locale.getDefault());
-		Calendar dF = new GregorianCalendar(Locale.getDefault());
-		dI.setTime(reqServSaidasMB.getDataInicio());	
-		dF.setTime(reqServSaidasMB.getDataFim()); 
+		Calendar dF = new GregorianCalendar(Locale.getDefault());		
+		dI.setTime(reqServSaidaMB.getDataInicio());	
+		dF.setTime(reqServSaidaMB.getDataFim()); 
 		Date dataInicio = dI.getTime();
 		Date dataFim = dF.getTime();
 		Integer numeroReqServ;
-		if (reqServSaidasMB.getSaidaMotoqueiro() == null) {
+		if (reqServSaidaMB.getSaidaMotoqueiro() == null) {
 			numeroReqServ = null;
 		} else {
-			numeroReqServ = reqServSaidasMB.getSaidaMotoqueiro().getReqServico().getNumReq();
+			numeroReqServ = reqServSaidaMB.getSaidaMotoqueiro().getReqServico().getNumReq();
 		}
 		 
 
 		if (numeroReqServ == null || numeroReqServ == 0){
-			lista = reqServSaidasMB.getSaidaMotoqueiroDAO().getLista(dataInicio,dataFim);
+			lista = reqServSaidaMB.getSaidaMotoqueiroDAO().getLista(dataInicio,dataFim);
 		} else {
-			lista = reqServSaidasMB.getSaidaMotoqueiroDAO().getLista(numeroReqServ);
+			lista = reqServSaidaMB.getSaidaMotoqueiroDAO().getLista(numeroReqServ);
 		}
 		Collections.reverse(lista);		
 		return lista;
 	}	
 	
 	public void validateDatas() {
-		Date dataInicio = reqServSaidasMB.getDataInicio();
-		Date dataFim = reqServSaidasMB.getDataFim();
+		Date dataInicio = reqServSaidaMB.getDataInicio();
+		Date dataFim = reqServSaidaMB.getDataFim();
 		if (dataInicio.getTime() > dataFim.getTime()) {
 			setDatasInvalidasMsg("A data final deve ser maior que a data inicial.");
-			reqServSaidasMB.setDatasInvalidas(true);
+			reqServSaidaMB.setDatasInvalidas(true);
 		} else {
-			reqServSaidasMB.setDatasInvalidas(false);
+			reqServSaidaMB.setDatasInvalidas(false);
 		}
 	}		
 	
