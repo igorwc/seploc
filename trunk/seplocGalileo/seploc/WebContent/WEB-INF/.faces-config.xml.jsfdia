@@ -21,24 +21,11 @@
     TARGET="rules:#requisicao#reqServCliente.xhtml" TITLE="reqServ" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:#requisicao#reqServCliente.xhtml"
-  PATH="/requisicao/reqServCliente.xhtml" SHAPE="240,513,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:" SHAPE="32,161,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="login::#paginas#login.xhtml" NAME="output"
     PATH="/paginas/login.xhtml" SHAPE="84,192,336,192,336,136,575,136"
     TARGET="rules:#paginas#login.xhtml" TITLE="login" model-entity="JSFProcessItemOutput"/>
-  </PROCESS-ITEM>
- </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:#paginas#login.xhtml"
-  PATH="/paginas/login.xhtml" SHAPE="576,128,50,25" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#paginas#principal.xhtml"
-  PATH="/paginas/principal.xhtml" SHAPE="560,32,50,25" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules::1" SHAPE="32,385,0,0" model-entity="JSFProcessGroup">
-  <PROCESS-ITEM ID="rules::1" NAME="item" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="principal::#paginas#principal.xhtml"
-    NAME="output" PATH="/paginas/principal.xhtml" SHAPE="-1,24"
-    TARGET="rules:#paginas#principal.xhtml" TITLE="principal" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,273,0,0" model-entity="JSFProcessGroup">
@@ -48,4 +35,17 @@
     TARGET="rules:#paginas#login.xhtml" TITLE="login" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules::1" SHAPE="32,385,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::1" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="principal::#paginas#principal.xhtml"
+    NAME="output" PATH="/paginas/principal.xhtml" SHAPE="-1,24"
+    TARGET="rules:#paginas#principal.xhtml" TITLE="principal" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#paginas#login.xhtml"
+  PATH="/paginas/login.xhtml" SHAPE="576,128,50,25" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#requisicao#reqServCliente.xhtml"
+  PATH="/requisicao/reqServCliente.xhtml" SHAPE="240,513,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#paginas#principal.xhtml"
+  PATH="/paginas/principal.xhtml" SHAPE="560,32,50,25" model-entity="JSFProcessGroup"/>
 </PROCESS>
