@@ -60,7 +60,7 @@
 </style>
 
 		<f:view>
-			<h:form id="reqServList" enctype="UTF-8" prependId="false">
+			<h:form id="reqServListSaida" enctype="UTF-8" prependId="false">
 
 				<rich:panel header="Saida Motoqueiro">
 
@@ -77,31 +77,26 @@
 								<td width="200px"><h:outputText value="Data Fim: " styleClass="texto" /></td>
 							</tr>
 							<tr>
-								<td><h:inputText value="#{reqServListaSaidaCB.reqServSaidasMB.reqServico.numReq}" 
+								<td><h:inputText value="#{reqServListaSaidaCB.reqServSaidaMB.reqServico.numReq}" 
 												 id="numReq"
-												 size="10">
-										<a4j:support event="onChange" reRender="reqServListTodos"/>
+												 size="10">										
 									</h:inputText></td>
-								<td><h:inputText value="#{reqServListaSaidaCB.reqServSaidasMB.saidaMotoqueiro.descCliente}" 
+								<td><h:inputText value="#{reqServListaSaidaCB.reqServSaidaMB.saidaMotoqueiro.descCliente}" 
 								         id="cliente" 
-								         readonly="true"
+								         readonly="false"
 								         size="30"
 								         />
-								    <a4j:commandLink ajaxSingle="true" 
-												 id="modaleditcli" 
-												 oncomplete="#{rich:component('modalCliente')}.show();return false;">
-										<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
-									</a4j:commandLink></td>						
+								</td>						
 								<td>
-									<h:selectOneMenu value="#{reqServListaSaidaCB.reqServSaidasMB.cobrador}" id="cobrador">
+									<h:selectOneMenu value="#{reqServListaSaidaCB.reqServSaidaMB.cobrador}" id="cobradorSaida">
 					                                <f:selectItem itemLabel="Selecione" itemValue="-1"></f:selectItem>
-					                                <t:selectItems value="#{reqServListaSaidaCB.reqServSaidasMB.todosCobradores}"
+					                                <t:selectItems value="#{reqServListaSaidaCB.reqServSaidaMB.todosCobradores}"
 					                                			   var="cobrador" 
 					                                               itemLabel="#{cobrador.nome}" 
 					                                               itemValue="#{cobrador.codCobrador}" />					                                	                    			
 				                    </h:selectOneMenu></td>								
 								<td>
-	                                <rich:calendar value="#{reqServListaSaidaCB.reqServSaidasMB.dataInicio}"
+	                                <rich:calendar value="#{reqServListaSaidaCB.reqServSaidaMB.dataInicio}"
 	                                           locale="#{reqServListaSaidaCB.locale}"
 	                                           popup="true"
 	                                           datePattern="dd/MM/yyyy"
@@ -113,7 +108,7 @@
 	                                           <a4j:support event="onchanged" action="#{reqServListaSaidaCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos" />
 	                                </rich:calendar></td>
 								<td>
-	                                <rich:calendar value="#{reqServListaSaidaCB.reqServSaidasMB.dataFim}"
+	                                <rich:calendar value="#{reqServListaSaidaCB.reqServSaidaMB.dataFim}"
 	                                           locale="#{reqServListaSaidaCB.locale}"
 	                                           popup="true"
 	                                           datePattern="dd/MM/yyyy"
@@ -132,7 +127,7 @@
 								<td colspan="2">
 									<a4j:outputPanel id="dataInvalidaMsg">
                                 		<h:outputText value="#{reqServListaSaidaCB.datasInvalidasMsg}" 
-                                					  rendered="#{reqServListaSaidaCB.reqServSaidasMB.datasInvalidas}" 
+                                					  rendered="#{reqServListaSaidaCB.reqServSaidaMB.datasInvalidas}" 
                                 					  styleClass="error"/>
                                 	</a4j:outputPanel></td>
 							</tr>
@@ -141,23 +136,23 @@
 								<!-- Botoes --> 
 								<a4j:commandButton
 									value="Atualizar Registro"
-									action="#{reqServListaSaidaCB.reqServSaidasMB.cadastrar}"
-									reRender="reqServFiltros,reqServListTodos"/>
+									action="#{reqServListaSaidaCB.reqServSaidaMB.cadastrar}"
+									reRender="reqServListTodos"/>
 								<rich:spacer width="5px"/>								
 								<a4j:commandButton
 									value="Pesquisar Numero Requisicao"
-									action="#{reqServListaSaidaCB.reqServSaidasMB.pesquisar}"
-									reRender="reqServFiltros,reqServListTodos"/>
+									action="#{reqServListaSaidaCB.reqServSaidaMB.pesquisar}"
+									reRender="reqServListTodos"/>
 								<rich:spacer width="5px"/>									
 								<a4j:commandButton
 									value="Iniciar Datas"
-									action="#{reqServListaSaidaCB.reqServSaidasMB.datasInvalidas}"
-									reRender="reqServFiltros,reqServListTodos"/>
+									action="#{reqServListaSaidaCB.reqServSaidaMB.iniciarDatas}"
+									reRender="reqServListTodos"/>
 								<rich:spacer width="5px"/>
 								<a4j:commandButton
 									value="#{msgs['botao.limpar']}"
-									action="#{reqServListaSaidaCB.reqServSaidasMB.limpar}"
-									reRender="reqServFiltros,reqServListTodos"/>																		
+									action="#{reqServListaSaidaCB.reqServSaidaMB.limpar}"
+									reRender="reqServListTodos"/>																		
 								</td>
 							</tr>
 						</table>
@@ -219,7 +214,9 @@
 							<h:outputText value="#{sai.cobrador.nome}" />
 						</rich:column>
 						<rich:column style="text-align:center">
-							<h:outputText value="#{sai.reqServico.status}" />							
+							<h:outputText value="#{sai.dataCobranca}" >
+								<f:convertDateTime pattern="dd-MM-yyyy" />
+							</h:outputText>							
 						</rich:column>
 						<rich:column style="text-align:center">
 							<h:outputText value="#{sai.reqServico.status}" />
@@ -232,10 +229,10 @@
 							<a4j:commandLink ajaxSingle="true" 
 											 id="editlinkreq"
 											 reRender="reqServList" 
-											 action="#{reqServListaSaidaCB.reqServSaidasMB.editar}">
+											 action="#{reqServListaSaidaCB.reqServSaidaMB.editar}">
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 								<f:setPropertyActionListener value="#{sai}"
-									target="#{reqServListaSaidaCB.reqServSaidasMB.saidaMotoqueiro}" />
+									target="#{reqServListaSaidaCB.reqServSaidaMB.saidaMotoqueiro}" />
 							</a4j:commandLink>
 							<rich:toolTip for="editlinkreq" value="Editar Registro" />
 						    <rich:spacer width="5px"/>						    
@@ -243,11 +240,11 @@
 							<a4j:commandLink ajaxSingle="true" 
 											 id="deletelinkreq"
 											 reRender="reqServListTodos"
-											 action="#{reqServListaSaidaCB.reqServSaidasMB.apagar}"
+											 action="#{reqServListaSaidaCB.reqServSaidaMB.apagar}"
 											 oncomplete="#{rich:component('confirmationMessage')}.show();">
 								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{sai}"
-									target="#{reqServListaSaidaCB.reqServSaidasMB.saidaMotoqueiro}" />
+									target="#{reqServListaSaidaCB.reqServSaidaMB.saidaMotoqueiro}" />
 							</a4j:commandLink>
 							<rich:toolTip for="deletelinkreq" value="Apagar Registro" />
 						    <rich:spacer width="5px"/>						    
@@ -255,11 +252,11 @@
 							<a4j:commandLink ajaxSingle="true" 
 											 id="viewlinkreq"												
 											 reRender="reqServListTodos,modalReqServ"								
-											 action="#{reqServListaSaidaCB.reqServSaidasMB.mostrar}"
+											 action="#{reqServListaSaidaCB.reqServSaidaMB.mostrar}"
 											 oncomplete="#{rich:component('modalReqServ')}.show();return false;">
 								<h:graphicImage value="/imgs/view_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{sai.reqServico.numReq}"
-									target="#{reqServListaSaidaCB.reqServSaidasMB.numReqVisualizar}" />
+									target="#{reqServListaSaidaCB.reqServSaidaMB.numReqVisualizar}" />
 							</a4j:commandLink>
 							<rich:toolTip for="viewlinkreq" value="Mostrar Registro" />						
 
@@ -269,7 +266,9 @@
 							<rich:datascroller id="dsReq" maxPages="3"
 								renderIfSinglePage="true" />
 						</f:facet>
-					</rich:dataTable>					
+					</rich:dataTable>	
+				</rich:panel>				
+			</h:form>
 			
 	      	<!-- Confirmacao -->
 	        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
@@ -327,23 +326,23 @@
 						<td width="50%"><h:outputText value="Entrega:" styleClass="tituloCampo"/></td>
 					</tr>
 					<tr>												
-						<td><h:outputText value="#{reqServListaSaidaCB.reqServSaidasMB.reqServico.numReq}" styleClass="texto"><f:convertNumber pattern="#000000" /></h:outputText></td>
-						<td><h:outputText value="#{reqServListaSaidaCB.reqServSaidasMB.reqServico.valorTotal}" styleClass="texto"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText></td>
-						<td><h:outputText value="#{reqServListaSaidaCB.reqServSaidasMB.reqServico.entrega.local}"  styleClass="texto"/></td>
+						<td><h:outputText value="#{reqServListaSaidaCB.reqServSaidaMB.reqServico.numReq}" styleClass="texto"><f:convertNumber pattern="#000000" /></h:outputText></td>
+						<td><h:outputText value="#{reqServListaSaidaCB.reqServSaidaMB.reqServico.valorTotal}" styleClass="texto"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText></td>
+						<td><h:outputText value="#{reqServListaSaidaCB.reqServSaidaMB.reqServico.entrega.local}"  styleClass="texto"/></td>
 					</tr>
 					<tr>
 						<td colspan="2"><h:outputText value="Cliente:" styleClass="tituloCampo"/></td>
 						<td colspan="1"><h:outputText value="Projeto:" styleClass="tituloCampo"/></td>												
 					</tr>
 					<tr>
-						<td colspan="2"><h:outputText value="#{reqServListaSaidaCB.reqServSaidasMB.reqServico.projeto.cliente.fantasia}"  styleClass="texto"/></td>
-						<td colspan="1"><h:outputText value="#{reqServListaSaidaCB.reqServSaidasMB.reqServico.projeto.projeto}"  styleClass="texto"/></td>																
+						<td colspan="2"><h:outputText value="#{reqServListaSaidaCB.reqServSaidaMB.reqServico.projeto.cliente.fantasia}"  styleClass="texto"/></td>
+						<td colspan="1"><h:outputText value="#{reqServListaSaidaCB.reqServSaidaMB.reqServico.projeto.projeto}"  styleClass="texto"/></td>																
 					</tr>
 				</table>
 				<h:form>
 					<!-- linhas -->
 					<rich:dataTable
-						value="#{reqServListaSaidaCB.reqServSaidasMB.reqServico.linhaRequisicao}"
+						value="#{reqServListaSaidaCB.reqServSaidaMB.reqServico.linhaRequisicao}"
 						var="linha" 
 						rowClasses="row1, row2"						 
 						rows="6"
@@ -412,7 +411,7 @@
 
 					<!-- opcionais -->
 					<rich:dataTable
-						value="#{reqServListaSaidaCB.reqServSaidasMB.gridOpcionais}"
+						value="#{reqServListaSaidaCB.reqServSaidaMB.gridOpcionais}"
 						var="opc" 
 						rowClasses="row1, row2"						 
 						rows="4"
@@ -451,8 +450,8 @@
 			</rich:modalPanel>
 	    
 					
-				</rich:panel>
-			</h:form>
+			
+			
 		</f:view>
 	</ui:define>
 

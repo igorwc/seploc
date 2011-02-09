@@ -141,8 +141,9 @@
 								<!-- Botoes --> 
 								<a4j:commandButton
 									value="Pesquisar Numero Requisicao"
+									reRender="reqServFiltros,reqServListTodos"
 									action="#{reqServListaCB.reqServListaMB.pesquisar}"
-									reRender="reqServFiltros,reqServListTodos"/>
+									/>
 								<rich:spacer width="5px"/>									
 								<a4j:commandButton
 									value="Iniciar Datas"
