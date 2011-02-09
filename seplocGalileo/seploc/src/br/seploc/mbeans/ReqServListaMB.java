@@ -317,7 +317,7 @@ public class ReqServListaMB implements Serializable {
 	}
 	
 	public void iniciarDatas(){
-		dataInicio = new Date(this.getDayAgo(30).getTimeInMillis());
+		dataInicio = new Date(this.getDayAgo(5).getTimeInMillis());
 		dataFim = new Date(Calendar.getInstance().getTimeInMillis());		
 	}
 	
