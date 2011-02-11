@@ -43,7 +43,8 @@ public class ReqServListaSaidaMB implements Serializable {
 	private void load(){
 		reqServicoDAO = new RequisicaoServicoDAO();		
 		reqServico = new RequisicaoServico();
-		saidaMotoqueiroDAO = new SaidaMotoqueiroDAO();		
+		saidaMotoqueiroDAO = new SaidaMotoqueiroDAO();	
+		saidaMotoqueiro = new SaidaMotoqueiro();
 		nomeCliente = "";
 	}
 

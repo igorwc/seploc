@@ -260,7 +260,7 @@ public class ReqServClienteMB implements Serializable {
 
 	public List<Cliente> getTodosClientes() {
 		ClienteDAO clienteDAO = new ClienteDAO();
-		List<Cliente> retorno = clienteDAO.getLista();
+		List<Cliente> retorno = clienteDAO.getListaClientesCadastrados();
 		filtroCliente = "";
 		return retorno;
 	}
@@ -296,7 +296,7 @@ public class ReqServClienteMB implements Serializable {
 				retorno = new ArrayList<Projeto>();
 				Projeto p = new Projeto();
 				p.setCodProj(0);
-				p.setProjeto("Cliente n�o tem projetos");
+				p.setProjeto("Cliente não tem projetos");
 				retorno.add(p);
 			}else{
 				retorno = cliente.getProjetos();
@@ -374,112 +374,65 @@ public class ReqServClienteMB implements Serializable {
 	}
 	
 	public void cadastrar() {
-		if (reqServico.getNumReq() == null || reqServico.getNumReq() == 0) {
-			try {
-				//A linha ou o opcional item obrigatorio da requisicao
-				boolean existeLinha = false;
-				boolean existeOpcional = false;
-				
-				if (quantidadeOpcional >= 1) existeOpcional = true;
-				if (linhaReqServ.getQuant() >= 1) existeLinha = true;
-				
-				reqServico.setValorTotal(0.0);
-				// setar data de criacao da requisicao
-				java.util.Date data = new java.util.Date();
-				java.sql.Date hoje = new java.sql.Date(data.getTime());
-				reqServico.setData(hoje);
-				// adicionar projeto
-				reqServico.setProjeto(projeto);
-				// adicionar a entrega
-				if (entrega.getCodEntrega() != null	){
-					reqServico.setEntrega(entrega);
-					reqServico.setValorEnt(entrega.getPreco());				
-				} else {
-					reqServico.setValorEnt(0.0);
-				}
-				// inserir valores iniciais
-				reqServico.setStatus(0);
-				reqServico.setVisivelNf(0);
-				reqServico.setVisivelReq(0);
-				
-				// adicionar a requisicao de servico se um dos itens obrigatoriso existirem
-				if (existeLinha || existeOpcional){
-					reqServicoDAO.adiciona(reqServico);
-				} else {
-					throw new Exception("Requisição de Serviço precisa de uma linha ou de um opcional!"); 
-				}
-
-				// recuperar a requisicao							
-				reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
-				
-				// registrar usuario que criou a requisicao
-				Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");
-				System.out.println("Usuario Criador: "+user.getLogin());
-				reqServUsuario = new ReqServUsuario(user, reqServico);
-				reqServUsuario.setData(hoje);
-				reqServico.setRequisicaoUsuario(reqServUsuario);
-				
-				//reqServicoDAO.refresh(reqServico);
-				
-				// adicionar o opcional
-				if (existeOpcional) {
-					reqServicoDAO.addOpcional(reqServico, opcional,
-							quantidadeOpcional);				
-				}
-				// adicionar a linha
-				if (existeLinha) {
-					// transformar o nomePapel em Objeto Papel
-					//papel = this.converterToPapel(this.nomePapel);
-					PapelDAO papelDAO = new PapelDAO();
-					papel = papelDAO.recupera(papel.getCodPapel());
-					linhaReqServ.setPapel(papel);
-					double valorPapel = 0.0;
-					// verificar a cor em uso
-					if (linhaReqServ.getImpressao().equalsIgnoreCase("Mono"))
-						valorPapel = papel.getImpMono();
-					if (linhaReqServ.getImpressao().equalsIgnoreCase("Color"))
-						valorPapel = papel.getImpColor();
-					if (linhaReqServ.getImpressao().equalsIgnoreCase("Shade"))
-						valorPapel = papel.getImpShade();
-
-					double valorUnit = (linhaReqServ.getDimensao() * linhaReqServ
-							.getFormato()) + valorPapel;
-					linhaReqServ.setValorSubUnit(valorUnit);
-					linhaReqServ.setValorUnit(valorUnit
-							* linhaReqServ.getQuant());
-
-					reqServicoDAO.addLinha(reqServico, linhaReqServ);					
-				}				
-				reqServicoDAO.altera(reqServico);
-				calcularTotal(reqServico);
-				setValorTotalReq(reqServico.getValorTotal());				
-				addGlobalMessage("Inclusão feita com sucesso!");
-			} catch (ValidatorException e) {
-				addGlobalMessage(e.getMessage());
-				e.printStackTrace();
-			} catch (Exception e) {
-				addGlobalMessage(e.getMessage());
-				e.printStackTrace();
-			}
-		} else {
-			RequisicaoServico temp;
-			temp = null;
-			try {
-				temp = reqServicoDAO.recupera(reqServico.getNumReq());
-
-				if (temp != null) {
+		if (projeto.getCodProj() > 0){
+			if (reqServico.getNumReq() == null || reqServico.getNumReq() == 0) {
+				try {
+					//A linha ou o opcional item obrigatorio da requisicao
+					boolean existeLinha = false;
+					boolean existeOpcional = false;
+					
+					if (quantidadeOpcional >= 1) existeOpcional = true;
+					if (linhaReqServ.getQuant() >= 1) existeLinha = true;
+					
+					reqServico.setValorTotal(0.0);
+					// setar data de criacao da requisicao
+					java.util.Date data = new java.util.Date();
+					java.sql.Date hoje = new java.sql.Date(data.getTime());
+					reqServico.setData(hoje);
+					// adicionar projeto
+					reqServico.setProjeto(projeto);
+					// adicionar a entrega
+					if (entrega.getCodEntrega() != null	){
+						reqServico.setEntrega(entrega);
+						reqServico.setValorEnt(entrega.getPreco());				
+					} else {
+						reqServico.setValorEnt(0.0);
+					}
+					// inserir valores iniciais
+					reqServico.setStatus(0);
+					reqServico.setVisivelNf(0);
+					reqServico.setVisivelReq(0);
+					
+					// adicionar a requisicao de servico se um dos itens obrigatoriso existirem
+					if (existeLinha || existeOpcional){
+						reqServicoDAO.adiciona(reqServico);
+					} else {
+						throw new Exception("Requisição de Serviço precisa de uma linha ou de um opcional!"); 
+					}
+	
+					// recuperar a requisicao							
+					reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+					
+					// registrar usuario que criou a requisicao
+					Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");
+					System.out.println("Usuario Criador: "+user.getLogin());
+					reqServUsuario = new ReqServUsuario(user, reqServico);
+					reqServUsuario.setData(hoje);
+					reqServico.setRequisicaoUsuario(reqServUsuario);
+					
+					//reqServicoDAO.refresh(reqServico);
+					
 					// adicionar o opcional
-					if (quantidadeOpcional >= 1) {
-						reqServicoDAO.addOpcional(temp, opcional,
-								quantidadeOpcional);
-						
+					if (existeOpcional) {
+						reqServicoDAO.addOpcional(reqServico, opcional,
+								quantidadeOpcional);				
 					}
 					// adicionar a linha
-					if (linhaReqServ.getQuant() >= 1) {
+					if (existeLinha) {
 						// transformar o nomePapel em Objeto Papel
 						//papel = this.converterToPapel(this.nomePapel);
 						PapelDAO papelDAO = new PapelDAO();
-						papel = papelDAO.recupera(papel.getCodPapel());						
+						papel = papelDAO.recupera(papel.getCodPapel());
 						linhaReqServ.setPapel(papel);
 						double valorPapel = 0.0;
 						// verificar a cor em uso
@@ -489,49 +442,100 @@ public class ReqServClienteMB implements Serializable {
 							valorPapel = papel.getImpColor();
 						if (linhaReqServ.getImpressao().equalsIgnoreCase("Shade"))
 							valorPapel = papel.getImpShade();
-
-						double valorUnit = (linhaReqServ.getDimensao() * 
-											linhaReqServ.getFormato()) + valorPapel;
+	
+						double valorUnit = (linhaReqServ.getDimensao() * linhaReqServ
+								.getFormato()) + valorPapel;
 						linhaReqServ.setValorSubUnit(valorUnit);
-						linhaReqServ.setValorUnit(valorUnit	* linhaReqServ.getQuant());
-
-						reqServicoDAO.addLinha(temp, linhaReqServ);
-					}
-					// verificar se existe alteracao na entrega
-					if (entrega != null){
-						if (temp.getEntrega() == null){
-							temp.setEntrega(entrega);
-						} else if (!temp.getEntrega().equals(entrega)){
-							temp.setEntrega(entrega);
-						}					
-					}
-					// verificar se foi alterado o projeto
-					Projeto p = this.projeto;
-					if (!temp.getProjeto().equals(p)){
-						temp.setProjeto(projeto);						
-					}			
-					
-					// registrar usuario que alterou a requisicao
-					Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");					 
-					System.out.println("Usuario Alterador: "+user.getLogin());
-					reqServUsuario = reqServico.getRequisicaoUsuario();
-					reqServUsuario.setUsuarioAlteracao(user);
-					reqServico.setRequisicaoUsuario(reqServUsuario);					
-					
-					temp.setValorTotal(this.calcularTotal(temp));					
-					reqServicoDAO.altera(temp);
-					reqServico = reqServicoDAO.recupera(temp.getNumReq());
-					setValorTotalReq(reqServico.getValorTotal());
-					temp.setProjeto(reqServico.getProjeto());
-					usuarioAlterouReqServ(reqServico);
-					addGlobalMessage("Atualização feita com sucesso!");
+						linhaReqServ.setValorUnit(valorUnit
+								* linhaReqServ.getQuant());
+	
+						reqServicoDAO.addLinha(reqServico, linhaReqServ);					
+					}				
+					reqServicoDAO.altera(reqServico);
+					reqServico.setValorTotal(calcularTotal(reqServico));
+					setValorTotalReq(reqServico.getValorTotal());				
+					addGlobalMessage("Inclusão feita com sucesso!");
+				} catch (ValidatorException e) {
+					addGlobalMessage(e.getMessage());
+					e.printStackTrace();
+				} catch (Exception e) {
+					addGlobalMessage(e.getMessage());
+					e.printStackTrace();
 				}
-				
-			} catch (Exception e) {
-				addGlobalMessage(e.getMessage());
-				e.printStackTrace();
+			} else {
+				RequisicaoServico temp;
+				temp = null;
+				try {
+					temp = reqServicoDAO.recupera(reqServico.getNumReq());
+	
+					if (temp != null) {
+						// adicionar o opcional
+						if (quantidadeOpcional >= 1) {
+							reqServicoDAO.addOpcional(temp, opcional,
+									quantidadeOpcional);
+							
+						}
+						// adicionar a linha
+						if (linhaReqServ.getQuant() >= 1) {
+							// transformar o nomePapel em Objeto Papel
+							//papel = this.converterToPapel(this.nomePapel);
+							PapelDAO papelDAO = new PapelDAO();
+							papel = papelDAO.recupera(papel.getCodPapel());						
+							linhaReqServ.setPapel(papel);
+							double valorPapel = 0.0;
+							// verificar a cor em uso
+							if (linhaReqServ.getImpressao().equalsIgnoreCase("Mono"))
+								valorPapel = papel.getImpMono();
+							if (linhaReqServ.getImpressao().equalsIgnoreCase("Color"))
+								valorPapel = papel.getImpColor();
+							if (linhaReqServ.getImpressao().equalsIgnoreCase("Shade"))
+								valorPapel = papel.getImpShade();
+	
+							double valorUnit = (linhaReqServ.getDimensao() * 
+												linhaReqServ.getFormato()) + valorPapel;
+							linhaReqServ.setValorSubUnit(valorUnit);
+							linhaReqServ.setValorUnit(valorUnit	* linhaReqServ.getQuant());
+	
+							reqServicoDAO.addLinha(temp, linhaReqServ);
+						}
+						// verificar se existe alteracao na entrega
+						if (entrega != null){
+							if (temp.getEntrega() == null){
+								//temp.setEntrega(entrega);
+							} else if (!temp.getEntrega().equals(entrega)){
+								temp.setEntrega(entrega);
+							}					
+						}
+						// verificar se foi alterado o projeto
+						Projeto p = this.projeto;
+						if (!temp.getProjeto().equals(p)){
+							temp.setProjeto(projeto);						
+						}			
+						
+						// registrar usuario que alterou a requisicao
+						Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");					 
+						System.out.println("Usuario Alterador: "+user.getLogin());
+						reqServUsuario = temp.getRequisicaoUsuario();
+						reqServUsuario.setUsuarioAlteracao(user);
+						temp.setRequisicaoUsuario(reqServUsuario);					
+						
+						temp.setValorTotal(this.calcularTotal(temp));					
+						reqServicoDAO.altera(temp);
+						reqServico = reqServicoDAO.recupera(temp.getNumReq());
+						setValorTotalReq(reqServico.getValorTotal());
+						temp.setProjeto(reqServico.getProjeto());
+						usuarioAlterouReqServ(reqServico);
+						addGlobalMessage("Atualização feita com sucesso!");
+					}
+					
+				} catch (Exception e) {
+					addGlobalMessage(e.getMessage());
+					e.printStackTrace();
+				}
+	
 			}
-
+		} else {
+			addGlobalMessage("Precisa cadastrar um projeto para o cliente!");
 		}
 		this.limparLinhaOpcional();
 	}
@@ -551,7 +555,7 @@ public class ReqServClienteMB implements Serializable {
 			}
 		}
 		//entrega
-		if (reqServ.getEntrega() != null){
+		if ((reqServ.getEntrega() != null) && (reqServ.getEntrega().getCodEntrega() != null )){
 			retorno = retorno + reqServ.getEntrega().getPreco();
 		}
 		

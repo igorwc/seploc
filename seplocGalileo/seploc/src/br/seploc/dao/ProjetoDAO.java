@@ -25,7 +25,7 @@ public class ProjetoDAO extends GenericDAO<br.seploc.pojos.Projeto, Integer> {
 	protected void ajustaPojo(Projeto p) throws Exception {
 		if (p.getCliente() == null)
 			throw new FieldNotNullException(
-					"Cliente é Obrigatório para Projeto");
+					"Cliente e Obrigatorio para Projeto");
 	}
 
 	@Override

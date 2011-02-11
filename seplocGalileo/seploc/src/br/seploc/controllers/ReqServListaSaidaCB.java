@@ -84,7 +84,7 @@ public class ReqServListaSaidaCB implements Serializable{
 		Date dataInicio = dI.getTime();
 		Date dataFim = dF.getTime();
 		Integer numeroReqServ;
-		if (reqServSaidaMB.getSaidaMotoqueiro() == null) {
+		if (reqServSaidaMB.getSaidaMotoqueiro() == null || reqServSaidaMB.getSaidaMotoqueiro().getReqServico() == null ) {
 			numeroReqServ = null;
 		} else {
 			numeroReqServ = reqServSaidaMB.getSaidaMotoqueiro().getReqServico().getNumReq();

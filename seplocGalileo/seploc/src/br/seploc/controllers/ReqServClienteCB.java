@@ -26,7 +26,7 @@ public class ReqServClienteCB implements Serializable{
 	}
 
 	public List<Cliente> getListaClientes() {
-		return AppServiceBean.getListaClientes();
+		return AppServiceBean.getListaClientesCadastrados();
 	}
 	public void setReqServMB(ReqServClienteMB reqServMB) {
 		this.reqServMB = reqServMB;
