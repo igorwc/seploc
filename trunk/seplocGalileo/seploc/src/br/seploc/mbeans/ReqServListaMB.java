@@ -49,6 +49,7 @@ public class ReqServListaMB implements Serializable {
 		reqServicoDAO = new RequisicaoServicoDAO();		
 		reqServico = new RequisicaoServico();
 		cliente = new Cliente();
+		cliente.setIdCliente(0);
 		projeto = new Projeto();
 		numReqBusca = 0;
 		projetoID = 0;
@@ -324,9 +325,22 @@ public class ReqServListaMB implements Serializable {
 	public List<Projeto> getTodosProjetos() {
 		List<Projeto> retorno = null;
 
-		ProjetoDAO projetoDAO = new ProjetoDAO();
-		retorno = projetoDAO.getLista();
-		
+//		ProjetoDAO projetoDAO = new ProjetoDAO();
+//		retorno = projetoDAO.getLista();
+		if (cliente == null || cliente.getIdCliente().intValue() == 0) {
+			retorno = new ArrayList<Projeto>();
+		} else {
+			if(cliente.getProjetos().isEmpty()){
+				retorno = new ArrayList<Projeto>();
+				Projeto p = new Projeto();
+				p.setCodProj(0);
+				p.setProjeto("Cliente nao tem projetos");
+				retorno.add(p);
+			}else{
+				retorno = cliente.getProjetos();
+				System.out.println("cli: "+cliente.getFantasia().toString());
+			}
+		}		
 		return retorno;
 	}	
 	
