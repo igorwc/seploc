@@ -1,17 +1,17 @@
 package br.seploc.controllers;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
 import javax.faces.context.FacesContext;
 
-import br.seploc.mbeans.AppServiceBean;
+import br.seploc.dao.ClienteDAO;
 import br.seploc.mbeans.ReqServListaMB;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.RequisicaoServico;
@@ -22,11 +22,12 @@ public class ReqServListaCB implements Serializable {
 	private ReqServListaMB reqServListaMB;
 	private String datasInvalidasMsg;
 	private Locale locale;
-
+	
 	// CONSTRUTOR
 	public ReqServListaCB() {
 		locale = new Locale("pt", "br");
 		this.setReqServListaMB(this.loadReqServList());
+		
 	}
 
 	public ReqServListaMB getReqServListaMB() {
@@ -34,7 +35,9 @@ public class ReqServListaCB implements Serializable {
 	}
 
 	public List<Cliente> getListaClientes() {
-		return AppServiceBean.getListaClientes();
+		return new ClienteDAO().getListaClientesCadastrados();
+		 
+		//AppServiceBean.getListaClientesCadastrados();
 	}
 
 	public void setReqServListaMB(ReqServListaMB reqServListaMB) {
