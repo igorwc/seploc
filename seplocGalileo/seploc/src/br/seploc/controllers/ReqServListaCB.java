@@ -22,12 +22,12 @@ public class ReqServListaCB implements Serializable {
 	private ReqServListaMB reqServListaMB;
 	private String datasInvalidasMsg;
 	private Locale locale;
-	
+
 	// CONSTRUTOR
 	public ReqServListaCB() {
 		locale = new Locale("pt", "br");
 		this.setReqServListaMB(this.loadReqServList());
-		
+
 	}
 
 	public ReqServListaMB getReqServListaMB() {
@@ -35,9 +35,9 @@ public class ReqServListaCB implements Serializable {
 	}
 
 	public List<Cliente> getListaClientes() {
-		return new ClienteDAO().getListaClientesCadastrados();
-		 
-		//AppServiceBean.getListaClientesCadastrados();
+//		return new ClienteDAO().getListaClientesCadastrados();
+		return reqServListaMB.getClientesPager().getCurrentResults();
+		// AppServiceBean.getListaClientesCadastrados();
 	}
 
 	public void setReqServListaMB(ReqServListaMB reqServListaMB) {
@@ -98,9 +98,11 @@ public class ReqServListaCB implements Serializable {
 		int clienteID = reqServListaMB.getClienteID();
 		int projetoID = reqServListaMB.getProjetoID();
 
-		lista = reqServListaMB.getReqServicoDAO().filtraReqServ(projetoID,
-				numeroReqServ, clienteID, dataInicio, dataFim);
-		Collections.reverse(lista);
+		// lista = reqServListaMB.getReqServicoDAO().filtraReqServ(projetoID,
+		// numeroReqServ, clienteID, dataInicio, dataFim);
+		// Collections.reverse(lista);
+		lista = reqServListaMB.filtroReqserv(projetoID, numeroReqServ,
+				clienteID, dataInicio, dataFim);
 		return lista;
 	}
 
