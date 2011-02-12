@@ -33,6 +33,13 @@ public abstract class AbstractResultPager<T> implements IResultPager<T> {
         maxResults = contagem();
         currentPage = 0;
 	}
+	
+	public void init(int pageSize) {
+		
+		this.pageSize = pageSize;
+        maxResults = contagem();
+        currentPage = 0;
+	}
 
 	public AbstractResultPager() {
 		em = PersistenceServiceFactory.getInstance().getManager();
@@ -56,7 +63,9 @@ public abstract class AbstractResultPager<T> implements IResultPager<T> {
 	@Override
 	public void proximaPagina() {
 		currentPage++;
-		
+		if(currentPage > getMaxPages()){
+			currentPage = getMaxPages();
+		}
 	}
 
 	public void paginaAnterior() {
