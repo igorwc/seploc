@@ -74,4 +74,12 @@ public abstract class AbstractResultPager<T> implements IResultPager<T> {
 		this.currentPage = currentPage;
 	}
 
+	public Query getQuery() {
+		return query;
+	}
+
+	public void setQuery(Query query) {
+		this.query = query;
+	}
+
 }
