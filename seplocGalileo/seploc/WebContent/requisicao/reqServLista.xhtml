@@ -305,12 +305,30 @@
 						
 
 						</rich:column>
-
-						<f:facet name="footer">
-							<rich:datascroller id="dsReq" maxPages="3"
-								renderIfSinglePage="true" />
-						</f:facet>
 					</rich:dataTable>
+					<center>
+                        <h:panelGrid columns="4" style=" width : 311px;" >
+                        
+                            <a4j:commandButton
+                                    value="primeiro"
+                                    action="#{reqServListaCB.reqServListaMB.primeiraPaginaReqServ}"
+                                    reRender="reqServFiltros,reqServListTodos"/>
+                             <a4j:commandButton
+                                    value="anterior"
+                                    action="#{reqServListaCB.reqServListaMB.paginaAnteriorReqServ}"
+                                    reRender="reqServFiltros,reqServListTodos"/>
+                              
+                             <a4j:commandButton
+                                    value="proxima"
+                                    action="#{reqServListaCB.reqServListaMB.proximaPaginaReqServ}"
+                                    reRender="reqServFiltros,reqServListTodos"/>
+                             <a4j:commandButton
+                                    value="ultima"
+                                    action="#{reqServListaCB.reqServListaMB.ultimaPaginaReqServ}"
+                                    reRender="reqServFiltros,reqServListTodos"/>
+                                      
+                                   </h:panelGrid>
+                            </center>     
 				</rich:panel>
 			</h:form>
 
@@ -541,7 +559,7 @@
 				</f:facet>
 				<h:form>
 					<rich:dataTable value="#{reqServListaCB.listaClientes}" var="cli" rows="10"
-						reRender="dsCliente" id="simpletable" >
+						reRender="dsCliente" id="clientesTable" >
 						<f:facet name="header">
 							<rich:columnGroup>
 								<rich:column colspan="3">
@@ -571,19 +589,40 @@
 						<rich:column styleClass="col1">
 							<a4j:commandLink ajaxSingle="true" 
 								                 id="editlinkcli" 
-							    				 reRender="reqServList,modalCliente" 
+							    				 reRender="reqServList,modalCliente,modalProjeto,reqServFiltros,reqServListTodos" 
 							    				 oncomplete=" #{rich:component('modalCliente')}.hide();"
 							    				 >
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 		
 								<f:setPropertyActionListener value="#{cli}"
 										target="#{reqServListaCB.reqServListaMB.cliente}" />
+								 
 							</a4j:commandLink>
 						</rich:column>  
-						<f:facet name="footer">
-							<rich:datascroller id="dsCliente" renderIfSinglePage="true"></rich:datascroller>
-						</f:facet>
-					</rich:dataTable>	
+					</rich:dataTable>
+					<center>
+                        <h:panelGrid columns="4" style=" width : 311px;" >
+                        
+                            <a4j:commandButton
+                                    value="primeiro"
+                                    action="#{reqServListaCB.reqServListaMB.primeiraPaginaCliente}"
+                                    reRender="clientesTable"/>
+                             <a4j:commandButton
+                                    value="anterior"
+                                    action="#{reqServListaCB.reqServListaMB.paginaAnteriorCliente}"
+                                    reRender="clientesTable"/>
+                              
+                             <a4j:commandButton
+                                    value="proxima"
+                                    action="#{reqServListaCB.reqServListaMB.proximaPaginaCliente}"
+                                    reRender="clientesTable"/>
+                             <a4j:commandButton
+                                    value="ultima"
+                                    action="#{reqServListaCB.reqServListaMB.ultimaPaginaCliente}"
+                                    reRender="clientesTable"/>
+                                      
+                                   </h:panelGrid>
+                            </center>     	
 				</h:form>
 			</rich:modalPanel>
 			
