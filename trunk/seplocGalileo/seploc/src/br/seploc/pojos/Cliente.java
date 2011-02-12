@@ -46,7 +46,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorCPF", query = " SELECT * "
 				+ "FROM tbl_clientes c where vcrCpf like :CPF", resultSetMapping = "Cliente.implicit"),				
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorCNPJ", query = " SELECT * "
-				+ "FROM tbl_clientes c where vcrCnpj like :CNPJ", resultSetMapping = "Cliente.implicit")
+				+ "FROM tbl_clientes c where vcrCnpj like :CNPJ", resultSetMapping = "Cliente.implicit")/*,
+		@NamedNativeQuery(name = "Cliente.ContaClientes", query = " SELECT count(*) "
+					+ "FROM tbl_clientes c", resultClass = Long.class)*/
 }) 
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;

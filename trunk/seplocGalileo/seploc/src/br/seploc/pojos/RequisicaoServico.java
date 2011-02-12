@@ -34,15 +34,15 @@ import javax.persistence.Version;
 		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoes", query = " SELECT * "
 				+ "FROM tbl_reqserv", resultSetMapping = "RequisicaoServico.implicit"),
 		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoesLimitadoTempo", query = " SELECT * "
-				+ "FROM tbl_reqserv " + "where datData >= :data", resultSetMapping = "RequisicaoServico.implicit"),
+				+ "FROM tbl_reqserv " + "where datData >= :data order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
 		@NamedNativeQuery(name = "RequisicaoServico.FiltraProjeto", query = " SELECT * "
-				+ "FROM tbl_reqserv " + "where intCodProj = :projeto", resultSetMapping = "RequisicaoServico.implicit"),
+				+ "FROM tbl_reqserv " + "where intCodProj = :projeto order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
 		@NamedNativeQuery(name = "RequisicaoServico.FiltraReqServ", query = " SELECT * "
-				+ "FROM tbl_reqserv " + "where intNumreq = :numReq", resultSetMapping = "RequisicaoServico.implicit"),
+				+ "FROM tbl_reqserv where intNumreq = :numReq order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
 		@NamedNativeQuery(name = "RequisicaoServico.FiltraCliente", query = " SELECT * "
 				+ "FROM tbl_reqserv "
 				+ "where datData between :dataInicio and :dataFinal "
-				+ "and intCodProj in (select intCodProj FROM tbl_projetos where intClienteId = :clienteId) ", resultSetMapping = "RequisicaoServico.implicit"),
+				+ "and intCodProj in (select intCodProj FROM tbl_projetos where intClienteId = :clienteId)  order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
 		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoesPorPeriodo", query = " SELECT * "
 				+ "FROM tbl_reqserv "
 				+ "where datData >= :dataInicio and datData <= :dataFim "
