@@ -686,6 +686,16 @@
 	            </table>
 	        </h:form>
 	    </rich:modalPanel>
+        <rich:modalPanel id="panel_loading" autosized="true">
+            <h:graphicImage url="../imgs/ajax-loader.gif" 
+                            style="border:0px; vertical-align: middle;" />
+            <rich:spacer width="20" />
+            <h:outputText value="Aguarde..." />
+        </rich:modalPanel>
+
+        <a4j:status id="loading" 
+                    onstart="Richfaces.showModalPanel('panel_loading')" 
+                    onstop="Richfaces.hideModalPanel('panel_loading')" />
     
 		</f:view>
 	</ui:define>
