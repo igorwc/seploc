@@ -3,17 +3,17 @@ package br.seploc.controllers;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
-import br.seploc.dao.ClienteDAO;
 import br.seploc.mbeans.ReqServListaMB;
 import br.seploc.pojos.Cliente;
+import br.seploc.pojos.Projeto;
 import br.seploc.pojos.RequisicaoServico;
 
 public class ReqServListaCB implements Serializable {
@@ -23,6 +23,10 @@ public class ReqServListaCB implements Serializable {
 	private String datasInvalidasMsg;
 	private Locale locale;
 
+	public void resetaProjeto(ActionEvent e){
+		reqServListaMB.setProjeto(new Projeto());
+		reqServListaMB.setProjetoID(0);
+	}
 	// CONSTRUTOR
 	public ReqServListaCB() {
 		locale = new Locale("pt", "br");
@@ -88,6 +92,7 @@ public class ReqServListaCB implements Serializable {
 		return retorno;
 	}
 
+	
 	public List<RequisicaoServico> getGridReqServ() {
 		List<RequisicaoServico> lista = new ArrayList<RequisicaoServico>();
 		Calendar dataInicio = new GregorianCalendar(Locale.getDefault());
