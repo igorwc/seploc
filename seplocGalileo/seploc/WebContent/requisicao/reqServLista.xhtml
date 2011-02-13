@@ -591,12 +591,13 @@
 								                 id="editlinkcli" 
 							    				 reRender="reqServList,modalCliente,modalProjeto,reqServFiltros,reqServListTodos" 
 							    				 oncomplete=" #{rich:component('modalCliente')}.hide();"
+							    				 actionListener="#{reqServListaCB.resetaProjeto}"
 							    				 >
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 		
 								<f:setPropertyActionListener value="#{cli}"
 										target="#{reqServListaCB.reqServListaMB.cliente}" />
-								 
+								<f:actionListener ></f:actionListener> 
 							</a4j:commandLink>
 						</rich:column>  
 					</rich:dataTable>
