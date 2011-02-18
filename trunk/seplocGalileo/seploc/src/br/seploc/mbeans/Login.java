@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
 import br.seploc.dao.UsuarioDAO;
+import br.seploc.dao.exceptions.LoginExistenteException;
 import br.seploc.pojos.Usuario;
 import br.seploc.util.ListsLoader;
 import br.seploc.util.MENUS;
@@ -110,10 +111,49 @@ public class Login{
 		return "login";
 	}
 
+	public void changePassword(){
+		Usuario usuario = null;
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (userName == null || password == null) {
+			String errorMsg = Utils.getMessageResourceString("messages",
+					"login.invalido", null, context.getViewRoot().getLocale());
+			addGlobalMessage(errorMsg);
+			FacesMessage message = new FacesMessage(errorMsg);
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+		usuario = usuarioDAO.recupera(userName, password);
+		
+		if (usuario == null) {
+			String errorMsg = Utils.getMessageResourceString("messages",
+					"login.invalido", null, new Locale("pt"));
+			addGlobalMessage(errorMsg);
+			return;
+		}
+		if(newPassword == null || newPassword.trim().equals("")||retypeNewPassword == null || retypeNewPassword.trim().equals("")){
+			addGlobalMessage("Nova senha invalida!");
+			return;
+//			FacesMessage message = new FacesMessage("Nova senha invalida!");
+//			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+//			throw new ValidatorException(message);
+		}
+		if( !newPassword.trim().equals(retypeNewPassword)){
+			addGlobalMessage("Nova senha invalida!");
+			System.out.println("Entrou na nova senha invalida");
+			return;
+		}
+		usuario.setPassword(newPassword);
+		try {
+			usuarioDAO.altera(usuario);
+		} catch (LoginExistenteException e) {
+			addGlobalMessage("Erro ao alterar a senha!");
+			e.printStackTrace();
+		}
+	}
 	public String validateLogin() {
-		(new ListsLoader()).start();
+//		(new ListsLoader()).start();
 
-		newPasswordOk = true;
+//		newPasswordOk = true;
 		Usuario usuario = null;
 		System.out.println("Entrou aqui!!!");
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -164,6 +204,7 @@ public class Login{
 		// }
 	}
 
+	
 	private void processaMenus() {
 		Map<String, Boolean> permissoesMenus = this.user.getGrupo()
 				.retornaPermissoes();
