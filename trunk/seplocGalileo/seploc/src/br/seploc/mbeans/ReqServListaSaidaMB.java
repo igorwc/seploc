@@ -29,7 +29,7 @@ public class ReqServListaSaidaMB implements Serializable {
 	private SaidaMotoqueiroDAO saidaMotoqueiroDAO;		
 	private Date dataInicio;	
 	private Date dataFim;	
-	private String nomeCliente;
+	private int numSaidaMoto;
 	private Integer numReqVisualizar;
 	private boolean datasInvalidas = false;
 
@@ -45,7 +45,8 @@ public class ReqServListaSaidaMB implements Serializable {
 		reqServico = new RequisicaoServico();
 		saidaMotoqueiroDAO = new SaidaMotoqueiroDAO();	
 		saidaMotoqueiro = new SaidaMotoqueiro();
-		nomeCliente = "";
+		cobrador = new Cobrador();
+		numSaidaMoto = 0;
 	}
 
 	// GETTERS E SETTERS
@@ -97,12 +98,12 @@ public class ReqServListaSaidaMB implements Serializable {
 		this.saidaMotoqueiroDAO = saidaMotoqueiroDAO;
 	}
 
-	public String getNomeCliente() {
-		return nomeCliente;
+	public int getNumSaidaMoto() {
+		return numSaidaMoto;
 	}
 
-	public void setNomeCliente(String nomeCliente) {
-		this.nomeCliente = nomeCliente;
+	public void setNumSaidaMoto(int numSaida) {
+		this.numSaidaMoto = numSaida;
 	}
 
 	public Date getDataInicio() {
@@ -145,8 +146,8 @@ public class ReqServListaSaidaMB implements Serializable {
 	}
 	
 	public void limpar(){				
-		reqServico = new RequisicaoServico();				
-		nomeCliente = "";		
+		reqServico = new RequisicaoServico();		
+		saidaMotoqueiro = new SaidaMotoqueiro();		
 		this.iniciarDatas();
 	}
 	
@@ -164,9 +165,13 @@ public class ReqServListaSaidaMB implements Serializable {
 	
 	public void editar(){
 		try{
-		saidaMotoqueiro = saidaMotoqueiroDAO.recupera(saidaMotoqueiro.getNumSaida());
-		reqServico = saidaMotoqueiro.getReqServico();
-		
+		// setar data de criacao da requisicao
+		java.util.Date data = new java.util.Date();
+		java.sql.Date hoje = new java.sql.Date(data.getTime());
+
+		saidaMotoqueiro = saidaMotoqueiroDAO.recupera(numSaidaMoto);
+		saidaMotoqueiro.setDataPagamento(hoje);
+					
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());
@@ -174,21 +179,40 @@ public class ReqServListaSaidaMB implements Serializable {
 	}	
 	
 	public void cadastrar(){
+		boolean existeReqServ = false;
+		boolean existeCliente = false;
 		if (saidaMotoqueiro.getNumSaida() == null || saidaMotoqueiro.getNumSaida() == 0) {
-			try {
+			try {				
 				// setar data de criacao da requisicao
 				java.util.Date data = new java.util.Date();
 				java.sql.Date hoje = new java.sql.Date(data.getTime());
+				java.sql.Time hora = new java.sql.Time(hoje.getTime());
 				
-				saidaMotoqueiro = new SaidaMotoqueiro();		
+				//saidaMotoqueiro = new SaidaMotoqueiro();	
+				CobradorDAO cobradorDAO = new CobradorDAO();
+				cobrador = cobradorDAO.recupera(cobrador.getCodCobrador());
 				saidaMotoqueiro.setCobrador(cobrador);
 				saidaMotoqueiro.setDataCobranca(hoje);
-				saidaMotoqueiro.setDescCliente(nomeCliente);
-				if(reqServico.getNumReq() != null || reqServico.getNumReq() > 0) {					
-					saidaMotoqueiro.setReqServico(reqServico);
+				saidaMotoqueiro.setHoraCobranca(hora);
+				if(reqServico.getNumReq() > 0) {
+					reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+					saidaMotoqueiro.setReqServico(reqServico);					
+					existeReqServ = true;	
+					saidaMotoqueiro.setDescCliente(reqServico.getProjeto().getCliente().getFantasia());	
+				} else {
+					if (saidaMotoqueiro.getDescCliente().length() > 0) {					
+					saidaMotoqueiro.setDescCliente(saidaMotoqueiro.getDescCliente().toUpperCase());
+					existeCliente = true;
+					}
 				}
-				
-				this.saidaMotoqueiroDAO.adiciona(saidaMotoqueiro);
+				if ((existeReqServ && !existeCliente)||(!existeReqServ && existeCliente)) {
+												
+					this.saidaMotoqueiroDAO.adiciona(saidaMotoqueiro);
+					addGlobalMessage("Saida registrado com sucesso!");
+					limpar();
+				} else {
+					addGlobalMessage("Informe uma requisição ou um cliente!");
+				}
 				
 			} catch (ValidatorException e) {
 				addGlobalMessage(e.getMessage());
