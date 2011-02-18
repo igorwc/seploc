@@ -96,7 +96,7 @@ public class ReqServListaSaidaCB implements Serializable{
 		} else {
 			lista = reqServSaidaMB.getSaidaMotoqueiroDAO().getLista(numeroReqServ);
 		}
-		Collections.reverse(lista);		
+		//Collections.reverse(lista);		
 		return lista;
 	}	
 	
