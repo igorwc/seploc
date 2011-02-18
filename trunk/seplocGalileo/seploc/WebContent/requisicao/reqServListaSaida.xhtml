@@ -88,10 +88,10 @@
 								         />
 								</td>						
 								<td>
-									<h:selectOneMenu value="#{reqServListaSaidaCB.reqServSaidaMB.cobrador}" id="cobradorSaida">
+									<h:selectOneMenu value="#{reqServListaSaidaCB.reqServSaidaMB.cobrador.codCobrador}" id="cobradorSaida">
 					                                <f:selectItem itemLabel="Selecione" itemValue="-1"></f:selectItem>
 					                                <t:selectItems value="#{reqServListaSaidaCB.reqServSaidaMB.todosCobradores}"
-					                                			   var="cobrador" 
+					                                			   var="cobrador"					                                			   
 					                                               itemLabel="#{cobrador.nome}" 
 					                                               itemValue="#{cobrador.codCobrador}" />					                                	                    			
 				                    </h:selectOneMenu></td>								
@@ -137,22 +137,22 @@
 								<a4j:commandButton
 									value="Atualizar Registro"
 									action="#{reqServListaSaidaCB.reqServSaidaMB.cadastrar}"
-									reRender="reqServListTodos"/>
+									reRender="reqServListTodos,reqServListSaida,cobradorSaida"/>
 								<rich:spacer width="5px"/>								
 								<a4j:commandButton
 									value="Pesquisar Numero Requisicao"
 									action="#{reqServListaSaidaCB.reqServSaidaMB.pesquisar}"
-									reRender="reqServListTodos"/>
+									reRender="reqServListTodos,reqServListSaida,cobradorSaida"/>
 								<rich:spacer width="5px"/>									
 								<a4j:commandButton
 									value="Iniciar Datas"
 									action="#{reqServListaSaidaCB.reqServSaidaMB.iniciarDatas}"
-									reRender="reqServListTodos"/>
+									reRender="reqServListTodos,reqServListSaida"/>
 								<rich:spacer width="5px"/>
 								<a4j:commandButton
 									value="#{msgs['botao.limpar']}"
 									action="#{reqServListaSaidaCB.reqServSaidaMB.limpar}"
-									reRender="reqServListTodos"/>																		
+									reRender="reqServListTodos,reqServListSaida,cobradorSaida"/>																		
 								</td>
 							</tr>
 						</table>
@@ -173,27 +173,30 @@
 						<f:facet name="header">
 							<rich:columnGroup>
 
-								<rich:column colspan="7">
+								<rich:column colspan="8">
 									<h:outputText value="Listar Saidas Motoqueiros" />
 								</rich:column>
 
 								<rich:column breakBefore="true" width="100">
 									<h:outputText value="Numero" />
 								</rich:column>
+								<rich:column width="100">
+									<h:outputText value="Requisicao" />
+								</rich:column>
 								<rich:column width="320">
 									<h:outputText value="Cliente" />
 								</rich:column>
-								<rich:column width="300">
+								<rich:column width="200">
 									<h:outputText value="Motoqueiro" />
 								</rich:column>
 								<rich:column width="100">
 									<h:outputText value="Data Saida" />
 								</rich:column>
 								<rich:column width="100">
-									<h:outputText value="Status" />
+									<h:outputText value="Hora Saida" />
 								</rich:column>
 								<rich:column width="80">
-									<h:outputText value="Balcao" />
+									<h:outputText value="Data Pagamento" />
 								</rich:column>								
 								<rich:column width="150">
 									<h:outputText value="" />
@@ -203,12 +206,17 @@
 						</f:facet>
 
 						<rich:column style="text-align:center">
+							<h:outputText value="#{sai.numSaida}">
+								<f:convertNumber pattern="#000000" />
+							</h:outputText>
+						</rich:column>
+						<rich:column style="text-align:center">
 							<h:outputText value="#{sai.reqServico.numReq}">
 								<f:convertNumber pattern="#000000" />
 							</h:outputText>
 						</rich:column>
 						<rich:column>
-							<h:outputText value="#{sai.reqServico.projeto.cliente.fantasia}" />
+							<h:outputText value="#{sai.reqServico==null? sai.descCliente : sai.reqServico.projeto.cliente.fantasia}" />
 						</rich:column>
 						<rich:column>
 							<h:outputText value="#{sai.cobrador.nome}" />
@@ -219,10 +227,14 @@
 							</h:outputText>							
 						</rich:column>
 						<rich:column style="text-align:center">
-							<h:outputText value="#{sai.reqServico.status}" />
+							<h:outputText value="#{sai.horaCobranca}" >
+								<f:convertDateTime locale="Locale.getDefault()" pattern="HH:mm:ss" />
+							</h:outputText>
 						</rich:column>
 						<rich:column style="text-align:center">
-							<h:outputText value="#{sai.reqServico.projeto.cliente.balcao==0 ? 'NAO' : 'SIM'}" />
+							<h:outputText value="#{sai.dataPagamento}" >
+								<f:convertDateTime pattern="dd-MM-yyyy" />
+							</h:outputText>
 						</rich:column>
 						<rich:column style="text-align:center">		
 							<!-- editar -->							    
@@ -231,10 +243,10 @@
 											 reRender="reqServList" 
 											 action="#{reqServListaSaidaCB.reqServSaidaMB.editar}">
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
-								<f:setPropertyActionListener value="#{sai}"
-									target="#{reqServListaSaidaCB.reqServSaidaMB.saidaMotoqueiro}" />
+								<f:setPropertyActionListener value="#{sai.numSaida}"
+									target="#{reqServListaSaidaCB.reqServSaidaMB.numSaidaMoto}" />
 							</a4j:commandLink>
-							<rich:toolTip for="editlinkreq" value="Editar Registro" />
+							<rich:toolTip for="editlinkreq" value="Registrar Pagamento" />
 						    <rich:spacer width="5px"/>						    
 						    <!-- remover -->
 							<a4j:commandLink ajaxSingle="true" 
@@ -243,8 +255,8 @@
 											 action="#{reqServListaSaidaCB.reqServSaidaMB.apagar}"
 											 oncomplete="#{rich:component('confirmationMessage')}.show();">
 								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
-								<f:setPropertyActionListener value="#{sai}"
-									target="#{reqServListaSaidaCB.reqServSaidaMB.saidaMotoqueiro}" />
+								<f:setPropertyActionListener value="#{sai.numSaida}"
+									target="#{reqServListaSaidaCB.reqServSaidaMB.numSaidaMoto}" />
 							</a4j:commandLink>
 							<rich:toolTip for="deletelinkreq" value="Apagar Registro" />
 						    <rich:spacer width="5px"/>						    
@@ -449,6 +461,16 @@
 				</h:form>
 			</rich:modalPanel>
 	    
+        <rich:modalPanel id="panel_loading" autosized="true">
+            <h:graphicImage url="../imgs/ajax-loader.gif" 
+                            style="border:0px; vertical-align: middle;" />
+            <rich:spacer width="20" />
+            <h:outputText value="Aguarde..." />
+        </rich:modalPanel>
+
+        <a4j:status id="loading" 
+                    onstart="Richfaces.showModalPanel('panel_loading')" 
+                    onstop="Richfaces.hideModalPanel('panel_loading')" />
 					
 			
 			
