@@ -13,8 +13,10 @@
 	<ui:define name="taxinomia" />      
        
 	<ui:define name="conteudo">
-	<style type="text/css">  
-	.error { 
+
+		<center><f:view>
+		  <style type="text/css">  
+    .error { 
     font-weight: bold;
     font-style:normal;
     color:#FF0000;
@@ -22,7 +24,6 @@
     font-family: tahoma, arial;
 }
 </style>
-		<center><f:view>
 			<h:panelGrid columns="2" styleClass="loginTable">
 			 <h:graphicImage alt="cadeado" url="../imgs/cadeado.gif"></h:graphicImage>  
 			<h:form id="loginForm" prependId="false">
@@ -40,30 +41,31 @@
 					<h:inputSecret id="passwd" value="#{login.password}" size="21"/>
 
 					<h:outputLabel value="Nova Senha" for="newpasswd" />
-					<h:inputSecret id="newpasswd" size="21"/>
+					<h:inputSecret id="newpasswd" size="21" value="#{login.newPassword}"/>
 
 					<h:outputLabel value="Repetir Senha" for="renewpasswd" />
-					<h:inputSecret id="renewpasswd" size="21"/>
+					<h:inputSecret id="renewpasswd" size="21" value="#{login.retypeNewPassword}"/>
 
 				</h:panelGrid>
-				<h:outputLabel value="Usuário e/ou Senha errado(s)" 
-				               rendered="#{login.falhaLogin}" 
-				               styleClass="error" /><br />
-				 <h:messages  errorClass="error" layout="table" showDetail="false" showSummary="true" />
+				
+				               <br />
+				 <h:messages  errorClass="error" layout="table" showDetail="false" showSummary="true" warnStyle="error"/>
 				 <rich:spacer></rich:spacer> 
-			<!--	<rich:messages for="loginForm"  showDetail="true" showSummary="true" styleClass="error" /> -->
+				<rich:messages errorClass="error" for="loginForm"  showDetail="true" showSummary="true" styleClass="error" /> 
 				<h:commandButton value="Entrar" action="#{login.validateLogin}" />
-				 <a4j:commandButton value="Salvar"
-                  action="#{login.validateLogin}"
+				<h:commandButton value="Alterar Senha"
+                  action="#{login.changePassword}" />
+				 <a4j:commandButton value="Alterar Senha"
+                  action="#{login.changePassword}"
                   reRender="loginForm"
-                  oncomplete="#{rich:component('confirmationMessage')}.show()"
+                  
                   /> 
 			</h:form>
 			</h:panelGrid>
 			<!-- Mensagens -->
         <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
         <f:facet name="header">
-            <h:outputText value="Cadastro de papel"
+            <h:outputText value="Login"
                 style="padding-right:15px;" />
         </f:facet>
         <f:facet name="controls">
