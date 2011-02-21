@@ -178,10 +178,10 @@
 									<h:outputText value="Listar Requisicoes de Servicos" />
 								</rich:column>
 
-								<rich:column breakBefore="true" width="100">
-									<h:outputText value="Num Requisicao" />
+								<rich:column breakBefore="true" width="80">
+									<h:outputText value="Requisicao" />
 								</rich:column>
-								<rich:column width="300">
+								<rich:column width="320">
 									<h:outputText value="Cliente" />
 								</rich:column>
 								<rich:column width="300">
@@ -307,28 +307,31 @@
 						</rich:column>
 					</rich:dataTable>
 					<center>
-                        <h:panelGrid columns="4" style=" width : 311px;" >
+                        <h:panelGrid columns="4" style=" width : 100px;" >
                         
                             <a4j:commandButton
                                     value="primeiro"
                                     action="#{reqServListaCB.reqServListaMB.primeiraPaginaReqServ}"
-                                    reRender="reqServFiltros,reqServListTodos"/>
+                                    reRender="reqServFiltros,reqServListTodos"
+                                    image="/imgs/ceta_pri.png"/>
                              <a4j:commandButton
                                     value="anterior"
                                     action="#{reqServListaCB.reqServListaMB.paginaAnteriorReqServ}"
-                                    reRender="reqServFiltros,reqServListTodos"/>
-                              
+                                    reRender="reqServFiltros,reqServListTodos"
+                                    image="/imgs/ceta_ant.png"/>                              
                              <a4j:commandButton
                                     value="proxima"
                                     action="#{reqServListaCB.reqServListaMB.proximaPaginaReqServ}"
-                                    reRender="reqServFiltros,reqServListTodos"/>
+                                    reRender="reqServFiltros,reqServListTodos"
+                                    image="/imgs/ceta_pro.png"/>
                              <a4j:commandButton
                                     value="ultima"
                                     action="#{reqServListaCB.reqServListaMB.ultimaPaginaReqServ}"
-                                    reRender="reqServFiltros,reqServListTodos"/>
+                                    reRender="reqServFiltros,reqServListTodos"
+                                    image="/imgs/ceta_ult.png"/>
                                       
-                                   </h:panelGrid>
-                            </center>     
+                        </h:panelGrid>
+                    </center>     
 				</rich:panel>
 			</h:form>
 
@@ -602,7 +605,7 @@
 						</rich:column>  
 					</rich:dataTable>
 					<center>
-                        <h:panelGrid columns="4" style=" width : 311px;" >
+                        <h:panelGrid columns="5" style=" width : 311px;" >
                         
                             <a4j:commandButton
                                     value="primeiro"
@@ -612,7 +615,7 @@
                                     value="anterior"
                                     action="#{reqServListaCB.reqServListaMB.paginaAnteriorCliente}"
                                     reRender="clientesTable"/>
-                              
+                             <h:inputText value="#{reqServListaCB.reqServListaMB.reqServCurrentPage}" />
                              <a4j:commandButton
                                     value="proxima"
                                     action="#{reqServListaCB.reqServListaMB.proximaPaginaCliente}"
