@@ -84,18 +84,24 @@ public class ReqServListaSaidaCB implements Serializable{
 		Date dataInicio = dI.getTime();
 		Date dataFim = dF.getTime();
 		Integer numeroReqServ;
+		String cliente;
 		if (reqServSaidaMB.getSaidaMotoqueiro() == null || reqServSaidaMB.getSaidaMotoqueiro().getReqServico() == null ) {
-			numeroReqServ = null;
+			numeroReqServ = 0;
+			cliente = "";
 		} else {
 			numeroReqServ = reqServSaidaMB.getSaidaMotoqueiro().getReqServico().getNumReq();
+			cliente = reqServSaidaMB.getSaidaMotoqueiro().getDescCliente();
 		}
-		 
+		
 
-		if (numeroReqServ == null || numeroReqServ == 0){
-			lista = reqServSaidaMB.getSaidaMotoqueiroDAO().getLista(dataInicio,dataFim);
-		} else {
-			lista = reqServSaidaMB.getSaidaMotoqueiroDAO().getLista(numeroReqServ);
-		}
+//		if (numeroReqServ == null || numeroReqServ == 0){
+//			lista = reqServSaidaMB.getSaidaMotoqueiroDAO().getLista(dataInicio,dataFim);
+//		} else {
+//			lista = reqServSaidaMB.getSaidaMotoqueiroDAO().getLista(numeroReqServ);
+//		}
+		
+		lista = reqServSaidaMB.filtroSaida(numeroReqServ, cliente, dI, dF);
+		
 		//Collections.reverse(lista);		
 		return lista;
 	}	

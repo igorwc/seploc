@@ -29,6 +29,8 @@ import javax.persistence.Version;
 @NamedNativeQueries({ 
 	@NamedNativeQuery(name = "SaidaMotoqueiro.RetornaSaidaMotoqueiro", query = " SELECT * "
 		+ "FROM tbl_saidamotoqueiro sm where datDataCobr between :dataInicio and :dataFinal", resultSetMapping = "SaidaMotoqueiro.implicit"),
+	@NamedNativeQuery(name = "SaidaMotoqueiro.FiltraCliente", query = " SELECT * "
+		+ "FROM tbl_saidamotoqueiro sm where vcrCliente = :nome", resultSetMapping = "SaidaMotoqueiro.implicit"),	
 	@NamedNativeQuery(name = "SaidaMotoqueiro.FiltraRequisicao", query = " SELECT * "
 		+ "FROM tbl_saidamotoqueiro sm "
 		+ " WHERE sm.intNumReq = :numReq ", resultSetMapping = "SaidaMotoqueiro.implicit")		

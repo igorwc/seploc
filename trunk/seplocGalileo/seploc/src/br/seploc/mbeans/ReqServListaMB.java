@@ -87,6 +87,14 @@ public class ReqServListaMB implements Serializable {
 		reqCurrentPage = reqServPager.getMaxPages();
 	}
 
+	public void setReqPages(int reqPages) {
+		this.reqPages = reqPages;
+	}
+
+	public int getReqPages() {
+		return reqPages;
+	}
+
 	public List<RequisicaoServico> listaReqservInicial(int projeto,
 			int numReqServ, int cliente, Calendar dataIni, Calendar dataFim) {
 		List<RequisicaoServico> retorno = null;
