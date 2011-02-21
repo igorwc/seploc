@@ -9,10 +9,11 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
-
+import javax.persistence.NoResultException;
 import br.seploc.dao.CobradorDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.dao.SaidaMotoqueiroDAO;
+import br.seploc.dao.pagedqueries.FilteredSaidaPager;
 import br.seploc.pojos.Cobrador;
 import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
@@ -25,6 +26,7 @@ public class ReqServListaSaidaMB implements Serializable {
 	private RequisicaoServico reqServico;
 	private RequisicaoServicoDAO reqServicoDAO;
 	private Cobrador cobrador;	
+	private int numCobrador;
 	private SaidaMotoqueiro saidaMotoqueiro;
 	private SaidaMotoqueiroDAO saidaMotoqueiroDAO;		
 	private Date dataInicio;	
@@ -33,6 +35,9 @@ public class ReqServListaSaidaMB implements Serializable {
 	private Integer numReqVisualizar;
 	private boolean datasInvalidas = false;
 
+	private int saiCurrentPage;
+	private int saiPages;
+	private FilteredSaidaPager saidaPager;
 	
 	// CONTRUTOR
 	public ReqServListaSaidaMB(){
@@ -47,6 +52,8 @@ public class ReqServListaSaidaMB implements Serializable {
 		saidaMotoqueiro = new SaidaMotoqueiro();
 		cobrador = new Cobrador();
 		numSaidaMoto = 0;
+		numCobrador = -1;
+		
 	}
 
 	// GETTERS E SETTERS
@@ -106,6 +113,14 @@ public class ReqServListaSaidaMB implements Serializable {
 		this.numSaidaMoto = numSaida;
 	}
 
+	public void setNumCobrador(int numCobrador) {
+		this.numCobrador = numCobrador;
+	}
+
+	public int getNumCobrador() {
+		return numCobrador;
+	}
+
 	public Date getDataInicio() {
 		return dataInicio;
 	}
@@ -153,10 +168,11 @@ public class ReqServListaSaidaMB implements Serializable {
 	
 	public void apagar(){
 		try {
-		saidaMotoqueiro = saidaMotoqueiroDAO.recupera(saidaMotoqueiro.getNumSaida());
+		saidaMotoqueiro = saidaMotoqueiroDAO.recupera(numSaidaMoto);
 		Integer numSaida = saidaMotoqueiro.getNumSaida();
 		saidaMotoqueiroDAO.remove(numSaida);
-		addGlobalMessage("Saida Excluido!");
+		addGlobalMessage("Saida '"+ numSaidaMoto +"' Excluido!");
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());
@@ -168,9 +184,24 @@ public class ReqServListaSaidaMB implements Serializable {
 		// setar data de criacao da requisicao
 		java.util.Date data = new java.util.Date();
 		java.sql.Date hoje = new java.sql.Date(data.getTime());
+		java.sql.Time hora = new java.sql.Time(hoje.getTime());
+				
+		if (cobrador.getCodCobrador() > 1) {
 
-		saidaMotoqueiro = saidaMotoqueiroDAO.recupera(numSaidaMoto);
-		saidaMotoqueiro.setDataPagamento(hoje);
+			saidaMotoqueiro = saidaMotoqueiroDAO.recupera(numSaidaMoto);
+			saidaMotoqueiro.setDataCobranca(hoje);
+			saidaMotoqueiro.setHoraCobranca(hora);
+			
+			CobradorDAO cobradorDAO = new CobradorDAO();
+			cobrador = cobradorDAO.recupera(numCobrador);
+			
+			saidaMotoqueiro.setCobrador(cobrador);
+			saidaMotoqueiroDAO.altera(saidaMotoqueiro);
+			
+			addGlobalMessage("Saida '"+ numSaidaMoto +"' Alterado!");
+		} else {
+			addGlobalMessage("Selecione um Motoqueiro!");			
+		}
 					
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -178,61 +209,104 @@ public class ReqServListaSaidaMB implements Serializable {
 		}		
 	}	
 	
+	public void pagar(){
+		try{
+		// setar data de criacao da requisicao
+		java.util.Date data = new java.util.Date();
+		java.sql.Date hoje = new java.sql.Date(data.getTime());
+
+		saidaMotoqueiro = saidaMotoqueiroDAO.recupera(numSaidaMoto);
+		saidaMotoqueiro.setDataPagamento(hoje);
+		saidaMotoqueiroDAO.altera(saidaMotoqueiro);
+		
+		addGlobalMessage("Saida '"+ numSaidaMoto +"' Pago!");
+					
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}		
+	}		
+	
 	public void cadastrar(){
 		boolean existeReqServ = false;
 		boolean existeCliente = false;
+		boolean existeMoto = false;
+		boolean existeReqServSaida = false;
+		
 		if (saidaMotoqueiro.getNumSaida() == null || saidaMotoqueiro.getNumSaida() == 0) {
-			try {				
-				// setar data de criacao da requisicao
-				java.util.Date data = new java.util.Date();
-				java.sql.Date hoje = new java.sql.Date(data.getTime());
-				java.sql.Time hora = new java.sql.Time(hoje.getTime());
+			
+			try {
+				// verificar se o motoqueiro foi selecionado
+				if (numCobrador > 0){
+					existeMoto = true;
+				} 
 				
-				//saidaMotoqueiro = new SaidaMotoqueiro();	
-				CobradorDAO cobradorDAO = new CobradorDAO();
-				cobrador = cobradorDAO.recupera(cobrador.getCodCobrador());
-				saidaMotoqueiro.setCobrador(cobrador);
-				saidaMotoqueiro.setDataCobranca(hoje);
-				saidaMotoqueiro.setHoraCobranca(hora);
-				if(reqServico.getNumReq() > 0) {
-					reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
-					saidaMotoqueiro.setReqServico(reqServico);					
-					existeReqServ = true;	
-					saidaMotoqueiro.setDescCliente(reqServico.getProjeto().getCliente().getFantasia());	
-				} else {
-					if (saidaMotoqueiro.getDescCliente().length() > 0) {					
-					saidaMotoqueiro.setDescCliente(saidaMotoqueiro.getDescCliente().toUpperCase());
-					existeCliente = true;
+				// existindo Motoqueiro continuar o processo. Do contrario informar ao usuario
+				if (existeMoto){
+					//verificar se a requisicao ou nome Cliente foi digitado
+					if(reqServico.getNumReq() > 0) {
+						SaidaMotoqueiro temp;
+						try {							
+							//verificar se a requisicao ja nao existe na saida
+							temp = saidaMotoqueiroDAO.recuperaPorReq(reqServico.getNumReq());
+						} catch (NoResultException e){
+							temp = null;
+						}
+						if (temp != null) {
+							existeReqServSaida = true;
+						} else {
+							reqServico = reqServicoDAO.recupera(reqServico.getNumReq());
+							saidaMotoqueiro.setReqServico(reqServico);					
+							existeReqServ = true;	
+							saidaMotoqueiro.setDescCliente(reqServico.getProjeto().getCliente().getFantasia());
+						}
+					} else {
+						if (saidaMotoqueiro.getDescCliente().length() > 0) {					
+						saidaMotoqueiro.setDescCliente(saidaMotoqueiro.getDescCliente().toUpperCase());
+						existeCliente = true;
+						}
+					}						
+ 						
+					
+					// setar data de criacao da requisicao
+					java.util.Date data = new java.util.Date();
+					java.sql.Date hoje = new java.sql.Date(data.getTime());
+					java.sql.Time hora = new java.sql.Time(hoje.getTime());
+
+					//saidaMotoqueiro = new SaidaMotoqueiro();	
+					CobradorDAO cobradorDAO = new CobradorDAO();
+					cobrador = cobradorDAO.recupera(numCobrador);
+					saidaMotoqueiro.setCobrador(cobrador);
+					saidaMotoqueiro.setDataCobranca(hoje);
+					saidaMotoqueiro.setHoraCobranca(hora);
+					
+					// se a requisicao ja existe na saida levantar erro
+					if (!existeReqServSaida){
+						// para registrar a saida eh necessario ou uma requisicao ou um cliente 
+						if ((existeReqServ && !existeCliente)||(!existeReqServ && existeCliente)) {
+							
+							this.saidaMotoqueiroDAO.adiciona(saidaMotoqueiro);
+							addGlobalMessage("Saida registrada com sucesso!");
+							
+							limpar();
+							
+							
+						} else {
+							addGlobalMessage("Informe uma requisição ou um cliente!");
+						}						
+					} else {
+						addGlobalMessage("Ja existe Saida para o numero da requisicao informado!");
 					}
-				}
-				if ((existeReqServ && !existeCliente)||(!existeReqServ && existeCliente)) {
-												
-					this.saidaMotoqueiroDAO.adiciona(saidaMotoqueiro);
-					addGlobalMessage("Saida registrado com sucesso!");
-					limpar();
 				} else {
-					addGlobalMessage("Informe uma requisição ou um cliente!");
-				}
+					addGlobalMessage("Selecione um Motoqueiro!");
+				}				
 				
 			} catch (ValidatorException e) {
 				addGlobalMessage(e.getMessage());
 			} catch (Exception e) {
 				addGlobalMessage(e.getMessage());
 			}
-		} else {
-			try {				
-				saidaMotoqueiro = saidaMotoqueiroDAO.recuperaPorReq(reqServico.getNumReq());		
-				saidaMotoqueiro.setCobrador(cobrador);
-				
-				this.saidaMotoqueiroDAO.altera(saidaMotoqueiro);
-				
-			} catch (ValidatorException e) {
-				addGlobalMessage(e.getMessage());
-			} catch (Exception e) {
-				addGlobalMessage(e.getMessage());
-			}			
-		}
-		
+		} 		
 	}
 	
 	public List<ReqServicosOpcionais> getGridOpcionais(){
@@ -267,6 +341,91 @@ public class ReqServListaSaidaMB implements Serializable {
 		return retorno;
 	}
 	
+	public int getReqCurrentPage() {
+		return saidaPager.getCurrentPage();
+	}
+
+	public void setSaiCurrentPage(int saiCurrentPage) {
+		this.saiCurrentPage = saiCurrentPage;
+	}
+
+	public int getSaiPages() {
+		return saiPages;
+	}
+
+	public void setSaiPages(int saiPages) {
+		this.saiPages = saiPages;
+	}
+
+	public FilteredSaidaPager getReqServPager() {
+		return saidaPager;
+	}
+
+	public void setReqServPager(FilteredSaidaPager reqServPager) {
+		this.saidaPager = reqServPager;
+	}
+	
+	public int getReqServMaxPages() {
+		return saidaPager.getMaxPages();
+	}
+
+	public void proximaPaginaSaida() {
+		saidaPager.proximaPagina();
+		saiCurrentPage = saidaPager.getCurrentPage();
+	}
+
+	public void paginaAnteriorSaida() {
+		saidaPager.paginaAnterior();
+		saiCurrentPage--;
+	}
+
+	public void primeiraPaginaSaida() {
+		saidaPager.setCurrentPage(0);
+		saiCurrentPage = 0;
+		
+	}
+
+	public List<Integer> getReqServPages(){
+		List<Integer> retorno = new ArrayList<Integer>();
+		int max = saidaPager.getMaxPages();
+		for (int i = 1; i <= max;i++){
+			retorno.add(i);
+		}
+		return retorno;
+	}
+	public void ultimaPaginaSaida() {
+		saidaPager.setCurrentPage(saidaPager.getMaxPages());
+		saiCurrentPage = saidaPager.getMaxPages();
+	}
+
+	public List<SaidaMotoqueiro> listaSaidaInicial(
+			int numReqServ, String cliente, Calendar dataIni, Calendar dataFim) {
+		List<SaidaMotoqueiro> retorno = null;
+		saidaPager = new FilteredSaidaPager();
+		saidaPager.setParameters(numReqServ, cliente, dataIni,dataFim);
+		saidaPager.init(12);
+		retorno = saidaPager.getCurrentResults();
+		return retorno;
+	}	
+	
+	public List<SaidaMotoqueiro> filtroSaida(int numReqServ, 
+			String cliente, Calendar dataIni, Calendar dataFim){
+		List<SaidaMotoqueiro> retorno = null;
+		if (saidaPager != null 
+				&& cliente == saidaPager.getNomeCliente()
+				&& dataIni.getTimeInMillis() == saidaPager.getDataIni().getTimeInMillis()
+				&& (dataFim == null || dataFim.getTimeInMillis()== saidaPager.getDataFim().getTimeInMillis())) {
+			retorno = saidaPager.getCurrentResults();
+		} else {
+			saidaPager = new FilteredSaidaPager();
+			saidaPager.setParameters(numReqServ, cliente, dataIni,dataFim);
+			saidaPager.init(12);
+			retorno = saidaPager.getCurrentResults();
+		}
+
+		return retorno;		
+	}
+
 	/**
 	 * Metodo para incluir mensagens globais no formulario
 	 * 
