@@ -3,7 +3,11 @@ package br.seploc.pojos;
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -116,11 +120,26 @@ public class SaidaMotoqueiro implements Serializable {
 	public void setDataCobranca(Date dataCobranca) {
 		this.dataCobranca = dataCobranca;
 	}
+	public String getDataCobrancaFormatado(){
+		SimpleDateFormat format =
+            new SimpleDateFormat("dd-MM-yyyy");
+		String saida = format.format(dataCobranca);
+		return saida;
+
+	}
 
 	public Date getDataPagamento() {
 		return dataPagamento;
 	}
 
+	public String getDataPagamentoFormatado(){
+		SimpleDateFormat format =
+            new SimpleDateFormat("dd-MM-yyyy");
+		String saida = format.format(dataPagamento);
+		return saida;
+
+	}
+	
 	public void setDataPagamento(Date dataPagamento) {
 		this.dataPagamento = dataPagamento;
 	}
