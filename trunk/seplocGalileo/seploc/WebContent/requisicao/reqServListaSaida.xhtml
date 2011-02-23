@@ -231,18 +231,18 @@
 							<h:outputText value="#{sai.cobrador.nome}" />
 						</rich:column>
 						<rich:column style="text-align:center">
-							<h:outputText value="#{sai.dataCobranca} " >
-								<f:convertDateTime pattern="dd-MM-yyyy" />
+							<h:outputText value="#{sai.dataCobrancaFormatado} " >
+								 
 							</h:outputText>		
 						</rich:column>						
 						<rich:column style="text-align:center">
 							<h:outputText value="#{sai.horaCobranca}" >
-								<f:convertDateTime pattern="HH:mm"/>
+								<f:convertDateTime pattern="HH:mm" locale="#{reqServListaSaidaCB.locale}" timeZone="America/Sao_Paulo"/>
 							</h:outputText>
 						</rich:column>						
 						<rich:column style="text-align:center">
 							<h:outputText value="#{sai.dataPagamento}" >
-								<f:convertDateTime pattern="dd-MM-yyyy" />
+								<f:convertDateTime pattern="dd-MM-yyyy" timeZone="America/Sao_Paulo" dateStyle="medium"/>
 							</h:outputText>
 						</rich:column>
 						<rich:column style="text-align:center">	
@@ -251,7 +251,8 @@
 											 id="paglinkreq"
 											 reRender="reqServListTodos" 
 											 action="#{reqServListaSaidaCB.reqServSaidaMB.pagar}"
-											 oncomplete="#{rich:component('confirmationMessage')}.show();">
+											 oncomplete="#{rich:component('confirmationMessage')}.show();" 
+											 disabled="#{sai.dataPagamento == null}">
 								<h:graphicImage value="/imgs/cifrao_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{sai.numSaida}"
 									target="#{reqServListaSaidaCB.reqServSaidaMB.numSaidaMoto}" />
