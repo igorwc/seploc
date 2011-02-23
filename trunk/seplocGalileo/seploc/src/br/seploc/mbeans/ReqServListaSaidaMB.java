@@ -216,11 +216,17 @@ public class ReqServListaSaidaMB implements Serializable {
 		java.sql.Date hoje = new java.sql.Date(data.getTime());
 
 		saidaMotoqueiro = saidaMotoqueiroDAO.recupera(numSaidaMoto);
-		saidaMotoqueiro.setDataPagamento(hoje);
-		saidaMotoqueiroDAO.altera(saidaMotoqueiro);
+		if(saidaMotoqueiro.getDataPagamento() == null){
+			saidaMotoqueiro.setDataPagamento(hoje);
+			saidaMotoqueiroDAO.altera(saidaMotoqueiro);
+			
+			addGlobalMessage("Saida '"+ numSaidaMoto +"' Pago!");
+		} else {
+			addGlobalMessage("Saida '"+ numSaidaMoto +"' já estava Pago!");
+		}
 		
-		addGlobalMessage("Saida '"+ numSaidaMoto +"' Pago!");
-					
+		this.limpar();
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());
