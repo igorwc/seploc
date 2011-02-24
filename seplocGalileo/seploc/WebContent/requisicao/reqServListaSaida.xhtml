@@ -257,8 +257,8 @@
 							<!-- editar -->							    
 							<a4j:commandLink ajaxSingle="true" 
 											 id="editlinkreq"
-											 reRender="reqServListTodos" 
-											 action="#{reqServListaSaidaCB.reqServSaidaMB.editar}"
+											 reRender="reqServListTodos"
+											 action="#{reqServListaSaidaCB.reqServSaidaMB.editar}" 											 
 											 oncomplete="#{rich:component('confirmationMessage')}.show();">
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 								<f:setPropertyActionListener value="#{sai.numSaida}"
@@ -354,7 +354,9 @@
 	                </tbody>
 	            </table>
 	        </h:form>
-	    </rich:modalPanel>					
+	    </rich:modalPanel>				
+	    
+	    
 	    
 			<!-- Modal Mostrar Requisicao -->
 			<rich:modalPanel id="modalReqServ" 
