@@ -168,10 +168,16 @@ public class ReqServListaSaidaMB implements Serializable {
 	
 	public void apagar(){
 		try {
-		saidaMotoqueiro = saidaMotoqueiroDAO.recupera(numSaidaMoto);
-		Integer numSaida = saidaMotoqueiro.getNumSaida();
-		saidaMotoqueiroDAO.remove(numSaida);
-		addGlobalMessage("Saida '"+ numSaidaMoto +"' Excluido!");
+			
+			//verificar se usuario tem permissao de escrita
+			if (true) {
+				saidaMotoqueiro = saidaMotoqueiroDAO.recupera(numSaidaMoto);
+				Integer numSaida = saidaMotoqueiro.getNumSaida();
+				saidaMotoqueiroDAO.remove(numSaida);
+				addGlobalMessage("Saida '"+ numSaidaMoto +"' Excluido!");
+			} else {
+				addGlobalMessage("Usuario nao tem permissao para apagar registro!");
+			}		
 		
 		} catch (Exception e) {
 			e.printStackTrace();

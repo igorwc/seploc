@@ -133,9 +133,14 @@ public class SaidaMotoqueiro implements Serializable {
 	}
 
 	public String getDataPagamentoFormatado(){
+		String saida;
 		SimpleDateFormat format =
             new SimpleDateFormat("dd-MM-yyyy");
-		String saida = format.format(dataPagamento);
+		if (dataPagamento != null) {
+			saida = format.format(dataPagamento);
+		} else {
+			saida = null;
+		}
 		return saida;
 
 	}
