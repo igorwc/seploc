@@ -37,9 +37,9 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules::1" SHAPE="32,385,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules::1" NAME="item" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="principal::#paginas#principal.xhtml"
-    NAME="output" PATH="/paginas/principal.xhtml" SHAPE="-1,24"
-    TARGET="rules:#paginas#principal.xhtml" TITLE="principal" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="loginErro::#paginas#loginErro.xhtml"
+    NAME="output" PATH="/paginas/loginErro.xhtml" SHAPE="-1,24"
+    TARGET="rules:#paginas#loginErro.xhtml" TITLE="loginErro" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#paginas#login.xhtml"
@@ -48,4 +48,13 @@
   PATH="/requisicao/reqServCliente.xhtml" SHAPE="240,513,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#paginas#principal.xhtml"
   PATH="/paginas/principal.xhtml" SHAPE="560,32,50,25" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules::2" SHAPE="256,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::2" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="principal::#paginas#principal.xhtml"
+    NAME="output" PATH="/paginas/principal.xhtml"
+    TARGET="rules:#paginas#principal.xhtml" TITLE="principal" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#paginas#loginErro.xhtml"
+  PATH="/paginas/loginErro.xhtml" SHAPE="240,625,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
