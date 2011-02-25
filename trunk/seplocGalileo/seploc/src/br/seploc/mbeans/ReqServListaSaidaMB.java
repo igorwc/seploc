@@ -187,28 +187,21 @@ public class ReqServListaSaidaMB implements Serializable {
 	
 	public void editar(){
 		try{
-		// setar data de criacao da requisicao
-		java.util.Date data = new java.util.Date();
-		java.sql.Date hoje = new java.sql.Date(data.getTime());
-		java.sql.Time hora = new java.sql.Time(hoje.getTime());
-				
-		if (cobrador.getCodCobrador() > 1) {
-
+			// setar data de alteracao da saidamotoqueiro
+			java.util.Date data = new java.util.Date();
+			java.sql.Date hoje = new java.sql.Date(data.getTime());
+			java.sql.Time hora = new java.sql.Time(hoje.getTime());
+			
 			saidaMotoqueiro = saidaMotoqueiroDAO.recupera(numSaidaMoto);
 			saidaMotoqueiro.setDataCobranca(hoje);
 			saidaMotoqueiro.setHoraCobranca(hora);
 			
-			CobradorDAO cobradorDAO = new CobradorDAO();
-			cobrador = cobradorDAO.recupera(numCobrador);
-			
-			saidaMotoqueiro.setCobrador(cobrador);
-			saidaMotoqueiroDAO.altera(saidaMotoqueiro);
-			
-			addGlobalMessage("Saida '"+ numSaidaMoto +"' Alterado!");
-		} else {
-			addGlobalMessage("Selecione um Motoqueiro!");			
-		}
-					
+			if (saidaMotoqueiro.getReqServico() == null) {
+				reqServico = new RequisicaoServico();
+			} else {
+				reqServico = saidaMotoqueiro.getReqServico();
+			}
+								
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());
@@ -318,15 +311,37 @@ public class ReqServListaSaidaMB implements Serializable {
 			} catch (Exception e) {
 				addGlobalMessage(e.getMessage());
 			}
-		} 		
+		} else {
+			//existindo a saida registre o cobrador
+			try{
+						
+				if (cobrador.getCodCobrador() > 1) {
+						
+					CobradorDAO cobradorDAO = new CobradorDAO();
+					cobrador = cobradorDAO.recupera(numCobrador);
+					
+					saidaMotoqueiro.setCobrador(cobrador);
+					saidaMotoqueiroDAO.altera(saidaMotoqueiro);
+					
+					addGlobalMessage("Saida '"+ numSaidaMoto +"' Alterado!");
+				} else {
+					addGlobalMessage("Selecione um Motoqueiro!");			
+				}	
+			} catch (Exception e) {
+				addGlobalMessage(e.getMessage());
+			}
+		}
 	}
 	
 	public List<ReqServicosOpcionais> getGridOpcionais(){
 		List<ReqServicosOpcionais> lista = new ArrayList<ReqServicosOpcionais>();
-		if (reqServico.getOpcionais() != null) {
-			lista = reqServico.getOpcionais();
-		}
+		if (reqServico != null) {
+				
+			if (reqServico.getNumReq() != null) {
+				lista = reqServico.getOpcionais();
+			}
 		
+		}
 		return lista;
 	}	
 	
