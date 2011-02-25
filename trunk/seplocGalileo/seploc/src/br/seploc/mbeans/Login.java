@@ -16,7 +16,7 @@ import br.seploc.util.MENUS;
 import br.seploc.util.SessionObjectsManager;
 import br.seploc.util.Utils;
 
-public class Login{
+public class Login {
 	private boolean loginOk;
 	private String userName;
 	private String userNameFull;
@@ -26,6 +26,7 @@ public class Login{
 	private String retypeNewPassword;
 	private Usuario user;
 	private boolean falhaLogin;
+	private String errorMsg;
 
 	private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
@@ -33,6 +34,7 @@ public class Login{
 		loginOk = false;
 		userName = "";
 		falhaLogin = false;
+		errorMsg = "Ocorreu um erro!!!";
 
 	}
 
@@ -100,6 +102,14 @@ public class Login{
 		this.falhaLogin = falhaLogin;
 	}
 
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+
+	public void setErrorMsg(String errorMsg) {
+		this.errorMsg = errorMsg;
+	}
+
 	public String logoff() {
 		SessionObjectsManager.removeObjetoSessao("usuarioLogado");
 		SessionObjectsManager.removeObjetoSessao("usuarioSessao");
@@ -111,67 +121,70 @@ public class Login{
 		return "login";
 	}
 
-	public void changePassword(){
+	public String changePassword() {
 		Usuario usuario = null;
 		FacesContext context = FacesContext.getCurrentInstance();
 		if (userName == null || password == null) {
-			String errorMsg = Utils.getMessageResourceString("messages",
+			  errorMsg = Utils.getMessageResourceString("messages",
 					"login.invalido", null, context.getViewRoot().getLocale());
-			addGlobalMessage(errorMsg);
-			FacesMessage message = new FacesMessage(errorMsg);
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
+			  return "loginErro";
 		}
 		usuario = usuarioDAO.recupera(userName, password);
-		
+
 		if (usuario == null) {
-			String errorMsg = Utils.getMessageResourceString("messages",
+			errorMsg = Utils.getMessageResourceString("messages",
 					"login.invalido", null, new Locale("pt"));
-			addGlobalMessage(errorMsg);
-			return;
+			return "loginErro";
 		}
-		if(newPassword == null || newPassword.trim().equals("")||retypeNewPassword == null || retypeNewPassword.trim().equals("")){
-			addGlobalMessage("Nova senha invalida!");
-			return;
-//			FacesMessage message = new FacesMessage("Nova senha invalida!");
-//			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-//			throw new ValidatorException(message);
+		if (newPassword == null || newPassword.trim().equals("")
+				|| retypeNewPassword == null
+				|| retypeNewPassword.trim().equals("")) {
+			errorMsg = "Nova senha invalida!";
+			return "loginErro";
+			// FacesMessage message = new FacesMessage("Nova senha invalida!");
+			// message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			// throw new ValidatorException(message);
 		}
-		if( !newPassword.trim().equals(retypeNewPassword)){
-			addGlobalMessage("Nova senha invalida!");
+		if (!newPassword.trim().equals(retypeNewPassword)) {
+			errorMsg = "Nova senha invalida!";
 			System.out.println("Entrou na nova senha invalida");
-			return;
+			return "loginErro";
 		}
 		usuario.setPassword(newPassword);
 		try {
 			usuarioDAO.altera(usuario);
+			return "principal";
 		} catch (LoginExistenteException e) {
-			addGlobalMessage("Erro ao alterar a senha!");
+			errorMsg = "Erro ao alterar a senha!";
+			
 			e.printStackTrace();
+			return "loginErro";
 		}
 	}
-	public String validateLogin() {
-//		(new ListsLoader()).start();
 
-//		newPasswordOk = true;
+	public String resetErrorMessage(){
+		errorMsg = "Ocorreu um erro!!!";
+		return "login";
+	}
+	public String validateLogin() {
+		// (new ListsLoader()).start();
+
+		// newPasswordOk = true;
 		Usuario usuario = null;
 		System.out.println("Entrou aqui!!!");
 		FacesContext context = FacesContext.getCurrentInstance();
 		if (userName == null || password == null) {
-			String errorMsg = Utils.getMessageResourceString("messages",
+			errorMsg = Utils.getMessageResourceString("messages",
 					"login.invalido", null, context.getViewRoot().getLocale());
-			addGlobalMessage(errorMsg);
-			FacesMessage message = new FacesMessage(errorMsg);
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(message);
+
+			return "loginErro";
 		}
 		usuario = usuarioDAO.recupera(userName, password);
 		if (usuario == null) {
-			String errorMsg = Utils.getMessageResourceString("messages",
+			errorMsg = Utils.getMessageResourceString("messages",
 					"login.invalido", null, new Locale("pt"));
-			addGlobalMessage(errorMsg);
 			falhaLogin = true;
-			return "login";
+			return "loginErro";
 		}
 		// DesEncrypter encrypter = new DesEncrypter();
 		// String decrypted = encrypter.decrypt(usuario.getPassword());
@@ -204,22 +217,20 @@ public class Login{
 		// }
 	}
 
-	
 	private void processaMenus() {
 		Map<String, Boolean> permissoesMenus = this.user.getGrupo()
 				.retornaPermissoes();
-		for(MENUS m: MENUS.values()){
-			SessionObjectsManager.adicionaObjetoSessao(m.getNome(), !permissoesMenus.get(m.getNome()));
-			System.out.println(m.getNome()+","+ permissoesMenus.get(m.getNome()));
+		for (MENUS m : MENUS.values()) {
+			SessionObjectsManager.adicionaObjetoSessao(m.getNome(),
+					!permissoesMenus.get(m.getNome()));
+			System.out.println(m.getNome() + ","
+					+ permissoesMenus.get(m.getNome()));
 		}
 	}
-
-
 
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
 
-	
 }
