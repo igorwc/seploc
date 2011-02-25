@@ -29,13 +29,13 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 	@Override
 	public Usuario altera(Usuario t) throws LoginExistenteException {
 		em.getTransaction().begin();		
-		if (!this.existeLogin(t.getLogin())) {
+	//	if (!this.existeLogin(t.getLogin())) {
 			em.merge(t);
 			em.getTransaction().commit();
-		} else {
-			em.getTransaction().rollback();
-			throw new LoginExistenteException("Login j� em uso");			
-		}
+	//	} else {
+//			em.getTransaction().rollback();
+//			throw new LoginExistenteException("Login já em uso");			
+		//}
 		return t;
 	}
 
