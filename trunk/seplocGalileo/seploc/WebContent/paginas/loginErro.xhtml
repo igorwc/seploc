@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="../templatepage/masterpage.xhtml">
+      <ui:define name="menu"/>
+      <ui:define name="msgUser"/>
+
+
+	<!-- TAXINOMIA -->      
+	<ui:define name="taxinomia" />      
+       
+	<ui:define name="conteudo">
+
+		<center><f:view>
+		  <style type="text/css">  
+    .error { 
+    font-weight: bold;
+    font-style:normal;
+    color:#FF0000;
+    font-size: 8pt;
+    font-family: tahoma, arial;
+}
+.error2 { 
+    font-weight: bold;
+    font-style:normal;
+    color:#FF0000;
+    font-size: 12pt;
+    font-family: tahoma, arial;
+    text-align: center
+}
+</style>
+<rich:panel styleClass="loginTable" >
+  <h:outputText value="#{login.errorMsg}" styleClass="error2"/>
+  <h:form >
+   <h:commandLink value="Voltar"
+                  action="#{login.resetErrorMessage}"/>
+  </h:form> 
+</rich:panel>
+			
+		</f:view></center>
+	</ui:define>
+</ui:composition>
