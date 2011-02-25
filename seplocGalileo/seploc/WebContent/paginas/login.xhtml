@@ -52,14 +52,11 @@
 				 <h:messages  errorClass="error" layout="table" showDetail="false" showSummary="true" warnStyle="error"/>
 				 <rich:spacer></rich:spacer> 
 				<rich:messages errorClass="error" for="loginForm"  showDetail="true" showSummary="true" styleClass="error" /> 
+				 
 				<h:commandButton value="Entrar" action="#{login.validateLogin}" />
 				<h:commandButton value="Alterar Senha"
                   action="#{login.changePassword}" />
-				 <a4j:commandButton value="Alterar Senha"
-                  action="#{login.changePassword}"
-                  reRender="loginForm"
-                  
-                  /> 
+				  
 			</h:form>
 			</h:panelGrid>
 			<!-- Mensagens -->
