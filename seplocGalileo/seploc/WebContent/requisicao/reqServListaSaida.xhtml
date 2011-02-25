@@ -138,7 +138,7 @@
 								<a4j:commandButton
 									value="Atualizar Registro"
 									action="#{reqServListaSaidaCB.reqServSaidaMB.cadastrar}"
-									reRender="reqServListTodos,cobradorSaida"
+									reRender="reqServListTodos,cobradorSaida,reqServListSaida"
 									oncomplete="#{rich:component('confirmationMessage')}.show();"/>
 								<rich:spacer width="5px"/>								
 								<a4j:commandButton
@@ -281,14 +281,15 @@
 						    <!-- mostrar -->
 							<a4j:commandLink ajaxSingle="true" 
 											 id="viewlinkreq"												
-											 reRender="reqServListTodos,modalReqServ"								
+											 reRender="reqServListTodos,modalReqServ"						
+											 disabled="#{sai.reqServico == null ? true : false}"		
 											 action="#{reqServListaSaidaCB.reqServSaidaMB.mostrar}"
 											 oncomplete="#{rich:component('modalReqServ')}.show();return false;">
 								<h:graphicImage value="/imgs/view_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{sai.reqServico.numReq}"
 									target="#{reqServListaSaidaCB.reqServSaidaMB.numReqVisualizar}" />
 							</a4j:commandLink>
-							<rich:toolTip for="viewlinkreq" value="Mostrar Registro" />						
+							<rich:toolTip for="viewlinkreq" value="#{sai.reqServico == null ? 'Sem Requisicao' : 'Mostrar Requisicao'}" />						
 
 						</rich:column>
 
