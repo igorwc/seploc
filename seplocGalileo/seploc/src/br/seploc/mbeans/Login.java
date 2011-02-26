@@ -208,6 +208,7 @@ public class Login {
 		userNameFull = this.user.getNome();
 		falhaLogin = false;
 		processaMenus();
+		processaMenusEscrita();
 		return "principal";
 		// }
 		// else {
@@ -227,6 +228,17 @@ public class Login {
 					+ permissoesMenus.get(m.getNome()));
 		}
 	}
+	
+	private void processaMenusEscrita() {
+		Map<String, Boolean> permissoesMenusEscrita = this.user.getGrupo()
+				.retornaPermissoesEscrita();
+		for (MENUS m : MENUS.values()) {
+			SessionObjectsManager.adicionaObjetoSessao(m.getNome()+"_ESC",
+					!permissoesMenusEscrita.get(m.getNome()));
+			System.out.println(m.getNome()+"_ESC" + ","
+					+ permissoesMenusEscrita.get(m.getNome()));
+		}
+	}	
 
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);

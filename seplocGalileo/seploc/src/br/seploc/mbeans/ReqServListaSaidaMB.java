@@ -169,15 +169,11 @@ public class ReqServListaSaidaMB implements Serializable {
 	public void apagar(){
 		try {
 			
-			//verificar se usuario tem permissao de escrita
-			if (true) {
-				saidaMotoqueiro = saidaMotoqueiroDAO.recupera(numSaidaMoto);
-				Integer numSaida = saidaMotoqueiro.getNumSaida();
-				saidaMotoqueiroDAO.remove(numSaida);
-				addGlobalMessage("Saida '"+ numSaidaMoto +"' Excluido!");
-			} else {
-				addGlobalMessage("Usuario nao tem permissao para apagar registro!");
-			}		
+			saidaMotoqueiro = saidaMotoqueiroDAO.recupera(numSaidaMoto);
+			Integer numSaida = saidaMotoqueiro.getNumSaida();
+			saidaMotoqueiroDAO.remove(numSaida);
+			addGlobalMessage("Saida '"+ numSaidaMoto +"' Excluido!");
+
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -195,9 +191,11 @@ public class ReqServListaSaidaMB implements Serializable {
 			saidaMotoqueiro = saidaMotoqueiroDAO.recupera(numSaidaMoto);
 			saidaMotoqueiro.setDataCobranca(hoje);
 			saidaMotoqueiro.setHoraCobranca(hora);
+			numCobrador = saidaMotoqueiro.getCobrador().getCodCobrador();
 			
 			if (saidaMotoqueiro.getReqServico() == null) {
 				reqServico = new RequisicaoServico();
+				reqServico.setNumReq(0);
 			} else {
 				reqServico = saidaMotoqueiro.getReqServico();
 			}
@@ -314,16 +312,18 @@ public class ReqServListaSaidaMB implements Serializable {
 		} else {
 			//existindo a saida registre o cobrador
 			try{
-						
-				if (cobrador.getCodCobrador() > 1) {
+								
+				if (numCobrador > 1) {
 						
 					CobradorDAO cobradorDAO = new CobradorDAO();
 					cobrador = cobradorDAO.recupera(numCobrador);
-					
+										
 					saidaMotoqueiro.setCobrador(cobrador);
-					saidaMotoqueiroDAO.altera(saidaMotoqueiro);
+					saidaMotoqueiroDAO.altera(saidaMotoqueiro);				
 					
 					addGlobalMessage("Saida '"+ numSaidaMoto +"' Alterado!");
+					
+					limpar();
 				} else {
 					addGlobalMessage("Selecione um Motoqueiro!");			
 				}	
