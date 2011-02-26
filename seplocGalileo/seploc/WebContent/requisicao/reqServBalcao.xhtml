@@ -343,22 +343,24 @@
 							<a4j:commandLink ajaxSingle="true" 
 											 id="editlinkop2" 
 							    			 reRender="reqServ" 
-							    			 action="#{reqServClienteCB.reqServMB.editarOpcional}" >
+							    			 action="#{reqServClienteCB.reqServMB.editarOpcional}" 
+							    			 disabled="#{sessionScope.BALCAO_ESC}">
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 								<f:setPropertyActionListener value="#{op}"
 									target="#{reqServClienteCB.reqServMB.opcionalReqServ}" />
 							</a4j:commandLink>
-							<rich:toolTip for="editlinklinha" value="Editar Registro" />
+							<rich:toolTip for="editlinklinha" value="#{sessionScope.BALCAO_ESC == true ? 'Nao tem permissao' : 'Editar Requisicao'}" />
 							<a4j:commandLink ajaxSingle="true"
 											 id="deletelinkop"
 											 reRender="opList" 
 											 action="#{reqServClienteCB.reqServMB.apagarOpcional}" 
-											 oncomplete="#{rich:component('confirmationMessage')}.show()">
+											 oncomplete="#{rich:component('confirmationMessage')}.show()"
+							    			 disabled="#{sessionScope.BALCAO_ESC}">
 								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{op}"
 									target="#{reqServClienteCB.reqServMB.opcionalReqServ}" />
 							</a4j:commandLink>
-							<rich:toolTip for="deletelinklinha" value="Apagar Registro" />
+							<rich:toolTip for="deletelinklinha" value="#{sessionScope.BALCAO_ESC == true ? 'Nao tem permissao' : 'Apagar Requisicao'}" />
 						</rich:column> 
 	                    <f:facet name="footer">
 	               			<rich:datascroller id="dsop" maxPages="3" renderIfSinglePage="true"/>

@@ -252,12 +252,13 @@
 							<a4j:commandLink ajaxSingle="true" 
 											 id="editlinkreq"
 											 reRender="reqServList" 
-											 action="#{reqServListaCB.reqServListaMB.editar}">
+											 action="#{reqServListaCB.reqServListaMB.editar}"
+											 disabled="#{sessionScope.REQUISICOES_ESC}">
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 								<f:setPropertyActionListener value="#{req}"
 									target="#{reqServListaCB.reqServListaMB.reqServico}" />
 							</a4j:commandLink>
-							<rich:toolTip for="editlinkreq" value="Editar Registro" />
+							<rich:toolTip for="editlinkreq" value="#{sessionScope.REQUISICOES_ESC == true ? 'Nao tem permissao' : 'Editar Requisicao'}" />
 						    <rich:spacer width="5px"/>
 						    <!-- duplicar -->
 							<a4j:commandLink ajaxSingle="true" 
@@ -274,12 +275,13 @@
 											 id="deletelinkreq"
 											 reRender="reqServListTodos"
 											 action="#{reqServListaCB.reqServListaMB.apagar}"
-											 oncomplete="#{rich:component('confirmationMessage')}.show();">
+											 oncomplete="#{rich:component('confirmationMessage')}.show();"
+											 disabled="#{sessionScope.REQUISICOES_ESC}">
 								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{req}"
 									target="#{reqServListaCB.reqServListaMB.reqServico}" />
 							</a4j:commandLink>
-							<rich:toolTip for="deletelinkreq" value="Apagar Registro" />
+							<rich:toolTip for="deletelinkreq" value="#{sessionScope.REQUISICOES_ESC == true ? 'Nao tem permissao' : 'Apagar Requisicao'}" />
 						    <rich:spacer width="5px"/>
 						    <!-- imprimir -->
 							<a4j:commandLink ajaxSingle="true" 
