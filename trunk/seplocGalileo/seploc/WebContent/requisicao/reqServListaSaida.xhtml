@@ -138,7 +138,7 @@
 								<a4j:commandButton
 									value="Atualizar Registro"
 									action="#{reqServListaSaidaCB.reqServSaidaMB.cadastrar}"
-									reRender="reqServListTodos,cobradorSaida,reqServListSaida"
+									reRender="reqServListTodos"
 									oncomplete="#{rich:component('confirmationMessage')}.show();"/>
 								<rich:spacer width="5px"/>								
 								<a4j:commandButton
@@ -257,26 +257,26 @@
 							<!-- editar -->							    
 							<a4j:commandLink ajaxSingle="true" 
 											 id="editlinkreq"
-											 reRender="reqServListTodos"
-											 action="#{reqServListaSaidaCB.reqServSaidaMB.editar}" 											 
-											 oncomplete="#{rich:component('confirmationMessage')}.show();">
+											 reRender="reqServListSaida"
+											 action="#{reqServListaSaidaCB.reqServSaidaMB.editar}">
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 								<f:setPropertyActionListener value="#{sai.numSaida}"
 									target="#{reqServListaSaidaCB.reqServSaidaMB.numSaidaMoto}" />
 							</a4j:commandLink>
-							<rich:toolTip for="editlinkreq" value="Editar" />
+							<rich:toolTip for="editlinkreq" value="Alterar Motoqueiro" />
 						    <rich:spacer width="5px"/>						    
 						    <!-- remover -->
 							<a4j:commandLink ajaxSingle="true" 
 											 id="deletelinkreq"
 											 reRender="reqServListTodos"
 											 action="#{reqServListaSaidaCB.reqServSaidaMB.apagar}"
-											 oncomplete="#{rich:component('confirmationMessage')}.show();">
+											 oncomplete="#{rich:component('confirmationMessage')}.show();"
+											 disabled="#{sessionScope.SAIDA_REQ_ESC}">
 								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{sai.numSaida}"
 									target="#{reqServListaSaidaCB.reqServSaidaMB.numSaidaMoto}" />
 							</a4j:commandLink>
-							<rich:toolTip for="deletelinkreq" value="Apagar Registro" />
+							<rich:toolTip for="deletelinkreq" value="#{sessionScope.SAIDA_REQ_ESC == true ? 'Nao tem Permissao' : 'Apagar Requisicao'}" />
 						    <rich:spacer width="5px"/>						    
 						    <!-- mostrar -->
 							<a4j:commandLink ajaxSingle="true" 
