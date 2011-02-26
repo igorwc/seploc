@@ -136,6 +136,19 @@ public class Grupo implements Serializable {
 		
 		return retorno;
 	}
+	
+	public Map<String, Boolean> retornaPermissoesEscrita() {
+		Map<String, Boolean> retorno = new HashMap<String, Boolean>();
+		for(GrupoMenu gm : this.getGrupoMenus()){
+			boolean escreve = false;
+			if(gm.getEscrita() == 'S'){
+				escreve = true;
+			}
+			retorno.put(gm.getMenu().getMenu(), escreve);
+		}
+		
+		return retorno;
+	}	
 
 	@Override
 	public boolean equals(Object obj) {

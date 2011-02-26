@@ -3,7 +3,6 @@ package br.seploc.controllers;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -81,8 +80,8 @@ public class ReqServListaSaidaCB implements Serializable{
 		Calendar dF = new GregorianCalendar(Locale.getDefault());		
 		dI.setTime(reqServSaidaMB.getDataInicio());	
 		dF.setTime(reqServSaidaMB.getDataFim()); 
-		Date dataInicio = dI.getTime();
-		Date dataFim = dF.getTime();
+//		Date dataInicio = dI.getTime();
+//		Date dataFim = dF.getTime();
 		Integer numeroReqServ;
 		String cliente;
 		if (reqServSaidaMB.getSaidaMotoqueiro() == null || reqServSaidaMB.getSaidaMotoqueiro().getReqServico() == null ) {
