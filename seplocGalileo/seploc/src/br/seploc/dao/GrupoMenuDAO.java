@@ -50,7 +50,7 @@ public class GrupoMenuDAO extends GenericDAO<GrupoMenu, GrupoMenuPK>{
 		GrupoMenu grupoMenu = em.find(GrupoMenu.class, id);
 		if(grupoMenu == null){
 			em.getTransaction().rollback();
-			throw new RecordNotFound("Associação Inexistente");
+			throw new RecordNotFound("Associaï¿½ï¿½o Inexistente");
 		}
 		
 		em.remove(grupoMenu);
@@ -84,14 +84,6 @@ public class GrupoMenuDAO extends GenericDAO<GrupoMenu, GrupoMenuPK>{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<GrupoMenu> getListaMenuSemPai(){
-		em.getTransaction().begin();
-		Query q = em.createNamedQuery("GrupoMenu.RetornaMenusSemPai");
-		em.getTransaction().commit();
-		return (List<GrupoMenu>) q.getResultList();
-	}
-	
-	@SuppressWarnings("unchecked")
 	public List<GrupoMenu> getFilterByMenu(Menu menu) {
 		em.getTransaction().begin();
 		Query q = em.createNamedQuery("GrupoMenu.RetornaPorMenus").setParameter("MENU", menu.getCodMenu().intValue());
@@ -107,6 +99,16 @@ public class GrupoMenuDAO extends GenericDAO<GrupoMenu, GrupoMenuPK>{
 		return (List<GrupoMenu>) q.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<GrupoMenu> getFilterByGrupoMenu(Grupo grupo, Menu menu) {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("GrupoMenu.RetornaPorGrupoMenusPai")
+					.setParameter("GRUPO", grupo.getCodGrupo())
+					.setParameter("MENU", menu.getCodMenu());
+		em.getTransaction().commit();
+		return (List<GrupoMenu>) q.getResultList();
+	}
+	
 	@Override
 	protected boolean verificaFilhos(GrupoMenuPK id) throws Exception {
 		// TODO Auto-generated method stub
