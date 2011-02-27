@@ -1,7 +1,6 @@
 package br.seploc.mbeans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -17,18 +16,17 @@ import br.seploc.pojos.Menu;
 public class GrupoMenuMB  implements Serializable {
 	
 	private static final long serialVersionUID = 1L;	
-	private List<Menu> menuAuxiliar;
-	private List<Menu> menuEscrita;
-	private List<Menu> menuLeitura;
-	private List<Menu> menuDisponivel;
+	private List<Menu> listaMenu;
 	private List<Grupo> listaGrupos;
-	private List<String> comboEscrita;
-	private String escrita;
 	private GrupoMenuDAO grupoMenuDAO;
+	private GrupoMenu grupoMenu;
 	private GrupoDAO grupoDAO;
 	private MenuDAO menuDAO;
 	private Grupo grupo;
 	private Menu menu;
+	private int menuSelectionado;
+	private int grupoSelecionado;
+	private int subMenuSelectionado;
 
 		
 	// CONSTRUTOR
@@ -36,89 +34,24 @@ public class GrupoMenuMB  implements Serializable {
 	 * Construtor da classe
 	 */
 	public GrupoMenuMB(){	
-		escrita = "Não";
-		setGrupomenuDAO(new GrupoMenuDAO());
+		setGrupoMenuDAO(new GrupoMenuDAO());
 		setMenuDAO(new MenuDAO());
 		setGrupoDAO(new GrupoDAO());
 		grupo = new Grupo();		
 		listaGrupos = grupoDAO.getLista();
-		menuAuxiliar = null;	
+		menu = new Menu();
+		listaMenu = menuDAO.getListaMenuSemPai();		
+				
 	}
 
 	// GETTER E SETTERS
-	public List<Menu> getMenuEscrita() {
-		menuEscrita = null;
-		List<GrupoMenu> lgm = this.grupoMenuDAO.getFilterByGrupo(this.grupo);
-		for (GrupoMenu gm : lgm){
-			menuEscrita.add(gm.getMenu());
-		}
-		return menuEscrita;
+
+	public List<Menu> getListaMenu() {
+		return listaMenu;
 	}
 
-	public void setGrupoMenuEscrita(List<Menu> menuEscrita) {
-		this.menuEscrita = menuEscrita;
-	}
-
-	public List<Menu> getMenuLeitura() {
-		menuLeitura = null;
-		List<GrupoMenu> lgm = this.grupoMenuDAO.getFilterByGrupo(this.grupo);
-		for (GrupoMenu gm : lgm){
-			menuLeitura.add(gm.getMenu());
-		}
-		return menuLeitura;
-	}
-
-	public void setMenuLeitura(List<Menu> menuLeitura) {		
-		this.menuLeitura = menuLeitura;
-	}
-
-	public List<Menu> getMenuAuxiliar() {
-		return menuAuxiliar;
-	}
-
-	public void setMenuAuxiliar(List<Menu> menuAuxiliar) {
-		this.menuAuxiliar = menuAuxiliar;
-	}
-
-	public void setMenuEscrita(List<Menu> menuEscrita) {
-		this.menuEscrita = menuEscrita;
-	}
-
-	public List<Menu> getMenuDisponivel() {
-		
-		
-		return menuDisponivel;
-	}
-
-	public void setMenuDisponivel(List<Menu> menuDisponivel) {
-		this.menuDisponivel = menuDisponivel;
-	}
-
-	public List<String> getComboEscrita() {
-		comboEscrita = new ArrayList<String>();
-		comboEscrita.add("Sim");
-		comboEscrita.add("Não");	
-		return comboEscrita;
-	}
-
-	public void setComboEscrita(List<String> comboEscrita) {
-		this.comboEscrita = comboEscrita;
-	}
-
-	public String getEscrita() {
-		return escrita;
-	}
-
-	public void setEscrita(String escrita) {
-		this.escrita = escrita;
-	}
-
-	public GrupoMenuDAO getGrupomenuDAO() {
-		return grupoMenuDAO;
-	}
-
-	public void setGrupomenuDAO(GrupoMenuDAO grupomenuDAO) {
-		this.grupoMenuDAO = grupomenuDAO;
+	public void setListaMenu(List<Menu> listaMenu) {
+		this.listaMenu = listaMenu;
 	}
 
 	public Grupo getGrupo() {
@@ -127,6 +60,30 @@ public class GrupoMenuMB  implements Serializable {
 
 	public void setGrupo(Grupo grupo) {
 		this.grupo = grupo;
+	}
+
+	public int getMenuSelectionado() {
+		return menuSelectionado;
+	}
+
+	public void setMenuSelectionado(int menuSelectionado) {
+		this.menuSelectionado = menuSelectionado;
+	}
+
+	public int getSubMenuSelectionado() {
+		return subMenuSelectionado;
+	}
+
+	public void setSubMenuSelectionado(int subMenuSelectionado) {
+		this.subMenuSelectionado = subMenuSelectionado;
+	}
+
+	public int getGrupoSelecionado() {
+		return grupoSelecionado;
+	}
+
+	public void setGrupoSelecionado(int grupoSelecionado) {
+		this.grupoSelecionado = grupoSelecionado;
 	}
 
 	public Menu getMenu() {
@@ -151,6 +108,14 @@ public class GrupoMenuMB  implements Serializable {
 
 	public void setGrupoMenuDAO(GrupoMenuDAO grupoMenuDAO) {
 		this.grupoMenuDAO = grupoMenuDAO;
+	}
+
+	public void setGrupoMenu(GrupoMenu grupoMenu) {
+		this.grupoMenu = grupoMenu;
+	}
+
+	public GrupoMenu getGrupoMenu() {
+		return grupoMenu;
 	}
 
 	public GrupoDAO getGrupoDAO() {
@@ -190,24 +155,22 @@ public class GrupoMenuMB  implements Serializable {
 	}
 
 	//METODOS
-	public void cadastrar(){		
-		try {
-			//TO DO
-		} catch (Exception e) {
-			addGlobalMessage(e.getMessage());
+	public void alteraEscrita(){
+		if (grupoMenu.getEscrita() == 'S'){
+			grupoMenu.setEscrita('N');
+		} else {
+			grupoMenu.setEscrita('S');
+		}			
+		addGlobalMessage("Alteracao realizado!");
+	}
+	
+	public void alteraVisibilidade(){
+		if (grupoMenu.getVisivel() == 'S') {
+			grupoMenu.setVisivel('N');
+		} else {
+			grupoMenu.setVisivel('S');
 		}
-	}
-	
-	public void editar(){
-		
-	}
-	
-	public void apagar(){
-		
-	}
-	
-	public void limpar(){
-		
+		addGlobalMessage("Alteracao realizado!");
 	}
 	
 	public static void addGlobalMessage(String message) {

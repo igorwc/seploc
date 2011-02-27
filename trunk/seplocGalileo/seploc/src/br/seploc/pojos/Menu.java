@@ -29,7 +29,9 @@ import javax.persistence.Version;
 		@NamedNativeQuery(name = "Menu.RetornaMenus", query = " SELECT * "
 				+ "FROM tbl_menu m", resultSetMapping = "Menu.implicit"),
 		@NamedNativeQuery(name = "Menu.RetornaMenusComPai", query = "SELECT * "
-					+ "FROM tbl_menu where intMenuPai is not null" , resultSetMapping = "Menu.implicit"),
+				+ "FROM tbl_menu where intMenuPai is not null" , resultSetMapping = "Menu.implicit"),
+		@NamedNativeQuery(name = "Menu.RetornaMenusSemPai", query = "SELECT * "
+				+ "FROM tbl_menu where intMenuPai is null" , resultSetMapping = "Menu.implicit"),					
 		@NamedNativeQuery(name = "Menu.RetornaMenusRaizes", query = "SELECT * "
 				+ "FROM tbl_menu " + "WHERE intMenupai IS NULL", resultSetMapping = "Menu.implicit")
 })

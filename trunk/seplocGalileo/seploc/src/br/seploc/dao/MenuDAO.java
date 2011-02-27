@@ -86,6 +86,15 @@ public class MenuDAO extends GenericDAO<Menu, Integer> {
 		em.getTransaction().commit();
 		return (List<Menu>) q.getResultList();
 	}	
+
+	@SuppressWarnings("unchecked")
+	public List<Menu> getListaMenuSemPai() {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Menu.RetornaMenusSemPai");
+		em.getTransaction().commit();
+		return (List<Menu>) q.getResultList();
+	}	
+
 	
 	@SuppressWarnings("unchecked")
 	public List<Menu> getMenusRaiz(){
