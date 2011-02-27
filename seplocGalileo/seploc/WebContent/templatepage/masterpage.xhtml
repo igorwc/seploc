@@ -107,7 +107,6 @@
 							<rich:menuItem disabled="#{sessionScope.CLIENTE}" submitMode="none" value="#{msgs['menu.raiz.cadastros.cliente']}"  icon="../imgs/icons/pessoas.gif" onclick="document.location.href='../cadastros/cadCliente.jsf'" />
 							<rich:menuItem disabled="#{sessionScope.PROJETO}" submitMode="none" value="#{msgs['menu.raiz.cadastros.projeto']}"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='../cadastros/cadProjeto.jsf'"  />
 							<rich:menuItem disabled="#{sessionScope.GRUPO}" submitMode="none" value="#{msgs['menu.raiz.cadastros.grupo']}"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='../cadastros/cadGrupo.jsf'"  />							
-							<rich:menuItem disabled="#{sessionScope.ASSOCIAR_USUARIO}" submitMode="none" value="#{msgs['menu.raiz.cadastros.grupomenu']}"  icon="../imgs/icons/ceta.gif" onclick="document.location.href='../cadastros/cadGrupoMenu.jsf'"  />
 						</rich:dropDownMenu>
                         <!-- MENU RELATORIO -->                      
                         <rich:dropDownMenu>
@@ -119,6 +118,17 @@
                             </f:facet>
                             <rich:menuItem disabled="#{sessionScope.REL_CLIENTE}"  submitMode="none" value="#{msgs['menu.raiz.relatorios.clienteperiodo']}"    icon="../imgs/icons/copy.gif" onclick="document.location.href='../relatorios/reqServClientePorPeriodo.jsf'" />
                         </rich:dropDownMenu>
+                        <!-- MENU ACESSO SISTEMA -->                      
+                        <rich:dropDownMenu>
+                            <f:facet name="label">
+                                <h:panelGroup>                                              
+                                    <h:graphicImage value="../imgs/chave_icon.png" styleClass="pic" />
+                                    <h:outputText value="#{msgs['menu.raiz.acesso']}" />
+                                </h:panelGroup>
+                            </f:facet>
+                            <rich:menuItem disabled="#{sessionScope.ASSOCIAR_USUARIO}" submitMode="none" value="#{msgs['menu.raiz.acesso.associarusuario']}"  icon="../imgs/icons/pessoah.gif" onclick="document.location.href='../cadastros/cadGrupoMenu.jsf'"  />
+							<rich:menuItem disabled="#{sessionScope.GRUPO_ACESSO}" submitMode="none" value="#{msgs['menu.raiz.acesso.grupoacesso']}"  icon="../imgs/icons/pessoas.gif" onclick="document.location.href='../cadastros/cadGrupoMenu.jsf'"  />
+                        </rich:dropDownMenu>                        
 					</rich:toolBar>
 				</h:form>
 			</f:view>

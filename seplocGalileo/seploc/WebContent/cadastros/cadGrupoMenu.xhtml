@@ -61,65 +61,136 @@
     				<fieldset style="height: 30px"><legend>Filtro</legend>
                        <a4j:outputPanel id="combos"  >
                        	   <h:outputText value="Grupo de Acesso: " />
-                           <h:selectOneMenu value="#{grupoMenuCB.grupoMenuMB.grupo.codGrupo}" id="grupo" >
+                           <h:selectOneMenu value="#{grupoMenuCB.grupoMenuMB.grupoSelecionado}" id="grupo" >
                                 <f:selectItem itemLabel=" Selecione um Grupo" itemValue="-1"></f:selectItem>                                
                                 <t:selectItems value="#{grupoMenuCB.grupoMenuMB.listaGrupos}" 
-                                               var="element" 
-                                               itemLabel="#{element.nomeGrupo}" 
-                                               itemValue="#{element.codGrupo}" />
-                                 <a4j:support  event="onchange" reRender="listaMenu,grupo" ajaxSingle="true"/>
-                           </h:selectOneMenu>  
-                           
-                       	   <h:outputText value=" Permissao de Escrita: " />
-                           <h:selectOneMenu value="#{grupoMenuCB.grupoMenuMB.escrita}" id="permEscrita" >                                                                
-                                <t:selectItems value="#{grupoMenuCB.grupoMenuMB.comboEscrita}" 
-                                               var="element2" 
-                                               itemLabel="#{element2}" 
-                                               itemValue="#{element2}" />
-                                 <a4j:support  event="onchange" reRender="listaMenu" ajaxSingle="true"/>
-                           </h:selectOneMenu>                            
+                                               var="elementG" 
+                                               itemLabel="#{elementG.nomeGrupo}" 
+                                               itemValue="#{elementG.codGrupo}" />
+                                 <a4j:support  event="onchange" reRender="menu,grupo,grupoMenuList" ajaxSingle="true"/>
+                           </h:selectOneMenu>   
+                           <rich:spacer width="10"/> 
+                       	   <h:outputText value="Menu: " />
+                           <h:selectOneMenu value="#{grupoMenuCB.grupoMenuMB.menuSelectionado}" id="menu" >
+                                <f:selectItem itemLabel=" Selecione um Menu" itemValue="-1"></f:selectItem>                                
+                                <t:selectItems value="#{grupoMenuCB.grupoMenuMB.listaMenu}" 
+                                               var="elementM" 
+                                               itemLabel="#{elementM.acao}" 
+                                               itemValue="#{elementM.codMenu}" />
+                                 <a4j:support  event="onchange" reRender="grupo,menu,grupoMenuList" ajaxSingle="true"/>
+                           </h:selectOneMenu>                                 
                        </a4j:outputPanel>
                     </fieldset>
     				
-    				<fieldset><legend>Associacao</legend>
-			        <rich:listShuttle 
-			        		id="listaMenu"
-			        		var="items"
-			        		sourceValue="#{grupoMenuCB.grupoMenuMB.menuDisponivel}"
-			        		targetValue="#{grupoMenuCB.grupoMenuMB.menuAuxiliar}"        		 
-			            	sourceCaptionLabel="Lista de Menus"
-			            	targetCaptionLabel="Lista Menu Associados"
-			            	copyAllControlLabel="Copiar Tudo" 
-			            	copyControlLabel="Copiar"
-			            	removeControlLabel="Remover"
-			            	removeAllControlLabel="Remover Tudo"
-			            	listsHeight="300"
-            				sourceListWidth="200" 
-            				targetListWidth="200"			       
-            				rowClasses="row1"            
-            				listClass="row2"	
-            				showTargetControls="false"			          	
-			            	> 
-			            <!-- converter="listShuttleconverter" -->            
-			            <rich:column>
-			             	<f:facet name="header">
-			             		<h:outputText value="Menu"/>
-			             	</f:facet>
-			                <h:outputText value="#{items.menuPai.menu}"></h:outputText>
-			            </rich:column>
-			            <rich:column>
-			            	<f:facet name="header">
-			            		<h:outputText value="SubMenu"/>
-			            	</f:facet>
-			                <h:outputText value="#{items.menu}"></h:outputText>
-			            </rich:column>			            
-			        </rich:listShuttle>
+    				<fieldset><legend>Editar Permissoes</legend>
+
+		               <!-- GRID -->
+		               <rich:dataTable value="#{grupoMenuCB.gridGrupoMenu}" var="mn"    
+		                   rowClasses="row1, row2" id="grupoMenuList"		                    
+		                   onRowMouseOver="this.style.backgroundColor='#E0EEEE'"  
+		                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+		                   width="500"
+		                   align="center">  
+		                   <f:facet name="header">  
+		                       <rich:columnGroup>  
+		  
+		                           <rich:column colspan="4">  
+		                               <h:outputText value="Menu" />  
+		                           </rich:column>  
+		  
+		                           <rich:column breakBefore="true"  width="220">  
+		                               <h:outputText value="Sub Menu" />  
+		                           </rich:column>  
+		                           <rich:column width="100">  
+		                               <h:outputText value="Modifica" />  
+		                           </rich:column> 		                           
+		                           <rich:column width="100">  
+		                               <h:outputText value="Visivel" />  
+		                           </rich:column>		                           
+		                           
+		                           <rich:column width="80"/>	                             
+		                           
+		                       </rich:columnGroup>  
+		                   </f:facet>  
+		  
+		                   <rich:column>  
+				               <h:outputText value="#{mn.menu.acao}" />  
+		                   </rich:column>
+		                   <rich:column style="text-align:center">
+								<h:outputText value="#{mn.escrita == 'S' ? 'SIM' : 'NAO'}"/>				   
+						   </rich:column>  
+		                   <rich:column style="text-align:center">  
+								<h:outputText value="#{mn.visivel == 'S' ? 'SIM' : 'NAO'}"/>		
+		                   </rich:column>  	              
+		                   
+		                   <rich:column style="text-align:center">
+		                   <!-- modificar -->							    
+							<a4j:commandLink ajaxSingle="true" 
+											 id="editlinkreq"
+											 reRender="grupoMenuList"
+											 action="#{grupoMenuCB.grupoMenuMB.alteraEscrita}"
+											 oncomplete="#{rich:component('confirmationMessage')}.show();return false;">
+								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+								<f:setPropertyActionListener value="#{mn}"
+									target="#{grupoMenuCB.grupoMenuMB.grupoMenu}" />
+							</a4j:commandLink>
+							<rich:toolTip for="editlinkreq" value="#{mn.escrita == 'S' ? 'NAO Permitir Modificar' : 'Permitir Modificar'}" />
+						    <rich:spacer width="5px"/>				
+						    <!-- visivel -->
+							<a4j:commandLink ajaxSingle="true" 
+											 id="viewlinkreq"												
+											 reRender="grupoMenuList"											 		
+											 action="#{grupoMenuCB.grupoMenuMB.alteraVisibilidade}"
+											 oncomplete="#{rich:component('confirmationMessage')}.show();return false;">
+								<h:graphicImage value="/imgs/view_icon.gif" style="border:0" />
+								<f:setPropertyActionListener value="#{mn}"
+									target="#{grupoMenuCB.grupoMenuMB.grupoMenu}" />
+							</a4j:commandLink>
+							<rich:toolTip for="viewlinkreq" value="#{mn.visivel == 'S' ? 'NAO Permitir Visualizar' : 'Permitir Visualizar'}" />
+							
+							</rich:column>
+							
+		               </rich:dataTable> 	
+		               <!-- FIM GRID -->		        
     				</fieldset>
 
                </rich:panel>
                </center>
            </rich:panel>
    	   </h:form>
+   	   
+        <!-- Modal -->
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de GrupoMenu"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="../imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    	</rich:modalPanel>   	   
    </f:view>   	     
 </ui:define>
 </ui:composition>

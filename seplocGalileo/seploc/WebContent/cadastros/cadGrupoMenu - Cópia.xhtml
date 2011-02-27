@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:t="http://myfaces.apache.org/tomahawk" 
+      template="../templatepage/masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_cad_root}"/> <img src="../imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_cad_grupomenu}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+      
+<style type="text/css">  
+.row1 {   
+    background-color: #EEF3E2;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+.formulario, .formulario TD, .formulario TH
+{
+	background-color : #f2f2f5;	
+}
+
+</style> 
+
+   <f:view>  
+   	   <h:form id="cadGrupoMenu" enctype="UTF-8" prependId="false" >
+           <rich:panel header="Associar Grupo ao Menu">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Associar Grupo a Menu" style="width: 650px" bodyClass="row1">
+    				<fieldset style="height: 30px"><legend>Filtro</legend>
+                       <a4j:outputPanel id="combos"  >
+                       	   <h:outputText value="Grupo de Acesso: " />
+                           <h:selectOneMenu value="#{grupoMenuCB.grupoMenuMB.grupo.codGrupo}" id="grupo" >
+                                <f:selectItem itemLabel=" Selecione um Grupo" itemValue="-1"></f:selectItem>                                
+                                <t:selectItems value="#{grupoMenuCB.grupoMenuMB.listaGrupos}" 
+                                               var="element" 
+                                               itemLabel="#{element.nomeGrupo}" 
+                                               itemValue="#{element.codGrupo}" />
+                                 <a4j:support  event="onchange" reRender="listaMenu,grupo" ajaxSingle="true"/>
+                           </h:selectOneMenu>  
+                           
+                       	   <h:outputText value=" Permissao de Escrita: " />
+                           <h:selectOneMenu value="#{grupoMenuCB.grupoMenuMB.escrita}" id="permEscrita" >                                                                
+                                <t:selectItems value="#{grupoMenuCB.grupoMenuMB.comboEscrita}" 
+                                               var="element2" 
+                                               itemLabel="#{element2}" 
+                                               itemValue="#{element2}" />
+                                 <a4j:support  event="onchange" reRender="listaMenu" ajaxSingle="true"/>
+                           </h:selectOneMenu>                            
+                       </a4j:outputPanel>
+                    </fieldset>
+    				
+    				<fieldset><legend>Associacao</legend>
+			        <rich:listShuttle 
+			        		id="listaMenu"
+			        		var="items"
+			        		sourceValue="#{grupoMenuCB.grupoMenuMB.menuDisponivel}"
+			        		targetValue="#{grupoMenuCB.grupoMenuMB.menuAuxiliar}"        		 
+			            	sourceCaptionLabel="Lista de Menus"
+			            	targetCaptionLabel="Lista Menu Associados"
+			            	copyAllControlLabel="Copiar Tudo" 
+			            	copyControlLabel="Copiar"
+			            	removeControlLabel="Remover"
+			            	removeAllControlLabel="Remover Tudo"
+			            	listsHeight="300"
+            				sourceListWidth="200" 
+            				targetListWidth="200"			       
+            				rowClasses="row1"            
+            				listClass="row2"	
+            				showTargetControls="false"			          	
+			            	> 
+			            <!-- converter="listShuttleconverter" -->            
+			            <rich:column>
+			             	<f:facet name="header">
+			             		<h:outputText value="Menu"/>
+			             	</f:facet>
+			                <h:outputText value="#{items.menuPai.menu}"></h:outputText>
+			            </rich:column>
+			            <rich:column>
+			            	<f:facet name="header">
+			            		<h:outputText value="Sub Menu"/>
+			            	</f:facet>
+			                <h:outputText value="#{items.menu}"></h:outputText>
+			            </rich:column>			            
+			        </rich:listShuttle>
+    				</fieldset>
+
+               </rich:panel>
+               </center>
+           </rich:panel>
+   	   </h:form>
+   </f:view>   	     
+</ui:define>
+</ui:composition>
