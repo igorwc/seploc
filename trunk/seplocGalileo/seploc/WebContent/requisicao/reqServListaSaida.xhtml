@@ -106,7 +106,7 @@
 	                                           cellHeight="22px" 
 	                                           style="block:inline">
 	                                           <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
-	                                           <a4j:support event="onchanged" action="#{reqServListaSaidaCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos" />
+	                                           <a4j:support event="onchanged" action="#{reqServListaSaidaCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos,outputPaginacao" />
 	                                </rich:calendar></td>
 								<td>
 	                                <rich:calendar value="#{reqServListaSaidaCB.reqServSaidaMB.dataFim}"
@@ -118,7 +118,7 @@
 	                                           cellHeight="22px" 
 	                                           style="block:inline" >
 	                                           <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
-	                                           <a4j:support event="onchanged" action="#{reqServListaSaidaCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos" />
+	                                           <a4j:support event="onchanged" action="#{reqServListaSaidaCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos,outputPaginacao" />
 	                                </rich:calendar></td>
 							</tr>
 							<tr>
@@ -295,28 +295,28 @@
 
 					</rich:dataTable>	
 					<center>
-                        <h:panelGrid columns="4" style=" width : 100px;" >
+                        <h:panelGrid columns="5" style=" width : 100px;" >
                         
                             <a4j:commandButton
                                     value="primeiro"
                                     action="#{reqServListaSaidaCB.reqServSaidaMB.primeiraPaginaSaida}"
-                                    reRender="reqServFiltros,reqServListTodos"
+                                    reRender="reqServFiltros,reqServListTodos,outputPaginacao"
                                     image="/imgs/ceta_pri.png"/>
                              <a4j:commandButton
                                     value="anterior"
                                     action="#{reqServListaSaidaCB.reqServSaidaMB.paginaAnteriorSaida}"
-                                    reRender="reqServFiltros,reqServListTodos"
+                                    reRender="reqServFiltros,reqServListTodos,outputPaginacao"
                                     image="/imgs/ceta_ant.png"/>
-                                                                                       
+                             <h:outputText value="#{reqServListaSaidaCB.reqServSaidaMB.paginacaoFormatada}" id="outputPaginacao"/>                                     
                              <a4j:commandButton
                                     value="proxima"
                                     action="#{reqServListaSaidaCB.reqServSaidaMB.proximaPaginaSaida}"
-                                    reRender="reqServFiltros,reqServListTodos"
+                                    reRender="reqServFiltros,reqServListTodos,outputPaginacao"
                                     image="/imgs/ceta_pro.png"/>
                              <a4j:commandButton
                                     value="ultima"
                                     action="#{reqServListaSaidaCB.reqServSaidaMB.ultimaPaginaSaida}"
-                                    reRender="reqServFiltros,reqServListTodos"
+                                    reRender="reqServFiltros,reqServListTodos,outputPaginacao"
                                     image="/imgs/ceta_ult.png"/>
                                       
                         </h:panelGrid>
