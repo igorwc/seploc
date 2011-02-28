@@ -388,6 +388,17 @@ public class ReqServListaSaidaMB implements Serializable {
 		return saidaPager;
 	}
 
+	public String getPaginacaoFormatada(){
+		int paginacorrente = 0, maxpages = 0;
+		if(!(saidaPager == null)){
+			paginacorrente = saidaPager.getCurrentPage()+1;
+		}
+		if(!(saidaPager == null)){
+			maxpages = saidaPager.getMaxPages()+1;
+		}
+		String retorno = ""+paginacorrente+"/"+maxpages;
+		return retorno;
+	}
 	public void setReqServPager(FilteredSaidaPager reqServPager) {
 		this.saidaPager = reqServPager;
 	}
