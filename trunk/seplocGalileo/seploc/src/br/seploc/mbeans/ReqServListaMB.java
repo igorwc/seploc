@@ -46,6 +46,18 @@ public class ReqServListaMB implements Serializable {
 	private int reqPages;
 	private FilteredReqServPager reqServPager;
 
+	public String getPaginacaoFormatada(){
+		int paginacorrente = 0, maxpages = 0;
+		if(!(reqServPager == null)){
+			paginacorrente = reqServPager.getCurrentPage()+1;
+		}
+		if(!(reqServPager == null)){
+			maxpages = reqServPager.getMaxPages()+1;
+		}
+		String retorno = ""+paginacorrente+"/"+maxpages;
+		return retorno;
+	}
+	
 	public FilteredReqServPager getReqServPager() {
 		return reqServPager;
 	}
