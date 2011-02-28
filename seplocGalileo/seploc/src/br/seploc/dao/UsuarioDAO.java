@@ -1,5 +1,6 @@
 package br.seploc.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -192,6 +193,22 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 		// return (List<Usuario>) q.getResultList();
 		return null;
 	}
+	
+
+	@SuppressWarnings("unchecked")
+	public List<Usuario> getListaUsuarioSemGrupo(){		
+		List<Usuario> retorno = new ArrayList<Usuario>();
+		try{			
+			em.getTransaction().begin();
+			Query q = em.createNamedQuery("Usuario.RetornaUsuariosSemGrupo");
+			em.getTransaction().commit();
+			retorno = (List<Usuario>) q.getResultList();
+		} catch (Exception e) {
+			e.getMessage();			
+		}
+		return retorno;
+	}
+	
 	public Usuario recupera (String login, String senha){
 		boolean flag = false;
 		Usuario retorno = null;

@@ -27,7 +27,7 @@ public class UsuarioMB implements Serializable {
 	}
 	
 	/**
-	 * Metodo de inicialização
+	 * Metodo de inicializacao
 	 */
 	public void init(){
 		quantidade++;
@@ -85,11 +85,11 @@ public class UsuarioMB implements Serializable {
 		try {
 			if (usuario.getId() == null || usuario.getId() == 0) {
 				if (this.existeCpf(usuario.getCpf())){
-					addGlobalMessage("CPF usado por outro usuário!");
+					addGlobalMessage("CPF usado por outro usuï¿½rio!");
 				} else {
 					usuario.setPermissao(0);
 					usuarioDAO.adiciona(usuario);
-					addGlobalMessage("Inclusão feita com sucesso!");
+					addGlobalMessage("Inclusï¿½o feita com sucesso!");
 				}
 			} else {
 				Usuario temp;
@@ -98,7 +98,7 @@ public class UsuarioMB implements Serializable {
 					throw new RecordNotFound("Usuario Inexistente");
 				}
 				if(!temp.getLogin().equals(usuario.getLogin())){
-					addGlobalMessage("O login do usuário não pode ser modificado!");
+					addGlobalMessage("O login do usuï¿½rio nï¿½o pode ser modificado!");
 					this.limpar();
 					return;
 				}
@@ -107,14 +107,14 @@ public class UsuarioMB implements Serializable {
 				temp.setGrupo(usuario.getGrupo());
 				temp.setPermissao(usuario.getPermissao());
 				usuarioDAO.altera(temp);
-				addGlobalMessage("Atualização feita com sucesso!");
+				addGlobalMessage("Atualizaï¿½ï¿½o feita com sucesso!");
 			}
 		} catch (RecordNotFound e) {
 			addGlobalMessage(e.getMessage());
 		} catch (LoginExistenteException e) {
 			addGlobalMessage(e.getMessage());
 		} catch (Exception e) {
-			addGlobalMessage("A operação não pôde ser realizada.");
+			addGlobalMessage("A operaï¿½ï¿½o nï¿½o pï¿½de ser realizada.");
 			e.printStackTrace();
 		}
 		this.limpar();
@@ -144,7 +144,7 @@ public class UsuarioMB implements Serializable {
 	public void apagar() {
 		try {
 			usuarioDAO.remove(usuario.getId());
-			addGlobalMessage("Excluído com sucesso!");
+			addGlobalMessage("Excluido com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
@@ -167,7 +167,7 @@ public class UsuarioMB implements Serializable {
 	}
 	
 	/**
-	 * Método para incluir mensagens globais no formulário de cadastro
+	 * Mï¿½todo para incluir mensagens globais no formulï¿½rio de cadastro
 	 * 
 	 * @param String
 	 *            message

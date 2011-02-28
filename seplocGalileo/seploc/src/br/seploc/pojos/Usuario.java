@@ -30,6 +30,8 @@ import br.seploc.util.DesEncrypter;
 @NamedNativeQueries( {
 		@NamedNativeQuery(name = "Usuario.RetornaUsuarios", query = " SELECT * "
 				+ "FROM tbl_usuario u", resultSetMapping = "Usuario.implicit"),
+		@NamedNativeQuery(name = "Usuario.RetornaUsuariosSemGrupo", query = " SELECT * "
+				+ "FROM tbl_usuario u where u.intGrupo is null ", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuariosPorGrupo", query = " SELECT * "
 				+ "FROM tbl_usuario u " + "where intGrupo = :grupo", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaRequisicoesPorUsuario", query = " SELECT * "
