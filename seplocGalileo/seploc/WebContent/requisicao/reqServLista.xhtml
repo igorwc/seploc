@@ -79,7 +79,7 @@
 								<td><h:inputText value="#{reqServListaCB.reqServListaMB.numReqBusca}" 
 												 id="numReq"
 												 size="10">
-										<a4j:support event="onChange" reRender="reqServListTodos"/>
+										<a4j:support event="onChange" reRender="reqServListTodos,outputPaginacao"/>
 									</h:inputText></td>
 								<td><h:inputText value="#{reqServListaCB.reqServListaMB.cliente.fantasia}" 
 								         id="cliente" 
@@ -110,7 +110,7 @@
 	                                           cellHeight="22px" 
 	                                           style="block:inline">
 	                                           <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
-	                                           <a4j:support event="onchanged" action="#{reqServListaCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos" />
+	                                           <a4j:support event="onchanged" action="#{reqServListaCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos,outputPaginacao" />
 	                                </rich:calendar></td>
 								<td>
 	                                <rich:calendar value="#{reqServListaCB.reqServListaMB.dataFim}"
@@ -122,7 +122,7 @@
 	                                           cellHeight="22px" 
 	                                           style="block:inline" >
 	                                           <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
-	                                           <a4j:support event="onchanged" action="#{reqServListaCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos" />
+	                                           <a4j:support event="onchanged" action="#{reqServListaCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos,outputPaginacao" />
 	                                </rich:calendar></td>
 							</tr>
 							<tr>
@@ -309,27 +309,28 @@
 						</rich:column>
 					</rich:dataTable>
 					<center>
-                        <h:panelGrid columns="4" style=" width : 100px;" >
+                        <h:panelGrid columns="5" style=" width : 100px;" >
                         
                             <a4j:commandButton
                                     value="primeiro"
                                     action="#{reqServListaCB.reqServListaMB.primeiraPaginaReqServ}"
-                                    reRender="reqServFiltros,reqServListTodos"
+                                    reRender="reqServFiltros,reqServListTodos,outputPaginacao"
                                     image="/imgs/ceta_pri.png"/>
                              <a4j:commandButton
                                     value="anterior"
                                     action="#{reqServListaCB.reqServListaMB.paginaAnteriorReqServ}"
-                                    reRender="reqServFiltros,reqServListTodos"
-                                    image="/imgs/ceta_ant.png"/>                              
+                                    reRender="reqServFiltros,reqServListTodos,outputPaginacao"
+                                    image="/imgs/ceta_ant.png"/>   
+                             <h:outputText value="#{reqServListaCB.reqServListaMB.paginacaoFormatada}" id="outputPaginacao"/>                           
                              <a4j:commandButton
                                     value="proxima"
                                     action="#{reqServListaCB.reqServListaMB.proximaPaginaReqServ}"
-                                    reRender="reqServFiltros,reqServListTodos"
+                                    reRender="reqServFiltros,reqServListTodos,outputPaginacao"
                                     image="/imgs/ceta_pro.png"/>
                              <a4j:commandButton
                                     value="ultima"
                                     action="#{reqServListaCB.reqServListaMB.ultimaPaginaReqServ}"
-                                    reRender="reqServFiltros,reqServListTodos"
+                                    reRender="reqServFiltros,reqServListTodos,outputPaginacao"
                                     image="/imgs/ceta_ult.png"/>
                                       
                         </h:panelGrid>
@@ -534,7 +535,7 @@
 						<rich:column styleClass="col1">
 							<a4j:commandLink ajaxSingle="true" 
 								                 id="edtlinkproj" 
-							    				 reRender="reqServList,modalProjeto" 
+							    				 reRender="reqServList,modalProjeto,outputPaginacao" 
 							    				 oncomplete=" #{rich:component('modalProjeto')}.hide();"
 							    				 >
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
@@ -594,7 +595,7 @@
 						<rich:column styleClass="col1">
 							<a4j:commandLink ajaxSingle="true" 
 								                 id="editlinkcli" 
-							    				 reRender="reqServList,modalCliente,modalProjeto,reqServFiltros,reqServListTodos" 
+							    				 reRender="reqServList,modalCliente,modalProjeto,reqServFiltros,reqServListTodos,outputPaginacao" 
 							    				 oncomplete=" #{rich:component('modalCliente')}.hide();"
 							    				 actionListener="#{reqServListaCB.resetaProjeto}"
 							    				 >
