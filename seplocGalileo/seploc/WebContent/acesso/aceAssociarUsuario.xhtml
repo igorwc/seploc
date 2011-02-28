@@ -1,0 +1,184 @@
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:t="http://myfaces.apache.org/tomahawk" 
+      template="../templatepage/masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_ace_root}"/> <img src="../imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_ace_associarusuario}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+      
+<style type="text/css">  
+.row1 {   
+    background-color: #EEF3E2;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+.formulario, .formulario TD, .formulario TH
+{
+	background-color : #f2f2f5;	
+}
+
+</style> 
+
+   <f:view>  
+   	   <h:form id="cadGrupoMenu" enctype="UTF-8" prependId="false" >
+           <rich:panel header="Associar Usuario">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Associar Usuario ao Grupo" style="width: 650px" bodyClass="row1">
+    				<fieldset style="height: 30px"><legend>Filtro/Inclusao</legend>
+                       <a4j:outputPanel id="combos"  >
+                       	   <h:outputText value="Grupo de Acesso: " />
+                           <h:selectOneMenu value="#{grupoUsuarioCB.grupoUsuarioMB.grupoSelecionado}" id="grupo" >
+                                <f:selectItem itemLabel=" Selecione um Grupo" itemValue="-1"></f:selectItem>                                
+                                <t:selectItems value="#{grupoUsuarioCB.grupoUsuarioMB.listaGrupos}" 
+                                               var="elementG" 
+                                               itemLabel="#{elementG.nomeGrupo}" 
+                                               itemValue="#{elementG.codGrupo}" />
+                                 <a4j:support  event="onchange" reRender="grupoUsuarioList" ajaxSingle="true"/>
+                           </h:selectOneMenu>   
+                           <rich:spacer width="20"/> 
+                       	   <h:outputText value="Usuario: " />
+                           <h:selectOneMenu value="#{grupoUsuarioCB.grupoUsuarioMB.usuarioSelecionado}" id="usuario" >
+                                <f:selectItem itemLabel="Selecione um Usuario" itemValue="-1"></f:selectItem>                                
+                                <t:selectItems value="#{grupoUsuarioCB.grupoUsuarioMB.listaUsuarios}" 
+                                               var="elementU" 
+                                               itemLabel="#{elementU.login}" 
+                                               itemValue="#{elementU.id}" />
+                                 <a4j:support  event="onchange" reRender="grupoUsuarioList" ajaxSingle="true"/>
+                           </h:selectOneMenu>  
+                           <rich:spacer width="20"/>                                
+	                       <!-- Botoes --> 
+							<a4j:commandButton
+								value="Associar Usuario"
+								action="#{grupoUsuarioCB.grupoUsuarioMB.adicionar}"
+								reRender="grupoUsuarioList"
+								oncomplete="#{rich:component('confirmationMessage')}.show();"/>
+                       </a4j:outputPanel>
+                    </fieldset>
+    				
+    				<fieldset><legend>Listar Usuarios</legend>
+
+		               <!-- GRID -->
+		               <rich:dataTable value="#{grupoUsuarioCB.gridGrupoUsuario}" var="user"    
+		                   rowClasses="row1, row2" id="grupoUsuarioList"		                    
+		                   onRowMouseOver="this.style.backgroundColor='#E0EEEE'"  
+		                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+		                   width="500"
+		                   align="center">  
+		                   <f:facet name="header">  
+		                       <rich:columnGroup>  
+		  
+		                           <rich:column colspan="4">  
+		                               <h:outputText value="Grupos de Acesso" />  
+		                           </rich:column>  
+		  
+		                           <rich:column breakBefore="true"  width="220">  
+		                               <h:outputText value="usuario" />  
+		                           </rich:column>  
+		                           <rich:column width="200">  
+		                               <h:outputText value="Nome" />  
+		                           </rich:column> 		                           
+		                           
+		                           <rich:column width="80"/>	                             
+		                           
+		                       </rich:columnGroup>  
+		                   </f:facet>  
+		  
+		                   <rich:column>  
+				               <h:outputText value="#{user.login}" />  
+		                   </rich:column>
+		                   <rich:column>
+								<h:outputText value="#{user.nome}"/>				   
+						   </rich:column>  		                   
+		                   <rich:column style="text-align:center">
+			                   <!-- remover -->							    
+								<a4j:commandLink ajaxSingle="true" 
+												 id="removelinkuser"
+												 reRender="grupoUsuarioList,usuario"
+												 action="#{grupoUsuarioCB.grupoUsuarioMB.remover}"
+												 oncomplete="#{rich:component('confirmationMessage')}.show();return false;">								
+									<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+									<f:setPropertyActionListener value="#{user.id}"
+										target="#{grupoUsuarioCB.grupoUsuarioMB.usuarioSelecionado}" />
+								</a4j:commandLink>
+								<rich:toolTip for="removelinkuser" value="Remover Associacao" />
+							    <rich:spacer width="5px"/>							
+							</rich:column>
+							
+		               </rich:dataTable> 	
+		               <!-- FIM GRID -->		        
+    				</fieldset>
+
+               </rich:panel>
+               </center>
+           </rich:panel>
+   	   </h:form>
+   	   
+        <!-- Modal -->
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Associar Usuario"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="../imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    	</rich:modalPanel>   	   
+   </f:view>   	     
+</ui:define>
+</ui:composition>
