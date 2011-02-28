@@ -26,7 +26,8 @@ public class AuthorizationListener implements PhaseListener {
 			boolean isCssProcess = currentPage.contains("richfaces")
 					|| currentPage.contains("a4j/")
 					|| currentPage.contains("/css/")
-					|| currentPage.contains("/html/");
+					|| currentPage.contains("/html/")
+					|| currentPage.contains("/loginErro");
 			//APAGAR
 //			HttpSession session = (HttpSession) facesContext
 //					.getExternalContext().getSession(false);
