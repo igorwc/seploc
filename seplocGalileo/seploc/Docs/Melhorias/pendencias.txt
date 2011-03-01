@@ -1,5 +1,10 @@
 Nem mexi direito, tah do jeito que anotei lah na copytec.
 
+PARA RELATORIOS:
+O que vale é o template embaixo de WEB-INF, o que ficar em src, não tem valor para o servlet
+
+
+
 
 Listar Requisicoes
     Preço do opcional 
