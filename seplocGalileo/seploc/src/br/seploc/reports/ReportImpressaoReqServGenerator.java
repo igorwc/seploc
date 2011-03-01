@@ -38,8 +38,9 @@ public class ReportImpressaoReqServGenerator {
 	private Date dataAlteracao;
 	private String operador;
 	private ArrayList subtotais;
-
-	private ReportImpressaoReqServGenerator() {
+	private String dir;
+	
+	public ReportImpressaoReqServGenerator() {
 		dados = new ArrayList<ArrayList<ImpressaoBean>>();
 		nomeProjeto = "";
 		codProjeto = 0;
@@ -50,6 +51,15 @@ public class ReportImpressaoReqServGenerator {
 		qtdItens = 0;
 		dataAlteracao = new Date(Calendar.getInstance().getTimeInMillis());
 		operador = "";
+		dir = "";
+	}
+
+	public String getDir() {
+		return dir;
+	}
+
+	public void setDir(String dir) {
+		this.dir = dir;
 	}
 
 	public List<ArrayList<ImpressaoBean>> getDados() {
@@ -331,8 +341,34 @@ public class ReportImpressaoReqServGenerator {
 			e.printStackTrace();
 		}
 	}
+	public String imprimeDadosWeb()    {
+		String retorno = "";
+		try {
+			String s = FreemarkerUtils.parseTemplateWeb(getDataModel(), "impressaoReqServ.html","/WEB-INF/reports/");
+			System.out.println(s);
+		} catch (TemplateException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return retorno;
 
-	public void imprimeDados()    {
+	}
+	public String imprimeDadosWeb2(String dir)    {
+		String retorno = "";
+		try {
+			String s = FreemarkerUtils.parseTemplateWeb(getDataModel(), "impressaoReqServ.html",dir);
+			retorno = HtmlManipulator.converteParaHtml(s);;
+		} catch (TemplateException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return retorno;
+
+	}
+	public String imprimeDados()    {
+		String retorno = "";
 //		System.out.println("Código Projeto: " + codProjeto);
 //		System.out.println("Nome Projeto: " + nomeProjeto);
 //		System.out.println("Tem opcionais: "+ hasOpcionais);
@@ -350,10 +386,11 @@ public class ReportImpressaoReqServGenerator {
 //		}
 		try {
 			String s = FreemarkerUtils.parseTemplate(getDataModel(), "impressaoReqServ.html");
-			OutputStream os = new FileOutputStream("src/relatorios/impressaoReqServ.pdf");
+//			OutputStream os = new FileOutputStream("src/relatorios/impressaoReqServ.pdf");
 //			System.out.println(s);
 //			Html2Pdf.convert(s, os);
-			UtilsArquivo.salvar("src/relatorios/impressaoReqServ2.html",HtmlManipulator.converteParaHtml(s), false);
+			retorno = HtmlManipulator.converteParaHtml(s);
+//			UtilsArquivo.salvar("src/relatorios/impressaoReqServ2.html",HtmlManipulator.converteParaHtml(s), false);
 //			os.close();
 			System.out.println(s);
 		} catch (TemplateException e) {
@@ -364,6 +401,7 @@ public class ReportImpressaoReqServGenerator {
 			e.printStackTrace();
 		}
 //		OutputStream os = new FileOutputStream(outputFile);
+		return retorno;
 
 	}
 //	public String geraPaginaHTML()    {
