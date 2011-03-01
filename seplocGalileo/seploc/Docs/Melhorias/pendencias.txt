@@ -1,0 +1,31 @@
+Nem mexi direito, tah do jeito que anotei lah na copytec.
+
+
+Listar Requisicoes
+    Preço do opcional 
+    Ao duplicar requisicao nao consegue alterar cliente e o preço fica vazio.
+    Busca requisicao
+    Filtrar cliente e requisicao
+    
+Cadastrar Requisicao Cliente Cadastrado
+    Colocar Listener para o ENTER, no campo quantidade de opcionais e linha --> Resolvido em requisicao de cliente balcao
+    Atualizacao de projetos ao mudar cliente e o preço
+    Atualizacao de preço de entrega
+    
+Acesso
+ -> nao popula combo de usuario ---> Resolvido
+ 
+ Requisicao Cliente Cadastrado, não muda projeto
+ Listar Requisicao: 
+ 
+
+ Verificar Cadastro de Usuário
+ 
+ Sinalizar percentagem no desconto 
+ Realizar calculo de desconto quando apertar enter
+ Colocar paginacoes nos cadastros
+ CENTRALIZAR CADASTROS
+ 
+ function executa(){
+                                                  document.getElementById('reqServ:botaoSalvar').click();
+                                              }
