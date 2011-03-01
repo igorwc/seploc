@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="../templatepage/masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_cad_root}"/> <img src="../imgs/ponto.png"/> 
+   	<h:outputText value="#{msgs.tax_cad_cobrador}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+<style type="text/css">  
+.row1 {   
+    background-color: #EDEBEB;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+.formulario, .formulario TD, .formulario TH
+{
+	background-color : #f2f2f5;	
+}
+
+</style> 
+
+
+
+   <f:view>  
+   	   <h:form id="formClientPeriodo" enctype="UTF-8" prependId="false" >
+           <rich:panel header="Relatório">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Requisições por Período" style="width: 600px" bodyClass="formulario"  >
+                 <table	border="0"  >               
+					<tr align="left">
+					   <td>
+					       <h:outputText value="Nome do Cliente: " 
+					                     styleClass="texto"/>
+					   </td>
+					   <td>
+					       <h:outputText value="Desconto: " styleClass="texto"/>
+                             
+                        </td>     
+                        <td></td>               
+					</tr>
+					<tr>
+                        <td>
+                            <a4j:outputPanel id="inputCliente">
+                            <h:inputText  value="#{reqClientePeriodoCB.clientePeriodoMB.cliente.fantasia}" 
+                                         required="true"
+                                         requiredMessage="O nome deve ser informado."
+                                         id="cliente"
+                                         readonly="true"
+                                         size="30">                             
+                            </h:inputText> 
+                            <a4j:commandLink ajaxSingle="true" 
+                                             id="modaleditcli" 
+                                             oncomplete="#{rich:component('modalCliente')}.show();return false;">
+                                <h:graphicImage value="/imgs/botao-editar.png" 
+                                                style="border:0" />                  
+                            </a4j:commandLink>
+                            </a4j:outputPanel>
+                        </td>
+                        <td>
+                        <a4j:outputPanel id="desconto">
+                            <script type="text/javascript" >
+                                 (function($j){
+                                   $j(function()
+                                      {
+                                        $j('.seplocdecimal').setMask();
+                                      }
+                                    );
+                                 })(jQuery);  
+                            </script>
+                            <h:inputText value="#{reqClientePeriodoCB.clientePeriodoMB.desconto}"  
+                                         alt="signed-decimal" 
+                                         styleClass="seplocdecimal"
+                                         size="30"
+                                         id="descCliente">
+                                <f:converter converterId="SeplocCurrencyConverter" />
+                                <a4j:support event="onblur" 
+                                         action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}" 
+                                         reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto"></a4j:support>
+                           </h:inputText> 
+                           </a4j:outputPanel>
+                        </td>
+                        <td>
+                        </td>
+                        </tr>
+					<tr>
+					   <td colspan="1">
+					       <rich:message for="nomeCobrador" 
+					                     styleClass="error" />
+					   </td>	
+					   <td></td>
+					   <td></td> 				
+					</tr>	
+					<tr align="left">
+					   <td colspan="2">
+					       <h:outputText value="Informar Período: " 
+					                     styleClass="texto"/>
+					   </td>
+					   <td></td> 
+					</tr>
+					<tr>
+					   <td >
+					        <rich:calendar value="#{reqClientePeriodoCB.clientePeriodoMB.dataInicio}"
+                                           locale="#{reqClientePeriodoCB.locale}"
+                                           popup="true"
+                                           datePattern="dd/MM/yyyy"
+                                           showApplyButton="false" 
+                                           cellWidth="24px" 
+                                           cellHeight="22px" 
+                                           style="width:200px"
+                                           inputSize="30"
+                                           id="dataInicioCli"
+                                           
+                            >
+                            <a4j:support event="onchanged" 
+                                         action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}" 
+                                         reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,desconto"></a4j:support>
+                            <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+                           </rich:calendar>
+                             <h:outputText value=" até " styleClass="texto"/>
+                       </td>
+                       <td>
+                           
+                            <rich:calendar value="#{reqClientePeriodoCB.clientePeriodoMB.dataFim}"
+                                           locale="#{reqClientePeriodoCB.locale}"
+                                           popup="true"
+                                           datePattern="dd/MM/yyyy"
+                                           showApplyButton="false" 
+                                           cellWidth="24px" 
+                                           cellHeight="22px" 
+                                           style="width:200px"
+                                            inputSize="30"
+                                            id="dataFimCli"
+                            >
+                            <a4j:support event="onchanged" 
+                                         action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}" 
+                                         reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente"></a4j:support>
+                            <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+                            </rich:calendar>
+					   </td>
+					   <td></td> 
+					</tr>					
+					<tr>
+					   <td colspan="1">
+					       <rich:message for="fone" styleClass="error" />
+					   </td>	
+					   <td></td> 	
+					   <td></td>			
+					</tr>							
+					<tr align="left">
+					   <td>
+					       <h:outputText value="Valor Total: " 
+					                     styleClass="texto"/>
+					   </td>
+					   <td> 
+					       <h:outputText value="Valor Total: " 
+					                     styleClass="texto"/>                       
+                       </td>  
+                       <td>
+                            
+                       </td>                   
+					</tr>
+					<tr>
+					   <td colspan="1">
+					       <a4j:outputPanel id="lbValorTotal">
+					           <script type="text/javascript" >
+					               (function($j){
+					            	    $j(function(){
+					            	        $j('.seplocdecimal').setMask();
+                                        });
+					                })(jQuery);  
+                               </script>
+					               <h:outputText value="#{reqClientePeriodoCB.clientePeriodoMB.valorTotalRequisicoes}" 
+				                                 styleClass="texto seplocdecimal">
+				                       <f:converter converterId="SeplocCurrencyConverter" />
+				                    </h:outputText>
+				           </a4j:outputPanel>
+					   </td>	
+					   <td>
+					      <a4j:outputPanel  id="lbValorDesconto">
+                               <script type="text/javascript" >
+                                   (function($j){
+                                        $j(function(){
+                                            $j('.seplocdecimal').setMask();
+                                        });
+                                    })(jQuery);  
+                               </script>
+                                    <h:outputText value="#{reqClientePeriodoCB.clientePeriodoMB.valorTotalDesconto}" 
+					                              styleClass="texto seplocdecimal">
+					                    <f:converter converterId="SeplocCurrencyConverter" />
+					                </h:outputText> 
+					       </a4j:outputPanel>
+					   </td> 
+					   <td>
+					       
+					   </td> 				
+					</tr>																				
+				  </table> 
+				  <!-- Botoes -->
+                  <br/>
+                      
+<script type="text/javascript">
+function popUp(URL) {
+day = new Date();
+id = day.getTime();
+eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,resizable=1,width=800,height=600,left = 390,top = 100');");
+} 
+</script>
+                  <a4j:commandButton value="Salvar e Gerar Relatório"
+                                     action="#{cobradorCB.cobradorMB.cadastrar}" 
+                                     reRender="cadCobrador,cobradorList,cobradorSucesso"
+                                     oncomplete="#{rich:component('confirmationMessage')}.show()" />                                                                
+                  <a4j:commandButton value="#{msgs['botao.limpar']}" 
+                                     action="#{cobradorCB.cobradorMB.limpar}"
+                                     reRender="cobradorList,cadCobrador" />
+                  <a4j:commandButton value="Gerar Relatório"
+                                      actionListener="#{reqClientePeriodoCB.setaObjetosSessao}"
+                                     oncomplete="javascript:popUp('#{reqClientePeriodoCB.url}')" />
+               </rich:panel>
+               </center>
+               
+               <!-- Grid -->
+			   <rich:dataTable value="#{reqClientePeriodoCB.clientePeriodoMB.listaRequisicoes}" 
+			                   var="requisicoes"    
+                               rowClasses="row1, row2" 
+                               id="requisicaoList" 
+                               rows="8"  
+                               columnClasses="400,150,50"  
+                               onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
+                               onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+                               width="600"
+                               align="center">  
+                   <f:facet name="header">  
+                       <rich:columnGroup>  
+  
+                           <rich:column colspan="5">  
+                               <h:outputText value="Requisições Encontradas" />  
+                           </rich:column>  
+  
+                           <rich:column breakBefore="true">  
+                               <h:outputText value="NumReq" />  
+                           </rich:column>  
+  
+                           <rich:column>  
+                               <h:outputText value="Data" />  
+                           </rich:column> 
+                           
+                           <rich:column>  
+                               <h:outputText value="Projeto" />  
+                           </rich:column>  
+  
+                           <rich:column>  
+                               <h:outputText value="Subtotal" />  
+                           </rich:column> 
+  
+                       </rich:columnGroup>  
+                   </f:facet>  
+  
+                   <rich:column>  
+		               <h:outputText value="#{requisicoes.numReq}" />  
+                   </rich:column>  
+  
+                   <rich:column styleClass="col1">  
+                       <h:outputText value="#{requisicoes.data}"/>  
+                   </rich:column>  
+  
+                   <rich:column styleClass="col1">  
+                       <h:outputText value="#{requisicoes.projeto.projeto}" />  
+                   </rich:column>  
+  
+                   <rich:column styleClass="col1">
+						<h:outputText value="#{requisicoes.valorTotal}" />
+					</rich:column>
+					<f:facet name="footer">
+               			<rich:datascroller id="dsRequisicoes" maxPages="3" renderIfSinglePage="true"/>
+                  	</f:facet>  
+               </rich:dataTable>  
+               
+           </rich:panel>           
+       </h:form>
+       
+       <!-- Modal Cliente -->
+    <rich:modalPanel id="modalCliente" autosized="true" width="300" height="300">
+        <f:facet name="header" >
+            <h:outputText value="Busca Cliente" style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/imgs/icons/close.png" id="hidemodalcli" />
+                <rich:componentControl for="modalCliente" attachTo="hidemodalcli" 
+                operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <rich:dataTable value="#{reqClientePeriodoCB.listaClientesCadastrados}" var="cli" rows="10"
+                reRender="dsCliente" id="simpletable" >
+                <f:facet name="header">
+                    <rich:columnGroup>
+                        <rich:column colspan="3">
+                            <h:outputText value="Filtro de Cliente" />
+                        </rich:column>
+                        <rich:column breakBefore="true">
+                            <h:outputText value="CNPJ/CPF" />
+                        </rich:column>
+                        <rich:column>
+                            <h:outputText value="Cliente" />
+                        </rich:column>
+                        <rich:column>                           
+                        </rich:column>
+                    </rich:columnGroup>
+                </f:facet>
+                
+                <rich:column>
+                    <h:outputText value="#{cli.cnpj}" />
+                    <h:outputText value="#{cli.cpf}" />
+                </rich:column>
+                <rich:column filterBy="#{cli.fantasia}" 
+                             filterEvent="onkeyup"
+                             filterValue="#{reqServClienteCB.reqServMB.filtroCliente}" >
+                    <h:outputText value="#{cli.fantasia}" />
+                </rich:column>
+                
+                <rich:column styleClass="col1">
+                    <a4j:commandLink ajaxSingle="true" 
+                                         id="editlinkcli"  
+                                         reRender="inputCliente,dsRequisicoes,requisicaoList,lbValorTotal,lbValorDesconto,descCliente,desconto" 
+                                         action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}"
+                                         oncomplete=" #{rich:component('modalCliente')}.hide();"
+                                         >
+                        <h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+
+                        <f:setPropertyActionListener value="#{cli}"
+                                target="#{reqClientePeriodoCB.clientePeriodoMB.cliente}" />
+                            
+                    </a4j:commandLink>
+                </rich:column>  
+                <f:facet name="footer">
+                    <rich:datascroller id="dsCliente" renderIfSinglePage="true"></rich:datascroller>
+                </f:facet>
+            </rich:dataTable>   
+        </h:form>
+    </rich:modalPanel>
+        <!-- Modal -->
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de Cobrador"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="../imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
+
+       
+   </f:view>  
+   
+</ui:define>
+</ui:composition>
