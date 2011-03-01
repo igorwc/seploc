@@ -156,7 +156,20 @@
 				                    				<f:selectItem itemLabel="COLOR" itemValue="Color"/>
 				                    				<f:selectItem itemLabel="SHADE" itemValue="Shade"/>
 				                    			</h:selectOneMenu></td>							
-											<td><h:inputText id="quant" value="#{reqServClienteCB.reqServMB.linhaReqServ.quant}" size="5"/></td>							
+											<td>
+											<script type="text/javascript" >
+											  function executa(){
+												  document.getElementById('botaoSalvar').click();
+											  }
+											  
+																							  
+											</script> 
+											     <h:inputText id="quant" 
+											                  value="#{reqServClienteCB.reqServMB.linhaReqServ.quant}" 
+											                  size="5"
+											                  onkeydown="if (event.keyCode == 13 || event.which ==13)executa();"
+											                   />
+											</td>							
 										</tr>
 									</table>
 								</fieldset>
@@ -183,9 +196,16 @@
 													<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
 												</a4j:commandLink></td>
 											<td>
+											         <script type="text/javascript" >
+											              function executa2(){
+											            	    document.getElementById('botaoSalvar').click();
+											              }
+                                                     </script> 
 												<h:inputText value="#{reqServClienteCB.reqServMB.quantidadeOpcional}" 
 						 					 				size="5"
-						 					 				maxlength="5"/></td>	
+						 					 				maxlength="5"
+						 									onkeydown="if (event.keyCode == 13 || event.which ==13)executa2();"/>
+						 				  </td>	
 										</tr>
 									</table>
 								</fieldset>	
@@ -201,7 +221,8 @@
 	                  <a4j:commandButton value="#{msgs['botao.salvar']}"
 	                  action="#{reqServClienteCB.reqServMB.cadastrarBalcao}"
 	                  reRender="reqServ,linhaList,opList"
-	                  oncomplete="#{rich:component('confirmationMessage')}.show()" />                                              
+	                  oncomplete="#{rich:component('confirmationMessage')}.show()"
+	                  id="botaoSalvar" />                                              
 	                  <a4j:commandButton value="#{msgs['botao.limpar']}"  
 	                   action="#{reqServClienteCB.reqServMB.limpar}" 
 	                   reRender="reqServ,linhaList,opList"/>
