@@ -33,6 +33,7 @@ public class GrupoUsuarioMB   implements Serializable {
 	}
 
 	public List<Usuario> getListaUsuarios() {
+		listaUsuarios = usuarioDAO.getListaUsuarioSemGrupo();
 		return listaUsuarios;
 	}
 
