@@ -282,11 +282,11 @@
    <var>msgs</var>
   </resource-bundle>
  </application>
- <!-- DESCOMENTAR TRECHO ABAIXO QUANDO QUISER UTILIZAR AUTENTICAÇÃO
+ <!-- DESCOMENTAR TRECHO ABAIXO QUANDO QUISER UTILIZAR AUTENTICAÇÃO-->
 
  <lifecycle>
   <phase-listener id="AuthorizationListener">br.seploc.security.AuthorizationListener</phase-listener>
   
- </lifecycle> 
- -->
+ </lifecycle>  
+
 </faces-config>
