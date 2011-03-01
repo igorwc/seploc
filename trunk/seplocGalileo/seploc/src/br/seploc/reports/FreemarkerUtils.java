@@ -12,7 +12,7 @@ import freemarker.template.TemplateException;
 
 public class FreemarkerUtils {
 	private static Configuration cfg = new Configuration();
-	private static final String TEMPLATES_FOLDER = "src/relatorios";
+	private static final String TEMPLATES_FOLDER = "relatorios";
 
 	public static final String parseTemplate(Map map, String templateName)
 			throws TemplateException, IOException {
@@ -32,8 +32,15 @@ public class FreemarkerUtils {
 
 	public static final String parseTemplateWeb(Map map, String templateName,String dir)
 			throws TemplateException, IOException {
-		// diretório onde estão templates
-		cfg.setDirectoryForTemplateLoading(new File(dir));
+		if(dir == null){
+			
+			// diretório onde estão templates
+			cfg.setDirectoryForTemplateLoading(new File("/WEB-INF/reports/"));
+		}else{
+			// diretório onde estão templates
+			cfg.setDirectoryForTemplateLoading(new File(dir));
+		}
+		
 		cfg.setObjectWrapper(new DefaultObjectWrapper());
 		// recupera o template
 
