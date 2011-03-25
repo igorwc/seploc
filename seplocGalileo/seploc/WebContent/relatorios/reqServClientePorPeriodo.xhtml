@@ -312,7 +312,7 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
        </h:form>
        
        <!-- Modal Cliente -->
-    <rich:modalPanel id="modalCliente" autosized="true" width="300" height="300">
+    <rich:modalPanel id="modalCliente" autosized="true" width="400" height="300">
         <f:facet name="header" >
             <h:outputText value="Busca Cliente" style="padding-right:15px;" />
         </f:facet>
@@ -324,12 +324,31 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
             </h:panelGroup>
         </f:facet>
         <h:form>
-            <rich:dataTable value="#{reqClientePeriodoCB.listaClientesCadastrados}" var="cli" rows="10"
-                reRender="dsCliente" id="simpletable" >
+            <rich:panel  >
+                <f:facet name="header">
+                    Filtro
+                </f:facet>
+                <h:panelGrid columns="2">
+                    <h:inputText  value="#{reqClientePeriodoCB.clientePeriodoMB.filtroCliente}" 
+                                  id="clienteFiltro"
+                                  size="30"  >      
+                           <a4j:support event="onblur" 
+                                        action="#{reqClientePeriodoCB.clientePeriodoMB.atualizaFiltro}" 
+                                        reRender="clienteFiltro, clientesTable,outputPaginacaoCliente"
+                                        />                     
+                      </h:inputText> 
+                      <a4j:commandButton value="Limpar" action="#{reqClientePeriodoCB.clientePeriodoMB.resetaFiltro}" />
+                           
+                </h:panelGrid>
+            </rich:panel>
+            <rich:dataTable value="#{reqClientePeriodoCB.clientePeriodoMB.listaClientes}" 
+                            var="cli" 
+                            rows="10"
+                            id="clientesTable"  >
                 <f:facet name="header">
                     <rich:columnGroup>
                         <rich:column colspan="3">
-                            <h:outputText value="Filtro de Cliente" />
+                            <h:outputText value="Clientes" />
                         </rich:column>
                         <rich:column breakBefore="true">
                             <h:outputText value="CNPJ/CPF" />
@@ -346,9 +365,7 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                     <h:outputText value="#{cli.cnpj}" />
                     <h:outputText value="#{cli.cpf}" />
                 </rich:column>
-                <rich:column filterBy="#{cli.fantasia}" 
-                             filterEvent="onkeyup"
-                             filterValue="#{reqServClienteCB.reqServMB.filtroCliente}" >
+                <rich:column  >
                     <h:outputText value="#{cli.fantasia}" />
                 </rich:column>
                 
@@ -366,10 +383,35 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                             
                     </a4j:commandLink>
                 </rich:column>  
-                <f:facet name="footer">
-                    <rich:datascroller id="dsCliente" renderIfSinglePage="true"></rich:datascroller>
-                </f:facet>
-            </rich:dataTable>   
+                 
+            </rich:dataTable>  
+            <center>
+                        <h:panelGrid columns="5" style=" width : 100px;" >
+                        
+                            <a4j:commandButton
+                                    value="primeiro"
+                                    action="#{reqClientePeriodoCB.clientePeriodoMB.primeiraPaginaCliente}"
+                                    reRender="clienteFiltro, clienteFiltro,outputPaginacaoCliente"
+                                    image="/imgs/ceta_pri.png"/>
+                             <a4j:commandButton
+                                    value="anterior"
+                                    action="#{reqClientePeriodoCB.clientePeriodoMB.paginaAnteriorCliente}"
+                                    reRender="clienteFiltro, clienteFiltro,outputPaginacaoCliente"
+                                    image="/imgs/ceta_ant.png"/>   
+                             <h:outputText value="#{reqClientePeriodoCB.clientePeriodoMB.paginacaoFormatada}" id="outputPaginacaoCliente"/>                           
+                             <a4j:commandButton
+                                    value="proxima"
+                                    action="#{reqClientePeriodoCB.clientePeriodoMB.proximaPaginaCliente}"
+                                    reRender="clienteFiltro, clienteFiltro,outputPaginacaoCliente"
+                                    image="/imgs/ceta_pro.png"/>
+                             <a4j:commandButton
+                                    value="ultima"
+                                    action="#{reqClientePeriodoCB.clientePeriodoMB.ultimaPaginaCliente}"
+                                    reRender="clienteFiltro, clienteFiltro,outputPaginacaoCliente"
+                                    image="/imgs/ceta_ult.png"/>
+                                      
+                        </h:panelGrid>
+                    </center>   
         </h:form>
     </rich:modalPanel>
         <!-- Modal -->
@@ -404,7 +446,19 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
             </table>
         </h:form>
     </rich:modalPanel>
+ <rich:modalPanel id="panel_loading" autosized="true">
+            <h:graphicImage url="../imgs/ajax-loader.gif" 
+                            style="border:0px; vertical-align: middle;" />
+            <rich:spacer width="20" />
+            <h:outputText value="Aguarde..." />
+        </rich:modalPanel>
 
+       
+           
+        <a4j:status id="loading" 
+                    onstart="Richfaces.showModalPanel('panel_loading')" 
+                    onstop="Richfaces.hideModalPanel('panel_loading')" />
+    
        
    </f:view>  
    
