@@ -38,7 +38,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 		@NamedNativeQuery(name = "Cliente.RetornaClientePorFantasia", query = " SELECT * "
 				+ "FROM tbl_clientes c where vcrFantasia = :nome", resultSetMapping = "Cliente.implicit"),				
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorFantasia", query = " SELECT * "
-				+ "FROM tbl_clientes c where vcrFantasia like :nome", resultSetMapping = "Cliente.implicit"),				
+				+ "FROM tbl_clientes c where  UPPER(vcrFantasia) like :nome and intBalcao = 0", resultSetMapping = "Cliente.implicit"),				
 		@NamedNativeQuery(name = "Cliente.BuscaClientesPorRazao", query = " SELECT * "
 				+ "FROM tbl_clientes c where vcrRazao like :nome", resultSetMapping = "Cliente.implicit"),	
 		@NamedNativeQuery(name = "Cliente.BuscaClientesCadastrados", query = " SELECT * "
