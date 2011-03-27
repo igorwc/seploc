@@ -457,16 +457,19 @@
 						<f:facet name="header">
 							<rich:columnGroup>
 
-								<rich:column colspan="7">
+								<rich:column colspan="3">
 									<h:outputText value="Opcionais da Requisicao" />
 								</rich:column>
 
-								<rich:column breakBefore="true" width="600">
+								<rich:column breakBefore="true" width="500">
 									<h:outputText value="Descricao" />
 								</rich:column>
 								<rich:column width="100">
 									<h:outputText value="Quantidade" />
 								</rich:column>
+								<rich:column width="100">
+									<h:outputText value="Valor Unit." />
+								</rich:column>								
 							</rich:columnGroup>
 						</f:facet>
 
@@ -477,6 +480,10 @@
 							<h:outputText value="#{opc.quantidade}">								
 							</h:outputText>
 						</rich:column>
+						<rich:column>
+							<h:outputText value="#{opc.opcionaisReqServ.valorItem}">								
+							</h:outputText>
+						</rich:column>						
 						<f:facet name="footer">
 							<rich:datascroller id="dsopcrs" renderIfSinglePage="true"></rich:datascroller>
 						</f:facet>
