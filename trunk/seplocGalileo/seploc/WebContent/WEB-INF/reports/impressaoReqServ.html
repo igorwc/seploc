@@ -51,7 +51,7 @@
 </head>
 <body style="font: serif; font-size: 9px;">
 
-<div><#assign counter=0> <#list dados as linha>
+<div><#assign counter=1> <#list dados as linha>
 
 <center>
 
@@ -73,7 +73,7 @@
 					<td valign="bottom">Impressao:
 					${current_date?string("yyyy-MM-dd")}<br>
 
-					Pagina: ${paginacao}/${paginacao_total}</td>
+					Pagina: ${counter}/${paginacao_total}</td>
 				</tr>
 
 			</tbody>
@@ -190,7 +190,7 @@
 					<td valign="bottom">Impressao:
 					${current_date?string("yyyy-MM-dd")}<br>
 
-					Pagina: ${paginacao}/${paginacao_total}</td>
+					Pagina: ${counter}/${paginacao_total}</td>
 				</tr>
 
 			</tbody>
@@ -289,6 +289,7 @@
 </center>
 <br>
 <br>
+<#assign counter = counter + 1>
 </#list></div>
 
 </body>
