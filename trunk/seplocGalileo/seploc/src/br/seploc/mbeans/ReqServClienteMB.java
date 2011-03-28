@@ -450,9 +450,9 @@ public class ReqServClienteMB implements Serializable {
 								* linhaReqServ.getQuant());
 	
 						reqServicoDAO.addLinha(reqServico, linhaReqServ);					
-					}				
-					reqServicoDAO.altera(reqServico);
+					}
 					reqServico.setValorTotal(calcularTotal(reqServico));
+					reqServicoDAO.altera(reqServico);					
 					setValorTotalReq(reqServico.getValorTotal());				
 					addGlobalMessage("Inclusão feita com sucesso!");
 				} catch (ValidatorException e) {
@@ -508,7 +508,7 @@ public class ReqServClienteMB implements Serializable {
 						}
 						// verificar se foi alterado o projeto
 						Projeto p = this.projeto;
-						if (!temp.getProjeto().equals(p)){
+						if (temp.getProjeto().equals(p)){
 							temp.setProjeto(projeto);						
 						}			
 						
@@ -516,14 +516,23 @@ public class ReqServClienteMB implements Serializable {
 						Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");					 
 						System.out.println("Usuario Alterador: "+user.getLogin());
 						reqServUsuario = temp.getRequisicaoUsuario();
-						reqServUsuario.setUsuarioAlteracao(user);
+						if (reqServUsuario == null) {
+							// setar data de criacao da requisicao
+							java.util.Date data = new java.util.Date();
+							java.sql.Date hoje = new java.sql.Date(data.getTime());
+							reqServUsuario = new ReqServUsuario(user, reqServico);
+							reqServUsuario.setData(hoje);							
+						} else {
+							reqServUsuario.setUsuarioAlteracao(user);
+						}
+							
 						temp.setRequisicaoUsuario(reqServUsuario);					
 						
 						temp.setValorTotal(this.calcularTotal(temp));					
 						reqServicoDAO.altera(temp);
 						reqServico = reqServicoDAO.recupera(temp.getNumReq());
 						setValorTotalReq(reqServico.getValorTotal());
-						temp.setProjeto(reqServico.getProjeto());
+						//temp.setProjeto(reqServico.getProjeto());						
 						usuarioAlterouReqServ(reqServico);
 						addGlobalMessage("Atualização feita com sucesso!");
 					}
@@ -632,8 +641,8 @@ public class ReqServClienteMB implements Serializable {
 	public void limpar() {
 		cliente = new Cliente();
 		cliente.setIdCliente(0);
-		opcional = new OpcionaisReqServ();
-		entrega = new Entrega();
+		opcional = new OpcionaisReqServ();		
+		entrega = new Entrega();		
 		papel = new Papel();
 		projeto = new Projeto();
 		linhaReqServ = new LinhaRequisicao();

@@ -445,10 +445,10 @@ public class ReqServListaMB implements Serializable {
 					reqServicoDAO.addLinha(temp, linha);
 				}
 			}
-			// totais
+			// totais			
 			temp.setValorTotal(reqServico.getValorTotal());
 			temp.setValorDesconto(reqServico.getValorDesconto());
-
+			reqServicoDAO.altera(temp);
 			FacesContext.getCurrentInstance().getExternalContext()
 					.getSessionMap().put("numReqServ", temp.getNumReq());
 		} catch (Exception e) {
