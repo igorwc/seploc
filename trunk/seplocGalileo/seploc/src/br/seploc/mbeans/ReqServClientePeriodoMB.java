@@ -33,6 +33,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 	private String filtroCliente;
 	private String filtroClienteAnterior;
 	private FilteredNameClientesPager clientePager;
+	private boolean resetaFiltroCliente;
 
 	// METODOS NEGOCIO
 	public List<RequisicaoServico> buscaRequisicoes() {
@@ -73,6 +74,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 		filtroClienteAnterior = "";
 		clientePager = new FilteredNameClientesPager();
 		clientePager.init(10);
+		resetaFiltroCliente = false;
 	}
 
 	public Double atualizaValorTotalRequisicoes() {
@@ -97,6 +99,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 
 	public void resetaFiltro() {
 		filtroCliente = "";
+		resetaFiltroCliente = true;
 	}
 
 	public void putReportParameters() {
@@ -222,7 +225,13 @@ public class ReqServClientePeriodoMB implements Serializable {
 
 	public List<Cliente> getListaClientes() {
 		List<Cliente> retorno = new ArrayList<Cliente>();
-		
+		if(resetaFiltroCliente){
+			clientePager = new FilteredNameClientesPager(filtroCliente);
+			clientePager.init(10);
+			retorno = clientePager.getCurrentResults();
+			resetaFiltroCliente = false;
+			return retorno;
+		}
 		if (filtroClienteAnterior.equals(filtroCliente)) {
 			if (null != clientePager) {
 				retorno = clientePager.getCurrentResults();
