@@ -81,8 +81,9 @@ public class ReqServClienteMB implements Serializable {
 	}
 
 	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+		this.cliente = new Cliente();
 		this.projeto = new Projeto();
+		this.cliente = cliente;
 		this.filtroProjeto = "";
 		System.out.println("Limpou o cliente");
 		System.out.println("cliente: "+cliente.getFantasia().toString());		
@@ -261,7 +262,7 @@ public class ReqServClienteMB implements Serializable {
 	public List<Cliente> getTodosClientes() {
 		ClienteDAO clienteDAO = new ClienteDAO();
 		List<Cliente> retorno = clienteDAO.getListaClientesCadastrados();
-		filtroCliente = "";
+		filtroCliente = "";		
 		return retorno;
 	}
 
@@ -289,18 +290,18 @@ public class ReqServClienteMB implements Serializable {
 	public List<Projeto> getTodosProjetos() {
 
 		List<Projeto> retorno = null;
-		if (cliente == null || cliente.getIdCliente().intValue() == 0) {
+		if (this.cliente == null || this.cliente.getIdCliente().intValue() == 0) {
 			retorno = new ArrayList<Projeto>();
 		} else {
-			if(cliente.getProjetos().isEmpty()){
+			if(this.cliente.getProjetos().isEmpty()){
 				retorno = new ArrayList<Projeto>();
 				Projeto p = new Projeto();
 				p.setCodProj(0);
 				p.setProjeto("Cliente não tem projetos");
 				retorno.add(p);
 			}else{
-				retorno = cliente.getProjetos();
-				System.out.println("cli: "+cliente.getFantasia().toString());
+				retorno = this.cliente.getProjetos();
+				System.out.println("cli: "+this.cliente.getFantasia().toString());
 			}
 		}
 		return retorno;
@@ -502,13 +503,15 @@ public class ReqServClienteMB implements Serializable {
 						if (entrega != null){
 							if (temp.getEntrega() == null){
 								//temp.setEntrega(entrega);
+								System.out.println("Entrega nulo");
 							} else if (!temp.getEntrega().equals(entrega)){
 								temp.setEntrega(entrega);
+								System.out.println("Entrega: "+entrega.getLocal());
 							}					
 						}
 						// verificar se foi alterado o projeto
 						Projeto p = this.projeto;
-						if (temp.getProjeto().equals(p)){
+						if (!temp.getProjeto().equals(p)){
 							temp.setProjeto(projeto);						
 						}			
 						
