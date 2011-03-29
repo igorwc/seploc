@@ -185,7 +185,7 @@
 					                     styleClass="texto"/>
 					   </td>
 					   <td> 
-					       <h:outputText value="Valor Total: " 
+					       <h:outputText value="Valor Total com Desconto: " 
 					                     styleClass="texto"/>                       
                        </td>  
                        <td>
@@ -284,6 +284,9 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                            <rich:column>  
                                <h:outputText value="Subtotal" />  
                            </rich:column> 
+                           <rich:column>  
+                                
+                           </rich:column> 
   
                        </rich:columnGroup>  
                    </f:facet>  
@@ -303,6 +306,17 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                    <rich:column styleClass="col1">
 						<h:outputText value="#{requisicoes.valorTotal}" />
 					</rich:column>
+					<rich:column styleClass="col1">
+					   <a4j:commandLink ajaxSingle="true" 
+                                             id="printlinkreq"
+                                             reRender="reqServList"
+                                             action="#{reqServListaCB.reqServListaMB.imprimir}">
+                                <h:graphicImage value="/imgs/print_icon.gif" style="border:0" />
+                                <f:setPropertyActionListener value="#{req}"
+                                    target="#{reqServListaCB.reqServListaMB.reqServico}" />
+                       </a4j:commandLink>
+                       <rich:toolTip for="printlinkreq" value="Imprimir Requisicao" />
+                     </rich:column>
 					<f:facet name="footer">
                			<rich:datascroller id="dsRequisicoes" maxPages="3" renderIfSinglePage="true"/>
                   	</f:facet>  
@@ -328,23 +342,25 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                 <f:facet name="header">
                     Filtro
                 </f:facet>
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="3">
                     <h:inputText  value="#{reqClientePeriodoCB.clientePeriodoMB.filtroCliente}" 
                                   id="clienteFiltro"
                                   size="30"  >      
-                           <a4j:support event="onblur" 
-                                        action="#{reqClientePeriodoCB.clientePeriodoMB.atualizaFiltro}" 
-                                        reRender="clienteFiltro, clientesTable,outputPaginacaoCliente"
-                                        />                     
                       </h:inputText> 
-                      <a4j:commandButton value="Limpar" action="#{reqClientePeriodoCB.clientePeriodoMB.resetaFiltro}" />
+                      <a4j:commandButton value="buscar" 
+                                         action="#{reqClientePeriodoCB.clientePeriodoMB.atualizaFiltro}" 
+                                         reRender="clienteFiltro, clientesTable,outputPaginacaoCliente"/>
+                      <a4j:commandButton value="Limpar" 
+                                         action="#{reqClientePeriodoCB.clientePeriodoMB.resetaFiltro}" 
+                                         reRender="clienteFiltro, clientesTable,outputPaginacaoCliente"/>
                            
                 </h:panelGrid>
             </rich:panel>
             <rich:dataTable value="#{reqClientePeriodoCB.clientePeriodoMB.listaClientes}" 
                             var="cli" 
                             rows="10"
-                            id="clientesTable"  >
+                            id="clientesTable"  
+                            width="100%">
                 <f:facet name="header">
                     <rich:columnGroup>
                         <rich:column colspan="3">
@@ -391,23 +407,23 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                             <a4j:commandButton
                                     value="primeiro"
                                     action="#{reqClientePeriodoCB.clientePeriodoMB.primeiraPaginaCliente}"
-                                    reRender="clienteFiltro, clienteFiltro,outputPaginacaoCliente"
+                                    reRender="clienteFiltro, clienteFiltro,clientesTable,outputPaginacaoCliente"
                                     image="/imgs/ceta_pri.png"/>
                              <a4j:commandButton
                                     value="anterior"
                                     action="#{reqClientePeriodoCB.clientePeriodoMB.paginaAnteriorCliente}"
-                                    reRender="clienteFiltro, clienteFiltro,outputPaginacaoCliente"
+                                    reRender="clienteFiltro, clienteFiltro,clientesTable,outputPaginacaoCliente"
                                     image="/imgs/ceta_ant.png"/>   
                              <h:outputText value="#{reqClientePeriodoCB.clientePeriodoMB.paginacaoFormatada}" id="outputPaginacaoCliente"/>                           
                              <a4j:commandButton
                                     value="proxima"
                                     action="#{reqClientePeriodoCB.clientePeriodoMB.proximaPaginaCliente}"
-                                    reRender="clienteFiltro, clienteFiltro,outputPaginacaoCliente"
+                                    reRender="clienteFiltro, clienteFiltro,clientesTable,outputPaginacaoCliente"
                                     image="/imgs/ceta_pro.png"/>
                              <a4j:commandButton
                                     value="ultima"
                                     action="#{reqClientePeriodoCB.clientePeriodoMB.ultimaPaginaCliente}"
-                                    reRender="clienteFiltro, clienteFiltro,outputPaginacaoCliente"
+                                    reRender="clienteFiltro, clienteFiltro,clientesTable,outputPaginacaoCliente"
                                     image="/imgs/ceta_ult.png"/>
                                       
                         </h:panelGrid>
