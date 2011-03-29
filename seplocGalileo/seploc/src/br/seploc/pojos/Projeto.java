@@ -131,8 +131,8 @@ public class Projeto implements Serializable  {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
 		Projeto other = (Projeto) obj;
 		if (codProj == null) {
 			if (other.codProj != null)

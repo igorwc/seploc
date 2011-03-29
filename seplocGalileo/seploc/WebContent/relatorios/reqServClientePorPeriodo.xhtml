@@ -269,34 +269,38 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                                <h:outputText value="Requisições Encontradas" />  
                            </rich:column>  
   
-                           <rich:column breakBefore="true">  
+                           <rich:column breakBefore="true" width="80">  
                                <h:outputText value="NumReq" />  
                            </rich:column>  
   
-                           <rich:column>  
+                           <rich:column width="80">  
                                <h:outputText value="Data" />  
                            </rich:column> 
                            
-                           <rich:column>  
+                           <rich:column width="300">  
                                <h:outputText value="Projeto" />  
                            </rich:column>  
   
-                           <rich:column>  
+                           <rich:column width="90">  
                                <h:outputText value="Subtotal" />  
                            </rich:column> 
-                           <rich:column>  
+                           <rich:column  width="50">  
                                 
                            </rich:column> 
   
                        </rich:columnGroup>  
                    </f:facet>  
   
-                   <rich:column>  
-		               <h:outputText value="#{requisicoes.numReq}" />  
+                   <rich:column styleClass="col1">  
+		               <h:outputText value="#{requisicoes.numReq}">
+		                   <f:convertNumber pattern="#000000"/>
+		               </h:outputText>  
                    </rich:column>  
   
                    <rich:column styleClass="col1">  
-                       <h:outputText value="#{requisicoes.data}"/>  
+                       <h:outputText value="#{requisicoes.data}">
+                            <f:convertDateTime pattern="dd-MM-yyyy" type="date" />
+                       </h:outputText>  
                    </rich:column>  
   
                    <rich:column styleClass="col1">  
@@ -304,7 +308,9 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                    </rich:column>  
   
                    <rich:column styleClass="col1">
-						<h:outputText value="#{requisicoes.valorTotal}" />
+						<h:outputText value="#{requisicoes.valorTotal}" >
+							<f:convertNumber type="currency" currencySymbol="R$"/>
+						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="col1">
 					   <a4j:commandLink ajaxSingle="true" 
