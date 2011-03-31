@@ -238,14 +238,14 @@ id = day.getTime();
 eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,resizable=1,width=800,height=600,left = 390,top = 100');");
 } 
 </script>
-                  <a4j:commandButton value="Salvar e Gerar Relatório"
+                  <a4j:commandButton value="Salvar desconto"
                                      action="#{cobradorCB.cobradorMB.cadastrar}" 
                                      reRender="cadCobrador,cobradorList,cobradorSucesso"
                                      oncomplete="#{rich:component('confirmationMessage')}.show()" />                                                                
                   <a4j:commandButton value="#{msgs['botao.limpar']}" 
                                      action="#{cobradorCB.cobradorMB.limpar}"
                                      reRender="cobradorList,cadCobrador" />
-                  <a4j:commandButton value="Gerar Relatório"
+                  <a4j:commandButton value="Imprimir Lista"
                                       actionListener="#{reqClientePeriodoCB.setaObjetosSessao}"
                                      oncomplete="javascript:popUp('#{reqClientePeriodoCB.url}')" />
                </rich:panel>
@@ -316,10 +316,11 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
 					   <a4j:commandLink ajaxSingle="true" 
                                              id="printlinkreq"
                                              reRender="reqServList"
-                                             action="#{reqServListaCB.reqServListaMB.imprimir}">
+                                             action="#{reqClientePeriodoCB.clientePeriodoMB.geraURLImpressao}"
+                                             oncomplete="javascript:popUp('#{reqClientePeriodoCB.clientePeriodoMB.urlReqImpressao}')">
                                 <h:graphicImage value="/imgs/print_icon.gif" style="border:0" />
-                                <f:setPropertyActionListener value="#{req}"
-                                    target="#{reqServListaCB.reqServListaMB.reqServico}" />
+                                <f:setPropertyActionListener value="#{requisicoes}"
+                                    target="#{reqClientePeriodoCB.clientePeriodoMB.reqImpressao}" />
                        </a4j:commandLink>
                        <rich:toolTip for="printlinkreq" value="Imprimir Requisicao" />
                      </rich:column>
