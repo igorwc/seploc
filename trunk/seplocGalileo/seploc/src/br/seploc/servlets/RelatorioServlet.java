@@ -66,8 +66,10 @@ public class RelatorioServlet extends HttpServlet {
 		ReportImpressaoReqServGenerator rr = new ReportImpressaoReqServGenerator();
 		Connection conexao = new ConnectionFactory().getConnection("seploc2",
 				"root", "");
+		int reqID = Integer.parseInt(request.getParameter("reqID"));
+		System.out.println("Numero da requisicao da solicitação: "+reqID);
 		rr.setConnection(conexao);
-		rr.setNumRequisicao(109251);
+		rr.setNumRequisicao(reqID);
 		rr.geraDados();
 		// rr.imprimeDados();
 		out.print(rr.imprimeDadosWeb2(d)); 
