@@ -51,7 +51,7 @@
 </head>
 <body style="font: serif; font-size: 9px;">
 
-<div><#assign counter=0> <#list dados as linha>
+<div><#assign counter=1> <#list dados as linha>
 
 <center>
 
@@ -73,7 +73,7 @@
 					<td valign="bottom">Impressao:
 					${current_date?string("yyyy-MM-dd")}<br>
 
-					Pagina: ${paginacao}/${paginacao_total}</td>
+					Pagina: ${counter}/${paginacao_total}</td>
 				</tr>
 
 			</tbody>
@@ -97,9 +97,9 @@
 					<td colspan="3">${cliente.endereco}</td>
 				</tr>
 				<tr>
-					<td style="width: 15%" class='reqtable'>Cidade /UF:</td>
-					<td style="width: 45%" class='reqtable'>${cliente.localidade}</td>
-					<td style="width: 10%"class='reqtable'>Bairro:</td>
+					<td style="width: 15%">Cidade /UF:</td>
+					<td style="width: 45%">${cliente.localidade}</td>
+					<td style="width: 10%">Bairro:</td>
 					<td style="width: 30%">${cliente.bairro}</td>
 				</tr>
 				<tr>
@@ -139,6 +139,10 @@
                 <td>${elemento.subTotal}</td>
             </tr>
 				<#assign row = row + 1> </#list>
+				<tr    >
+                <td align="righ" colspan="9"> ${subs[x]}</td>
+                
+            </tr>
 		</table>
 		<hr style="color: #000000;" size="1">
 		<table width="100%" class="tabprim">
@@ -149,8 +153,8 @@
 				<td style="width: 60%">Requisi&ccedil;&atilde;o sem Opcionais</td>
 				<td style="width: 15%; text-align: right;">Total do Projeto
 				(R$):</td>
-				<#assign x = linha_index>
 				<td style="width: 5%; text-align: left;">${subs[x]}</td>
+				<#assign x = linha_index>
 			</tr>
 		</table>
 		<hr>
@@ -190,7 +194,7 @@
 					<td valign="bottom">Impressao:
 					${current_date?string("yyyy-MM-dd")}<br>
 
-					Pagina: ${paginacao}/${paginacao_total}</td>
+					Pagina: ${counter}/${paginacao_total}</td>
 				</tr>
 
 			</tbody>
@@ -289,6 +293,7 @@
 </center>
 <br>
 <br>
+<#assign counter = counter + 1>
 </#list></div>
 
 </body>
