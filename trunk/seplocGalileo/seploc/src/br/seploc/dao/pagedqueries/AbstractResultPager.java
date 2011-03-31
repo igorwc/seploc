@@ -1,5 +1,6 @@
 package br.seploc.dao.pagedqueries;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -7,7 +8,12 @@ import javax.persistence.Query;
 
 import br.seploc.util.PersistenceServiceFactory;
 
-public abstract class AbstractResultPager<T> implements IResultPager<T> {
+public abstract class AbstractResultPager<T> implements IResultPager<T>, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	protected EntityManager em;
 

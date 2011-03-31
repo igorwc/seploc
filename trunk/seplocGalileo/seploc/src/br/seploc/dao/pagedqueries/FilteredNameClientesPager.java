@@ -1,5 +1,7 @@
 package br.seploc.dao.pagedqueries;
 
+import java.io.Serializable;
+
 import javax.persistence.Query;
 
 import br.seploc.pojos.Cliente;
