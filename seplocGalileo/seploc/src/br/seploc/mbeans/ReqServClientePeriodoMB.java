@@ -12,7 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.ServletContext;
 
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.dao.pagedqueries.FilteredNameClientesPager;
@@ -34,6 +36,8 @@ public class ReqServClientePeriodoMB implements Serializable {
 	private String filtroClienteAnterior;
 	private FilteredNameClientesPager clientePager;
 	private boolean resetaFiltroCliente;
+	private RequisicaoServico reqImpressao;
+	private String urlReqImpressao;
 
 	// METODOS NEGOCIO
 	public List<RequisicaoServico> buscaRequisicoes() {
@@ -75,6 +79,8 @@ public class ReqServClientePeriodoMB implements Serializable {
 		clientePager = new FilteredNameClientesPager();
 		clientePager.init(10);
 		resetaFiltroCliente = false;
+		reqImpressao = new RequisicaoServico();
+		urlReqImpressao = "";
 	}
 
 	public Double atualizaValorTotalRequisicoes() {
@@ -225,7 +231,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 
 	public List<Cliente> getListaClientes() {
 		List<Cliente> retorno = new ArrayList<Cliente>();
-		if(resetaFiltroCliente){
+		if (resetaFiltroCliente) {
 			clientePager = new FilteredNameClientesPager(filtroCliente);
 			clientePager.init(10);
 			retorno = clientePager.getCurrentResults();
@@ -259,11 +265,13 @@ public class ReqServClientePeriodoMB implements Serializable {
 	public void atualizaFiltro() {
 		System.out.println(filtroCliente);
 	}
+
 	public void atualizaFiltro2(ActionEvent e) {
-		Map entrada =  e.getComponent().getAttributes();
-		filtroCliente = (String)entrada.get("value");
+		Map entrada = e.getComponent().getAttributes();
+		filtroCliente = (String) entrada.get("value");
 		System.out.println(filtroCliente);
 	}
+
 	public int getClienteCurrentPage() {
 		return clientePager.getCurrentPage();
 	}
@@ -291,6 +299,34 @@ public class ReqServClientePeriodoMB implements Serializable {
 
 	public void proximaPaginaCliente() {
 		clientePager.proximaPagina();
+	}
+
+	
+	public String getUrlReqImpressao() {
+		return urlReqImpressao;
+	}
+
+	public void geraURLImpressao( ){
+		FacesContext fcontext = FacesContext.getCurrentInstance();
+		   ServletContext scontext = (ServletContext) fcontext.getExternalContext
+		().getContext();
+		int reqID = 0;
+		   if (reqImpressao == null || reqImpressao.getNumReq() == null){
+			   reqID = 0;
+		   }else{
+			   reqID = reqImpressao.getNumReq();
+		   }
+      
+		urlReqImpressao = scontext.getContextPath()+"/RelPeriodoCliente.report?reqID="+reqID;
+	}
+
+	
+	public RequisicaoServico getReqImpressao() {
+		return reqImpressao;
+	}
+
+	public void setReqImpressao(RequisicaoServico reqImpressao) {
+		this.reqImpressao = reqImpressao;
 	}
 
 	public String getPaginacaoFormatada() {
