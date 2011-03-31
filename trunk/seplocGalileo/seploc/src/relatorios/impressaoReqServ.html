@@ -51,7 +51,7 @@
 </head>
 <body style="font: serif; font-size: 9px;">
 
-<div><#assign counter=0> <#list dados as linha>
+<div><#assign counter=1> <#list dados as linha>
 
 <center>
 
@@ -73,7 +73,7 @@
 					<td valign="bottom">Impressao:
 					${current_date?string("yyyy-MM-dd")}<br>
 
-					Pagina: ${paginacao}/${paginacao_total}</td>
+					Pagina: ${counter}/${paginacao_total}</td>
 				</tr>
 
 			</tbody>
@@ -139,6 +139,12 @@
                 <td>${elemento.subTotal}</td>
             </tr>
 				<#assign row = row + 1> </#list>
+				<tr    >
+				<#assign x = linha_index>
+				<td align="right" colspan="8"> <strong>Subtotal:</strong></td>
+                <td align="left"  > R$ ${subs[x]}</td>
+                
+            </tr>
 		</table>
 		<hr style="color: #000000;" size="1">
 		<table width="100%" class="tabprim">
@@ -149,8 +155,8 @@
 				<td style="width: 60%">Requisi&ccedil;&atilde;o sem Opcionais</td>
 				<td style="width: 15%; text-align: right;">Total do Projeto
 				(R$):</td>
-				<#assign x = linha_index>
 				<td style="width: 5%; text-align: left;">${subs[x]}</td>
+				<#assign x = linha_index>
 			</tr>
 		</table>
 		<hr>
@@ -190,7 +196,7 @@
 					<td valign="bottom">Impressao:
 					${current_date?string("yyyy-MM-dd")}<br>
 
-					Pagina: ${paginacao}/${paginacao_total}</td>
+					Pagina: ${counter}/${paginacao_total}</td>
 				</tr>
 
 			</tbody>
@@ -289,6 +295,7 @@
 </center>
 <br>
 <br>
+<#assign counter = counter + 1>
 </#list></div>
 
 </body>
