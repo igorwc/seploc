@@ -12,7 +12,7 @@ import freemarker.template.TemplateException;
 
 public class FreemarkerUtils {
 	private static Configuration cfg = new Configuration();
-	private static final String TEMPLATES_FOLDER = "relatorios";
+	private static final String TEMPLATES_FOLDER = "src/relatorios";
 
 	public static final String parseTemplate(Map map, String templateName)
 			throws TemplateException, IOException {
