@@ -151,11 +151,11 @@
 			<tr>
 				<td style="width: 5%">Entrega:</td>
 				<td style="width: 10%">R$ ${entrega}</td>
-				<td style="width: 5%">Opcionais:</td>
-				<td style="width: 60%">Requisi&ccedil;&atilde;o sem Opcionais</td>
-				<td style="width: 15%; text-align: right;">Total do Projeto
-				(R$):</td>
-				<td style="width: 5%; text-align: left;">${subs[x]}</td>
+				<td colspan="2" style="width: 65%"></td>				
+				<#if (${counter} == ${paginacao_total})>Total do Projeto
+				(R$):<#else> </#if></td>
+				<td style="width: 5%; text-align: left;">
+				<#if (${counter} == ${paginacao_total})>${subs[x]}<#else> </#if></td>
 				<#assign x = linha_index>
 			</tr>
 		</table>
@@ -269,12 +269,13 @@
 			<tr>
 				<td style="width: 5%">Entrega:</td>
 				<td style="width: 10%">R$ ${entrega}</td>
-				<td style="width: 5%">Opcionais:</td>
-				<td style="width: 60%">Requisi&ccedil;&atilde;o sem Opcionais</td>
-				<td style="width: 15%; text-align: right;">Total do Projeto
-				(R$):</td>
+				<td colspan="2" style="width: 65%"></td>
+				<td style="width: 15%; text-align: right;">
+				<#if (${counter} == ${paginacao_total})>Total do Projeto
+				(R$):<#else> </#if></td>				
+				<td style="width: 5%; text-align: left;">
+				<#if (${counter} == ${paginacao_total})>${subs[x]}<#else> </#if></td>
 				<#assign x = linha_index>
-				<td style="width: 5%; text-align: left;">${subs[x]}</td>
 			</tr>
 		</table>
 		<hr>
