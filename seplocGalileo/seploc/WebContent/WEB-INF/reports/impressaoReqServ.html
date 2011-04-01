@@ -250,8 +250,7 @@
                     <th>SubTotal</th>
                 </tr>
                 <#assign row=0> <#list linha as elemento>
-                <tr class='
-                    <#if (row % 2) == 0>alt<#else>nada</#if>' >
+                <tr class="<#if (row % 2) == 0>alt<#else>nada</#if>" >
                     <td>${elemento.seq}</td>
                 <td>${elemento.item}</td>
                 <td>${elemento.formato}</td>
