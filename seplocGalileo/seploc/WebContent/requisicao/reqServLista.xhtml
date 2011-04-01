@@ -284,13 +284,21 @@
 							<rich:toolTip for="deletelinkreq" value="#{sessionScope.REQUISICOES_ESC == true ? 'Nao tem permissao' : 'Apagar Requisicao'}" />
 						    <rich:spacer width="5px"/>
 						    <!-- imprimir -->
+							<script type="text/javascript">
+							function popUp(URL) {
+							day = new Date();
+							id = day.getTime();
+							eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,resizable=1,width=800,height=600,left = 390,top = 100');");
+							} 
+							</script>						    
 							<a4j:commandLink ajaxSingle="true" 
 											 id="printlinkreq"
-											 reRender="reqServList"
-											 action="#{reqServListaCB.reqServListaMB.imprimir}">
+											 reRender="reqServList"											 
+                                             action="#{reqServListaCB.reqServListaMB.geraURLImpressao}"
+                                             oncomplete="javascript:popUp('#{reqServListaCB.reqServListaMB.urlReqImpressao}')">											 
 								<h:graphicImage value="/imgs/print_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{req}"
-									target="#{reqServListaCB.reqServListaMB.reqServico}" />
+									target="#{reqServListaCB.reqServListaMB.reqImpressao}" />
 							</a4j:commandLink>
 							<rich:toolTip for="printlinkreq" value="Imprimir Registro" />
 						    <rich:spacer width="5px"/>
@@ -363,7 +371,8 @@
 					<tr>												
 						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.numReq}" styleClass="texto"><f:convertNumber pattern="#000000" /></h:outputText></td>
 						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.valorTotal}" styleClass="texto"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText></td>
-						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.entrega.local}"  styleClass="texto"/></td>
+						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.entrega.local}"  styleClass="texto"/> 
+						    <h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.entrega.preco}"  styleClass="texto"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText></td>
 					</tr>
 					<tr>
 						<td colspan="2"><h:outputText value="Cliente:" styleClass="tituloCampo"/></td>

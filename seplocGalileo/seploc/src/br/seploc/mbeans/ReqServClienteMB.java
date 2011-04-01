@@ -502,8 +502,8 @@ public class ReqServClienteMB implements Serializable {
 						// verificar se existe alteracao na entrega
 						if (entrega != null){
 							if (temp.getEntrega() == null){
-								//temp.setEntrega(entrega);
-								System.out.println("Entrega nulo");
+								temp.setEntrega(entrega);
+								System.out.println("Entrega: "+entrega.getLocal());
 							} else if (!temp.getEntrega().equals(entrega)){
 								temp.setEntrega(entrega);
 								System.out.println("Entrega: "+entrega.getLocal());
@@ -673,6 +673,9 @@ public class ReqServClienteMB implements Serializable {
 				cliente = projeto.getCliente();
 				entrega = reqServico.getEntrega();
 				valorTotalReq = reqServico.getValorTotal();
+				
+				// limpar a memória
+				SessionObjectsManager.removeObjetoSessao("numReqServ");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

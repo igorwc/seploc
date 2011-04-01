@@ -14,13 +14,13 @@ Listar Requisicoes
     
 Cadastrar Requisicao Cliente Cadastrado
     Colocar Listener para o ENTER, no campo quantidade de opcionais e linha --> Resolvido em requisicao de cliente balcao/cliente cadastrado
-    Atualizacao de projetos ao mudar cliente e o preço
-    Atualizacao de preço de entrega
+    Atualizacao de projetos ao mudar cliente e o preço --> resolvido
+    Atualizacao de preço de entrega  --> resolvido
     
 Acesso
  -> nao popula combo de usuario ---> Resolvido
  
- Requisicao Cliente Cadastrado, não muda projeto
+ Requisicao Cliente Cadastrado, não muda projeto  --> resolvido
  Listar Requisicao: 
  
 
