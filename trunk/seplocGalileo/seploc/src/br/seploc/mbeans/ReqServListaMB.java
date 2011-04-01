@@ -9,6 +9,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.Query;
+import javax.servlet.ServletContext;
 
 import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
@@ -25,6 +26,7 @@ public class ReqServListaMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private RequisicaoServico reqServico;
+	private RequisicaoServico reqImpressao;
 	private RequisicaoServicoDAO reqServicoDAO;
 	private int numReqBusca;
 	private int numReqVisualizar;
@@ -34,6 +36,7 @@ public class ReqServListaMB implements Serializable {
 	private Date dataFim;
 	private String filtroProjeto;
 	private String filtroCliente;
+	private String urlReqImpressao;
 	private Cliente cliente;
 	private Projeto projeto;
 	private boolean datasInvalidas = false;
@@ -84,6 +87,10 @@ public class ReqServListaMB implements Serializable {
 		reqServPager.setCurrentPage(0);
 		reqCurrentPage = 0;
 		
+	}
+	
+	public String getUrlReqImpressao() {
+		return urlReqImpressao;
 	}
 
 	public List<Integer> getReqServPages(){
@@ -192,6 +199,7 @@ public class ReqServListaMB implements Serializable {
 	private void load() {
 		reqServicoDAO = new RequisicaoServicoDAO();
 		reqServico = new RequisicaoServico();
+		reqImpressao = new RequisicaoServico();
 		cliente = new Cliente();
 		projeto = new Projeto();
 		numReqBusca = 0;
@@ -200,6 +208,7 @@ public class ReqServListaMB implements Serializable {
 		Query q = clientesPager.getEntityManager().createNamedQuery(
 				"Cliente.RetornaClientes");
 		clientesPager.init(10, q);
+		urlReqImpressao = "";
 	}
 
 	// GETTERS E SETTERS
@@ -318,8 +327,16 @@ public class ReqServListaMB implements Serializable {
 
 	public boolean isDatasInvalidas() {
 		return datasInvalidas;
-	}
+	}	
 
+	public RequisicaoServico getReqImpressao() {
+		return reqImpressao;
+	}	
+	
+	public void setReqImpressao(RequisicaoServico reqImpressao) {
+		this.reqImpressao = reqImpressao;
+	}
+	
 	public List<RequisicaoServico> getListaReqServ() {
 		// setar data de 60 dias atras
 		Calendar calendarData = Calendar.getInstance();
@@ -341,7 +358,23 @@ public class ReqServListaMB implements Serializable {
 
 		return lista;
 	}
+	
 
+	public void geraURLImpressao( ){
+		FacesContext fcontext = FacesContext.getCurrentInstance();
+		   ServletContext scontext = (ServletContext) fcontext.getExternalContext
+		().getContext();
+		int reqID = 0;
+		   if (reqImpressao == null || reqImpressao.getNumReq() == null){
+			   reqID = 0;
+		   }else{
+			   reqID = reqImpressao.getNumReq();
+		   }
+      
+		urlReqImpressao = scontext.getContextPath()+"/RelPeriodoCliente.report?reqID="+reqID;
+	}
+
+	
 	public String editar() {
 		SessionObjectsManager.adicionaObjetoSessao("numReqServ", reqServico
 				.getNumReq());

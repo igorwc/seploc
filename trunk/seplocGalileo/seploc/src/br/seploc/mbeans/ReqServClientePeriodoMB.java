@@ -305,6 +305,10 @@ public class ReqServClientePeriodoMB implements Serializable {
 	public String getUrlReqImpressao() {
 		return urlReqImpressao;
 	}
+	
+	public void setUrlReqImpressao(String urlReqImpressao) {
+		this.urlReqImpressao = urlReqImpressao;
+	}	
 
 	public void geraURLImpressao( ){
 		FacesContext fcontext = FacesContext.getCurrentInstance();
