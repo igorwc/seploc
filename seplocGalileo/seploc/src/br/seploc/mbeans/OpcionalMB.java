@@ -90,20 +90,20 @@ public class OpcionalMB implements Serializable {
 		try {
 			if (opcional.getCodOpReqServ() == null	|| opcional.getCodOpReqServ() == 0) {
 				opcionalDAO.adiciona(opcional);
-				addGlobalMessage("Inclus�o feita com sucesso!");
+				addGlobalMessage("Inclusao feita com sucesso!");
 			} else {
 				OpcionaisReqServ temp;
 				temp = opcionalDAO.recupera(opcional.getCodOpReqServ());
 				if (temp != null) {
 					temp.setCodOpReqServ(opcional.getCodOpReqServ());
-					temp.setNomeItem(opcional.getNomeItem().trim());
+					temp.setNomeItem(opcional.getNomeItem().trim().toUpperCase());
 					temp.setValorItem(opcional.getValorItem());
 					opcionalDAO.altera(temp);
-					addGlobalMessage("Atualiza��o feita com sucesso!");
+					addGlobalMessage("Atualizacao feita com sucesso!");
 				}
 			}
 		} catch (Exception e) {
-			addGlobalMessage("N�o foi poss�vel realizar a opera��o!");
+			addGlobalMessage("Nao foi possivel realizar a operacao!");
 		}
 		this.limpar();
 

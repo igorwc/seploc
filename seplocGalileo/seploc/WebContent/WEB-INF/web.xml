@@ -112,6 +112,10 @@
     <servlet-name>RelatorioServlet</servlet-name>
     <url-pattern>/RelPeriodoCliente.report</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RelatorioServlet</servlet-name>
+    <url-pattern>/RelReqServImpressao.report</url-pattern>
+  </servlet-mapping>  
   <servlet>
     <description></description>
     <display-name>JasperReportsBrowserDemoServlet2</display-name>

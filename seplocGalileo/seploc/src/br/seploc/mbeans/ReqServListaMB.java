@@ -371,7 +371,7 @@ public class ReqServListaMB implements Serializable {
 			   reqID = reqImpressao.getNumReq();
 		   }
       
-		urlReqImpressao = scontext.getContextPath()+"/RelPeriodoCliente.report?reqID="+reqID;
+		urlReqImpressao = scontext.getContextPath()+"/RelReqServImpressao.report?reqID="+reqID;
 	}
 
 	
