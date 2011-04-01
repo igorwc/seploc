@@ -39,6 +39,8 @@ public class ReportImpressaoReqServGenerator {
 	private String operador;
 	private ArrayList subtotais;
 	private String dir;
+	private int paginas;
+	private double valorTotal;
 	
 	public ReportImpressaoReqServGenerator() {
 		dados = new ArrayList<ArrayList<ImpressaoBean>>();
@@ -52,6 +54,8 @@ public class ReportImpressaoReqServGenerator {
 		dataAlteracao = new Date(Calendar.getInstance().getTimeInMillis());
 		operador = "";
 		dir = "";
+		paginas = 0;
+		valorTotal = 0.0;
 	}
 
 	public String getDir() {
@@ -222,7 +226,11 @@ public class ReportImpressaoReqServGenerator {
 		map.put("operador", operador);
 		map.put("data_alteracao", dataAlteracao);
 		map.put("current_date", new Date());
-		map.put("paginacao_total", dados.size());
+		map.put("paginacao_total", paginas);
+		map.put("valor_total", valorTotal);
+		map.put("numRequisicao", numRequisicao);
+		map.put("nomeProjeto", nomeProjeto);
+		
 		return map;
 	}
 	@SuppressWarnings("unchecked")
@@ -232,6 +240,7 @@ public class ReportImpressaoReqServGenerator {
 		int quantidadeReq = 0;
 		int paginas = 0;
 		double subtotal = 0.0;
+		double total = 0.0;
 		int paginacao = 0;
 		recuperaNomeProjeto();
 		recuperaDadosCliente();
@@ -291,7 +300,7 @@ public class ReportImpressaoReqServGenerator {
 			}else{
 				paginas = 1;
 			}
-			
+			this.paginas = paginas;
 			stmt.setInt(1, numRequisicao);
 			stmt.setInt(2, numRequisicao);
 			ResultSet rs = stmt.executeQuery();
@@ -306,7 +315,12 @@ public class ReportImpressaoReqServGenerator {
 					bean.setNomePapel(rs.getString("nomePapel"));
 					bean.setNumReq(rs.getInt("numReq") + "");
 					bean.setSeq((contador++) + "");
-					bean.setItem(rs.getString("item"));
+					String temp = rs.getString("item") ;
+					if(temp.length() > 35){
+						bean.setItem(temp.substring(0,35));
+					}else{
+						bean.setItem(rs.getString("item") );
+					}
 					bean.setFormato(formatter.format(rs.getDouble("formato"))
 							+ "");
 					bean.setDimensao(formatter.format(rs.getDouble("dimensao"))
@@ -320,17 +334,22 @@ public class ReportImpressaoReqServGenerator {
 							.getDouble("valorItem"))
 							+ "");
 					subtotal += rs.getDouble("subTotal");
+//					total += subtotal; 
+					
 					pagina.add(bean);
 					aux++;
-					if(aux == 12){
+					if(aux > 12){
+						aux = 1;
 						break;
 					}
+					
 				}
+				this.valorTotal += subtotal;
 				dados.add(pagina);
 				pagina = new ArrayList<ImpressaoBean>();
-				subtotais.add(subtotal);
+				subtotais.add(total);
 				subtotal = 0.0;
-				aux = 1;
+				
 			}
 //			qtdItens = --contador;
 		} catch (SQLException e) {
@@ -382,7 +401,7 @@ public class ReportImpressaoReqServGenerator {
 //					.println("\n\n\n\n\n----------------Página---------------\n\n\n\n\n");
 //		}
 		try {
-			String s = FreemarkerUtils.parseTemplate(getDataModel(), "impressaoReqServ.html");
+			String s = FreemarkerUtils.parseTemplate(getDataModel(), "impressaoReqServ22.html");
 //			OutputStream os = new FileOutputStream("src/relatorios/impressaoReqServ.pdf");
 //			System.out.println(s);
 //			Html2Pdf.convert(s, os);
