@@ -490,7 +490,8 @@
 							</h:outputText>
 						</rich:column>
 						<rich:column>
-							<h:outputText value="#{opc.opcionaisReqServ.valorItem}">								
+							<h:outputText value="#{opc.opcionaisReqServ.valorItem}">				
+								<f:convertNumber type="currency" currencySymbol="R$" />				
 							</h:outputText>
 						</rich:column>						
 						<f:facet name="footer">
@@ -568,86 +569,112 @@
 			</rich:modalPanel>		   
 
 			<!-- Modal Cliente -->
-			<rich:modalPanel id="modalCliente" autosized="true" width="300" height="300">
-				<f:facet name="header" >
-					<h:outputText value="Busca Cliente" style="padding-right:15px;" />
-				</f:facet>
-				<f:facet name="controls">
-					<h:panelGroup>
-						<h:graphicImage value="/imgs/icons/close.png" id="hidemodalcli" />
-						<rich:componentControl for="modalCliente" attachTo="hidemodalcli" 
-						operation="hide" event="onclick" />
-					</h:panelGroup>
-				</f:facet>
-				<h:form>
-					<rich:dataTable value="#{reqServListaCB.listaClientes}" var="cli" rows="10"
-						reRender="dsCliente" id="clientesTable" >
-						<f:facet name="header">
-							<rich:columnGroup>
-								<rich:column colspan="3">
-									<h:outputText value="Filtro de Cliente" />
-								</rich:column>
-								<rich:column breakBefore="true">
-									<h:outputText value="CNPJ/CPF" />
-								</rich:column>
-								<rich:column>
-									<h:outputText value="Cliente" />
-								</rich:column>
-								<rich:column>							
-								</rich:column>
-							</rich:columnGroup>
-						</f:facet>
-						
-						<rich:column>
-							<h:outputText value="#{cli.cnpj}" />
-							<h:outputText value="#{cli.cpf}" />
-						</rich:column>
-						<rich:column filterBy="#{cli.fantasia}" 
-									 filterEvent="onkeyup"
-									 filterValue="#{reqServListaCB.reqServListaMB.filtroCliente}" >
-							<h:outputText value="#{cli.fantasia}" />
-						</rich:column>
-						
-						<rich:column styleClass="col1">
-							<a4j:commandLink ajaxSingle="true" 
-								                 id="editlinkcli" 
-							    				 reRender="reqServList,modalCliente,modalProjeto,reqServFiltros,reqServListTodos,outputPaginacao" 
-							    				 oncomplete=" #{rich:component('modalCliente')}.hide();"
-							    				 actionListener="#{reqServListaCB.resetaProjeto}"
-							    				 >
-								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+       <!-- Modal Cliente -->
+		    <rich:modalPanel id="modalCliente" autosized="true" width="400" height="300">
+		        <f:facet name="header" >
+		            <h:outputText value="Busca Cliente" style="padding-right:15px;" />
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <h:graphicImage value="/imgs/icons/close.png" id="hidemodalcli" />
+		                <rich:componentControl for="modalCliente" attachTo="hidemodalcli" 
+		                operation="hide" event="onclick" />
+		            </h:panelGroup>
+		        </f:facet>
+		        <h:form>
+		            <rich:panel  >
+		                <f:facet name="header">
+		                    Filtro
+		                </f:facet>
+		                <h:panelGrid columns="3">
+		                    <h:inputText  value="#{reqServListaCB.reqServListaMB.filtroCliente}" 
+		                                  id="clienteFiltro"
+		                                  size="30"  >      
+		                      </h:inputText> 
+		                      <a4j:commandButton value="buscar" 
+		                                         action="#{reqClientePeriodoCB.clientePeriodoMB.atualizaFiltro}" 
+		                                         reRender="clienteFiltro, clientesTable,outputPaginacaoCliente"/>
+		                      <a4j:commandButton value="Limpar" 
+		                                         action="#{reqClientePeriodoCB.clientePeriodoMB.resetaFiltro}" 
+		                                         reRender="clienteFiltro, clientesTable,outputPaginacaoCliente"/>
+		                           
+		                </h:panelGrid>
+		            </rich:panel>
+		            <rich:dataTable value="#{reqClientePeriodoCB.clientePeriodoMB.listaClientes}" 
+		                            var="cli" 
+		                            rows="10"
+		                            id="clientesTable"  
+		                            width="100%">
+		                <f:facet name="header">
+		                    <rich:columnGroup>
+		                        <rich:column colspan="3">
+		                            <h:outputText value="Clientes" />
+		                        </rich:column>
+		                        <rich:column breakBefore="true">
+		                            <h:outputText value="CNPJ/CPF" />
+		                        </rich:column>
+		                        <rich:column>
+		                            <h:outputText value="Cliente" />
+		                        </rich:column>
+		                        <rich:column>                           
+		                        </rich:column>
+		                    </rich:columnGroup>
+		                </f:facet>
+		                
+		                <rich:column>
+		                    <h:outputText value="#{cli.cnpj}" />
+		                    <h:outputText value="#{cli.cpf}" />
+		                </rich:column>
+		                <rich:column  >
+		                    <h:outputText value="#{cli.fantasia}" />
+		                </rich:column>
+		                
+		                <rich:column styleClass="col1">
+		                    <a4j:commandLink ajaxSingle="true" 
+		                                         id="editlinkcli"  
+		                                         reRender="inputCliente,dsRequisicoes,requisicaoList,lbValorTotal,lbValorDesconto,descCliente,desconto" 
+		                                         action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}"
+		                                         oncomplete=" #{rich:component('modalCliente')}.hide();"
+		                                         >
+		                        <h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 		
-								<f:setPropertyActionListener value="#{cli}"
-										target="#{reqServListaCB.reqServListaMB.cliente}" />
-								<f:actionListener ></f:actionListener> 
-							</a4j:commandLink>
-						</rich:column>  
-					</rich:dataTable>
-					<center>
-                        <h:panelGrid columns="5" style=" width : 311px;" >
-                        
-                            <a4j:commandButton
-                                    value="primeiro"
-                                    action="#{reqServListaCB.reqServListaMB.primeiraPaginaCliente}"
-                                    reRender="clientesTable"/>
-                             <a4j:commandButton
-                                    value="anterior"
-                                    action="#{reqServListaCB.reqServListaMB.paginaAnteriorCliente}"
-                                    reRender="clientesTable"/>
-                             <h:inputText value="#{reqServListaCB.reqServListaMB.reqServCurrentPage}" />
-                             <a4j:commandButton
-                                    value="proxima"
-                                    action="#{reqServListaCB.reqServListaMB.proximaPaginaCliente}"
-                                    reRender="clientesTable"/>
-                             <a4j:commandButton
-                                    value="ultima"
-                                    action="#{reqServListaCB.reqServListaMB.ultimaPaginaCliente}"
-                                    reRender="clientesTable"/>
-                                      
-                                   </h:panelGrid>
-                            </center>     	
-				</h:form>
-			</rich:modalPanel>
+		                        <f:setPropertyActionListener value="#{cli}"
+		                                target="#{reqServListaCB.reqServListaMB.cliente}" />
+		                            
+		                    </a4j:commandLink>
+		                </rich:column>  
+		                 
+		            </rich:dataTable>  
+		            <center>
+		                        <h:panelGrid columns="5" style=" width : 100px;" >
+		                        
+		                            <a4j:commandButton
+		                                    value="primeiro"
+		                                    action="#{reqServListaCB.reqServListaMB.primeiraPaginaCliente}"
+		                                    reRender="clienteFiltro, clienteFiltro,clientesTable,outputPaginacaoCliente"
+		                                    image="/imgs/ceta_pri.png"/>
+		                             <a4j:commandButton
+		                                    value="anterior"
+		                                    action="#{reqServListaCB.reqServListaMB.paginaAnteriorCliente}"
+		                                    reRender="clienteFiltro, clienteFiltro,clientesTable,outputPaginacaoCliente"
+		                                    image="/imgs/ceta_ant.png"/>   
+		                             <h:outputText value="#{reqServListaCB.reqServListaMB.paginacaoFormatada}" id="outputPaginacaoCliente"/>                           
+		                             <a4j:commandButton
+		                                    value="proxima"
+		                                    action="#{reqServListaCB.reqServListaMB.proximaPaginaCliente}"
+		                                    reRender="clienteFiltro, clienteFiltro,clientesTable,outputPaginacaoCliente"
+		                                    image="/imgs/ceta_pro.png"/>
+		                             <a4j:commandButton
+		                                    value="ultima"
+		                                    action="#{reqServListaCB.reqServListaMB.ultimaPaginaCliente}"
+		                                    reRender="clienteFiltro, clienteFiltro,clientesTable,outputPaginacaoCliente"
+		                                    image="/imgs/ceta_ult.png"/>
+		                                      
+		                        </h:panelGrid>
+		                    </center>   
+		        </h:form>
+		    </rich:modalPanel>			
+			
 			
 			<!-- Modal Mapa -->
 	        <rich:modalPanel id="modalMapa" autosized="true" width="200">
