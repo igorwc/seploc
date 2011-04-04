@@ -69,28 +69,30 @@
 										id="reqServFiltros">
 						<table border="0">
 							<tr align="left">
-								<td width="80px"><h:outputText value="Requisicao: " styleClass="texto" /></td>
+								<td width="120px"><h:outputText value="Requisicao: " styleClass="texto" /></td>
 								<td width="300px"><h:outputText value="Cliente: " styleClass="texto" /></td>
-								<td width="220px"><h:outputText value="Projeto: " styleClass="texto" /></td>								
+								<!-- <td width="220px"><h:outputText value="Projeto: " styleClass="texto" /></td>  -->								
 								<td width="200px"><h:outputText value="Data Inicio: " styleClass="texto" /></td>
 								<td width="200px"><h:outputText value="Data Fim: " styleClass="texto" /></td>
 							</tr>
 							<tr>
 								<td><h:inputText value="#{reqServListaCB.reqServListaMB.numReqBusca}" 
 												 id="numReq"
-												 size="10">
+												 size="10"
+												 readonly="true">
 										<a4j:support event="onChange" reRender="reqServListTodos,outputPaginacao"/>
 									</h:inputText></td>
 								<td><h:inputText value="#{reqServListaCB.reqServListaMB.cliente.fantasia}" 
 								         id="cliente" 
 								         readonly="true"
-								         size="30"
+								         size="40"
 								         />
 								    <a4j:commandLink ajaxSingle="true" 
 												 id="modaleditcli" 
 												 oncomplete="#{rich:component('modalCliente')}.show();return false;">
 										<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
 									</a4j:commandLink></td>
+								<!-- 	
 								<td valign="top"><h:inputText value="#{reqServListaCB.reqServListaMB.projeto.projeto}"									 						 
 										 id="projeto" 										 
 										 size="30"
@@ -99,7 +101,7 @@
 						   						 id="editlinkproj" 
 												 oncomplete="#{rich:component('modalProjeto')}.show();return false;">
 										<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
-									</a4j:commandLink></td>
+									</a4j:commandLink></td> -->
 								<td>
 	                                <rich:calendar value="#{reqServListaCB.reqServListaMB.dataInicio}"
 	                                           locale="#{reqServListaCB.locale}"
@@ -592,15 +594,15 @@
 		                                  size="30"  >      
 		                      </h:inputText> 
 		                      <a4j:commandButton value="buscar" 
-		                                         action="#{reqClientePeriodoCB.clientePeriodoMB.atualizaFiltro}" 
+		                                         action="#{reqServListaCB.reqServListaMB.atualizaFiltro}" 
 		                                         reRender="clienteFiltro, clientesTable,outputPaginacaoCliente"/>
 		                      <a4j:commandButton value="Limpar" 
-		                                         action="#{reqClientePeriodoCB.clientePeriodoMB.resetaFiltro}" 
+		                                         action="#{reqServListaCB.reqServListaMB.resetaFiltro}" 
 		                                         reRender="clienteFiltro, clientesTable,outputPaginacaoCliente"/>
 		                           
 		                </h:panelGrid>
 		            </rich:panel>
-		            <rich:dataTable value="#{reqClientePeriodoCB.clientePeriodoMB.listaClientes}" 
+		            <rich:dataTable value="#{reqServListaCB.reqServListaMB.listaClientes}" 
 		                            var="cli" 
 		                            rows="10"
 		                            id="clientesTable"  
@@ -632,8 +634,7 @@
 		                <rich:column styleClass="col1">
 		                    <a4j:commandLink ajaxSingle="true" 
 		                                         id="editlinkcli"  
-		                                         reRender="inputCliente,dsRequisicoes,requisicaoList,lbValorTotal,lbValorDesconto,descCliente,desconto" 
-		                                         action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}"
+		                                         reRender="reqServList"		                                         
 		                                         oncomplete=" #{rich:component('modalCliente')}.hide();"
 		                                         >
 		                        <h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
