@@ -79,7 +79,7 @@ public class RequisicaoServico implements Serializable {
 	private Integer visivelReq;
 
 	@Column(name = "intOrcamento")
-	private int orcamento;
+	private Integer orcamento;
 
 	@Version
 	@Column(name = "tspVersao")
@@ -148,6 +148,44 @@ public class RequisicaoServico implements Serializable {
 	public Double getValorTotal() {
 		return valorTotal;
 	}
+	public Double getValorTotalComEntrega() {
+		double total = 0;
+		double entrega = 0;
+		if(valorTotal == null){
+			total = 0;
+		}else{
+			total = valorTotal;
+		}
+		if(valorEnt == null){
+			entrega = 0;
+		}else{
+			entrega = valorEnt;
+		}
+		total = (valorTotal+entrega) ;
+		return  total;
+	}
+	public Double getValorTotalComDesconto() {
+		double total = 0;
+		double desconto = 0;
+		double entrega = 0;
+		if(valorTotal == null){
+			total = 0;
+		}else{
+			total = valorTotal;
+		}
+		if(valorEnt == null){
+			entrega = 0;
+		}else{
+			entrega = valorEnt;
+		}
+		if(orcamento == null){
+			desconto = 0;
+		}else{
+			desconto = orcamento;
+		}
+		total = ((total+entrega)- (total+entrega) *desconto/100);
+		return total;
+	}
 
 	public void setValorTotal(Double valorTotal) {
 		this.valorTotal = valorTotal;
@@ -177,11 +215,11 @@ public class RequisicaoServico implements Serializable {
 		this.visivelReq = visivelReq;
 	}
 
-	public void setOrcamento(int orcamento) {
+	public void setOrcamento(Integer orcamento) {
 		this.orcamento = orcamento;
 	}
 
-	public int getOrcamento() {
+	public Integer getOrcamento() {
 		return orcamento;
 	}
 
