@@ -26,8 +26,16 @@ Acesso
 
  Verificar Cadastro de Usuário
  
- Sinalizar percentagem no desconto 
- Realizar calculo de desconto quando apertar enter
+ Sinalizar percentagem no desconto  -> Resolvido
+ Relatorio ignora valor de entrega ao calcular total de uma requisição --> Resolvido
+ Tornar o tamanho de relatório Padrão -- > Resolvido
+ 
+ Realizar calculo de desconto quando apertar enter -- > Resolvido
+ --->>>> Já está salvando no banco  <<<<--------------
+ 
+ Realizar Calculo de desconto ao carregar requisicoes -- > Resolvido
+ Mostrar desconto das requisicoes no grid -- > Resolvido
+ 
  Colocar paginacoes nos cadastros
  CENTRALIZAR CADASTROS
  
