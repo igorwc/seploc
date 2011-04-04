@@ -3,6 +3,7 @@ package br.seploc.dao.test;
 import static org.junit.Assert.fail;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -27,25 +28,26 @@ public class RequisicaoServicoDAOTest {
 
 	@Test
 	public final void testAdicionaRequisicaoServico() {
-		Assert.assertTrue((1+1)==3);
+		Assert.assertTrue((1 + 1) == 3);
 	}
 
 	@Test
 	public final void testAlteraRequisicaoServico() {
 		fail("Not yet implemented"); // TODO
 	}
-	
-	@Test
-	public final void testListaSinceDate(){
-		Calendar calendarData = Calendar.getInstance();
-		  int numeroDiasParaSubtrair = -60;
-		  calendarData.add(Calendar.DATE, numeroDiasParaSubtrair);
-		  java.sql.Date dias60 = new java.sql.Date(calendarData.getTimeInMillis());
-		  System.out.println(dias60);
 
-		  RequisicaoServicoDAO reqServicoDAO = new RequisicaoServicoDAO(); 
-		  List<RequisicaoServico> retorno = reqServicoDAO.getListaSinceDate(dias60);
-		  System.out.println(retorno.size());
+	@Test
+	public final void testListaSinceDate() {
+		Calendar calendarData = Calendar.getInstance();
+		int numeroDiasParaSubtrair = -60;
+		calendarData.add(Calendar.DATE, numeroDiasParaSubtrair);
+		java.sql.Date dias60 = new java.sql.Date(calendarData.getTimeInMillis());
+		System.out.println(dias60);
+
+		RequisicaoServicoDAO reqServicoDAO = new RequisicaoServicoDAO();
+		List<RequisicaoServico> retorno = reqServicoDAO
+				.getListaSinceDate(dias60);
+		System.out.println(retorno.size());
 	}
 
 	@Test
@@ -60,10 +62,10 @@ public class RequisicaoServicoDAOTest {
 		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
 		RequisicaoServico rq = dao.recupera(1);
 		System.out.println(rq.getOpcionais());
-		//Assert.assertNotNull(rq);
-		//Assert.assertTrue(rq.getProjeto().getCodProj().doubleValue() == 1);
+		// Assert.assertNotNull(rq);
+		// Assert.assertTrue(rq.getProjeto().getCodProj().doubleValue() == 1);
 	}
-	
+
 	@Test
 	public final void testRemoveInteger() {
 		// java.util.Date data = new java.util.Date();
@@ -79,16 +81,19 @@ public class RequisicaoServicoDAOTest {
 		java.sql.Date dias60 = new java.sql.Date(calendarData.getTimeInMillis());
 		System.out.println(dias60);
 	}
-	
+
 	@Test
 	public final void testListaPorPeriodo() {
-		
-		Date dataInicio = new Date(new GregorianCalendar(2007,GregorianCalendar.AUGUST,01).getTimeInMillis());
-		Date dataFim = new Date(new GregorianCalendar(2010,GregorianCalendar.AUGUST,01).getTimeInMillis());
+
+		Date dataInicio = new Date(new GregorianCalendar(2007,
+				GregorianCalendar.AUGUST, 01).getTimeInMillis());
+		Date dataFim = new Date(new GregorianCalendar(2010,
+				GregorianCalendar.AUGUST, 01).getTimeInMillis());
 		System.out.println(dataInicio);
 		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
-		List<RequisicaoServico> l = dao.getListaPorPeriodo(dataInicio, dataFim,35);
-		for(RequisicaoServico r: l){
+		List<RequisicaoServico> l = dao.getListaPorPeriodo(dataInicio, dataFim,
+				35);
+		for (RequisicaoServico r : l) {
 			System.out.println(r);
 		}
 	}
@@ -99,18 +104,18 @@ public class RequisicaoServicoDAOTest {
 		RequisicaoServico rq = dao.recupera(60);
 		OpcionaisReqServDAO daoOP = new OpcionaisReqServDAO();
 		OpcionaisReqServ op = daoOP.recupera(5);
-		dao.addOpcional(rq,op,2);
+		dao.addOpcional(rq, op, 2);
 		dao.altera(rq);
 		rq = null;
 		rq = dao.recupera(60);
-		//Assert.assertTrue(rq.getOpcionais().size() == 1);
+		// Assert.assertTrue(rq.getOpcionais().size() == 1);
 		System.out.println(rq.getOpcionais().size());
-		for(ReqServicosOpcionais rso :rq.getOpcionais()){
+		for (ReqServicosOpcionais rso : rq.getOpcionais()) {
 			System.out.println(rso);
 			System.out.println(rso.getOpcionaisReqServ().getNomeItem());
 		}
 	}
-	
+
 	@Test
 	public final void testAddLinha() throws Exception {
 		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
@@ -127,51 +132,92 @@ public class RequisicaoServicoDAOTest {
 		lr.setDimensao(1.0);
 		lr.setFormato(1.0);
 		lr.setImpressao("Color");
-		lr.setQuant(1);		
+		lr.setQuant(1);
 		lr.setPapel(p);
 		dao.addLinha(rq, lr);
 		dao.altera(rq);
 		rq = null;
-		rq = dao.recupera(1);		
+		rq = dao.recupera(1);
 		dao.registraUsuarioCriador(u, rq);
-		//Assert.assertTrue(rq.getLinhaRequisicao().size() == 1);
-		System.out.println("Apos rec: "+rq.getLinhaRequisicao().size());
-		for(LinhaRequisicao lrs :rq.getLinhaRequisicao()){
+		// Assert.assertTrue(rq.getLinhaRequisicao().size() == 1);
+		System.out.println("Apos rec: " + rq.getLinhaRequisicao().size());
+		for (LinhaRequisicao lrs : rq.getLinhaRequisicao()) {
 			System.out.println(lrs);
 		}
-	}	
-	
+	}
+
 	@Test
 	public final void testAddOpcionalRepetido() throws Exception {
 		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
 		RequisicaoServico rq = dao.recupera(1);
 		OpcionaisReqServDAO daoOP = new OpcionaisReqServDAO();
 		OpcionaisReqServ op = daoOP.recupera(104);
-		dao.addOpcional(rq,op,3);
+		dao.addOpcional(rq, op, 3);
 		dao.altera(rq);
 		rq = null;
 		rq = dao.recupera(1);
 		Assert.assertTrue(rq.getOpcionais().size() == 2);
 		System.out.println(rq.getOpcionais().size());
-		for(ReqServicosOpcionais rso :rq.getOpcionais()){
+		for (ReqServicosOpcionais rso : rq.getOpcionais()) {
 			System.out.println(rso);
 		}
 	}
-	
+
 	@Test
 	public final void testAddOpcionalRepetido2() throws Exception {
 		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
 		RequisicaoServico rq = dao.recupera(1);
 		OpcionaisReqServDAO daoOP = new OpcionaisReqServDAO();
 		OpcionaisReqServ op = daoOP.recupera(104);
-		dao.addOpcional(rq,op,2);
+		dao.addOpcional(rq, op, 2);
 		dao.altera(rq);
 		rq = null;
 		rq = dao.recupera(1);
 		Assert.assertTrue(rq.getOpcionais().size() == 2);
 		System.out.println(rq.getOpcionais().size());
-		for(ReqServicosOpcionais rso :rq.getOpcionais()){
+		for (ReqServicosOpcionais rso : rq.getOpcionais()) {
 			System.out.println(rso);
 		}
+	}
+
+	@Test
+	public final void testAtualizaDescontoRequisicoes() {
+		ArrayList<Integer> teste = new ArrayList<Integer>();
+		for (int i = 1; i < 11; i++) {
+			teste.add(i);
+		}
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		dao.atualizaDescontoRequisicoes(teste, 10);
+	}
+
+	@Test
+	public final void testAtualizaDescontoRequisicoes2() {
+
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		dao.atualizaDescontoRequisicoes(null, 10);
+	}
+
+	@Test
+	public final void testAtualizaDescontoRequisicoes3() {
+		ArrayList<Integer> teste = new ArrayList<Integer>();
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		dao.atualizaDescontoRequisicoes(teste, 10);
+	}
+	
+	@Test
+	public final void testAtualizaDescontoRequisicoes4() {
+		ArrayList<Integer> teste = new ArrayList<Integer>();
+		teste.add(4);
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		dao.atualizaDescontoRequisicoes(teste, 10);
+	}
+	@Test
+	public final void testAtualizaDescontoRequisicoes5() {
+		ArrayList<Integer> teste = new ArrayList<Integer>();
+		teste.add(112452);
+		teste.add(112451);
+		teste.add(112450);
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		dao.atualizaDescontoRequisicoes(teste, 0);
 	}
 }
