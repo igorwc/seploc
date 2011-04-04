@@ -345,4 +345,31 @@ public class RequisicaoServicoDAO extends
 		return resultado;
 	}
 
+	public void atualizaDescontoRequisicoes(ArrayList<Integer> listaIds,int desconto){
+		String sql = "";
+		int linhasAlteradas = 0;
+		if (listaIds == null || listaIds.size() == 0){
+			return;
+		}
+		String strIds = "";
+		if (listaIds.size() == 1){
+			strIds = "("+listaIds.get(0)+")";
+		}else{
+			strIds = "("+listaIds.get(0);
+			for(int i = 1; i < listaIds.size();i++ ){
+				strIds += ","+listaIds.get(i)+"";
+			}
+			strIds += ")";
+		}
+		sql = "update tbl_reqserv set intOrcamento = "+desconto+
+		" where intNumreq in "+strIds;
+		em.getTransaction().begin();
+		Query q1 = em.createNativeQuery(sql);
+		linhasAlteradas = q1.executeUpdate();
+		if (linhasAlteradas != listaIds.size()){
+			em.getTransaction().rollback();
+		}
+		em.getTransaction().commit();	
+//		
+	}
 }
