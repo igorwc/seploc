@@ -41,7 +41,7 @@ public class ReportImpressaoReqServGenerator {
 	private String dir;
 	private int paginas;
 	private double valorTotal;
-	
+
 	public ReportImpressaoReqServGenerator() {
 		dados = new ArrayList<ArrayList<ImpressaoBean>>();
 		nomeProjeto = "";
@@ -111,11 +111,10 @@ public class ReportImpressaoReqServGenerator {
 		}
 
 	}
-	
-	private void geraDadosOperador(){
-		String sql = "SELECT vcrLoginAlter AS login, datdataAlter AS data " +
-					 "FROM tbl_reqservusuario " +
-					 "WHERE intNumReq = ?";
+
+	private void geraDadosOperador() {
+		String sql = "SELECT vcrLoginAlter AS login, datdataAlter AS data "
+				+ "FROM tbl_reqservusuario " + "WHERE intNumReq = ?";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, numRequisicao);
@@ -123,13 +122,13 @@ public class ReportImpressaoReqServGenerator {
 			if (rs.next()) {
 				String loginTemp = rs.getString("login");
 				Date data = rs.getDate("data");
-			
-				if(loginTemp != null){
+
+				if (loginTemp != null) {
 					operador = loginTemp;
 				}
-				if(data != null){
+				if (data != null) {
 					dataAlteracao = new Date(data.getTime());
-				}else{
+				} else {
 					dataAlteracao = new Date();
 				}
 			}
@@ -137,23 +136,51 @@ public class ReportImpressaoReqServGenerator {
 			// TODO: handle exception
 		}
 	}
+
 	private void verificaEntrega() {
 		if (numRequisicao == 0) {
 			return;
 		}
-		String sql = "SELECT dblPreco  AS preco " +
-					 "FROM  tbl_entrega " +
-					 "WHERE intCodEnt = (SELECT intCodEnt " +
-					 				    "FROM tbl_reqserv " +
-					 				    "WHERE intNumreq = ?)";
+		String sql = "SELECT dblPreco  AS preco " + "FROM  tbl_entrega "
+				+ "WHERE intCodEnt = (SELECT intCodEnt " + "FROM tbl_reqserv "
+				+ "WHERE intNumreq = ?)";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, numRequisicao);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
 				Double flag = rs.getDouble("preco");
-				if (flag != null ) {
+				if (flag != null) {
 					this.entrega = flag;
+				} else {
+					this.entrega = 0.0;
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+	
+	private void calculaTotalRequisicao() {
+		if (numRequisicao == 0) {
+			return;
+		}
+		verificaEntrega();
+		String sql = "SELECT (dblValorTotal- dblValorTotal *intOrcamento/100) as total" +
+					 " FROM tbl_reqserv"+
+				     " WHERE  intNumreq = ?";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, numRequisicao);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				Double flag = rs.getDouble("total");
+				if (flag != null) {
+					this.valorTotal = flag;
+					System.out.println("Valor Total:"+valorTotal);
+				} else {
+					this.valorTotal = 0.0;
 				}
 			}
 		} catch (Exception e) {
@@ -213,26 +240,46 @@ public class ReportImpressaoReqServGenerator {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map getDataModel(){
+	public Map getDataModel() {
 		Map map = new HashMap();
-		map.put("cliente",cliente);
+		map.put("cliente", cliente);
 		map.put("dados", dados);
-		map.put("subs",subtotais);
-		System.out.println(dados.size() +""+ subtotais.size());
+		map.put("subs", subtotais);
+		System.out.println(dados.size() + "" + subtotais.size());
 		System.out.println(subtotais);
 		map.put("paginacao", 1);
-		NumberFormat formatter =  new DecimalFormat("0.00"); 
-		map.put("entrega",formatter.format(entrega));
+		NumberFormat formatter = new DecimalFormat("0.00");
+		map.put("entrega", formatter.format(entrega));
 		map.put("operador", operador);
 		map.put("data_alteracao", dataAlteracao);
 		map.put("current_date", new Date());
 		map.put("paginacao_total", paginas);
+		calculaTotalRequisicao();
 		map.put("valor_total", valorTotal);
 		map.put("numRequisicao", numRequisicao);
 		map.put("nomeProjeto", nomeProjeto);
-		
+
 		return map;
 	}
+
+	private ImpressaoBean generateDummyImpressaoBean(int seq) {
+		ImpressaoBean bean = new ImpressaoBean();
+		bean.setNomePapel("");
+		bean.setNumReq("");
+		bean.setSeq(seq + "");
+		bean.setItem("");
+		bean.setFormato("");
+		bean.setDimensao("");
+		bean.setImpressao("");
+		bean.setLinha("");
+		bean.setQtd("");
+		bean.setSubTotal("");
+		;
+		bean.setValorItem("");
+
+		return bean;
+	}
+
 	@SuppressWarnings("unchecked")
 	public void geraDados() {
 		int contador = 1;
@@ -242,6 +289,7 @@ public class ReportImpressaoReqServGenerator {
 		double subtotal = 0.0;
 		double total = 0.0;
 		int paginacao = 0;
+		int complemento = 0;
 		recuperaNomeProjeto();
 		recuperaDadosCliente();
 		verificaEntrega();
@@ -266,60 +314,59 @@ public class ReportImpressaoReqServGenerator {
 				+ "r.intNumReq = ?  ) "
 				+ ") as tabela3";
 		String sqlCount = "select count(*) from "
-			+ "((select "
-			+ "li.intNumreq as numReq, li.vcrNomeArq as item, li.dblFormato as formato , "
-			+ "li.dblDimensao as dimensao,pa.vcrNome as nomePapel,li.vcrImpressao as impressao,li.intQuant as qtd, li.dblValorUnit as subTotal, "
-			+ " li.dblValorSubUnit as valorItem, li.intNumLin as linha "
-			+ "from tbl_linhareq li,tbl_papel pa, tbl_reqserv rr "
-			+ "where li.intCodPap = pa.intCodPap "
-			+ "and rr.intNumReq = ? "
-			+ "and rr.intNumReq = li.intNumReq) "
-			+ "union "
-			+ "(SELECT r.intNumreq as numReq,op.vcrNomeItem as item,null as formato ,null as dimensao , null as nomePapel ,  null as impressao, "
-			+ "rso.intQuant as qtd ,  (op.dblValorItem*rso.intQuant) as subTotal, op.dblValorItem as valorItem, null as linha "
-			+ "FROM tbl_reqserv r,tbl_opcionaisreqserv op, tbl_reqservopcionais rso "
-			+ "WHERE "
-			+ "rso.intNumReq = r.intNumReq and "
-			+ "rso.intCodOp = op.intCod and "
-			+ "r.intNumReq = ?  ) "
-			+ ") as tabela3";
+				+ "((select "
+				+ "li.intNumreq as numReq, li.vcrNomeArq as item, li.dblFormato as formato , "
+				+ "li.dblDimensao as dimensao,pa.vcrNome as nomePapel,li.vcrImpressao as impressao,li.intQuant as qtd, li.dblValorUnit as subTotal, "
+				+ " li.dblValorSubUnit as valorItem, li.intNumLin as linha "
+				+ "from tbl_linhareq li,tbl_papel pa, tbl_reqserv rr "
+				+ "where li.intCodPap = pa.intCodPap "
+				+ "and rr.intNumReq = ? "
+				+ "and rr.intNumReq = li.intNumReq) "
+				+ "union "
+				+ "(SELECT r.intNumreq as numReq,op.vcrNomeItem as item,null as formato ,null as dimensao , null as nomePapel ,  null as impressao, "
+				+ "rso.intQuant as qtd ,  (op.dblValorItem*rso.intQuant) as subTotal, op.dblValorItem as valorItem, null as linha "
+				+ "FROM tbl_reqserv r,tbl_opcionaisreqserv op, tbl_reqservopcionais rso "
+				+ "WHERE " + "rso.intNumReq = r.intNumReq and "
+				+ "rso.intCodOp = op.intCod and " + "r.intNumReq = ?  ) "
+				+ ") as tabela3";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			PreparedStatement stmtCount = connection.prepareStatement(sqlCount);
 			stmtCount.setInt(1, numRequisicao);
 			stmtCount.setInt(2, numRequisicao);
 			ResultSet rsCount = stmtCount.executeQuery();
-			if(rsCount.next()){
+			if (rsCount.next()) {
 				quantidadeReq = rsCount.getInt(1);
 			}
-			if(quantidadeReq > 12){
+			if (quantidadeReq > 12) {
 				paginas = quantidadeReq / 12;
-				if(quantidadeReq % 12 > 0){
+				if (quantidadeReq % 12 > 0) {
 					paginas++;
 				}
-			}else{
+			} else {
 				paginas = 1;
 			}
+			complemento = quantidadeReq % 12;
 			this.paginas = paginas;
 			stmt.setInt(1, numRequisicao);
 			stmt.setInt(2, numRequisicao);
 			ResultSet rs = stmt.executeQuery();
 			int aux = 1;
 			ArrayList<ImpressaoBean> pagina = new ArrayList<ImpressaoBean>();
-			subtotais = new ArrayList ();
-			for (int i = paginas;i > 0; i--) {
-				
+			subtotais = new ArrayList();
+			for (int i = paginas; i > 0; i--) {
+
 				while (rs.next()) {
 					NumberFormat formatter = new DecimalFormat("0.00");
 					ImpressaoBean bean = new ImpressaoBean();
 					bean.setNomePapel(rs.getString("nomePapel"));
 					bean.setNumReq(rs.getInt("numReq") + "");
 					bean.setSeq((contador++) + "");
-					String temp = rs.getString("item") ;
-					if(temp.length() > 35){
-						bean.setItem(temp.substring(0,35));
-					}else{
-						bean.setItem(rs.getString("item") );
+					String temp = rs.getString("item");
+					if (temp.length() > 35) {
+						bean.setItem(temp.substring(0, 35));
+					} else {
+						bean.setItem(rs.getString("item"));
 					}
 					bean.setFormato(formatter.format(rs.getDouble("formato"))
 							+ "");
@@ -334,33 +381,51 @@ public class ReportImpressaoReqServGenerator {
 							.getDouble("valorItem"))
 							+ "");
 					subtotal += rs.getDouble("subTotal");
-//					total += subtotal; 
-					
+					// total += subtotal;
+
 					pagina.add(bean);
 					aux++;
-					if(aux > 12){
+					if (aux > 12) {
 						aux = 1;
 						break;
 					}
-					
+
 				}
-				this.valorTotal += subtotal;
+//				this.valorTotal += subtotal;
+
 				dados.add(pagina);
 				pagina = new ArrayList<ImpressaoBean>();
 				subtotais.add(total);
 				subtotal = 0.0;
-				
+
 			}
-//			qtdItens = --contador;
+//			this.valorTotal += this.entrega;
+			ArrayList<ImpressaoBean> ultimaPagina = dados.get(dados.size() - 1);
+			if (ultimaPagina != null) {
+				ImpressaoBean temp = ultimaPagina.get(ultimaPagina.size() - 1);
+				if (temp != null) {
+					int seq = Integer.parseInt(temp.getSeq());
+					if (ultimaPagina.size() < 12) {
+						while (ultimaPagina.size() != 12) {
+							seq++;
+							ultimaPagina.add(generateDummyImpressaoBean(seq));
+							
+						}
+					}
+				}
+			}
+			// qtdItens = --contador;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	public String imprimeDadosWeb()    {
+
+	public String imprimeDadosWeb() {
 		String retorno = "";
 		try {
-			String s = FreemarkerUtils.parseTemplateWeb(getDataModel(), "impressaoReqServ.html","/WEB-INF/reports/");
+			String s = FreemarkerUtils.parseTemplateWeb(getDataModel(),
+					"impressaoReqServ.html", "/WEB-INF/reports/");
 			System.out.println(s);
 		} catch (TemplateException e) {
 			e.printStackTrace();
@@ -370,44 +435,51 @@ public class ReportImpressaoReqServGenerator {
 		return retorno;
 
 	}
-	public String imprimeDadosWeb2(String dir)    {
-		String retorno = "";
-		try {
-			String s = FreemarkerUtils.parseTemplateWeb(getDataModel(), "impressaoReqServ.html",dir);
-			retorno = HtmlManipulator.converteParaHtml(s);;
-		} catch (TemplateException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return retorno;
 
-	}
-	public String imprimeDados()    {
+	public String imprimeDadosWeb2(String dir) {
 		String retorno = "";
-//		System.out.println("Código Projeto: " + codProjeto);
-//		System.out.println("Nome Projeto: " + nomeProjeto);
-//		System.out.println("Tem opcionais: "+ hasOpcionais);
-//		System.out.println("Preço da entrega: "+ entrega);
-//		System.out.println("Quantidade de Itens: "+ qtdItens);
-//		System.out.println("Operador: "+operador);
-//		System.out.println("Data Ultima Alteracao:" + dataAlteracao);
-//		System.out.println(cliente);
-//		for (ArrayList<ImpressaoBean> linha : dados) {
-//			for (ImpressaoBean elemento : linha) {
-//				System.out.println(elemento);
-//			}
-//			System.out
-//					.println("\n\n\n\n\n----------------Página---------------\n\n\n\n\n");
-//		}
 		try {
-			String s = FreemarkerUtils.parseTemplate(getDataModel(), "impressaoReqServ22.html");
-//			OutputStream os = new FileOutputStream("src/relatorios/impressaoReqServ.pdf");
-//			System.out.println(s);
-//			Html2Pdf.convert(s, os);
+			String s = FreemarkerUtils.parseTemplateWeb(getDataModel(),
+					"impressaoReqServ.html", dir);
 			retorno = HtmlManipulator.converteParaHtml(s);
-//			UtilsArquivo.salvar("src/relatorios/impressaoReqServ2.html",HtmlManipulator.converteParaHtml(s), false);
-//			os.close();
+			;
+		} catch (TemplateException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return retorno;
+
+	}
+
+	public String imprimeDados() {
+		String retorno = "";
+		// System.out.println("Código Projeto: " + codProjeto);
+		// System.out.println("Nome Projeto: " + nomeProjeto);
+		// System.out.println("Tem opcionais: "+ hasOpcionais);
+		// System.out.println("Preço da entrega: "+ entrega);
+		// System.out.println("Quantidade de Itens: "+ qtdItens);
+		// System.out.println("Operador: "+operador);
+		// System.out.println("Data Ultima Alteracao:" + dataAlteracao);
+		// System.out.println(cliente);
+		// for (ArrayList<ImpressaoBean> linha : dados) {
+		// for (ImpressaoBean elemento : linha) {
+		// System.out.println(elemento);
+		// }
+		// System.out
+		// .println("\n\n\n\n\n----------------Página---------------\n\n\n\n\n");
+		// }
+		try {
+			String s = FreemarkerUtils.parseTemplate(getDataModel(),
+					"impressaoReqServ22.html");
+			// OutputStream os = new
+			// FileOutputStream("src/relatorios/impressaoReqServ.pdf");
+			// System.out.println(s);
+			// Html2Pdf.convert(s, os);
+			retorno = HtmlManipulator.converteParaHtml(s);
+			// UtilsArquivo.salvar("src/relatorios/impressaoReqServ2.html",HtmlManipulator.converteParaHtml(s),
+			// false);
+			// os.close();
 			System.out.println(s);
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
@@ -416,23 +488,27 @@ public class ReportImpressaoReqServGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		OutputStream os = new FileOutputStream(outputFile);
+		// OutputStream os = new FileOutputStream(outputFile);
 		return retorno;
 
 	}
-//	public String geraPaginaHTML()    {
-//		try {
-//			String s = FreemarkerUtils.parseTemplate(getDataModel(), "impressaoReqServ.html");
-//			OutputStream os = new FileOutputStream("src/relatorios/impressaoReqServ.pdf");
-//			UtilsArquivo.salvar("src/relatorios/impressaoReqServ2.html",HtmlManipulator.converteParaHtml(s), false);
-//		} catch (TemplateException e) {
-//			e.printStackTrace();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		OutputStream os = new FileOutputStream(outputFile);
 
-//	}
+	// public String geraPaginaHTML() {
+	// try {
+	// String s = FreemarkerUtils.parseTemplate(getDataModel(),
+	// "impressaoReqServ.html");
+	// OutputStream os = new
+	// FileOutputStream("src/relatorios/impressaoReqServ.pdf");
+	// UtilsArquivo.salvar("src/relatorios/impressaoReqServ2.html",HtmlManipulator.converteParaHtml(s),
+	// false);
+	// } catch (TemplateException e) {
+	// e.printStackTrace();
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// OutputStream os = new FileOutputStream(outputFile);
+
+	// }
 	/**
 	 * @param args
 	 */
@@ -441,7 +517,7 @@ public class ReportImpressaoReqServGenerator {
 		Connection conexao = new ConnectionFactory().getConnection("seploc2",
 				"root", "");
 		rr.setConnection(conexao);
-		rr.setNumRequisicao(76430);
+		rr.setNumRequisicao(59668);
 		rr.geraDados();
 		rr.imprimeDados();
 		try {
