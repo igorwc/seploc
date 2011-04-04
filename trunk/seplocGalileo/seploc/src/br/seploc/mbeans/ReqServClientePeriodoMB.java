@@ -51,21 +51,29 @@ public class ReqServClientePeriodoMB implements Serializable {
 			retorno = dao.getListaPorPeriodo(new java.sql.Date(dataInicio
 					.getTime()), new java.sql.Date(dataFim.getTime()), cliente
 					.getIdCliente());
-			System.out.println(dataInicio);
 		}
 		if (retorno == null || retorno.isEmpty()) {
 			listaRequisicoes = new ArrayList<RequisicaoServico>();
 			atualizaValorTotalRequisicoes();
+			atualizaValorTotalDescontoRequisicoes();
 			resetaFiltro();
 			return listaRequisicoes;
 		}
 		listaRequisicoes = retorno;
 		atualizaValorTotalRequisicoes();
-		for (RequisicaoServico r : retorno) {
-			System.out.println(r);
-		}
+		atualizaValorTotalDescontoRequisicoes();
 		resetaFiltro();
 		return retorno;
+	}
+	
+	public void atualizaDescontoRequisicoes(){
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		ArrayList<Integer> listaIDs = new ArrayList<Integer>();
+		for(RequisicaoServico r:listaRequisicoes){
+			listaIDs.add(r.getNumReq());
+		}
+		dao.atualizaDescontoRequisicoes(listaIDs, desconto.intValue());
+		buscaRequisicoes();
 	}
 
 	// CONSTRUTOR PADRAO
@@ -83,6 +91,22 @@ public class ReqServClientePeriodoMB implements Serializable {
 		urlReqImpressao = "";
 	}
 
+	public Double atualizaValorTotalDescontoRequisicoes() {
+		Double retorno = 0.0;
+		NumberFormat formatter = new DecimalFormat("#.##");
+		if (listaRequisicoes != null) {
+			for (RequisicaoServico r : listaRequisicoes) {
+				retorno += r.getValorTotalComDesconto();
+			}
+		}
+		if (retorno == 0.0) {
+			valorTotalDesconto = 0.0;
+		} else {
+			valorTotalDesconto = retorno;
+		}
+
+		return retorno;
+	}
 	public Double atualizaValorTotalRequisicoes() {
 		Double retorno = 0.0;
 		NumberFormat formatter = new DecimalFormat("#.##");
