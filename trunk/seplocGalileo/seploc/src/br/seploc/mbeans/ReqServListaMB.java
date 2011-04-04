@@ -14,6 +14,7 @@ import javax.servlet.ServletContext;
 import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.dao.pagedqueries.AllClientsPager;
+import br.seploc.dao.pagedqueries.FilteredNameClientesPager;
 import br.seploc.dao.pagedqueries.FilteredReqServPager;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.LinhaRequisicao;
@@ -36,14 +37,17 @@ public class ReqServListaMB implements Serializable {
 	private Date dataFim;
 	private String filtroProjeto;
 	private String filtroCliente;
+	private String filtroClienteAnterior;
 	private String urlReqImpressao;
 	private Cliente cliente;
 	private Projeto projeto;
 	private boolean datasInvalidas = false;
+	private boolean resetaFiltroCliente;
 
 	private int clienteCurrentPage;
 	private int clientePages;
 	private AllClientsPager clientesPager = new AllClientsPager();
+	private FilteredNameClientesPager clientePager;
 
 	private int reqCurrentPage;
 	private int reqPages;
@@ -179,12 +183,54 @@ public class ReqServListaMB implements Serializable {
 		clienteCurrentPage++;
 	}
 
+//	public List<Cliente> getListaClientes() {
+//		// return new ClienteDAO().getListaClientesCadastrados();
+//		List<Cliente> lista = clientesPager.getCurrentResults();
+//		return clientesPager.getCurrentResults();
+//		// AppServiceBean.getListaClientesCadastrados();
+//	}
+	
 	public List<Cliente> getListaClientes() {
-		// return new ClienteDAO().getListaClientesCadastrados();
-		List<Cliente> lista = clientesPager.getCurrentResults();
-		return clientesPager.getCurrentResults();
-		// AppServiceBean.getListaClientesCadastrados();
+		List<Cliente> retorno = new ArrayList<Cliente>();
+		if (resetaFiltroCliente) {
+			clientePager = new FilteredNameClientesPager(filtroCliente);
+			clientePager.init(10);
+			retorno = clientePager.getCurrentResults();
+			resetaFiltroCliente = false;
+			return retorno;
+		}
+		if (filtroClienteAnterior.equals(filtroCliente)) {
+			if (null != clientePager) {
+				retorno = clientePager.getCurrentResults();
+				return retorno;
+			} else {
+				clientePager = new FilteredNameClientesPager(filtroCliente);
+				clientePager.init(10);
+				retorno = clientePager.getCurrentResults();
+				return retorno;
+			}
+		} else if (!filtroClienteAnterior.equals(filtroCliente)
+				&& filtroCliente.length() < 3) {
+			filtroClienteAnterior = filtroCliente;
+			retorno = clientePager.getCurrentResults();
+			return retorno;
+		} else {
+			filtroClienteAnterior = filtroCliente;
+			clientePager = new FilteredNameClientesPager(filtroCliente);
+			clientePager.init(10);
+			retorno = clientePager.getCurrentResults();
+			return retorno;
+		}
 	}
+
+	public void atualizaFiltro() {
+		System.out.println(filtroCliente);
+	}	
+	
+	public void resetaFiltro() {
+		filtroCliente = "";
+		resetaFiltroCliente = true;
+	}	
 
 	// CONSTRUTOR
 	/**
@@ -209,6 +255,11 @@ public class ReqServListaMB implements Serializable {
 				"Cliente.RetornaClientes");
 		clientesPager.init(10, q);
 		urlReqImpressao = "";
+		filtroCliente = "";
+		filtroClienteAnterior = "";
+		clientePager = new FilteredNameClientesPager();
+		clientePager.init(10);
+		resetaFiltroCliente = false;
 	}
 
 	// GETTERS E SETTERS
@@ -336,6 +387,8 @@ public class ReqServListaMB implements Serializable {
 	public void setReqImpressao(RequisicaoServico reqImpressao) {
 		this.reqImpressao = reqImpressao;
 	}
+	
+
 	
 	public List<RequisicaoServico> getListaReqServ() {
 		// setar data de 60 dias atras
@@ -501,7 +554,7 @@ public class ReqServListaMB implements Serializable {
 	}
 
 	public void iniciarDatas() {
-		dataInicio = new Date(this.getDayAgo(120).getTimeInMillis());
+		dataInicio = new Date(this.getDayAgo(60).getTimeInMillis());
 		dataFim = new Date(Calendar.getInstance().getTimeInMillis());
 	}
 
