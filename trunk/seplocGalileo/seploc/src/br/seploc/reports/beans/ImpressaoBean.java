@@ -31,7 +31,11 @@ public class ImpressaoBean {
 	}
 
 	public String getItem() {
-		return item;
+		if (item == null) {
+			return "";
+		} else {
+			return item;
+		}
 	}
 
 	public void setItem(String item) {
@@ -39,7 +43,11 @@ public class ImpressaoBean {
 	}
 
 	public String getFormato() {
-		return formato;
+		if (formato == null) {
+			return "";
+		} else {
+			return formato;
+		}
 	}
 
 	public void setFormato(String formato) {
@@ -52,7 +60,11 @@ public class ImpressaoBean {
 	}
 
 	public String getDimensao() {
-		return dimensao;
+		if (dimensao == null) {
+			return "";
+		} else {
+			return dimensao;
+		}
 	}
 
 	public void setDimensao(String dimensao) {
@@ -65,7 +77,11 @@ public class ImpressaoBean {
 	}
 
 	public String getNomePapel() {
-		return nomePapel;
+		if (nomePapel == null) {
+			return "";
+		} else {
+			return nomePapel;
+		}
 	}
 
 	public void setNomePapel(String nomePapel) {
@@ -77,7 +93,11 @@ public class ImpressaoBean {
 	}
 
 	public String getImpressao() {
-		return impressao;
+		if (impressao == null) {
+			return "";
+		} else {
+			return impressao;
+		}
 	}
 
 	public void setImpressao(String impressao) {
@@ -130,10 +150,8 @@ public class ImpressaoBean {
 		return "ImpressaoBean [seq=" + seq + ", formato=" + formato
 				+ ", impressao=" + impressao + ", item=" + item + ", linha="
 				+ linha + ", nomePapel=" + nomePapel + ", numReq=" + numReq
-				+ ", qtd=" + qtd + ", dimensao=" + dimensao + ", subTotal=" + subTotal
-				+ ", valorItem=" + valorItem + "]";
+				+ ", qtd=" + qtd + ", dimensao=" + dimensao + ", subTotal="
+				+ subTotal + ", valorItem=" + valorItem + "]";
 	}
-	
-	
 
 }
