@@ -106,11 +106,10 @@
                                               }
                             </script> 
                             <h:inputText value="#{reqClientePeriodoCB.clientePeriodoMB.desconto}"  
-                                         alt="signed-decimal" 
-                                         styleClass="seplocdecimal"
                                          size="30"
-                                         id="descCliente" onkeydown="if (event.keyCode == 13 || event.which ==13)executa();">
-                                <f:converter converterId="SeplocCurrencyConverter" />
+                                         id="descCliente" 
+                                         onkeydown="if (event.keyCode == 13 || event.which ==13)executa();">
+                         <!--       <f:converter converterId="SeplocCurrencyConverter" />  --> 
                                 </h:inputText> 
                            <a4j:commandButton  style="display: none;"
                                                id="invisibleClickTarget"
@@ -295,7 +294,7 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                            <rich:column width="90">  
                                <h:outputText value="Desconto" />  
                            </rich:column> 
-                           <rich:column  width="50">  
+                           <rich:column  width="65">  
                                 
                            </rich:column> 
   
@@ -336,8 +335,17 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                                 <h:graphicImage value="/imgs/print_icon.gif" style="border:0" />
                                 <f:setPropertyActionListener value="#{requisicoes}"
                                     target="#{reqClientePeriodoCB.clientePeriodoMB.reqImpressao}" />
+                                <rich:toolTip for="printlinkreq" value="Imprimir Requisicao" />
                        </a4j:commandLink>
-                       <rich:toolTip for="printlinkreq" value="Imprimir Requisicao" />
+                      <a4j:commandLink ajaxSingle="true" 
+                                             id="descontolinkreq"
+                                             reRender="reqServList"
+                                             oncomplete="#{rich:component('aplicarfDescontoPanel')}.show();return false;">
+                                <h:graphicImage value="/imgs/percent.png" style="border:0" />
+                                <f:setPropertyActionListener value="#{requisicoes}"
+                                    target="#{reqClientePeriodoCB.clientePeriodoMB.reqDesconto}" />
+                                <rich:toolTip for="descontolinkreq" value="Aplicar Desconto" />
+                       </a4j:commandLink>
                      </rich:column>
 					<f:facet name="footer">
                			<rich:datascroller id="dsRequisicoes" maxPages="3" renderIfSinglePage="true"/>
@@ -482,6 +490,53 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                     </tr>
                 </tbody>
             </table>
+        </h:form>
+    </rich:modalPanel>
+    <rich:modalPanel id="aplicarfDescontoPanel" autosized="true" width="250">
+        <f:facet name="header">
+            <h:outputText value="Aplicar Desconto" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="../imgs/icons/close.png" id="hidelinkadp"
+                    styleClass="hidelink" />
+                <rich:componentControl for="aplicarfDescontoPanel" attachTo="hidelinkadp"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form id="atualizaDescForm">
+            <a4j:outputPanel >
+                <table>
+                    <tr>
+                        <td>
+                             <h:outputText value="Desconto:" />
+                        </td>
+                        <td>
+                            <script type="text/javascript" >
+                                  function executaDescontoIndividual(){
+                                	  document.getElementById('atualizaDescForm:botaoDescontoIndividualInv').click();
+                                  }
+                            </script>
+                            <h:inputText value="#{reqClientePeriodoCB.clientePeriodoMB.descontoIndividual}" 
+                                         size="30"
+                                         id="descReqInd"
+                                         onkeydown="if (event.keyCode == 13 || event.which ==13) executaDescontoIndividual();"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <center>
+                                <a4j:commandButton   value="Aplicar Desconto"
+                                    id="botaoDescontoIndividualInv"
+                                   action="#{reqClientePeriodoCB.clientePeriodoMB.atualizaDescontoRequisaoIndividual}" 
+                                   reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto"
+                                   oncomplete=" #{rich:component('aplicarfDescontoPanel')}.hide();"
+                                />
+                            </center>
+                        </td>
+                    </tr>
+                </table>
+            </a4j:outputPanel>
         </h:form>
     </rich:modalPanel>
  <rich:modalPanel id="panel_loading" autosized="true">
