@@ -183,7 +183,7 @@ public class RequisicaoServico implements Serializable {
 		}else{
 			desconto = orcamento;
 		}
-		total = ((total+entrega)- (total+entrega) *desconto/100);
+		total = ((total)- (total) *desconto/100)+entrega;
 		return total;
 	}
 
