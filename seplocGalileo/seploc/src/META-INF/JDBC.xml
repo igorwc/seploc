@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<conexoes>
+    <conexao id="desenvolvimento">
+        <host>localhost</host>
+        <db>seploc2</db>
+        <user>root</user>
+        <passwd>sem senha</passwd>
+    </conexao>
+    <conexao id="producao">
+        <host>200.0.0.20</host>
+        <db>dbseploc</db>
+        <user>usuario</user>
+        <passwd>pr0duca0</passwd>
+    </conexao>
+</conexoes>
