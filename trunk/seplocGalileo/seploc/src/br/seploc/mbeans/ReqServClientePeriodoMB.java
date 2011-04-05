@@ -27,7 +27,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 	private Cliente cliente;
 	private Date dataInicio;
 	private Date dataFim;
-	private Double desconto = 0.;
+	private Integer desconto = 0;
 	private List<RequisicaoServico> listaRequisicoes;
 	private String dataInicioStr = "", dataFimStr = "";
 	private Double valorTotalRequisicoes;
@@ -37,6 +37,8 @@ public class ReqServClientePeriodoMB implements Serializable {
 	private FilteredNameClientesPager clientePager;
 	private boolean resetaFiltroCliente;
 	private RequisicaoServico reqImpressao;
+	private RequisicaoServico reqDesconto;
+	private Integer descontoIndividual = 0;
 	private String urlReqImpressao;
 
 	// METODOS NEGOCIO
@@ -72,7 +74,14 @@ public class ReqServClientePeriodoMB implements Serializable {
 		for(RequisicaoServico r:listaRequisicoes){
 			listaIDs.add(r.getNumReq());
 		}
-		dao.atualizaDescontoRequisicoes(listaIDs, desconto.intValue());
+		dao.atualizaDescontoRequisicoes(listaIDs, desconto );
+		buscaRequisicoes();
+	}
+	public void atualizaDescontoRequisaoIndividual(){
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		ArrayList<Integer> listaIDs = new ArrayList<Integer>();
+		listaIDs.add(reqDesconto.getNumReq());
+		dao.atualizaDescontoRequisicoes(listaIDs, descontoIndividual );
 		buscaRequisicoes();
 	}
 
@@ -81,7 +90,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 		cliente = new Cliente();
 		dataInicio = new Date(Calendar.getInstance().getTimeInMillis());
 		dataFim = new Date(Calendar.getInstance().getTimeInMillis());
-		desconto = 0.0;
+		desconto = 0 ;
 		filtroCliente = "";
 		filtroClienteAnterior = "";
 		clientePager = new FilteredNameClientesPager();
@@ -200,11 +209,11 @@ public class ReqServClientePeriodoMB implements Serializable {
 
 	}
 
-	public Double getDesconto() {
+	public Integer getDesconto() {
 		return desconto;
 	}
 
-	public void setDesconto(Double desconto) {
+	public void setDesconto(Integer desconto) {
 		this.desconto = desconto;
 	}
 
@@ -368,4 +377,21 @@ public class ReqServClientePeriodoMB implements Serializable {
 		String retorno = "" + paginacorrente + "/" + maxpages;
 		return retorno;
 	}
+
+	public RequisicaoServico getReqDesconto() {
+		return reqDesconto;
+	}
+
+	public void setReqDesconto(RequisicaoServico reqDesconto) {
+		this.reqDesconto = reqDesconto;
+	}
+
+	public Integer getDescontoIndividual() {
+		return descontoIndividual;
+	}
+
+	public void setDescontoIndividual(Integer descontoIndividual) {
+		this.descontoIndividual = descontoIndividual;
+	}
+	
 }
