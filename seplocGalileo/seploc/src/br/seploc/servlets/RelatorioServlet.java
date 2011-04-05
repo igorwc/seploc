@@ -16,12 +16,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.xpath.XPathConstants;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import br.seploc.migracao.ConnectionFactory;
 import br.seploc.reports.ReportImpressaoReqServGenerator;
+import br.seploc.util.xmlConfig.XPathReader;
 
 /**
  * Servlet implementation class RelatorioServlet
@@ -64,8 +66,17 @@ public class RelatorioServlet extends HttpServlet {
 				+d
 				+ "\n\n\n\n\n\n\n\n");
 		ReportImpressaoReqServGenerator rr = new ReportImpressaoReqServGenerator();
-		Connection conexao = new ConnectionFactory().getConnection("seploc2",
-				"root", "");
+		XPathReader reader = new XPathReader(getServletContext().getRealPath("/WEB-INF/config/JDBC.xml") );
+		String host = "/conexoes/conexao[1]/host";
+		host = reader.read(host, 	XPathConstants.STRING) + "";
+		String db = "/conexoes/conexao[1]/db";
+		db = reader.read(db, XPathConstants.STRING) + "";
+		String user = "/conexoes/conexao[1]/user";
+		user = reader.read(user, XPathConstants.STRING) + "";
+		String passwd = "/conexoes/conexao[1]/passwd";
+		passwd = reader.read(passwd, XPathConstants.STRING) + "";
+		Connection conexao = new ConnectionFactory().getConnection(host,db,
+				user, passwd);
 		int reqID = Integer.parseInt(request.getParameter("reqID"));
 		System.out.println("Numero da requisicao da solicitação: "+reqID);
 		rr.setConnection(conexao);
