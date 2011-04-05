@@ -14,6 +14,16 @@ public class ConnectionFactory {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public Connection getConnection(String host, String BD, String user, String passwd) {
+		try {
+			return DriverManager.getConnection("jdbc:mysql://"+host+"/"+BD,
+					user, passwd);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
 //	public Connection getConnectionSeploc() {
 //		try {
 //			return DriverManager.getConnection("jdbc:mysql://localhost/fj21",
