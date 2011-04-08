@@ -272,7 +272,7 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                    <f:facet name="header">  
                        <rich:columnGroup>  
   
-                           <rich:column colspan="6">  
+                           <rich:column colspan="7">  
                                <h:outputText value="Requisições Encontradas" />  
                            </rich:column>  
   
@@ -290,6 +290,9 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
   
                            <rich:column width="90">  
                                <h:outputText value="Subtotal" />  
+                           </rich:column> 
+                           <rich:column width="90">  
+                               <h:outputText value="Subtotal com Desconto" />  
                            </rich:column> 
                            <rich:column width="90">  
                                <h:outputText value="Desconto" />  
@@ -316,7 +319,11 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                    <rich:column styleClass="col1">  
                        <h:outputText value="#{requisicoes.projeto.projeto}" />  
                    </rich:column>  
-  
+                   <rich:column styleClass="col1">
+                        <h:outputText value="#{requisicoes.valorTotal}" >
+                            <f:convertNumber type="currency" currencySymbol="R$"/>
+                        </h:outputText>
+                    </rich:column>
                    <rich:column styleClass="col1">
 						<h:outputText value="#{requisicoes.valorTotalComDesconto}" >
 							<f:convertNumber type="currency" currencySymbol="R$"/>
