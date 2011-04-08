@@ -106,7 +106,7 @@
                     <td style="width: 15%">CNPJ/CPF:</td>
                     <td style="width: 45%">${cliente.ni}</td>
                     <td style="width: 10%">CEP:</td>
-                    <td style="width: 30%">${cliente.ni}</td>
+                    <td style="width: 30%">${cliente.cep}</td>
                 </tr>
             </tbody>
         </table>
@@ -159,16 +159,54 @@
         </table>
         <hr style="color: #000000;" size="1">
         <table width="100%" class="tabprim">
-            <tr>
-                <td style="width: 5%">Entrega:</td>
-                <td style="width: 10%">R$ ${entrega}</td>
-                <td style="width: 5%"> </td>
-                <td style="width: 55%"> </td>
-                <td style="width: 20%; text-align: right;">
-                <#if counter == paginacao_total></>Total do Projeto (R$):</#if></td>
-                <td style="width: 5%; text-align: left;"><#if counter == paginacao_total>${valor_total}</#if></td>
+           <#if desconto == 0>
+                <tr>
+                    <td style="width: 5%">Entrega:</td>
+                    <td style="width: 10%">R$ ${entrega}</td>
+                    <td style="width: 5%"></td>
+                    <td style="width: 45%"></td>
+                    <td style="width: 20%; text-align: right;">
+                        <#if counter == paginacao_total>
+                            Total do Projeto (R$):
+                        </#if>
+                    </td>
                 <#assign x = linha_index>
-            </tr>
+                    <td style="width: 15%; text-align: left;">
+                        <#if counter == paginacao_total>
+                            ${valor_total?string.currency}
+                        </#if>
+                    </td>
+                </tr>
+           </#if>
+           <#if desconto == 1>
+                <tr>
+                    <td style="width: 5%">Entrega:</td>
+                    <td style="width: 10%">R$ ${entrega}</td>
+                    <td style="width: 5%"> </td>
+                    <td style="width: 10%"> </td>
+                    <td style="width: 20%; text-align: right;">
+                        <#if counter == paginacao_total>
+                            Total do Projeto (R$):
+                        </#if>
+                    </td>
+                    <td style="width: 10%; text-align: left;">
+                        <#if counter == paginacao_total>
+                            ${valor_total?string.currency}
+                        </#if>
+                    </td>
+                    <td style="width: 30%; text-align: right;">
+                        <#if counter == paginacao_total>
+                            Total do Projeto com Desconto(R$):
+                        </#if>
+                    </td>
+                    <td style="width: 10%; text-align: left;">
+                        <#if counter == paginacao_total>
+                            ${valor_totald?string.currency}
+                        </#if>
+                    </td>
+                <#assign x = linha_index>
+                </tr>
+            </#if>
         </table>
         <hr>
         <table width="100%" class="tabprim">
@@ -288,17 +326,54 @@
         </table>
         <hr style="color: #000000;" size="1">
         <table width="100%" class="tabprim">
-            <tr>
-                <td style="width: 5%">Entrega:</td>
-                <td style="width: 10%">R$ ${entrega}</td>
-                <td style="width: 5%"></td>
-                <td style="width: 55%"></td>
-                <td style="width: 20%; text-align: right;">
-                <#if counter == paginacao_total></>Total do Projeto (R$):</#if>
-                </td>
+            <#if desconto == 0>
+                <tr>
+                    <td style="width: 5%">Entrega:</td>
+                    <td style="width: 10%">R$ ${entrega}</td>
+                    <td style="width: 5%"></td>
+                    <td style="width: 45%"></td>
+                    <td style="width: 20%; text-align: right;">
+                        <#if counter == paginacao_total>
+                            Total do Projeto (R$):
+                        </#if>
+                    </td>
                 <#assign x = linha_index>
-                <td style="width: 5%; text-align: left;"><#if counter == paginacao_total>${valor_total}</#if></td>
-            </tr>
+                    <td style="width: 15%; text-align: left;">
+                        <#if counter == paginacao_total>
+                            ${valor_total?string.currency}
+                        </#if>
+                    </td>
+                </tr>
+           </#if>
+           <#if desconto == 1>
+                <tr>
+                    <td style="width: 5%">Entrega:</td>
+                    <td style="width: 10%">R$ ${entrega}</td>
+                    <td style="width: 5%"> </td>
+                    <td style="width: 10%"> </td>
+                    <td style="width: 20%; text-align: right;">
+                        <#if counter == paginacao_total>
+                            Total do Projeto (R$):
+                        </#if>
+                    </td>
+                    <td style="width: 10%; text-align: left;">
+                        <#if counter == paginacao_total>
+                            ${valor_total?string.currency}
+                        </#if>
+                    </td>
+                    <td style="width: 30%; text-align: right;">
+                        <#if counter == paginacao_total>
+                            Total do Projeto com Desconto(R$):
+                        </#if>
+                    </td>
+                    <td style="width: 10%; text-align: left;">
+                        <#if counter == paginacao_total>
+                            ${valor_totald?string.currency}
+                        </#if>
+                    </td>
+                <#assign x = linha_index>
+                </tr>
+            </#if>
         </table>
         <hr>
         <table width="100%" class="tabprim">
