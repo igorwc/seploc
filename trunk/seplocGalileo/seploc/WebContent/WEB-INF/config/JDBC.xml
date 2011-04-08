@@ -11,7 +11,7 @@
         <passwd></passwd>
     </conexao>
     <conexao id="producao">
-        <host>200.0.0.20</host>
+        <host>localhost</host>
         <db>dbseploc</db>
         <user>usuario</user>
         <passwd>pr0duca0</passwd>

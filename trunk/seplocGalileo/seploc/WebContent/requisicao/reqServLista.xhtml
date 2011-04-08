@@ -571,7 +571,6 @@
 			</rich:modalPanel>		   
 
 			<!-- Modal Cliente -->
-       <!-- Modal Cliente -->
 		    <rich:modalPanel id="modalCliente" autosized="true" width="400" height="300">
 		        <f:facet name="header" >
 		            <h:outputText value="Busca Cliente" style="padding-right:15px;" />
@@ -659,7 +658,7 @@
 		                                    action="#{reqServListaCB.reqServListaMB.paginaAnteriorCliente}"
 		                                    reRender="clienteFiltro, clienteFiltro,clientesTable,outputPaginacaoCliente"
 		                                    image="/imgs/ceta_ant.png"/>   
-		                             <h:outputText value="#{reqServListaCB.reqServListaMB.paginacaoFormatada}" id="outputPaginacaoCliente"/>                           
+		                             <h:outputText value="#{reqServListaCB.reqServListaMB.paginacaoFormatadaCliente}" id="outputPaginacaoCliente"/>                           
 		                             <a4j:commandButton
 		                                    value="proxima"
 		                                    action="#{reqServListaCB.reqServListaMB.proximaPaginaCliente}"
