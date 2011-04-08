@@ -41,6 +41,8 @@ public class ReportImpressaoReqServGenerator {
 	private String dir;
 	private int paginas;
 	private double valorTotal;
+	private double valorTotalDesconto;
+	private int hasDesconto;
 
 	public ReportImpressaoReqServGenerator() {
 		dados = new ArrayList<ArrayList<ImpressaoBean>>();
@@ -56,6 +58,8 @@ public class ReportImpressaoReqServGenerator {
 		dir = "";
 		paginas = 0;
 		valorTotal = 0.0;
+		valorTotalDesconto = 0.0;
+		hasDesconto = 0;
 	}
 
 	public String getDir() {
@@ -167,7 +171,7 @@ public class ReportImpressaoReqServGenerator {
 			return;
 		}
 		verificaEntrega();
-		String sql = "SELECT (dblValorTotal- dblValorTotal *intOrcamento/100) as total" +
+		String sql = "SELECT dblValorTotal as vtotal, (dblValorTotal- dblValorTotal *intOrcamento/100) as total" +
 					 " FROM tbl_reqserv"+
 				     " WHERE  intNumreq = ?";
 		try {
@@ -175,12 +179,28 @@ public class ReportImpressaoReqServGenerator {
 			stmt.setInt(1, numRequisicao);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
-				Double flag = rs.getDouble("total");
+				Double flag = rs.getDouble("vtotal");
+				Double flag2 = rs.getDouble("total");
 				if (flag != null) {
 					this.valorTotal = flag;
-					System.out.println("Valor Total:"+valorTotal);
 				} else {
 					this.valorTotal = 0.0;
+				}
+				if (flag2 != null) {
+					this.valorTotalDesconto = flag2;
+				} else {
+					this.valorTotalDesconto = 0.0;
+				}
+				System.out.println("Valores:");
+				System.out.println("Total:"+valorTotal );
+				System.out.println("Totald:"+valorTotalDesconto );
+				System.out.println("flag.doubleValue():"+flag.doubleValue() );
+				System.out.println("flag2.doubleValue():"+flag2.doubleValue() );
+				System.out.println("flag.doubleValue() == flag2.doubleValue():"+(flag.doubleValue() == flag2.doubleValue() ));
+				if(flag.doubleValue() != flag2.doubleValue()){
+					hasDesconto = 1;
+				} else {
+					hasDesconto = 0;
 				}
 			}
 		} catch (Exception e) {
@@ -256,6 +276,8 @@ public class ReportImpressaoReqServGenerator {
 		map.put("paginacao_total", paginas);
 		calculaTotalRequisicao();
 		map.put("valor_total", valorTotal);
+		map.put("valor_totald", valorTotalDesconto);
+		map.put("desconto", hasDesconto);
 		map.put("numRequisicao", numRequisicao);
 		map.put("nomeProjeto", nomeProjeto);
 
@@ -471,7 +493,7 @@ public class ReportImpressaoReqServGenerator {
 		// }
 		try {
 			String s = FreemarkerUtils.parseTemplate(getDataModel(),
-					"impressaoReqServ22.html");
+					"impressaoReqServ.html");
 			// OutputStream os = new
 			// FileOutputStream("src/relatorios/impressaoReqServ.pdf");
 			// System.out.println(s);
@@ -517,7 +539,11 @@ public class ReportImpressaoReqServGenerator {
 		Connection conexao = new ConnectionFactory().getConnection("seploc2",
 				"root", "");
 		rr.setConnection(conexao);
-		rr.setNumRequisicao(59668);
+//		rr.setNumRequisicao(59668);
+		rr.setNumRequisicao(109251);
+//		rr.setNumRequisicao(76430);
+ 
+		
 		rr.geraDados();
 		rr.imprimeDados();
 		try {
