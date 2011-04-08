@@ -65,6 +65,18 @@ public class ReqServListaMB implements Serializable {
 		return retorno;
 	}
 	
+	public String getPaginacaoFormatadaCliente() {
+		int paginacorrente = 0, maxpages = 0;
+		if (!(clientePager == null)) {
+			paginacorrente = clientePager.getCurrentPage() + 1;
+		}
+		if (!(clientePager == null)) {
+			maxpages = clientePager.getMaxPages() + 1;
+		}
+		String retorno = "" + paginacorrente + "/" + maxpages;
+		return retorno;
+	}
+	
 	public FilteredReqServPager getReqServPager() {
 		return reqServPager;
 	}
@@ -160,17 +172,17 @@ public class ReqServListaMB implements Serializable {
 		return clientePages;
 	}
 	public void ultimaPaginaCliente() {
-		clientesPager.setCurrentPage(clientesPager.getMaxPages());
-		clienteCurrentPage = clientesPager.getMaxPages();
+		clientePager.setCurrentPage(clientePager.getMaxPages());
+		clienteCurrentPage = clientePager.getMaxPages();
 	}
 
 	public void paginaAnteriorCliente() {
-		clientesPager.paginaAnterior();
+		clientePager.paginaAnterior();
 		clienteCurrentPage--;
 	}
 
 	public void primeiraPaginaCliente() {
-		clientesPager.setCurrentPage(0);
+		clientePager.setCurrentPage(0);
 		clienteCurrentPage = 0;
 		
 	}
@@ -179,7 +191,7 @@ public class ReqServListaMB implements Serializable {
 	}
 
 	public void proximaPaginaCliente() {
-		clientesPager.proximaPagina();
+		clientePager.proximaPagina();
 		clienteCurrentPage++;
 	}
 
