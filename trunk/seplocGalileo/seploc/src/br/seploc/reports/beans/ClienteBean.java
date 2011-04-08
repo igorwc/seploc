@@ -25,6 +25,12 @@ public class ClienteBean {
 
 	
 	public String getLocalidade() {
+		if (cidade == null || cidade.equals("")) {
+			this.cidade = "----";
+		}  
+		if (uf == null || uf.trim().equals("")) {
+			this.uf = "----";
+		}  
 		localidade = cidade+"/"+uf;
 		return localidade;
 	}
@@ -58,7 +64,7 @@ public class ClienteBean {
 	}
 
 	public void setUf(String uf) {
-		if (uf == null || uf.equals("")) {
+		if (uf == null || uf.trim().equals("")) {
 			this.uf = "----";
 		} else {
 			this.uf = uf;
