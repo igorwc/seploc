@@ -489,7 +489,8 @@
                 <rich:column styleClass="col1">
                     <a4j:commandLink ajaxSingle="true" 
                                          id="editlinkcli"  
-                                         reRender="reqServ"		                                         
+                                         reRender="reqServ,modalProjeto, clienteFiltro, clientesTable,outputPaginacaoCliente"
+		                                 action="#{reqServClienteCB.reqServMB.resetaFiltro}"
                                          oncomplete=" #{rich:component('modalCliente')}.hide();"
                                          >
                         <h:graphicImage value="/imgs/botao-editar.png" style="border:0" />

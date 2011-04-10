@@ -117,8 +117,8 @@
             cellpadding="2" cellspacing="2" class="tabprim">
             <tbody>
                 <tr>
-                    <td> Requisi&ccedil;&atilde;o: ${numRequisicao}  </td>
-                    <td> Projeto: ${nomeProjeto}  </td>
+                    <td style="width: 20%"> Requisi&ccedil;&atilde;o: ${numRequisicao}  </td>
+                    <td style="width: 80%"> Projeto: ${nomeProjeto}  </td>
                      
                 </tr>
 
@@ -130,15 +130,15 @@
             cellpadding="2" cellspacing="2" class="reqtable">
             <tbody>
                 <tr class="cab">
-                    <th style="width: 5%">Item</th>
-                    <th style="width: 25%">Arquivo</th>
-                    <th style="width: 10%">Form</th>
-                    <th style="width: 10%">Dim.</th>
-                    <th style="width: 15%">Papel</th>
-                    <th style="width: 10%">Imp.</th>
+                    <th style="width: 4%">Item</th>
+                    <th style="width: 35%">Arquivo</th>
+                    <th style="width: 6%">Form.</th>
+                    <th style="width: 6%">Dim.</th>
+                    <th style="width: 20%">Papel</th>
+                    <th style="width: 7%">Impr.</th>
                     <th style="width: 5%">Qtd.</th>
-                    <th style="width: 10%">Valor Unit</th>
-                    <th style="width: 10%">SubTotal</th>
+                    <th style="width: 9%">Valor Unit</th>
+                    <th style="width: 8%">SubTotal</th>
                 </tr>
                 <#assign row=0> <#list linha as elemento>
                 <tr  class="<#if (row % 2) == 0 >alt<#else>nada</#if>" >
@@ -287,8 +287,8 @@
             cellpadding="2" cellspacing="2" class="tabprim">
             <tbody>
                 <tr>
-                    <td> Requisi&ccedil;&atilde;o: ${numRequisicao}  </td>
-                    <td> Projeto: ${nomeProjeto}  </td>
+                    <td style="width: 20%"> Requisi&ccedil;&atilde;o: ${numRequisicao}  </td>
+                    <td style="width: 80%"> Projeto: ${nomeProjeto}  </td>
                      
                 </tr>
 
@@ -302,10 +302,10 @@
                 <tr>
                     <th>Item</th>
                     <th>Arquivo</th>
-                    <th>Form</th>
+                    <th>Form.</th>
                     <th>Dim.</th>
                     <th>Papel</th>
-                    <th>Imp.</th>
+                    <th>Impr.</th>
                     <th>Qtd</th>
                     <th>Valor Unit</th>
                     <th>SubTotal</th>
