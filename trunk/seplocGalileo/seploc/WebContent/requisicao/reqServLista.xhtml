@@ -351,7 +351,7 @@
 			<!-- Modal Mostrar Requisicao -->
 			<rich:modalPanel id="modalReqServ" 
 							 autosized="true" 
-							 width="700"
+							 width="750"
 							 height="200">
 				<f:facet name="header">
 					<h:outputText value="Requisicao de Servico"
@@ -364,7 +364,7 @@
 							operation="hide" event="onclick" />
 					</h:panelGroup>
 				</f:facet>
-				<table width="700" border="0">
+				<table width="750" border="0">
 					<tr>
 						<td width="25%"><h:outputText value="Numero:" styleClass="tituloCampo"/></td>
 						<td width="25%"><h:outputText value="Valor Total (R$):" styleClass="tituloCampo" /></td>
@@ -374,7 +374,7 @@
 						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.numReq}" styleClass="texto"><f:convertNumber pattern="#000000" /></h:outputText></td>
 						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.valorTotal}" styleClass="texto"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText></td>
 						<td><h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.entrega.local}"  styleClass="texto"/> 
-						    <h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.entrega.preco}"  styleClass="texto"><f:convertNumber type="currency" currencySymbol=" R$"/></h:outputText></td>
+						    <h:outputText value="#{reqServListaCB.reqServListaMB.reqServico.entrega.preco}"  styleClass="texto"><f:convertNumber type="currency" currencySymbol=" - R$"/></h:outputText></td>
 					</tr>
 					<tr>
 						<td colspan="2"><h:outputText value="Cliente:" styleClass="tituloCampo"/></td>
@@ -403,25 +403,25 @@
 									<h:outputText value="Linhas da Requisicao" />
 								</rich:column>
 
-								<rich:column breakBefore="true" width="300">
+								<rich:column breakBefore="true" width="350">
 									<h:outputText value="Descricao" />
 								</rich:column>
-								<rich:column width="50">
-									<h:outputText value="Formato" />
+								<rich:column width="40">
+									<h:outputText value="Form." />
 								</rich:column>
-								<rich:column width="50">
-									<h:outputText value="Dimensao" />
+								<rich:column width="40">
+									<h:outputText value="Dime." />
 								</rich:column>
-								<rich:column width="100">
+								<rich:column width="140">
 									<h:outputText value="Papel" />
 								</rich:column>
-								<rich:column width="100">
+								<rich:column width="80">
 									<h:outputText value="Impressao" />
 								</rich:column>
-								<rich:column width="50">
-									<h:outputText value="Quant" />
+								<rich:column width="40">
+									<h:outputText value="Quant."/>
 								</rich:column>
-								<rich:column width="50">
+								<rich:column width="60">
 									<h:outputText value="Valor Unit." />
 								</rich:column>
 							</rich:columnGroup>
@@ -430,20 +430,20 @@
 						<rich:column>
 							<h:outputText value="#{linha.nomeArquivo}" />
 						</rich:column>
-						<rich:column>
+						<rich:column align="center">
 							<h:outputText value="#{linha.formato}" />
 						</rich:column>
-						<rich:column>
+						<rich:column align="center">
 							<h:outputText value="#{linha.dimensao}" />
 						</rich:column>
 						<rich:column>
 							<h:outputText value="#{linha.papel.nome}" />
 						</rich:column>
-						<rich:column>
+						<rich:column align="center">
 							<h:outputText value="#{linha.impressao}" />
 						</rich:column>
-						<rich:column>
-							<h:outputText value="#{linha.quant}" />
+						<rich:column align="center">
+							<h:outputText value="#{linha.quant}" ><f:convertNumber pattern="#00" /></h:outputText>
 						</rich:column>
 						<rich:column>
 							<h:outputText value="#{linha.valorUnit}">
@@ -472,13 +472,13 @@
 									<h:outputText value="Opcionais da Requisicao" />
 								</rich:column>
 
-								<rich:column breakBefore="true" width="500">
+								<rich:column breakBefore="true" width="650">
 									<h:outputText value="Descricao" />
 								</rich:column>
-								<rich:column width="100">
-									<h:outputText value="Quantidade" />
+								<rich:column width="40">
+									<h:outputText value="Quant." />
 								</rich:column>
-								<rich:column width="100">
+								<rich:column width="60">
 									<h:outputText value="Valor Unit." />
 								</rich:column>								
 							</rich:columnGroup>
@@ -488,8 +488,7 @@
 							<h:outputText value="#{opc.opcionaisReqServ.nomeItem}" />
 						</rich:column>
 						<rich:column>
-							<h:outputText value="#{opc.quantidade}">								
-							</h:outputText>
+							<h:outputText value="#{opc.quantidade}"><f:convertNumber pattern="#00" /></h:outputText>
 						</rich:column>
 						<rich:column>
 							<h:outputText value="#{opc.opcionaisReqServ.valorItem}">				
@@ -633,8 +632,9 @@
 		                <rich:column styleClass="col1">
 		                    <a4j:commandLink ajaxSingle="true" 
 		                                         id="editlinkcli"  
-		                                         reRender="reqServList"		                                         
+		                                         reRender="reqServList, clienteFiltro, clientesTable,outputPaginacaoCliente"		                                         
 		                                         oncomplete=" #{rich:component('modalCliente')}.hide();"
+		                                         action="#{reqServListaCB.reqServListaMB.resetaFiltro}"
 		                                         >
 		                        <h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 		
