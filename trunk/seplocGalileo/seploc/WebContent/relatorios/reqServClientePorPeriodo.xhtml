@@ -58,7 +58,7 @@
            <rich:panel header="Relatório">
 			   <!-- Formulario -->
 			   <center>
-               <rich:panel header="Requisições por Período" style="width: 600px" bodyClass="formulario2"  >
+               <rich:panel header="Requisições por Período" style="width: 700px" bodyClass="formulario2"  >
                  <table	border="0"  >               
 					<tr align="left">
 					   <td>
@@ -267,7 +267,7 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                                columnClasses="400,150,50"  
                                onRowMouseOver="this.style.backgroundColor='#B5F3FB'"  
                                onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
-                               width="600"
+                               width="700"
                                align="center">  
                    <f:facet name="header">  
                        <rich:columnGroup>  
@@ -276,28 +276,28 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                                <h:outputText value="Requisições Encontradas" />  
                            </rich:column>  
   
-                           <rich:column breakBefore="true" width="80">  
+                           <rich:column breakBefore="true" width="5%">  
                                <h:outputText value="NumReq" />  
                            </rich:column>  
   
-                           <rich:column width="80">  
+                           <rich:column width="8%">  
                                <h:outputText value="Data" />  
                            </rich:column> 
                            
-                           <rich:column width="300">  
+                           <rich:column width="40%">  
                                <h:outputText value="Projeto" />  
                            </rich:column>  
   
-                           <rich:column width="90">  
+                           <rich:column width="15%">  
                                <h:outputText value="Subtotal" />  
                            </rich:column> 
-                           <rich:column width="90">  
-                               <h:outputText value="Subtotal com Desconto" />  
+                           <rich:column width="15%">  
+                               <h:outputText value="Subtotal c/ Desc." />  
                            </rich:column> 
-                           <rich:column width="90">  
+                           <rich:column width="10%">  
                                <h:outputText value="Desconto" />  
                            </rich:column> 
-                           <rich:column  width="65">  
+                           <rich:column  width="7%">  
                                 
                            </rich:column> 
   
@@ -344,11 +344,12 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                                     target="#{reqClientePeriodoCB.clientePeriodoMB.reqImpressao}" />
                                 <rich:toolTip for="printlinkreq" value="Imprimir Requisicao" />
                        </a4j:commandLink>
+                       <rich:spacer width="5px"/>
                       <a4j:commandLink ajaxSingle="true" 
                                              id="descontolinkreq"
                                              reRender="reqServList"
                                              oncomplete="#{rich:component('aplicarfDescontoPanel')}.show();return false;">
-                                <h:graphicImage value="/imgs/percent.png" style="border:0" />
+                                <h:graphicImage value="/imgs/percents_icon.png" style="border:0" />
                                 <f:setPropertyActionListener value="#{requisicoes}"
                                     target="#{reqClientePeriodoCB.clientePeriodoMB.reqDesconto}" />
                                 <rich:toolTip for="descontolinkreq" value="Aplicar Desconto" />
