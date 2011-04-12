@@ -220,4 +220,31 @@ public class RequisicaoServicoDAOTest {
 		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
 		dao.atualizaDescontoRequisicoes(teste, 0);
 	}
+	@Test
+	public final void testcalculaTotalRequisicao() {
+		 
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		Double retorno = dao.calculaTotalRequisicao(null);
+		Assert.assertEquals(0.0, retorno.doubleValue());
+	}
+	@Test
+	public final void testcalculaTotalRequisicao2() {
+		 
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		Double retorno = dao.calculaTotalRequisicao(0);
+		Assert.assertEquals(0.0, retorno.doubleValue());
+	}
+	@Test
+	public final void testcalculaTotalRequisicao3() {
+		 
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+//		Double retorno = dao.calculaTotalRequisicao(73635);
+//		Double retorno = dao.calculaTotalRequisicao(76430);
+//		Double retorno = dao.calculaTotalRequisicao(100000);
+		Double retorno = dao.calculaTotalRequisicao(100798);
+//		Assert.assertEquals(975.45, retorno.doubleValue()); // 73635
+//		Assert.assertEquals(60.93, retorno.doubleValue()); // 76430 não tem opcionais
+//		Assert.assertEquals(0.5, retorno.doubleValue()); // 100000 não tem linha só opcionais
+		Assert.assertEquals(8.0, retorno.doubleValue()); // 100798 não tem linha só opcionais
+	}
 }
