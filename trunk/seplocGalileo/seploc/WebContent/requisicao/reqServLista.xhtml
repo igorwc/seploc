@@ -79,7 +79,7 @@
 								<td><h:inputText value="#{reqServListaCB.reqServListaMB.numReqBusca}" 
 												 id="numReq"
 												 size="10"
-												 readonly="true">
+												 readonly="false">
 										<a4j:support event="onChange" reRender="reqServListTodos,outputPaginacao"/>
 									</h:inputText></td>
 								<td><h:inputText value="#{reqServListaCB.reqServListaMB.cliente.fantasia}" 
@@ -399,11 +399,11 @@
 						<f:facet name="header">
 							<rich:columnGroup>
 
-								<rich:column colspan="7">
+								<rich:column colspan="8">
 									<h:outputText value="Linhas da Requisicao" />
 								</rich:column>
 
-								<rich:column breakBefore="true" width="350">
+								<rich:column breakBefore="true" width="300">
 									<h:outputText value="Descricao" />
 								</rich:column>
 								<rich:column width="40">
@@ -415,15 +415,18 @@
 								<rich:column width="140">
 									<h:outputText value="Papel" />
 								</rich:column>
-								<rich:column width="80">
-									<h:outputText value="Impressao" />
+								<rich:column width="70">
+									<h:outputText value="Impr." />
 								</rich:column>
-								<rich:column width="40">
-									<h:outputText value="Quant."/>
+								<rich:column width="38">
+									<h:outputText value="Qtd."/>
 								</rich:column>
-								<rich:column width="60">
+								<rich:column width="62">
 									<h:outputText value="Valor Unit." />
 								</rich:column>
+								<rich:column width="60">
+									<h:outputText value="SubTotal" />
+								</rich:column>								
 							</rich:columnGroup>
 						</f:facet>
 
@@ -446,10 +449,15 @@
 							<h:outputText value="#{linha.quant}" ><f:convertNumber pattern="#00" /></h:outputText>
 						</rich:column>
 						<rich:column>
-							<h:outputText value="#{linha.valorUnit}">
+							<h:outputText value="#{linha.valorSubUnit}">
 								<f:convertNumber type="currency" currencySymbol="R$" />
 							</h:outputText>
 						</rich:column>
+						<rich:column>
+							<h:outputText value="#{linha.valorUnit}">
+								<f:convertNumber type="currency" currencySymbol="R$" />
+							</h:outputText>
+						</rich:column>						
 						<f:facet name="footer">
 							<rich:datascroller id="dsrs" renderIfSinglePage="true"></rich:datascroller>
 						</f:facet>
@@ -468,19 +476,22 @@
 						<f:facet name="header">
 							<rich:columnGroup>
 
-								<rich:column colspan="3">
+								<rich:column colspan="4">
 									<h:outputText value="Opcionais da Requisicao" />
 								</rich:column>
 
-								<rich:column breakBefore="true" width="650">
+								<rich:column breakBefore="true" width="590">
 									<h:outputText value="Descricao" />
 								</rich:column>
 								<rich:column width="40">
-									<h:outputText value="Quant." />
+									<h:outputText value="Qtd." />
 								</rich:column>
 								<rich:column width="60">
 									<h:outputText value="Valor Unit." />
-								</rich:column>								
+								</rich:column>
+								<rich:column width="60">
+									<h:outputText value="SubTotal" />
+								</rich:column>																
 							</rich:columnGroup>
 						</f:facet>
 
@@ -494,7 +505,12 @@
 							<h:outputText value="#{opc.opcionaisReqServ.valorItem}">				
 								<f:convertNumber type="currency" currencySymbol="R$" />				
 							</h:outputText>
-						</rich:column>						
+						</rich:column>			
+						<rich:column>
+							<h:outputText value="#{opc.opcionaisReqServ.valorItem * opc.quantidade}">				
+								<f:convertNumber type="currency" currencySymbol="R$" />				
+							</h:outputText>
+						</rich:column>										
 						<f:facet name="footer">
 							<rich:datascroller id="dsopcrs" renderIfSinglePage="true"></rich:datascroller>
 						</f:facet>
