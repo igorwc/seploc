@@ -1,6 +1,7 @@
 package br.seploc.mbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -9,6 +10,8 @@ import javax.faces.context.FacesContext;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.exceptions.FieldNotNullException;
+import br.seploc.dao.pagedqueries.AllClientsPager;
+import br.seploc.dao.pagedqueries.FilteredNameClientesPager;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.Projeto;
 
@@ -21,6 +24,13 @@ public class ProjetoMB implements Serializable {
 	private ProjetoDAO projetoDAO;	
 	ClienteDAO clienteDAO;
 	private String filtroCliente;
+	private String filtroClienteAnterior;	
+	private boolean resetaFiltroCliente;
+	
+	
+	private int clienteCurrentPage;
+	private int clientePages;	
+	private FilteredNameClientesPager clientePager;
 	
 	// CONSTRUTOR
 	/**
@@ -31,7 +41,7 @@ public class ProjetoMB implements Serializable {
 	}
 	
 	/**
-	 * Metodo de inicialização
+	 * Metodo de inicializaï¿½ï¿½o
 	 */
 	public void init(){
 		quantidade++;
@@ -40,6 +50,11 @@ public class ProjetoMB implements Serializable {
 		cliente.setIdCliente(0);
 		projetoDAO = new ProjetoDAO();
 		clienteDAO = new ClienteDAO();
+		filtroCliente = "";
+		filtroClienteAnterior = "";
+		clientePager = new FilteredNameClientesPager();
+		clientePager.init(10);
+		resetaFiltroCliente = false;		
 		
 	}
 
@@ -76,6 +91,46 @@ public class ProjetoMB implements Serializable {
 		this.filtroCliente = filtroCliente;
 	}
 
+	public String getFiltroClienteAnterior() {
+		return filtroClienteAnterior;
+	}
+
+	public void setFiltroClienteAnterior(String filtroClienteAnterior) {
+		this.filtroClienteAnterior = filtroClienteAnterior;
+	}
+
+	public boolean isResetaFiltroCliente() {
+		return resetaFiltroCliente;
+	}
+
+	public void setResetaFiltroCliente(boolean resetaFiltroCliente) {
+		this.resetaFiltroCliente = resetaFiltroCliente;
+	}
+
+	public int getClienteCurrentPage() {
+		return clienteCurrentPage;
+	}
+
+	public void setClienteCurrentPage(int clienteCurrentPage) {
+		this.clienteCurrentPage = clienteCurrentPage;
+	}
+
+	public int getClientePages() {
+		return clientePages;
+	}
+
+	public void setClientePages(int clientePages) {
+		this.clientePages = clientePages;
+	}
+
+	public FilteredNameClientesPager getClientePager() {
+		return clientePager;
+	}
+
+	public void setClientePager(FilteredNameClientesPager clientePager) {
+		this.clientePager = clientePager;
+	}
+
 	/**
 	 * Recuperar Lista dos Projetos do cliente
 	 * @return List<OpcionaisReqServ>
@@ -104,7 +159,7 @@ public class ProjetoMB implements Serializable {
 		try {
 			if (cliente.getIdCliente() == null || cliente.getIdCliente() == 0) {
 				throw new FieldNotNullException(
-						"Cliente é Obrigatório para Projeto");
+						"Cliente ï¿½ Obrigatï¿½rio para Projeto");
 				
 			}else{
 				cliente = clienteDAO.recupera(cliente.getIdCliente());
@@ -113,7 +168,7 @@ public class ProjetoMB implements Serializable {
 
 			projetoDAO.adiciona(projeto);
 
-			addGlobalMessage("Inclusão feita com sucesso!");
+			addGlobalMessage("Inclusï¿½o feita com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 			e.printStackTrace();
@@ -134,11 +189,86 @@ public class ProjetoMB implements Serializable {
 	public void apagar() {
 		try{
 			projetoDAO.remove(projeto.getCodProj());
-			addGlobalMessage("Projeto excluído com sucesso!");
+			addGlobalMessage("Projeto excluï¿½do com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
 		this.limpar();
+	}
+	
+	public void ultimaPaginaCliente() {
+		clientePager.setCurrentPage(clientePager.getMaxPages());
+		clienteCurrentPage = clientePager.getMaxPages();
+	}
+
+	public void paginaAnteriorCliente() {
+		clientePager.paginaAnterior();
+		clienteCurrentPage--;
+	}
+
+	public void primeiraPaginaCliente() {
+		clientePager.setCurrentPage(0);
+		clienteCurrentPage = 0;
+		
+	}
+	
+	public void proximaPaginaCliente() {
+		clientePager.proximaPagina();
+		clienteCurrentPage++;
+	}	
+	
+	public String getPaginacaoFormatadaCliente() {
+		int paginacorrente = 0, maxpages = 0;
+		if (!(clientePager == null)) {
+			paginacorrente = clientePager.getCurrentPage() + 1;
+		}
+		if (!(clientePager == null)) {
+			maxpages = clientePager.getMaxPages() + 1;
+		}
+		String retorno = "" + paginacorrente + "/" + maxpages;
+		return retorno;
+	}
+	
+	public void atualizaFiltro() {
+		System.out.println(filtroCliente);
+	}		
+	
+	public void resetaFiltro() {
+		filtroCliente = "";
+		resetaFiltroCliente = true;
+	}		
+
+	public List<Cliente> getListaClientes() {
+		List<Cliente> retorno = new ArrayList<Cliente>();
+		if (resetaFiltroCliente) {
+			clientePager = new FilteredNameClientesPager(filtroCliente);
+			clientePager.init(10);
+			retorno = clientePager.getCurrentResults();
+			resetaFiltroCliente = false;
+			return retorno;
+		}
+		if (filtroClienteAnterior.equals(filtroCliente)) {
+			if (null != clientePager) {
+				retorno = clientePager.getCurrentResults();
+				return retorno;
+			} else {
+				clientePager = new FilteredNameClientesPager(filtroCliente);
+				clientePager.init(10);
+				retorno = clientePager.getCurrentResults();
+				return retorno;
+			}
+		} else if (!filtroClienteAnterior.equals(filtroCliente)
+				&& filtroCliente.length() < 3) {
+			filtroClienteAnterior = filtroCliente;
+			retorno = clientePager.getCurrentResults();
+			return retorno;
+		} else {
+			filtroClienteAnterior = filtroCliente;
+			clientePager = new FilteredNameClientesPager(filtroCliente);
+			clientePager.init(10);
+			retorno = clientePager.getCurrentResults();
+			return retorno;
+		}
 	}
 
 	/**
@@ -150,7 +280,7 @@ public class ProjetoMB implements Serializable {
 	}	
 	
 	/**
-	 * Método para incluir mensagens globais no formulário de cadastro
+	 * Mï¿½todo para incluir mensagens globais no formulï¿½rio de cadastro
 	 * 
 	 * @param String
 	 *            message

@@ -69,6 +69,7 @@
 							         id="nomeCliente" 
 							         readonly="true"
 							         required="true" 
+							         size="40"
 							         requiredMessage="O cliente deve ser informado."
 							         />							
 							<a4j:commandLink ajaxSingle="true" 
@@ -85,6 +86,7 @@
 						<td><h:outputText value="Nome Projeto: " styleClass="texto"/></td>
 						<td><h:inputText value="#{projetoCB.projetoMB.projeto.projeto}" 
 									 required="true"
+									 size="40"
 									 requiredMessage="O nome do projeto deve ser informado"
 									 validator="#{projetoCB.validateNomeProj}" 
 					                 id="nomeProjeto">					          
@@ -210,65 +212,112 @@
         </h:form>
     </rich:modalPanel>
 
-	<!-- Modal Cliente -->
-	<rich:modalPanel id="modalCliente" autosized="true" width="300" height="300">
-		<f:facet name="header" >
-			<h:outputText value="Busca Cliente" style="padding-right:15px;" />
-		</f:facet>
-		<f:facet name="controls">
-			<h:panelGroup>
-				<h:graphicImage value="/imgs/icons/close.png" id="hidemodal" />
-				<rich:componentControl for="modalCliente" attachTo="hidemodal" 
-				operation="hide" event="onclick" />
-			</h:panelGroup>
-		</f:facet>
-		<h:form>
-			<rich:dataTable value="#{projetoCB.projetoMB.todosClientes}" var="cli" rows="10"
-				reRender="ds" id="simpletable" >
-				<f:facet name="header">
-					<rich:columnGroup>
-						<rich:column colspan="3">
-							<h:outputText value="Filtro de Cliente" />
-						</rich:column>
-						<rich:column breakBefore="true">
-							<h:outputText value="CNPJ/CPF" />
-						</rich:column>
-						<rich:column>
-							<h:outputText value="Cliente" />
-						</rich:column>
-						<rich:column>							
-						</rich:column>
-					</rich:columnGroup>
-				</f:facet>
-				
-				<rich:column>
-					<h:outputText value="#{cli.cnpj}" />
-					<h:outputText value="#{cli.cpf}" />
-				</rich:column>
-				<rich:column filterBy="#{cli.fantasia}" 
-							 filterEvent="onkeyup"
-							 filterValue="#{projetoCB.projetoMB.filtroCliente}">
-					<h:outputText value="#{cli.fantasia}" />
-				</rich:column>
-				
-				<rich:column styleClass="col1">
-					<a4j:commandLink ajaxSingle="true" 
-						                 id="editlink2" 
-					    				 reRender="cadProjeto" 
-					    				 oncomplete=" #{rich:component('modalCliente')}.hide();"
-					    				 >
-						<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+			<!-- Modal Cliente -->
+		    <rich:modalPanel id="modalCliente" autosized="true" width="400" height="300">
+		        <f:facet name="header" >
+		            <h:outputText value="Busca Cliente" style="padding-right:15px;" />
+		        </f:facet>
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <h:graphicImage value="/imgs/icons/close.png" id="hidemodalcli" />
+		                <rich:componentControl for="modalCliente" attachTo="hidemodalcli" 
+		                operation="hide" event="onclick" />
+		            </h:panelGroup>
+		        </f:facet>
+		        <h:form>
+		            <rich:panel  >
+		                <f:facet name="header">
+		                    Filtro
+		                </f:facet>
+		                <h:panelGrid columns="3">
+		                    <h:inputText  value="#{projetoCB.projetoMB.filtroCliente}" 
+		                                  id="clienteFiltro"
+		                                  size="30"  >      
+		                      </h:inputText> 
+		                      <a4j:commandButton value="buscar" 
+		                                         action="#{projetoCB.projetoMB.atualizaFiltro}" 
+		                                         reRender="clienteFiltro, clientesTable,outputPaginacaoCliente"/>
+		                      <a4j:commandButton value="Limpar" 
+		                                         action="#{projetoCB.projetoMB.resetaFiltro}" 
+		                                         reRender="clienteFiltro, clientesTable,outputPaginacaoCliente"/>
+		                           
+		                </h:panelGrid>
+		            </rich:panel>
+		            <rich:dataTable value="#{projetoCB.projetoMB.listaClientes}" 
+		                            var="cli" 
+		                            rows="10"
+		                            id="clientesTable"  
+		                            width="100%">
+		                <f:facet name="header">
+		                    <rich:columnGroup>
+		                        <rich:column colspan="3">
+		                            <h:outputText value="Clientes" />
+		                        </rich:column>
+		                        <rich:column breakBefore="true">
+		                            <h:outputText value="CNPJ/CPF" />
+		                        </rich:column>
+		                        <rich:column>
+		                            <h:outputText value="Cliente" />
+		                        </rich:column>
+		                        <rich:column>                           
+		                        </rich:column>
+		                    </rich:columnGroup>
+		                </f:facet>
+		                
+		                <rich:column>
+		                    <h:outputText value="#{cli.cnpj}" />
+		                    <h:outputText value="#{cli.cpf}" />
+		                </rich:column>
+		                <rich:column  >
+		                    <h:outputText value="#{cli.fantasia}" />
+		                </rich:column>
+		                
+		                <rich:column styleClass="col1">
+		                    <a4j:commandLink ajaxSingle="true" 
+		                                         id="editlinkcli"  
+		                                         reRender="cadProjeto, clienteFiltro, clientesTable,outputPaginacaoCliente"		                                         
+		                                         oncomplete=" #{rich:component('modalCliente')}.hide();"
+		                                         action="#{projetoCB.projetoMB.resetaFiltro}"
+		                                         >
+		                        <h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+		
+		                        <f:setPropertyActionListener value="#{cli}"
+		                                target="#{projetoCB.projetoMB.cliente}" />
+		                            
+		                    </a4j:commandLink>
+		                </rich:column>  
+		                 
+		            </rich:dataTable>  
+		            <center>
+		                        <h:panelGrid columns="5" style=" width : 100px;" >
+		                        
+		                            <a4j:commandButton
+		                                    value="primeiro"
+		                                    action="#{projetoCB.projetoMB.primeiraPaginaCliente}"
+		                                    reRender="clienteFiltro, clienteFiltro,clientesTable,outputPaginacaoCliente"
+		                                    image="/imgs/ceta_pri.png"/>
+		                             <a4j:commandButton
+		                                    value="anterior"
+		                                    action="#{projetoCB.projetoMB.paginaAnteriorCliente}"
+		                                    reRender="clienteFiltro, clienteFiltro,clientesTable,outputPaginacaoCliente"
+		                                    image="/imgs/ceta_ant.png"/>   
+		                             <h:outputText value="#{projetoCB.projetoMB.paginacaoFormatadaCliente}" id="outputPaginacaoCliente"/>                           
+		                             <a4j:commandButton
+		                                    value="proxima"
+		                                    action="#{projetoCB.projetoMB.proximaPaginaCliente}"
+		                                    reRender="clienteFiltro, clienteFiltro,clientesTable,outputPaginacaoCliente"
+		                                    image="/imgs/ceta_pro.png"/>
+		                             <a4j:commandButton
+		                                    value="ultima"
+		                                    action="#{projetoCB.projetoMB.ultimaPaginaCliente}"
+		                                    reRender="clienteFiltro, clienteFiltro,clientesTable,outputPaginacaoCliente"
+		                                    image="/imgs/ceta_ult.png"/>
+		                                      
+		                        </h:panelGrid>
+		                    </center>   
+		        </h:form>
+		    </rich:modalPanel>			
 
-						<f:setPropertyActionListener value="#{cli}"
-								target="#{projetoCB.projetoMB.cliente}" />
-					</a4j:commandLink>
-				</rich:column>  
-				<f:facet name="footer">
-					<rich:datascroller id="ds" renderIfSinglePage="false"></rich:datascroller>
-				</f:facet>
-			</rich:dataTable>	
-		</h:form>
-	</rich:modalPanel>
 		       
    </f:view>   
 </ui:define>
