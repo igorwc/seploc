@@ -18,7 +18,10 @@ import java.util.Map;
 
 import com.lowagie.text.DocumentException;
 
+import br.seploc.dao.EntregaDAO;
+import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.migracao.ConnectionFactory;
+import br.seploc.pojos.RequisicaoServico;
 import br.seploc.reports.beans.ClienteBean;
 import br.seploc.reports.beans.ImpressaoBean;
 import br.seploc.util.HtmlManipulator;
@@ -171,38 +174,50 @@ public class ReportImpressaoReqServGenerator {
 			return;
 		}
 		verificaEntrega();
-		String sql = "SELECT dblValorTotal as vtotal, (dblValorTotal- dblValorTotal *intOrcamento/100) as total" +
-					 " FROM tbl_reqserv"+
-				     " WHERE  intNumreq = ?";
+//		String sql = "SELECT dblValorTotal as vtotal, (dblValorTotal- dblValorTotal *intOrcamento/100) as total" +
+//					 " FROM tbl_reqserv"+
+//				     " WHERE  intNumreq = ?";
 		try {
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setInt(1, numRequisicao);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				Double flag = rs.getDouble("vtotal");
-				Double flag2 = rs.getDouble("total");
-				if (flag != null) {
-					this.valorTotal = flag;
-				} else {
-					this.valorTotal = 0.0;
-				}
-				if (flag2 != null) {
-					this.valorTotalDesconto = flag2;
-				} else {
-					this.valorTotalDesconto = 0.0;
-				}
-				System.out.println("Valores:");
-				System.out.println("Total:"+valorTotal );
-				System.out.println("Totald:"+valorTotalDesconto );
-				System.out.println("flag.doubleValue():"+flag.doubleValue() );
-				System.out.println("flag2.doubleValue():"+flag2.doubleValue() );
-				System.out.println("flag.doubleValue() == flag2.doubleValue():"+(flag.doubleValue() == flag2.doubleValue() ));
-				if(flag.doubleValue() != flag2.doubleValue()){
-					hasDesconto = 1;
-				} else {
-					hasDesconto = 0;
-				}
+			RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+			
+			Double valorTotal = dao.calculaTotalRequisicao(numRequisicao);
+			RequisicaoServico rs = dao.recupera(numRequisicao);
+			if(rs == null){
+				return;
 			}
+				
+			this.valorTotal = valorTotal + this.entrega;
+			System.out.println("Valor Total:" + valorTotal);
+			System.out.println("Entrega:" + this.entrega);
+			this.valorTotalDesconto = (valorTotal - (valorTotal*rs.getOrcamento()/100) ) + this.entrega;
+//			PreparedStatement stmt = connection.prepareStatement(sql);
+//			stmt.setInt(1, numRequisicao);
+//			ResultSet rs = stmt.executeQuery();
+//			if (rs.next()) {
+//				Double flag = rs.getDouble("vtotal");
+//				Double flag2 = rs.getDouble("total");
+//				if (flag != null) {
+//					this.valorTotal = flag;
+//				} else {
+//					this.valorTotal = 0.0;
+//				}
+//				if (flag2 != null) {
+//					this.valorTotalDesconto = flag2;
+//				} else {
+//					this.valorTotalDesconto = 0.0;
+//				}
+//				System.out.println("Valores:");
+//				System.out.println("Total:"+valorTotal );
+//				System.out.println("Totald:"+valorTotalDesconto );
+//				System.out.println("flag.doubleValue():"+flag.doubleValue() );
+//				System.out.println("flag2.doubleValue():"+flag2.doubleValue() );
+//				System.out.println("flag.doubleValue() == flag2.doubleValue():"+(flag.doubleValue() == flag2.doubleValue() ));
+//				if(flag.doubleValue() != flag2.doubleValue()){
+//					hasDesconto = 1;
+//				} else {
+//					hasDesconto = 0;
+//				}
+//			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -276,6 +291,7 @@ public class ReportImpressaoReqServGenerator {
 		map.put("paginacao_total", paginas);
 		calculaTotalRequisicao();
 		map.put("valor_total", valorTotal);
+		System.out.println("Valor Total:" + valorTotal);
 		map.put("valor_totald", valorTotalDesconto);
 		map.put("desconto", hasDesconto);
 		map.put("numRequisicao", numRequisicao);
@@ -540,8 +556,10 @@ public class ReportImpressaoReqServGenerator {
 				"root", "");
 		rr.setConnection(conexao);
 //		rr.setNumRequisicao(59668);
-		rr.setNumRequisicao(109251);
+//		rr.setNumRequisicao(109251);
 //		rr.setNumRequisicao(76430);
+		rr.setNumRequisicao(73635);
+		
  
 		
 		rr.geraDados();
