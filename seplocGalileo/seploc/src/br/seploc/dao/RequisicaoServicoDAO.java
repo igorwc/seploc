@@ -372,4 +372,50 @@ public class RequisicaoServicoDAO extends
 		em.getTransaction().commit();	
 //		
 	}
+	
+	@SuppressWarnings("unchecked")
+	public Double calculaTotalRequisicao(Integer numReq){
+		if(numReq == null){
+			return 0.0;
+		}
+		if(numReq == 0){
+			return 0.0;
+		}
+		Double totalLinhas = 0.0;
+		Double totalOpcionais = 0.0;
+		String sql1 = "select "
+			+ " sum(li.dblValorUnit) "
+			+ "from tbl_linhareq li,tbl_reqserv rr "
+			+ "where  rr.intNumReq = ? "
+			+ "and rr.intNumReq = li.intNumReq ";
+		String sql2 =  " SELECT sum(op.dblValorItem*rso.intQuant)  "
+			+ "FROM tbl_reqserv r,tbl_opcionaisreqserv op, tbl_reqservopcionais rso "
+			+ "WHERE "
+			+ "rso.intNumReq = r.intNumReq and "
+			+ "rso.intCodOp = op.intCod and "
+			+ "r.intNumReq = ?   " ;
+		em.getTransaction().begin();
+		Query q = em.createNativeQuery(sql1).setParameter(1, numReq.intValue());
+		List<Double> lista = q.getResultList();
+		if (!lista.isEmpty()) {
+			if(lista.get(0) != null)
+				totalLinhas = lista.get(0);
+			else
+				totalLinhas = 0.0;
+		} else {
+			totalLinhas = 0.0;
+		}
+		q = em.createNativeQuery(sql2).setParameter(1, numReq.intValue());
+		lista = q.getResultList();
+		if (!lista.isEmpty()) {
+			if(lista.get(0) != null)
+				totalOpcionais = lista.get(0);
+			else
+				totalOpcionais = 0.0;
+		} else {
+			totalOpcionais = 0.0;
+		}
+		em.getTransaction().commit();
+		return totalLinhas + totalOpcionais;
+	}
 }
