@@ -144,17 +144,26 @@ public class ReqServListaMB implements Serializable {
 	public List<RequisicaoServico> filtroReqserv(int projeto, int numReqServ,
 			int cliente, Calendar dataIni, Calendar dataFim) {
 		List<RequisicaoServico> retorno = null;
-		if (reqServPager != null && projetoID == reqServPager.getProjeto()
-				&& clienteID == reqServPager.getCliente()
-				&& dataIni.getTimeInMillis() == reqServPager.getDataIni().getTimeInMillis()
-				&& (dataFim == null || dataFim.getTimeInMillis()== reqServPager.getDataFim().getTimeInMillis())) {
-			retorno = reqServPager.getCurrentResults();
+		
+		if (numReqBusca <= 0){
+			if (reqServPager != null && projetoID == reqServPager.getProjeto()
+					&& clienteID == reqServPager.getCliente()
+					&& dataIni.getTimeInMillis() == reqServPager.getDataIni().getTimeInMillis()
+					&& (dataFim == null || dataFim.getTimeInMillis()== reqServPager.getDataFim().getTimeInMillis())) {
+				retorno = reqServPager.getCurrentResults();
+			} else {
+				reqServPager = new FilteredReqServPager();
+				reqServPager.setParameters(projeto, numReqServ, cliente, dataIni,
+						dataFim);
+				reqServPager.init(12);
+				retorno = reqServPager.getCurrentResults();
+			}
 		} else {
-			reqServPager = new FilteredReqServPager();
-			reqServPager.setParameters(projeto, numReqServ, cliente, dataIni,
-					dataFim);
-			reqServPager.init(12);
-			retorno = reqServPager.getCurrentResults();
+				reqServPager = new FilteredReqServPager();
+				reqServPager.setParameters(0, numReqBusca, 0, null,
+						null);
+				reqServPager.init(12);
+				retorno = reqServPager.getCurrentResults();				
 		}
 
 		return retorno;
@@ -479,7 +488,9 @@ public class ReqServListaMB implements Serializable {
 	}
 
 	public void pesquisar() {
-
+		if(String.valueOf(numReqBusca) == null) {
+			numReqBusca = 0;
+		}
 	}
 
 	public void mostrarMapa() {

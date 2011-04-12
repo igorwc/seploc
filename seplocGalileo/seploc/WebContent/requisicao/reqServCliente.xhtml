@@ -241,32 +241,34 @@
 	                   <f:facet name="header">  
 	                       <rich:columnGroup>  
 	  
-	                           <rich:column colspan="8">  
+	                           <rich:column colspan="9">  
 	                               <h:outputText value="Linhas da Requisicao" />  
 	                           </rich:column>  
 	  
-	                           <rich:column breakBefore="true"  width="350px">  
+	                           <rich:column breakBefore="true"  width="440px">  
 	                               <h:outputText value="Descricao"/>  
 	                           </rich:column>  
-	                           <rich:column width="100px">  
+	                           <rich:column width="70px">  
 	                               <h:outputText value="Formato"/>  
 	                           </rich:column>                             
-	                           <rich:column width="100px">  
+	                           <rich:column width="70px">  
 	                               <h:outputText value="Dimensao"/>  
 	                           </rich:column>                             
-	                           <rich:column width="150px">  
+	                           <rich:column width="160px">  
 	                               <h:outputText value="Papel"/>  
 	                           </rich:column>                             
-	                           <rich:column width="100px">  
+	                           <rich:column width="80px">  
 	                               <h:outputText value="Impressao"/>  
 	                           </rich:column>                             
 	                           <rich:column width="50px">  
-	                               <h:outputText value="Quant"/>  
+	                               <h:outputText value="Quant."/>  
 	                           </rich:column>    
-	                           <rich:column width="100px">  
+	                           <rich:column width="80px">  
 	                               <h:outputText value="Valor Unit."/>  
 	                           </rich:column>                                                                                
-	                             
+	                           <rich:column width="80px">  
+	                               <h:outputText value="SubTotal"/>  
+	                           </rich:column>	                             
 	                           <rich:column width="50px"/>  
 									                           
 	                       </rich:columnGroup>  
@@ -275,20 +277,23 @@
 	                   <rich:column>  
 			               <h:outputText value="#{linha.nomeArquivo}" />  
 	                   </rich:column>  
-	                   <rich:column>  
+	                   <rich:column align="center">  
 			               <h:outputText value="#{linha.formato}" />  
 	                   </rich:column>
-	                   <rich:column>  
+	                   <rich:column align="center">  
 			               <h:outputText value="#{linha.dimensao}" />  
 	                   </rich:column>
 	                   <rich:column>  
 			               <h:outputText value="#{linha.papel.nome}" />  
 	                   </rich:column>
-	                   <rich:column>  
+	                   <rich:column align="center">  
 			               <h:outputText value="#{linha.impressao}" />  
 	                   </rich:column>
+	                   <rich:column align="center">  
+			               <h:outputText value="#{linha.quant}" ><f:convertNumber pattern="#00" /></h:outputText>  
+	                   </rich:column>
 	                   <rich:column>  
-			               <h:outputText value="#{linha.quant}" />  
+			               <h:outputText value="#{linha.valorSubUnit}"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText>  
 	                   </rich:column>
 	                   <rich:column>  
 			               <h:outputText value="#{linha.valorUnit}"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText>  
@@ -332,16 +337,18 @@
 	                   			align="center">  
 	                   <f:facet name="header">  
 	                       <rich:columnGroup>
-							   <rich:column breakBefore="true" width="810">  
+							   <rich:column breakBefore="true" width="760">  
 	                               <h:outputText value="Opcional"/>  
 	                           </rich:column>  
 	                           <rich:column width="50px">  
 	                               <h:outputText value="Quant."/>  
 	                           </rich:column>                             
-	                           <rich:column width="90px">  
+	                           <rich:column width="70px">  
 	                               <h:outputText value="Valor Unit."/>  
 	                           </rich:column>                             
-	                             
+	                           <rich:column width="70px">  
+	                               <h:outputText value="SubTotal"/>  
+	                           </rich:column>             	                             
 	                           <rich:column width="50px"/>  
 									                           
 	                       </rich:columnGroup>  
@@ -350,8 +357,11 @@
 	                   <rich:column>  
 			               <h:outputText value="#{op.opcionaisReqServ.nomeItem}" />  
 	                   </rich:column>  
+	                   <rich:column align="center">  
+			               <h:outputText value="#{op.quantidade}" ><f:convertNumber pattern="#00" /></h:outputText>  
+	                   </rich:column>
 	                   <rich:column>  
-			               <h:outputText value="#{op.quantidade}" />  
+			               <h:outputText value="#{op.opcionaisReqServ.valorItem}" ><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText>  
 	                   </rich:column>
 	                   <rich:column>  
 			               <h:outputText value="#{op.opcionaisReqServ.valorItem*op.quantidade}" ><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText>  
@@ -361,22 +371,24 @@
 							<a4j:commandLink ajaxSingle="true" 
 											 id="editlinkop2" 
 							    			 reRender="reqServ" 
-							    			 action="#{reqServClienteCB.reqServMB.editarOpcional}" >
+							    			 action="#{reqServClienteCB.reqServMB.editarOpcional}" 
+							    			 disabled="#{sessionScope.REQ_CLIENTE_ESC}">
 								<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 								<f:setPropertyActionListener value="#{op}"
 									target="#{reqServClienteCB.reqServMB.opcionalReqServ}" />
 							</a4j:commandLink>
-							<rich:toolTip for="editlinklinha" value="Editar Registro" />
+							<rich:toolTip for="editlinkop2" value="#{sessionScope.REQ_CLIENTE_ESC == true ? 'Nao tem permissao' : 'Editar Requisicao'}" />
 							<a4j:commandLink ajaxSingle="true"
 											 id="deletelinkop"
 											 reRender="opList" 
 											 action="#{reqServClienteCB.reqServMB.apagarOpcional}" 
-											 oncomplete="#{rich:component('confirmationMessage')}.show()">
+											 oncomplete="#{rich:component('confirmationMessage')}.show()"
+											 disabled="#{sessionScope.REQ_CLIENTE_ESC}">
 								<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 								<f:setPropertyActionListener value="#{op}"
 									target="#{reqServClienteCB.reqServMB.opcionalReqServ}" />
 							</a4j:commandLink>
-							<rich:toolTip for="deletelinklinha" value="Apagar Registro" />
+							<rich:toolTip for="deletelinkop" value="#{sessionScope.REQ_CLIENTE_ESC == true ? 'Nao tem permissao' : 'Apagar Requisicao'}" />
 						</rich:column> 
 	                    <f:facet name="footer">
 	               			<rich:datascroller id="dsop" maxPages="3" renderIfSinglePage="true"/>
