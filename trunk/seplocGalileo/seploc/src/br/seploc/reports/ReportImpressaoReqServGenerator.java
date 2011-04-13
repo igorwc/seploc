@@ -190,6 +190,11 @@ public class ReportImpressaoReqServGenerator {
 			System.out.println("Valor Total:" + valorTotal);
 			System.out.println("Entrega:" + this.entrega);
 			this.valorTotalDesconto = (valorTotal - (valorTotal*rs.getOrcamento()/100) ) + this.entrega;
+			if(this.valorTotal != this.valorTotalDesconto){
+				hasDesconto = 1;
+			} else {
+				hasDesconto = 0;
+			}
 //			PreparedStatement stmt = connection.prepareStatement(sql);
 //			stmt.setInt(1, numRequisicao);
 //			ResultSet rs = stmt.executeQuery();
