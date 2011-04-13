@@ -168,15 +168,15 @@ public class RequisicaoServico implements Serializable {
 		double total = 0;
 		double desconto = 0;
 		double entrega = 0;
-		if(valorTotal == null){
-			total = 0;
-		}else{
-			total = valorTotal;
-		}
 		if(valorEnt == null){
 			entrega = 0;
 		}else{
 			entrega = valorEnt;
+		}
+		if(valorTotal == null){
+			total = 0;
+		}else{
+			total = valorTotal-entrega;
 		}
 		if(orcamento == null){
 			desconto = 0;
