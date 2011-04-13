@@ -245,9 +245,8 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
 } 
 </script>
                   <a4j:commandButton value="Salvar desconto"
-                                     action="#{cobradorCB.cobradorMB.cadastrar}" 
-                                     reRender="cadCobrador,cobradorList,cobradorSucesso"
-                                     oncomplete="#{rich:component('confirmationMessage')}.show()" 
+                                     action="#{reqClientePeriodoCB.clientePeriodoMB.atualizaDescontoRequisicoes}" 
+                                     reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto"
                                      id="salvaDesconto"/>                                                                
                   <a4j:commandButton value="#{msgs['botao.limpar']}" 
                                      action="#{cobradorCB.cobradorMB.limpar}"
