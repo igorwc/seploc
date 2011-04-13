@@ -147,15 +147,6 @@ public class ReqServListaMB implements Serializable {
 		Boolean alterouReqServ = (Boolean) SessionObjectsManager.recuperaObjetoSessao("alterouReqServ");
 		if (alterouReqServ != null) {
 			if (alterouReqServ) {
-//				FacesContext context = FacesContext
-//						.getCurrentInstance();
-//				ReqServListaMB reqServListaMB = (ReqServListaMB) context
-//						.getApplication()
-//						.evaluateExpressionGet(context,
-//								"#{reqServListaMB}",
-//								ReqServListaMB.class);
-//				reqServListaMB.setClienteID(0);
-//				reqServListaMB.setProjetoID(0);
 				reqServPager = new FilteredReqServPager();
 				reqServPager.setParameters(projeto, numReqServ, cliente, dataIni,
 						dataFim);
