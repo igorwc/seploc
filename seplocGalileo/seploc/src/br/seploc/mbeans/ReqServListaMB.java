@@ -144,7 +144,27 @@ public class ReqServListaMB implements Serializable {
 	public List<RequisicaoServico> filtroReqserv(int projeto, int numReqServ,
 			int cliente, Calendar dataIni, Calendar dataFim) {
 		List<RequisicaoServico> retorno = null;
-		
+		Boolean alterouReqServ = (Boolean) SessionObjectsManager.recuperaObjetoSessao("alterouReqServ");
+		if (alterouReqServ != null) {
+			if (alterouReqServ) {
+//				FacesContext context = FacesContext
+//						.getCurrentInstance();
+//				ReqServListaMB reqServListaMB = (ReqServListaMB) context
+//						.getApplication()
+//						.evaluateExpressionGet(context,
+//								"#{reqServListaMB}",
+//								ReqServListaMB.class);
+//				reqServListaMB.setClienteID(0);
+//				reqServListaMB.setProjetoID(0);
+				reqServPager = new FilteredReqServPager();
+				reqServPager.setParameters(projeto, numReqServ, cliente, dataIni,
+						dataFim);
+				reqServPager.init(12);
+				retorno = reqServPager.getCurrentResults();
+				SessionObjectsManager.removeObjetoSessao("alterouReqServ");
+				return retorno;
+			}
+		}
 		if (numReqBusca <= 0){
 			if (reqServPager != null && projetoID == reqServPager.getProjeto()
 					&& clienteID == reqServPager.getCliente()
@@ -452,6 +472,7 @@ public class ReqServListaMB implements Serializable {
 	public String editar() {
 		SessionObjectsManager.adicionaObjetoSessao("numReqServ", reqServico
 				.getNumReq());
+		SessionObjectsManager.adicionaObjetoSessao("alterouReqServ", new Boolean(true));
 		return "reqServ";
 	}
 
