@@ -9,7 +9,8 @@
 
 <!-- TAXINOMIA -->      
 <ui:define name="taxinomia">
-   	<h:outputText value="#{msgs.tax_relat_root}"/> <img src="../imgs/ponto.png"/>  
+   	<h:outputText value="#{msgs.tax_relat_root}"/> 
+   	<img src="../imgs/ponto.png"/><rich:spacer width="5px"/>  
    	<h:outputText value="#{msgs.tax_relat_cliente}"/>
 </ui:define>      
 
@@ -427,7 +428,7 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                 <rich:column styleClass="col1">
                     <a4j:commandLink ajaxSingle="true" 
                                          id="editlinkcli"  
-                                         reRender="inputCliente,dsRequisicoes,requisicaoList,lbValorTotal,lbValorDesconto,descCliente,desconto" 
+                                         reRender="inputCliente,dsRequisicoes,requisicaoList,lbValorTotal,lbValorDesconto,descCliente,desconto, clienteFiltro, clientesTable,outputPaginacaoCliente" 
                                          action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}"
                                          oncomplete=" #{rich:component('modalCliente')}.hide();"
                                          >
