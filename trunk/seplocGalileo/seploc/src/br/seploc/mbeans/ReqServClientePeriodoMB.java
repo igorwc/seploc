@@ -20,6 +20,7 @@ import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.dao.pagedqueries.FilteredNameClientesPager;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.RequisicaoServico;
+import br.seploc.util.Utils;
 
 public class ReqServClientePeriodoMB implements Serializable {
 
@@ -89,9 +90,8 @@ public class ReqServClientePeriodoMB implements Serializable {
 	// CONSTRUTOR PADRAO
 	public ReqServClientePeriodoMB() {
 		cliente = new Cliente();
-//		dataInicio = new Date(Calendar.getInstance().getTimeInMillis());
-//		dataFim = new Date(Calendar.getInstance().getTimeInMillis());
-		iniciarDatas();
+		dataInicio = Utils.getDataInicioMesCorrente();
+		dataFim = Utils.getDataFinalMesCorrente();
 		desconto = 0 ;
 		filtroCliente = "";
 		filtroClienteAnterior = "";
@@ -101,18 +101,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 		reqImpressao = new RequisicaoServico();
 		urlReqImpressao = "";
 	}
-	public void iniciarDatas() {
-		dataInicio = new Date(this.getDayAgo(60).getTimeInMillis());
-		dataFim = new Date(Calendar.getInstance().getTimeInMillis());
-	}
-	private Calendar getDayAgo(int dias) {
-		Calendar dia = Calendar.getInstance();
-		// dias atras
-		dias = dias * -1;
-		dia.add(Calendar.DATE, dias);
-		System.out.println(dia.getTime());
-		return dia;
-	}
+
 	public void limpar(){
 		cliente = new Cliente();
 		iniciarDatas();
@@ -125,6 +114,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 		reqImpressao = new RequisicaoServico();
 		urlReqImpressao = "";
 	}
+	
 	public Double atualizaValorTotalDescontoRequisicoes() {
 		Double retorno = 0.0;
 		NumberFormat formatter = new DecimalFormat("#.##");
