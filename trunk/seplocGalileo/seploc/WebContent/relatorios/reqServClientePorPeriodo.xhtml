@@ -83,6 +83,7 @@
                             </h:inputText> 
                             <a4j:commandLink ajaxSingle="true" 
                                              id="modaleditcli" 
+                                             action="#{reqClientePeriodoCB.clientePeriodoMB.resetaFiltro}"
                                              oncomplete="#{rich:component('modalCliente')}.show();return false;">
                                 <h:graphicImage value="/imgs/botao-editar.png" 
                                                 style="border:0" />                  
@@ -249,11 +250,12 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                                      reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto"
                                      id="salvaDesconto"/>                                                                
                   <a4j:commandButton value="#{msgs['botao.limpar']}" 
-                                     action="#{cobradorCB.cobradorMB.limpar}"
-                                     reRender="cobradorList,cadCobrador" />
+                                     action="#{reqClientePeriodoCB.clientePeriodoMB.limpar}"
+                                     reRender="dataInicioCli,dataFimCli,cliente,dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto" />
                   <a4j:commandButton value="Imprimir Lista"
                                       actionListener="#{reqClientePeriodoCB.setaObjetosSessao}"
-                                     oncomplete="javascript:popUp('#{reqClientePeriodoCB.url}')" />
+                                     oncomplete="javascript:popUp('#{reqClientePeriodoCB.url}')"
+                                     style="display:none" />
                </rich:panel>
                </center>
                
@@ -363,7 +365,7 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
        </h:form>
        
        <!-- Modal Cliente -->
-    <rich:modalPanel id="modalCliente" autosized="true" width="400" height="300">
+    <rich:modalPanel id="modalCliente" autosized="true" width="400" height="300" >
         <f:facet name="header" >
             <h:outputText value="Busca Cliente" style="padding-right:15px;" />
         </f:facet>
