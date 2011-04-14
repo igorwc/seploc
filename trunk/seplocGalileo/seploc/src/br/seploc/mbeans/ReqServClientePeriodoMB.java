@@ -45,6 +45,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 	public List<RequisicaoServico> buscaRequisicoes() {
 		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
 		List<RequisicaoServico> retorno = null;
+		resetaFiltro();
 		System.out.println("Valor datainicio busca: " + dataInicio);
 		System.out.println("Valor dataInicioStr busca: " + dataInicioStr);
 		if (dataInicio != null && dataFim != null && cliente != null
@@ -64,7 +65,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 		listaRequisicoes = retorno;
 		atualizaValorTotalRequisicoes();
 		atualizaValorTotalDescontoRequisicoes();
-		resetaFiltro();
+		
 		return retorno;
 	}
 	
@@ -88,8 +89,9 @@ public class ReqServClientePeriodoMB implements Serializable {
 	// CONSTRUTOR PADRAO
 	public ReqServClientePeriodoMB() {
 		cliente = new Cliente();
-		dataInicio = new Date(Calendar.getInstance().getTimeInMillis());
-		dataFim = new Date(Calendar.getInstance().getTimeInMillis());
+//		dataInicio = new Date(Calendar.getInstance().getTimeInMillis());
+//		dataFim = new Date(Calendar.getInstance().getTimeInMillis());
+		iniciarDatas();
 		desconto = 0 ;
 		filtroCliente = "";
 		filtroClienteAnterior = "";
@@ -99,7 +101,30 @@ public class ReqServClientePeriodoMB implements Serializable {
 		reqImpressao = new RequisicaoServico();
 		urlReqImpressao = "";
 	}
-
+	public void iniciarDatas() {
+		dataInicio = new Date(this.getDayAgo(60).getTimeInMillis());
+		dataFim = new Date(Calendar.getInstance().getTimeInMillis());
+	}
+	private Calendar getDayAgo(int dias) {
+		Calendar dia = Calendar.getInstance();
+		// dias atras
+		dias = dias * -1;
+		dia.add(Calendar.DATE, dias);
+		System.out.println(dia.getTime());
+		return dia;
+	}
+	public void limpar(){
+		cliente = new Cliente();
+		iniciarDatas();
+		desconto = 0 ;
+		filtroCliente = "";
+		filtroClienteAnterior = "";
+		clientePager = new FilteredNameClientesPager();
+		clientePager.init(10);
+		resetaFiltroCliente = false;
+		reqImpressao = new RequisicaoServico();
+		urlReqImpressao = "";
+	}
 	public Double atualizaValorTotalDescontoRequisicoes() {
 		Double retorno = 0.0;
 		NumberFormat formatter = new DecimalFormat("#.##");
@@ -267,6 +292,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 		if (resetaFiltroCliente) {
 			clientePager = new FilteredNameClientesPager(filtroCliente);
 			clientePager.init(10);
+			filtroCliente = "";
 			retorno = clientePager.getCurrentResults();
 			resetaFiltroCliente = false;
 			return retorno;
