@@ -89,6 +89,10 @@ public class ReqServClientePeriodoMB implements Serializable {
 
 	// CONSTRUTOR PADRAO
 	public ReqServClientePeriodoMB() {
+		this.load();
+	}
+	
+	private void load(){
 		cliente = new Cliente();
 		dataInicio = Utils.getDataInicioMesCorrente();
 		dataFim = Utils.getDataFinalMesCorrente();
@@ -99,20 +103,11 @@ public class ReqServClientePeriodoMB implements Serializable {
 		clientePager.init(10);
 		resetaFiltroCliente = false;
 		reqImpressao = new RequisicaoServico();
-		urlReqImpressao = "";
+		urlReqImpressao = "";		
 	}
 
 	public void limpar(){
-		cliente = new Cliente();
-		iniciarDatas();
-		desconto = 0 ;
-		filtroCliente = "";
-		filtroClienteAnterior = "";
-		clientePager = new FilteredNameClientesPager();
-		clientePager.init(10);
-		resetaFiltroCliente = false;
-		reqImpressao = new RequisicaoServico();
-		urlReqImpressao = "";
+		load();
 	}
 	
 	public Double atualizaValorTotalDescontoRequisicoes() {
