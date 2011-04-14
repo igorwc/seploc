@@ -28,7 +28,7 @@ import br.seploc.util.xmlConfig.XPathReader;
 /**
  * Servlet implementation class RelatorioServlet
  */
-public class RelatorioServlet extends HttpServlet {
+public class ListaImpressaoRelatoriosServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public static Connection con;
@@ -39,7 +39,7 @@ public class RelatorioServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public RelatorioServlet() {
+	public ListaImpressaoRelatoriosServlet() {
 		super();
 	}
 
