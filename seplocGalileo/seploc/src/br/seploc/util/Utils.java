@@ -58,4 +58,22 @@ public class Utils {
 		
 		return diaParaTras;
 	}	
+	
+	public static Date getDataInicioMesCorrente(){
+		Calendar calendar = Calendar.getInstance();		
+		int primeiroDia = calendar.getActualMinimum(Calendar.DATE);		
+		calendar.set(Calendar.DATE, primeiroDia);		
+		Date inicioMes = new Date(calendar.getTimeInMillis()); 
+		
+		return inicioMes;
+	}
+	
+	public static Date getDataFinalMesCorrente(){
+		Calendar calendar = Calendar.getInstance();
+		int ultimoDia = calendar.getActualMaximum(Calendar.DATE);
+		calendar.set(Calendar.DATE, ultimoDia);
+		Date finalMes = new Date(calendar.getTimeInMillis());
+		
+		return finalMes;
+	}
 }
