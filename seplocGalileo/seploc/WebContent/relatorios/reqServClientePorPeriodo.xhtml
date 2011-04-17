@@ -254,9 +254,9 @@ eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,lo
                                      action="#{reqClientePeriodoCB.clientePeriodoMB.limpar}"
                                      reRender="dataInicioCli,dataFimCli,cliente,dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto" />
                   <a4j:commandButton value="Imprimir Lista"
-                                      actionListener="#{reqClientePeriodoCB.setaObjetosSessao}"
-                                     oncomplete="javascript:popUp('#{reqClientePeriodoCB.url}')"
-                                     style="display:none" />
+                                      action="#{reqClientePeriodoCB.clientePeriodoMB.geraURLListaReqServImpressao}"
+                                     oncomplete="javascript:popUp('#{reqClientePeriodoCB.clientePeriodoMB.urlReqListImpressao}')"
+                                       />
                </rich:panel>
                </center>
                
