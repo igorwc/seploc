@@ -116,27 +116,23 @@
             cellpadding="2" cellspacing="2" class="reqtable">
             <tbody>
                 <tr class="cab">
-                    <th style="width: 5%">Item</th>
-                    <th style="width: 25%">Arquivo</th>
-                    <th style="width: 10%">Form</th>
-                    <th style="width: 10%">Dim.</th>
-                    <th style="width: 15%">Papel</th>
-                    <th style="width: 10%">Imp.</th>
-                    <th style="width: 5%">Qtd.</th>
-                    <th style="width: 10%">Valor Unit</th>
-                    <th style="width: 10%">SubTotal</th>
+                    <th style="width: 5%">Seq</th>
+                    <th style="width: 7%">Num. Req.</th>
+                    <th style="width: 8%">Data</th>
+                    <th style="width: 40%">Projeto</th>
+                    <th style="width: 15%">Subtotal</th>
+                    <th style="width: 15%">Subtotal c/ Desc.</th>
+                    <th style="width: 10%">Desconto</th>
                 </tr>
                 <#assign row=0> <#list linha as elemento>
-                <tr  class="<#if (row % 2) == 0 >alt<#else>nada</#if>" >
-                    <td>${elemento.seq}</td>
-                <td>${elemento.item}</td>
-                <td>${elemento.formato}</td>
-                <td>${elemento.dimensao}</td>
-                <td>${elemento.nomePapel}</td>
-                <td>${elemento.impressao}</td>
-                <td>${elemento.qtd}</td>
-                <td>${elemento.valorItem}</td>
-                <td>${elemento.subTotal}</td>
+           <tr  class="<#if (row % 2) == 0 >alt<#else>nada</#if>" >
+                <td>${elemento.seq}</td>
+                <td>${elemento.numReq}</td>
+                <td>${elemento.dataFormatada}</td>
+                <td>${elemento.projeto}</td>
+                <td>${elemento.subtotal}</td>
+                <td>${elemento.subtotalDesc}</td>
+                <td>${elemento.desconto}</td>
             </tr>
                 <#assign row = row + 1> </#list>
                 <tr    >
@@ -147,21 +143,20 @@
         <table width="100%" class="tabprim">
            <#if desconto == 0>
                 <tr>
-                    <td style="width: 5%">Entrega:</td>
-                    <td style="width: 10%">R$ ${entrega}</td>
-                    <td style="width: 5%"></td>
-                    <td style="width: 45%"></td>
+                    <td style="width: 30%"> </td>
+                    <td style="width: 40%"> </td>
                     <td style="width: 20%; text-align: right;">
                         <#if counter == paginacao_total>
                             Total do Projeto (R$):
                         </#if>
                     </td>
-                <#assign x = linha_index>
-                    <td style="width: 15%; text-align: left;">
+                    <td style="width: 10%; text-align: left;">
                         <#if counter == paginacao_total>
                             ${valor_total?string.currency}
                         </#if>
                     </td>
+                     
+                <#assign x = linha_index>
                 </tr>
            </#if>
            <#if desconto == 1>
