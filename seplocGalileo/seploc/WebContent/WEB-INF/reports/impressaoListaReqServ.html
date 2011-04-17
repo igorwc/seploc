@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="estilo.css" media="print" />
+
+
+<title>Impress&atilde;o requisi&ccedil;&atilde;o servi&ccedil;o</title>
+<style type="text/css">
+.reqtable {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+}
+.cab {
+   font-weight: bold;
+}
+
+.reqtable th {
+    padding: 3px 5px 2px 5px;
+    font-size: 10px;
+    text-align: left;
+    padding-top: 4px;
+    padding-bottom: 3px;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
+}
+
+.reqtable td {
+    font-size: 8px;
+    border: 0px solid #000000;
+    padding: 2px 4px 1px 4px;
+}
+
+.reqtable tr.alt td {
+    color: #000000;
+    background-color: #eeeeee;
+}
+
+.tabprim {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+}
+
+.tabprim td,#tabprim th {
+    font-size: 10px;
+    padding: 3px 5px 2px 5px;
+}
+</style>
+
+</head>
+<body style="font: serif; font-size: 9px;">
+
+<div><#assign counter=1> <#list dados as linha>
+
+<center>
+
+<table style="text-align: left; width: 190mm;" border="1" class="tabprim">
+    <tr>
+        <td>
+        <table style="text-align: left; width: 100%;" border="0"
+            cellpadding="2" cellspacing="2" class="tabprim">
+            <tbody>
+                <tr>
+                    <td>Copytec - M. Alves dos Santos - ME<br>
+
+                    Rua Estrada do Barbalho, n 219 - Iputinga<br>
+
+                    CEP: 50800-290 - FONE/FAX: (81) 3273-4711/3274-3569<br>
+
+                    CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0</td>
+
+                    <td valign="bottom">Impress&atilde;o:
+                    ${current_date?string("dd-MM-yyyy")}<br>
+
+                    P&aacute;gina: ${counter}/${paginacao_total}</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <hr style="color: #000000;" size="1">
+
+        <table style="text-align: left; width: 100%;" border="0"
+            cellpadding="2" cellspacing="2" class="tabprim">
+
+            <tbody>
+                <tr>
+                    <td style="width: 15%">Nome do Cliente:</td>
+                    <td colspan="3" style="width: 85%">${cliente.nome}</td>
+                </tr>
+
+                <tr>
+
+                    <td style="width: 15%">Endere&ccedil;o:</td>
+
+                    <td colspan="3">${cliente.endereco}</td>
+                </tr>
+                <tr>
+                    <td style="width: 15%">Cidade /UF:</td>
+                    <td style="width: 45%">${cliente.localidade}</td>
+                    <td style="width: 10%">Bairro:</td>
+                    <td style="width: 30%">${cliente.bairro}</td>
+                </tr>
+                <tr>
+                    <td style="width: 15%">CNPJ/CPF:</td>
+                    <td style="width: 45%">${cliente.ni}</td>
+                    <td style="width: 10%">CEP:</td>
+                    <td style="width: 30%">${cliente.cep}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr style="color: #000000;" size="1">
+        <table style="text-align: left; width: 100%;" border="1"
+            cellpadding="2" cellspacing="2" class="reqtable">
+            <tbody>
+                <tr class="cab">
+                    <th style="width: 5%">Seq</th>
+                    <th style="width: 7%">Num. Req.</th>
+                    <th style="width: 8%">Data</th>
+                    <th style="width: 40%">Projeto</th>
+                    <th style="width: 15%">Subtotal</th>
+                    <th style="width: 15%">Subtotal c/ Desc.</th>
+                    <th style="width: 10%">Desconto</th>
+                </tr>
+                <#assign row=0> <#list linha as elemento>
+           <tr  class="<#if (row % 2) == 0 >alt<#else>nada</#if>" >
+                <td>${elemento.seq}</td>
+                <td>${elemento.numReq}</td>
+                <td>${elemento.dataFormatada}</td>
+                <td>${elemento.projeto}</td>
+                <td>${elemento.subtotal}</td>
+                <td>${elemento.subtotalDesc}</td>
+                <td>${elemento.desconto}</td>
+            </tr>
+                <#assign row = row + 1> </#list>
+                <tr    >
+                <#assign x = linha_index> 
+            </tr>
+        </table>
+        <hr style="color: #000000;" size="1">
+        <table width="100%" class="tabprim">
+           <#if desconto == 0>
+                <tr>
+                    <td style="width: 30%"> </td>
+                    <td style="width: 40%"> </td>
+                    <td style="width: 20%; text-align: right;">
+                        <#if counter == paginacao_total>
+                            Total do Projeto (R$):
+                        </#if>
+                    </td>
+                    <td style="width: 10%; text-align: left;">
+                        <#if counter == paginacao_total>
+                            ${valor_total?string.currency}
+                        </#if>
+                    </td>
+                     
+                <#assign x = linha_index>
+                </tr>
+           </#if>
+           <#if desconto == 1>
+                <tr>
+                    <td style="width: 20%"> </td>
+                    <td style="width: 10%"> </td>
+                    <td style="width: 20%; text-align: right;">
+                        <#if counter == paginacao_total>
+                            Total do Projeto (R$):
+                        </#if>
+                    </td>
+                    <td style="width: 10%; text-align: left;">
+                        <#if counter == paginacao_total>
+                            ${valor_total?string.currency}
+                        </#if>
+                    </td>
+                    <td style="width: 30%; text-align: right;">
+                        <#if counter == paginacao_total>
+                            Total do Projeto com Desconto(R$):
+                        </#if>
+                    </td>
+                    <td style="width: 10%; text-align: left;">
+                        <#if counter == paginacao_total>
+                            ${valor_totald?string.currency}
+                        </#if>
+                    </td>
+                <#assign x = linha_index>
+                </tr>
+            </#if>
+        </table>
+        </td>
+    </tr>
+</table>
+</center>
+<br>
+<#assign counter = counter + 1>
+</#list></div>
+
+</body>
+</html>
