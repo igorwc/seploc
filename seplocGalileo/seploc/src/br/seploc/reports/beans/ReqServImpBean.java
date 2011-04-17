@@ -60,7 +60,7 @@ public class ReqServImpBean implements Serializable {
 		if(data == null){
 			return "";
 		}
-		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
+		SimpleDateFormat formatador = new SimpleDateFormat("dd-MM-yyyy");  
 		return formatador.format(data);
 	}
 	public String getProjeto() {
