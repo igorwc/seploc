@@ -1,15 +1,43 @@
 package br.seploc.reports.beans;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ReqServImpBean {
-	String seq;
-	String numReq;
-	Date data;
-	String projeto;
-	String subtotal;
-	String subtotalDesc;
-	String desconto;
+public class ReqServImpBean implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String seq;
+	private String numReq;
+	private Date data;
+	private String projeto;
+	private String subtotal;
+	private String subtotalDesc;
+	private String desconto;
+	
+	
+	public ReqServImpBean( ) {
+		this.seq = "";
+		this.numReq = "";
+		this.data = null;
+		this.projeto= "";
+		this.subtotal= "";
+		this.subtotalDesc= "";
+		this.desconto= "";
+	}
+	
+	public ReqServImpBean(String seq) {
+		this.seq = seq;
+		this.numReq = "";
+		this.data = null;
+		this.projeto= "";
+		this.subtotal= "";
+		this.subtotalDesc= "";
+		this.desconto= "";
+	}
 	public String getSeq() {
 		return seq;
 	}
@@ -27,6 +55,13 @@ public class ReqServImpBean {
 	}
 	public void setData(Date data) {
 		this.data = data;
+	}
+	public String getDataFormatada(){
+		if(data == null){
+			return "";
+		}
+		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
+		return formatador.format(data);
 	}
 	public String getProjeto() {
 		return projeto;
