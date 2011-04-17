@@ -20,6 +20,7 @@ import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.dao.pagedqueries.FilteredNameClientesPager;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.RequisicaoServico;
+import br.seploc.util.SessionObjectsManager;
 import br.seploc.util.Utils;
 
 public class ReqServClientePeriodoMB implements Serializable {
@@ -41,6 +42,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 	private RequisicaoServico reqDesconto;
 	private Integer descontoIndividual = 0;
 	private String urlReqImpressao;
+	private String urlReqListImpressao;
 
 	// METODOS NEGOCIO
 	public List<RequisicaoServico> buscaRequisicoes() {
@@ -66,24 +68,25 @@ public class ReqServClientePeriodoMB implements Serializable {
 		listaRequisicoes = retorno;
 		atualizaValorTotalRequisicoes();
 		atualizaValorTotalDescontoRequisicoes();
-		
+
 		return retorno;
 	}
-	
-	public void atualizaDescontoRequisicoes(){
+
+	public void atualizaDescontoRequisicoes() {
 		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
 		ArrayList<Integer> listaIDs = new ArrayList<Integer>();
-		for(RequisicaoServico r:listaRequisicoes){
+		for (RequisicaoServico r : listaRequisicoes) {
 			listaIDs.add(r.getNumReq());
 		}
-		dao.atualizaDescontoRequisicoes(listaIDs, desconto );
+		dao.atualizaDescontoRequisicoes(listaIDs, desconto);
 		buscaRequisicoes();
 	}
-	public void atualizaDescontoRequisaoIndividual(){
+
+	public void atualizaDescontoRequisaoIndividual() {
 		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
 		ArrayList<Integer> listaIDs = new ArrayList<Integer>();
 		listaIDs.add(reqDesconto.getNumReq());
-		dao.atualizaDescontoRequisicoes(listaIDs, descontoIndividual );
+		dao.atualizaDescontoRequisicoes(listaIDs, descontoIndividual);
 		buscaRequisicoes();
 	}
 
@@ -91,25 +94,26 @@ public class ReqServClientePeriodoMB implements Serializable {
 	public ReqServClientePeriodoMB() {
 		this.load();
 	}
-	
-	private void load(){
+
+	private void load() {
 		cliente = new Cliente();
 		dataInicio = Utils.getDataInicioMesCorrente();
 		dataFim = Utils.getDataFinalMesCorrente();
-		desconto = 0 ;
+		desconto = 0;
 		filtroCliente = "";
 		filtroClienteAnterior = "";
 		clientePager = new FilteredNameClientesPager();
 		clientePager.init(10);
 		resetaFiltroCliente = false;
 		reqImpressao = new RequisicaoServico();
-		urlReqImpressao = "";		
+		urlReqImpressao = "";
+		urlReqListImpressao = "";
 	}
 
-	public void limpar(){
+	public void limpar() {
 		load();
 	}
-	
+
 	public Double atualizaValorTotalDescontoRequisicoes() {
 		Double retorno = 0.0;
 		NumberFormat formatter = new DecimalFormat("#.##");
@@ -126,6 +130,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 
 		return retorno;
 	}
+
 	public Double atualizaValorTotalRequisicoes() {
 		Double retorno = 0.0;
 		NumberFormat formatter = new DecimalFormat("#.##");
@@ -345,30 +350,64 @@ public class ReqServClientePeriodoMB implements Serializable {
 		clientePager.proximaPagina();
 	}
 
-	
 	public String getUrlReqImpressao() {
 		return urlReqImpressao;
 	}
-	
+
 	public void setUrlReqImpressao(String urlReqImpressao) {
 		this.urlReqImpressao = urlReqImpressao;
-	}	
-
-	public void geraURLImpressao( ){
-		FacesContext fcontext = FacesContext.getCurrentInstance();
-		   ServletContext scontext = (ServletContext) fcontext.getExternalContext
-		().getContext();
-		int reqID = 0;
-		   if (reqImpressao == null || reqImpressao.getNumReq() == null){
-			   reqID = 0;
-		   }else{
-			   reqID = reqImpressao.getNumReq();
-		   }
-      
-		urlReqImpressao = scontext.getContextPath()+"/RelReqServImpressao.report?reqID="+reqID;
 	}
 
-	
+	public void geraURLImpressao() {
+		FacesContext fcontext = FacesContext.getCurrentInstance();
+		ServletContext scontext = (ServletContext) fcontext
+				.getExternalContext().getContext();
+		int reqID = 0;
+		if (reqImpressao == null || reqImpressao.getNumReq() == null) {
+			reqID = 0;
+		} else {
+			reqID = reqImpressao.getNumReq();
+		}
+
+		urlReqImpressao = scontext.getContextPath()
+				+ "/RelReqServImpressao.report?reqID=" + reqID;
+	}
+
+	public void geraURLListaReqServImpressao() {
+		FacesContext fcontext = FacesContext.getCurrentInstance();
+		ServletContext scontext = (ServletContext) fcontext
+				.getExternalContext().getContext();
+		SessionObjectsManager.adicionaObjetoSessao("clientID", this
+				.getCliente().getIdCliente());
+		ArrayList<Integer> listaids = new ArrayList<Integer>();
+		
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		List<RequisicaoServico> retorno = null;
+		if (dataInicio != null && dataFim != null && cliente != null
+				&& cliente.getIdCliente() != null
+				&& cliente.getIdCliente() != 0) {
+			retorno = dao.getListaPorPeriodo(new java.sql.Date(dataInicio
+					.getTime()), new java.sql.Date(dataFim.getTime()), cliente
+					.getIdCliente());
+		}
+		if (retorno != null && !retorno.isEmpty()) {
+			for (RequisicaoServico r : retorno) {
+				listaids.add(r.getNumReq());
+			}
+		} 
+		SessionObjectsManager.adicionaObjetoSessao("ReqServIDs", listaids);
+		urlReqListImpressao = scontext.getContextPath()
+				+ "/relClienteReqList.report";
+	}
+
+	public String getUrlReqListImpressao() {
+		return urlReqListImpressao;
+	}
+
+	public void setUrlReqListImpressao(String urlReqListImpressao) {
+		this.urlReqListImpressao = urlReqListImpressao;
+	}
+
 	public RequisicaoServico getReqImpressao() {
 		return reqImpressao;
 	}
@@ -404,5 +443,5 @@ public class ReqServClientePeriodoMB implements Serializable {
 	public void setDescontoIndividual(Integer descontoIndividual) {
 		this.descontoIndividual = descontoIndividual;
 	}
-	
+
 }
