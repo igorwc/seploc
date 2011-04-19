@@ -1,13 +1,14 @@
 package br.seploc.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Cobrador;
-import br.seploc.pojos.Entrega;
 import br.seploc.util.GenericDAO;
 
 public class CobradorDAO extends GenericDAO<Cobrador, Integer> {
@@ -79,7 +80,26 @@ public class CobradorDAO extends GenericDAO<Cobrador, Integer> {
 		em.getTransaction().commit();
 		return (List<Cobrador>) q.getResultList();
 	}	
+	
+	public Integer getQuantidadeRequisicoesCobrador(Integer id, Date dataInicio, Date dataFim) {
+		em.getTransaction().begin();
+		Number contagemSaidaMotoqueiros = 0;
 
+		Query q = em.createQuery(
+				"SELECT count(sm) FROM br.seploc.pojos.SaidaMotoqueiro sm"
+						+ " where sm.cobrador.codCobrador = :cobradorID and "
+						+ "sm.dataCobranca between :dataInicio and " 
+						+ "  :dataFim  " )
+						.setParameter(
+				            "cobradorID", id)
+				        .setParameter(
+				            "dataInicio", dataInicio,TemporalType.DATE)
+				        .setParameter(
+				            "dataFim", dataFim,TemporalType.DATE);
+		contagemSaidaMotoqueiros = (Number) q.getSingleResult();
+		em.getTransaction().commit();
+		return contagemSaidaMotoqueiros.intValue();
+	}	
 	@Override
 	protected boolean verificaFilhos(Integer id) throws Exception {
 		Number contagemStatusCobranca = 0;
