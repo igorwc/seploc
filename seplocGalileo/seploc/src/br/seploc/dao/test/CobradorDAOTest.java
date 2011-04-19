@@ -3,6 +3,9 @@ package br.seploc.dao.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -122,5 +125,18 @@ public class CobradorDAOTest {
 
 		lista = dao.recuperaPorNome("teste");
 		Assert.assertTrue(lista.size() == 3);
+	}
+	
+	@Test
+	public final void testQuantidadeRequisicoesCobrador() {
+		CobradorDAO dao = new CobradorDAO();
+		Integer resultado = dao
+				.getQuantidadeRequisicoesCobrador(1, new Date(
+						new GregorianCalendar(2006, Calendar.JUNE, 1).getTimeInMillis()),
+						new Date(
+								new GregorianCalendar(2006, Calendar.JUNE, 30).getTimeInMillis()));
+		System.out.println("Resultado: "+ resultado);
+		System.out.println(new Date(
+						new GregorianCalendar(2006, 06, 01).getTimeInMillis()));
 	}
 }
