@@ -116,23 +116,19 @@
             cellpadding="2" cellspacing="2" class="reqtable">
             <tbody>
                 <tr class="cab">
-                    <th style="width: 5%">Seq</th>
-                    <th style="width: 7%">Num. Req.</th>
-                    <th style="width: 8%">Data</th>
-                    <th style="width: 40%">Projeto</th>
-                    <th style="width: 15%">Subtotal</th>
-                    <th style="width: 15%">Subtotal c/ Desc.</th>
-                    <th style="width: 10%">Desconto</th>
+                    <th style="width: 5%">Item</th>
+                    <th style="width: 10%">Requisi&ccedil;&atilde;o</th>
+                    <th style="width: 60%">Projeto</th>
+                    <th style="width: 10%">Data</th>
+                    <th style="width: 15%">SubTotal (R$)</th>
                 </tr>
                 <#assign row=0> <#list linha as elemento>
            <tr  class="<#if (row % 2) == 0 >alt<#else>nada</#if>" >
                 <td>${elemento.seq}</td>
-                <td>${elemento.numReq}</td>
-                <td>${elemento.dataFormatada}</td>
+                <td style="text-align: center;">${elemento.numReq}</td>                
                 <td>${elemento.projeto}</td>
-                <td>${elemento.subtotal}</td>
-                <td>${elemento.subtotalDesc}</td>
-                <td>${elemento.desconto}</td>
+                <td style="text-align: center;">${elemento.dataFormatada}</td>
+                <td style="text-align: right;">${elemento.subtotalDesc}</td>                
             </tr>
                 <#assign row = row + 1> </#list>
                 <tr    >
