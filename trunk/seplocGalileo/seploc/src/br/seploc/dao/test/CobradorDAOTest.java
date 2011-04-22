@@ -3,7 +3,9 @@ package br.seploc.dao.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -16,6 +18,9 @@ import br.seploc.dao.CobradorDAO;
 import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Cobrador;
+import br.seploc.pojos.RequisicaoServico;
+import br.seploc.reports.beans.CobradorBeanGrid;
+import br.seploc.reports.utils.CobradorBeanGridComparator;
 
 public class CobradorDAOTest {
 
@@ -130,13 +135,56 @@ public class CobradorDAOTest {
 	@Test
 	public final void testQuantidadeRequisicoesCobrador() {
 		CobradorDAO dao = new CobradorDAO();
-		Integer resultado = dao
-				.getQuantidadeRequisicoesCobrador(1, new Date(
-						new GregorianCalendar(2006, Calendar.JUNE, 1).getTimeInMillis()),
+		Integer resultado = dao.getQuantidadeRequisicoesCobrador(1,
+				new Date(new GregorianCalendar(2006, Calendar.JUNE, 1)
+						.getTimeInMillis()), new Date(new GregorianCalendar(
+						2006, Calendar.JUNE, 30).getTimeInMillis()));
+		System.out.println("Resultado: " + resultado);
+		System.out.println(new Date(new GregorianCalendar(2006, 06, 01)
+				.getTimeInMillis()));
+	}
+	@Test
+	public final void testSaidaConsulta() {
+		CobradorDAO dao = new CobradorDAO();
+		List<Cobrador> listaCobradores = dao.getListaAtivos();
+		List<CobradorBeanGrid> listOrdenada = new ArrayList<CobradorBeanGrid>();
+		for(int i = listaCobradores.size()-1; i >= 0;i--){
+			Cobrador c = listaCobradores.get(i);
+			Integer resultado = dao.getQuantidadeRequisicoesCobrador(c.getCodCobrador().intValue(),  new Date(
+						new GregorianCalendar(2006, Calendar.JANUARY, 1).getTimeInMillis()),
 						new Date(
-								new GregorianCalendar(2006, Calendar.JUNE, 30).getTimeInMillis()));
+								new GregorianCalendar(2006, Calendar.DECEMBER, 31).getTimeInMillis()));
+			System.out.println("Cobrador: "+c.getNome()+"\nQuantidade: "+resultado+"\n\n");
+			listOrdenada.add(new  CobradorBeanGrid   (c.getNome(),resultado));
+			
+		}
+		Collections.sort(listOrdenada);
+		int i = 1;
+		for(CobradorBeanGrid cc : listOrdenada){
+			cc.setSeq(i++);
+			System.out.println(cc);
+		}
+		 
+	}
+	
+	@Test
+	public final void testQuantidadeListaRequisicoesCobrador() {
+		CobradorDAO dao = new CobradorDAO();
+		Integer resultado = dao
+				.getQuantidadeRequisicoesCobrador(2, new Date(
+						new GregorianCalendar(2009, Calendar.JUNE, 1).getTimeInMillis()),
+						new Date(
+								new GregorianCalendar(2009, Calendar.JUNE, 30).getTimeInMillis()));
 		System.out.println("Resultado: "+ resultado);
 		System.out.println(new Date(
-						new GregorianCalendar(2006, 06, 01).getTimeInMillis()));
+						new GregorianCalendar(2009, 06, 01).getTimeInMillis()));
+		List<RequisicaoServico> listaReqServ = dao.getListaReqServPorCobrador(2, new Date(
+				new GregorianCalendar(2009, Calendar.JUNE, 1).getTimeInMillis()),
+				new Date(
+						new GregorianCalendar(2009, Calendar.JUNE, 30).getTimeInMillis()));
+		System.out.println("Quantidade: "+ listaReqServ.size());
+		for(RequisicaoServico r : listaReqServ){
+			System.out.println(r);
+		}
 	}
 }
