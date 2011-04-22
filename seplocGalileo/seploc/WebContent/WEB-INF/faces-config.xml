@@ -155,8 +155,8 @@
   <managed-bean-class>br.seploc.controllers.ReqServClienteCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
-  <!-- Requisicao Periodo -->
-<managed-bean>
+ <!-- Requisicao Periodo -->
+ <managed-bean>
   <managed-bean-name>reqClientePeriodoCB</managed-bean-name>
   <managed-bean-class>br.seploc.controllers.ReqServClientePeriodoCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
@@ -164,6 +164,17 @@
  <managed-bean>
   <managed-bean-name>reqClientePeriodoMB</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.ReqServClientePeriodoMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <!-- Relatorio Cobrador por Periodo -->
+ <managed-bean>
+  <managed-bean-name>relCobradorCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.RelReqServCobradorCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>relCobradorMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.RelReqServCobradorMB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
  <!-- Requisicao Saida -->
@@ -198,7 +209,18 @@
   <managed-bean-name>grupoUsuarioCB</managed-bean-name>
   <managed-bean-class>br.seploc.controllers.GrupoUsuarioCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>  
+ </managed-bean>
+ <!-- Requisicao Lista-->
+ <managed-bean>
+  <managed-bean-name>reqServListaMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.ReqServListaMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>reqServListaCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.ReqServListaCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
  <!-- Regras Navegação -->
  <navigation-rule>
   <from-view-id>/login.xhtml</from-view-id>
@@ -226,39 +248,28 @@
    <redirect/>
   </navigation-case>
  </navigation-rule>
-  <navigation-rule>
+ <navigation-rule>
   <navigation-case>
    <from-outcome>loginErro</from-outcome>
    <to-view-id>/paginas/loginErro.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
-<navigation-rule>
-<from-view-id>*</from-view-id>
+ <navigation-rule>
+  <from-view-id>*</from-view-id>
   <navigation-case>
    <from-outcome>login</from-outcome>
    <to-view-id>/paginas/login.xhtml</to-view-id>
    <redirect/>
-</navigation-case>
+  </navigation-case>
  </navigation-rule>
-  <navigation-rule>
+ <navigation-rule>
   <navigation-case>
    <from-outcome>principal</from-outcome>
    <to-view-id>/paginas/principal.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
- <!-- Requisicao Lista-->
- <managed-bean>
-  <managed-bean-name>reqServListaMB</managed-bean-name>
-  <managed-bean-class>br.seploc.mbeans.ReqServListaMB</managed-bean-class>
-  <managed-bean-scope>session</managed-bean-scope>
- </managed-bean>
- <managed-bean>
-  <managed-bean-name>reqServListaCB</managed-bean-name>
-  <managed-bean-class>br.seploc.controllers.ReqServListaCB</managed-bean-class>
-  <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>
  <!--
  Validadores 
  Validador de CPF -->
@@ -282,7 +293,7 @@
    <var>msgs</var>
   </resource-bundle>
  </application>
- <!-- DESCOMENTAR TRECHO ABAIXO QUANDO QUISER UTILIZAR AUTENTICAÇÃO-->
+ <!-- DESCOMENTAR TRECHO ABAIXO QUANDO QUISER UTILIZAR AUTENTICAÇÃO -->
 
  <lifecycle>
   <phase-listener id="AuthorizationListener">br.seploc.security.AuthorizationListener</phase-listener>
