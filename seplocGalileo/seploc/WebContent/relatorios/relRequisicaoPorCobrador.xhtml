@@ -69,32 +69,32 @@
                         <table border="0">
                             <tr align="left">
                                 <td colspan="2">
-                                    <h:outputText value="#{msgs['relatorios.general.periodo']"
+                                    <h:outputText value="#{msgs['relatorios.general.periodo']}"
                                                   styleClass="texto" />
                                 </td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td><rich:calendar
-                                    value="#{reqClientePeriodoCB.clientePeriodoMB.dataInicio}"
-                                    locale="#{reqClientePeriodoCB.locale}" popup="true"
+                                    value="#{relCobradorCB.relCobradorMB.dataInicio}"
+                                    locale="#{relCobradorCB.locale}" popup="true"
                                     datePattern="dd/MM/yyyy" showApplyButton="false"
                                     cellWidth="24px" cellHeight="22px" style="block:inline"
-                                    inputSize="30" id="dataInicioCli">
+                                    inputSize="30" id="dataInicioCob">
                                     <a4j:support event="onchanged"
-                                        action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}"
-                                        reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,desconto"></a4j:support>
+                                        action="#{relCobradorCB.relCobradorMB.buscaRequisicoes}"
+                                        reRender="dataInicioCob,dataFimCob,cobradorList,dsCobradores"></a4j:support>
                                     <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
                                 </rich:calendar> <h:outputText value=" até " styleClass="texto" /></td>
                                 <td><rich:calendar
-                                    value="#{reqClientePeriodoCB.clientePeriodoMB.dataFim}"
-                                    locale="#{reqClientePeriodoCB.locale}" popup="true"
+                                    value="#{relCobradorCB.relCobradorMB.dataFim}"
+                                    locale="#{relCobradorCB.locale}" popup="true"
                                     datePattern="dd/MM/yyyy" showApplyButton="false"
                                     cellWidth="24px" cellHeight="22px" style="width:200px"
-                                    inputSize="30" id="dataFimCli">
+                                    inputSize="30" id="dataFimCob">
                                     <a4j:support event="onchanged"
-                                        action="#{reqClientePeriodoCB.clientePeriodoMB.buscaRequisicoes}"
-                                        reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente"></a4j:support>
+                                        action="#{relCobradorCB.relCobradorMB.buscaRequisicoes}"
+                                        reRender="dataInicioCob,dataFimCob,cobradorList,dsCobradores"></a4j:support>
                                     <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
                                 </rich:calendar></td>
                                 <td></td>
@@ -117,52 +117,44 @@
                             	    eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,resizable=1,width=800,height=600,left = 390,top = 100');");
                                } 
                         </script>
-                        
                         <a4j:commandButton value="#{msgs['botao.pesquisar']}"
-                            action="#{reqClientePeriodoCB.clientePeriodoMB.limpar}"
+                                     action="#{relCobradorCB.relCobradorMB.buscaRequisicoes}" 
+                                     reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto"
+                                     id="salvaDesconto"/>
+                        <a4j:commandButton value="#{msgs['botao.limpar']}"
+                            action="#{relCobradorCB.relCobradorMB.limpar}"
                             reRender="dataInicioCli,dataFimCli,cliente,dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto" />
-                        <a4j:commandButton value="Imprimir Lista"
+                        <a4j:commandButton value="#{msgs['botao.imprimirlista']}"
                             action="#{reqClientePeriodoCB.clientePeriodoMB.geraURLListaReqServImpressao}"
                             oncomplete="javascript:popUp('#{reqClientePeriodoCB.clientePeriodoMB.urlReqListImpressao}')" />
                     </rich:panel></center>
 
                     <!-- Grid -->
                     <rich:dataTable
-                        value="#{reqClientePeriodoCB.clientePeriodoMB.listaRequisicoes}"
-                        var="requisicoes" rowClasses="row1, row2" id="requisicaoList"
+                        value="#{relCobradorCB.relCobradorMB.listaCobradores}"
+                        var="cobradores" rowClasses="row1, row2" id="cobradorList"
                         rows="8" columnClasses="400,150,50"
                         onRowMouseOver="this.style.backgroundColor='#B5F3FB'"
                         onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"
                         width="700" align="center">
                         <f:facet name="header">
                             <rich:columnGroup>
-
-                                <rich:column colspan="7">
-                                    <h:outputText value="Requisições Encontradas" />
+                                <rich:column colspan="4">
+                                    <h:outputText value="Cobradores Encontrados" />
                                 </rich:column>
 
-                                <rich:column breakBefore="true" width="5%">
-                                    <h:outputText value="NumReq" />
+                                <rich:column breakBefore="true" width="10%">
+                                    <h:outputText value="Sequencial" />
                                 </rich:column>
 
-                                <rich:column width="8%">
-                                    <h:outputText value="Data" />
+                                <rich:column width="50%">
+                                    <h:outputText value="Cobrador" />
                                 </rich:column>
 
-                                <rich:column width="40%">
-                                    <h:outputText value="Projeto" />
-                                </rich:column>
-
-                                <rich:column width="15%">
-                                    <h:outputText value="Subtotal" />
-                                </rich:column>
-                                <rich:column width="15%">
-                                    <h:outputText value="Subtotal c/ Desc." />
+                                <rich:column width="30%">
+                                    <h:outputText value="Quantidade Requisições" />
                                 </rich:column>
                                 <rich:column width="10%">
-                                    <h:outputText value="Desconto" />
-                                </rich:column>
-                                <rich:column width="7%">
 
                                 </rich:column>
 
@@ -170,56 +162,35 @@
                         </f:facet>
 
                         <rich:column styleClass="col1">
-                            <h:outputText value="#{requisicoes.numReq}">
-                                <f:convertNumber pattern="#000000" />
+                            <h:outputText value="#{cobradores.seq}">
+                                <f:convertNumber pattern="#000" />
                             </h:outputText>
                         </rich:column>
 
                         <rich:column styleClass="col1">
-                            <h:outputText value="#{requisicoes.data}">
+                            <h:outputText value="#{cobradores.nome}">
                                 <f:convertDateTime pattern="dd-MM-yyyy" type="date" />
                             </h:outputText>
                         </rich:column>
-
                         <rich:column styleClass="col1">
-                            <h:outputText value="#{requisicoes.projeto.projeto}" />
-                        </rich:column>
-                        <rich:column styleClass="col1">
-                            <h:outputText value="#{requisicoes.valorTotal}">
-                                <f:convertNumber type="currency" currencySymbol="R$" />
-                            </h:outputText>
-                        </rich:column>
-                        <rich:column styleClass="col1">
-                            <h:outputText value="#{requisicoes.valorTotalComDesconto}">
-                                <f:convertNumber type="currency" currencySymbol="R$" />
-                            </h:outputText>
-                        </rich:column>
-                        <rich:column styleClass="col1">
-                            <h:outputText value="#{requisicoes.orcamento} %">
+                            <h:outputText value="#{cobradores.quantidade}">
+                                <f:convertNumber type="number" integerOnly="true" pattern="0000" />
                             </h:outputText>
                         </rich:column>
                         <rich:column styleClass="col1">
                             <a4j:commandLink ajaxSingle="true" id="printlinkreq"
-                                reRender="reqServList"
-                                action="#{reqClientePeriodoCB.clientePeriodoMB.geraURLImpressao}"
-                                oncomplete="javascript:popUp('#{reqClientePeriodoCB.clientePeriodoMB.urlReqImpressao}')">
+                                reRender="cobradorList"
+                                action="#{relCobradorCB.relCobradorMB.geraURLImpressaoCobrador}"
+                                oncomplete="javascript:popUp('#{relCobradorCB.relCobradorMB.urlCobradorImpressao}')">
                                 <h:graphicImage value="/imgs/print_icon.gif" style="border:0" />
-                                <f:setPropertyActionListener value="#{requisicoes}"
-                                    target="#{reqClientePeriodoCB.clientePeriodoMB.reqImpressao}" />
-                                <rich:toolTip for="printlinkreq" value="Imprimir Requisicao" />
+                                <f:setPropertyActionListener value="#{cobradores.id}"
+                                    target="#{relCobradorCB.relCobradorMB.cobID}" />
+                                <rich:toolTip for="printlinkreq" value="Imprimir Requisicoes" />
                             </a4j:commandLink>
                             <rich:spacer width="5px" />
-                            <a4j:commandLink ajaxSingle="true" id="descontolinkreq"
-                                reRender="reqServList"
-                                oncomplete="#{rich:component('aplicarfDescontoPanel')}.show();return false;">
-                                <h:graphicImage value="/imgs/percents_icon.png" style="border:0" />
-                                <f:setPropertyActionListener value="#{requisicoes}"
-                                    target="#{reqClientePeriodoCB.clientePeriodoMB.reqDesconto}" />
-                                <rich:toolTip for="descontolinkreq" value="Aplicar Desconto" />
-                            </a4j:commandLink>
                         </rich:column>
                         <f:facet name="footer">
-                            <rich:datascroller id="dsRequisicoes" maxPages="3"
+                            <rich:datascroller id="dsCobradores" maxPages="3"
                                 renderIfSinglePage="true" />
                         </f:facet>
                     </rich:dataTable>
