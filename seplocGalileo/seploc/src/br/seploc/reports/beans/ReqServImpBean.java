@@ -17,6 +17,7 @@ public class ReqServImpBean implements Serializable {
 	private String subtotal;
 	private String subtotalDesc;
 	private String desconto;
+	private String cliente;
 	
 	
 	public ReqServImpBean( ) {
@@ -27,6 +28,7 @@ public class ReqServImpBean implements Serializable {
 		this.subtotal= "";
 		this.subtotalDesc= "";
 		this.desconto= "";
+		this.cliente= "";
 	}
 	
 	public ReqServImpBean(String seq) {
@@ -86,6 +88,17 @@ public class ReqServImpBean implements Serializable {
 	}
 	public void setDesconto(String desconto) {
 		this.desconto = desconto;
+	}
+
+	public String getCliente() {
+		if(this.cliente == null){
+			return "";
+		}
+		return cliente;
+	}
+
+	public void setCliente(String cliente) {
+		this.cliente = cliente;
 	}
 	 
 }
