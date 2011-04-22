@@ -37,42 +37,22 @@ public class RelClienteReqList extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		String d = getServletContext().getRealPath(
-				"/WEB-INF/reports/impressaoListaReqServ.html").substring(
+				"/WEB-INF/reports/relReqServPorCobrador.html").substring(
 				0,
 				getServletContext().getRealPath(
-						"/WEB-INF/reports/impressaoListaReqServ.html").indexOf(
-						"impressaoListaReqServ.html"));
-//		ReportImpressaoReqServGenerator rr = new ReportImpressaoReqServGenerator();
-//		XPathReader reader = new XPathReader(getServletContext().getRealPath(
-//				"/WEB-INF/config/JDBC.xml"));
-//		String host = "/conexoes/conexao[1]/host";
-//		host = reader.read(host, XPathConstants.STRING) + "";
-//		String db = "/conexoes/conexao[1]/db";
-//		db = reader.read(db, XPathConstants.STRING) + "";
-//		String user = "/conexoes/conexao[1]/user";
-//		user = reader.read(user, XPathConstants.STRING) + "";
-//		String passwd = "/conexoes/conexao[1]/passwd";
-//		passwd = reader.read(passwd, XPathConstants.STRING) + "";
-//		Connection conexao = new ConnectionFactory().getConnection(host, db,
-//				user, passwd);
-//		request.getSession().getValue("clientID")
+						"/WEB-INF/reports/relReqServPorCobrador.html").indexOf(
+						"relReqServPorCobrador.html"));
 		int clienteID = (Integer)request.getSession().getAttribute("clientID");//SessionObjectsManager.recuperaObjetoSessao("clientID");
-//		List<Integer> listaids = (ArrayList<Integer>)SessionObjectsManager.recuperaObjetoSessao("ReqServIDs");
 		List<Integer> listaids = (ArrayList<Integer>)request.getSession().getAttribute("ReqServIDs");
-//		rr.setConnection(conexao);
 		RelListImpressaoReqServGenerator rr = new RelListImpressaoReqServGenerator();
 		rr.setConnection(null);
 		rr.setClienteID(clienteID);
 		rr.setListaReqServIds(listaids);
 		rr.geraDados();
-		// rr.imprimeDados();
 		out.print(rr.imprimeDadosWeb2(d));
 		try {
 			out.flush();
-			out.close();
-//			if (!conexao.isClosed()) {
-//				conexao.close();
-//			}
+			out.close(); 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
