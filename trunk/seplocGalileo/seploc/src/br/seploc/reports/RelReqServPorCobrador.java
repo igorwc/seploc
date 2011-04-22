@@ -58,9 +58,7 @@ public class RelReqServPorCobrador implements Serializable {
 
 			}
 			valorTotal = 0.0;
-			dados.add(paginaVazia);
-			//SE FOR MOSTRAR VALOR TOTAL E COM DESCONTO ISSO SERÁ USADO
-//			hasDesconto = 0;
+			dados.add(paginaVazia); 
 			return;
 		}
 		for (Integer i : listaReqServIds) {
@@ -68,21 +66,13 @@ public class RelReqServPorCobrador implements Serializable {
 				RequisicaoServico temp = dao.recupera(i);
 				if (temp != null) {
 					listaRequisicoes.add(temp);
-					valorTotal += temp.getValorTotal();
-					//SE FOR MOSTRAR VALOR TOTAL E COM DESCONTO ISSO SERÁ USADO
-//					valorTotalDesconto += temp.getValorTotalComDesconto();
+					valorTotal += temp.getValorTotalComDesconto(); 
 
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		//SE FOR MOSTRAR VALOR TOTAL E COM DESCONTO ISSO SERÁ USADO
-//		if (valorTotal != valorTotalDesconto) {
-//			hasDesconto = 1;
-//		} else {
-//			hasDesconto = 0;
-//		}
+		} 
 		quantidadeReq = listaRequisicoes.size();
 		if (quantidadeReq > 12) {
 			paginas = quantidadeReq / 12;
@@ -109,11 +99,17 @@ public class RelReqServPorCobrador implements Serializable {
 				} else {
 					bean.setProjeto(r.getProjeto().getProjeto());
 				}
+				if (r.getProjeto().getCliente().getRazao().length() > 35) {
+					bean.setCliente(r.getProjeto().getCliente().getRazao()
+							.substring(0, 35));
+				} else {
+					bean.setCliente(r.getProjeto().getCliente().getRazao());
+				}
 				bean.setNumReq(r.getNumReq() + "");
 				bean.setSeq((contador++) + "");
 				bean.setData(r.getData());
 				
-				bean.setSubtotal(formatter.format(r.getValorTotal()) + "");
+				bean.setSubtotal(formatter.format(r.getValorTotalComDesconto()) + "");
 //				bean.setSubtotalDesc(formatter.format(r.getValorTotalComDesconto()) + "");
 //				formatter = new DecimalFormat("00");
 //				bean.setDesconto(formatter.format(r.getOrcamento()) + "%");
