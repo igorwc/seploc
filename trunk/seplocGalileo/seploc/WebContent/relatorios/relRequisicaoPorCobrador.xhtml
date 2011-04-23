@@ -125,8 +125,8 @@
                             action="#{relCobradorCB.relCobradorMB.limpar}"
                             reRender="dataInicioCli,dataFimCli,cliente,dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto" />
                         <a4j:commandButton value="#{msgs['botao.imprimirlista']}"
-                            action="#{reqClientePeriodoCB.clientePeriodoMB.geraURLListaReqServImpressao}"
-                            oncomplete="javascript:popUp('#{reqClientePeriodoCB.clientePeriodoMB.urlReqListImpressao}')" />
+                            action="#{relCobradorCB.relCobradorMB.geraURLListaReqServImpressao}"
+                            oncomplete="javascript:popUp('#{relCobradorCB.relCobradorMB.urlCobradorGridImpressao}')" />
                     </rich:panel></center>
 
                     <!-- Grid -->
