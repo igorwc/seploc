@@ -25,6 +25,7 @@ public class RelReqServCobradorMB implements Serializable {
 	private List<CobradorBeanGrid> listaCobradores;
 	private Integer cobID;
 	private String urlCobradorImpressao;
+	private String urlCobradorGridImpressao;
 	private CobradorBeanGrid cobradorImpressao;
 	
 	// CONSTRUTOR PADRAO
@@ -36,6 +37,7 @@ public class RelReqServCobradorMB implements Serializable {
 		dataInicio = Utils.getDataInicioMesCorrente();
 		dataFim = Utils.getDataFinalMesCorrente();
 		urlCobradorImpressao = "";
+		urlCobradorGridImpressao = "";
 		cobradorImpressao = new CobradorBeanGrid();
 		
 	}
@@ -71,6 +73,16 @@ public class RelReqServCobradorMB implements Serializable {
 				+ "/RelCobradorImpressaoReqServ.report";//?cobID=" + cobID;
 	}
 	
+	public void geraURLListaReqServImpressao() {
+		FacesContext fcontext = FacesContext.getCurrentInstance();
+		ServletContext scontext = (ServletContext) fcontext
+				.getExternalContext().getContext();
+		SessionObjectsManager.adicionaObjetoSessao("dataInicio",  dataInicio);
+		SessionObjectsManager.adicionaObjetoSessao("dataFim",  dataFim);
+		 
+		urlCobradorGridImpressao = scontext.getContextPath()
+				+ "/RelListaCobradorImpressaoReqServ.report";
+	}
 	public List<CobradorBeanGrid> getListaCobradores() {
 		return listaCobradores;
 	}
@@ -110,6 +122,14 @@ public class RelReqServCobradorMB implements Serializable {
 
 	public void setUrlCobradorImpressao(String urlCobradorImpressao) {
 		this.urlCobradorImpressao = urlCobradorImpressao;
+	}
+
+	public String getUrlCobradorGridImpressao() {
+		return urlCobradorGridImpressao;
+	}
+
+	public void setUrlCobradorGridImpressao(String urlCobradorGridImpressao) {
+		this.urlCobradorGridImpressao = urlCobradorGridImpressao;
 	}
 	
 	
