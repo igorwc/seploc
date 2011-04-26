@@ -84,6 +84,7 @@ public class RelReqServCobradorMB implements Serializable {
 				+ "/RelListaCobradorImpressaoReqServ.report";
 	}
 	public List<CobradorBeanGrid> getListaCobradores() {
+		listaCobradores =  buscaRequisicoes();
 		return listaCobradores;
 	}
 
