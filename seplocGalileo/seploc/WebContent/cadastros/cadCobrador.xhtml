@@ -68,10 +68,10 @@
            <rich:panel header="Cobrador">
 			   <!-- Formulario -->
 			   <center>
-               <rich:panel header="Cadastro de Cobrador" style="width: 600px" bodyClass="formulario">
+               <rich:panel header="Cadastro de Motoqueiro/Cobrador" style="width: 600px" bodyClass="formulario">
                  <table	border="0" >               
 					<tr align="left">
-					<td><h:outputText value="Nome Cobrador: " styleClass="texto"/></td>
+					<td><h:outputText value="Nome Motoqueiro: " styleClass="texto"/></td>
 					<td><h:inputText value="#{cobradorCB.cobradorMB.cobrador.nome}" 
 									 required="true"
 									 requiredMessage="O nome deve ser informado."
@@ -103,7 +103,7 @@
 					<td><h:selectOneRadio id="ativo" 
 							rendered="true"
 							required="true"
-							requiredMessage="O Cobrador precisa ser Ativo ou Não." 
+							requiredMessage="O Motoqueiro/Cobrador precisa ser Ativo ou Não." 
 							value="#{cobradorCB.cobradorMB.cobrador.ativo}" >
 							<f:selectItem id="op1" itemLabel="Sim" itemValue="S" />
 							<f:selectItem id="op2" itemLabel="Não" itemValue="N" />
@@ -138,11 +138,11 @@
                        <rich:columnGroup>  
   
                            <rich:column colspan="5">  
-                               <h:outputText value="Cobradores Cadastrados" />  
+                               <h:outputText value="Motoqueiros/Cobradores Cadastrados" />  
                            </rich:column>  
   
                            <rich:column breakBefore="true">  
-                               <h:outputText value="Cobrador" />  
+                               <h:outputText value="Motoqueiro" />  
                            </rich:column>  
   
                            <rich:column>  
