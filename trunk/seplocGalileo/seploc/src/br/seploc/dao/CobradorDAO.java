@@ -120,13 +120,14 @@ public class CobradorDAO extends GenericDAO<Cobrador, Integer> {
 				            "cobradorID", id);
 		contagemSaidaMotoqueiros = (Number) q.getSingleResult();
 		
-		q = em.createQuery(
-				"SELECT count(sc.cobrador) FROM br.seploc.pojos.StatusCobranca sc"
-						+ " where sc.cobrador.codCobrador = :cobradorID").setParameter(
-				            "cobradorID", id);
-		contagemStatusCobranca = (Number) q.getSingleResult();
+//		q = em.createQuery(
+//				"SELECT count(sc.cobrador) FROM br.seploc.pojos.StatusCobranca sc"
+//						+ " where sc.cobrador.codCobrador = :cobradorID").setParameter(
+//				            "cobradorID", id);
+//		contagemStatusCobranca = (Number) q.getSingleResult();
 //		System.out.println("Entregas: "+contagemRequisicoes.intValue());
-		if (contagemSaidaMotoqueiros.intValue() != 0 || contagemStatusCobranca.intValue() != 0)
+//		if (contagemSaidaMotoqueiros.intValue() != 0 || contagemStatusCobranca.intValue() != 0)
+		if (contagemSaidaMotoqueiros.intValue() != 0)			
 			return true;
 		return false;
 	}

@@ -32,6 +32,10 @@
     text-align: center;
 }
 
+.col2 {
+    text-align: left;
+}
+
 .texto {
     font-family: arial, tahoma;
     font-size: 10pt;
@@ -64,7 +68,7 @@
                 <rich:panel header="Relatório" >
                     <!-- Formulario -->
                     <center><rich:panel
-                        header="Requisições por Cobrador"
+                        header="Requisições por Motoqueiro/Cobrador"
                         style="width: 700px" bodyClass="formulario2">
                         <table border="0">
                             <tr align="left">
@@ -140,19 +144,19 @@
                         <f:facet name="header">
                             <rich:columnGroup>
                                 <rich:column colspan="4">
-                                    <h:outputText value="Cobradores Encontrados" />
+                                    <h:outputText value="Motoqueiros/Cobradores Encontrados" />
                                 </rich:column>
 
                                 <rich:column breakBefore="true" width="10%">
-                                    <h:outputText value="Sequencial" />
+                                    <h:outputText value="Item" />
                                 </rich:column>
 
-                                <rich:column width="50%">
-                                    <h:outputText value="Cobrador" />
+                                <rich:column width="60%">
+                                    <h:outputText value="Motoqueiro/Cobrador" />
                                 </rich:column>
 
-                                <rich:column width="30%">
-                                    <h:outputText value="Quantidade Requisições" />
+                                <rich:column width="20%">
+                                    <h:outputText value="Total Requisições" />
                                 </rich:column>
                                 <rich:column width="10%">
 
@@ -167,14 +171,12 @@
                             </h:outputText>
                         </rich:column>
 
-                        <rich:column styleClass="col1">
-                            <h:outputText value="#{cobradores.nome}">
-                                <f:convertDateTime pattern="dd-MM-yyyy" type="date" />
-                            </h:outputText>
+                        <rich:column styleClass="col2">
+                            <h:outputText value="#{cobradores.nome}"/>
                         </rich:column>
                         <rich:column styleClass="col1">
                             <h:outputText value="#{cobradores.quantidade}">
-                                <f:convertNumber type="number" integerOnly="true" pattern="0000" />
+                                <f:convertNumber type="number" integerOnly="true" pattern="000" />
                             </h:outputText>
                         </rich:column>
                         <rich:column styleClass="col1">
