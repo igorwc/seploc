@@ -3,7 +3,13 @@
 <head>
 
 <link rel="stylesheet" type="text/css" href="estilo.css" media="print" />
-
+<script language="Javascript1.2">
+  
+  function printpage() {
+  window.print();
+  }
+  
+</script>
 
 <title>Impress&atilde;o requisi&ccedil;&atilde;o servi&ccedil;o</title>
 <style type="text/css">
@@ -49,7 +55,7 @@
 </style>
 
 </head>
-<body style="font: serif; font-size: 9px;">
+<body style="font: serif; font-size: 9px;" onload="printpage()">
 
 <div><#assign counter=1> <#list dados as linha>
 
