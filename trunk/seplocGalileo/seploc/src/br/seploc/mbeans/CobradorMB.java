@@ -91,8 +91,9 @@ public class CobradorMB implements Serializable {
 	 */
 	public void cadastrar() {
 		if (cobrador.getCodCobrador() == null || cobrador.getCodCobrador() == 0) {
-			cobradorDAO.adiciona(cobrador);
-			addGlobalMessage("Inclus�o feita com sucesso!");
+			Cobrador c = new Cobrador(cobrador.getNome(),cobrador.getFoneContato(),cobrador.getAtivo());
+			cobradorDAO.adiciona(c);
+			addGlobalMessage("Inclusao feita com sucesso!");
 		} else {
 			Cobrador temp;
 			temp = cobradorDAO.recupera(cobrador.getCodCobrador());
@@ -103,7 +104,7 @@ public class CobradorMB implements Serializable {
 				temp.setFoneContato(cobrador.getFoneContato());	
 				
 				cobradorDAO.altera(temp);
-				addGlobalMessage("Atualiza��o feita com sucesso!");
+				addGlobalMessage("Atualização feita com sucesso!");
 			}
 		}
 		cobrador = new Cobrador();
@@ -129,7 +130,7 @@ public class CobradorMB implements Serializable {
 	}
 
 	/**
-	 * M�todo para incluir mensagens globais no formul�rio de cadastro
+	 * Metodo para incluir mensagens globais no formulario de cadastro
 	 * 
 	 * @param String
 	 *            message
@@ -145,7 +146,7 @@ public class CobradorMB implements Serializable {
 	public void apagar() {
 		try {
 			cobradorDAO.remove(cobrador.getCodCobrador());
-			addGlobalMessage("Exclu�do com sucesso!");
+			addGlobalMessage("Excluido com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
