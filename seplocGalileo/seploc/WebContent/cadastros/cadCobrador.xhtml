@@ -76,7 +76,8 @@
 									 required="true"
 									 requiredMessage="O nome deve ser informado."
 									 validator="#{cobradorCB.validateNome}" 
-									 id="nomeCobrador">                             
+									 id="nomeCobrador"
+									 onkeyup="javascript:this.value=this.value.toUpperCase();">                             
                              <rich:ajaxValidator event="onkeyup"  />                            
                         </h:inputText>
                         <h:inputHidden value="#{cobradorCB.cobradorMB.cobrador.codCobrador}"  />
