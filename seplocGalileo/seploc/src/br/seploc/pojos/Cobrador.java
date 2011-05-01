@@ -67,13 +67,13 @@ public class Cobrador implements Serializable {
 	
 	public Cobrador(String nome, String foneContato) {
 		this();
-		this.nome = nome;
+		setNome(nome);
 		this.foneContato = foneContato;
 	}
 
 	public Cobrador(String nome, String foneContato, String ativo) {
 		this();
-		this.nome = nome;
+		setNome(nome);
 		this.foneContato = foneContato;
 		this.ativo = ativo;
 	}
@@ -91,7 +91,7 @@ public class Cobrador implements Serializable {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.nome = nome.toUpperCase();
 	}
 
 	public String getFoneContato() {
