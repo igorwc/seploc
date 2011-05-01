@@ -23,7 +23,11 @@ public class CobradorDAO extends GenericDAO<Cobrador, Integer> {
 	@Override
 	public void adiciona(Cobrador t) {
 		em.getTransaction().begin();
-		em.merge(t);
+		try {
+			em.merge(t);
+		} catch (Exception e) {
+			em.persist(t);
+		}
 		em.getTransaction().commit();
 	}
 
