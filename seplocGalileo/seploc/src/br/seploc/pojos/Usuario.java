@@ -49,7 +49,16 @@ import br.seploc.util.DesEncrypter;
 				+ "FROM tbl_usuario u " + "where vcrcpf = :cpf", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RecuperaLogin", query = "SELECT *"
 				+ " FROM tbl_usuario "
-				+ "WHERE vcrLogin = ? and vcrPassword = ?", resultSetMapping = "Usuario.implicit") })
+				+ "WHERE vcrLogin = ? and vcrPassword = ?", resultSetMapping = "Usuario.implicit"),
+		@NamedNativeQuery(name = "Usuario.RecuperaCriadorReqServ", query = "select * from  tbl_usuario  " +
+																  "where intCodUsr in " +
+																  "(  SELECT intCodUsr   FROM tbl_reqservusuario   " +
+																  "WHERE intNumReq = :reqNum )" , resultSetMapping = "Usuario.implicit"),
+	    @NamedNativeQuery(name = "Usuario.RecuperaUserUltimaReqServ", query = "select * from  tbl_usuario  " +
+																			  "where intCodUsr in " +
+																			  "(  SELECT intCodUsrAlter   FROM tbl_reqservusuario   " +
+																			  "WHERE intNumReq = :reqNum )" , resultSetMapping = "Usuario.implicit")
+})
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -74,7 +83,7 @@ public class Usuario implements Serializable {
 	@Column(name = "vcrIpMaquina", length = 20)
 	private String ipMaquina;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "intGrupo", referencedColumnName = "intGrupo")
 	private Grupo grupo;
 
