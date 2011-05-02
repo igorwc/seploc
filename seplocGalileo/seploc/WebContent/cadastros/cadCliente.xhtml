@@ -153,6 +153,7 @@
                         <td><h:inputText value="#{clienteCB.clienteMB.cliente.razao}" 
                                          validator="#{clienteCB.validateRazaoSocial}"  
                                          id="razaoCli" 
+                                         onkeyup="javascript:this.value=this.value.toUpperCase();"
                                          >                             
                              <rich:ajaxValidator event="onkeyup"  /> 
                              <a4j:support event="onclick" action="#{clienteMB.validaErroRazao}" reRender="requiredRazao" />  
@@ -165,7 +166,8 @@
                         <td>
                             <h:inputText value="#{clienteCB.clienteMB.cliente.fantasia}" 
                                          validator="#{clienteCB.validateFantasia}"  
-                                         id="fantasiaCli">      
+                                         id="fantasiaCli"
+                                         onkeyup="javascript:this.value=this.value.toUpperCase();">      
                                <rich:ajaxValidator event="onkeyup"  />                                                 
                             </h:inputText> 
                         </td>                    
@@ -194,6 +196,7 @@
                                          id="enderCli" 
                                          size="65" 
                                          maxlength="65"
+                                         onkeyup="javascript:this.value=this.value.toUpperCase();"
                            />                        
                         </td>                    
                     </tr>
@@ -204,7 +207,7 @@
                     </tr>   
                     <tr align="left">
                         <td>
-                            <h:outputText value="Localidade: " 
+                            <h:outputText value="Localidade *: " 
                                           styleClass="texto"/>
                         </td>
                         <td colspan="3">
@@ -213,6 +216,7 @@
                                          size="63"
                                          readonly="true"
                                          required="true" 
+                                         onkeyup="javascript:this.value=this.value.toUpperCase();"
                             />
                             <a4j:commandLink ajaxSingle="true" 
                                              id="editLocalidade" 
@@ -362,7 +366,8 @@
                                              required="false"                                     
                                              id="obsCli"
                                              cols="50" 
-                                             rows="3"/>
+                                             rows="3"
+                                             onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                         </td>                    
                     </tr>    
                     <tr align="left">
