@@ -1,8 +1,5 @@
 package br.seploc.reports;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,16 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lowagie.text.DocumentException;
-
-import br.seploc.dao.EntregaDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
+import br.seploc.dao.UsuarioDAO;
 import br.seploc.migracao.ConnectionFactory;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.reports.beans.ClienteBean;
 import br.seploc.reports.beans.ImpressaoBean;
 import br.seploc.util.HtmlManipulator;
-import br.seploc.util.UtilsArquivo;
 import freemarker.template.TemplateException;
 
 public class ReportImpressaoReqServGenerator {
@@ -122,26 +116,11 @@ public class ReportImpressaoReqServGenerator {
 	private void geraDadosOperador() {
 		String sql = "SELECT vcrLoginAlter AS login, datdataAlter AS data "
 				+ "FROM tbl_reqservusuario " + "WHERE intNumReq = ?";
-		try {
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setInt(1, numRequisicao);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				String loginTemp = rs.getString("login");
-				Date data = rs.getDate("data");
-
-				if (loginTemp != null) {
-					operador = loginTemp;
-				}
-				if (data != null) {
-					dataAlteracao = new Date(data.getTime());
-				} else {
-					dataAlteracao = new Date();
-				}
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		br.seploc.pojos.Usuario operador = null;
+		UsuarioDAO dao = new UsuarioDAO();
+		operador = dao.getUsuarioAlteradorPorReqServ(this.numRequisicao);
+		this.operador = operador.getNome();
+		 
 	}
 
 	private void verificaEntrega() {
@@ -406,8 +385,8 @@ public class ReportImpressaoReqServGenerator {
 					bean.setNumReq(rs.getInt("numReq") + "");
 					bean.setSeq((contador++) + "");
 					String temp = rs.getString("item");
-					if (temp.length() > 35) {
-						bean.setItem(temp.substring(0, 35));
+					if (temp.length() > 30) {
+						bean.setItem(temp.substring(0, 30));
 					} else {
 						bean.setItem(rs.getString("item"));
 					}

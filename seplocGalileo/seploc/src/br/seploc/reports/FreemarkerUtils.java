@@ -19,6 +19,7 @@ public class FreemarkerUtils {
 		// diretório onde estão templates
 		cfg.setDirectoryForTemplateLoading(new File(TEMPLATES_FOLDER));
 		cfg.setObjectWrapper(new DefaultObjectWrapper());
+		cfg.setNumberFormat("0.######");
 		// recupera o template
 
 		Template t = cfg.getTemplate(templateName);
