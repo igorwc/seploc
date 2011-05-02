@@ -183,7 +183,46 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 		}
 		return  retorno;
 	}
-	
+	public Usuario getUsuarioCriadorPorReqServ(Integer reqNum) {
+		boolean flag = em.getTransaction().isActive();
+		Usuario retorno = null;
+		if (!flag) {
+			em.getTransaction().begin();
+		}
+		Query q = em.createNamedQuery("Usuario.RecuperaCriadorReqServ")                                   
+				.setParameter("reqNum",  reqNum  );
+		try {
+			retorno = (Usuario) q.getResultList().get(0);
+		} catch (Exception e) {
+			retorno = null;
+		}
+		if (!flag) {
+			em.getTransaction().commit();
+		}
+		
+		return  retorno;
+	}
+	@SuppressWarnings("unchecked")
+	public Usuario getUsuarioAlteradorPorReqServ(Integer reqNum) {
+		boolean flag = em.getTransaction().isActive();
+		Usuario retorno = null;
+		if (!flag) {
+			em.getTransaction().begin();
+		}
+		Query q = em.createNamedQuery("Usuario.RecuperaUserUltimaReqServ")                                   
+				.setParameter("reqNum",  reqNum  );
+		try {
+			retorno =  (Usuario) q.getResultList().get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+			retorno = null;
+		}
+		if (!flag) {
+			em.getTransaction().commit();
+		}
+		
+		return  retorno;
+	}
 	public List<Usuario> getListaRequisicoesPorUsuario() {
 		// TODO Implementar
 		// em.getTransaction().begin();
