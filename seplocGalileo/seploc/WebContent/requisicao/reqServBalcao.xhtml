@@ -153,7 +153,10 @@
 										        	    );
 										          })(jQuery);  
                                             </script>
-											<td><h:inputText id="desc" value="#{reqServClienteCB.reqServMB.linhaReqServ.nomeArquivo}" size="55"/></td>
+											<td><h:inputText id="desc" 
+											value="#{reqServClienteCB.reqServMB.linhaReqServ.nomeArquivo}" 
+											size="55"
+											onkeyup="javascript:this.value=this.value.toUpperCase();"/></td>
 											<td>
 											     <h:inputText id="for" 
 											                  value="#{reqServClienteCB.reqServMB.linhaReqServ.formato}" 
@@ -193,25 +196,12 @@
 												  document.getElementById('botaoSalvar').click();
 											  }
 											   
-											  $(".numeric").numeric();
-											  $(".integer").numeric( );
-											  function onlyNum(evt) {
-												  evt = (evt) ? evt : window.event
-												  var charCode = (evt.which) ? evt.which : evt.keyCode
-												  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-												  status = "This field accepts numbers only."
-												  return false
-												  }
-												  status = ""
-												  return true
-												  }
+											  
 											</script> 
 											     <h:inputText id="quant" 
 											                  value="#{reqServClienteCB.reqServMB.linhaReqServ.quant}" 
 											                  size="5"
-											                  onkeydown="if (event.keyCode == 13 || event.which ==13)executa();"
-											                  styleClass="integer" 
-											                   > 
+											                  onkeydown="if (event.keyCode == 13 || event.which ==13)executa();"  > 
 											                   </h:inputText>
 											</td>							
 										</tr>
