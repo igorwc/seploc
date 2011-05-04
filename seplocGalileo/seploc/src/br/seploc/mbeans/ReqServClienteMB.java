@@ -58,7 +58,7 @@ public class ReqServClienteMB implements Serializable {
 	private int orcamento;
 	private Integer numReqSessao;
 	private ReqServUsuario reqServUsuario;
-	
+	private String quantLinha;
 	private boolean resetaFiltroCliente;
 	private int clienteCurrentPage;
 	private int clientePages;
@@ -88,11 +88,40 @@ public class ReqServClienteMB implements Serializable {
 		resetaFiltroCliente = false;	
 		clienteBalcao = "CLIENTE BALCAO";
 		projetoBalcao = "GERAL";
+		quantLinha = "";
 	}
 
 	// GETTERS E SETTERS
+	
 	public Cliente getCliente() {
 		return cliente;
+	}
+
+	public String getQuantLinha() {
+		return quantLinha;
+	}
+
+	public void setQuantLinha(String quantLinha) {
+		this.quantLinha = quantLinha;
+	}
+	
+	public void normalizaQuantidade(){
+		if (quantLinha == null || quantLinha.trim().equals(""))
+			quantLinha =  new String("");
+		int i = 0;
+		String saida = "";
+		for (Character c : quantLinha.toCharArray()) {
+			if (Character.isDigit(c)) {
+				saida += c.toString();
+				i++;
+			} else {
+				i++;
+				continue;
+			}
+		}
+		quantLinha = saida.trim();
+		linhaReqServ.setQuant(Integer.parseInt(quantLinha));
+//		value="#{reqServClienteCB.reqServMB.linhaReqServ.quant}" 
 	}
 
 	public void setCliente(Cliente cliente) {
