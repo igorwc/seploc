@@ -62,6 +62,7 @@
 </style> 
 
    <f:view>  
+   
    	   <h:form id="reqServ" enctype="UTF-8" prependId="false" >
 
        <rich:panel header="Requisicao de Servico" >
@@ -144,9 +145,36 @@
 											<th><h:outputText value="Quant"/></th>							
 										</tr>
 										<tr>
+										    <script type="text/javascript" >
+										          (function($j){
+										        	  $j(function(){
+										        		    $j('.seploccurrency').setMask();
+										        		    }
+										        	    );
+										          })(jQuery);  
+                                            </script>
 											<td><h:inputText id="desc" value="#{reqServClienteCB.reqServMB.linhaReqServ.nomeArquivo}" size="55"/></td>
-											<td><h:inputText id="for" value="#{reqServClienteCB.reqServMB.linhaReqServ.formato}" size="5"/></td>
-											<td><h:inputText id="dim" value="#{reqServClienteCB.reqServMB.linhaReqServ.dimensao}" size="5"/></td>
+											<td>
+											     <h:inputText id="for" 
+											                  value="#{reqServClienteCB.reqServMB.linhaReqServ.formato}" 
+											                  size="5"
+                                                              styleClass="seploccurrency"
+                                                              alt="signed-decimal" >
+                                                     <f:converter converterId="SeplocCurrencyConverter" />
+                                                     <rich:ajaxValidator event="onkeyup"/>
+											     </h:inputText>
+											</td>
+											<td>
+											
+											    <h:inputText id="dim" 
+											                 value="#{reqServClienteCB.reqServMB.linhaReqServ.dimensao}" 
+											                 size="5"
+											                 styleClass="seploccurrency"
+											                 alt="signed-decimal" >
+											         <f:converter converterId="SeplocCurrencyConverter" />
+                                                     <rich:ajaxValidator event="onkeyup"/>
+											   </h:inputText>
+											</td>
 											<td><h:selectOneMenu value="#{reqServClienteCB.reqServMB.papel.codPapel}" id="papel">
 					                                <f:selectItem itemLabel="Selecione" itemValue="-1"></f:selectItem>
 					                                <t:selectItems value="#{reqServClienteCB.reqServMB.todosPapeis}"
@@ -164,12 +192,27 @@
 											  function executa(){
 												  document.getElementById('botaoSalvar').click();
 											  }
+											   
+											  $(".numeric").numeric();
+											  $(".integer").numeric( );
+											  function onlyNum(evt) {
+												  evt = (evt) ? evt : window.event
+												  var charCode = (evt.which) ? evt.which : evt.keyCode
+												  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+												  status = "This field accepts numbers only."
+												  return false
+												  }
+												  status = ""
+												  return true
+												  }
 											</script> 
 											     <h:inputText id="quant" 
 											                  value="#{reqServClienteCB.reqServMB.linhaReqServ.quant}" 
 											                  size="5"
 											                  onkeydown="if (event.keyCode == 13 || event.which ==13)executa();"
-											                   />
+											                  styleClass="integer" 
+											                   > 
+											                   </h:inputText>
 											</td>							
 										</tr>
 									</table>
