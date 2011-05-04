@@ -16,6 +16,8 @@ import java.util.Map;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.dao.UsuarioDAO;
 import br.seploc.migracao.ConnectionFactory;
+import br.seploc.pojos.Entrega;
+import br.seploc.pojos.ReqServUsuario;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.reports.beans.ClienteBean;
 import br.seploc.reports.beans.ImpressaoBean;
@@ -40,6 +42,7 @@ public class ReportImpressaoReqServGenerator {
 	private double valorTotal;
 	private double valorTotalDesconto;
 	private int hasDesconto;
+	private String localEntrega;
 
 	public ReportImpressaoReqServGenerator() {
 		dados = new ArrayList<ArrayList<ImpressaoBean>>();
@@ -57,6 +60,7 @@ public class ReportImpressaoReqServGenerator {
 		valorTotal = 0.0;
 		valorTotalDesconto = 0.0;
 		hasDesconto = 0;
+		localEntrega = "";
 	}
 
 	public String getDir() {
@@ -116,10 +120,10 @@ public class ReportImpressaoReqServGenerator {
 	private void geraDadosOperador() {
 		String sql = "SELECT vcrLoginAlter AS login, datdataAlter AS data "
 				+ "FROM tbl_reqservusuario " + "WHERE intNumReq = ?";
-		br.seploc.pojos.Usuario operador = null;
-		UsuarioDAO dao = new UsuarioDAO();
-		operador = dao.getUsuarioAlteradorPorReqServ(this.numRequisicao);
-		this.operador = operador.getNome();
+//		br.seploc.pojos.Usuario operador = null;
+//		UsuarioDAO dao = new UsuarioDAO();
+//		operador = dao.getUsuarioAlteradorPorReqServ(this.numRequisicao);
+//		this.operador = operador.getNome();
 		 
 	}
 
@@ -164,7 +168,22 @@ public class ReportImpressaoReqServGenerator {
 			if(rs == null){
 				return;
 			}
-				
+			ReqServUsuario rsu = rs.getRequisicaoUsuario();
+			if (rsu.getDataAlteracao() != null && rsu.getUsuarioAlteracao() != null){
+				this.operador = rsu.getUsuarioAlteracao().getNome();
+				this.dataAlteracao = rsu.getDataAlteracao();
+			}else{
+				this.operador = rsu.getUsuario().getNome();
+				this.dataAlteracao = rsu.getData();
+			}
+			Entrega entreg = rs.getEntrega();
+			if (entreg == null){
+				this.localEntrega = "";
+				this.entrega = 0.0;
+			}else{
+				this.localEntrega = entreg.getLocal();
+				this.entrega = entreg.getPreco();
+			}
 			this.valorTotal = valorTotal + this.entrega;
 			System.out.println("Valor Total:" + valorTotal);
 			System.out.println("Entrega:" + this.entrega);
@@ -261,6 +280,8 @@ public class ReportImpressaoReqServGenerator {
 	@SuppressWarnings("unchecked")
 	public Map getDataModel() {
 		Map map = new HashMap();
+		calculaTotalRequisicao();
+		map.put("localEntrega", localEntrega);
 		map.put("cliente", cliente);
 		map.put("dados", dados);
 		map.put("subs", subtotais);
@@ -273,7 +294,7 @@ public class ReportImpressaoReqServGenerator {
 		map.put("data_alteracao", dataAlteracao);
 		map.put("current_date", new Date());
 		map.put("paginacao_total", paginas);
-		calculaTotalRequisicao();
+		
 		map.put("valor_total", valorTotal);
 		System.out.println("Valor Total:" + valorTotal);
 		map.put("valor_totald", valorTotalDesconto);
@@ -542,7 +563,9 @@ public class ReportImpressaoReqServGenerator {
 //		rr.setNumRequisicao(59668);
 //		rr.setNumRequisicao(109251);
 //		rr.setNumRequisicao(76430);
-		rr.setNumRequisicao(73635);
+		rr.setNumRequisicao(112453);
+//		rr.setNumRequisicao(73635);
+		
 		
  
 		
