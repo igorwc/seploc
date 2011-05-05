@@ -137,6 +137,15 @@
 							<td colspan="5" valign="top">
 								<!-- Linha -->									
 								<fieldset><legend class="texto">Linha Requisicao</legend>						
+									
+									<script type="text/javascript" >
+                                                  (function($j){
+                                                      $j(function(){
+                                                            $j('.seploccurrency').setMask();
+                                                            }
+                                                        );
+                                                  })(jQuery);  
+                                            </script>
 									<table>
 										<tr>
 											<th><h:outputText value="Descricao"/></th>
@@ -147,9 +156,34 @@
 											<th><h:outputText value="Quant"/></th>							
 										</tr>
 										<tr>
-											<td><h:inputText id="desc" value="#{reqServClienteCB.reqServMB.linhaReqServ.nomeArquivo}" size="50"/></td>
-											<td><h:inputText id="for" value="#{reqServClienteCB.reqServMB.linhaReqServ.formato}" size="5"/></td>
-											<td><h:inputText id="dim" value="#{reqServClienteCB.reqServMB.linhaReqServ.dimensao}" size="5"/></td>
+										
+											<td>
+											     <h:inputText id="desc" 
+											                 value="#{reqServClienteCB.reqServMB.linhaReqServ.nomeArquivo}" 
+											                 size="50"
+											                 onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+											</td>
+											
+											<td>
+											     <h:inputText id="for" 
+											                  value="#{reqServClienteCB.reqServMB.linhaReqServ.formato}" 
+											                  size="5"
+											                  styleClass="seploccurrency"
+                                                              alt="signed-decimal">
+                                                     <f:converter converterId="SeplocCurrencyConverter" />
+                                                     <rich:ajaxValidator event="onkeyup"/>
+                                                 </h:inputText>
+											</td>
+											<td>
+											     <h:inputText id="dim" 
+											                  value="#{reqServClienteCB.reqServMB.linhaReqServ.dimensao}" 
+											                  size="5"
+											                  styleClass="seploccurrency"
+                                                              alt="signed-decimal">
+                                                     <f:converter converterId="SeplocCurrencyConverter" />
+                                                     <rich:ajaxValidator event="onkeyup"/>
+											     </h:inputText>
+											</td>
 											<td><h:selectOneMenu value="#{reqServClienteCB.reqServMB.papel.codPapel}" id="papel">
 					                                <f:selectItem itemLabel="Selecione" itemValue="-1"></f:selectItem>
 					                                <t:selectItems value="#{reqServClienteCB.reqServMB.todosPapeis}"
@@ -463,10 +497,10 @@
                       </h:inputText> 
                       <a4j:commandButton value="buscar" 
                                          action="#{reqServClienteCB.reqServMB.atualizaFiltro}" 
-                                         reRender="clienteFiltro, clientesTable,outputPaginacaoCliente"/>
+                                         reRender="clienteFiltro, clientesTable,outputPaginacaoCliente,reqServ"/>
                       <a4j:commandButton value="Limpar" 
                                          action="#{reqServClienteCB.reqServMB.resetaFiltro}" 
-                                         reRender="clienteFiltro, clientesTable,outputPaginacaoCliente"/>
+                                         reRender="clienteFiltro, clientesTable,outputPaginacaoCliente,reqServ"/>
                            
                 </h:panelGrid>
             </rich:panel>
