@@ -132,8 +132,16 @@
             <tbody>
                 <tr>
                     <td style="width: 20%"> Requisi&ccedil;&atilde;o: ${numRequisicao?c}  </td>
-                    <td style="width: 80%"> Projeto: ${nomeProjeto}  </td>
-                     
+                    <td style="width: 60%"> Projeto: ${nomeProjeto}  </td>
+                    <td style="width: 20%"> <b>
+                            <#if orcamento == 1>
+                                ORCAMENTO
+                            </#if>
+                             <#if orcamento == 0>
+                                PAGAMENTO
+                            </#if>
+                        </b>  
+                   </td>  
                 </tr>
 
             </tbody>
@@ -304,8 +312,16 @@
             <tbody>
                 <tr>
                     <td style="width: 20%"> Requisi&ccedil;&atilde;o: ${numRequisicao}  </td>
-                    <td style="width: 80%"> Projeto: ${nomeProjeto}  </td>
-                     
+                    <td style="width: 60%"> Projeto: ${nomeProjeto}  </td>
+                    <td style="width: 20%"> <b>
+                            <#if orcamento == 1>
+                                ORCAMENTO
+                            </#if>
+                             <#if orcamento == 0>
+                                PAGAMENTO
+                            </#if>
+                        </b>  
+                   </td> 
                 </tr>
 
             </tbody>
