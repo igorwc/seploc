@@ -26,6 +26,11 @@
    font-size: 16px;
 }
 
+.textoMsg {
+   font-weight: bold;
+   font-size: 14px;
+   blockquote { letter-spacing: 2 }
+}
 
 .reqtable th {
     padding: 3px 5px 2px 5px;
@@ -131,16 +136,11 @@
             cellpadding="2" cellspacing="2" class="tabprim">
             <tbody>
                 <tr>
-                    <td style="width: 20%"> Requisi&ccedil;&atilde;o: ${numRequisicao?c}  </td>
-                    <td style="width: 60%"> Projeto: ${nomeProjeto}  </td>
-                    <td style="width: 20%"> <b>
-                            <#if orcamento == 1>
-                                ORCAMENTO
-                            </#if>
-                             <#if orcamento == 0>
-                                PAGAMENTO
-                            </#if>
-                        </b>  
+                    <td style="width: 40%"> Projeto: ${nomeProjeto}  </td>
+                    <td style="width: 60%"><font class="textoMsg">
+                        <#if orcamento == 1>
+                           O R C A M E N T O
+                        </#if></font>  
                    </td>  
                 </tr>
 
@@ -311,17 +311,12 @@
             cellpadding="2" cellspacing="2" class="tabprim">
             <tbody>
                 <tr>
-                    <td style="width: 20%"> Requisi&ccedil;&atilde;o: ${numRequisicao}  </td>
-                    <td style="width: 60%"> Projeto: ${nomeProjeto}  </td>
-                    <td style="width: 20%"> <b>
-                            <#if orcamento == 1>
-                                ORCAMENTO
-                            </#if>
-                             <#if orcamento == 0>
-                                PAGAMENTO
-                            </#if>
-                        </b>  
-                   </td> 
+                    <td style="width: 40%"> Projeto: ${nomeProjeto}  </td>
+                    <td style="width: 60%"><font class="textoMsg">
+                        <#if orcamento == 1>
+                           O R C A M E N T O
+                        </#if></font>  
+                   </td>  
                 </tr>
 
             </tbody>

@@ -540,6 +540,7 @@ public class ReqServListaMB implements Serializable {
 			temp.setStatus(0);
 			temp.setVisivelNf(0);
 			temp.setVisivelReq(0);
+			temp.setOrcamento(0);
 			// criar reqServ
 			reqServicoDAO.adiciona(temp);
 			// recuperar a requisicao
