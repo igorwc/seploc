@@ -43,6 +43,7 @@ public class ReportImpressaoReqServGenerator {
 	private double valorTotalDesconto;
 	private int hasDesconto;
 	private String localEntrega;
+	private int orcamento;
 
 	public ReportImpressaoReqServGenerator() {
 		dados = new ArrayList<ArrayList<ImpressaoBean>>();
@@ -61,6 +62,7 @@ public class ReportImpressaoReqServGenerator {
 		valorTotalDesconto = 0.0;
 		hasDesconto = 0;
 		localEntrega = "";
+		orcamento = 0;
 	}
 
 	public String getDir() {
@@ -168,6 +170,16 @@ public class ReportImpressaoReqServGenerator {
 			if(rs == null){
 				return;
 			}
+			if (rs.getOrcamento() != null) {
+				if (rs.getOrcamento() != 0) {
+					orcamento = 1;
+				} else {
+					orcamento = 0;
+				}
+			} else {
+				orcamento = 0;
+			}
+		
 			ReqServUsuario rsu = rs.getRequisicaoUsuario();
 			if (rsu.getDataAlteracao() != null && rsu.getUsuarioAlteracao() != null){
 				this.operador = rsu.getUsuarioAlteracao().getNome();
@@ -282,6 +294,7 @@ public class ReportImpressaoReqServGenerator {
 		Map map = new HashMap();
 		calculaTotalRequisicao();
 		map.put("localEntrega", localEntrega);
+		map.put("orcamento", orcamento);
 		map.put("cliente", cliente);
 		map.put("dados", dados);
 		map.put("subs", subtotais);
@@ -563,8 +576,9 @@ public class ReportImpressaoReqServGenerator {
 //		rr.setNumRequisicao(59668);
 //		rr.setNumRequisicao(109251);
 //		rr.setNumRequisicao(76430);
-		rr.setNumRequisicao(112453);
-//		rr.setNumRequisicao(73635);
+//		rr.setNumRequisicao(112453);
+//		rr.setNumRequisicao(73635); 
+		rr.setNumRequisicao(76430);
 		
 		
  
