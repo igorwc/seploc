@@ -149,7 +149,7 @@ public class RelListImpressaoReqServGenerator {
 			System.out.println("Valor Total:" + valorTotal);
 			System.out.println("Entrega:" + this.entrega);
 			this.valorTotalDesconto = (valorTotal - (valorTotal
-					* rs.getOrcamento() / 100))
+					* rs.getDesconto() / 100))
 					+ this.entrega;
 			if (this.valorTotal != this.valorTotalDesconto) {
 				hasDesconto = 1;
@@ -315,7 +315,7 @@ public class RelListImpressaoReqServGenerator {
 				bean.setSubtotal(formatter.format(r.getValorTotal()) + "");
 				bean.setSubtotalDesc(formatter.format(r.getValorTotalComDesconto()) + "");
 				formatter = new DecimalFormat("00");
-				bean.setDesconto(formatter.format(r.getOrcamento()) + "%");
+				bean.setDesconto(formatter.format(r.getDesconto()) + "%");
 				pagina.add(bean);
 				aux++;
 				if (aux > 12) {

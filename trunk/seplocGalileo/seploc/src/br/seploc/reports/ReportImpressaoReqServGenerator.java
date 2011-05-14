@@ -199,7 +199,7 @@ public class ReportImpressaoReqServGenerator {
 			this.valorTotal = valorTotal + this.entrega;
 			System.out.println("Valor Total:" + valorTotal);
 			System.out.println("Entrega:" + this.entrega);
-			this.valorTotalDesconto = (valorTotal - (valorTotal*rs.getOrcamento()/100) ) + this.entrega;
+			this.valorTotalDesconto = (valorTotal - (valorTotal*rs.getDesconto()/100) ) + this.entrega;
 			if(this.valorTotal != this.valorTotalDesconto){
 				hasDesconto = 1;
 			} else {
