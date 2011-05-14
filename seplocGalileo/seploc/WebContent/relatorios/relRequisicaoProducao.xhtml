@@ -1,0 +1,17 @@
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="../templatepage/masterpage.xhtml">
+
+	<!-- TAXINOMIA -->
+	<ui:define name="taxinomia">
+		<h:outputText value="#{msgs.tax_relat_root}" />
+		<img src="../imgs/ponto.png" /><rich:spacer width="5px"/>
+		<h:outputText value="#{msgs.tax_relat_producao}" />
+	</ui:define>
+
+</ui:composition>
+
