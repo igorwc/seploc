@@ -34,9 +34,11 @@ import javax.persistence.Version;
 		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoes", query = " SELECT * "
 				+ "FROM tbl_reqserv", resultSetMapping = "RequisicaoServico.implicit"),
 		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoesLimitadoTempo", query = " SELECT * "
-				+ "FROM tbl_reqserv " + "where datData >= :data order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
+				+ "FROM tbl_reqserv "
+				+ "where datData >= :data order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
 		@NamedNativeQuery(name = "RequisicaoServico.FiltraProjeto", query = " SELECT * "
-				+ "FROM tbl_reqserv " + "where intCodProj = :projeto order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
+				+ "FROM tbl_reqserv "
+				+ "where intCodProj = :projeto order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
 		@NamedNativeQuery(name = "RequisicaoServico.FiltraReqServ", query = " SELECT * "
 				+ "FROM tbl_reqserv where intNumreq = :numReq order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
 		@NamedNativeQuery(name = "RequisicaoServico.FiltraCliente", query = " SELECT * "
@@ -81,6 +83,9 @@ public class RequisicaoServico implements Serializable {
 	@Column(name = "intOrcamento")
 	private Integer orcamento;
 
+	@Column(name = "dblDesconto")
+	private Double desconto;
+	
 	@Version
 	@Column(name = "tspVersao")
 	private Timestamp versao;
@@ -107,7 +112,7 @@ public class RequisicaoServico implements Serializable {
 
 	// @OneToMany(mappedBy = "reqServico")
 	// private List<ReqServUsuario> requisicoesUsuarios;
-	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL})
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	@JoinColumn(name = "intNumReq", referencedColumnName = "intNumReq")
 	private ReqServUsuario requisicaoUsuario;
 
@@ -133,6 +138,14 @@ public class RequisicaoServico implements Serializable {
 		return data;
 	}
 
+	public Double getDesconto() {
+		return desconto;
+	}
+
+	public void setDesconto(Double desconto) {
+		this.desconto = desconto;
+	}
+
 	public void setData(Date data) {
 		this.data = data;
 	}
@@ -148,42 +161,44 @@ public class RequisicaoServico implements Serializable {
 	public Double getValorTotal() {
 		return valorTotal;
 	}
+
 	public Double getValorTotalComEntrega() {
 		double total = 0;
 		double entrega = 0;
-		if(valorTotal == null){
+		if (valorTotal == null) {
 			total = 0;
-		}else{
+		} else {
 			total = valorTotal;
 		}
-		if(valorEnt == null){
+		if (valorEnt == null) {
 			entrega = 0;
-		}else{
+		} else {
 			entrega = valorEnt;
 		}
-		total = (valorTotal+entrega) ;
-		return  total;
+		total = (valorTotal + entrega);
+		return total;
 	}
+
 	public Double getValorTotalComDesconto() {
 		double total = 0;
 		double desconto = 0;
 		double entrega = 0;
-		if(valorEnt == null){
+		if (valorEnt == null) {
 			entrega = 0;
-		}else{
+		} else {
 			entrega = valorEnt;
 		}
-		if(valorTotal == null){
+		if (valorTotal == null) {
 			total = 0;
-		}else{
-			total = valorTotal-entrega;
+		} else {
+			total = valorTotal - entrega;
 		}
-		if(orcamento == null){
-			desconto = 0;
-		}else{
-			desconto = orcamento;
+		if (this.desconto == null) {
+			desconto = 0.0;
+		} else {
+			desconto = this.desconto;
 		}
-		total = ((total)- (total) *desconto/100)+entrega;
+		total = ((total) - (total) * desconto / 100) + entrega;
 		return total;
 	}
 
