@@ -50,7 +50,9 @@ public class ReqServClientePeriodoCB {
 						ReqServClientePeriodoMB.class);
 		return clienteMB;
 	}
-
+	public void limpaBean(ActionEvent event) {
+		clientePeriodoMB.limpar();
+	}
 	
 	public ReqServClientePeriodoCB() {
 		System.out.println("construiu ReqServClientePeriodoCB");
