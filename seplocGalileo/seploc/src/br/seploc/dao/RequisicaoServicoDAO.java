@@ -345,7 +345,7 @@ public class RequisicaoServicoDAO extends
 		return resultado;
 	}
 
-	public void atualizaDescontoRequisicoes(ArrayList<Integer> listaIds,int desconto){
+	public void atualizaDescontoRequisicoes(ArrayList<Integer> listaIds,double desconto){
 		String sql = "";
 		int linhasAlteradas = 0;
 		if (listaIds == null || listaIds.size() == 0){
@@ -361,7 +361,7 @@ public class RequisicaoServicoDAO extends
 			}
 			strIds += ")";
 		}
-		sql = "update tbl_reqserv set intOrcamento = "+desconto+
+		sql = "update tbl_reqserv set dblDesconto = "+desconto+
 		" where intNumreq in "+strIds;
 		em.getTransaction().begin();
 		Query q1 = em.createNativeQuery(sql);
