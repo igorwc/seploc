@@ -108,6 +108,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 		reqImpressao = new RequisicaoServico();
 		urlReqImpressao = "";
 		urlReqListImpressao = "";
+		listaRequisicoes = new ArrayList<RequisicaoServico>();
 	}
 
 	public void limpar() {
