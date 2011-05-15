@@ -247,4 +247,14 @@ public class RequisicaoServicoDAOTest {
 //		Assert.assertEquals(0.5, retorno.doubleValue()); // 100000 não tem linha só opcionais
 		Assert.assertEquals(8.0, retorno.doubleValue()); // 100798 não tem linha só opcionais
 	}
+	
+	@Test
+	public final void testRelProducao() {
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		List<Object> l = dao.getListaProducao(0);
+		for (Object o : l){
+			System.out.println(o.toString());
+		}
+	}
+	
 }
