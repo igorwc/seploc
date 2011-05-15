@@ -257,4 +257,16 @@ public class RequisicaoServicoDAOTest {
 		}
 	}
 	
+	@Test
+	public final void testgetListaProducao() {
+
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		List<Object> l = dao.getListaProducao(0);
+		for (Object obj : l) {
+			Object[] dd = (Object[]) obj;
+			System.out.printf("Campo1: %d, ValorTotal: %f, Valor com Desconto: %f, Mês: %d%n",
+					dd[0],dd[1],dd[2],dd[3]);
+
+		}
+	}
 }
