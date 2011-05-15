@@ -41,12 +41,13 @@ import javax.persistence.Version;
 				+ "where intCodProj = :projeto order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
 		@NamedNativeQuery(name = "RequisicaoServico.FiltraReqServ", query = " SELECT * "
 				+ "FROM tbl_reqserv where intNumreq = :numReq order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
-		@NamedNativeQuery(name = "RequisicaoServico.Producao", query = " SELECT count(1), IFNULL(SUM(r.dblValorTotal),0), IFNULL(MONTH(r.datData) "
+		@NamedNativeQuery(name = "RequisicaoServico.Producao", query = " SELECT count(1), IFNULL(SUM(r.dblValorTotal),0), IFNULL(SUM(r.dblValorDesc),0), "
+			    + "IFNULL(MONTH(r.datData),1) "
 				+ "FROM tbl_reqserv r, tbl_projetos p, tbl_clientes c " 
 				+ "where r.intCodProj = p.intCodProj and p.intClienteID = c.intClienteID "
 				+ "and c.intBalcao = :balcao and YEAR(r.datData) = YEAR(Now()) "
 				+ "group by MONTH(r.datData) ", resultSetMapping = "RequisicaoServico.implicit"),
-		@NamedNativeQuery(name = "RequisicaoServico.ProducaoPeriodo", query = " SELECT count(1), IFNULL(SUM(r.dblValorTotal),0), IFNULL(MONTH(r.datData) "
+		@NamedNativeQuery(name = "RequisicaoServico.ProducaoPeriodo", query = " SELECT count(1), IFNULL(SUM(r.dblValorTotal),0), IFNULL(SUM(r.dblValorDesc),0) "
 				+ "FROM tbl_reqserv r, tbl_projetos p, tbl_clientes c " 
 				+ "where r.intCodProj = p.intCodProj and p.intClienteID = c.intClienteID "
 				+ "and c.intBalcao = :balcao and r.datData between :dataIni and :dataFim "
