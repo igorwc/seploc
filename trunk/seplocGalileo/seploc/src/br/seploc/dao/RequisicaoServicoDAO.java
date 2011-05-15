@@ -121,7 +121,14 @@ public class RequisicaoServicoDAO extends
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object> getListaProducao(Integer balcao) {
+	public List<Object>  getListaProducao(Integer balcao) {
+//		String sql = " SELECT count(1), IFNULL(SUM(r.dblValorTotal),0), IFNULL(SUM(r.dblValorDesc),0), "
+//		    + "IFNULL(MONTH(r.datData),1) "
+//			+ "FROM tbl_reqserv r, tbl_projetos p, tbl_clientes c " 
+//			+ "where r.intCodProj = p.intCodProj and p.intClienteID = c.intClienteID "
+//			+ "and c.intBalcao = :balcao and YEAR(r.datData) = YEAR(Now()) "
+//			+ "group by MONTH(r.datData)";
+//		Query q = em.createNativeQuery(sql);
 		Query q = em.createNamedQuery("RequisicaoServico.Producao");
 		q.setParameter("balcao", balcao.intValue());
 		return (List<Object>) q.getResultList();
@@ -378,6 +385,7 @@ public class RequisicaoServicoDAO extends
 			strIds += ")";
 		}
 		sql = "update tbl_reqserv set dblDesconto = "+desconto+
+		", dblValorDesc = ((IFNULL(dblValorTotal,0)-IFNULL(dblValorEnt,0)) - (IFNULL(dblValorTotal,0)-IFNULL(dblValorEnt,0)) * IFNULL(dblDesconto,0) / 100) + IFNULL(dblValorEnt,0)" +
 		" where intNumreq in "+strIds;
 		em.getTransaction().begin();
 		Query q1 = em.createNativeQuery(sql);
