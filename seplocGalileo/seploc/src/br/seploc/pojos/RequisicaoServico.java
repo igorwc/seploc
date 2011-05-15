@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
 import javax.persistence.Entity;
 import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
@@ -21,6 +22,7 @@ import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
+import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -29,7 +31,10 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name = "tbl_reqserv")
+@SqlResultSetMappings( {
 @SqlResultSetMapping(name = "RequisicaoServico.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.RequisicaoServico.class))
+,@SqlResultSetMapping(name = "nula" ) }
+) 
 @NamedNativeQueries( {
 		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoes", query = " SELECT * "
 				+ "FROM tbl_reqserv", resultSetMapping = "RequisicaoServico.implicit"),
@@ -41,12 +46,13 @@ import javax.persistence.Version;
 				+ "where intCodProj = :projeto order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
 		@NamedNativeQuery(name = "RequisicaoServico.FiltraReqServ", query = " SELECT * "
 				+ "FROM tbl_reqserv where intNumreq = :numReq order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
-		@NamedNativeQuery(name = "RequisicaoServico.Producao", query = " SELECT count(1), IFNULL(SUM(r.dblValorTotal),0), IFNULL(SUM(r.dblValorDesc),0), "
-			    + "IFNULL(MONTH(r.datData),1) "
+		@NamedNativeQuery(name = "RequisicaoServico.Producao", query = " SELECT count(1) as EMP_NAME, " +
+				"IFNULL(SUM(r.dblValorTotal),0) as MANAGER_NAME, IFNULL(SUM(r.dblValorDesc),0) as EMP_NAME2, "
+			    + "IFNULL(MONTH(r.datData),1) as  MANAGER_NAME2 "
 				+ "FROM tbl_reqserv r, tbl_projetos p, tbl_clientes c " 
 				+ "where r.intCodProj = p.intCodProj and p.intClienteID = c.intClienteID "
 				+ "and c.intBalcao = :balcao and YEAR(r.datData) = YEAR(Now()) "
-				+ "group by MONTH(r.datData) ", resultSetMapping = "RequisicaoServico.implicit"),
+				+ "group by MONTH(r.datData) " , resultSetMapping = "nula" ),
 		@NamedNativeQuery(name = "RequisicaoServico.ProducaoPeriodo", query = " SELECT count(1), IFNULL(SUM(r.dblValorTotal),0), IFNULL(SUM(r.dblValorDesc),0) "
 				+ "FROM tbl_reqserv r, tbl_projetos p, tbl_clientes c " 
 				+ "where r.intCodProj = p.intCodProj and p.intClienteID = c.intClienteID "
