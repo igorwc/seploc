@@ -121,6 +121,22 @@ public class RequisicaoServicoDAO extends
 	}
 
 	@SuppressWarnings("unchecked")
+	public List<Object> getListaProducao(Integer balcao) {
+		Query q = em.createNamedQuery("RequisicaoServico.Producao");
+		q.setParameter("balcao", balcao.intValue());
+		return (List<Object>) q.getResultList();
+	}	
+
+	@SuppressWarnings("unchecked")
+	public List<Object> getListaProducaoPeríodo(Date dataInicio, Date dataFim, Integer balcao) {		 
+		Query q = em.createNamedQuery("RequisicaoServico.ProducaoPeriodo");
+		q.setParameter("dataIni", dataInicio);
+		q.setParameter("dataFim", dataFim);
+		q.setParameter("balcao", balcao.intValue());		
+		return (List<Object>) q.getResultList();
+	}	
+	
+	@SuppressWarnings("unchecked")
 	public List<RequisicaoServico> getListaSinceDate(Date data) {
 //		em.getTransaction().begin();
 		Query q = em.createNamedQuery("RequisicaoServico.RetornaRequisicoesLimitadoTempo");
