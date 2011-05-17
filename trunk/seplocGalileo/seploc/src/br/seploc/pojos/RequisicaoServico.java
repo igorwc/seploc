@@ -33,7 +33,7 @@ import javax.persistence.Version;
 @Table(name = "tbl_reqserv")
 @SqlResultSetMappings( {
 @SqlResultSetMapping(name = "RequisicaoServico.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.RequisicaoServico.class))
-,@SqlResultSetMapping(name = "nula" ) }
+,@SqlResultSetMapping(name = "SQLNativo" ) }
 ) 
 @NamedNativeQueries( {
 		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoes", query = " SELECT * "
@@ -52,12 +52,12 @@ import javax.persistence.Version;
 				+ "FROM tbl_reqserv r, tbl_projetos p, tbl_clientes c " 
 				+ "where r.intCodProj = p.intCodProj and p.intClienteID = c.intClienteID "
 				+ "and c.intBalcao = :balcao and YEAR(r.datData) = YEAR(Now()) "
-				+ "group by MONTH(r.datData) " , resultSetMapping = "nula" ),
+				+ "group by MONTH(r.datData) " , resultSetMapping = "SQLNativo" ),
 		@NamedNativeQuery(name = "RequisicaoServico.ProducaoPeriodo", query = " SELECT count(1), IFNULL(SUM(r.dblValorTotal),0), IFNULL(SUM(r.dblValorDesc),0) "
 				+ "FROM tbl_reqserv r, tbl_projetos p, tbl_clientes c " 
 				+ "where r.intCodProj = p.intCodProj and p.intClienteID = c.intClienteID "
 				+ "and c.intBalcao = :balcao and r.datData between :dataIni and :dataFim "
-				+ "group by MONTH(r.datData) ", resultSetMapping = "RequisicaoServico.implicit"),				
+				+ "group by MONTH(r.datData) ", resultSetMapping = "SQLNativo"),				
 		@NamedNativeQuery(name = "RequisicaoServico.FiltraCliente", query = " SELECT * "
 				+ "FROM tbl_reqserv "
 				+ "where datData between :dataInicio and :dataFinal "
