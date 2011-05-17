@@ -117,9 +117,9 @@
                                 </h:panelGroup>
                             </f:facet>
                             <rich:menuItem disabled="#{sessionScope.REL_CLIENTE}"  submitMode="ajax" value="#{msgs['menu.raiz.relatorios.clienteperiodo']}"  actionListener="#{reqClientePeriodoCB.limpaBean}"   icon="../imgs/icons/clientePeriodo.png" oncomplete="document.location.href='../relatorios/reqServClientePorPeriodo.jsf'" />
-                            <rich:menuItem disabled="#{sessionScope.REL_COBRADOR}"  submitMode="ajax" value="#{msgs['menu.raiz.relatorios.reqServCobrador']}"    icon="../imgs/icons/relCobrador.png" onclick="document.location.href='../relatorios/relRequisicaoPorCobrador.jsf'" />
-                            <rich:menuItem disabled="#{sessionScope.REL_PLOTADOR}"  submitMode="ajax" value="#{msgs['menu.raiz.relatorios.reqServPlotador']}"    icon="../imgs/icons/relPlotador.png" onclick="document.location.href='../relatorios/relRequisicaoPorPlotador.jsf'" />
-                            <rich:menuItem disabled="#{sessionScope.REL_PRODUCAO}"  submitMode="ajax" value="#{msgs['menu.raiz.relatorios.reqServProducao']}"    icon="../imgs/icons/relProducao.png" onclick="document.location.href='../relatorios/relRequisicaoProducao.jsf'" />
+                            <rich:menuItem disabled="#{sessionScope.REL_COBRADOR}"  submitMode="none" value="#{msgs['menu.raiz.relatorios.reqServCobrador']}"    icon="../imgs/icons/relCobrador.png" onclick="document.location.href='../relatorios/relRequisicaoPorCobrador.jsf'" />
+                            <rich:menuItem disabled="#{sessionScope.REL_PLOTADOR}"  submitMode="none" value="#{msgs['menu.raiz.relatorios.reqServPlotador']}"    icon="../imgs/icons/relPlotador.png" onclick="document.location.href='../relatorios/relRequisicaoPorPlotador.jsf'" />
+                            <rich:menuItem disabled="#{sessionScope.REL_PRODUCAO}"  submitMode="none" value="#{msgs['menu.raiz.relatorios.reqServProducao']}"    icon="../imgs/icons/relProducao.png" onclick="document.location.href='../relatorios/relRequisicaoProducao.jsf'" />
                         </rich:dropDownMenu>
                         <!-- MENU ACESSO SISTEMA -->                      
                         <rich:dropDownMenu>

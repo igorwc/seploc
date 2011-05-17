@@ -20,6 +20,7 @@ import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.ReqServicosOpcionaisPK;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.pojos.Usuario;
+import br.seploc.reports.beans.ReqServProducaoBeanGrid;
 import br.seploc.util.GenericDAO;
 
 public class RequisicaoServicoDAO extends
@@ -120,22 +121,33 @@ public class RequisicaoServicoDAO extends
 		return (List<RequisicaoServico>) q.getResultList();
 	}
 
+
 	@SuppressWarnings("unchecked")
 	public List<Object>  getListaProducao(Integer balcao) {
-//		String sql = " SELECT count(1), IFNULL(SUM(r.dblValorTotal),0), IFNULL(SUM(r.dblValorDesc),0), "
-//		    + "IFNULL(MONTH(r.datData),1) "
-//			+ "FROM tbl_reqserv r, tbl_projetos p, tbl_clientes c " 
-//			+ "where r.intCodProj = p.intCodProj and p.intClienteID = c.intClienteID "
-//			+ "and c.intBalcao = :balcao and YEAR(r.datData) = YEAR(Now()) "
-//			+ "group by MONTH(r.datData)";
-//		Query q = em.createNativeQuery(sql);
 		Query q = em.createNamedQuery("RequisicaoServico.Producao");
 		q.setParameter("balcao", balcao.intValue());
 		return (List<Object>) q.getResultList();
 	}	
+	
+	public List<ReqServProducaoBeanGrid> getListaProducaoGrid(int balcao) {
+		List<Object> l = this.getListaProducao(balcao);
+		List<ReqServProducaoBeanGrid> listOrdenada = new ArrayList<ReqServProducaoBeanGrid>();
+		for (Object obj : l) {
+			Object[] o = (Object[]) obj;
+			System.out.printf("TotalReq: %d, ValorTotal: %f, ValorDesconto: %f, Mês: %d%n",
+					o[0],o[1],o[2],o[3]);
+			int totalReq = (Integer) o[0];
+			double valorTotal = (Double) o[1];
+			double valorDesc = (Double) o[2];
+			int mes = (Integer) o[3];
+			listOrdenada.add(new ReqServProducaoBeanGrid(totalReq, valorTotal, valorDesc, mes));
+		}
+		Collections.sort(listOrdenada);
+		return listOrdenada;
+	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object> getListaProducaoPeríodo(Date dataInicio, Date dataFim, Integer balcao) {		 
+	public List<Object> getListaProducaoPeriodo(Date dataInicio, Date dataFim, Integer balcao) {		 
 		Query q = em.createNamedQuery("RequisicaoServico.ProducaoPeriodo");
 		q.setParameter("dataIni", dataInicio);
 		q.setParameter("dataFim", dataFim);
@@ -143,6 +155,22 @@ public class RequisicaoServicoDAO extends
 		return (List<Object>) q.getResultList();
 	}	
 	
+	public List<ReqServProducaoBeanGrid> getListaProducaoPeriodoGrid(Date dataInicio, Date dataFim, int balcao) {
+		List<Object> l = this.getListaProducaoPeriodo(dataInicio, dataFim, balcao);
+		List<ReqServProducaoBeanGrid> listOrdenada = new ArrayList<ReqServProducaoBeanGrid>();
+		for (Object obj : l) {
+			Object[] o = (Object[]) obj;
+			System.out.printf("TotalReq: %d, ValorTotal: %f, ValorDesconto: %f, Mês: %d%n",
+					o[0],o[1],o[2],o[3]);
+			int totalReq = (Integer) o[0];
+			double valorTotal = (Double) o[1];
+			double valorDesc = (Double) o[2];
+			int mes = (Integer) o[3];
+			listOrdenada.add(new ReqServProducaoBeanGrid(totalReq, valorTotal, valorDesc));
+		}
+		return listOrdenada;
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<RequisicaoServico> getListaSinceDate(Date data) {
 //		em.getTransaction().begin();
