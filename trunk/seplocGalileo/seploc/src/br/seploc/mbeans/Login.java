@@ -113,9 +113,11 @@ public class Login {
 	public String logoff() {
 		SessionObjectsManager.removeObjetoSessao("usuarioLogado");
 		SessionObjectsManager.removeObjetoSessao("usuarioSessao");
-		FacesContext context = FacesContext.getCurrentInstance();
-		NavigationHandler nh = context.getApplication().getNavigationHandler();
+		FacesContext context = FacesContext.getCurrentInstance();		
 		context.getViewRoot().setViewId("/paginas/login.xhtml");
+		for (MENUS m : MENUS.values()) {
+			   SessionObjectsManager.removeObjetoSessao(m.getNome()+"_ESC" );
+		}
 		this.loginOk = false;
 		falhaLogin = false;
 		return "login";
