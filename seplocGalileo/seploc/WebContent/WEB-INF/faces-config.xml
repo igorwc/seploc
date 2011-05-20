@@ -177,6 +177,17 @@
   <managed-bean-class>br.seploc.mbeans.RelReqServCobradorMB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
+<!-- Relatorio requisicao Producao -->
+ <managed-bean>
+  <managed-bean-name>relProducaoCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.RelRequisicaoProducaoCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>relProducaoMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.RelRequisicaoProducaoMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean> 
  <!-- Requisicao Saida -->
  <managed-bean>
   <managed-bean-name>reqServListaSaidaCB</managed-bean-name>

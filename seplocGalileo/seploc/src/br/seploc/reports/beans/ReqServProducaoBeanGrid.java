@@ -58,10 +58,9 @@ public class ReqServProducaoBeanGrid implements Comparable<ReqServProducaoBeanGr
 		this.mes = mes;
 	}
 	
-	public String getNomeMes(int mes){
-		MESES nm = MESES.getMes(mes);
-		return nm.toString();
-		
+	public String getNomeMes(){
+		MESES nm = MESES.getMes(this.mes);
+		return nm.toString();		
 	}
 
 	@Override

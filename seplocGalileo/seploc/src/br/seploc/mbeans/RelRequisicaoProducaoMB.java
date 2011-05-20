@@ -31,11 +31,13 @@ public class RelRequisicaoProducaoMB implements Serializable {
 	private void load() {
 		setReqServicoDAO(new RequisicaoServicoDAO());
 		setReqServico(new RequisicaoServico());
+		this.iniciarDatas();
 	}	
 	
 	public void iniciarDatas() {
-		
-	}
+		dataInicio = new Date(Calendar.getInstance().getTimeInMillis());
+		dataFim = new Date(Calendar.getInstance().getTimeInMillis());
+	}	
 
 	// GETTERS AND SETTERS
 	public void setReqServico(RequisicaoServico reqServico) {
@@ -60,6 +62,7 @@ public class RelRequisicaoProducaoMB implements Serializable {
 	}
 
 	public List<ReqServProducaoBeanGrid> getListaProducaoCliCadastrado() {
+		listaProducaoCliCadastrado = this.buscaRequisicoes(0);
 		return listaProducaoCliCadastrado;
 	}
 
@@ -68,7 +71,24 @@ public class RelRequisicaoProducaoMB implements Serializable {
 	}
 
 	public List<ReqServProducaoBeanGrid> getListaProducaoCliBalcao() {
+		listaProducaoCliBalcao = this.buscaRequisicoes(1);
 		return listaProducaoCliBalcao;
+	}
+
+	public void setDataInicio(Date dataInicio) {
+		this.dataInicio = dataInicio;
+	}
+
+	public Date getDataInicio() {
+		return dataInicio;
+	}
+
+	public void setDataFim(Date dataFim) {
+		this.dataFim = dataFim;
+	}
+
+	public Date getDataFim() {
+		return dataFim;
 	}
 
 	@SuppressWarnings("null")
@@ -94,5 +114,14 @@ public class RelRequisicaoProducaoMB implements Serializable {
 		
 		return retorno;
 	}
+	
+	public void buscaRequisicoes(){
+		
+	}
+	
+	public void limpar(){
+		
+	}
+
 		
 }
