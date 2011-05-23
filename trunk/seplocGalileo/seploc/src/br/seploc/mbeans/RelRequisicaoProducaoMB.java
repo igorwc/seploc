@@ -94,16 +94,19 @@ public class RelRequisicaoProducaoMB implements Serializable {
 	@SuppressWarnings("null")
 	public List<ReqServProducaoBeanGrid> buscaRequisicoes(int balcao){
 		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();		
-		List<ReqServProducaoBeanGrid> retorno = null;		
+		List<ReqServProducaoBeanGrid> retorno = new ArrayList<ReqServProducaoBeanGrid>();		
 		List<ReqServProducaoBeanGrid> rs = dao.getListaProducaoGrid(balcao);
-
-		for (int i=1; i<=12; i++){			
-			if (rs.get(i).getMes() == i){
-				retorno.set(i, rs.get(i));
-			} else {
-				retorno.set(i, new ReqServProducaoBeanGrid(0,0,0,i));
-			}
+		int tamAtual = 1;
+		
+		for (int i=1; i<=12; i++){
+			retorno.add(new ReqServProducaoBeanGrid(i));
+		
+			if (tamAtual < rs.size()) {
+				tamAtual = tamAtual ++;
+				retorno.set(rs.get(i).getMes(), rs.get(i));
+			}			
 		}
+		
 		System.out.println(retorno);
 		return retorno;
 	}

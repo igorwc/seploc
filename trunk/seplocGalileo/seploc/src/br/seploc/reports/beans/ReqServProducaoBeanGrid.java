@@ -26,6 +26,14 @@ public class ReqServProducaoBeanGrid implements Comparable<ReqServProducaoBeanGr
 		this.valorDesconto = valorDesconto;
 	}
 
+	public ReqServProducaoBeanGrid(int mes){
+		this.totalReq = 0;
+		this.valorTotal = 0.0;
+		this.valorDesconto = 0.0;
+		this.mes = mes;
+	}
+	
+	
 	public int getTotalReq() {
 		return totalReq;
 	}
