@@ -1,6 +1,7 @@
 package br.seploc.dao;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -135,11 +136,11 @@ public class RequisicaoServicoDAO extends
 		for (Object obj : l) {
 			Object[] o = (Object[]) obj;
 			System.out.printf("TotalReq: %d, ValorTotal: %f, ValorDesconto: %f, Mês: %d%n",
-					o[0],o[1],o[2],o[3]);
-			int totalReq = (Integer) o[0];
+					o[0],o[1],o[2],o[3]);			
+			int totalReq = Integer.parseInt(o[0].toString());
 			double valorTotal = (Double) o[1];
-			double valorDesc = (Double) o[2];
-			int mes = (Integer) o[3];
+			double valorDesc = (Double) o[2];			
+			int mes = Integer.parseInt(o[3].toString());
 			listOrdenada.add(new ReqServProducaoBeanGrid(totalReq, valorTotal, valorDesc, mes));
 		}
 		Collections.sort(listOrdenada);

@@ -11,22 +11,22 @@ import br.seploc.mbeans.RelRequisicaoProducaoMB;
 public class RelRequisicaoProducaoCB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	RelRequisicaoProducaoMB relRequisicaoProducaoMB;
+	RelRequisicaoProducaoMB relProducaoMB;
 	Locale locale;
 
 	// CONSTRUTOR
 	public RelRequisicaoProducaoCB() {
 		locale = new Locale("pt", "br");
-		this.setRelRequisicaoProducaoMB(loadRequisicaoProducao());
+		this.setRelProducaoMB(loadRequisicaoProducao());
 	}
 	
 	public RelRequisicaoProducaoMB loadRequisicaoProducao(){
 		FacesContext context = FacesContext.getCurrentInstance();
-		RelRequisicaoProducaoMB relRequisicaoProducaoMB = (RelRequisicaoProducaoMB) context
+		RelRequisicaoProducaoMB relProducaoMB = (RelRequisicaoProducaoMB) context
 				.getApplication()
-				.evaluateExpressionGet(context, "#{relRequisicaoProducaoMB}",
+				.evaluateExpressionGet(context, "#{relProducaoMB}",
 						RelRequisicaoProducaoMB.class);
-		return relRequisicaoProducaoMB;
+		return relProducaoMB;
 		
 	}
 	
@@ -36,13 +36,13 @@ public class RelRequisicaoProducaoCB implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
 	
-	public RelRequisicaoProducaoMB getRelRequisicaoProducaoMB() {
-		return relRequisicaoProducaoMB;
+	public RelRequisicaoProducaoMB getRelProducaoMB() {
+		return relProducaoMB;
 	}
 
-	public void setRelRequisicaoProducaoMB(
-			RelRequisicaoProducaoMB relRequisicaoProducaoMB) {
-		this.relRequisicaoProducaoMB = relRequisicaoProducaoMB;
+	public void setRelProducaoMB(
+			RelRequisicaoProducaoMB relProducaoMB) {
+		this.relProducaoMB = relProducaoMB;
 	}
 
 	public Locale getLocale() {

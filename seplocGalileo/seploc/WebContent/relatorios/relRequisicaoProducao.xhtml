@@ -66,9 +66,7 @@
             <h:form id="formReqProducao" enctype="UTF-8" prependId="false">
                 <rich:panel header="Relatório" >
                     <!-- Formulario -->
-                    <center><rich:panel
-                        header="Requisições Cadastradas
-                        style="width: 350px" >
+                    <center><rich:panel header="Requisições Cadastradas" style="width: 350px" >
                         <table border="0">
                             <tr align="left">
                                 <td colspan="2">
@@ -94,7 +92,7 @@
                                     locale="#{relProducaoCB.locale}" popup="true"
                                     datePattern="dd/MM/yyyy" showApplyButton="false"
                                     cellWidth="24px" cellHeight="22px" style="width:200px"
-                                    inputSize="30" id="dataFimCob">
+                                    inputSize="30" id="dataFimProd">
                                     <a4j:support event="onchanged"
                                         action="#{relProducaoCB.relProducaoMB.buscaRequisicoes}"
                                         reRender="dataInicioProd,dataFimProd,prodList,dsProducao"></a4j:support>
@@ -114,18 +112,18 @@
                         <br />
                         <a4j:commandButton value="#{msgs['botao.pesquisar']}"
                                      action="#{relProducaoCB.relProducaoMB.buscaRequisicoes}" 
-                                     reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto"
+                                     reRender="cliCadList"
                                      id="salvaDesconto"/>
                         <a4j:commandButton value="#{msgs['botao.limpar']}"
                             action="#{relProducaoCB.relProducaoMB.limpar}"
-                            reRender="dataInicioCli,dataFimCli,cliente,dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto" />
+                            reRender="dataInicioProd,dataFimProd,prodList,dsProducao" />
 
                     </rich:panel></center>
 
                     <!-- Grid -->
                     <rich:dataTable
                         value="#{relProducaoCB.relProducaoMB.listaProducaoCliCadastrado}"
-                        var="cliCadastrados" rowClasses="row1, row2" id="cobradorList"
+                        var="cliCadastrados" rowClasses="row1, row2" id="prodList"
                         rows="12" columnClasses="400,150,50"
                         onRowMouseOver="this.style.backgroundColor='#B5F3FB'"
                         onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"
