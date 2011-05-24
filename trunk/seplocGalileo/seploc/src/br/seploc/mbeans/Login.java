@@ -4,14 +4,14 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.NavigationHandler;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.seploc.dao.UsuarioDAO;
 import br.seploc.dao.exceptions.LoginExistenteException;
 import br.seploc.pojos.Usuario;
-import br.seploc.util.ListsLoader;
 import br.seploc.util.MENUS;
 import br.seploc.util.SessionObjectsManager;
 import br.seploc.util.Utils;
@@ -118,6 +118,10 @@ public class Login {
 		for (MENUS m : MENUS.values()) {
 			   SessionObjectsManager.removeObjetoSessao(m.getNome()+"_ESC" );
 		}
+		ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
+		HttpServletResponse response = (HttpServletResponse)ectx.getResponse();
+		HttpSession session = (HttpSession)ectx.getSession(false);
+		session.invalidate(); 
 		this.loginOk = false;
 		falhaLogin = false;
 		return "login";
