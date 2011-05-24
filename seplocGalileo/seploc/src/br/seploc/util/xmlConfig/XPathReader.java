@@ -41,8 +41,11 @@ public class XPathReader {
 	        return xPathExpression.evaluate
 			(xmlDocument, returnType);
         } catch (XPathExpressionException ex) {
+        	if(ex.getMessage().contains("Expressão vazia!")){
+        		return "";
+        	}
             ex.printStackTrace();
-            return null;
+            return "";
         }
     }
 }
