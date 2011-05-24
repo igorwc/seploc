@@ -162,8 +162,8 @@
 											                  value="#{reqServClienteCB.reqServMB.linhaReqServ.formato}" 
 											                  size="5"                                                              
                                                               alt="signed-decimal" >
-                                                     <f:converter converterId="SeplocCurrencyConverter" />
-                                                     <rich:ajaxValidator event="onkeyup"/>
+                                                     <f:converter converterId="SeplocNumberConverter" />
+                                                     <a4j:support  event="onblur" reRender="for"/>
 											     </h:inputText>
 											</td>
 											<td>
@@ -172,8 +172,9 @@
 											                 value="#{reqServClienteCB.reqServMB.linhaReqServ.dimensao}" 
 											                 size="5"											                 
 											                 alt="signed-decimal" >
-											         <f:converter converterId="SeplocCurrencyConverter" />
-                                                     <rich:ajaxValidator event="onkeyup"/>
+											         <f:converter converterId="SeplocNumberConverter" />
+											         <a4j:support  event="onblur" reRender="dim"/>
+                                                      
 											   </h:inputText>
 											</td>
 											<td><h:selectOneMenu value="#{reqServClienteCB.reqServMB.papel.codPapel}" id="papel">
