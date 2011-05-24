@@ -177,24 +177,25 @@
 						                 id="editlink" 
 					    				 reRender="cadCobrador" 
 					    				 action="#{cobradorCB.cobradorMB.editar}" 
-					    				 >
+					    				 disabled="#{sessionScope.COBRADOR_ESC}" >
 							<h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
 							<f:setPropertyActionListener value="#{cobrador}"
 								target="#{cobradorCB.cobradorMB.cobrador}" />
 						</a4j:commandLink>
-						<rich:toolTip for="editlink" value="Edit" />
+						<rich:toolTip for="editlink" value="#{sessionScope.COBRADOR_ESC  == true ? 'Nao tem permissao' : 'Editar Registro'}" />
 						<a4j:commandLink ajaxSingle="true"
 						                 id="deletelink" 
 						                 immediate="true"  
 						                 bypassUpdates="true"
 							             reRender="cobradorList" 
 							             action="#{cobradorCB.cobradorMB.apagar}" 
-							             oncomplete="#{rich:component('confirmationMessage')}.show()">
+							             oncomplete="#{rich:component('confirmationMessage')}.show()"
+							             disabled="#{sessionScope.COBRADOR_ESC}">
 							<h:graphicImage value="../imgs/delete_icon.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{cobrador}"
 								target="#{cobradorCB.cobradorMB.cobrador}" />
 						</a4j:commandLink>
-						<rich:toolTip for="deletelink" value="Delete" />
+						<rich:toolTip for="deletelink" value="#{sessionScope.COBRADOR_ESC  == true ? 'Nao tem permissao' : 'Apagar Registro'}" />
 					</rich:column>
 					<f:facet name="footer">
                			<rich:datascroller id="dsCobrador" maxPages="3" renderIfSinglePage="true"/>

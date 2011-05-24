@@ -117,20 +117,28 @@
                    </rich:column>  
     
                    <rich:column styleClass="col1">
-						<a4j:commandLink ajaxSingle="true" id="editlink" 
-						    reRender="cadGrupo" action="#{grupoCB.grupoMB.editar}" >
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink"
+						                 reRender="cadGrupo" 
+						                 action="#{grupoCB.grupoMB.editar}"
+						                 disabled="#{sessionScope.GRUPO_ESC}" >
 							<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 							<f:setPropertyActionListener value="#{grupo}"
 								target="#{grupoCB.grupoMB.grupo}" />
 						</a4j:commandLink>
-						<rich:toolTip for="editlink" value="Editar Registro" />
-						<a4j:commandLink ajaxSingle="true" id="deletelink"
-							reRender="grupoList" action="#{grupoCB.grupoMB.apagar}" oncomplete="#{rich:component('confirmationMessage')}.show()">
+						<rich:toolTip for="editlink" value="#{sessionScope.GRUPO_ESC  == true ? 'Nao tem permissao' : 'Editar Registro'}" />
+						<rich:spacer width="5px"/>
+						<a4j:commandLink ajaxSingle="true" 
+										 id="deletelink"
+										 reRender="grupoList" 
+										 action="#{grupoCB.grupoMB.apagar}" 
+										 oncomplete="#{rich:component('confirmationMessage')}.show()"
+										 disabled="#{sessionScope.GRUPO_ESC}" >
 							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{grupo}"
 								target="#{grupoCB.grupoMB.grupo}" />
 						</a4j:commandLink>
-						<rich:toolTip for="deletelink" value="Apagar Registro" />
+						<rich:toolTip for="deletelink" value="#{sessionScope.GRUPO_ESC  == true ? 'Nao tem permissao' : 'Apagar Registro'}" />
 					</rich:column> 
                     <f:facet name="footer">
                			<rich:datascroller id="dsGrupo" maxPages="3" renderIfSinglePage="true"/>
