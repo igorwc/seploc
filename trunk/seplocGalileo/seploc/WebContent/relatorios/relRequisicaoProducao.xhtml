@@ -66,111 +66,129 @@
             <h:form id="formReqProducao" enctype="UTF-8" prependId="false">
                 <rich:panel header="Relatório" >
                     <!-- Formulario -->
-                    <center><rich:panel header="Requisições Cadastradas" style="width: 350px" >
-                        <table border="0">
-                            <tr align="left">
-                                <td colspan="2">
-                                    <h:outputText value="#{msgs['relatorios.general.periodo']}"
-                                                  styleClass="texto" />
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><rich:calendar
-                                    value="#{relProducaoCB.relProducaoMB.dataInicio}"
-                                    locale="#{relProducaoCB.locale}" popup="true"
-                                    datePattern="dd/MM/yyyy" showApplyButton="false"
-                                    cellWidth="24px" cellHeight="22px" style="block:inline"
-                                    inputSize="30" id="dataInicioProd">
-                                    <a4j:support event="onchanged"
-                                        action="#{relProducaoCB.relProducaoMB.buscaRequisicoes}"
-                                        reRender="dataInicioProd,dataFimProd,prodList,dsProducao"></a4j:support>
-                                    <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
-                                </rich:calendar> <h:outputText value=" até " styleClass="texto" /></td>
-                                <td><rich:calendar
-                                    value="#{relProducaoCB.relProducaoMB.dataFim}"
-                                    locale="#{relProducaoCB.locale}" popup="true"
-                                    datePattern="dd/MM/yyyy" showApplyButton="false"
-                                    cellWidth="24px" cellHeight="22px" style="width:200px"
-                                    inputSize="30" id="dataFimProd">
-                                    <a4j:support event="onchanged"
-                                        action="#{relProducaoCB.relProducaoMB.buscaRequisicoes}"
-                                        reRender="dataInicioProd,dataFimProd,prodList,dsProducao"></a4j:support>
-                                    <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
-                                </rich:calendar></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td colspan="1">
-                                </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            
-                        </table>
-                        <!-- Botoes -->
-                        <br />
-                        <a4j:commandButton value="#{msgs['botao.pesquisar']}"
-                                     action="#{relProducaoCB.relProducaoMB.buscaRequisicoes}" 
-                                     reRender="cliCadList"
-                                     id="salvaDesconto"/>
-                        <a4j:commandButton value="#{msgs['botao.limpar']}"
-                            action="#{relProducaoCB.relProducaoMB.limpar}"
-                            reRender="dataInicioProd,dataFimProd,prodList,dsProducao" />
-
-                    </rich:panel></center>
+                    <center>
+                    <rich:panel header="Produção de Requisições Mensal" style="width: 740px" >
 
                     <!-- Grid -->
-                    <rich:dataTable
-                        value="#{relProducaoCB.relProducaoMB.listaProducaoCliCadastrado}"
-                        var="cliCadastrados" rowClasses="row1, row2" id="prodList"
-                        rows="12" columnClasses="400,150,50"
-                        onRowMouseOver="this.style.backgroundColor='#B5F3FB'"
-                        onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"
-                        width="350" align="center">
-                        <f:facet name="header">
-                            <rich:columnGroup>
-                                <rich:column colspan="4">
-                                    <h:outputText value="Cliente Cadastrado" />
-                                </rich:column>
+                    <center>
+					<table>
+						<tr>
+							<td>
+							<!-- Cliente Cadastrado -->
+		                    <rich:dataTable
+		                        value="#{relProducaoCB.relProducaoMB.listaProducaoCliCadastrado}"
+		                        var="cliCadastrados" rowClasses="row1, row2" id="prodList"
+		                        rows="12" columnClasses="400,150,50"
+		                        onRowMouseOver="this.style.backgroundColor='#B5F3FB'"
+		                        onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"
+		                        width="350" align="center">
+		                        <f:facet name="header">
+		                            <rich:columnGroup>
+		                                <rich:column colspan="4">
+		                                    <h:outputText value="Cliente Cadastrado" />
+		                                </rich:column>
+		
+		                                <rich:column breakBefore="true" width="20%">
+		                                    <h:outputText value="Mes" />
+		                                </rich:column>
+		
+		                                <rich:column width="20%">
+		                                    <h:outputText value="Total Req." />
+		                                </rich:column>
+		
+		                                <rich:column width="30%">
+		                                    <h:outputText value="Valor Total" />
+		                                </rich:column>
+		                                
+		                                <rich:column width="30%">
+		                                    <h:outputText value="Valor c/ Desc." />
+		                                </rich:column>
+		
+		                            </rich:columnGroup>
+		                        </f:facet>
+		
+		                        <rich:column styleClass="col1">
+		                            <h:outputText value="#{cliCadastrados.nomeMes}" />                            
+		                        </rich:column>
+		
+		                        <rich:column styleClass="col1">
+		                            <h:outputText value="#{cliCadastrados.totalReq}"/>
+		                        </rich:column>
+		                        <rich:column styleClass="col2">
+		                            <h:outputText value="#{cliCadastrados.valorTotal}">
+		                                <f:convertNumber type="currency" currencySymbol="R$" />
+		                            </h:outputText>
+		                        </rich:column>
+		                        <rich:column styleClass="col2">
+		                            <h:outputText value="#{cliCadastrados.valorDesconto}">
+		                                <f:convertNumber type="currency" currencySymbol="R$" />
+		                            </h:outputText>
+		                        </rich:column>
+		                    </rich:dataTable>							
+							</td>
+							<td> </td>
+							<td>
+							<!-- Cliente Balcao -->
+		                    <rich:dataTable
+		                        value="#{relProducaoCB.relProducaoMB.listaProducaoCliBalcao}"
+		                        var="cliBalcao" rowClasses="row1, row2" id="prodList2"
+		                        rows="12" columnClasses="400,150,50"
+		                        onRowMouseOver="this.style.backgroundColor='#B5F3FB'"
+		                        onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"
+		                        width="350" align="center">
+		                        <f:facet name="header">
+		                            <rich:columnGroup>
+		                                <rich:column colspan="4">
+		                                    <h:outputText value="Cliente Balcao" />
+		                                </rich:column>
+		
+		                                <rich:column breakBefore="true" width="20%">
+		                                    <h:outputText value="Mes" />
+		                                </rich:column>
+		
+		                                <rich:column width="20%">
+		                                    <h:outputText value="Total Req." />
+		                                </rich:column>
+		
+		                                <rich:column width="30%">
+		                                    <h:outputText value="Valor Total" />
+		                                </rich:column>
+		                                
+		                                <rich:column width="30%">
+		                                    <h:outputText value="Valor c/ Desc." />
+		                                </rich:column>
+		
+		                            </rich:columnGroup>
+		                        </f:facet>
+		
+		                        <rich:column styleClass="col1">
+		                            <h:outputText value="#{cliBalcao.nomeMes}" />                            
+		                        </rich:column>
+		
+		                        <rich:column styleClass="col1">
+		                            <h:outputText value="#{cliBalcao.totalReq}"/>
+		                        </rich:column>
+		                        <rich:column styleClass="col2">
+		                            <h:outputText value="#{cliBalcao.valorTotal}">
+		                                <f:convertNumber type="currency" currencySymbol="R$" />
+		                            </h:outputText>
+		                        </rich:column>
+		                        <rich:column styleClass="col2">
+		                            <h:outputText value="#{cliBalcao.valorDesconto}">
+		                                <f:convertNumber type="currency" currencySymbol="R$" />
+		                            </h:outputText>
+		                        </rich:column>
+		                    </rich:dataTable>							
+							</td>
+						</tr>
+					</table>
+					</center>
 
-                                <rich:column breakBefore="true" width="40%">
-                                    <h:outputText value="Mes" />
-                                </rich:column>
 
-                                <rich:column width="20%">
-                                    <h:outputText value="Total Requisições" />
-                                </rich:column>
+                    </rich:panel>
+                    </center>
 
-                                <rich:column width="20%">
-                                    <h:outputText value="Valor Total(R$)" />
-                                </rich:column>
-                                
-                                <rich:column width="20%">
-                                    <h:outputText value="Valor Desconto(R$)" />
-                                </rich:column>
 
-                            </rich:columnGroup>
-                        </f:facet>
-
-                        <rich:column styleClass="col1">
-                            <h:outputText value="#{cliCadastrados.nomeMes}" />                            
-                        </rich:column>
-
-                        <rich:column styleClass="col2">
-                            <h:outputText value="#{cliCadastrados.totalReq}"/>
-                        </rich:column>
-                        <rich:column styleClass="col1">
-                            <h:outputText value="#{cliCadastrados.valorTotal}">
-                                <f:convertNumber type="currency" currencySymbol="R$" />
-                            </h:outputText>
-                        </rich:column>
-                        <rich:column styleClass="col1">
-                            <h:outputText value="#{cliCadastrados.valorDesconto}">
-                                <f:convertNumber type="currency" currencySymbol="R$" />
-                            </h:outputText>
-                        </rich:column>
-                    </rich:dataTable>
 
                 </rich:panel>
             </h:form>
