@@ -19,6 +19,10 @@
   <converter-id>SeplocCNPJConverter</converter-id>
   <converter-class>br.seploc.converters.SeplocCNPJConverter</converter-class>
  </converter>
+  <converter>
+  <converter-id>SeplocNumberConverter</converter-id>
+  <converter-class>br.seploc.converters.SeplocNumberConverter</converter-class>
+ </converter>
  <!-- Fim dos Conversores
   Beans Adicionais -->
  <managed-bean>
