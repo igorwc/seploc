@@ -326,6 +326,7 @@ public class ReqServListaMB implements Serializable {
 	public void setNumReqVisualizar(int numReqVisualizar) {
 		this.numReqVisualizar = numReqVisualizar;
 		try {
+			reqServico = new RequisicaoServico();
 			reqServico = reqServicoDAO.recupera(numReqVisualizar);
 		} catch (Exception e) {
 			e.printStackTrace();

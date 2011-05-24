@@ -186,7 +186,9 @@ public class RequisicaoServicoDAO extends
 	
 	@Override
 	public RequisicaoServico recupera(Integer id) throws Exception {
+		em.getTransaction().begin();
 		RequisicaoServico rq = em.find(RequisicaoServico.class, id);
+		em.getTransaction().commit();
 		return rq;
 	}
 
