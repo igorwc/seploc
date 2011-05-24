@@ -152,25 +152,26 @@
 						                 id="editlink" 
 					    				 reRender="cadProjeto" 
 					    				 action="#{projetoCB.projetoMB.editar}" 
-					    				 >
+					    				 disabled="#{sessionScope.PROJETO_ESC  == true ? 'Nao tem permissao' : 'Editar Registro'}">
 							<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
 							<f:setPropertyActionListener value="#{projeto}"
 								target="#{projetoCB.projetoMB.projeto}" />
 						</a4j:commandLink>
-						<rich:toolTip for="editlink" value="Edit" />
-						
+						<rich:toolTip for="editlink" value="#{sessionScope.PROJETO_ESC  == true ? 'Nao tem permissao' : 'Editar Registro'}" />
+						<rich:spacer width="5px"/>
 						<a4j:commandLink ajaxSingle="true"
 						                 id="deletelink" 
 						                 immediate="true"  
 						                 bypassUpdates="true"
 							             reRender="projetoClienteList" 
 							             action="#{projetoCB.projetoMB.apagar}" 
-							             oncomplete="#{rich:component('confirmationMessage')}.show()">
+							             oncomplete="#{rich:component('confirmationMessage')}.show()"
+							             disabled="">
 							<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
 							<f:setPropertyActionListener value="#{projeto}"
 								target="#{projetoCB.projetoMB.projeto}" />
 						</a4j:commandLink>
-						<rich:toolTip for="deletelink" value="Delete" />
+						<rich:toolTip for="deletelink" value="#{sessionScope.PROJETO_ESC  == true ? 'Nao tem permissao' : 'Apagar Registro'}" />
 						
 					</rich:column>  
 					<f:facet name="footer">
