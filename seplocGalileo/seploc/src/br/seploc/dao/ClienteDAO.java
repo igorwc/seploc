@@ -10,6 +10,7 @@ import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.dao.exceptions.UniqueKeyException;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.FoneCliente;
+import br.seploc.pojos.OpcionaisReqServ;
 import br.seploc.util.GenericDAO;
 
 public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializable {
@@ -114,6 +115,15 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 		return (List<Cliente>) q.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Cliente> getListaClientesPorNomeFantasia(String nome){
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Cliente.BuscaClientesPorFantasia").setParameter(
+				 "nome", "%" + nome + "%");
+		em.getTransaction().commit();
+		return (List<Cliente>) q.getResultList();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Cliente> getListaCache() {
 //		em.getTransaction().begin();

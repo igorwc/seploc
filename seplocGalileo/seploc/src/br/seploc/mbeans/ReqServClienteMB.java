@@ -121,7 +121,6 @@ public class ReqServClienteMB implements Serializable {
 		}
 		quantLinha = saida.trim();
 		linhaReqServ.setQuant(Integer.parseInt(quantLinha));
-//		value="#{reqServClienteCB.reqServMB.linhaReqServ.quant}" 
 	}
 
 	public void setCliente(Cliente cliente) {
@@ -615,8 +614,6 @@ public class ReqServClienteMB implements Serializable {
 					reqServUsuario.setData(hoje);
 					reqServico.setRequisicaoUsuario(reqServUsuario);
 					
-					//reqServicoDAO.refresh(reqServico);
-					
 					// adicionar o opcional
 					if (existeOpcional) {
 						reqServicoDAO.addOpcional(reqServico, opcional,
@@ -625,7 +622,6 @@ public class ReqServClienteMB implements Serializable {
 					// adicionar a linha
 					if (existeLinha) {
 						// transformar o nomePapel em Objeto Papel
-						//papel = this.converterToPapel(this.nomePapel);
 						PapelDAO papelDAO = new PapelDAO();
 						papel = papelDAO.recupera(papel.getCodPapel());
 						linhaReqServ.setPapel(papel);
@@ -673,7 +669,6 @@ public class ReqServClienteMB implements Serializable {
 						// adicionar a linha
 						if (linhaReqServ.getQuant() >= 1) {
 							// transformar o nomePapel em Objeto Papel
-							//papel = this.converterToPapel(this.nomePapel);
 							PapelDAO papelDAO = new PapelDAO();
 							papel = papelDAO.recupera(papel.getCodPapel());						
 							linhaReqServ.setPapel(papel);
@@ -728,8 +723,7 @@ public class ReqServClienteMB implements Serializable {
 						temp.setValorTotal(this.calcularTotal(temp));					
 						reqServicoDAO.altera(temp);
 						reqServico = reqServicoDAO.recupera(temp.getNumReq());
-						setValorTotalReq(reqServico.getValorTotal());
-						//temp.setProjeto(reqServico.getProjeto());						
+						setValorTotalReq(reqServico.getValorTotal());				
 						usuarioAlterouReqServ(reqServico);
 						addGlobalMessage("Atualização feita com sucesso!");
 					}
@@ -878,11 +872,9 @@ public class ReqServClienteMB implements Serializable {
 	}
 	
 	public void usuarioCriouReqServ(RequisicaoServico r){
-		String login;
-		//login = SessionObjectsManager.recuperaObjetoSessao("loginUser").toString();
-		login = "gustavo";
+		Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");		
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		List<Usuario> lu = usuarioDAO.getListaUsuariosPorLogin(login);
+		List<Usuario> lu = usuarioDAO.getListaUsuariosPorLogin(user.getLogin());
 		for (Usuario u : lu){
 			System.out.println("Usuario: "+u.getLogin());
 			reqServicoDAO.registraUsuarioCriador(u, r);
@@ -890,11 +882,9 @@ public class ReqServClienteMB implements Serializable {
 	}
 	
 	public void usuarioAlterouReqServ(RequisicaoServico r){
-		String login;
-		//login = SessionObjectsManager.recuperaObjetoSessao("loginUser").toString();
-		login = "gustavo";
+		Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");		
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		List<Usuario> lu = usuarioDAO.getListaUsuariosPorLogin(login);
+		List<Usuario> lu = usuarioDAO.getListaUsuariosPorLogin(user.getLogin());
 		for (Usuario u : lu){
 			System.out.println("Usuario: "+u.getLogin());
 			reqServicoDAO.registraUsuarioAlterador(u, r);

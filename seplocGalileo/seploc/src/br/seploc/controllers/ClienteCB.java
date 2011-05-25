@@ -1,6 +1,7 @@
 package br.seploc.controllers;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +18,7 @@ import javax.faces.validator.ValidatorException;
 import br.seploc.mbeans.AppServiceBean;
 import br.seploc.mbeans.NavigationBean;
 import br.seploc.mbeans.tests.ClienteMB;
+import br.seploc.pojos.Cliente;
 import br.seploc.util.Utils;
 
 public class ClienteCB implements Serializable {
@@ -42,6 +44,11 @@ public class ClienteCB implements Serializable {
 		limpaDoc();
 		clienteMB.limpar();
 	}
+	
+	public List<Cliente> getListaClientesPorNomeFantasia(){
+		return (List<Cliente>) clienteMB.getListaClientePorNomeFantasia();
+	}
+	
 	public boolean isClienteInvalido(){
 		boolean erro = false;
 		if (((Integer) selectDocType.getValue()) == 1) {

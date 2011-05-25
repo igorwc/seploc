@@ -57,7 +57,7 @@ public class PapelMB implements Serializable {
 	public void apaga() {
 		try {
 			papelDAO.remove(papel.getCodPapel());
-			addGlobalMessage("Papel exclu�do com sucesso!");
+			addGlobalMessage("Papel excluido com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
