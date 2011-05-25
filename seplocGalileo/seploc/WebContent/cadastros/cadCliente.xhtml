@@ -415,10 +415,80 @@
                  <a4j:commandButton value="Limpar" type="reset" 
                                     reRender="cadCliente,docinput"
                                     action="#{clienteMB.limpar}" />
-            </h:form>
-           </center>
+    
+                 <a4j:commandButton value="Pesquisar" type="reset" 
+                                    reRender="cadCliente,docinput"
+                                    action="#{clienteMB.pesquisar}" />
+                                               
                <!-- fim Formulario -->
+
+       <!-- Grid -->
+	   <rich:dataTable value="#{clienteCB.listaClientesPorNomeFantasia}" var="cliente"    
+                 rowClasses="row1, row2" id="clienteList" rows="5"  
+                 columnClasses="400,150,50"  
+                 onRowMouseOver="this.style.backgroundColor='#E0EEEE'"  
+                 onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+                 width="600"
+                 align="center">  
+                 <f:facet name="header">  
+                     <rich:columnGroup>  
+
+                         <rich:column colspan="5">  
+                             <h:outputText value="Clientes Cadastrados" />  
+                         </rich:column>  
+
+                         <rich:column breakBefore="true">  
+                             <h:outputText value="CNPJ/CPF" />  
+                         </rich:column>  
+
+                         <rich:column>  
+                             <h:outputText value="Razao Social" />  
+                         </rich:column>  
+
+                         <rich:column>  
+                             <h:outputText value="Fantasia" />  
+                         </rich:column>  
+
+                         <rich:column/>  
+                     </rich:columnGroup>  
+                 </f:facet>  
+				 <rich:column styleClass="col1">
+               		<h:outputText value="#{cliente.cnpj==null ? cliente.cpf : cliente.cnpj}" />  
+                 </rich:column>  
+
+                 <rich:column styleClass="col1">  
+                 	<h:outputText value="#{cliente.razao}"/>  
+                 </rich:column>  
+
+                 <rich:column styleClass="col1">  
+                    <h:outputText value="#{cliente.fantasia}" />  
+                 </rich:column>  
+
+                 <rich:column styleClass="col1">
+				<a4j:commandLink ajaxSingle="true" 
+				                 id="editlink" 
+			    				 reRender="cadCliente" 
+			    				 action="#{clienteCB.clienteMB.editar}" 
+			    				 disabled="#{sessionScope.CLIENTE_ESC}" >
+					<h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
+					<f:setPropertyActionListener value="#{cliente}"
+						target="#{clienteCB.clienteMB.cliente}" />
+				</a4j:commandLink>
+				<rich:toolTip for="editlink" value="#{sessionScope.CLIENTE_ESC  == true ? 'Nao tem permissao' : 'Editar Registro'}" />
+
+			</rich:column>			
+			<f:facet name="footer">
+       			<rich:datascroller id="dsCliente" maxPages="3" renderIfSinglePage="true"/>
+           	</f:facet>  
+       </rich:dataTable>
+       
+		</h:form>                    
+		</center>
+
         </rich:panel>            
+        
+
+      
          
         <!-- MODAL DE SELECAO DE CIDADE ESTADO -->
         <rich:modalPanel id="chooseLocal" 
