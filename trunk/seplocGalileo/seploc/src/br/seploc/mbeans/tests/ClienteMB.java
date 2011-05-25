@@ -39,6 +39,7 @@ public class ClienteMB {
 	private Integer codCidade;
 	private Cidade cidadeEscolhida;
 	private String localidade;
+	private String nomeFantasiaPesquisa;
 	private Papel papelPadrao;
 	private String filtroPapel;
 	//VARIAVEIS SUGGESTION BOX BAIRROS
@@ -75,7 +76,7 @@ public class ClienteMB {
 			}
 			clienteDAO.adiciona(cliente);
 			limpar();
-			addGlobalMessage("Inclusão feita com sucesso!");
+			addGlobalMessage("Inclusï¿½o feita com sucesso!");
 
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
@@ -113,6 +114,20 @@ public class ClienteMB {
 		// FacesContext.getCurrentInstance().renderResponse();
 		System.out.println("Limpar Cliente");
 	}
+	
+	public void pesquisar(){
+		this.nomeFantasiaPesquisa = this.cliente.getFantasia();
+	}
+	
+	public void editar(){
+		try {
+			cliente = clienteDAO.recupera(cliente.getIdCliente());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public List<Cidade> getTodasCidades() {
 
 		CidadeDAO cidadeDAO = new CidadeDAO();
@@ -136,6 +151,10 @@ public class ClienteMB {
 
 		return retorno;
 	}
+	
+	public List<Cliente> getListaClientePorNomeFantasia(){
+		return (List<Cliente>) clienteDAO.getListaClientesPorNomeFantasia(this.nomeFantasiaPesquisa);
+	}	
 	
 	public List<Bairro> complementoBairro(Object event) {
 		long today = 0;
@@ -172,6 +191,14 @@ public class ClienteMB {
 	
 	//SETTERS AND GETTERS
 	
+	public String getNomeFantasiaPesquisa() {
+		return nomeFantasiaPesquisa;
+	}
+
+	public void setNomeFantasiaPesquisa(String nomeFantasiaPesquisa) {
+		this.nomeFantasiaPesquisa = nomeFantasiaPesquisa;
+	}
+
 	/**
 	 * @return the codCidade
 	 */
@@ -391,6 +418,7 @@ public class ClienteMB {
 	public void setErroRazao(boolean erroRazao) {
 		this.erroRazao = erroRazao;
 	}
+	
 	public ClienteMB() {
 		cliente = new Cliente();
 		foneCliente = new FoneCliente();
@@ -398,6 +426,7 @@ public class ClienteMB {
 		opDocCliente = 1;
 		erroDoc = false;
 		erroRazao = false;
+	    nomeFantasiaPesquisa = "nenhum";
 	}
 	
 	

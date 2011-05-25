@@ -121,4 +121,8 @@ public class ReqServListaCB implements Serializable {
 			reqServListaMB.setDatasInvalidas(false);
 		}
 	}
+	
+	public void limpaBean(ActionEvent event) {
+		  reqServListaMB.limpar();
+	}	
 }

@@ -46,7 +46,7 @@ public class OpcionaisReqServDAO extends
 	public List<OpcionaisReqServ> getListaPorNome(String nome) {
 		em.getTransaction().begin();
 		Query q = em.createNamedQuery("OpcionaisReqServ.BuscaOpcionaisPorNome").setParameter(
-				 "nome", "%" + nome + "%");;
+				 "nome", "%" + nome + "%");
 		em.getTransaction().commit();
 		return (List<OpcionaisReqServ>) q.getResultList();
 	}

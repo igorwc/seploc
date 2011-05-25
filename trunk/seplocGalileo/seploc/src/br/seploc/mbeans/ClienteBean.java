@@ -896,5 +896,9 @@ public class ClienteBean implements Serializable {
 		this.todasCidades = todasCidades;
 	}
 	
+	public List<Cliente> getListaClientePorNomeFantasia(){
+		return (List<Cliente>) clienteDAO.getListaClientesPorNomeFantasia(this.getCliente().getFantasia());
+	}
+	
 	
 }
