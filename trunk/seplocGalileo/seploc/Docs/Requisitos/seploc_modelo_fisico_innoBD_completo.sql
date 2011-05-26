@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: Ago 29, 2010 as 06:46 
--- Versão do Servidor: 5.1.41
--- Versão do PHP: 5.3.1
+-- Tempo de Geraï¿½ï¿½o: Ago 29, 2010 as 06:46 
+-- Versï¿½o do Servidor: 5.1.41
+-- Versï¿½o do PHP: 5.3.1
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -60,9 +60,9 @@ CREATE TABLE IF NOT EXISTS `tbl_bairros` (
 INSERT INTO `tbl_bairros` (`intCod`, `vcrNome`, `intCodCidade`, `tspVersao`) VALUES
 (1, 'Aflitos', 133, '2010-08-28 00:00:00'),
 (2, 'Afogados', 133, '2010-08-28 00:00:00'),
-(3, 'Água Fria', 133, '2010-08-28 00:00:00'),
-(4, 'Alto José Bonifácio', 133, '2010-08-28 00:00:00'),
-(5, 'Alto José do Pinho', 133, '2010-08-28 00:00:00'),
+(3, 'ï¿½gua Fria', 133, '2010-08-28 00:00:00'),
+(4, 'Alto Josï¿½ Bonifï¿½cio', 133, '2010-08-28 00:00:00'),
+(5, 'Alto Josï¿½ do Pinho', 133, '2010-08-28 00:00:00'),
 (6, 'Alto do Mandu', 133, '2010-08-28 00:00:00'),
 (7, 'Alto Santa Teresinha', 133, '2010-08-28 00:00:00'),
 (8, 'Apipucos', 133, '2010-08-28 00:00:00'),
@@ -73,37 +73,37 @@ INSERT INTO `tbl_bairros` (`intCod`, `vcrNome`, `intCodCidade`, `tspVersao`) VAL
 (13, 'Benfica', 133, '2010-08-28 00:00:00'),
 (14, 'Boa Viagem', 133, '2010-08-28 00:00:00'),
 (15, 'Boa Vista', 133, '2010-08-28 00:00:00'),
-(16, 'Bomba do Hemetério', 133, '2010-08-28 00:00:00'),
+(16, 'Bomba do Hemetï¿½rio', 133, '2010-08-28 00:00:00'),
 (17, 'Bongi', 133, '2010-08-28 00:00:00'),
-(18, 'Brasília Teimosa', 133, '2010-08-28 00:00:00'),
+(18, 'Brasï¿½lia Teimosa', 133, '2010-08-28 00:00:00'),
 (19, 'Brejo do Beberibe', 133, '2010-08-28 00:00:00'),
 (20, 'Brejo da Guabiraba', 133, '2010-08-28 00:00:00'),
 (21, 'Cabanga', 133, '2010-08-28 00:00:00'),
-(22, 'Caçote', 133, '2010-08-28 00:00:00'),
+(22, 'Caï¿½ote', 133, '2010-08-28 00:00:00'),
 (23, 'Cajueiro', 133, '2010-08-28 00:00:00'),
 (24, 'Campina do Barreto', 133, '2010-08-28 00:00:00'),
 (25, 'Campo Grande', 133, '2010-08-28 00:00:00'),
 (26, 'Casa Amarela', 133, '2010-08-28 00:00:00'),
 (27, 'Casa Forte', 133, '2010-08-28 00:00:00'),
-(28, 'Caxangá', 133, '2010-08-28 00:00:00'),
-(29, 'Cidade Universitária', 133, '2010-08-28 00:00:00'),
+(28, 'Caxangï¿½', 133, '2010-08-28 00:00:00'),
+(29, 'Cidade Universitï¿½ria', 133, '2010-08-28 00:00:00'),
 (30, 'Coelhos', 133, '2010-08-28 00:00:00'),
 (31, 'Cohab', 133, '2010-08-28 00:00:00'),
 (32, 'Coqueiral', 133, '2010-08-28 00:00:00'),
 (33, 'Cordeiro', 133, '2010-08-28 00:00:00'),
-(34, 'Córrego do Jenipapo', 133, '2010-08-28 00:00:00'),
+(34, 'Cï¿½rrego do Jenipapo', 133, '2010-08-28 00:00:00'),
 (35, 'Curado', 133, '2010-08-28 00:00:00'),
 (36, 'Derby', 133, '2010-08-28 00:00:00'),
-(37, 'Dois Irmãos', 133, '2010-08-28 00:00:00'),
+(37, 'Dois Irmï¿½os', 133, '2010-08-28 00:00:00'),
 (38, 'Dois Unidos', 133, '2010-08-28 00:00:00'),
 (39, 'Encruzilhada', 133, '2010-08-28 00:00:00'),
 (40, 'Engenho do Meio', 133, '2010-08-28 00:00:00'),
 (41, 'Espinheiro', 133, '2010-08-28 00:00:00'),
-(42, 'Estância', 133, '2010-08-28 00:00:00'),
-(43, 'Fundão', 133, '2010-08-28 00:00:00'),
-(44, 'Graças', 133, '2010-08-28 00:00:00'),
+(42, 'Estï¿½ncia', 133, '2010-08-28 00:00:00'),
+(43, 'Fundï¿½o', 133, '2010-08-28 00:00:00'),
+(44, 'Graï¿½as', 133, '2010-08-28 00:00:00'),
 (45, 'Guabiraba', 133, '2010-08-28 00:00:00'),
-(46, 'Hipódromo', 133, '2010-08-28 00:00:00'),
+(46, 'Hipï¿½dromo', 133, '2010-08-28 00:00:00'),
 (47, 'Ibura', 133, '2010-08-28 00:00:00'),
 (48, 'Ilha Joana Bezerra', 133, '2010-08-28 00:00:00'),
 (49, 'Ilha do Leite', 133, '2010-08-28 00:00:00'),
@@ -112,16 +112,16 @@ INSERT INTO `tbl_bairros` (`intCod`, `vcrNome`, `intCodCidade`, `tspVersao`) VAL
 (52, 'Ipsep', 133, '2010-08-28 00:00:00'),
 (53, 'Iputinga', 133, '2010-08-28 00:00:00'),
 (54, 'Jaqueira', 133, '2010-08-28 00:00:00'),
-(55, 'Jardim São Paulo', 133, '2010-08-28 00:00:00'),
-(56, 'Jiquiá', 133, '2010-08-28 00:00:00'),
-(57, 'Jordão', 133, '2010-08-28 00:00:00'),
+(55, 'Jardim Sï¿½o Paulo', 133, '2010-08-28 00:00:00'),
+(56, 'Jiquiï¿½', 133, '2010-08-28 00:00:00'),
+(57, 'Jordï¿½o', 133, '2010-08-28 00:00:00'),
 (58, 'Linha do Tiro', 133, '2010-08-28 00:00:00'),
 (59, 'Macaxeira', 133, '2010-08-28 00:00:00'),
 (60, 'Madalena', 133, '2010-08-28 00:00:00'),
 (61, 'Mangabeira', 133, '2010-08-28 00:00:00'),
 (62, 'Mangueira', 133, '2010-08-28 00:00:00'),
 (63, 'Monteiro', 133, '2010-08-28 00:00:00'),
-(64, 'Morro da Conceição', 133, '2010-08-28 00:00:00'),
+(64, 'Morro da Conceiï¿½ï¿½o', 133, '2010-08-28 00:00:00'),
 (65, 'Mustardinha', 133, '2010-08-28 00:00:00'),
 (66, 'Nova Descoberta', 133, '2010-08-28 00:00:00'),
 (67, 'Paissandu', 133, '2010-08-28 00:00:00'),
@@ -130,7 +130,7 @@ INSERT INTO `tbl_bairros` (`intCod`, `vcrNome`, `intCodCidade`, `tspVersao`) VAL
 (70, 'Pau Ferro', 133, '2010-08-28 00:00:00'),
 (71, 'Peixinhos', 133, '2010-08-28 00:00:00'),
 (72, 'Pina', 133, '2010-08-28 00:00:00'),
-(73, 'Poço da Panela', 133, '2010-08-28 00:00:00'),
+(73, 'Poï¿½o da Panela', 133, '2010-08-28 00:00:00'),
 (74, 'Ponte d''Uchoa', 133, '2010-08-28 00:00:00'),
 (75, 'Ponto de Parada', 133, '2010-08-28 00:00:00'),
 (76, 'Porto da Madeira', 133, '2010-08-28 00:00:00'),
@@ -140,28 +140,28 @@ INSERT INTO `tbl_bairros` (`intCod`, `vcrNome`, `intCodCidade`, `tspVersao`) VAL
 (80, 'Sancho', 133, '2010-08-28 00:00:00'),
 (81, 'Santana', 133, '2010-08-28 00:00:00'),
 (82, 'Santo Amaro', 133, '2010-08-28 00:00:00'),
-(83, 'Santo Antônio', 133, '2010-08-28 00:00:00'),
-(84, 'São José', 133, '2010-08-28 00:00:00'),
-(85, 'Setúbal', 133, '2010-08-28 00:00:00'),
-(86, 'Sítio dos Pintos', 133, '2010-08-28 00:00:00'),
+(83, 'Santo Antï¿½nio', 133, '2010-08-28 00:00:00'),
+(84, 'Sï¿½o Josï¿½', 133, '2010-08-28 00:00:00'),
+(85, 'Setï¿½bal', 133, '2010-08-28 00:00:00'),
+(86, 'Sï¿½tio dos Pintos', 133, '2010-08-28 00:00:00'),
 (87, 'Soledade', 133, '2010-08-28 00:00:00'),
 (88, 'Tamarineira', 133, '2010-08-28 00:00:00'),
-(89, 'Tejipió', 133, '2010-08-28 00:00:00'),
+(89, 'Tejipiï¿½', 133, '2010-08-28 00:00:00'),
 (90, 'Torre', 133, '2010-08-28 00:00:00'),
-(91, 'Torreão', 133, '2010-08-28 00:00:00'),
-(92, 'Torrões', 133, '2010-08-28 00:00:00'),
-(93, 'Totó', 133, '2010-08-28 00:00:00'),
-(94, 'Várzea', 133, '2010-08-28 00:00:00'),
+(91, 'Torreï¿½o', 133, '2010-08-28 00:00:00'),
+(92, 'Torrï¿½es', 133, '2010-08-28 00:00:00'),
+(93, 'Totï¿½', 133, '2010-08-28 00:00:00'),
+(94, 'Vï¿½rzea', 133, '2010-08-28 00:00:00'),
 (95, 'Vasco da Gama', 133, '2010-08-28 00:00:00'),
-(96, 'Vila Tamandaré', 133, '2010-08-28 00:00:00'),
+(96, 'Vila Tamandarï¿½', 133, '2010-08-28 00:00:00'),
 (97, 'Zumbi', 133, '2010-08-28 00:00:00'),
 (98, 'Aeroclube', 279, '2010-08-28 00:00:00'),
-(99, 'Água Fria', 279, '2010-08-28 00:00:00'),
+(99, 'ï¿½gua Fria', 279, '2010-08-28 00:00:00'),
 (100, 'Altiplano', 279, '2010-08-28 00:00:00'),
-(101, 'Alto do Céu', 279, '2010-08-28 00:00:00'),
+(101, 'Alto do Cï¿½u', 279, '2010-08-28 00:00:00'),
 (102, 'Alto do Mateus', 279, '2010-08-28 00:00:00'),
-(103, 'Anatólia', 279, '2010-08-28 00:00:00'),
-(104, 'Bancários', 279, '2010-08-28 00:00:00'),
+(103, 'Anatï¿½lia', 279, '2010-08-28 00:00:00'),
+(104, 'Bancï¿½rios', 279, '2010-08-28 00:00:00'),
 (105, 'Bessa', 279, '2010-08-28 00:00:00'),
 (106, 'Brisamar', 279, '2010-08-28 00:00:00'),
 (107, 'Cabo Branco', 279, '2010-08-28 00:00:00'),
@@ -170,59 +170,59 @@ INSERT INTO `tbl_bairros` (`intCod`, `vcrNome`, `intCodCidade`, `tspVersao`) VAL
 (110, 'Cidade dos Colibris', 279, '2010-08-28 00:00:00'),
 (111, 'Cidade Verde', 279, '2010-08-28 00:00:00'),
 (112, 'Cidade dos Colibris', 279, '2010-08-28 00:00:00'),
-(113, 'Conjunto Boa Esperança', 279, '2010-08-28 00:00:00'),
+(113, 'Conjunto Boa Esperanï¿½a', 279, '2010-08-28 00:00:00'),
 (114, 'Conjunto Cehap I', 279, '2010-08-28 00:00:00'),
 (115, 'Conjunto Pedro Gondim', 279, '2010-08-28 00:00:00'),
 (116, 'Costa e Silva', 279, '2010-08-28 00:00:00'),
 (117, 'Cristo Redentor', 279, '2010-08-28 00:00:00'),
 (118, 'Cruz das Armas', 279, '2010-08-28 00:00:00'),
-(119, 'Cuiá', 279, '2010-08-28 00:00:00'),
+(119, 'Cuiï¿½', 279, '2010-08-28 00:00:00'),
 (120, 'Distrito Industrial', 279, '2010-08-28 00:00:00'),
 (121, 'Ernesto Geisel', 279, '2010-08-28 00:00:00'),
-(122, 'Ernâni Sátiro', 279, '2010-08-28 00:00:00'),
+(122, 'Ernï¿½ni Sï¿½tiro', 279, '2010-08-28 00:00:00'),
 (123, 'Esplanada', 279, '2010-08-28 00:00:00'),
 (124, 'Estados', 279, '2010-08-28 00:00:00'),
-(125, 'Expedicionários', 279, '2010-08-28 00:00:00'),
-(126, 'Funcionários I', 279, '2010-08-28 00:00:00'),
-(127, 'Funcionários II', 279, '2010-08-28 00:00:00'),
-(128, 'Funcionários III', 279, '2010-08-28 00:00:00'),
-(129, 'Funcionários IV', 279, '2010-08-28 00:00:00'),
+(125, 'Expedicionï¿½rios', 279, '2010-08-28 00:00:00'),
+(126, 'Funcionï¿½rios I', 279, '2010-08-28 00:00:00'),
+(127, 'Funcionï¿½rios II', 279, '2010-08-28 00:00:00'),
+(128, 'Funcionï¿½rios III', 279, '2010-08-28 00:00:00'),
+(129, 'Funcionï¿½rios IV', 279, '2010-08-28 00:00:00'),
 (130, 'Gramame', 279, '2010-08-28 00:00:00'),
-(131, 'Grotão', 279, '2010-08-28 00:00:00'),
+(131, 'Grotï¿½o', 279, '2010-08-28 00:00:00'),
 (132, 'Ilha do Bispo', 279, '2010-08-28 00:00:00'),
-(133, 'Bairro das Indústrias', 279, '2010-08-28 00:00:00'),
+(133, 'Bairro das Indï¿½strias', 279, '2010-08-28 00:00:00'),
 (134, 'Intermares (bairro de Cabedelo)', 279, '2010-08-28 00:00:00'),
-(135, 'Ipês', 279, '2010-08-28 00:00:00'),
+(135, 'Ipï¿½s', 279, '2010-08-28 00:00:00'),
 (136, 'Jaguaribe', 279, '2010-08-28 00:00:00'),
 (137, 'Jardim 13 de Maio', 279, '2010-08-28 00:00:00'),
-(138, 'Jardim Cidade Universitária', 279, '2010-08-28 00:00:00'),
+(138, 'Jardim Cidade Universitï¿½ria', 279, '2010-08-28 00:00:00'),
 (139, 'Jardim Esther', 279, '2010-08-28 00:00:00'),
 (140, 'Jardim Luna', 279, '2010-08-28 00:00:00'),
 (141, 'Jardim Mangueira', 279, '2010-08-28 00:00:00'),
 (142, 'Jardim Oceania', 279, '2010-08-28 00:00:00'),
 (143, 'Jardim Planalto', 279, '2010-08-28 00:00:00'),
-(144, 'Jardim São Paulo', 279, '2010-08-28 00:00:00'),
+(144, 'Jardim Sï¿½o Paulo', 279, '2010-08-28 00:00:00'),
 (145, 'Jardim Veneza', 279, '2010-08-28 00:00:00'),
-(146, 'José Américo', 279, '2010-08-28 00:00:00'),
-(147, 'João Agripino', 279, '2010-08-28 00:00:00'),
-(148, 'João Paulo II', 279, '2010-08-28 00:00:00'),
-(149, 'Manaíra', 279, '2010-08-28 00:00:00'),
+(146, 'Josï¿½ Amï¿½rico', 279, '2010-08-28 00:00:00'),
+(147, 'Joï¿½o Agripino', 279, '2010-08-28 00:00:00'),
+(148, 'Joï¿½o Paulo II', 279, '2010-08-28 00:00:00'),
+(149, 'Manaï¿½ra', 279, '2010-08-28 00:00:00'),
 (150, 'Mandacaru', 279, '2010-08-28 00:00:00'),
 (151, 'Mangabeira', 279, '2010-08-28 00:00:00'),
 (152, 'Miramar', 279, '2010-08-28 00:00:00'),
 (153, 'Bairros dos Novais', 279, '2010-08-28 00:00:00'),
 (154, 'Oitizeiro', 279, '2010-08-28 00:00:00'),
-(155, 'Padre Zé', 279, '2010-08-28 00:00:00'),
+(155, 'Padre Zï¿½', 279, '2010-08-28 00:00:00'),
 (156, 'Paratibe', 279, '2010-08-28 00:00:00'),
 (157, 'Penha', 279, '2010-08-28 00:00:00'),
-(158, 'Planalto Boa Esperança', 279, '2010-08-28 00:00:00'),
+(158, 'Planalto Boa Esperanï¿½a', 279, '2010-08-28 00:00:00'),
 (159, 'Praia do Sol', 279, '2010-08-28 00:00:00'),
 (160, 'Rangel', 279, '2010-08-28 00:00:00'),
-(161, 'Róger', 279, '2010-08-28 00:00:00'),
-(162, 'São José', 279, '2010-08-28 00:00:00'),
+(161, 'Rï¿½ger', 279, '2010-08-28 00:00:00'),
+(162, 'Sï¿½o Josï¿½', 279, '2010-08-28 00:00:00'),
 (163, 'Tambauzinho', 279, '2010-08-28 00:00:00'),
-(164, 'Tambaú', 279, '2010-08-28 00:00:00'),
-(165, 'Tambiá', 279, '2010-08-28 00:00:00'),
+(164, 'Tambaï¿½', 279, '2010-08-28 00:00:00'),
+(165, 'Tambiï¿½', 279, '2010-08-28 00:00:00'),
 (166, 'Torre', 279, '2010-08-28 00:00:00'),
 (167, 'Valentina Figueiredo', 279, '2010-08-28 00:00:00'),
 (168, 'Varadouro', 279, '2010-08-28 00:00:00');
@@ -249,60 +249,60 @@ CREATE TABLE IF NOT EXISTS `tbl_cidades` (
 INSERT INTO `tbl_cidades` (`intCod`, `vcrNome`, `intCodUF`, `tspVersao`) VALUES
 (1, 'Abreu e Lima', 17, '2010-08-28 00:00:00'),
 (2, 'Afogados da Ingazeira', 17, '2010-08-28 00:00:00'),
-(3, 'Afrânio', 17, '2010-08-28 00:00:00'),
+(3, 'Afrï¿½nio', 17, '2010-08-28 00:00:00'),
 (4, 'Agrestina', 17, '2010-08-28 00:00:00'),
-(5, 'Água Preta', 17, '2010-08-28 00:00:00'),
-(6, 'Águas Belas', 17, '2010-08-28 00:00:00'),
+(5, 'ï¿½gua Preta', 17, '2010-08-28 00:00:00'),
+(6, 'ï¿½guas Belas', 17, '2010-08-28 00:00:00'),
 (7, 'Alagoinha', 17, '2010-08-28 00:00:00'),
-(8, 'Aliança', 17, '2010-08-28 00:00:00'),
+(8, 'Alianï¿½a', 17, '2010-08-28 00:00:00'),
 (9, 'Altinho', 17, '2010-08-28 00:00:00'),
 (10, 'Amaraji', 17, '2010-08-28 00:00:00'),
 (11, 'Angelim', 17, '2010-08-28 00:00:00'),
-(12, 'Araçoiaba', 17, '2010-08-28 00:00:00'),
+(12, 'Araï¿½oiaba', 17, '2010-08-28 00:00:00'),
 (13, 'Araripina', 17, '2010-08-28 00:00:00'),
 (14, 'Arcoverde', 17, '2010-08-28 00:00:00'),
 (15, 'Barra de Guabiraba', 17, '2010-08-28 00:00:00'),
 (16, 'Barreiros', 17, '2010-08-28 00:00:00'),
-(17, 'Belém de Maria', 17, '2010-08-28 00:00:00'),
-(18, 'Belém de São Francisco', 17, '2010-08-28 00:00:00'),
+(17, 'Belï¿½m de Maria', 17, '2010-08-28 00:00:00'),
+(18, 'Belï¿½m de Sï¿½o Francisco', 17, '2010-08-28 00:00:00'),
 (19, 'Belo Jardim', 17, '2010-08-28 00:00:00'),
-(20, 'Betânia', 17, '2010-08-28 00:00:00'),
+(20, 'Betï¿½nia', 17, '2010-08-28 00:00:00'),
 (21, 'Bezerros', 17, '2010-08-28 00:00:00'),
-(22, 'Bodocó', 17, '2010-08-28 00:00:00'),
+(22, 'Bodocï¿½', 17, '2010-08-28 00:00:00'),
 (23, 'Bom Conselho', 17, '2010-08-28 00:00:00'),
 (24, 'Bom Jardim', 17, '2010-08-28 00:00:00'),
 (25, 'Bonito', 17, '2010-08-28 00:00:00'),
-(26, 'Brejão', 17, '2010-08-28 00:00:00'),
+(26, 'Brejï¿½o', 17, '2010-08-28 00:00:00'),
 (27, 'Brejinho', 17, '2010-08-28 00:00:00'),
 (28, 'Brejo da Madre de Deus', 17, '2010-08-28 00:00:00'),
 (29, 'Buenos Aires', 17, '2010-08-28 00:00:00'),
-(30, 'Buíque', 17, '2010-08-28 00:00:00'),
+(30, 'Buï¿½que', 17, '2010-08-28 00:00:00'),
 (31, 'Cabo de Santo Agostinho', 17, '2010-08-28 00:00:00'),
-(32, 'Cabrobó', 17, '2010-08-28 00:00:00'),
+(32, 'Cabrobï¿½', 17, '2010-08-28 00:00:00'),
 (33, 'Cachoeirinha', 17, '2010-08-28 00:00:00'),
-(34, 'Caetés', 17, '2010-08-28 00:00:00'),
-(35, 'Calçado', 17, '2010-08-28 00:00:00'),
+(34, 'Caetï¿½s', 17, '2010-08-28 00:00:00'),
+(35, 'Calï¿½ado', 17, '2010-08-28 00:00:00'),
 (36, 'Calumbi', 17, '2010-08-28 00:00:00'),
 (37, 'Camaragibe', 17, '2010-08-28 00:00:00'),
-(38, 'Camocim de São Félix', 17, '2010-08-28 00:00:00'),
+(38, 'Camocim de Sï¿½o Fï¿½lix', 17, '2010-08-28 00:00:00'),
 (39, 'Camutanga', 17, '2010-08-28 00:00:00'),
 (40, 'Canhotinho', 17, '2010-08-28 00:00:00'),
 (41, 'Capoeiras', 17, '2010-08-28 00:00:00'),
-(42, 'Carnaíba', 17, '2010-08-28 00:00:00'),
+(42, 'Carnaï¿½ba', 17, '2010-08-28 00:00:00'),
 (43, 'Carnaubeira da Penha', 17, '2010-08-28 00:00:00'),
 (44, 'Carpina', 17, '2010-08-28 00:00:00'),
 (45, 'Caruaru', 17, '2010-08-28 00:00:00'),
 (46, 'Casinhas', 17, '2010-08-28 00:00:00'),
 (47, 'Catende', 17, '2010-08-28 00:00:00'),
 (48, 'Cedro', 17, '2010-08-28 00:00:00'),
-(49, 'Chã de Alegria', 17, '2010-08-28 00:00:00'),
-(50, 'Chã Grande', 17, '2010-08-28 00:00:00'),
+(49, 'Chï¿½ de Alegria', 17, '2010-08-28 00:00:00'),
+(50, 'Chï¿½ Grande', 17, '2010-08-28 00:00:00'),
 (51, 'Condado', 17, '2010-08-28 00:00:00'),
 (52, 'Correntes', 17, '2010-08-28 00:00:00'),
-(53, 'Cortês', 17, '2010-08-28 00:00:00'),
+(53, 'Cortï¿½s', 17, '2010-08-28 00:00:00'),
 (54, 'Cumaru', 17, '2010-08-28 00:00:00'),
 (55, 'Cupira', 17, '2010-08-28 00:00:00'),
-(56, 'Custódia', 17, '2010-08-28 00:00:00'),
+(56, 'Custï¿½dia', 17, '2010-08-28 00:00:00'),
 (57, 'Dormentes', 17, '2010-08-28 00:00:00'),
 (58, 'Escada', 17, '2010-08-28 00:00:00'),
 (59, 'Exu', 17, '2010-08-28 00:00:00'),
@@ -314,31 +314,31 @@ INSERT INTO `tbl_cidades` (`intCod`, `vcrNome`, `intCodUF`, `tspVersao`) VALUES
 (65, 'Frei Miguelinho', 17, '2010-08-28 00:00:00'),
 (66, 'Gameleira', 17, '2010-08-28 00:00:00'),
 (67, 'Garanhuns', 17, '2010-08-28 00:00:00'),
-(68, 'Glória do Goitá', 17, '2010-08-28 00:00:00'),
+(68, 'Glï¿½ria do Goitï¿½', 17, '2010-08-28 00:00:00'),
 (69, 'Goiana', 17, '2010-08-28 00:00:00'),
 (70, 'Granito', 17, '2010-08-28 00:00:00'),
-(71, 'Gravatá', 17, '2010-08-28 00:00:00'),
+(71, 'Gravatï¿½', 17, '2010-08-28 00:00:00'),
 (72, 'Iati', 17, '2010-08-28 00:00:00'),
 (73, 'Ibimirim', 17, '2010-08-28 00:00:00'),
 (74, 'Ibirajuba', 17, '2010-08-28 00:00:00'),
 (75, 'Igarassu', 17, '2010-08-28 00:00:00'),
 (76, 'Iguaraci', 17, '2010-08-28 00:00:00'),
-(77, 'Inajá', 17, '2010-08-28 00:00:00'),
+(77, 'Inajï¿½', 17, '2010-08-28 00:00:00'),
 (78, 'Ingazeira', 17, '2010-08-28 00:00:00'),
 (79, 'Ipojuca', 17, '2010-08-28 00:00:00'),
 (80, 'Ipubi', 17, '2010-08-28 00:00:00'),
 (81, 'Itacuruba', 17, '2010-08-28 00:00:00'),
-(82, 'Itaíba', 17, '2010-08-28 00:00:00'),
-(83, 'Itamaracá', 17, '2010-08-28 00:00:00'),
-(84, 'Itambé', 17, '2010-08-28 00:00:00'),
+(82, 'Itaï¿½ba', 17, '2010-08-28 00:00:00'),
+(83, 'Itamaracï¿½', 17, '2010-08-28 00:00:00'),
+(84, 'Itambï¿½', 17, '2010-08-28 00:00:00'),
 (85, 'Itapetim', 17, '2010-08-28 00:00:00'),
 (86, 'Itapissuma', 17, '2010-08-28 00:00:00'),
 (87, 'Itaquitinga', 17, '2010-08-28 00:00:00'),
-(88, 'Jaboatão dos Guararapes', 17, '2010-08-28 00:00:00'),
+(88, 'Jaboatï¿½o dos Guararapes', 17, '2010-08-28 00:00:00'),
 (89, 'Jaqueira', 17, '2010-08-28 00:00:00'),
-(90, 'Jataúba', 17, '2010-08-28 00:00:00'),
-(91, 'Jatobá', 17, '2010-08-28 00:00:00'),
-(92, 'João Alfredo', 17, '2010-08-28 00:00:00'),
+(90, 'Jataï¿½ba', 17, '2010-08-28 00:00:00'),
+(91, 'Jatobï¿½', 17, '2010-08-28 00:00:00'),
+(92, 'Joï¿½o Alfredo', 17, '2010-08-28 00:00:00'),
 (93, 'Joaquim Nabuco', 17, '2010-08-28 00:00:00'),
 (94, 'Jucati', 17, '2010-08-28 00:00:00'),
 (95, 'Jupi', 17, '2010-08-28 00:00:00'),
@@ -355,12 +355,12 @@ INSERT INTO `tbl_cidades` (`intCod`, `vcrNome`, `intCodUF`, `tspVersao`) VALUES
 (106, 'Manari', 17, '2010-08-28 00:00:00'),
 (107, 'Maraial', 17, '2010-08-28 00:00:00'),
 (108, 'Mirandiba', 17, '2010-08-28 00:00:00'),
-(109, 'Moreilândia', 17, '2010-08-28 00:00:00'),
+(109, 'Moreilï¿½ndia', 17, '2010-08-28 00:00:00'),
 (110, 'Moreno', 17, '2010-08-28 00:00:00'),
-(111, 'Nazaré da Mata', 17, '2010-08-28 00:00:00'),
+(111, 'Nazarï¿½ da Mata', 17, '2010-08-28 00:00:00'),
 (112, 'Olinda', 17, '2010-08-28 00:00:00'),
-(113, 'Orobó', 17, '2010-08-28 00:00:00'),
-(114, 'Orocó', 17, '2010-08-28 00:00:00'),
+(113, 'Orobï¿½', 17, '2010-08-28 00:00:00'),
+(114, 'Orocï¿½', 17, '2010-08-28 00:00:00'),
 (115, 'Ouricuri', 17, '2010-08-28 00:00:00'),
 (116, 'Palmares', 17, '2010-08-28 00:00:00'),
 (117, 'Palmeirina', 17, '2010-08-28 00:00:00'),
@@ -372,66 +372,66 @@ INSERT INTO `tbl_cidades` (`intCod`, `vcrNome`, `intCodUF`, `tspVersao`) VALUES
 (123, 'Paulista', 17, '2010-08-28 00:00:00'),
 (124, 'Pedra', 17, '2010-08-28 00:00:00'),
 (125, 'Pesqueira', 17, '2010-08-28 00:00:00'),
-(126, 'Petrolândia', 17, '2010-08-28 00:00:00'),
+(126, 'Petrolï¿½ndia', 17, '2010-08-28 00:00:00'),
 (127, 'Petrolina', 17, '2010-08-28 00:00:00'),
-(128, 'Poção', 17, '2010-08-28 00:00:00'),
+(128, 'Poï¿½ï¿½o', 17, '2010-08-28 00:00:00'),
 (129, 'Pombos', 17, '2010-08-28 00:00:00'),
 (130, 'Primavera', 17, '2010-08-28 00:00:00'),
-(131, 'Quipapá', 17, '2010-08-28 00:00:00'),
+(131, 'Quipapï¿½', 17, '2010-08-28 00:00:00'),
 (132, 'Quixaba', 17, '2010-08-28 00:00:00'),
 (133, 'Recife', 17, '2010-08-28 00:00:00'),
 (134, 'Riacho das Almas', 17, '2010-08-28 00:00:00'),
-(135, 'Ribeirão', 17, '2010-08-28 00:00:00'),
+(135, 'Ribeirï¿½o', 17, '2010-08-28 00:00:00'),
 (136, 'Rio Formoso', 17, '2010-08-28 00:00:00'),
-(137, 'Sairé', 17, '2010-08-28 00:00:00'),
+(137, 'Sairï¿½', 17, '2010-08-28 00:00:00'),
 (138, 'Salgadinho', 17, '2010-08-28 00:00:00'),
 (139, 'Salgueiro', 17, '2010-08-28 00:00:00'),
-(140, 'Saloá', 17, '2010-08-28 00:00:00'),
-(141, 'Sanharó', 17, '2010-08-28 00:00:00'),
+(140, 'Saloï¿½', 17, '2010-08-28 00:00:00'),
+(141, 'Sanharï¿½', 17, '2010-08-28 00:00:00'),
 (142, 'Santa Cruz', 17, '2010-08-28 00:00:00'),
 (143, 'Santa Cruz da Baixa Verde', 17, '2010-08-28 00:00:00'),
 (144, 'Santa Cruz do Capibaribe', 17, '2010-08-28 00:00:00'),
 (145, 'Santa Filomena', 17, '2010-08-28 00:00:00'),
 (146, 'Santa Maria da Boa Vista', 17, '2010-08-28 00:00:00'),
-(147, 'Santa Maria do Cambucá', 17, '2010-08-28 00:00:00'),
+(147, 'Santa Maria do Cambucï¿½', 17, '2010-08-28 00:00:00'),
 (148, 'Santa Terezinha', 17, '2010-08-28 00:00:00'),
-(149, 'São Benedito do Sul', 17, '2010-08-28 00:00:00'),
-(150, 'São Bento do Una', 17, '2010-08-28 00:00:00'),
-(151, 'São Caitano', 17, '2010-08-28 00:00:00'),
-(152, 'São João', 17, '2010-08-28 00:00:00'),
-(153, 'São Joaquim do Monte', 17, '2010-08-28 00:00:00'),
-(154, 'São José da Coroa Grande', 17, '2010-08-28 00:00:00'),
-(155, 'São José do Belmonte', 17, '2010-08-28 00:00:00'),
-(156, 'São José do Egito', 17, '2010-08-28 00:00:00'),
-(157, 'São Lourenço da Mata', 17, '2010-08-28 00:00:00'),
-(158, 'São Vicente Ferrer', 17, '2010-08-28 00:00:00'),
+(149, 'Sï¿½o Benedito do Sul', 17, '2010-08-28 00:00:00'),
+(150, 'Sï¿½o Bento do Una', 17, '2010-08-28 00:00:00'),
+(151, 'Sï¿½o Caitano', 17, '2010-08-28 00:00:00'),
+(152, 'Sï¿½o Joï¿½o', 17, '2010-08-28 00:00:00'),
+(153, 'Sï¿½o Joaquim do Monte', 17, '2010-08-28 00:00:00'),
+(154, 'Sï¿½o Josï¿½ da Coroa Grande', 17, '2010-08-28 00:00:00'),
+(155, 'Sï¿½o Josï¿½ do Belmonte', 17, '2010-08-28 00:00:00'),
+(156, 'Sï¿½o Josï¿½ do Egito', 17, '2010-08-28 00:00:00'),
+(157, 'Sï¿½o Lourenï¿½o da Mata', 17, '2010-08-28 00:00:00'),
+(158, 'Sï¿½o Vicente Ferrer', 17, '2010-08-28 00:00:00'),
 (159, 'Serra Talhada', 17, '2010-08-28 00:00:00'),
 (160, 'Serrita', 17, '2010-08-28 00:00:00'),
-(161, 'Sertânia', 17, '2010-08-28 00:00:00'),
-(162, 'Sirinhaém', 17, '2010-08-28 00:00:00'),
-(163, 'Solidão', 17, '2010-08-28 00:00:00'),
+(161, 'Sertï¿½nia', 17, '2010-08-28 00:00:00'),
+(162, 'Sirinhaï¿½m', 17, '2010-08-28 00:00:00'),
+(163, 'Solidï¿½o', 17, '2010-08-28 00:00:00'),
 (164, 'Surubim', 17, '2010-08-28 00:00:00'),
 (165, 'Tabira', 17, '2010-08-28 00:00:00'),
-(166, 'Tacaimbó', 17, '2010-08-28 00:00:00'),
+(166, 'Tacaimbï¿½', 17, '2010-08-28 00:00:00'),
 (167, 'Tacaratu', 17, '2010-08-28 00:00:00'),
-(168, 'Tamandaré', 17, '2010-08-28 00:00:00'),
+(168, 'Tamandarï¿½', 17, '2010-08-28 00:00:00'),
 (169, 'Taquaritinga do Norte', 17, '2010-08-28 00:00:00'),
 (170, 'Terezinha', 17, '2010-08-28 00:00:00'),
 (171, 'Terra Nova', 17, '2010-08-28 00:00:00'),
-(172, 'Timbaúba', 17, '2010-08-28 00:00:00'),
+(172, 'Timbaï¿½ba', 17, '2010-08-28 00:00:00'),
 (173, 'Toritama', 17, '2010-08-28 00:00:00'),
-(174, 'Tracunhaém', 17, '2010-08-28 00:00:00'),
+(174, 'Tracunhaï¿½m', 17, '2010-08-28 00:00:00'),
 (175, 'Trindade', 17, '2010-08-28 00:00:00'),
 (176, 'Triunfo', 17, '2010-08-28 00:00:00'),
 (177, 'Tupanatinga', 17, '2010-08-28 00:00:00'),
 (178, 'Tuparetama', 17, '2010-08-28 00:00:00'),
 (179, 'Venturosa', 17, '2010-08-28 00:00:00'),
 (180, 'Verdejante', 17, '2010-08-28 00:00:00'),
-(181, 'Vertente do Lério', 17, '2010-08-28 00:00:00'),
+(181, 'Vertente do Lï¿½rio', 17, '2010-08-28 00:00:00'),
 (182, 'Vertentes', 17, '2010-08-28 00:00:00'),
-(183, 'Vicência', 17, '2010-08-28 00:00:00'),
-(184, 'Vitória de Santo Antão', 17, '2010-08-28 00:00:00'),
-(185, 'Xexéu', 17, '2010-08-28 00:00:00'),
+(183, 'Vicï¿½ncia', 17, '2010-08-28 00:00:00'),
+(184, 'Vitï¿½ria de Santo Antï¿½o', 17, '2010-08-28 00:00:00'),
+(185, 'Xexï¿½u', 17, '2010-08-28 00:00:00'),
 (186, 'Agua Branca', 17, '2010-08-28 00:00:00'),
 (187, 'Aguiar', 15, '2010-08-28 00:00:00'),
 (188, 'Alagoa Grande', 15, '2010-08-28 00:00:00'),
@@ -688,7 +688,7 @@ CREATE TABLE IF NOT EXISTS `tbl_clientes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELAÇÕES PARA A TABELA `tbl_clientes`:
+-- RELAï¿½ï¿½ES PARA A TABELA `tbl_clientes`:
 --   `intEntregaPadrao`
 --       `tbl_entrega` -> `intCodEnt`
 --   `intPapelPadrao`
@@ -741,12 +741,12 @@ CREATE TABLE IF NOT EXISTS `tbl_entrega` (
 --
 
 INSERT INTO `tbl_entrega` (`intCodEnt`, `vcrLocal`, `dblPreco`, `tspVersao`) VALUES
-(5, 'Alto José Bonifácio', NULL, '2010-08-08 20:56:49'),
-(6, 'Alto José do PinhoAl', NULL, '2010-08-08 20:56:49'),
+(5, 'Alto Josï¿½ Bonifï¿½cio', NULL, '2010-08-08 20:56:49'),
+(6, 'Alto Josï¿½ do PinhoAl', NULL, '2010-08-08 20:56:49'),
 (7, 'Apipucos', NULL, '2010-08-08 20:56:49'),
 (8, 'Areias', NULL, '2010-08-08 20:56:49'),
 (9, 'Arruda', NULL, '2010-08-08 20:56:49'),
-(10, 'Alto do Céu', NULL, '2010-08-08 20:56:49'),
+(10, 'Alto do Cï¿½u', NULL, '2010-08-08 20:56:49'),
 (11, 'Alto do Deodato', NULL, '2010-08-08 20:56:49'),
 (12, 'Alto do Pascoal', NULL, '2010-08-08 20:56:49'),
 (13, 'Alto Santa Isabel', NULL, '2010-08-08 20:56:49'),
@@ -754,9 +754,9 @@ INSERT INTO `tbl_entrega` (`intCodEnt`, `vcrLocal`, `dblPreco`, `tspVersao`) VAL
 (15, 'Beberibe', NULL, '2010-08-08 20:56:49'),
 (16, 'Boa Viagem', NULL, '2010-08-08 20:56:49'),
 (17, 'Boa Vista', NULL, '2010-08-08 20:56:49'),
-(18, 'Bomba do Hemetério', NULL, '2010-08-08 20:56:49'),
+(18, 'Bomba do Hemetï¿½rio', NULL, '2010-08-08 20:56:49'),
 (19, 'Bongi', NULL, '2010-08-08 20:56:49'),
-(20, 'Brasília Teimosa', NULL, '2010-08-08 20:56:49'),
+(20, 'Brasï¿½lia Teimosa', NULL, '2010-08-08 20:56:49'),
 (21, 'Brejo da Guabiraba', NULL, '2010-08-08 20:56:49'),
 (22, 'Brejo de Beberibe', NULL, '2010-08-08 20:56:49'),
 (23, 'Barreira do Rosarinh', NULL, '2010-08-08 20:56:49'),
@@ -764,30 +764,30 @@ INSERT INTO `tbl_entrega` (`intCodEnt`, `vcrLocal`, `dblPreco`, `tspVersao`) VAL
 (25, 'Benfica', NULL, '2010-08-08 20:56:49'),
 (26, 'Bomba Grande', NULL, '2010-08-08 20:56:49'),
 (27, 'Cabanga', NULL, '2010-08-08 20:56:49'),
-(28, 'Caçote', NULL, '2010-08-08 20:56:49'),
+(28, 'Caï¿½ote', NULL, '2010-08-08 20:56:49'),
 (29, 'Cajueiro', NULL, '2010-08-08 20:56:49'),
 (30, 'Campina do Barreto', NULL, '2010-08-08 20:56:49'),
 (31, 'Campo Grande', NULL, '2010-08-08 20:56:49'),
 (32, 'Casa Amarela', NULL, '2010-08-08 20:56:49'),
 (33, 'Casa Forte', NULL, '2010-08-08 20:56:49'),
-(34, 'Caxangá', NULL, '2010-08-08 20:56:49'),
-(35, 'Cidade Universitária', NULL, '2010-08-08 20:56:49'),
+(34, 'Caxangï¿½', NULL, '2010-08-08 20:56:49'),
+(35, 'Cidade Universitï¿½ria', NULL, '2010-08-08 20:56:49'),
 (36, 'Cohab', NULL, '2010-08-08 20:56:49'),
 (37, 'Coelhos', NULL, '2010-08-08 20:56:49'),
 (38, 'Coqueiral', NULL, '2010-08-08 20:56:49'),
 (39, 'Cordeiro', NULL, '2010-08-08 20:56:49'),
-(40, 'Córrego do Jenipapo', NULL, '2010-08-08 20:56:49'),
+(40, 'Cï¿½rrego do Jenipapo', NULL, '2010-08-08 20:56:49'),
 (41, 'Curado', NULL, '2010-08-08 20:56:49'),
 (42, 'Capunga', NULL, '2010-08-08 20:56:49'),
 (43, 'Coque', NULL, '2010-08-08 20:56:49'),
 (44, 'Derby', NULL, '2010-08-08 20:56:49'),
-(45, 'Dois Irmãos', NULL, '2010-08-08 20:56:49'),
+(45, 'Dois Irmï¿½os', NULL, '2010-08-08 20:56:49'),
 (46, 'Dois Unidos', NULL, '2010-08-08 20:56:49'),
 (47, 'Encruzilhada', NULL, '2010-08-08 20:56:49'),
 (48, 'Engenho do Meio', NULL, '2010-08-08 20:56:49'),
 (49, 'Espinheiro', NULL, '2010-08-08 20:56:49'),
-(50, 'Estância', NULL, '2010-08-08 20:56:49'),
-(51, 'Fundão', NULL, '2010-08-08 20:56:49');
+(50, 'Estï¿½ncia', NULL, '2010-08-08 20:56:49'),
+(51, 'Fundï¿½o', NULL, '2010-08-08 20:56:49');
 
 -- atualizar os nomes das localidades e valor
 update tbl_entrega 
@@ -816,29 +816,29 @@ CREATE TABLE IF NOT EXISTS `tbl_estados` (
 INSERT INTO `tbl_estados` (`intCod`, `vcrNome`, `vcrSigla`, `tspVersao`) VALUES
 (20, 'RioGrandedoNorte', 'RN', '2010-08-24 22:31:45'),
 (19, 'RiodeJaneiro', 'RJ', '2010-08-24 22:31:45'),
-(18, 'Piauí', 'PI', '2010-08-24 22:31:45'),
+(18, 'Piauï¿½', 'PI', '2010-08-24 22:31:45'),
 (17, 'Pernambuco', 'PE', '2010-08-24 22:31:45'),
-(16, 'Paraná', 'PR', '2010-08-24 22:31:45'),
-(15, 'Paraíba', 'PB', '2010-08-24 22:31:45'),
-(14, 'Pará', 'PA', '2010-08-24 22:31:45'),
+(16, 'Paranï¿½', 'PR', '2010-08-24 22:31:45'),
+(15, 'Paraï¿½ba', 'PB', '2010-08-24 22:31:45'),
+(14, 'Parï¿½', 'PA', '2010-08-24 22:31:45'),
 (13, 'MinasGerais', 'MG', '2010-08-24 22:31:45'),
 (12, 'MatoGrossodoSul', 'MS', '2010-08-24 22:31:45'),
 (11, 'MatoGrosso', 'MT', '2010-08-24 22:31:45'),
-(10, 'Maranhão', 'MA', '2010-08-24 22:31:45'),
-(9, 'Goiás', 'GO', '2010-08-24 22:31:45'),
-(8, 'EspíritoSanto', 'ES', '2010-08-24 22:31:45'),
+(10, 'Maranhï¿½o', 'MA', '2010-08-24 22:31:45'),
+(9, 'Goiï¿½s', 'GO', '2010-08-24 22:31:45'),
+(8, 'Espï¿½ritoSanto', 'ES', '2010-08-24 22:31:45'),
 (7, 'DistritoFederal', 'DF', '2010-08-24 22:31:45'),
-(6, 'Ceará', 'CE', '2010-08-24 22:31:45'),
+(6, 'Cearï¿½', 'CE', '2010-08-24 22:31:45'),
 (5, 'Bahia', 'BA', '2010-08-24 22:31:45'),
 (4, 'Amazonas', 'AM', '2010-08-24 22:31:45'),
-(3, 'Amapá', 'AP', '2010-08-24 22:31:45'),
+(3, 'Amapï¿½', 'AP', '2010-08-24 22:31:45'),
 (2, 'Alagoas', 'AL', '2010-08-24 22:31:45'),
 (1, 'Acre', 'AC', '2010-08-24 22:31:45'),
 (21, 'RioGrandedoSul', 'RS', '2010-08-24 22:31:45'),
-(22, 'Rondônia', 'RO', '2010-08-24 22:31:45'),
+(22, 'Rondï¿½nia', 'RO', '2010-08-24 22:31:45'),
 (23, 'Roraima', 'RR', '2010-08-24 22:31:45'),
 (24, 'SantaCatarina', 'SC', '2010-08-24 22:31:45'),
-(25, 'SãoPaulo', 'SP', '2010-08-24 22:31:45'),
+(25, 'Sï¿½oPaulo', 'SP', '2010-08-24 22:31:45'),
 (26, 'Sergipe', 'SE', '2010-08-24 22:31:45'),
 (27, 'Tocantins', 'TO', '2010-08-24 22:31:45');
 
@@ -860,7 +860,7 @@ CREATE TABLE IF NOT EXISTS `tbl_fonecli` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELAÇÕES PARA A TABELA `tbl_fonecli`:
+-- RELAï¿½ï¿½ES PARA A TABELA `tbl_fonecli`:
 --   `intClienteId`
 --       `tbl_clientes` -> `intClienteId`
 --
@@ -907,7 +907,7 @@ CREATE TABLE IF NOT EXISTS `tbl_grupomenu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELAÇÕES PARA A TABELA `tbl_grupomenu`:
+-- RELAï¿½ï¿½ES PARA A TABELA `tbl_grupomenu`:
 --   `intGrupo`
 --       `tbl_grupo` -> `intGrupo`
 --   `intMenu`
@@ -944,7 +944,7 @@ CREATE TABLE IF NOT EXISTS `tbl_linhareq` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELAÇÕES PARA A TABELA `tbl_linhareq`:
+-- RELAï¿½ï¿½ES PARA A TABELA `tbl_linhareq`:
 --   `intCodPap`
 --       `tbl_papel` -> `intCodPap`
 --   `intNumreq`
@@ -977,7 +977,7 @@ CREATE TABLE IF NOT EXISTS `tbl_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELAÇÕES PARA A TABELA `tbl_menu`:
+-- RELAï¿½ï¿½ES PARA A TABELA `tbl_menu`:
 --   `intMenupai`
 --       `tbl_menu` -> `intMenu`
 --
@@ -1066,7 +1066,7 @@ CREATE TABLE IF NOT EXISTS `tbl_projetos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELAÇÕES PARA A TABELA `tbl_projetos`:
+-- RELAï¿½ï¿½ES PARA A TABELA `tbl_projetos`:
 --   `intClienteId`
 --       `tbl_clientes` -> `intClienteId`
 --
@@ -1093,6 +1093,9 @@ CREATE TABLE IF NOT EXISTS `tbl_reqserv` (
   `intVisivelNf` int(1) DEFAULT NULL,
   `intVisivelReq` int(1) DEFAULT NULL,
   `dblValorEnt` double DEFAULT NULL,
+  `intOrcamento` double DEFAULT NULL,
+  `dblDesconto` double DEFAULT NULL,
+  `chrPago` char(1) DEFAULT 'N',
   `tspVersao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`intNumreq`),
   KEY `REQSERV_PROJ_FK` (`intCodProj`),
@@ -1100,7 +1103,7 @@ CREATE TABLE IF NOT EXISTS `tbl_reqserv` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELAÇÕES PARA A TABELA `tbl_reqserv`:
+-- RELAï¿½ï¿½ES PARA A TABELA `tbl_reqserv`:
 --   `intCodEnt`
 --       `tbl_entrega` -> `intCodEnt`
 --   `intCodProj`
@@ -1130,7 +1133,7 @@ CREATE TABLE IF NOT EXISTS `tbl_reqservopcionais` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELAÇÕES PARA A TABELA `tbl_reqservopcionais`:
+-- RELAï¿½ï¿½ES PARA A TABELA `tbl_reqservopcionais`:
 --   `intNumReq`
 --       `tbl_reqserv` -> `intNumreq`
 --   `intCodOp`
@@ -1162,7 +1165,7 @@ CREATE TABLE IF NOT EXISTS `tbl_reqservusuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELAÇÕES PARA A TABELA `tbl_reqservusuario`:
+-- RELAï¿½ï¿½ES PARA A TABELA `tbl_reqservusuario`:
 --   `intNumReq`
 --       `tbl_reqserv` -> `intNumreq`
 --   `intCodUsr`
@@ -1198,7 +1201,7 @@ CREATE TABLE IF NOT EXISTS `tbl_saidamotoqueiro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELAÇÕES PARA A TABELA `tbl_saidamotoqueiro`:
+-- RELAï¿½ï¿½ES PARA A TABELA `tbl_saidamotoqueiro`:
 --   `intCodCobr`
 --       `tbl_cobrador` -> `intCodCobr`
 --   `intNumReq`
@@ -1230,7 +1233,7 @@ CREATE TABLE IF NOT EXISTS `tbl_statuscobranca` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELAÇÕES PARA A TABELA `tbl_statuscobranca`:
+-- RELAï¿½ï¿½ES PARA A TABELA `tbl_statuscobranca`:
 --   `intCodCobr`
 --       `tbl_cobrador` -> `intCodCobr`
 --   `intNumreq`
@@ -1264,7 +1267,7 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELAÇÕES PARA A TABELA `tbl_usuario`:
+-- RELAï¿½ï¿½ES PARA A TABELA `tbl_usuario`:
 --   `intGrupo`
 --       `tbl_grupo` -> `intGrupo`
 --
@@ -1279,85 +1282,85 @@ INSERT INTO `tbl_usuario` (`intCodUsr`, `vcrLogin`, `vcrPassword`, `vcrCpf`, `in
 (8, 'testedenovo', NULL, '03432103486', -1, NULL, NULL, 'vamosver22', '2010-08-08 21:16:26');
 
 --
--- Restrições para as tabelas dumpadas
+-- Restriï¿½ï¿½es para as tabelas dumpadas
 --
 
 --
--- Restrições para a tabela `tbl_clientes`
+-- Restriï¿½ï¿½es para a tabela `tbl_clientes`
 --
 ALTER TABLE `tbl_clientes`
   ADD CONSTRAINT `fk_tbl_clientes_tbl_entrega1` FOREIGN KEY (`intEntregaPadrao`) REFERENCES `tbl_entrega` (`intCodEnt`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_tbl_clientes_tbl_papel1` FOREIGN KEY (`intPapelPadrao`) REFERENCES `tbl_papel` (`intCodPap`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Restrições para a tabela `tbl_fonecli`
+-- Restriï¿½ï¿½es para a tabela `tbl_fonecli`
 --
 ALTER TABLE `tbl_fonecli`
   ADD CONSTRAINT `FONECLI_CLIE_FK` FOREIGN KEY (`intClienteId`) REFERENCES `tbl_clientes` (`intClienteId`);
 
 --
--- Restrições para a tabela `tbl_grupomenu`
+-- Restriï¿½ï¿½es para a tabela `tbl_grupomenu`
 --
 ALTER TABLE `tbl_grupomenu`
   ADD CONSTRAINT `GRMN_GRUPO_FK00` FOREIGN KEY (`intGrupo`) REFERENCES `tbl_grupo` (`intGrupo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `GRMN_MENU_FK00` FOREIGN KEY (`intMenu`) REFERENCES `tbl_menu` (`intMenu`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Restrições para a tabela `tbl_linhareq`
+-- Restriï¿½ï¿½es para a tabela `tbl_linhareq`
 --
 ALTER TABLE `tbl_linhareq`
   ADD CONSTRAINT `LINREQ_PAP_FK` FOREIGN KEY (`intCodPap`) REFERENCES `tbl_papel` (`intCodPap`),
   ADD CONSTRAINT `LINREQ_REQSRV_FK` FOREIGN KEY (`intNumreq`) REFERENCES `tbl_reqserv` (`intNumreq`);
 
 --
--- Restrições para a tabela `tbl_menu`
+-- Restriï¿½ï¿½es para a tabela `tbl_menu`
 --
 ALTER TABLE `tbl_menu`
   ADD CONSTRAINT `menu_pai_fk` FOREIGN KEY (`intMenupai`) REFERENCES `tbl_menu` (`intMenu`);
 
 --
--- Restrições para a tabela `tbl_projetos`
+-- Restriï¿½ï¿½es para a tabela `tbl_projetos`
 --
 ALTER TABLE `tbl_projetos`
   ADD CONSTRAINT `PROJ_CLIE_FK` FOREIGN KEY (`intClienteId`) REFERENCES `tbl_clientes` (`intClienteId`);
 
 --
--- Restrições para a tabela `tbl_reqserv`
+-- Restriï¿½ï¿½es para a tabela `tbl_reqserv`
 --
 ALTER TABLE `tbl_reqserv`
   ADD CONSTRAINT `REQSERV_ENTREGA_FK` FOREIGN KEY (`intCodEnt`) REFERENCES `tbl_entrega` (`intCodEnt`),
   ADD CONSTRAINT `REQSERV_PROJ_FK` FOREIGN KEY (`intCodProj`) REFERENCES `tbl_projetos` (`intCodProj`);
 
 --
--- Restrições para a tabela `tbl_reqservopcionais`
+-- Restriï¿½ï¿½es para a tabela `tbl_reqservopcionais`
 --
 ALTER TABLE `tbl_reqservopcionais`
   ADD CONSTRAINT `tbl_reqservopcionais_ibfk_1` FOREIGN KEY (`intNumReq`) REFERENCES `tbl_reqserv` (`intNumreq`),
   ADD CONSTRAINT `tbl_reqservopcionais_ibfk_2` FOREIGN KEY (`intCodOp`) REFERENCES `tbl_opcionaisreqserv` (`intCod`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Restrições para a tabela `tbl_reqservusuario`
+-- Restriï¿½ï¿½es para a tabela `tbl_reqservusuario`
 --
 ALTER TABLE `tbl_reqservusuario`
   ADD CONSTRAINT `REQSERUS_REQSERV_FK` FOREIGN KEY (`intNumReq`) REFERENCES `tbl_reqserv` (`intNumreq`),
   ADD CONSTRAINT `REQSERUS_USUA_FK` FOREIGN KEY (`intCodUsr`) REFERENCES `tbl_usuario` (`intCodUsr`);
 
 --
--- Restrições para a tabela `tbl_saidamotoqueiro`
+-- Restriï¿½ï¿½es para a tabela `tbl_saidamotoqueiro`
 --
 ALTER TABLE `tbl_saidamotoqueiro`
   ADD CONSTRAINT `MOTOQ_COBR_FK` FOREIGN KEY (`intCodCobr`) REFERENCES `tbl_cobrador` (`intCodCobr`),
   ADD CONSTRAINT `MOTOQ_REQSERV_FK` FOREIGN KEY (`intNumReq`) REFERENCES `tbl_reqserv` (`intNumreq`);
 
 --
--- Restrições para a tabela `tbl_statuscobranca`
+-- Restriï¿½ï¿½es para a tabela `tbl_statuscobranca`
 --
 ALTER TABLE `tbl_statuscobranca`
   ADD CONSTRAINT `STSCOBR_COBR_FK` FOREIGN KEY (`intCodCobr`) REFERENCES `tbl_cobrador` (`intCodCobr`),
   ADD CONSTRAINT `STSCOBR_REQSERV_FK` FOREIGN KEY (`intNumreq`) REFERENCES `tbl_reqserv` (`intNumreq`);
 
 --
--- Restrições para a tabela `tbl_usuario`
+-- Restriï¿½ï¿½es para a tabela `tbl_usuario`
 --
 ALTER TABLE `tbl_usuario`
   ADD CONSTRAINT `USUA_GRP_FK` FOREIGN KEY (`intGrupo`) REFERENCES `tbl_grupo` (`intGrupo`);
