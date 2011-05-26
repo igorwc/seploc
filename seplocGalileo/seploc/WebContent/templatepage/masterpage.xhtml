@@ -89,6 +89,8 @@
 							<rich:menuSeparator id="menuSeparator2" />
 							<rich:menuItem disabled="#{sessionScope.REQUISICOES}" submitMode="ajax" value="#{msgs['menu.raiz.requisicao.listarreq']}" actionListener="#{reqServListaCB.limpaBean}" icon="../imgs/icons/copy.gif" onclick="document.location.href='../requisicao/reqServLista.jsf'"/>
 							<rich:menuItem disabled="#{sessionScope.SAIDA_REQ}" submitMode="ajax" value="#{msgs['menu.raiz.requisicao.listarreqsaida']}" action="#" icon="../imgs/icons/copy.gif" onclick="document.location.href='../requisicao/reqServListaSaida.jsf'"/>
+							<rich:menuSeparator id="menuSeparator3" />
+							<rich:menuItem disabled="#{sessionScope.REQ_PAGAMENTO}" submitMode="none" value="#{msgs['menu.raiz.requisicao.reqpagamento']}" action="#" icon="../imgs/icons/cifrao_icon" onclick="document.location.href='../requisicao/reqServPagamento.jsf'"/>
 						</rich:dropDownMenu>
 
 						<!-- MENU CADASTRO -->						

@@ -247,6 +247,7 @@ public class Login {
 		}
 	}	
 
+	
 	public static void addGlobalMessage(String message) {
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
