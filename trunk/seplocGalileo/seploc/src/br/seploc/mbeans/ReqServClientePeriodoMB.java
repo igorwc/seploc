@@ -7,7 +7,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -116,8 +115,7 @@ public class ReqServClientePeriodoMB implements Serializable {
 	}
 
 	public Double atualizaValorTotalDescontoRequisicoes() {
-		Double retorno = 0.0;
-		NumberFormat formatter = new DecimalFormat("#.##");
+		Double retorno = 0.0;		
 		if (listaRequisicoes != null) {
 			for (RequisicaoServico r : listaRequisicoes) {
 				retorno += r.getValorTotalComDesconto();

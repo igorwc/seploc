@@ -165,8 +165,7 @@ public class RequisicaoServicoDAO extends
 					o[0],o[1],o[2],o[3]);
 			int totalReq = (Integer) o[0];
 			double valorTotal = (Double) o[1];
-			double valorDesc = (Double) o[2];
-			int mes = (Integer) o[3];
+			double valorDesc = (Double) o[2];			
 			listOrdenada.add(new ReqServProducaoBeanGrid(totalReq, valorTotal, valorDesc));
 		}
 		return listOrdenada;
@@ -174,10 +173,8 @@ public class RequisicaoServicoDAO extends
 
 	@SuppressWarnings("unchecked")
 	public List<RequisicaoServico> getListaSinceDate(Date data) {
-//		em.getTransaction().begin();
 		Query q = em.createNamedQuery("RequisicaoServico.RetornaRequisicoesLimitadoTempo");
 		q.setParameter("data", data);
-//		em.getTransaction().commit();
 		List<RequisicaoServico> retorno = (List<RequisicaoServico>) q.getResultList();
 		Collections.reverse(retorno);
 		return retorno;
