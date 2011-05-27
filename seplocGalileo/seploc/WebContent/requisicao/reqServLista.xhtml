@@ -226,10 +226,10 @@
 							</h:outputText>
 						</rich:column>
 						<rich:column style="text-align:center">
-							<h:outputText value="#{req.projeto.cliente.balcao==0 ? 'NAO' : 'SIM'}" />
+							<h:outputText value="#{req.projeto.cliente.balcao=='0' ? 'NAO' : 'SIM'}" />
 						</rich:column>
 						<rich:column style="text-align:center">
-							<h:outputText value="#{req.orcamento==0 ? 'NAO' : 'SIM'}" />
+							<h:outputText value="#{req.orcamento=='N' ? 'NAO' : 'SIM'}" />
 						</rich:column>																	
 						<rich:column style="text-align:center">
 							<h:outputText value="#{req.valorTotal}">
