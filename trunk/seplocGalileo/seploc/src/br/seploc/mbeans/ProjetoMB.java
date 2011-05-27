@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.exceptions.FieldNotNullException;
-import br.seploc.dao.pagedqueries.AllClientsPager;
 import br.seploc.dao.pagedqueries.FilteredNameClientesPager;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.Projeto;
@@ -159,7 +158,7 @@ public class ProjetoMB implements Serializable {
 		try {
 			if (cliente.getIdCliente() == null || cliente.getIdCliente() == 0) {
 				throw new FieldNotNullException(
-						"Cliente � Obrigat�rio para Projeto");
+						"Cliente é Obrigatório para Projeto");
 				
 			}else{
 				cliente = clienteDAO.recupera(cliente.getIdCliente());
@@ -168,7 +167,7 @@ public class ProjetoMB implements Serializable {
 
 			projetoDAO.adiciona(projeto);
 
-			addGlobalMessage("Inclus�o feita com sucesso!");
+			addGlobalMessage("Inclusão feita com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 			e.printStackTrace();
@@ -189,7 +188,7 @@ public class ProjetoMB implements Serializable {
 	public void apagar() {
 		try{
 			projetoDAO.remove(projeto.getCodProj());
-			addGlobalMessage("Projeto exclu�do com sucesso!");
+			addGlobalMessage("Projeto excluído com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}

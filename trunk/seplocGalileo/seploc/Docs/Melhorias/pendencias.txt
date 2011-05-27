@@ -1,44 +1,19 @@
-Nem mexi direito, tah do jeito que anotei lah na copytec.
+criado   em: 26-maio-2011 (Gustavo)
+alterado em:
+1 - relatorio plotadores
+ - listar todos os usuários que possuem pelo menos uma requisição que não seja orçamento;
+ - para cada usuário mostrar total de reqServ criado e valor total das reqServ.
 
-PARA RELATORIOS:
-O que vale é o template embaixo de WEB-INF, o que ficar em src, não tem valor para o servlet
+2 - requisicao pagamento
+ - listar todas as requisicoes que estejam com o parametro chrOrcamento = 'N'
+ - terão dois botões (Visualizar e pagar)
 
-
-
-
-Listar Requisicoes
-    Preço do opcional  ---> resolvido
-    Ao duplicar requisicao nao consegue alterar cliente e o preço fica vazio. ---> resolvido preço
-    Busca requisicao
-    Filtrar cliente e requisicao
-    
-Cadastrar Requisicao Cliente Cadastrado
-    Colocar Listener para o ENTER, no campo quantidade de opcionais e linha --> Resolvido em requisicao de cliente balcao/cliente cadastrado
-    Atualizacao de projetos ao mudar cliente e o preço --> resolvido
-    Atualizacao de preço de entrega  --> resolvido
-    
-Acesso
- -> nao popula combo de usuario ---> Resolvido
+3 - impressão requisição
+ - quando uma requisicao for paga e for emitir a impressão requisição o sistema deverá
+   informar que aquela requisicao foi paga.   
+   
+4 - Informar % alcançada em relação a meta definida.
+ - mostrar no topo da tela próximo ao nome ou rodapé.
  
- Requisicao Cliente Cadastrado, não muda projeto  --> resolvido
- Listar Requisicao: 
- 
-
- Verificar Cadastro de Usuário
- 
- Sinalizar percentagem no desconto  -> Resolvido
- Relatorio ignora valor de entrega ao calcular total de uma requisição --> Resolvido
- Tornar o tamanho de relatório Padrão -- > Resolvido
- 
- Realizar calculo de desconto quando apertar enter -- > Resolvido
- --->>>> Já está salvando no banco  <<<<--------------
- 
- Realizar Calculo de desconto ao carregar requisicoes -- > Resolvido
- Mostrar desconto das requisicoes no grid -- > Resolvido
- 
- Colocar paginacoes nos cadastros
- CENTRALIZAR CADASTROS
- 
- function executa(){
-                                                  document.getElementById('reqServ:botaoSalvar').click();
-                                              }
+5 - parametros configuraveis
+ - tela de configuração do sistema como meta de requisição/custo por mês.   
