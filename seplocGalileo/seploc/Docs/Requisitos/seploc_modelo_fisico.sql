@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: Jun 27, 2010 as 04:13 
--- Versão do Servidor: 5.1.41
--- Versão do PHP: 5.3.1
+-- Tempo de Geraï¿½ï¿½o: Jun 27, 2010 as 04:13 
+-- Versï¿½o do Servidor: 5.1.41
+-- Versï¿½o do PHP: 5.3.1
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -349,3 +349,5 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
