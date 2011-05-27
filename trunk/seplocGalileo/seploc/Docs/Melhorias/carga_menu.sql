@@ -28,7 +28,8 @@ INSERT INTO `tbl_menu` (`intMenu`, `vcrMenu`, `vcrAcao`, `intMenupai`, `chrHabil
 (23, 'GRUPO_ACESSO',     'Acessos Grupo',            5,    'S', 0, 2, CURRENT_TIMESTAMP),
 (24, 'REL_COBRADOR',     'Motoqueiro por Periodo',   4,    'S', 0, 2, CURRENT_TIMESTAMP),
 (25, 'REL_PLOTADOR',     'Plotador por Periodo',     4,    'S', 0, 3, CURRENT_TIMESTAMP),
-(26, 'REL_PRODUCAO',     'Producao Requisicao',      4,    'S', 0, 4, CURRENT_TIMESTAMP);
+(26, 'REL_PRODUCAO',     'Producao Requisicao',      4,    'S', 0, 4, CURRENT_TIMESTAMP),
+(27, 'REQ_PAGAMENTO',    'Requisicoes Pagamento',    2,    'S', 0, 5, CURRENT_TIMESTAMP);
 -- tbl_grupo
 INSERT INTO tbl_grupo (intGrupo,vcrGrupo)  VALUES
 (1,'SISTEMA'),
