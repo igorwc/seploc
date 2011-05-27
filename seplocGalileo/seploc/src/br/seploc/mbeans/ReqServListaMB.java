@@ -11,7 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.persistence.Query;
 import javax.servlet.ServletContext;
 
-import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.dao.pagedqueries.AllClientsPager;
 import br.seploc.dao.pagedqueries.FilteredNameClientesPager;
@@ -541,7 +540,7 @@ public class ReqServListaMB implements Serializable {
 			temp.setStatus(0);
 			temp.setVisivelNf(0);
 			temp.setVisivelReq(0);
-			temp.setOrcamento(0);
+			temp.setOrcamento("N");
 			// criar reqServ
 			reqServicoDAO.adiciona(temp);
 			// recuperar a requisicao
@@ -598,7 +597,6 @@ public class ReqServListaMB implements Serializable {
 	public List<Projeto> getTodosProjetos() {
 		List<Projeto> retorno = null;
 
-		ProjetoDAO projetoDAO = new ProjetoDAO();
 		// retorno = projetoDAO.getLista();
 		if (cliente == null || cliente.getIdCliente() == null
 				|| cliente.getIdCliente().intValue() == 0) {

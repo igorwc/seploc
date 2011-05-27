@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ColumnResult;
 import javax.persistence.Entity;
 import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
@@ -51,12 +50,12 @@ import javax.persistence.Version;
 			    + "IFNULL(MONTH(r.datData),1) as  MANAGER_NAME2 "
 				+ "FROM tbl_reqserv r, tbl_projetos p, tbl_clientes c " 
 				+ "where r.intCodProj = p.intCodProj and p.intClienteID = c.intClienteID "
-				+ "and c.intBalcao = :balcao and YEAR(r.datData) = YEAR(Now()) "
+				+ "and c.intBalcao = :balcao and YEAR(r.datData) = YEAR(Now()) and chrOrcamento = 'N' "
 				+ "group by MONTH(r.datData) " , resultSetMapping = "SQLNativo" ),
 		@NamedNativeQuery(name = "RequisicaoServico.ProducaoPeriodo", query = " SELECT count(1), IFNULL(SUM(r.dblValorTotal),0), IFNULL(SUM(r.dblValorDesc),0) "
 				+ "FROM tbl_reqserv r, tbl_projetos p, tbl_clientes c " 
 				+ "where r.intCodProj = p.intCodProj and p.intClienteID = c.intClienteID "
-				+ "and c.intBalcao = :balcao and r.datData between :dataIni and :dataFim "
+				+ "and c.intBalcao = :balcao and r.datData between :dataIni and :dataFim and chrOrcamento = 'N' "
 				+ "group by MONTH(r.datData) ", resultSetMapping = "SQLNativo"),				
 		@NamedNativeQuery(name = "RequisicaoServico.FiltraCliente", query = " SELECT * "
 				+ "FROM tbl_reqserv "
@@ -97,8 +96,8 @@ public class RequisicaoServico implements Serializable {
 	@Column(name = "intVisivelReq")
 	private Integer visivelReq;
 
-	@Column(name = "intOrcamento")
-	private Integer orcamento;
+	@Column(name = "chrOrcamento")
+	private String orcamento;
 
 	@Column(name = "dblDesconto")
 	private Double desconto;
@@ -140,7 +139,7 @@ public class RequisicaoServico implements Serializable {
 		setOpcionais(new ArrayList<ReqServicosOpcionais>());
 		setSaidasMotoqueiros(new ArrayList<SaidaMotoqueiro>());
 		setLinhaRequisicao(new ArrayList<LinhaRequisicao>());
-		setOrcamento(0);
+		setOrcamento("N");
 	}
 
 	public Integer getNumReq() {
@@ -247,11 +246,11 @@ public class RequisicaoServico implements Serializable {
 		this.visivelReq = visivelReq;
 	}
 
-	public void setOrcamento(Integer orcamento) {
+	public void setOrcamento(String orcamento) {
 		this.orcamento = orcamento;
 	}
 
-	public Integer getOrcamento() {
+	public String getOrcamento() {
 		return orcamento;
 	}
 
