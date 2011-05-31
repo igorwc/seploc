@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.xpath.XPathConstants;
+
 import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.migracao.ConnectionFactory;
@@ -22,6 +24,7 @@ import br.seploc.reports.beans.ClienteBean;
 import br.seploc.reports.beans.ImpressaoBean;
 import br.seploc.reports.beans.ReqServImpBean;
 import br.seploc.util.HtmlManipulator;
+import br.seploc.util.xmlConfig.XPathReader;
 import freemarker.template.TemplateException;
 
 public class RelListImpressaoReqServGenerator {
@@ -45,6 +48,7 @@ public class RelListImpressaoReqServGenerator {
 	private double valorTotalDesconto;
 	private int hasDesconto;
 	private Integer clienteID;
+	private String linha1,linha2,linha3,linha4;
 
 	public RelListImpressaoReqServGenerator() {
 		dados = new ArrayList<ArrayList<ReqServImpBean>>();
@@ -65,6 +69,10 @@ public class RelListImpressaoReqServGenerator {
 		valorTotalDesconto = 0.0;
 		hasDesconto = 0;
 		clienteID = 0;
+		linha1 ="";
+		linha2 ="";
+		linha3 ="";
+		linha4 ="";
 	}
 
 	public Integer getClienteID() {
@@ -217,7 +225,11 @@ public class RelListImpressaoReqServGenerator {
 		map.put("desconto", hasDesconto);
 		map.put("numRequisicao", numRequisicao);
 		map.put("nomeProjeto", nomeProjeto);
-
+		geraCabecalho();
+		map.put("linha1", linha1);
+		map.put("linha2", linha2);
+		map.put("linha3", linha3);
+		map.put("linha4", linha4);
 		return map;
 	}
 
@@ -314,8 +326,12 @@ public class RelListImpressaoReqServGenerator {
 				
 				bean.setSubtotal(formatter.format(r.getValorTotal()) + "");
 				bean.setSubtotalDesc(formatter.format(r.getValorTotalComDesconto()) + "");
-				formatter = new DecimalFormat("00");
-				bean.setDesconto(formatter.format(r.getDesconto()) + "%");
+//				formatter = new DecimalFormat("00");
+				Double d = new Double(0.);
+				if (r.getDesconto() != null){
+					d = r.getDesconto();
+				}
+				bean.setDesconto(formatter.format(d) + "%");
 				pagina.add(bean);
 				aux++;
 				if (aux > 12) {
@@ -373,7 +389,17 @@ public class RelListImpressaoReqServGenerator {
 		return retorno;
 
 	}
-
+	private void geraCabecalho(){
+		XPathReader reader = new XPathReader("src/META-INF/empresa.xml" );
+		String path = "/empresa/linha1";
+		linha1 = reader.read(path, 	XPathConstants.STRING) + "";
+		path = "/empresa/linha2";
+		linha2 = reader.read(path, XPathConstants.STRING) + "";
+		path = "/empresa/linha3";
+		linha3 = reader.read(path, XPathConstants.STRING) + "";
+		path = "/empresa/linha4";
+		linha4 = reader.read(path, XPathConstants.STRING) + "";
+	}
 	public String imprimeDados() {
 		String retorno = "";
 		try {

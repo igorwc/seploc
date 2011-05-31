@@ -13,8 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.xpath.XPathConstants;
+
 import br.seploc.dao.RequisicaoServicoDAO;
-import br.seploc.dao.UsuarioDAO;
 import br.seploc.migracao.ConnectionFactory;
 import br.seploc.pojos.Entrega;
 import br.seploc.pojos.ReqServUsuario;
@@ -22,6 +23,7 @@ import br.seploc.pojos.RequisicaoServico;
 import br.seploc.reports.beans.ClienteBean;
 import br.seploc.reports.beans.ImpressaoBean;
 import br.seploc.util.HtmlManipulator;
+import br.seploc.util.xmlConfig.XPathReader;
 import freemarker.template.TemplateException;
 
 public class ReportImpressaoReqServGenerator {
@@ -44,6 +46,7 @@ public class ReportImpressaoReqServGenerator {
 	private int hasDesconto;
 	private String localEntrega;
 	private int orcamento;
+	private String linha1,linha2,linha3,linha4;
 
 	public ReportImpressaoReqServGenerator() {
 		dados = new ArrayList<ArrayList<ImpressaoBean>>();
@@ -63,6 +66,10 @@ public class ReportImpressaoReqServGenerator {
 		hasDesconto = 0;
 		localEntrega = "";
 		orcamento = 0;
+		linha1 ="";
+		linha2 ="";
+		linha3 ="";
+		linha4 ="";
 	}
 
 	public String getDir() {
@@ -119,6 +126,17 @@ public class ReportImpressaoReqServGenerator {
 
 	}
 
+	private void geraCabecalho(){
+		XPathReader reader = new XPathReader("src/META-INF/empresa.xml" );
+		String path = "/empresa/linha1";
+		linha1 = reader.read(path, 	XPathConstants.STRING) + "";
+		path = "/empresa/linha2";
+		linha2 = reader.read(path, XPathConstants.STRING) + "";
+		path = "/empresa/linha3";
+		linha3 = reader.read(path, XPathConstants.STRING) + "";
+		path = "/empresa/linha4";
+		linha4 = reader.read(path, XPathConstants.STRING) + "";
+	}
 	private void geraDadosOperador() {
 		String sql = "SELECT vcrLoginAlter AS login, datdataAlter AS data "
 				+ "FROM tbl_reqservusuario " + "WHERE intNumReq = ?";
@@ -171,7 +189,7 @@ public class ReportImpressaoReqServGenerator {
 				return;
 			}
 			if (rs.getOrcamento() != null) {
-				if (rs.getOrcamento() != 0) {
+				if (rs.getOrcamento().equals("N")) {
 					orcamento = 1;
 				} else {
 					orcamento = 0;
@@ -314,6 +332,11 @@ public class ReportImpressaoReqServGenerator {
 		map.put("desconto", hasDesconto);
 		map.put("numRequisicao", numRequisicao);
 		map.put("nomeProjeto", nomeProjeto);
+		geraCabecalho();
+		map.put("linha1", linha1);
+		map.put("linha2", linha2);
+		map.put("linha3", linha3);
+		map.put("linha4", linha4);
 
 		return map;
 	}
