@@ -11,10 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.xpath.XPathConstants;
+
 import br.seploc.dao.CobradorDAO;
 import br.seploc.reports.beans.CobradorBeanGrid;
 import br.seploc.util.HtmlManipulator;
 import br.seploc.util.Utils;
+import br.seploc.util.xmlConfig.XPathReader;
 import freemarker.template.TemplateException;
 
 public class RelListaReqServPorCobrador implements Serializable {
@@ -24,14 +27,29 @@ public class RelListaReqServPorCobrador implements Serializable {
 	private Date dataInicio;
 	private Date dataFim;
 	private int paginas;
+	private String linha1,linha2,linha3,linha4;
 
 	public RelListaReqServPorCobrador() {
 		dados = new ArrayList<ArrayList<CobradorBeanGrid>>();
 		paginas = 0;
 		dataInicio = Utils.getDataInicioMesCorrente();
 		dataFim = Utils.getDataFinalMesCorrente();
+		linha1 ="";
+		linha2 ="";
+		linha3 ="";
+		linha4 ="";
 	}
-
+	private void geraCabecalho(){
+		XPathReader reader = new XPathReader("src/META-INF/empresa.xml" );
+		String path = "/empresa/linha1";
+		linha1 = reader.read(path, 	XPathConstants.STRING) + "";
+		path = "/empresa/linha2";
+		linha2 = reader.read(path, XPathConstants.STRING) + "";
+		path = "/empresa/linha3";
+		linha3 = reader.read(path, XPathConstants.STRING) + "";
+		path = "/empresa/linha4";
+		linha4 = reader.read(path, XPathConstants.STRING) + "";
+	}
 	public void geraDados() {
 		int contador = 1;
 		int quantidadeCob = 0;
@@ -110,6 +128,11 @@ public class RelListaReqServPorCobrador implements Serializable {
 		map.put("paginacao", 1);
 		map.put("current_date", new Date());
 		map.put("paginacao_total", paginas);
+		geraCabecalho();
+		map.put("linha1", linha1);
+		map.put("linha2", linha2);
+		map.put("linha3", linha3);
+		map.put("linha4", linha4);
 		return map;
 	}
 

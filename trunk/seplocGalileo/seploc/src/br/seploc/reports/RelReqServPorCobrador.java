@@ -9,12 +9,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.xpath.XPathConstants;
+
 import br.seploc.dao.CobradorDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.pojos.Cobrador;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.reports.beans.ReqServImpBean;
 import br.seploc.util.HtmlManipulator;
+import br.seploc.util.xmlConfig.XPathReader;
 import freemarker.template.TemplateException;
 
 public class RelReqServPorCobrador implements Serializable {
@@ -27,6 +30,7 @@ public class RelReqServPorCobrador implements Serializable {
 	private String cobrador;
 	private double valorTotal;
 	private int paginas;
+	private String linha1,linha2,linha3,linha4;
 
 	public RelReqServPorCobrador() {
 		dados = new ArrayList<ArrayList<ReqServImpBean>>();
@@ -34,13 +38,30 @@ public class RelReqServPorCobrador implements Serializable {
 		listaRequisicoes = new ArrayList<RequisicaoServico>();
 		paginas = 0;
 		valorTotal = 0.0;
+		linha1 ="";
+		linha2 ="";
+		linha3 ="";
+		linha4 ="";
 	}
 
-	private void recuperaCobrador(){
+	private void recuperaCobrador() {
 		CobradorDAO dao = new CobradorDAO();
 		Cobrador c = dao.recupera(cobradorID);
 		this.cobrador = c.getNome();
 	}
+
+	private void geraCabecalho() {
+		XPathReader reader = new XPathReader("src/META-INF/empresa.xml");
+		String path = "/empresa/linha1";
+		linha1 = reader.read(path, XPathConstants.STRING) + "";
+		path = "/empresa/linha2";
+		linha2 = reader.read(path, XPathConstants.STRING) + "";
+		path = "/empresa/linha3";
+		linha3 = reader.read(path, XPathConstants.STRING) + "";
+		path = "/empresa/linha4";
+		linha4 = reader.read(path, XPathConstants.STRING) + "";
+	}
+	
 	public void geraDados() {
 		int contador = 1;
 		int quantidadeReq = 0;
@@ -148,6 +169,11 @@ public class RelReqServPorCobrador implements Serializable {
 		map.put("current_date", new Date());
 		map.put("paginacao_total", paginas);
 		map.put("valor_total", valorTotal);
+		geraCabecalho();
+		map.put("linha1", linha1);
+		map.put("linha2", linha2);
+		map.put("linha3", linha3);
+		map.put("linha4", linha4);
 		return map;
 	}
 
