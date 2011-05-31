@@ -85,7 +85,7 @@
 								</h:panelGroup>
 							</f:facet>
 							<rich:menuItem disabled="#{sessionScope.BALCAO}" submitMode="ajax" value="#{msgs['menu.raiz.requisicao.clibalcao']}" icon="../imgs/icons/atendimento.png" onclick="document.location.href='../requisicao/reqServBalcao.jsf'" />
-							<rich:menuItem disabled="#{sessionScope.REQ_CLIENTE}" submitMode="nome" value="#{msgs['menu.raiz.requisicao.clicadastrado']}" icon="../imgs/icons/sacola.png"  onclick="document.location.href='../requisicao/reqServCliente.jsf'" />
+							<rich:menuItem disabled="#{sessionScope.REQ_CLIENTE}" submitMode="ajax" value="#{msgs['menu.raiz.requisicao.clicadastrado']}" icon="../imgs/icons/sacola.png"  onclick="document.location.href='../requisicao/reqServCliente.jsf'" />
 							<rich:menuSeparator id="menuSeparator2" />
 							<rich:menuItem disabled="#{sessionScope.REQUISICOES}" submitMode="ajax" value="#{msgs['menu.raiz.requisicao.listarreq']}" actionListener="#{reqServListaCB.limpaBean}" icon="../imgs/icons/copy.gif" onclick="document.location.href='../requisicao/reqServLista.jsf'"/>
 							<rich:menuItem disabled="#{sessionScope.SAIDA_REQ}" submitMode="ajax" value="#{msgs['menu.raiz.requisicao.listarreqsaida']}" action="#" icon="../imgs/icons/copy.gif" onclick="document.location.href='../requisicao/reqServListaSaida.jsf'"/>
