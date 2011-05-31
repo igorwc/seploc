@@ -21,6 +21,17 @@
    font-weight: bold;
 }
 
+.numReq {
+   font-weight: bold;
+   font-size: 16px;
+}
+
+.textoMsg {
+   font-weight: bold;
+   font-size: 14px;
+   blockquote { letter-spacing: 2 }
+}
+
 .reqtable th {
     padding: 3px 5px 2px 5px;
     font-size: 10px;
@@ -68,15 +79,14 @@
             cellpadding="2" cellspacing="2" class="tabprim">
             <tbody>
                 <tr>
-                    <td>Copytec - M. Alves dos Santos - ME<br>
+                    <td>${linha1}<br>
+                    ${linha2}<br>
+                    ${linha3}<br>
+                    ${linha4}</td>
 
-                    Rua Estrada do Barbalho, n 219 - Iputinga<br>
-
-                    CEP: 50800-290 - FONE/FAX: (81) 3273-4711/3274-3569<br>
-
-                    CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0</td>
-
-                    <td valign="bottom">Impress&atilde;o:
+					<td valign="bottom">Requisi&ccedil;&atilde;o: <font class="numReq">${numRequisicao}</font><br>
+                    
+                    Impress&atilde;o:
                     ${current_date?string("dd-MM-yyyy")}<br>
 
                     P&aacute;gina: ${counter}/${paginacao_total}</td>
@@ -123,16 +133,11 @@
             cellpadding="2" cellspacing="2" class="tabprim">
             <tbody>
                 <tr>
-                    <td style="width: 20%"> Requisi&ccedil;&atilde;o: ${numRequisicao}  </td>
-                    <td style="width: 60%"> Projeto: ${nomeProjeto}  </td>
-                    <td style="width: 20%"> <b>
+                    <td style="width: 40%"> Projeto: ${nomeProjeto}  </td>
+                    <td style="width: 60%"><font class="textoMsg">
                             <#if orcamento == 1>
-                                ORCAMENTO
-                            </#if>
-                             <#if orcamento == 0>
-                                PAGAMENTO
-                            </#if>
-                        </b>  
+                           O R C A M E N T O
+                        </#if></font>  
                    </td> 
                 </tr>
 
@@ -144,15 +149,15 @@
             cellpadding="2" cellspacing="2" class="reqtable">
             <tbody>
                 <tr class="cab">
-                    <th style="width: 5%">Item</th>
-                    <th style="width: 25%">Arquivo</th>
-                    <th style="width: 10%">Form</th>
-                    <th style="width: 10%">Dim.</th>
-                    <th style="width: 15%">Papel</th>
-                    <th style="width: 10%">Imp.</th>
+                    <th style="width: 4%">Item</th>
+                    <th style="width: 35%">Arquivo</th>
+                    <th style="width: 6%">Form.</th>
+                    <th style="width: 4%">Dim.</th>
+                    <th style="width: 22%">Papel</th>
+                    <th style="width: 7%">Impr.</th>
                     <th style="width: 5%">Qtd.</th>
-                    <th style="width: 10%">Valor Unit</th>
-                    <th style="width: 10%">SubTotal</th>
+                    <th style="width: 9%">Valor Unit</th>
+                    <th style="width: 8%">SubTotal</th>
                 </tr>
                 <#assign row=0> <#list linha as elemento>
                 <tr  class="<#if (row % 2) == 0 >alt<#else>nada</#if>" >
@@ -176,8 +181,9 @@
            <#if desconto == 0>
                 <tr>
                     <td style="width: 5%">Entrega:</td>
-                    <td style="width: 25%" colspan="2">R$ ${entrega} - ${localEntrega}</td>
-                    <td style="width: 25%"></td>
+                    <td style="width: 10%">R$ ${entrega}</td>
+                    <td style="width: 5%"></td>
+                    <td style="width: 45%"></td>
                     <td style="width: 20%; text-align: right;">
                         <#if counter == paginacao_total>
                             Total do Projeto (R$):
@@ -194,7 +200,9 @@
            <#if desconto == 1>
                 <tr>
                     <td style="width: 5%">Entrega:</td>
-                    <td style="width: 25%" colspan="3">R$ ${entrega} - ${localEntrega}</td>
+                    <td style="width: 10%">R$ ${entrega}</td>
+                    <td style="width: 5%"> </td>
+                    <td style="width: 10%"> </td>
                     <td style="width: 20%; text-align: right;">
                         <#if counter == paginacao_total>
                             Total do Projeto (R$):
@@ -245,13 +253,10 @@
             cellpadding="2" cellspacing="2" class="tabprim">
             <tbody>
                 <tr>
-                    <td>Copytec - M. Alves dos Santos - ME<br>
-
-                    Rua Estrada do Barbalho, n 219 - Iputinga<br>
-
-                    CEP: 50800-290 - FONE/FAX: (81) 3273-4711/3274-3569<br>
-
-                    CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0</td>
+                    <td>${linha1}<br>
+                    ${linha2}<br>
+                    ${linha3}<br>
+                    ${linha4}</td>
                     <td valign="bottom">Impress&atilde;o:
                     ${current_date?string("dd-MM-yyyy")}<br>
 
@@ -298,16 +303,11 @@
             cellpadding="2" cellspacing="2" class="tabprim">
             <tbody>
                 <tr>
-                   <td style="width: 20%"> Requisi&ccedil;&atilde;o: ${numRequisicao}  </td>
-                    <td style="width: 60%"> Projeto: ${nomeProjeto}  </td>
-                    <td style="width: 20%"> <b>
+                    <td style="width: 40%"> Projeto: ${nomeProjeto}  </td>
+                    <td style="width: 60%"><font class="textoMsg">
                             <#if orcamento == 1>
-                                ORCAMENTO
-                            </#if>
-                             <#if orcamento == 0>
-                                PAGAMENTO
-                            </#if>
-                        </b>  
+                           O R C A M E N T O
+                        </#if></font>  
                    </td> 
                 </tr>
 
@@ -321,10 +321,10 @@
                 <tr>
                     <th>Item</th>
                     <th>Arquivo</th>
-                    <th>Form</th>
+                    <th>Form.</th>
                     <th>Dim.</th>
                     <th>Papel</th>
-                    <th>Imp.</th>
+                    <th>Impr.</th>
                     <th>Qtd</th>
                     <th>Valor Unit</th>
                     <th>SubTotal</th>
@@ -348,8 +348,9 @@
             <#if desconto == 0>
                 <tr>
                      <td style="width: 5%">Entrega:</td>
-                    <td style="width: 25%" colspan="2">R$ ${entrega} - ${localEntrega}</td>
-                    <td style="width: 25%"></td>
+                    <td style="width: 10%">R$ ${entrega}</td>
+                    <td style="width: 5%"></td>
+                    <td style="width: 45%"></td>
                     <td style="width: 20%; text-align: right;">
                         <#if counter == paginacao_total>
                             Total do Projeto (R$):
@@ -366,7 +367,9 @@
            <#if desconto == 1>
                 <tr>
                     <td style="width: 5%">Entrega:</td>
-                    <td style="width: 25%" colspan="3">R$ ${entrega} - ${localEntrega}</td>
+                    <td style="width: 10%">R$ ${entrega}</td>
+                    <td style="width: 5%"> </td>
+                    <td style="width: 10%"> </td>
                     <td style="width: 20%; text-align: right;">
                         <#if counter == paginacao_total>
                             Total do Projeto (R$):

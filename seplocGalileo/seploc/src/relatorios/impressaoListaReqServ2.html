@@ -3,7 +3,13 @@
 <head>
 
 <link rel="stylesheet" type="text/css" href="estilo.css" media="print" />
+<script language="Javascript1.2">
 
+  function printpage() {
+  window.print();
+  }
+  
+</script>
 
 <title>Impress&atilde;o requisi&ccedil;&atilde;o servi&ccedil;o</title>
 <style type="text/css">
@@ -14,6 +20,7 @@
 .cab {
    font-weight: bold;
 }
+ 
 
 .reqtable th {
     padding: 3px 5px 2px 5px;
@@ -49,7 +56,7 @@
 </style>
 
 </head>
-<body style="font: serif; font-size: 9px;">
+<body style="font: serif; font-size: 9px;" onload="printpage()">
 
 <div> 
 
@@ -62,16 +69,21 @@
             cellpadding="2" cellspacing="2" class="tabprim">
             <tbody>
                 <tr>
-                    <td>Copytec - M. Alves dos Santos - ME<br>
-
-                    Rua Estrada do Barbalho, n 219 - Iputinga<br>
-
-                    CEP: 50800-290 - FONE/FAX: (81) 3273-4711/3274-3569<br>
-
-                    CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0</td>
+                    <td>
+        Copytec - M. Alves dos Santos - ME
+    <br>
+                    
+        Rua Estrada do Barbalho, n 219 - Iputinga
+    <br>
+                    
+        CEP: 50800-290 - FONE/FAX: (81) 3273-4711/3274-3569
+    <br>
+                    
+        CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
+    </td>
 
                     <td valign="bottom">Impress&atilde;o:
-                    17-04-2011<br>
+                    30-05-2011<br>
 
                     P&aacute;gina: 1/2</td>
                 </tr>
@@ -116,133 +128,107 @@
             cellpadding="2" cellspacing="2" class="reqtable">
             <tbody>
                 <tr class="cab">
-                    <th style="width: 5%">Seq</th>
-                    <th style="width: 7%">Num. Req.</th>
-                    <th style="width: 8%">Data</th>
-                    <th style="width: 40%">Projeto</th>
-                    <th style="width: 15%">Subtotal</th>
-                    <th style="width: 15%">Subtotal c/ Desc.</th>
-                    <th style="width: 10%">Desconto</th>
+                    <th style="width: 5%">Item</th>
+                    <th style="width: 10%">Requisi&ccedil;&atilde;o</th>
+                    <th style="width: 60%">Projeto</th>
+                    <th style="width: 10%">Data</th>
+                    <th style="width: 15%">SubTotal (R$)</th>
                 </tr>
                  
            <tr  class="alt" >
                 <td>1</td>
-                <td>78105</td>
-                <td>02/04/2009</td>
+                <td style="text-align: center;">78105</td>                
                 <td>GONÇALVES/VALDENIO</td>
-                <td>54,64</td>
-                <td>54,64</td>
-                <td>00%</td>
+                <td style="text-align: center;">02-04-2009</td>
+                <td style="text-align: right;">54,64</td>                
             </tr>
                  
            <tr  class="nada" >
                 <td>2</td>
-                <td>78109</td>
-                <td>02/04/2009</td>
+                <td style="text-align: center;">78109</td>                
                 <td>GONÇALVES/VALDENIO</td>
-                <td>25,00</td>
-                <td>25,00</td>
-                <td>00%</td>
+                <td style="text-align: center;">02-04-2009</td>
+                <td style="text-align: right;">25,00</td>                
             </tr>
                  
            <tr  class="alt" >
                 <td>3</td>
-                <td>78735</td>
-                <td>15/04/2009</td>
+                <td style="text-align: center;">78735</td>                
                 <td>GONÇALVE/FERNANDO</td>
-                <td>356,00</td>
-                <td>356,00</td>
-                <td>00%</td>
+                <td style="text-align: center;">15-04-2009</td>
+                <td style="text-align: right;">356,00</td>                
             </tr>
                  
            <tr  class="nada" >
                 <td>4</td>
-                <td>79209</td>
-                <td>27/04/2009</td>
+                <td style="text-align: center;">79209</td>                
                 <td>PROJETOS FERNANDO</td>
-                <td>23,79</td>
-                <td>23,79</td>
-                <td>00%</td>
+                <td style="text-align: center;">27-04-2009</td>
+                <td style="text-align: right;">23,79</td>                
             </tr>
                  
            <tr  class="alt" >
                 <td>5</td>
-                <td>80507</td>
-                <td>19/05/2009</td>
+                <td style="text-align: center;">80507</td>                
                 <td>GONÇALVE/FERNANDO</td>
-                <td>20,00</td>
-                <td>20,00</td>
-                <td>00%</td>
+                <td style="text-align: center;">19-05-2009</td>
+                <td style="text-align: right;">20,00</td>                
             </tr>
                  
            <tr  class="nada" >
                 <td>6</td>
-                <td>80598</td>
-                <td>20/05/2009</td>
+                <td style="text-align: center;">80598</td>                
                 <td>GONÇALVE/FERNANDO</td>
-                <td>153,89</td>
-                <td>153,89</td>
-                <td>00%</td>
+                <td style="text-align: center;">20-05-2009</td>
+                <td style="text-align: right;">153,89</td>                
             </tr>
                  
            <tr  class="alt" >
                 <td>7</td>
-                <td>80765</td>
-                <td>25/05/2009</td>
+                <td style="text-align: center;">80765</td>                
                 <td>GONÇALVE/FERNANDO</td>
-                <td>12,76</td>
-                <td>12,76</td>
-                <td>00%</td>
+                <td style="text-align: center;">25-05-2009</td>
+                <td style="text-align: right;">12,76</td>                
             </tr>
                  
            <tr  class="nada" >
                 <td>8</td>
-                <td>81722</td>
-                <td>09/06/2009</td>
+                <td style="text-align: center;">81722</td>                
                 <td>PROJETOS FERNANDO</td>
-                <td>15,21</td>
-                <td>15,21</td>
-                <td>00%</td>
+                <td style="text-align: center;">09-06-2009</td>
+                <td style="text-align: right;">15,21</td>                
             </tr>
                  
            <tr  class="alt" >
                 <td>9</td>
-                <td>81725</td>
-                <td>09/06/2009</td>
+                <td style="text-align: center;">81725</td>                
                 <td>PROJETOS FERNANDO</td>
-                <td>16,55</td>
-                <td>14,90</td>
-                <td>10%</td>
+                <td style="text-align: center;">09-06-2009</td>
+                <td style="text-align: right;">16,55</td>                
             </tr>
                  
            <tr  class="nada" >
                 <td>10</td>
-                <td>82339</td>
-                <td>19/06/2009</td>
+                <td style="text-align: center;">82339</td>                
                 <td>GONÇALVE/FERNANDO</td>
-                <td>10,23</td>
-                <td>10,23</td>
-                <td>00%</td>
+                <td style="text-align: center;">19-06-2009</td>
+                <td style="text-align: right;">10,23</td>                
             </tr>
                  
            <tr  class="alt" >
                 <td>11</td>
-                <td>82342</td>
-                <td>19/06/2009</td>
+                <td style="text-align: center;">82342</td>                
                 <td>GONÇALVE/FERNANDO</td>
-                <td>179,08</td>
-                <td>179,08</td>
-                <td>00%</td>
+                <td style="text-align: center;">19-06-2009</td>
+                <td style="text-align: right;">179,08</td>                
             </tr>
                  
            <tr  class="nada" >
                 <td>12</td>
-                <td>82446</td>
-                <td>22/06/2009</td>
+                <td style="text-align: center;">82446</td>                
                 <td>PROJETOS FERNANDO</td>
-                <td>44,80</td>
-                <td>44,80</td>
-                <td>00%</td>
+                <td style="text-align: center;">22-06-2009</td>
+                <td style="text-align: right;">44,80</td>                
             </tr>
                  
                 <tr    >
@@ -251,16 +237,13 @@
         <hr style="color: #000000;" size="1">
         <table width="100%" class="tabprim">
                 <tr>
-                    <td style="width: 20%"> </td>
-                    <td style="width: 10%"> </td>
+                    <td style="width: 30%"> </td>
+                    <td style="width: 40%"> </td>
                     <td style="width: 20%; text-align: right;">
                     </td>
                     <td style="width: 10%; text-align: left;">
                     </td>
-                    <td style="width: 30%; text-align: right;">
-                    </td>
-                    <td style="width: 10%; text-align: left;">
-                    </td>
+                     
                 </tr>
         </table>
         </td>
@@ -279,16 +262,21 @@
             cellpadding="2" cellspacing="2" class="tabprim">
             <tbody>
                 <tr>
-                    <td>Copytec - M. Alves dos Santos - ME<br>
-
-                    Rua Estrada do Barbalho, n 219 - Iputinga<br>
-
-                    CEP: 50800-290 - FONE/FAX: (81) 3273-4711/3274-3569<br>
-
-                    CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0</td>
+                    <td>
+        Copytec - M. Alves dos Santos - ME
+    <br>
+                    
+        Rua Estrada do Barbalho, n 219 - Iputinga
+    <br>
+                    
+        CEP: 50800-290 - FONE/FAX: (81) 3273-4711/3274-3569
+    <br>
+                    
+        CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0
+    </td>
 
                     <td valign="bottom">Impress&atilde;o:
-                    17-04-2011<br>
+                    30-05-2011<br>
 
                     P&aacute;gina: 2/2</td>
                 </tr>
@@ -333,133 +321,107 @@
             cellpadding="2" cellspacing="2" class="reqtable">
             <tbody>
                 <tr class="cab">
-                    <th style="width: 5%">Seq</th>
-                    <th style="width: 7%">Num. Req.</th>
-                    <th style="width: 8%">Data</th>
-                    <th style="width: 40%">Projeto</th>
-                    <th style="width: 15%">Subtotal</th>
-                    <th style="width: 15%">Subtotal c/ Desc.</th>
-                    <th style="width: 10%">Desconto</th>
+                    <th style="width: 5%">Item</th>
+                    <th style="width: 10%">Requisi&ccedil;&atilde;o</th>
+                    <th style="width: 60%">Projeto</th>
+                    <th style="width: 10%">Data</th>
+                    <th style="width: 15%">SubTotal (R$)</th>
                 </tr>
                  
            <tr  class="alt" >
                 <td>13</td>
-                <td>82480</td>
-                <td>23/06/2009</td>
+                <td style="text-align: center;">82480</td>                
                 <td>GONÇALVE/FERNANDO</td>
-                <td>3,31</td>
-                <td>3,31</td>
-                <td>00%</td>
+                <td style="text-align: center;">23-06-2009</td>
+                <td style="text-align: right;">3,31</td>                
             </tr>
                  
            <tr  class="nada" >
                 <td>14</td>
-                <td>82702</td>
-                <td>29/06/2009</td>
+                <td style="text-align: center;">82702</td>                
                 <td>GONÇALVE/FERNANDO</td>
-                <td>15,54</td>
-                <td>15,54</td>
-                <td>00%</td>
+                <td style="text-align: center;">29-06-2009</td>
+                <td style="text-align: right;">15,54</td>                
             </tr>
                  
            <tr  class="alt" >
                 <td>15</td>
-                <td>82967</td>
-                <td>03/07/2009</td>
+                <td style="text-align: center;">82967</td>                
                 <td>PROJETOS FERNANDO</td>
-                <td>2,40</td>
-                <td>2,40</td>
-                <td>00%</td>
+                <td style="text-align: center;">03-07-2009</td>
+                <td style="text-align: right;">2,40</td>                
             </tr>
                  
            <tr  class="nada" >
                 <td>16</td>
-                <td>82970</td>
-                <td>03/07/2009</td>
+                <td style="text-align: center;">82970</td>                
                 <td>PROJETOS FERNANDO</td>
-                <td>89,00</td>
-                <td>89,00</td>
-                <td>00%</td>
+                <td style="text-align: center;">03-07-2009</td>
+                <td style="text-align: right;">89,00</td>                
             </tr>
                  
            <tr  class="alt" >
                 <td>17</td>
+                <td style="text-align: center;"></td>                
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: right;"></td>                
             </tr>
                  
            <tr  class="nada" >
                 <td>18</td>
+                <td style="text-align: center;"></td>                
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: right;"></td>                
             </tr>
                  
            <tr  class="alt" >
                 <td>19</td>
+                <td style="text-align: center;"></td>                
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: right;"></td>                
             </tr>
                  
            <tr  class="nada" >
                 <td>20</td>
+                <td style="text-align: center;"></td>                
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: right;"></td>                
             </tr>
                  
            <tr  class="alt" >
                 <td>21</td>
+                <td style="text-align: center;"></td>                
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: right;"></td>                
             </tr>
                  
            <tr  class="nada" >
                 <td>22</td>
+                <td style="text-align: center;"></td>                
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: right;"></td>                
             </tr>
                  
            <tr  class="alt" >
                 <td>23</td>
+                <td style="text-align: center;"></td>                
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: right;"></td>                
             </tr>
                  
            <tr  class="nada" >
                 <td>24</td>
+                <td style="text-align: center;"></td>                
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: right;"></td>                
             </tr>
                  
                 <tr    >
@@ -468,20 +430,15 @@
         <hr style="color: #000000;" size="1">
         <table width="100%" class="tabprim">
                 <tr>
-                    <td style="width: 20%"> </td>
-                    <td style="width: 10%"> </td>
+                    <td style="width: 30%"> </td>
+                    <td style="width: 40%"> </td>
                     <td style="width: 20%; text-align: right;">
                             Total do Projeto (R$):
                     </td>
                     <td style="width: 10%; text-align: left;">
                             R$ 1.022,20
                     </td>
-                    <td style="width: 30%; text-align: right;">
-                            Total do Projeto com Desconto(R$):
-                    </td>
-                    <td style="width: 10%; text-align: left;">
-                            R$ 1.020,54
-                    </td>
+                     
                 </tr>
         </table>
         </td>
