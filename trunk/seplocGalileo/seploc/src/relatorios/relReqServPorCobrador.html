@@ -4,7 +4,13 @@
 <head>
 
 <link rel="stylesheet" type="text/css" href="estilo.css" media="print"  />
+ <script language="Javascript1.2">
  
+  function printpage() {
+  window.print();
+  }
+  
+</script>
 
 <title>Requisi&ccedil;&atilde;o servi&ccedil;o por Cobrador</title>
 <style type="text/css">
@@ -50,7 +56,7 @@
 </style>
 
 </head>
-<body style="font: serif; font-size: 9px;">
+<body style="font: serif; font-size: 9px;" onload="printpage()">
 
 <div> 
 <#assign counter=1> 
@@ -64,13 +70,10 @@
             cellpadding="2" cellspacing="2" class="tabprim">
             <tbody>
                 <tr>
-                    <td>Copytec - M. Alves dos Santos - ME<br>
-
-                    Rua Estrada do Barbalho, n 219 - Iputinga<br>
-
-                    CEP: 50800-290 - FONE/FAX: (81) 3273-4711/3274-3569<br>
-
-                    CNPJ:03.138.238/0001-76 - Insc. Munic. 299.052-0</td>
+                    <td>${linha1}<br>
+                    ${linha2}<br>
+                    ${linha3}<br>
+                    ${linha4}</td>
 
                     <td valign="bottom">Impress&atilde;o:
                     ${current_date?string("dd-MM-yyyy")}<br>
