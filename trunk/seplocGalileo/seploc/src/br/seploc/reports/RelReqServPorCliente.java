@@ -32,6 +32,15 @@ public class RelReqServPorCliente implements Serializable {
 	private double valorTotal;
 	private int paginas;
 	private String linha1,linha2,linha3,linha4;
+	private String xmlPath;
+	
+	
+	public String getXmlPath() {
+		return xmlPath;
+	}
+	public void setXmlPath(String xmlPath) {
+		this.xmlPath = xmlPath;
+	}
 	
 	public RelReqServPorCliente() {
 		dados = new ArrayList<ArrayList<ReqServImpBean>>();
@@ -45,10 +54,10 @@ public class RelReqServPorCliente implements Serializable {
 		linha2 ="";
 		linha3 ="";
 		linha4 ="";
-
+		xmlPath = "src/META-INF/empresa.xml";
 	}
 	private void geraCabecalho(){
-		XPathReader reader = new XPathReader("src/META-INF/empresa.xml" );
+		XPathReader reader = new XPathReader(xmlPath);
 		String path = "/empresa/linha1";
 		linha1 = reader.read(path, 	XPathConstants.STRING) + "";
 		path = "/empresa/linha2";

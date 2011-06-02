@@ -49,6 +49,16 @@ public class RelListImpressaoReqServGenerator {
 	private int hasDesconto;
 	private Integer clienteID;
 	private String linha1,linha2,linha3,linha4;
+	private String xmlPath;
+	
+
+	public String getXmlPath() {
+		return xmlPath;
+	}
+
+	public void setXmlPath(String xmlPath) {
+		this.xmlPath = xmlPath;
+	}
 
 	public RelListImpressaoReqServGenerator() {
 		dados = new ArrayList<ArrayList<ReqServImpBean>>();
@@ -390,7 +400,7 @@ public class RelListImpressaoReqServGenerator {
 
 	}
 	private void geraCabecalho(){
-		XPathReader reader = new XPathReader("src/META-INF/empresa.xml" );
+		XPathReader reader = new XPathReader(xmlPath );
 		String path = "/empresa/linha1";
 		linha1 = reader.read(path, 	XPathConstants.STRING) + "";
 		path = "/empresa/linha2";
