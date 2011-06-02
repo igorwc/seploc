@@ -50,8 +50,7 @@ public class RelatorioServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		request.getRealPath("/WEB-INF/reports/");
-		;
+		 
 		String d = getServletContext().getRealPath(
 				"/WEB-INF/reports/impressaoReqServ.html").substring(
 				0,
@@ -71,6 +70,13 @@ public class RelatorioServlet extends HttpServlet {
 		Connection conexao = new ConnectionFactory().getConnection(host,db,
 				user, passwd);
 		int reqID = Integer.parseInt(request.getParameter("reqID"));
+		String xml = getServletContext().getRealPath(
+		"/WEB-INF/config/empresa.xml").substring(
+		0,
+		getServletContext().getRealPath(
+				"/WEB-INF/config/empresa.xml").indexOf(
+				"empresa.xml"))+"empresa.xml";
+		rr.setXmlPath(xml);
 		rr.setConnection(conexao);
 		rr.setNumRequisicao(reqID);
 		rr.geraDados();
