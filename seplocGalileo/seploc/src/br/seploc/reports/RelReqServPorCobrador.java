@@ -31,6 +31,7 @@ public class RelReqServPorCobrador implements Serializable {
 	private double valorTotal;
 	private int paginas;
 	private String linha1,linha2,linha3,linha4;
+	private String xmlPath;
 
 	public RelReqServPorCobrador() {
 		dados = new ArrayList<ArrayList<ReqServImpBean>>();
@@ -42,6 +43,7 @@ public class RelReqServPorCobrador implements Serializable {
 		linha2 ="";
 		linha3 ="";
 		linha4 ="";
+		xmlPath = "src/META-INF/empresa.xml";
 	}
 
 	private void recuperaCobrador() {
@@ -51,7 +53,7 @@ public class RelReqServPorCobrador implements Serializable {
 	}
 
 	private void geraCabecalho() {
-		XPathReader reader = new XPathReader("src/META-INF/empresa.xml");
+		XPathReader reader = new XPathReader(xmlPath);
 		String path = "/empresa/linha1";
 		linha1 = reader.read(path, XPathConstants.STRING) + "";
 		path = "/empresa/linha2";
@@ -215,6 +217,15 @@ public class RelReqServPorCobrador implements Serializable {
 	public void setListaReqServIds(List<Integer> listaReqServIds) {
 		this.listaReqServIds = listaReqServIds;
 	}
+	
+	public String getXmlPath() {
+		return xmlPath;
+	}
+
+	public void setXmlPath(String xmlPath) {
+		this.xmlPath = xmlPath;
+	}
+
 	public static void main(String[] args) {
 		RelReqServPorCobrador rr = new RelReqServPorCobrador();
 		List<Integer> lista = new ArrayList<Integer>();

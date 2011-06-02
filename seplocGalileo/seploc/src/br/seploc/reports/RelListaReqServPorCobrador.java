@@ -27,22 +27,33 @@ public class RelListaReqServPorCobrador implements Serializable {
 	private Date dataInicio;
 	private Date dataFim;
 	private int paginas;
-	private String linha1,linha2,linha3,linha4;
+	private String linha1, linha2, linha3, linha4;
+	private String xmlPath;
 
 	public RelListaReqServPorCobrador() {
 		dados = new ArrayList<ArrayList<CobradorBeanGrid>>();
 		paginas = 0;
 		dataInicio = Utils.getDataInicioMesCorrente();
 		dataFim = Utils.getDataFinalMesCorrente();
-		linha1 ="";
-		linha2 ="";
-		linha3 ="";
-		linha4 ="";
+		linha1 = "";
+		linha2 = "";
+		linha3 = "";
+		linha4 = "";
+		xmlPath = "src/META-INF/empresa.xml";
 	}
-	private void geraCabecalho(){
-		XPathReader reader = new XPathReader("src/META-INF/empresa.xml" );
+
+	public String getXmlPath() {
+		return xmlPath;
+	}
+
+	public void setXmlPath(String xmlPath) {
+		this.xmlPath = xmlPath;
+	}
+
+	private void geraCabecalho() {
+		XPathReader reader = new XPathReader(xmlPath);
 		String path = "/empresa/linha1";
-		linha1 = reader.read(path, 	XPathConstants.STRING) + "";
+		linha1 = reader.read(path, XPathConstants.STRING) + "";
 		path = "/empresa/linha2";
 		linha2 = reader.read(path, XPathConstants.STRING) + "";
 		path = "/empresa/linha3";
@@ -50,6 +61,7 @@ public class RelListaReqServPorCobrador implements Serializable {
 		path = "/empresa/linha4";
 		linha4 = reader.read(path, XPathConstants.STRING) + "";
 	}
+
 	public void geraDados() {
 		int contador = 1;
 		int quantidadeCob = 0;

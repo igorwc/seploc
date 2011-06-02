@@ -47,6 +47,7 @@ public class ReportImpressaoReqServGenerator {
 	private String localEntrega;
 	private int orcamento;
 	private String linha1,linha2,linha3,linha4;
+	private String xmlPath;
 
 	public ReportImpressaoReqServGenerator() {
 		dados = new ArrayList<ArrayList<ImpressaoBean>>();
@@ -70,6 +71,8 @@ public class ReportImpressaoReqServGenerator {
 		linha2 ="";
 		linha3 ="";
 		linha4 ="";
+		xmlPath = "src/META-INF/empresa.xml";
+
 	}
 
 	public String getDir() {
@@ -127,7 +130,7 @@ public class ReportImpressaoReqServGenerator {
 	}
 
 	private void geraCabecalho(){
-		XPathReader reader = new XPathReader("src/META-INF/empresa.xml" );
+		XPathReader reader = new XPathReader(xmlPath );
 		String path = "/empresa/linha1";
 		linha1 = reader.read(path, 	XPathConstants.STRING) + "";
 		path = "/empresa/linha2";
@@ -588,6 +591,9 @@ public class ReportImpressaoReqServGenerator {
 	// OutputStream os = new FileOutputStream(outputFile);
 
 	// }
+	
+	
+	
 	/**
 	 * @param args
 	 */
@@ -617,6 +623,14 @@ public class ReportImpressaoReqServGenerator {
 			e.printStackTrace();
 		}
 
+	}
+
+	public String getXmlPath() {
+		return xmlPath;
+	}
+
+	public void setXmlPath(String xmlPath) {
+		this.xmlPath = xmlPath;
 	}
 
 }
