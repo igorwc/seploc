@@ -193,9 +193,9 @@ public class ReportImpressaoReqServGenerator {
 			}
 			if (rs.getOrcamento() != null) {
 				if (rs.getOrcamento().equals("N")) {
-					orcamento = 1;
-				} else {
 					orcamento = 0;
+				} else {
+					orcamento = 1;
 				}
 			} else {
 				orcamento = 0;
