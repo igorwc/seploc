@@ -44,6 +44,13 @@ public class RelCobradorImpressaoReqServ extends HttpServlet {
 		request.getSession().removeAttribute("cobID");
 		RelReqServPorCobrador rr = new RelReqServPorCobrador();
 		rr.setCobradorID(cobID);
+		String xml = getServletContext().getRealPath(
+		"/WEB-INF/config/empresa.xml").substring(
+		0,
+		getServletContext().getRealPath(
+				"/WEB-INF/config/empresa.xml").indexOf(
+				"empresa.xml"))+"empresa.xml";
+		rr.setXmlPath(xml);
 		rr.setListaReqServIds(listaids);
 		rr.geraDados();
 		out.print(rr.imprimeDadosWeb(d) );

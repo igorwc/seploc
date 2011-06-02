@@ -40,6 +40,13 @@ public class RelListaCobradorImpressaoReqServ extends HttpServlet {
 		RelListaReqServPorCobrador rr = new RelListaReqServPorCobrador();
 		rr.setDataInicio(dataInicio);
 		rr.setDataFim(dataFim);
+		String xml = getServletContext().getRealPath(
+		"/WEB-INF/config/empresa.xml").substring(
+		0,
+		getServletContext().getRealPath(
+				"/WEB-INF/config/empresa.xml").indexOf(
+				"empresa.xml"))+"empresa.xml";
+		rr.setXmlPath(xml);
 		rr.geraDados();
 		out.print(rr.imprimeDadosWeb(d) );
 		try {

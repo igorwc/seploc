@@ -48,6 +48,13 @@ public class RelClienteReqList extends HttpServlet {
 		rr.setConnection(null);
 		rr.setClienteID(clienteID);
 		rr.setListaReqServIds(listaids);
+		String xml = getServletContext().getRealPath(
+		"/WEB-INF/config/empresa.xml").substring(
+		0,
+		getServletContext().getRealPath(
+				"/WEB-INF/config/empresa.xml").indexOf(
+				"empresa.xml"))+"empresa.xml";
+		rr.setXmlPath(xml);
 		rr.geraDados();
 		out.print(rr.imprimeDadosWeb2(d));
 		try {
