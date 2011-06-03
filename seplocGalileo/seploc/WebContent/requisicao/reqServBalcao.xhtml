@@ -158,13 +158,15 @@
 											size="55"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"/></td>
 											<td>
-											     <h:inputText id="for" 
-											                  value="#{reqServClienteCB.reqServMB.linhaReqServ.formato}" 
-											                  size="5"                                                              
-                                                              alt="signed-decimal" >
-                                                     <f:converter converterId="SeplocNumberConverter" />
-                                                     <a4j:support  event="onblur" reRender="for"/>
-											     </h:inputText>
+											    <a4j:outputPanel id="formatoPanel" >
+											      <h:inputText id="for" 
+											                   value="#{reqServClienteCB.reqServMB.linhaReqServ.formato}" 
+											                   size="5"                                                              
+                                                               alt="signed-decimal" >
+                                                      <f:converter converterId="SeplocNumberConverter" />
+                                                      <a4j:support  event="onblur" reRender="for,formatoPanel"/>
+											      </h:inputText>
+											     </a4j:outputPanel>
 											</td>
 											<td>
 											
