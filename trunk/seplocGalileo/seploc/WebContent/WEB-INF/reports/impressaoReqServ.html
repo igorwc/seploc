@@ -180,10 +180,17 @@
         <table width="100%" class="tabprim">
            <#if desconto == 0>
                 <tr>
-                    <td style="width: 5%">Entrega:</td>
-                    <td style="width: 10%">R$ ${entrega}</td>
-                    <td style="width: 5%"></td>
-                    <td style="width: 45%"></td>
+                    <td style="width: 5%">
+	                    <#if counter == paginacao_total>
+	                    Entrega:
+	                    </#if>
+	                </td>
+                    <td colspan="3" style="width: 60%">
+	                    <#if counter == paginacao_total>
+	                    R$ ${entrega} - ${localEntrega}
+	                    </#if>
+	                    &nbsp;
+                    </td>
                     <td style="width: 20%; text-align: right;">
                         <#if counter == paginacao_total>
                             Total do Projeto (R$):
@@ -199,10 +206,17 @@
            </#if>
            <#if desconto == 1>
                 <tr>
-                    <td style="width: 5%">Entrega:</td>
-                    <td style="width: 10%">R$ ${entrega}</td>
-                    <td style="width: 5%"> </td>
-                    <td style="width: 10%"> </td>
+                    <td style="width: 5%">
+	                    <#if counter == paginacao_total>
+	                    Entrega:
+	                    </#if>	                    
+                    </td>
+                    <td colspan="3" style="width: 25%">
+	                    <#if counter == paginacao_total>
+	                    R$ ${entrega} ${localEntrega}
+	                    </#if>
+	                    &nbsp;
+                    </td>
                     <td style="width: 20%; text-align: right;">
                         <#if counter == paginacao_total>
                             Total do Projeto (R$):
@@ -347,10 +361,17 @@
         <table width="100%" class="tabprim">
             <#if desconto == 0>
                 <tr>
-                    <td style="width: 5%">Entrega:</td>
-                    <td style="width: 10%">R$ ${entrega}</td>
-                    <td style="width: 5%"></td>
-                    <td style="width: 45%"></td>
+                    <td style="width: 5%">
+	                    <#if counter == paginacao_total>
+	                    Entrega:
+	                    </#if>
+                    </td>
+                    <td colspan="3" style="width: 60%">
+	                    <#if counter == paginacao_total>
+	                    R$ ${entrega} ${localEntrega}
+	                    </#if>
+	                    &nbsp;
+                    </td>
                     <td style="width: 20%; text-align: right;">
                         <#if counter == paginacao_total>
                             Total do Projeto (R$):
@@ -366,10 +387,17 @@
            </#if>
            <#if desconto == 1>
                 <tr>
-                    <td style="width: 5%">Entrega:</td>
-                    <td style="width: 10%">R$ ${entrega}</td>
-                    <td style="width: 5%"> </td>
-                    <td style="width: 10%"> </td>
+                    <td style="width: 5%">
+	                    <#if counter == paginacao_total>
+	                    Entrega:
+	                    </#if>	                    
+                    </td>
+                    <td colspan="3" style="width: 25%">
+	                    <#if counter == paginacao_total>
+	                    R$ ${entrega} ${localEntrega}
+	                    </#if>
+	                    &nbsp;
+                    </td>
                     <td style="width: 20%; text-align: right;">
                         <#if counter == paginacao_total>
                             Total do Projeto (R$):
@@ -410,8 +438,6 @@
     </tr>
 </table>
 </center>
-<br>
-<br>
 <br>
 <br>
 <#assign counter = counter + 1>

@@ -323,6 +323,7 @@ public class ReportImpressaoReqServGenerator {
 		System.out.println(subtotais);
 		map.put("paginacao", 1);
 		NumberFormat formatter = new DecimalFormat("0.00");
+		map.put("localEntrega", localEntrega);
 		map.put("entrega", formatter.format(entrega));
 		map.put("operador", operador);
 		map.put("data_alteracao", dataAlteracao);
@@ -420,15 +421,15 @@ public class ReportImpressaoReqServGenerator {
 			if (rsCount.next()) {
 				quantidadeReq = rsCount.getInt(1);
 			}
-			if (quantidadeReq > 12) {
-				paginas = quantidadeReq / 12;
-				if (quantidadeReq % 12 > 0) {
+			if (quantidadeReq > 14) {
+				paginas = quantidadeReq / 14;
+				if (quantidadeReq % 14 > 0) {
 					paginas++;
 				}
 			} else {
 				paginas = 1;
 			}
-			complemento = quantidadeReq % 12;
+			complemento = quantidadeReq % 14;
 			this.paginas = paginas;
 			stmt.setInt(1, numRequisicao);
 			stmt.setInt(2, numRequisicao);
@@ -467,7 +468,7 @@ public class ReportImpressaoReqServGenerator {
 
 					pagina.add(bean);
 					aux++;
-					if (aux > 12) {
+					if (aux > 14) {
 						aux = 1;
 						break;
 					}
@@ -487,8 +488,8 @@ public class ReportImpressaoReqServGenerator {
 				ImpressaoBean temp = ultimaPagina.get(ultimaPagina.size() - 1);
 				if (temp != null) {
 					int seq = Integer.parseInt(temp.getSeq());
-					if (ultimaPagina.size() < 12) {
-						while (ultimaPagina.size() != 12) {
+					if (ultimaPagina.size() < 14) {
+						while (ultimaPagina.size() != 14) {
 							seq++;
 							ultimaPagina.add(generateDummyImpressaoBean(seq));
 							
