@@ -14,54 +14,60 @@
 <title>Impress&atilde;o requisi&ccedil;&atilde;o servi&ccedil;o</title>
 <style type="text/css">
 .reqtable {
-    font-family: Arial, Helvetica, sans-serif;
-    width: 100%;
+	font-family: Arial, Helvetica, sans-serif;
+	width: 100%;
 }
+
 .cab {
-   font-weight: bold;
+	font-weight: bold;
 }
 
 .numReq {
-   font-weight: bold;
-   font-size: 16px;
+	font-weight: bold;
+	font-size: 16px;
 }
 
 .textoMsg {
-   font-weight: bold;
-   font-size: 14px;
-   blockquote { letter-spacing: 2 }
+	font-weight: bold;
+	font-size: 14px;
+	blockquote
+	{
+	letter-spacing
+	:
+	2
 }
 
+}
 .reqtable th {
-    padding: 3px 5px 2px 5px;
-    font-size: 10px;
-    text-align: left;
-    padding-top: 4px;
-    padding-bottom: 3px;
-    background-color: #ffffff;
-    color: #000000;
-    border: 1px solid #000000;
+	padding: 3px 5px 2px 5px;
+	font-size: 10px;
+	text-align: left;
+	padding-top: 4px;
+	padding-bottom: 3px;
+	background-color: #ffffff;
+	color: #000000;
+	border: 1px solid #000000;
 }
 
 .reqtable td {
-    font-size: 8px;
-    border: 0px solid #000000;
-    padding: 2px 4px 1px 4px;
+	font-size: 8px;
+	border: 0px solid #000000;
+	padding: 2px 4px 1px 4px;
 }
 
 .reqtable tr.alt td {
-    color: #000000;
-    background-color: #eeeeee;
+	color: #000000;
+	background-color: #eeeeee;
 }
 
 .tabprim {
-    font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
+	font-family: Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
 }
 
 .tabprim td,#tabprim th {
-    font-size: 10px;
-    padding: 3px 5px 2px 5px;
+	font-size: 10px;
+	padding: 3px 5px 2px 5px;
 }
 </style>
 
@@ -72,96 +78,95 @@
 
 <center>
 
-<table style="text-align: left; width: 190mm;" border="1" class="tabprim">
-    <tr>
-        <td>
-        <table style="text-align: left; width: 100%;" border="0"
-            cellpadding="2" cellspacing="2" class="tabprim">
-            <tbody>
-                <tr>
-                    <td>${linha1}<br>
-                    ${linha2}<br>
-                    ${linha3}<br>
-                    ${linha4}</td>
+<table style="text-align: left; width: 190mm;" border="1"
+	class="tabprim">
+	<tr>
+		<td>
+		<table style="text-align: left; width: 100%;" border="0"
+			cellpadding="2" cellspacing="2" class="tabprim">
+			<tbody>
+				<tr>
+					<td>${linha1}<br>
+					${linha2}<br>
+					${linha3}<br>
+					${linha4}</td>
 
-					<td valign="bottom">Requisi&ccedil;&atilde;o: <font class="numReq">${numRequisicao}</font><br>
-                    
-                    Impress&atilde;o:
-                    ${current_date?string("dd-MM-yyyy")}<br>
+					<td valign="bottom">Requisi&ccedil;&atilde;o: <font
+						class="numReq">${numRequisicao}</font><br>
 
-                    P&aacute;gina: ${counter}/${paginacao_total}</td>
-                </tr>
+					Impress&atilde;o: ${current_date?string("dd-MM-yyyy")}<br>
 
-            </tbody>
-        </table>
+					P&aacute;gina: ${counter}/${paginacao_total}</td>
+				</tr>
 
-        <hr style="color: #000000;" size="1">
+			</tbody>
+		</table>
 
-        <table style="text-align: left; width: 100%;" border="0"
-            cellpadding="2" cellspacing="2" class="tabprim">
+		<hr style="color: #000000;" size="1">
 
-            <tbody>
-                <tr>
-                    <td style="width: 15%">Nome do Cliente:</td>
-                    <td colspan="3" style="width: 85%">${cliente.nome}</td>
-                </tr>
+		<table style="text-align: left; width: 100%;" border="0"
+			cellpadding="2" cellspacing="2" class="tabprim">
 
-                <tr>
+			<tbody>
+				<tr>
+					<td style="width: 15%">Nome do Cliente:</td>
+					<td colspan="3" style="width: 85%">${cliente.nome}</td>
+				</tr>
 
-                    <td style="width: 15%">Endere&ccedil;o:</td>
+				<tr>
 
-                    <td colspan="3">${cliente.endereco}</td>
-                </tr>
-                <tr>
-                    <td style="width: 15%">Cidade /UF:</td>
-                    <td style="width: 45%">${cliente.localidade}</td>
-                    <td style="width: 10%">Bairro:</td>
-                    <td style="width: 30%">${cliente.bairro}</td>
-                </tr>
-                <tr>
-                    <td style="width: 15%">CNPJ/CPF:</td>
-                    <td style="width: 45%">${cliente.ni}</td>
-                    <td style="width: 10%">CEP:</td>
-                    <td style="width: 30%">${cliente.cep}</td>
-                </tr>
-            </tbody>
-        </table>
-    
-        <hr style="color: #000000;" size="1">
-  
-        <table style="text-align: left; width: 100%;" border="0"
-            cellpadding="2" cellspacing="2" class="tabprim">
-            <tbody>
-                <tr>
-                    <td style="width: 40%"> Projeto: ${nomeProjeto}  </td>
-                    <td style="width: 60%"><font class="textoMsg">
-                            <#if orcamento == 1>
-                           O R C A M E N T O
-                        </#if></font>  
-                   </td> 
-                </tr>
+					<td style="width: 15%">Endere&ccedil;o:</td>
 
-            </tbody>
-        </table>
+					<td colspan="3">${cliente.endereco}</td>
+				</tr>
+				<tr>
+					<td style="width: 15%">Cidade /UF:</td>
+					<td style="width: 45%">${cliente.localidade}</td>
+					<td style="width: 10%">Bairro:</td>
+					<td style="width: 30%">${cliente.bairro}</td>
+				</tr>
+				<tr>
+					<td style="width: 15%">CNPJ/CPF:</td>
+					<td style="width: 45%">${cliente.ni}</td>
+					<td style="width: 10%">CEP:</td>
+					<td style="width: 30%">${cliente.cep}</td>
+				</tr>
+			</tbody>
+		</table>
 
-        <hr style="color: #000000;" size="1">
-        <table style="text-align: left; width: 100%;" border="1"
-            cellpadding="2" cellspacing="2" class="reqtable">
-            <tbody>
-                <tr class="cab">
-                    <th style="width: 4%">Item</th>
-                    <th style="width: 35%">Arquivo</th>
-                    <th style="width: 6%">Form.</th>
-                    <th style="width: 4%">Dim.</th>
-                    <th style="width: 22%">Papel</th>
-                    <th style="width: 7%">Impr.</th>
-                    <th style="width: 5%">Qtd.</th>
-                    <th style="width: 9%">Valor Unit</th>
-                    <th style="width: 8%">SubTotal</th>
-                </tr>
-                <#assign row=0> <#list linha as elemento>
-                <tr  class="<#if (row % 2) == 0 >alt<#else>nada</#if>" >
-                    <td>${elemento.seq}</td>
+		<hr style="color: #000000;" size="1">
+
+		<table style="text-align: left; width: 100%;" border="0"
+			cellpadding="2" cellspacing="2" class="tabprim">
+			<tbody>
+				<tr>
+					<td style="width: 40%">Projeto: ${nomeProjeto}</td>
+					<td style="width: 60%"><font class="textoMsg"> <#if
+					orcamento == 1> O R C A M E N T O </#if></font></td>
+				</tr>
+
+			</tbody>
+		</table>
+
+		<hr style="color: #000000;" size="1">
+		<table style="text-align: left; width: 100%;" border="1"
+			cellpadding="2" cellspacing="2" class="reqtable">
+			<tbody>
+				<tr class="cab">
+					<th style="width: 4%">Item</th>
+					<th style="width: 35%">Arquivo</th>
+					<th style="width: 6%">Form.</th>
+					<th style="width: 4%">Dim.</th>
+					<th style="width: 22%">Papel</th>
+					<th style="width: 7%">Impr.</th>
+					<th style="width: 5%">Qtd.</th>
+					<th style="width: 9%">Valor Unit</th>
+					<th style="width: 8%">SubTotal</th>
+				</tr>
+				<#assign row=0> <#list linha as elemento>
+				<tr class="
+					<#if (row % 2) == 0 >alt<#else>nada</#if>" >
+					<td>${elemento.seq}</td>
                 <td>${elemento.item}</td>
                 <td>${elemento.formato}</td>
                 <td>${elemento.dimensao}</td>
@@ -171,167 +176,147 @@
                 <td>${elemento.valorItem}</td>
                 <td>${elemento.subTotal}</td>
             </tr>
-                <#assign row = row + 1> </#list>
-                <tr    >
-                <#assign x = linha_index> 
-            </tr>
-        </table>
-        <hr style="color: #000000;" size="1">
-        <table width="100%" class="tabprim">
-           <#if desconto == 0>
-                <tr>
-                    <td style="width: 5%">Entrega:</td>
-                    <td style="width: 10%">R$ ${entrega}</td>
-                    <td style="width: 5%"></td>
-                    <td style="width: 45%"></td>
-                    <td style="width: 20%; text-align: right;">
-                        <#if counter == paginacao_total>
-                            Total do Projeto (R$):
-                        </#if>
-                    </td>
-                <#assign x = linha_index>
-                    <td style="width: 15%; text-align: left;">
-                        <#if counter == paginacao_total>
-                            ${valor_total?string.currency}
-                        </#if>
-                    </td>
-                </tr>
-           </#if>
-           <#if desconto == 1>
-                <tr>
-                    <td style="width: 5%">Entrega:</td>
-                    <td style="width: 10%">R$ ${entrega}</td>
-                    <td style="width: 5%"> </td>
-                    <td style="width: 10%"> </td>
-                    <td style="width: 20%; text-align: right;">
-                        <#if counter == paginacao_total>
-                            Total do Projeto (R$):
-                        </#if>
-                    </td>
-                    <td style="width: 10%; text-align: left;">
-                        <#if counter == paginacao_total>
-                            ${valor_total?string.currency}
-                        </#if>
-                    </td>
-                    <td style="width: 30%; text-align: right;">
-                        <#if counter == paginacao_total>
-                            Total do Projeto com Desconto(R$):
-                        </#if>
-                    </td>
-                    <td style="width: 10%; text-align: left;">
-                        <#if counter == paginacao_total>
-                            ${valor_totald?string.currency}
-                        </#if>
-                    </td>
-                <#assign x = linha_index>
-                </tr>
-            </#if>
-        </table>
-        <hr>
-        <table width="100%" class="tabprim">
-            <tr>
-                <td style="width: 5%">Operador:</td>
-                <td style="width: 15%">${operador}</td>
-                <td style="width: 20%; text-align: right;">&Uacute;ltima
-                modifica&ccedil;&atilde;o:</td>
-                <td style="width: 25%; text-align: left;">${data_alteracao?string("dd-MM-yyyy")}</td>
-                <td colspan="2" style="width: 30%; text-align: left;">Recebido
-                por:</td>
-            </tr>
-        </table>
-        </td>
-    </tr>
+				<#assign row = row + 1> </#list>
+				<tr>
+					<#assign x = linha_index>
+				</tr>
+		</table>
+		<hr style="color: #000000;" size="1">
+		<table width="100%" class="tabprim">
+			<#if desconto == 0>
+			<tr>
+				<td style="width: 5%">Entrega:</td>
+				<td style="width: 10%">R$ ${entrega}</td>
+				<td style="width: 5%"></td>
+				<td style="width: 45%"></td>
+				<td style="width: 20%; text-align: right;"><#if counter ==
+				paginacao_total> Total do Projeto (R$): </#if></td>
+				<#assign x = linha_index>
+				<td style="width: 15%; text-align: left;"><#if counter ==
+				paginacao_total> ${valor_total?string.currency} </#if></td>
+			</tr>
+			</#if> <#if desconto == 1>
+			<tr>
+				<td style="width: 5%">Entrega:</td>
+				<td style="width: 10%">R$ ${entrega}</td>
+				<td style="width: 5%"></td>
+				<td style="width: 10%"></td>
+				<td style="width: 20%; text-align: right;"><#if counter ==
+				paginacao_total> Total do Projeto (R$): </#if></td>
+				<td style="width: 10%; text-align: left;"><#if counter ==
+				paginacao_total> ${valor_total?string.currency} </#if></td>
+				<td style="width: 30%; text-align: right;"><#if counter ==
+				paginacao_total> Total do Projeto com Desconto(R$): </#if></td>
+				<td style="width: 10%; text-align: left;"><#if counter ==
+				paginacao_total> ${valor_totald?string.currency} </#if></td>
+				<#assign x = linha_index>
+			</tr>
+			</#if>
+		</table>
+		<hr>
+		<table width="100%" class="tabprim">
+			<tr>
+				<td style="width: 5%">Operador:</td>
+				<td style="width: 15%">${operador}</td>
+				<td style="width: 20%; text-align: right;">&Uacute;ltima
+				modifica&ccedil;&atilde;o:</td>
+				<td style="width: 25%; text-align: left;">${data_alteracao?string("dd-MM-yyyy")}</td>
+				<td colspan="2" style="width: 30%; text-align: left;">Recebido
+				por:</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
 </table>
 </center>
 <br>
 <br>
 <center>
-<table style="text-align: left; width: 190mm;" border="1" class="tabprim">
-    <tr>
-        <td>
-        <table style="text-align: left; width: 100%;" border="0"
-            cellpadding="2" cellspacing="2" class="tabprim">
-            <tbody>
-                <tr>
-                    <td>${linha1}<br>
-                    ${linha2}<br>
-                    ${linha3}<br>
-                    ${linha4}</td>
-                    <td valign="bottom">Impress&atilde;o:
-                    ${current_date?string("dd-MM-yyyy")}<br>
+<table style="text-align: left; width: 190mm;" border="1"
+	class="tabprim">
+	<tr>
+		<td>
+		<table style="text-align: left; width: 100%;" border="0"
+			cellpadding="2" cellspacing="2" class="tabprim">
+			<tbody>
+				<tr>
+					<td>${linha1}<br>
+					${linha2}<br>
+					${linha3}<br>
+					${linha4}</td>
+					<td valign="bottom">Impress&atilde;o:
+					${current_date?string("dd-MM-yyyy")}<br>
 
-                    P&aacute;gina: ${counter}/${paginacao_total}</td>
-                    
-                </tr>
+					P&aacute;gina: ${counter}/${paginacao_total}</td>
 
-            </tbody>
-        </table>
+				</tr>
 
-        <hr style="color: #000000;" size="1">
-        <table style="text-align: left; width: 100%;" border="0"
-            cellpadding="2" cellspacing="2" class="tabprim">
+			</tbody>
+		</table>
 
-            <tbody>
-                <tr>
-                    <td style="width: 15%">Nome do Cliente:</td>
-                    <td colspan="3" style="width: 85%">${cliente.nome}</td>
-                </tr>
+		<hr style="color: #000000;" size="1">
+		<table style="text-align: left; width: 100%;" border="0"
+			cellpadding="2" cellspacing="2" class="tabprim">
 
-                <tr>
+			<tbody>
+				<tr>
+					<td style="width: 15%">Nome do Cliente:</td>
+					<td colspan="3" style="width: 85%">${cliente.nome}</td>
+				</tr>
 
-                    <td style="width: 15%">Endere&ccedil;o:</td>
+				<tr>
 
-                    <td colspan="3">${cliente.endereco}</td>
-                </tr>
-                <tr>
-                    <td style="width: 15%">Cidade /UF:</td>
-                    <td style="width: 45%">${cliente.localidade}</td>
-                    <td style="width: 10%">Bairro:</td>
-                    <td style="width: 30%">${cliente.bairro}</td>
-                </tr>
-                <tr>
-                    <td style="width: 15%">CNPJ/CPF:</td>
-                    <td style="width: 45%">${cliente.ni}</td>
-                    <td style="width: 10%">CEP:</td>
-                    <td style="width: 30%">${cliente.ni}</td>
-                </tr>
-            </tbody>
-        </table>
+					<td style="width: 15%">Endere&ccedil;o:</td>
 
-        <hr style="color: #000000;" size="1">
-         <table style="text-align: left; width: 100%;" border="0"
-            cellpadding="2" cellspacing="2" class="tabprim">
-            <tbody>
-                <tr>
-                    <td style="width: 40%"> Projeto: ${nomeProjeto}  </td>
-                    <td style="width: 60%"><font class="textoMsg">
-                            <#if orcamento == 1>
-                           O R C A M E N T O
-                        </#if></font>  
-                   </td> 
-                </tr>
+					<td colspan="3">${cliente.endereco}</td>
+				</tr>
+				<tr>
+					<td style="width: 15%">Cidade /UF:</td>
+					<td style="width: 45%">${cliente.localidade}</td>
+					<td style="width: 10%">Bairro:</td>
+					<td style="width: 30%">${cliente.bairro}</td>
+				</tr>
+				<tr>
+					<td style="width: 15%">CNPJ/CPF:</td>
+					<td style="width: 45%">${cliente.ni}</td>
+					<td style="width: 10%">CEP:</td>
+					<td style="width: 30%">${cliente.ni}</td>
+				</tr>
+			</tbody>
+		</table>
 
-            </tbody>
-        </table>
+		<hr style="color: #000000;" size="1">
+		<table style="text-align: left; width: 100%;" border="0"
+			cellpadding="2" cellspacing="2" class="tabprim">
+			<tbody>
+				<tr>
+					<td style="width: 40%">Projeto: ${nomeProjeto}</td>
+					<td style="width: 60%"><font class="textoMsg"> <#if
+					orcamento == 1> O R C A M E N T O </#if></font></td>
+				</tr>
 
-        <hr style="color: #000000;" size="1">
-        <table style="text-align: left; width: 100%;" border="1"
-            cellpadding="2" cellspacing="2" class="reqtable">
-            <tbody>
-                <tr>
-                    <th>Item</th>
-                    <th>Arquivo</th>
-                    <th>Form.</th>
-                    <th>Dim.</th>
-                    <th>Papel</th>
-                    <th>Impr.</th>
-                    <th>Qtd</th>
-                    <th>Valor Unit</th>
-                    <th>SubTotal</th>
-                </tr>
-                <#assign row=0> <#list linha as elemento>
-                <tr class="<#if (row % 2) == 0>alt<#else>nada</#if>" >
-                    <td>${elemento.seq}</td>
+			</tbody>
+		</table>
+
+		<hr style="color: #000000;" size="1">
+		<table style="text-align: left; width: 100%;" border="1"
+			cellpadding="2" cellspacing="2" class="reqtable">
+			<tbody>
+				<tr>
+					<th>Item</th>
+					<th>Arquivo</th>
+					<th>Form.</th>
+					<th>Dim.</th>
+					<th>Papel</th>
+					<th>Impr.</th>
+					<th>Qtd</th>
+					<th>Valor Unit</th>
+					<th>SubTotal</th>
+				</tr>
+				<#assign row=0> <#list linha as elemento>
+				<tr class="
+					<#if (row % 2) == 0>alt<#else>nada</#if>" >
+					<td>${elemento.seq}</td>
                 <td>${elemento.item}</td>
                 <td>${elemento.formato}</td>
                 <td>${elemento.dimensao}</td>
@@ -341,81 +326,61 @@
                 <td>${elemento.valorItem}</td>
                 <td>${elemento.subTotal}</td>
             </tr>
-                <#assign row = row + 1> </#list>
-        </table>
-        <hr style="color: #000000;" size="1">
-        <table width="100%" class="tabprim">
-            <#if desconto == 0>
-                <tr>
-                     <td style="width: 5%">Entrega:</td>
-                    <td style="width: 10%">R$ ${entrega}</td>
-                    <td style="width: 5%"></td>
-                    <td style="width: 45%"></td>
-                    <td style="width: 20%; text-align: right;">
-                        <#if counter == paginacao_total>
-                            Total do Projeto (R$):
-                        </#if>
-                    </td>
-                <#assign x = linha_index>
-                    <td style="width: 15%; text-align: left;">
-                        <#if counter == paginacao_total>
-                            ${valor_total?string.currency}
-                        </#if>
-                    </td>
-                </tr>
-           </#if>
-           <#if desconto == 1>
-                <tr>
-                    <td style="width: 5%">Entrega:</td>
-                    <td style="width: 10%">R$ ${entrega}</td>
-                    <td style="width: 5%"> </td>
-                    <td style="width: 10%"> </td>
-                    <td style="width: 20%; text-align: right;">
-                        <#if counter == paginacao_total>
-                            Total do Projeto (R$):
-                        </#if>
-                    </td>
-                    <td style="width: 10%; text-align: left;">
-                        <#if counter == paginacao_total>
-                            ${valor_total?string.currency}
-                        </#if>
-                    </td>
-                    <td style="width: 30%; text-align: right;">
-                        <#if counter == paginacao_total>
-                            Total do Projeto com Desconto(R$):
-                        </#if>
-                    </td>
-                    <td style="width: 10%; text-align: left;">
-                        <#if counter == paginacao_total>
-                            ${valor_totald?string.currency}
-                        </#if>
-                    </td>
-                <#assign x = linha_index>
-                </tr>
-            </#if>
-        </table>
-        <hr>
-        <table width="100%" class="tabprim">
-            <tr>
-                <td style="width: 5%">Operador:</td>
-                <td style="width: 15%">${operador}</td>
-                <td style="width: 20%; text-align: right;">&Uacute;ltima
-                modifica&ccedil;&atilde;o:</td>
-                <td style="width: 25%; text-align: left;">${data_alteracao?string("dd-MM-yyyy")}</td>
-                <td colspan="2" style="width: 30%; text-align: left;">Recebido
-                por:</td>
-            </tr>
-        </table>
-        </td>
-    </tr>
+				<#assign row = row + 1> </#list>
+		</table>
+		<hr style="color: #000000;" size="1">
+		<table width="100%" class="tabprim">
+			<#if desconto == 0>
+			<tr>
+				<td style="width: 5%">Entrega:</td>
+				<td style="width: 10%">R$ ${entrega}</td>
+				<td style="width: 5%"></td>
+				<td style="width: 45%"></td>
+				<td style="width: 20%; text-align: right;"><#if counter ==
+				paginacao_total> Total do Projeto (R$): </#if></td>
+				<#assign x = linha_index>
+				<td style="width: 15%; text-align: left;"><#if counter ==
+				paginacao_total> ${valor_total?string.currency} </#if></td>
+			</tr>
+			</#if> <#if desconto == 1>
+			<tr>
+				<td style="width: 5%">Entrega:</td>
+				<td style="width: 10%">R$ ${entrega}</td>
+				<td style="width: 5%"></td>
+				<td style="width: 10%"></td>
+				<td style="width: 20%; text-align: right;"><#if counter ==
+				paginacao_total> Total do Projeto (R$): </#if></td>
+				<td style="width: 10%; text-align: left;"><#if counter ==
+				paginacao_total> ${valor_total?string.currency} </#if></td>
+				<td style="width: 30%; text-align: right;"><#if counter ==
+				paginacao_total> Total do Projeto com Desconto(R$): </#if></td>
+				<td style="width: 10%; text-align: left;"><#if counter ==
+				paginacao_total> ${valor_totald?string.currency} </#if></td>
+				<#assign x = linha_index>
+			</tr>
+			</#if>
+		</table>
+		<hr>
+		<table width="100%" class="tabprim">
+			<tr>
+				<td style="width: 5%">Operador:</td>
+				<td style="width: 15%">${operador}</td>
+				<td style="width: 20%; text-align: right;">&Uacute;ltima
+				modifica&ccedil;&atilde;o:</td>
+				<td style="width: 25%; text-align: left;">${data_alteracao?string("dd-MM-yyyy")}</td>
+				<td colspan="2" style="width: 30%; text-align: left;">Recebido
+				por:</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
 </table>
 </center>
 <br>
 <br>
 <br>
 <br>
-<#assign counter = counter + 1>
-</#list></div>
+<#assign counter = counter + 1> </#list></div>
 
 </body>
 </html>

@@ -170,7 +170,7 @@
   <managed-bean-class>br.seploc.mbeans.ReqServClientePeriodoMB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
- <!-- Relatorio Cobrador por Periodo -->
+ <!-- Relatorio Requisicao por Cobrador -->
  <managed-bean>
   <managed-bean-name>relCobradorCB</managed-bean-name>
   <managed-bean-class>br.seploc.controllers.RelReqServCobradorCB</managed-bean-class>
@@ -181,6 +181,17 @@
   <managed-bean-class>br.seploc.mbeans.RelReqServCobradorMB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
+ <!-- Relatorio Requisicao por Plotador -->
+ <managed-bean>
+  <managed-bean-name>relPlotadorCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.RelReqServPlotadorCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>relPlotadorMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.RelReqServPlotadorMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean> 
 <!-- Relatorio requisicao Producao -->
  <managed-bean>
   <managed-bean-name>relProducaoCB</managed-bean-name>

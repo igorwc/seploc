@@ -1,14 +1,19 @@
 package br.seploc.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import br.seploc.dao.exceptions.LoginExistenteException;
 import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.dao.exceptions.RecordNotFound;
 import br.seploc.pojos.Usuario;
+import br.seploc.reports.beans.CobradorBeanGrid;
+import br.seploc.reports.beans.PlotadorBeanGrid;
 import br.seploc.util.DesEncrypter;
 import br.seploc.util.GenericDAO;
 
@@ -23,7 +28,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 			em.getTransaction().commit();
 		} else {
 			em.getTransaction().rollback();
-			throw new LoginExistenteException("Login j� em uso");
+			throw new LoginExistenteException("Login ja em uso");
 		}		
 	}
 
@@ -70,14 +75,12 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 
 	@Override
 	protected boolean verificaFilhos(Integer id) throws ParentDeleteException {
-		// Number contagemReqUsuario = 0; //TODO Implementar
-		// Query q = em.createQuery(
-		// "SELECT count(rsu.usuario) FROM br.seploc.pojos.ReqServUsuario rsu"
-		// + " where rsu.usuario.login = :login").setParameter(
-		// "grupo", id);
-		// contagemReqUsuario = (Number) q.getSingleResult();
-		// if (contagemReqUsuario.intValue() != 0)
-		// return true;
+		 Query q = em.createQuery(
+		 "SELECT count(rsu.usuario) FROM br.seploc.pojos.ReqServUsuario rsu"
+		 + " where rsu.usuario.intCodUsr = :id").setParameter(
+		 "id", id);
+		 int contagemReqUsuario = Integer.parseInt(q.getSingleResult().toString());
+		 if (contagemReqUsuario != 0) return true;
 		return false;
 	}
 	
@@ -288,6 +291,77 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 //			return retorno;
 //		}
 	}
+	
+	public List<PlotadorBeanGrid> getListaPlotadoresGrid(Date dataInicio,
+			Date dataFim) {
+		List<Usuario> listaPlotadores = this.getListaPlotadores();
+		List<PlotadorBeanGrid> listaOrdenada = new ArrayList<PlotadorBeanGrid>();
+		for (int i = listaPlotadores.size() - 1; i >= 0; i--) {
+			Usuario p = listaPlotadores.get(i);
+			Integer resultadoQtd = this.getQuantidadeRequisicoesPlotador(p.getId().intValue(), dataInicio, dataFim);
+			Double  resultadoVlr = this.getValorTotalRequisicoesPlotador(p.getId().intValue(), dataInicio, dataFim);
+			listaOrdenada.add(new PlotadorBeanGrid(p.getNome(), resultadoQtd, p.getId(), resultadoVlr));
+		}
+		Collections.sort(listaOrdenada);
+		int i = 1;
+		for (PlotadorBeanGrid pb : listaOrdenada) {
+			pb.setSeq(i++);
+		}
+		return listaOrdenada;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Usuario> getListaPlotadores(){
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Usuario.RetornaUsuarios");
+		em.getTransaction().commit();
+		return (List<Usuario>) q.getResultList();		
+	}
+	
+	public Integer getQuantidadeRequisicoesPlotador(Integer id, Date dataInicio, Date dataFim) {
+		em.getTransaction().begin();
+		Number contagemReqServUsuario = 0;
+
+		Query q = em.createQuery(
+				"SELECT count(sm) FROM br.seploc.pojos.ReqServUsuario sm"
+						+ " where sm.usuario.id = :plotadorID and "
+						+ "sm.data between :dataInicio and " 
+						+ "  :dataFim  " 
+						+ " and sm.reqServico.numReq in (SELECT s.numReq from br.seploc.pojos.RequisicaoServico s )" )
+						.setParameter(
+				            "plotadorID", id)
+				        .setParameter(
+				            "dataInicio", dataInicio,TemporalType.DATE)
+				        .setParameter(
+				            "dataFim", dataFim,TemporalType.DATE);
+		contagemReqServUsuario = (Number) q.getSingleResult();
+		em.getTransaction().commit();
+		return contagemReqServUsuario.intValue();
+	}	
+	
+	public Double getValorTotalRequisicoesPlotador(Integer id, Date dataInicio, Date dataFim) {
+		em.getTransaction().begin();
+		Double totalReqServUsuario = 0.0;
+
+		Query q = em.createQuery(
+				"SELECT sum(rs.valorDesconto) FROM br.seploc.pojos.RequisicaoServico rs"
+					+ " where rs.numReq in (SELECT ru.numReqServ FROM br.seploc.pojos.ReqServUsuario ru " 
+					+ "                      WHERE ru.usuario.id = :plotadorID) and " 
+					+ " rs.data between :dataInicio and " 
+					+ "  :dataFim  " )
+						.setParameter(
+				            "plotadorID", id)
+				        .setParameter(
+				            "dataInicio", dataInicio,TemporalType.DATE)
+				        .setParameter(
+				            "dataFim", dataFim,TemporalType.DATE);
+		totalReqServUsuario = (Double) q.getSingleResult();
+		em.getTransaction().commit();
+		// caso o valor seja nulo atribuir valor padrao
+		if (totalReqServUsuario == null) totalReqServUsuario = 0.0;
+		return totalReqServUsuario;
+	}	
+	
 	@Override
 	protected void ajustaPojo(Usuario pojo) {
 		// TODO Auto-generated method stub

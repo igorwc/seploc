@@ -113,6 +113,7 @@ public class CobradorDAO extends GenericDAO<Cobrador, Integer> {
 		em.getTransaction().commit();
 		return contagemSaidaMotoqueiros.intValue();
 	}	
+	
 	@Override
 	protected boolean verificaFilhos(Integer id) throws Exception {
 		Number contagemStatusCobranca = 0;

@@ -12,4 +12,247 @@
 		<img src="../imgs/ponto.png" /><rich:spacer width="5px"/>
 		<h:outputText value="#{msgs.tax_relat_plotador}" />
 	</ui:define>
+	
+    <!-- CONTEUDO -->
+    <ui:define name="conteudo">
+        <style type="text/css">
+.row1 {
+    background-color: #EDEBEB;
+    font-size: 10px;
+}
+
+.row2 {
+    background-color: #ffffff;
+    font-size: 10px;
+}
+
+.col1 {
+    text-align: center;
+}
+
+.col2 {
+    text-align: left;
+}
+
+.texto {
+    font-family: arial, tahoma;
+    font-size: 10pt;
+    color: #00008B;
+}
+
+.error {
+    font-weight: bold;
+    font-style: normal;
+    color: #FF0000;
+    font-size: 8pt;
+    font-family: tahoma, arial;
+}
+
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+
+.formulario,.formulario TD,.formulario TH {
+    background-color: #f2f2f5;
+}
+</style>
+
+
+
+        <f:view>
+            <h:form id="formReqPlotador" enctype="UTF-8" prependId="false">
+                <rich:panel header="Relatório" >
+                    <!-- Formulario -->
+                    <center><rich:panel
+                        header="Requisições por Plotador"
+                        style="width: 700px" bodyClass="formulario2">
+                        <table border="0">
+                            <tr align="left">
+                                <td colspan="2">
+                                    <h:outputText value="#{msgs['relatorios.general.periodo']}"
+                                                  styleClass="texto" />
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><rich:calendar
+                                    value="#{relPlotadorCB.relPlotadorMB.dataInicio}"
+                                    locale="#{relPlotadorCB.locale}" popup="true"
+                                    datePattern="dd/MM/yyyy" showApplyButton="false"
+                                    cellWidth="24px" cellHeight="22px" style="block:inline"
+                                    inputSize="30" id="dataInicioPlo">
+                                    <a4j:support event="onchanged"
+                                        action="#{relPlotadorCB.relPlotadorMB.buscaRequisicoes}"
+                                        reRender="dataInicioPlo,dataFimPlo,plotadorList,dsPlotadores"></a4j:support>
+                                    <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+                                </rich:calendar> <h:outputText value=" até " styleClass="texto" /></td>
+                                <td><rich:calendar
+                                    value="#{relPlotadorCB.relPlotadorMB.dataFim}"
+                                    locale="#{relPlotadorCB.locale}" popup="true"
+                                    datePattern="dd/MM/yyyy" showApplyButton="false"
+                                    cellWidth="24px" cellHeight="22px" style="width:200px"
+                                    inputSize="30" id="dataFimPlo">
+                                    <a4j:support event="onchanged"
+                                        action="#{relPlotadorCB.relPlotadorMB.buscaRequisicoes}"
+                                        reRender="dataInicioPlo,dataFimPlo,plotadorList,dsPlotadores"></a4j:support>
+                                    <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+                                </rich:calendar></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="1">
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            
+                        </table>
+                        <!-- Botoes -->
+                        <br />
+
+                        <script type="text/javascript">
+                              function popUp(URL) {
+                            	   day = new Date();
+                            	    id = day.getTime();
+                            	    eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,resizable=1,width=800,height=600,left = 390,top = 100');");
+                               } 
+                        </script>
+                        <a4j:commandButton value="#{msgs['botao.pesquisar']}"
+                                     action="#{relPlotadorCB.relPlotadorMB.buscaRequisicoes}" 
+                                     reRender="dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto"
+                                     id="salvaDesconto"/>
+                        <a4j:commandButton value="#{msgs['botao.limpar']}"
+                            action="#{relPlotadorCB.relPlotadorMB.limpar}"
+                            reRender="dataInicioCli,dataFimCli,cliente,dsRequisicoes,lbValorTotal,requisicaoList,lbValorDesconto,descCliente,desconto" />
+
+                    </rich:panel></center>
+
+                    <!-- Grid -->
+                    <rich:dataTable
+                        value="#{relPlotadorCB.relPlotadorMB.listaPlotadores}"
+                        var="plotadores" rowClasses="row1, row2" id="plotadorList"
+                        rows="8" columnClasses="400,150,50"
+                        onRowMouseOver="this.style.backgroundColor='#B5F3FB'"
+                        onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"
+                        width="700" align="center">
+                        <f:facet name="header">
+                            <rich:columnGroup>
+                                <rich:column colspan="5">
+                                    <h:outputText value="Plotadores Encontrados" />
+                                </rich:column>
+
+                                <rich:column breakBefore="true" width="10%">
+                                    <h:outputText value="Item" />
+                                </rich:column>
+
+                                <rich:column width="40%">
+                                    <h:outputText value="Plotador" />
+                                </rich:column>
+
+                                <rich:column width="20%">
+                                    <h:outputText value="Total Requisições" />
+                                </rich:column>
+                                
+                                <rich:column width="20%">
+                                    <h:outputText value="Valor Total c/ Desconto" />
+                                </rich:column>
+                                
+                                <rich:column width="10%">
+
+                                </rich:column>
+
+                            </rich:columnGroup>
+                        </f:facet>
+
+                        <rich:column styleClass="col1">
+                            <h:outputText value="#{plotadores.seq}">
+                                <f:convertNumber pattern="#000" />
+                            </h:outputText>
+                        </rich:column>
+
+                        <rich:column styleClass="col2">
+                            <h:outputText value="#{plotadores.nome}"/>
+                        </rich:column>
+                        <rich:column styleClass="col1">
+                            <h:outputText value="#{plotadores.quantidade}">
+                                <f:convertNumber type="number" integerOnly="true" pattern="000" />
+                            </h:outputText>
+                        </rich:column>
+                        <rich:column styleClass="col1">
+                            <h:outputText value="#{plotadores.valorMoeda}">
+                               <f:convertNumber type="currency" currencySymbol="R$" />
+                            </h:outputText>
+                        </rich:column>                        
+                        <rich:column styleClass="col1">
+                            <a4j:commandLink ajaxSingle="true" id="printlinkreq"
+                                reRender="plotadorList"
+                                disabled="true"
+                                action="#{relPlotadorCB.relPlotadorMB.geraURLImpressaoPlotador}"
+                                oncomplete="javascript:popUp('#{relPlotadorCB.relPlotadorMB.urlPlotadorImpressao}')">
+                                <h:graphicImage value="/imgs/print_icon.gif" style="border:0" />
+                                <f:setPropertyActionListener value="#{plotadores.id}"
+                                    target="#{relPlotadorCB.relPlotadorMB.cobID}" />
+                                <rich:toolTip for="printlinkreq" value="Imprimir Requisicoes" />
+                            </a4j:commandLink>
+                            <rich:spacer width="5px" />
+                        </rich:column>
+                        <f:facet name="footer">
+                            <rich:datascroller id="dsPlotadores" maxPages="3"
+                                renderIfSinglePage="true" />
+                        </f:facet>
+                    </rich:dataTable>
+
+                </rich:panel>
+            </h:form>
+
+            <!-- Modal -->
+            <rich:modalPanel id="confirmationMessage" autosized="true"
+                width="200">
+                <f:facet name="header">
+                    <h:outputText value="Cadastro de Cobrador"
+                        style="padding-right:15px;" />
+                </f:facet>
+                <f:facet name="controls">
+                    <h:panelGroup>
+                        <h:graphicImage value="../imgs/icons/close.png"
+                            styleClass="hidelink" id="hidelink2" />
+                        <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                            operation="hide" event="onclick" />
+                    </h:panelGroup>
+                </f:facet>
+                <h:form>
+                    <table width="100%">
+                        <tbody>
+                            <tr>
+                                <td align="center" width="100%"><rich:messages
+                                    showDetail="false" showSummary="true" styleClass="texto" /></td>
+                            </tr>
+                            <tr>
+                                <td align="center" width="100%"><a4j:commandButton
+                                    value="OK"
+                                    onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </h:form>
+            </rich:modalPanel>
+
+            <rich:modalPanel id="panel_loading" autosized="true">
+                <h:graphicImage url="../imgs/ajax-loader.gif"
+                    style="border:0px; vertical-align: middle;" />
+                <rich:spacer width="20" />
+                <h:outputText value="Aguarde..." />
+            </rich:modalPanel>
+
+            <a4j:status id="loading"
+                onstart="Richfaces.showModalPanel('panel_loading')"
+                onstop="Richfaces.hideModalPanel('panel_loading')" />
+
+
+        </f:view>
+
+    </ui:define>	
 </ui:composition>

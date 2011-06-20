@@ -22,6 +22,7 @@ public class RelReqServCobradorCB implements Serializable {
 		FacesMessage facesMessage = new FacesMessage(message);
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
+	
 	public RelReqServCobradorMB loadRelCobradorMB() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		RelReqServCobradorMB relCobradorMB = (RelReqServCobradorMB) context
@@ -36,6 +37,8 @@ public class RelReqServCobradorCB implements Serializable {
 		locale = new Locale("pt", "br");
 		this.setRelCobradorMB(loadRelCobradorMB());
 	}
+	
+	//GETTERS AND SETTERS
 	public RelReqServCobradorMB getRelCobradorMB() {
 		return relCobradorMB;
 	}
