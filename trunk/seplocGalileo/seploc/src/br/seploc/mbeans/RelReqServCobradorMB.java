@@ -9,9 +9,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
 import br.seploc.dao.CobradorDAO;
-import br.seploc.dao.RequisicaoServicoDAO;
-import br.seploc.dao.pagedqueries.FilteredNameClientesPager;
-import br.seploc.pojos.Cliente;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.reports.beans.CobradorBeanGrid;
 import br.seploc.util.SessionObjectsManager;
@@ -38,7 +35,7 @@ public class RelReqServCobradorMB implements Serializable {
 		dataFim = Utils.getDataFinalMesCorrente();
 		urlCobradorImpressao = "";
 		urlCobradorGridImpressao = "";
-		cobradorImpressao = new CobradorBeanGrid();
+		setCobradorImpressao(new CobradorBeanGrid());
 		
 	}
 	// METODOS NEGOCIO
@@ -131,6 +128,14 @@ public class RelReqServCobradorMB implements Serializable {
 
 	public void setUrlCobradorGridImpressao(String urlCobradorGridImpressao) {
 		this.urlCobradorGridImpressao = urlCobradorGridImpressao;
+	}
+
+	public void setCobradorImpressao(CobradorBeanGrid cobradorImpressao) {
+		this.cobradorImpressao = cobradorImpressao;
+	}
+
+	public CobradorBeanGrid getCobradorImpressao() {
+		return cobradorImpressao;
 	}
 	
 	
