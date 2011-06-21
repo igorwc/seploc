@@ -1,0 +1,137 @@
+ 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="estilo.css" media="print"  />
+ <script language="Javascript1.2">
+  
+  function printpage() {
+  window.print();
+  }
+  
+</script>
+
+<title>Requisi&ccedil;&atilde;o servi&ccedil;o por Plotador</title>
+<style type="text/css">
+.reqtable {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+}
+.cab {
+   font-weight: bold;
+}
+
+.reqtable th {
+    padding: 3px 5px 2px 5px;
+    font-size: 10px;
+    text-align: left;
+    padding-top: 4px;
+    padding-bottom: 3px;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
+}
+
+.reqtable td {
+    font-size: 8px;
+    border: 0px solid #000000;
+    padding: 2px 4px 1px 4px;
+}
+
+.reqtable tr.alt td {
+    color: #000000;
+    background-color: #eeeeee;
+}
+
+.tabprim {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+}
+
+.tabprim td,#tabprim th {
+    font-size: 10px;
+    padding: 3px 5px 2px 5px;
+}
+</style>
+
+</head>
+<body style="font: serif; font-size: 9px;" onload="printpage()">
+
+<div> 
+<#assign counter=1> 
+<#list dados as linha>
+<center>
+
+<table style="text-align: left; width: 190mm;" border="1" class="tabprim">
+    <tr>
+        <td>
+        <table style="text-align: left; width: 100%;" border="0"
+            cellpadding="2" cellspacing="2" class="tabprim">
+            <tbody>
+                <tr>
+                    <td>${linha1}<br>
+                    ${linha2}<br>
+                    ${linha3}<br>
+                    ${linha4}</td>
+
+                    <td valign="bottom">Impress&atilde;o:
+                    ${current_date?string("dd-MM-yyyy")}<br>
+
+                    P&aacute;gina: ${counter}/${paginacao_total}</td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <hr style="color: #000000;" size="1">
+  
+        <table style="text-align: left; width: 100%;" border="0"
+            cellpadding="2" cellspacing="2" class="tabprim">
+            <tbody>
+                <tr>
+                    <td> Plotador: ${plotador}  </td>                     
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <hr style="color: #000000;" size="1">
+        <table style="text-align: left; width: 100%;" border="1"
+            cellpadding="2" cellspacing="2" class="reqtable">
+            <tbody>
+                <tr class="cab">
+                    <th style="width: 5%">Item</th>
+                    <th style="width: 10%">Requisi&ccedil;&atilde;o</th>
+                    <th style="width: 35%">Cliente</th>
+                    <th style="width: 40%">Projeto</th>
+                    <th style="width: 10%">Data</th>                    
+                </tr>
+<#assign row=0> 
+<#list linha as elemento>                 
+                <tr  class="<#if (row % 2) == 0 >alt<#else>nada</#if>" >
+                    <td>${elemento.seq}</td>
+                    <td>${elemento.numReq}</td>
+                    <td>${elemento.cliente}</td>
+                    <td>${elemento.projeto}</td>
+                    <td>${elemento.dataFormatada}</td>
+                </tr>
+<#assign row = row + 1> </#list>
+           </tbody> 
+        </table>
+        <br>
+        <br>
+
+        </td>
+    </tr>
+</table>
+</center>
+<br>
+<br>
+<#assign counter = counter + 1>
+</#list>
+</div>
+
+</body>
+</html>
+
