@@ -1,10 +1,8 @@
 package br.seploc.dao;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -116,7 +114,6 @@ public class CobradorDAO extends GenericDAO<Cobrador, Integer> {
 	
 	@Override
 	protected boolean verificaFilhos(Integer id) throws Exception {
-		Number contagemStatusCobranca = 0;
 		Number contagemSaidaMotoqueiros = 0;
 
 		Query q = em.createQuery(
