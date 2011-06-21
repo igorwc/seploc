@@ -11,29 +11,29 @@ import java.util.Map;
 
 import javax.xml.xpath.XPathConstants;
 
-import br.seploc.dao.CobradorDAO;
 import br.seploc.dao.RequisicaoServicoDAO;
-import br.seploc.pojos.Cobrador;
+import br.seploc.dao.UsuarioDAO;
 import br.seploc.pojos.RequisicaoServico;
+import br.seploc.pojos.Usuario;
 import br.seploc.reports.beans.ReqServImpBean;
 import br.seploc.util.HtmlManipulator;
 import br.seploc.util.xmlConfig.XPathReader;
 import freemarker.template.TemplateException;
 
-public class RelReqServPorCobrador implements Serializable {
+public class RelReqServPorPlotador implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private List<ArrayList<ReqServImpBean>> dados;
 	private List<Integer> listaReqServIds;
 	private List<RequisicaoServico> listaRequisicoes;
-	private Integer cobradorID;
-	private String cobrador;
+	private Integer plotadorID;
+	private String plotador;
 	private double valorTotal;
 	private int paginas;
 	private String linha1,linha2,linha3,linha4;
 	private String xmlPath;
 
-	public RelReqServPorCobrador() {
+	public RelReqServPorPlotador() {
 		dados = new ArrayList<ArrayList<ReqServImpBean>>();
 		listaReqServIds = new ArrayList<Integer>(0);
 		listaRequisicoes = new ArrayList<RequisicaoServico>();
@@ -46,10 +46,10 @@ public class RelReqServPorCobrador implements Serializable {
 		xmlPath = "src/META-INF/empresa.xml";
 	}
 
-	private void recuperaCobrador() {
-		CobradorDAO dao = new CobradorDAO();
-		Cobrador c = dao.recupera(cobradorID);
-		this.cobrador = c.getNome();
+	private void recuperaPlotador() {
+		UsuarioDAO dao = new UsuarioDAO();
+		Usuario u = dao.recupera(plotadorID);
+		this.plotador = u.getNome();
 	}
 
 	private void geraCabecalho() {
@@ -68,7 +68,7 @@ public class RelReqServPorCobrador implements Serializable {
 		int contador = 1;
 		int quantidadeReq = 0;
 		int paginas = 0;
-		recuperaCobrador();
+		recuperaPlotador();
 		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
 		if (listaReqServIds.size() == 0) {
 			ArrayList<ReqServImpBean> paginaVazia = new ArrayList<ReqServImpBean>(
@@ -128,12 +128,8 @@ public class RelReqServPorCobrador implements Serializable {
 				}
 				bean.setNumReq(r.getNumReq() + "");
 				bean.setSeq((contador++) + "");
-				bean.setData(r.getData());
-				
+				bean.setData(r.getData());				
 				bean.setSubtotal(formatter.format(r.getValorTotalComDesconto()) + "");
-//				bean.setSubtotalDesc(formatter.format(r.getValorTotalComDesconto()) + "");
-//				formatter = new DecimalFormat("00");
-//				bean.setDesconto(formatter.format(r.getOrcamento()) + "%");
 				pagina.add(bean);
 				aux++;
 				if (aux > 12) {
@@ -160,10 +156,11 @@ public class RelReqServPorCobrador implements Serializable {
 			}
 		}
 	}
+	
 	@SuppressWarnings("unchecked")
 	public Map getDataModel() {
 		Map map = new HashMap();
-		map.put("cobrador", cobrador);
+		map.put("plotador", plotador);
 		map.put("dados", dados);
 		map.put("paginacao", 1);
 		map.put("current_date", new Date());
@@ -197,7 +194,7 @@ public class RelReqServPorCobrador implements Serializable {
 		String retorno = "";
 		try {
 			String s = FreemarkerUtils.parseTemplate(getDataModel(),
-					"relReqServPorCobrador.html");
+					"relReqServPorPlotador.html");
 			retorno = HtmlManipulator.converteParaHtml(s);
 			System.out.println(s);
 		} catch (TemplateException e) {
@@ -208,8 +205,8 @@ public class RelReqServPorCobrador implements Serializable {
 		return retorno;
 	}
 
-	public void setCobradorID(Integer cobradorID) {
-		this.cobradorID = cobradorID;
+	public void setPlotadorID(Integer plotadorID) {
+		this.plotadorID = plotadorID;
 	}
 
 	public void setListaReqServIds(List<Integer> listaReqServIds) {
@@ -225,19 +222,9 @@ public class RelReqServPorCobrador implements Serializable {
 	}
 
 	public static void main(String[] args) {
-		RelReqServPorCobrador rr = new RelReqServPorCobrador();
+		RelReqServPorPlotador rr = new RelReqServPorPlotador();
 		List<Integer> lista = new ArrayList<Integer>();
-		/* TESTE 1 */
-		/* CLIENTE ATTO ENGENHARIA */
-//		rr.setClienteID(26);
-//		lista.add(59668);
-//		lista.add(109251);
-//		lista.add(76430);
-//		lista.add(73635);
-		
-		/* TESTE 2 */
-		/* CLIENTE ALCOA */
-		rr.setCobradorID(5);
+		rr.setPlotadorID(5);
 		lista.add(78105);
 		lista.add(78109);
 		lista.add(78735);

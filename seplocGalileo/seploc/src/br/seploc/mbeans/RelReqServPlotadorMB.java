@@ -5,8 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+
 import br.seploc.dao.UsuarioDAO;
+import br.seploc.pojos.RequisicaoServico;
 import br.seploc.reports.beans.PlotadorBeanGrid;
+import br.seploc.util.SessionObjectsManager;
 import br.seploc.util.Utils;
 
 public class RelReqServPlotadorMB  implements Serializable {
@@ -46,6 +51,24 @@ public class RelReqServPlotadorMB  implements Serializable {
 		listaPlotadores = retorno;
 		return retorno;
 	}
+	
+	public void geraURLImpressaoPlotador() {
+		FacesContext fcontext = FacesContext.getCurrentInstance();
+		ServletContext scontext = (ServletContext) fcontext
+				.getExternalContext().getContext();
+		UsuarioDAO dao = new UsuarioDAO();
+		List<RequisicaoServico> listaReqServ = dao.getListaReqServPorPlotador(ploID, dataInicio, dataFim);
+		ArrayList<Integer> listaids = new ArrayList<Integer>();
+		if(!listaReqServ.isEmpty()){
+			for(RequisicaoServico r : listaReqServ){
+				listaids.add(r.getNumReq());
+			}
+		}
+		SessionObjectsManager.adicionaObjetoSessao("ReqServIDs", listaids);
+		SessionObjectsManager.adicionaObjetoSessao("ploID", ploID);
+		urlPlotadorImpressao = scontext.getContextPath()
+				+ "/RelPlotadorImpressaoReqServ.report";
+	}	
 	
 	// GETTERS AND SETTERS
 	public Date getDataInicio() {

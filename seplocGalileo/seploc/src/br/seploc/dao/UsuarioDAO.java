@@ -11,8 +11,8 @@ import javax.persistence.TemporalType;
 import br.seploc.dao.exceptions.LoginExistenteException;
 import br.seploc.dao.exceptions.ParentDeleteException;
 import br.seploc.dao.exceptions.RecordNotFound;
+import br.seploc.pojos.RequisicaoServico;
 import br.seploc.pojos.Usuario;
-import br.seploc.reports.beans.CobradorBeanGrid;
 import br.seploc.reports.beans.PlotadorBeanGrid;
 import br.seploc.util.DesEncrypter;
 import br.seploc.util.GenericDAO;
@@ -205,7 +205,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 		
 		return  retorno;
 	}
-	@SuppressWarnings("unchecked")
+	
 	public Usuario getUsuarioAlteradorPorReqServ(Integer reqNum) {
 		boolean flag = em.getTransaction().isActive();
 		Usuario retorno = null;
@@ -360,6 +360,31 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 		// caso o valor seja nulo atribuir valor padrao
 		if (totalReqServUsuario == null) totalReqServUsuario = 0.0;
 		return totalReqServUsuario;
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public List<RequisicaoServico> getListaReqServPorPlotador(Integer plotadorID, Date dataInicio,
+			Date dataFim) {
+		List<RequisicaoServico> retorno = new ArrayList<RequisicaoServico>();
+		em.getTransaction().begin();
+
+		Query q = em.createQuery(
+				"SELECT rs FROM br.seploc.pojos.RequisicaoServico rs"
+						+ " where rs.data between :dataInicio and  :dataFim "						 
+						+ " and rs.numReq in (SELECT ru.numReqServ FROM br.seploc.pojos.ReqServUsuario ru " 
+					    + "                    WHERE ru.usuario.id = :plotadorID)" )
+						.setParameter(
+				            "plotadorID", plotadorID)
+				        .setParameter(
+				            "dataInicio", dataInicio,TemporalType.DATE)
+				        .setParameter(
+				            "dataFim", dataFim,TemporalType.DATE);
+		List<RequisicaoServico> listaReqServs =  (List<RequisicaoServico>)q.getResultList();
+		for(RequisicaoServico rs : listaReqServs){
+			retorno.add(rs);
+		}
+		em.getTransaction().commit();
+		return retorno; 
 	}	
 	
 	@Override
