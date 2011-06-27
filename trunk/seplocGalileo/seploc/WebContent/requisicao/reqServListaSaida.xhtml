@@ -138,7 +138,7 @@
 								<a4j:commandButton
 									value="Atualizar Registro"
 									action="#{reqServListaSaidaCB.reqServSaidaMB.cadastrar}"
-									reRender="reqServListTodos"
+									reRender="reqServListTodos,reqServListSaida"
 									oncomplete="#{rich:component('confirmationMessage')}.show();"/>
 								<rich:spacer width="5px"/>								
 								<a4j:commandButton
