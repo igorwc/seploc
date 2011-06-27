@@ -104,7 +104,7 @@ public class RequisicaoServicoDAO extends
 		Query q = em.createNamedQuery("RequisicaoServico.RetornaRequisicoesNaoOrcamento");
 		q.setParameter("dataInicio", dataInicio);
 		q.setParameter("dataFim", dataFim);		
-		q.setParameter("balcao", "S");
+		q.setParameter("balcao", 1); // 0 = NAO e 1= SIM
 		
 		return (List<RequisicaoServico>) q.getResultList();
 	}
