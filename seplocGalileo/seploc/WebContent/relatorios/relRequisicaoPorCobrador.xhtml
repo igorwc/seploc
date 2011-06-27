@@ -183,11 +183,12 @@
                             <a4j:commandLink ajaxSingle="true" id="printlinkreq"
                                 reRender="cobradorList"
                                 action="#{relCobradorCB.relCobradorMB.geraURLImpressaoCobrador}"
+                                disabled="#{cobradores.quantidade == 0 ? true : false}"
                                 oncomplete="javascript:popUp('#{relCobradorCB.relCobradorMB.urlCobradorImpressao}')">
                                 <h:graphicImage value="/imgs/print_icon.gif" style="border:0" />
                                 <f:setPropertyActionListener value="#{cobradores.id}"
                                     target="#{relCobradorCB.relCobradorMB.cobID}" />
-                                <rich:toolTip for="printlinkreq" value="Imprimir Requisicoes" />
+                                <rich:toolTip for="printlinkreq" value="#{cobradores.quantidade == 0 ? 'Nao existem requisicoes' : 'Imprimir Requisicoes'}" />
                             </a4j:commandLink>
                             <rich:spacer width="5px" />
                         </rich:column>
