@@ -188,13 +188,13 @@
                         <rich:column styleClass="col1">
                             <a4j:commandLink ajaxSingle="true" id="printlinkreq"
                                 reRender="plotadorList"
-                                disabled="true"
+                                disabled="#{plotadores.quantidade == 0 ? true : false}"
                                 action="#{relPlotadorCB.relPlotadorMB.geraURLImpressaoPlotador}"
                                 oncomplete="javascript:popUp('#{relPlotadorCB.relPlotadorMB.urlPlotadorImpressao}')">
                                 <h:graphicImage value="/imgs/print_icon.gif" style="border:0" />
                                 <f:setPropertyActionListener value="#{plotadores.id}"
-                                    target="#{relPlotadorCB.relPlotadorMB.cobID}" />
-                                <rich:toolTip for="printlinkreq" value="Imprimir Requisicoes" />
+                                    target="#{relPlotadorCB.relPlotadorMB.ploID}" />
+                                <rich:toolTip for="printlinkreq" value="#{plotadores.quantidade == 0 ? 'Nao existem requisicoes' : 'Imprimir Requisicoes'}" />
                             </a4j:commandLink>
                             <rich:spacer width="5px" />
                         </rich:column>
