@@ -120,17 +120,17 @@
 								<a4j:commandButton
 									value="Pesquisar Numero Requisicao"
 									action="#{reqServPagamentoCB.reqServPagamentoMB.pesquisar}"
-									reRender="reqServListTodos,reqServListPagamento" />
+									reRender="reqServListTodos,reqServListPaga" />
 								<rich:spacer width="5px"/>									
 								<a4j:commandButton
 									value="Iniciar Datas"
 									action="#{reqServPagamentoCB.reqServPagamentoMB.iniciarDatas}"
-									reRender="reqServListTodos,reqServListPagamento"/>
+									reRender="reqServListTodos,reqServListPaga"/>
 								<rich:spacer width="5px"/>
 								<a4j:commandButton
 									value="#{msgs['botao.limpar']}"
 									action="#{reqServPagamentoCB.reqServPagamentoMB.limpar}"
-									reRender="reqServListTodos,reqServListPagamento"/>																		
+									reRender="reqServListTodos,reqServListPaga"/>																		
 								</td>
 							</tr>
 						</table>
@@ -181,7 +181,9 @@
 							</h:outputText>
 						</rich:column>
 						<rich:column style="text-align:center">
-							<h:outputText value="#{req.data}" />
+							<h:outputText value="#{req.data}" >
+								<f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+							</h:outputText>
 						</rich:column>						
 						<rich:column style="text-align:center">	
 							<!-- pagamento -->							    
