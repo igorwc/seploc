@@ -12,5 +12,437 @@
 		<img src="../imgs/ponto.png" /><rich:spacer width="5px"/>
 		<h:outputText value="#{msgs.tax_reqserv_pagamento}" />
 	</ui:define>
+	
+	<!-- CONTEUDO -->
+	<ui:define name="conteudo">
+<style type="text/css">
+.row1 {
+	background-color: #EEF3E2;
+	font-size: 10px;
+}
+
+.row2 {
+	background-color: #ffffff;
+	font-size: 10px;
+}
+
+.col1 {
+	text-align: center;
+}
+
+.texto {
+	font-family: arial, tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}
+.tituloCampo {
+	font-family: arial, tahoma;
+	font-size: 8pt;
+	color: #000000;
+}
+.error {
+	font-weight: bold;
+	font-style: normal;
+	color: #FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+	padding-right: 10px;
+	padding-left: 10px;
+	height: 15pt;
+}
+
+.formulario,.formulario TD,.formulario TH {
+	background-color: #f2f2f5;
+}
+</style>
+
+		<f:view>
+			<h:form id="reqServListPaga" enctype="UTF-8" prependId="false">
+
+				<rich:panel header="Pagamento Requisicao Balcao">
+
+					<!-- Formulario -->
+					<center><rich:panel	header="Procurar Requisicao" 
+										style="width: 600px"										
+										id="reqServFiltros">
+						<table border="0">
+							<tr align="left">
+								<td width="200px"><h:outputText value="Requisicao: " styleClass="texto" /></td>
+								<td width="200px"><h:outputText value="Data Inicio: " styleClass="texto" /></td>
+								<td width="200px"><h:outputText value="Data Fim: " styleClass="texto" /></td>
+							</tr>
+							<tr>
+								<td><h:inputText value="#{reqServPagamentoCB.reqServPagamentoMB.reqServico.numReq}" 
+												 id="numReq"
+												 size="10">										
+									</h:inputText></td>
+								<td>
+	                                <rich:calendar value="#{reqServPagamentoCB.reqServPagamentoMB.dataInicio}"
+	                                           locale="#{reqServPagamentoCB.locale}"
+	                                           popup="true"
+	                                           datePattern="dd/MM/yyyy"
+	                                           showApplyButton="false" 
+	                                           cellWidth="15px" 
+	                                           cellHeight="22px" 
+	                                           style="block:inline">
+	                                           <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+	                                           <a4j:support event="onchanged" action="#{reqServPagamentoCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos,outputPaginacao" />
+	                                </rich:calendar></td>
+								<td>
+	                                <rich:calendar value="#{reqServPagamentoCB.reqServPagamentoMB.dataFim}"
+	                                           locale="#{reqServPagamentoCB.locale}"
+	                                           popup="true"
+	                                           datePattern="dd/MM/yyyy"
+	                                           showApplyButton="false" 
+	                                           cellWidth="15px" 
+	                                           cellHeight="22px" 
+	                                           style="block:inline" >
+	                                           <f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+	                                           <a4j:support event="onchanged" action="#{reqServPagamentoCB.validateDatas}" reRender="dataInvalidaMsg,reqServListTodos,outputPaginacao" />
+	                                </rich:calendar></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td colspan="2">
+									<a4j:outputPanel id="dataInvalidaMsg">
+                                		<h:outputText value="#{reqServPagamentoCB.datasInvalidasMsg}" 
+                                					  rendered="#{reqServPagamentoCB.reqServPagamentoMB.datasInvalidas}" 
+                                					  styleClass="error"/>
+                                	</a4j:outputPanel></td>
+							</tr>
+							<tr>
+								<td colspan="5" align="center">
+								<!-- Botoes --> 
+								<a4j:commandButton
+									value="Pesquisar Numero Requisicao"
+									action="#{reqServPagamentoCB.reqServPagamentoMB.pesquisar}"
+									reRender="reqServListTodos,reqServListPagamento" />
+								<rich:spacer width="5px"/>									
+								<a4j:commandButton
+									value="Iniciar Datas"
+									action="#{reqServPagamentoCB.reqServPagamentoMB.iniciarDatas}"
+									reRender="reqServListTodos,reqServListPagamento"/>
+								<rich:spacer width="5px"/>
+								<a4j:commandButton
+									value="#{msgs['botao.limpar']}"
+									action="#{reqServPagamentoCB.reqServPagamentoMB.limpar}"
+									reRender="reqServListTodos,reqServListPagamento"/>																		
+								</td>
+							</tr>
+						</table>
+
+					</rich:panel></center>
+					<!-- fim Formulario -->
+
+					<!-- === GRID === -->
+					<rich:dataTable value="#{reqServPagamentoCB.gridPagamento}"
+									var="req" 
+									rowClasses="row1, row2" 
+									id="reqServListTodos" 
+									rows="12"
+									onRowMouseOver="this.style.backgroundColor='#E0EEEE'"
+									onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"									 
+									align="center"
+									width="600">
+						<f:facet name="header">
+							<rich:columnGroup>
+
+								<rich:column colspan="5">
+									<h:outputText value="Listar Requisicoes Balcao" />
+								</rich:column>
+
+								<rich:column breakBefore="true" width="50">
+									<h:outputText value="Status" />
+								</rich:column>
+								<rich:column width="80">
+									<h:outputText value="Requisicao" />
+								</rich:column>
+								<rich:column width="50">
+									<h:outputText value="Data" />
+								</rich:column>								
+								<rich:column width="140">
+									<h:outputText value="" />
+								</rich:column>								
+
+							</rich:columnGroup>
+						</f:facet>
+
+						<rich:column style="text-align:center">
+							<h:graphicImage id="altstatus" value="/imgs/#{req.pago=='N' ? 'bvermelho.png' : 'bverde.png'}" />
+							<rich:toolTip for="altstatus" value="#{req.pago=='N' ? 'Nao Pago' : 'Pago'}" />
+						</rich:column>
+						<rich:column style="text-align:center">
+							<h:outputText value="#{req.numReq}">
+								<f:convertNumber pattern="#000000" />
+							</h:outputText>
+						</rich:column>
+						<rich:column style="text-align:center">
+							<h:outputText value="#{req.data}" />
+						</rich:column>						
+						<rich:column style="text-align:center">	
+							<!-- pagamento -->							    
+							<a4j:commandLink ajaxSingle="true" 
+											 id="paglinkreq"
+											 reRender="reqServListTodos" 
+											 action="#{reqServPagamentoCB.reqServPagamentoMB.pagar}"
+											 disabled="#{req.pago=='N' ? 'false' : 'true'}"
+											 oncomplete="#{rich:component('confirmationMessage')}.show();">											 
+								<h:graphicImage value="/imgs/cifrao_icon.gif" style="border:0" />
+								<f:setPropertyActionListener value="#{req.numReq}"
+									target="#{reqServPagamentoCB.reqServPagamentoMB.numReq}" />
+							</a4j:commandLink>
+							<rich:toolTip for="paglinkreq" value="#{req.pago=='N' ? 'Registrar Pagamento' : 'Ja Pago'}" />
+						    <rich:spacer width="5px"/>								
+						    <!-- mostrar -->
+							<a4j:commandLink ajaxSingle="true" 
+											 id="viewlinkreq"												
+											 reRender="reqServListTodos,modalReqServ"											 		
+											 action="#{reqServPagamentoCB.reqServPagamentoMB.mostrar}"
+											 oncomplete="#{rich:component('modalReqServ')}.show();return false;">
+								<h:graphicImage value="/imgs/view_icon.gif" style="border:0" />
+								<f:setPropertyActionListener value="#{req.numReq}"
+									target="#{reqServPagamentoCB.reqServPagamentoMB.numReqVisualizar}" />
+							</a4j:commandLink>
+							<rich:toolTip for="viewlinkreq" value="Mostrar Requisicao" />						
+
+						</rich:column>
+
+					</rich:dataTable>	
+					<center>
+                        <h:panelGrid columns="5" style=" width : 100px;" >
+                        
+                            <a4j:commandButton
+                                    value="primeiro"
+                                    action="#{reqServPagamentoCB.reqServPagamentoMB.primeiraPagina}"
+                                    reRender="reqServFiltros,reqServListTodos,outputPaginacao"
+                                    image="/imgs/ceta_pri.png"/>
+                             <a4j:commandButton
+                                    value="anterior"
+                                    action="#{reqServPagamentoCB.reqServPagamentoMB.paginaAnterior}"
+                                    reRender="reqServFiltros,reqServListTodos,outputPaginacao"
+                                    image="/imgs/ceta_ant.png"/>
+                             <h:outputText value="#{reqServPagamentoCB.reqServPagamentoMB.paginacaoFormatada}" id="outputPaginacao"/>                                     
+                             <a4j:commandButton
+                                    value="proxima"
+                                    action="#{reqServPagamentoCB.reqServPagamentoMB.proximaPagina}"
+                                    reRender="reqServFiltros,reqServListTodos,outputPaginacao"
+                                    image="/imgs/ceta_pro.png"/>
+                             <a4j:commandButton
+                                    value="ultima"
+                                    action="#{reqServPagamentoCB.reqServPagamentoMB.ultimaPagina}"
+                                    reRender="reqServFiltros,reqServListTodos,outputPaginacao"
+                                    image="/imgs/ceta_ult.png"/>
+                                      
+                        </h:panelGrid>
+                    </center>  					
+				</rich:panel>				
+			</h:form>
+			
+	      	<!-- Confirmacao -->
+	        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+	        <f:facet name="header">
+	            <h:outputText value="Requisicao de Servicos"
+	                style="padding-right:15px;" />
+	        </f:facet>
+	        <f:facet name="controls">
+	            <h:panelGroup>
+	                <h:graphicImage value="/imgs/icons/close.png"
+	                    styleClass="hidelink" id="hidelink2" />
+	                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+	                    operation="hide" event="onclick" />
+	            </h:panelGroup>
+	        </f:facet>
+	        <h:form>
+	            <table width="100%">
+	                <tbody>
+	                    <tr>
+	                        <td align="center" width="100%">
+	                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td align="center" width="100%"><a4j:commandButton
+	                            value="OK"
+	                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+	                        </td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	        </h:form>
+	    </rich:modalPanel>				
+	    
+	    
+	    
+			<!-- Modal Mostrar Requisicao -->
+			<rich:modalPanel id="modalReqServ" 
+							 autosized="true" 
+							 width="700"
+							 height="200">
+				<f:facet name="header">
+					<h:outputText value="Requisicao de Servico"
+						style="padding-right:15px;" />
+				</f:facet>
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/imgs/icons/close.png" id="hidemodalrs" />
+						<rich:componentControl for="modalReqServ" attachTo="hidemodalrs"
+							operation="hide" event="onclick" />
+					</h:panelGroup>
+				</f:facet>
+				<table width="700" border="0">
+					<tr>
+						<td width="25%"><h:outputText value="Numero:" styleClass="tituloCampo"/></td>
+						<td width="25%"><h:outputText value="Valor Total (R$):" styleClass="tituloCampo" /></td>
+						<td width="50%"><h:outputText value="Entrega:" styleClass="tituloCampo"/></td>
+					</tr>
+					<tr>												
+						<td><h:outputText value="#{reqServPagamentoCB.reqServPagamentoMB.reqServico.numReq}" styleClass="texto"><f:convertNumber pattern="#000000" /></h:outputText></td>
+						<td><h:outputText value="#{reqServPagamentoCB.reqServPagamentoMB.reqServico.valorTotal}" styleClass="texto"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText></td>
+						<td><h:outputText value="#{reqServPagamentoCB.reqServPagamentoMB.reqServico.entrega.local}"  styleClass="texto"/></td>
+					</tr>
+					<tr>
+						<td colspan="2"><h:outputText value="Cliente:" styleClass="tituloCampo"/></td>
+						<td colspan="1"><h:outputText value="Projeto:" styleClass="tituloCampo"/></td>												
+					</tr>
+					<tr>
+						<td colspan="2"><h:outputText value="#{reqServPagamentoCB.reqServPagamentoMB.reqServico.projeto.cliente.fantasia}"  styleClass="texto"/></td>
+						<td colspan="1"><h:outputText value="#{reqServPagamentoCB.reqServPagamentoMB.reqServico.projeto.projeto}"  styleClass="texto"/></td>																
+					</tr>
+				</table>
+				<h:form>
+					<!-- linhas -->
+					<rich:dataTable
+						value="#{reqServPagamentoCB.reqServPagamentoMB.reqServico.linhaRequisicao}"
+						var="linha" 
+						rowClasses="row1, row2"						 
+						rows="6"
+						onRowMouseOver="this.style.backgroundColor='#E0EEEE'"
+						onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'" 
+						reRender="dsrs" 
+						id="simpletablers">
+						<f:facet name="header">
+							<rich:columnGroup>
+
+								<rich:column colspan="7">
+									<h:outputText value="Linhas da Requisicao" />
+								</rich:column>
+
+								<rich:column breakBefore="true" width="300">
+									<h:outputText value="Descricao" />
+								</rich:column>
+								<rich:column width="50">
+									<h:outputText value="Formato" />
+								</rich:column>
+								<rich:column width="50">
+									<h:outputText value="Dimensao" />
+								</rich:column>
+								<rich:column width="100">
+									<h:outputText value="Papel" />
+								</rich:column>
+								<rich:column width="100">
+									<h:outputText value="Impressao" />
+								</rich:column>
+								<rich:column width="50">
+									<h:outputText value="Quant" />
+								</rich:column>
+								<rich:column width="50">
+									<h:outputText value="Valor Unit." />
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+
+						<rich:column>
+							<h:outputText value="#{linha.nomeArquivo}" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="#{linha.formato}" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="#{linha.dimensao}" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="#{linha.papel.nome}" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="#{linha.impressao}" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="#{linha.quant}" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="#{linha.valorUnit}">
+								<f:convertNumber type="currency" currencySymbol="R$" />
+							</h:outputText>
+						</rich:column>
+						<f:facet name="footer">
+							<rich:datascroller id="dsrs" renderIfSinglePage="true"></rich:datascroller>
+						</f:facet>
+					</rich:dataTable>
+
+					<!-- opcionais -->
+					<rich:dataTable
+						value="#{reqServPagamentoCB.reqServPagamentoMB.gridOpcionais}"
+						var="opc" 
+						rowClasses="row1, row2"						 
+						rows="4"
+						onRowMouseOver="this.style.backgroundColor='#E0EEEE'"
+						onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'" 
+						reRender="dsopcrs" 
+						id="simpletableopcrs">
+						<f:facet name="header">
+							<rich:columnGroup>
+
+								<rich:column colspan="3">
+									<h:outputText value="Opcionais da Requisicao" />
+								</rich:column>
+
+								<rich:column breakBefore="true" width="500">
+									<h:outputText value="Descricao" />
+								</rich:column>
+								<rich:column width="100">
+									<h:outputText value="Quantidade" />
+								</rich:column>
+								<rich:column width="100">
+									<h:outputText value="Valor Unit." />
+								</rich:column>									
+							</rich:columnGroup>
+						</f:facet>
+
+						<rich:column>
+							<h:outputText value="#{opc.opcionaisReqServ.nomeItem}" />
+						</rich:column>
+						<rich:column>
+							<h:outputText value="#{opc.quantidade}">								
+							</h:outputText>
+						</rich:column>
+						<rich:column>
+							<h:outputText value="#{opc.opcionaisReqServ.valorItem}">								
+							</h:outputText>
+						</rich:column>							
+						<f:facet name="footer">
+							<rich:datascroller id="dsopcrs" renderIfSinglePage="true"></rich:datascroller>
+						</f:facet>
+					</rich:dataTable>
+				</h:form>
+			</rich:modalPanel>
+	    
+        <rich:modalPanel id="panel_loading" autosized="true">
+            <h:graphicImage url="../imgs/ajax-loader.gif" 
+                            style="border:0px; vertical-align: middle;" />
+            <rich:spacer width="20" />
+            <h:outputText value="Aguarde..." />
+        </rich:modalPanel>
+
+        <a4j:status id="loading" 
+                    onstart="Richfaces.showModalPanel('panel_loading')" 
+                    onstop="Richfaces.hideModalPanel('panel_loading')" />
+						
+			
+		</f:view>
+	</ui:define>	
 </ui:composition>
 
