@@ -247,6 +247,17 @@
   <managed-bean-class>br.seploc.controllers.ReqServListaCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
+ <!-- Requisicao Lista Pagamento-->
+ <managed-bean>
+  <managed-bean-name>reqServPagamentoMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.ReqServListaPagamentoMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>reqServPagamentoCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.ReqServListaPagamentoCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean> 
  <!-- Regras Navegação -->
  <navigation-rule>
   <from-view-id>/login.xhtml</from-view-id>

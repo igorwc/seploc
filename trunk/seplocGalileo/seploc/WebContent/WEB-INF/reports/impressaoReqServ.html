@@ -71,7 +71,7 @@
 <div><#assign counter=1> <#list dados as linha>
 
 <center>
-
+<br>
 <table style="text-align: left; width: 190mm;" border="1" class="tabprim">
     <tr>
         <td>
@@ -134,10 +134,10 @@
             <tbody>
                 <tr>
                     <td style="width: 40%"> Projeto: ${nomeProjeto}  </td>
-                    <td style="width: 60%"><font class="textoMsg">
-                        <#if orcamento == 1>
-                           O R C A M E N T O
-                        </#if></font>  
+                    <td style="width: 60%"><font class="textoMsg">                        
+					                        <#if orcamento == 1  > O R C A M E N T O </#if>
+					                        <#if pago == 'S'> = = > P A G O < = = </#if>
+					                       </font>  
                    </td>  
                 </tr>
 
@@ -318,10 +318,10 @@
             <tbody>
                 <tr>
                     <td style="width: 40%"> Projeto: ${nomeProjeto}  </td>
-                    <td style="width: 60%"><font class="textoMsg">
-                        <#if orcamento == 1>
-                           O R C A M E N T O
-                        </#if></font>  
+                    <td style="width: 60%"><font class="textoMsg">                        
+					                        <#if orcamento == 1 > O R C A M E N T O </#if>
+					                        <#if pago == 'S'> = = > P A G O < = = </#if>
+					                       </font>  
                    </td>  
                 </tr>
 
@@ -438,8 +438,8 @@
     </tr>
 </table>
 </center>
-<br>
-<br>
+
+
 <#assign counter = counter + 1>
 </#list></div>
 
