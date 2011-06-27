@@ -178,7 +178,7 @@ public class RelReqServPorPlotador implements Serializable {
 		String retorno = "";
 		try {
 			String s = FreemarkerUtils.parseTemplateWeb(getDataModel(),
-					"relReqServPorCobrador.html", dir);
+					"relReqServPorPlotador.html", dir);
 			retorno = HtmlManipulator.converteParaHtml(s);
 			;
 		} catch (TemplateException e) {

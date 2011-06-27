@@ -2,6 +2,7 @@ package br.seploc.pojos;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +41,12 @@ import javax.persistence.Version;
 		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoesLimitadoTempo", query = " SELECT * "
 				+ "FROM tbl_reqserv "
 				+ "where datData >= :data order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
+		@NamedNativeQuery(name = "RequisicaoServico.RetornaRequisicoesNaoOrcamento", query = " SELECT r.* "
+				+ "FROM tbl_reqserv r, tbl_projetos p, tbl_clientes c "
+				+ "where r.intCodProj = p.intCodProj and p.intClienteID = c.intClienteID "
+				+ "and c.intBalcao = :balcao and r.chrOrcamento = 'N' "
+				+ "and r.datData between :dataInicio and :dataFim "
+				+ "order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),				
 		@NamedNativeQuery(name = "RequisicaoServico.FiltraProjeto", query = " SELECT * "
 				+ "FROM tbl_reqserv "
 				+ "where intCodProj = :projeto order by intNumReq desc", resultSetMapping = "RequisicaoServico.implicit"),
@@ -101,6 +108,9 @@ public class RequisicaoServico implements Serializable {
 
 	@Column(name = "dblDesconto")
 	private Double desconto;
+	
+	@Column(name = "chrPago")
+	private String pago;
 	
 	@Version
 	@Column(name = "tspVersao")
@@ -328,6 +338,26 @@ public class RequisicaoServico implements Serializable {
 
 	public void setValorDesconto(Double valorDesconto) {
 		this.valorDesconto = valorDesconto;
+	}
+
+	public void setPago(String pago) {
+		this.pago = pago;
+	}
+
+	public String getPago() {
+		return pago;
+	}
+	
+	public String getDataFormatado(){
+		String saida;
+		SimpleDateFormat format =
+            new SimpleDateFormat("dd-MM-yyyy");
+		if (data != null) {
+			saida = format.format(data);
+		} else {
+			saida = null;
+		}
+		return saida;
 	}
 
 	@Override

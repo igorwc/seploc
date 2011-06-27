@@ -46,6 +46,7 @@ public class ReportImpressaoReqServGenerator {
 	private int hasDesconto;
 	private String localEntrega;
 	private int orcamento;
+	private String pago;
 	private String linha1,linha2,linha3,linha4;
 	private String xmlPath;
 
@@ -67,6 +68,7 @@ public class ReportImpressaoReqServGenerator {
 		hasDesconto = 0;
 		localEntrega = "";
 		orcamento = 0;
+		pago = "N";
 		linha1 ="";
 		linha2 ="";
 		linha3 ="";
@@ -180,9 +182,7 @@ public class ReportImpressaoReqServGenerator {
 			return;
 		}
 		verificaEntrega();
-//		String sql = "SELECT dblValorTotal as vtotal, (dblValorTotal- dblValorTotal *intOrcamento/100) as total" +
-//					 " FROM tbl_reqserv"+
-//				     " WHERE  intNumreq = ?";
+
 		try {
 			RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
 			
@@ -200,7 +200,10 @@ public class ReportImpressaoReqServGenerator {
 			} else {
 				orcamento = 0;
 			}
-		
+
+			this.pago = rs.getPago();
+			System.out.println("Pago (set):" + rs.getPago());
+			
 			ReqServUsuario rsu = rs.getRequisicaoUsuario();
 			if (rsu.getDataAlteracao() != null && rsu.getUsuarioAlteracao() != null){
 				this.operador = rsu.getUsuarioAlteracao().getNome();
@@ -226,34 +229,7 @@ public class ReportImpressaoReqServGenerator {
 			} else {
 				hasDesconto = 0;
 			}
-//			PreparedStatement stmt = connection.prepareStatement(sql);
-//			stmt.setInt(1, numRequisicao);
-//			ResultSet rs = stmt.executeQuery();
-//			if (rs.next()) {
-//				Double flag = rs.getDouble("vtotal");
-//				Double flag2 = rs.getDouble("total");
-//				if (flag != null) {
-//					this.valorTotal = flag;
-//				} else {
-//					this.valorTotal = 0.0;
-//				}
-//				if (flag2 != null) {
-//					this.valorTotalDesconto = flag2;
-//				} else {
-//					this.valorTotalDesconto = 0.0;
-//				}
-//				System.out.println("Valores:");
-//				System.out.println("Total:"+valorTotal );
-//				System.out.println("Totald:"+valorTotalDesconto );
-//				System.out.println("flag.doubleValue():"+flag.doubleValue() );
-//				System.out.println("flag2.doubleValue():"+flag2.doubleValue() );
-//				System.out.println("flag.doubleValue() == flag2.doubleValue():"+(flag.doubleValue() == flag2.doubleValue() ));
-//				if(flag.doubleValue() != flag2.doubleValue()){
-//					hasDesconto = 1;
-//				} else {
-//					hasDesconto = 0;
-//				}
-//			}
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -314,8 +290,9 @@ public class ReportImpressaoReqServGenerator {
 	public Map getDataModel() {
 		Map map = new HashMap();
 		calculaTotalRequisicao();
-		map.put("localEntrega", localEntrega);
+		//map.put("localEntrega", localEntrega);
 		map.put("orcamento", orcamento);
+		map.put("pago", pago); System.out.println("Pago: "+ pago);
 		map.put("cliente", cliente);
 		map.put("dados", dados);
 		map.put("subs", subtotais);
@@ -537,21 +514,7 @@ public class ReportImpressaoReqServGenerator {
 
 	public String imprimeDados() {
 		String retorno = "";
-		// System.out.println("Código Projeto: " + codProjeto);
-		// System.out.println("Nome Projeto: " + nomeProjeto);
-		// System.out.println("Tem opcionais: "+ hasOpcionais);
-		// System.out.println("Preço da entrega: "+ entrega);
-		// System.out.println("Quantidade de Itens: "+ qtdItens);
-		// System.out.println("Operador: "+operador);
-		// System.out.println("Data Ultima Alteracao:" + dataAlteracao);
-		// System.out.println(cliente);
-		// for (ArrayList<ImpressaoBean> linha : dados) {
-		// for (ImpressaoBean elemento : linha) {
-		// System.out.println(elemento);
-		// }
-		// System.out
-		// .println("\n\n\n\n\n----------------Página---------------\n\n\n\n\n");
-		// }
+
 		try {
 			String s = FreemarkerUtils.parseTemplate(getDataModel(),
 					"impressaoReqServ.html");
@@ -576,24 +539,7 @@ public class ReportImpressaoReqServGenerator {
 
 	}
 
-	// public String geraPaginaHTML() {
-	// try {
-	// String s = FreemarkerUtils.parseTemplate(getDataModel(),
-	// "impressaoReqServ.html");
-	// OutputStream os = new
-	// FileOutputStream("src/relatorios/impressaoReqServ.pdf");
-	// UtilsArquivo.salvar("src/relatorios/impressaoReqServ2.html",HtmlManipulator.converteParaHtml(s),
-	// false);
-	// } catch (TemplateException e) {
-	// e.printStackTrace();
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// OutputStream os = new FileOutputStream(outputFile);
 
-	// }
-	
-	
 	
 	/**
 	 * @param args
