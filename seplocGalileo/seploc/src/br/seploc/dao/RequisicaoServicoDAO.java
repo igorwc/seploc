@@ -1,7 +1,6 @@
 package br.seploc.dao;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -101,6 +100,16 @@ public class RequisicaoServicoDAO extends
 	}
 
 	@SuppressWarnings("unchecked")
+	public List<RequisicaoServico> getListaBalcao(Date dataInicio, Date dataFim) {
+		Query q = em.createNamedQuery("RequisicaoServico.RetornaRequisicoesNaoOrcamento");
+		q.setParameter("dataInicio", dataInicio);
+		q.setParameter("dataFim", dataFim);		
+		q.setParameter("balcao", "S");
+		
+		return (List<RequisicaoServico>) q.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<RequisicaoServico> getListaPorProjeto(Cliente cliente) {
 		em.getTransaction().begin();
 		Query q = em.createNamedQuery(
@@ -121,7 +130,6 @@ public class RequisicaoServicoDAO extends
 //		em.getTransaction().commit();
 		return (List<RequisicaoServico>) q.getResultList();
 	}
-
 
 	@SuppressWarnings("unchecked")
 	public List<Object>  getListaProducao(Integer balcao) {
@@ -195,13 +203,28 @@ public class RequisicaoServicoDAO extends
 		RequisicaoServico reqServ = em.find(RequisicaoServico.class, id);
 		if (reqServ == null) {
 			em.getTransaction().rollback();
-			throw new RecordNotFound("Requisição de Servição não encontrado!");
+			throw new RecordNotFound("Requisição de Servicao nao encontrado!");
 		} else {
 			em.remove(reqServ);
 		}
 		em.getTransaction().commit();
 
 		return null;
+	}
+	
+	public RequisicaoServico pagar(Integer id) throws Exception {
+		em.getTransaction().begin();
+		RequisicaoServico reqServ = em.find(RequisicaoServico.class, id);
+		if (reqServ == null) {
+			em.getTransaction().rollback();			
+			throw new RecordNotFound("Requisição de Servicao nao encontrado!");
+		} else {			
+			reqServ.setPago("S");
+			em.merge(reqServ);
+		}
+		em.getTransaction().commit();
+
+		return reqServ;		
 	}
 	
 	public LinhaRequisicao removeLinha(LinhaRequisicao l) throws Exception {

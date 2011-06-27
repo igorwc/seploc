@@ -18,6 +18,7 @@ import br.seploc.pojos.Cobrador;
 import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
 import br.seploc.pojos.SaidaMotoqueiro;
+import br.seploc.util.Utils;
 
 
 public class ReqServListaSaidaMB implements Serializable {
@@ -145,8 +146,7 @@ public class ReqServListaSaidaMB implements Serializable {
 		this.datasInvalidas = datasInvalidas;
 	}
 
-	// METODOS
-	
+	// METODOS	
 	public void mostrar(){
 		try{
 			reqServico = reqServicoDAO.recupera(numReqVisualizar);
@@ -217,12 +217,18 @@ public class ReqServListaSaidaMB implements Serializable {
 			saidaMotoqueiro.setDataPagamento(hoje);
 			saidaMotoqueiroDAO.altera(saidaMotoqueiro);
 			
+			// verificar se existe requisicao e efetuar pagamento
+			if (saidaMotoqueiro.getReqServico() != null){
+				reqServicoDAO.pagar(saidaMotoqueiro.getReqServico().getNumReq());
+			}		
+			
 			addGlobalMessage("Saida '"+ numSaidaMoto +"' Pago!");
 		} else {
 			addGlobalMessage("Saida '"+ numSaidaMoto +"' já estava Pago!");
 		}
 		
 		this.limpar();
+		
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -288,11 +294,22 @@ public class ReqServListaSaidaMB implements Serializable {
 						// para registrar a saida eh necessario ou uma requisicao ou um cliente 
 						if ((existeReqServ && !existeCliente)||(!existeReqServ && existeCliente)) {
 							
-							this.saidaMotoqueiroDAO.adiciona(saidaMotoqueiro);
-							addGlobalMessage("Saida registrada com sucesso!");
+							if (this.saidaMotoqueiro.getReqServico() != null) System.out.println("nulo");
+							if (this.saidaMotoqueiro.getReqServico().getOrcamento().toString() == "S") System.out.println("Orc SIM");
 							
-							limpar();
+							// se a requisicao for orcamento apresentar erro
+							if (this.saidaMotoqueiro.getReqServico() != null &&
+							    this.saidaMotoqueiro.getReqServico().getOrcamento() == "S") {
 							
+								addGlobalMessage("Esta requisicao eh um orcamento!");
+
+							} else {
+							
+								this.saidaMotoqueiroDAO.adiciona(saidaMotoqueiro);
+								addGlobalMessage("Saida registrada com sucesso!");
+								
+								limpar();
+							}
 							
 						} else {
 							addGlobalMessage("Informe uma requisição ou um cliente!");
@@ -345,17 +362,8 @@ public class ReqServListaSaidaMB implements Serializable {
 		return lista;
 	}	
 	
-	private Calendar getDayAgo(int dias){
-		Calendar dia = Calendar.getInstance();
-		//dias atras
-		dias = dias * -1;
-		dia.add(Calendar.DATE, dias);
-		System.out.println(dia.getTime());
-		return dia;
-	}	
-	
 	public void iniciarDatas(){
-		dataInicio = new Date(this.getDayAgo(5).getTimeInMillis());
+		dataInicio = new Date(Utils.getDayAgo(6).getTimeInMillis());
 		dataFim = new Date(Calendar.getInstance().getTimeInMillis());		
 	}
 	

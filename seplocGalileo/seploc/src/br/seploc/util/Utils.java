@@ -76,4 +76,14 @@ public class Utils {
 		
 		return finalMes;
 	}
+	
+	public static Calendar getDayAgo(int dias){
+		Calendar dia = Calendar.getInstance();
+		//dias atras
+		dias = dias * -1;
+		dia.add(Calendar.DATE, dias);
+		System.out.println(dia.getTime());
+		
+		return dia;
+	}		
 }
