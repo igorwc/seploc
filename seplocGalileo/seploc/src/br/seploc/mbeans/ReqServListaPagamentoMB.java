@@ -68,7 +68,7 @@ public class ReqServListaPagamentoMB implements Serializable {
 	public void pagar(){
 		try {
 			reqServico = reqServicoDAO.pagar(numReq);
-			addGlobalMessage("Requisicao ' "+ numReq +" ' Pago!");
+			addGlobalMessage("Requisicao ' "+ String.format("%06d",numReq) +" ' Pago!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());

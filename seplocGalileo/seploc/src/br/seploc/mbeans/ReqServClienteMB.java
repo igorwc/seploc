@@ -596,6 +596,7 @@ public class ReqServClienteMB implements Serializable {
 					reqServico.setStatus(0);
 					reqServico.setVisivelNf(0);
 					reqServico.setVisivelReq(0);
+					reqServico.setPago("N");
 					
 					// adicionar a requisicao de servico se um dos itens obrigatoriso existirem
 					if (existeLinha || existeOpcional){

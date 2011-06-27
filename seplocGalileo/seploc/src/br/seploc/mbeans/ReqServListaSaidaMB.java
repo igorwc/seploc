@@ -172,7 +172,7 @@ public class ReqServListaSaidaMB implements Serializable {
 			saidaMotoqueiro = saidaMotoqueiroDAO.recupera(numSaidaMoto);
 			Integer numSaida = saidaMotoqueiro.getNumSaida();
 			saidaMotoqueiroDAO.remove(numSaida);
-			addGlobalMessage("Saida '"+ numSaidaMoto +"' Excluido!");
+			addGlobalMessage("Saida '"+ String.format("%06d",numSaidaMoto) +"' Excluido!");
 
 		
 		} catch (Exception e) {
@@ -222,9 +222,9 @@ public class ReqServListaSaidaMB implements Serializable {
 				reqServicoDAO.pagar(saidaMotoqueiro.getReqServico().getNumReq());
 			}		
 			
-			addGlobalMessage("Saida '"+ numSaidaMoto +"' Pago!");
+			addGlobalMessage("Saida '"+ String.format("%06d",numSaidaMoto) +"' Pago!");
 		} else {
-			addGlobalMessage("Saida '"+ numSaidaMoto +"' já estava Pago!");
+			addGlobalMessage("Saida '"+ String.format("%06d",numSaidaMoto) +"' já estava Pago!");
 		}
 		
 		this.limpar();
@@ -294,14 +294,12 @@ public class ReqServListaSaidaMB implements Serializable {
 						// para registrar a saida eh necessario ou uma requisicao ou um cliente 
 						if ((existeReqServ && !existeCliente)||(!existeReqServ && existeCliente)) {
 							
-							if (this.saidaMotoqueiro.getReqServico() != null) System.out.println("nulo");
-							if (this.saidaMotoqueiro.getReqServico().getOrcamento().toString() == "S") System.out.println("Orc SIM");
-							
 							// se a requisicao for orcamento apresentar erro
 							if (this.saidaMotoqueiro.getReqServico() != null &&
-							    this.saidaMotoqueiro.getReqServico().getOrcamento() == "S") {
+							    this.saidaMotoqueiro.getReqServico().getOrcamento().contentEquals("S")) {
 							
-								addGlobalMessage("Esta requisicao eh um orcamento!");
+								addGlobalMessage("A requisicao " + String.format("%06d", saidaMotoqueiro.getReqServico().getNumReq())  + "\n eh um orcamento.");
+								this.limpar();
 
 							} else {
 							
@@ -338,7 +336,7 @@ public class ReqServListaSaidaMB implements Serializable {
 					saidaMotoqueiro.setCobrador(cobrador);
 					saidaMotoqueiroDAO.altera(saidaMotoqueiro);				
 					
-					addGlobalMessage("Saida '"+ numSaidaMoto +"' Alterado!");
+					addGlobalMessage("Saida '"+ String.format("%06d",numSaidaMoto) +"' Alterado!");
 					
 					limpar();
 				} else {
