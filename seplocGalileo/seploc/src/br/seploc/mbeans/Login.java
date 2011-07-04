@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.seploc.dao.UsuarioDAO;
@@ -119,7 +118,7 @@ public class Login {
 			   SessionObjectsManager.removeObjetoSessao(m.getNome()+"_ESC" );
 		}
 		ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
-		HttpServletResponse response = (HttpServletResponse)ectx.getResponse();
+		//HttpServletResponse response = (HttpServletResponse)ectx.getResponse();
 		HttpSession session = (HttpSession)ectx.getSession(false);
 		session.invalidate(); 
 		this.loginOk = false;
@@ -192,22 +191,9 @@ public class Login {
 			falhaLogin = true;
 			return "loginErro";
 		}
-		// DesEncrypter encrypter = new DesEncrypter();
-		// String decrypted = encrypter.decrypt(usuario.getPassword());
-		// if (usuario.getLogin().equals(userName) &&
-		// decrypted.equals(password)) {
 		loginOk = true;
-		// APAGAR
-		// FacesContext.getCurrentInstance().getExternalContext()
-		// .getSessionMap().put("usuarioLogado", loginOk);
 		SessionObjectsManager.adicionaObjetoSessao("usuarioLogado", loginOk);// recuperaObjetoSessao("usuarioSessao");
 		this.user = usuario;
-		// APAGAR
-		// HttpServletRequest req = (HttpServletRequest) FacesContext
-		// .getCurrentInstance().getExternalContext().getRequest();
-		// HttpSession s = req.getSession(true);
-		// s.setMaxInactiveInterval(3600);
-		// req.getSession().setAttribute("usuarioSessao", this.user);
 		SessionObjectsManager.adicionaObjetoSessao("usuarioSessao", this.user);
 		falhaLogin = false;
 		userName = this.user.getLogin();
@@ -216,12 +202,6 @@ public class Login {
 		processaMenus();
 		processaMenusEscrita();
 		return "principal";
-		// }
-		// else {
-		// addGlobalMessage("Usuário e/ou Senha estão errados");
-		// falhaLogin = true;
-		// return "login";
-		// }
 		
 	}
 

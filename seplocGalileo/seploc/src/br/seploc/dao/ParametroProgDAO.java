@@ -77,13 +77,12 @@ public class ParametroProgDAO extends GenericDAO<ParametroProg, String> {
 		try {
 			// ParametroProg resultado = (ParametroProg)
 			ParametroProg p = (ParametroProg) q.getSingleResult();
-			if (p != null && pojo.getVersao() != null
-					&& (p.getVersao().getTime() == pojo.getVersao().getTime()))
+			if (p != null)
 				return;
 		} catch (NoResultException e) {
 			return;
 		}
-		throw new PrimaryKeyException("Código de Programa já existente");
+		throw new PrimaryKeyException("Codigo de Programa ja existente");
 
 	}
 }

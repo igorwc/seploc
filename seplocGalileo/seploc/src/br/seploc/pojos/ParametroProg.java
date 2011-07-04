@@ -1,8 +1,6 @@
 package br.seploc.pojos;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityResult;
@@ -11,48 +9,39 @@ import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 @Entity
-@Table(name = "tbl_parametroprog")
+@Table(name = "id_gen")
 @SqlResultSetMapping(name = "ParametroProg.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.ParametroProg.class))
 @NamedNativeQueries({
 		@NamedNativeQuery(name = "ParametroProg.RetornaParametros", query = "SELECT * "
-				+ "FROM  tbl_parametroprog "
+				+ "FROM  id_gen "
 				, resultSetMapping = "ParametroProg.implicit"),
 		@NamedNativeQuery(name = "ParametroProg.BuscaParametro", query = "SELECT * "
-				+ "FROM  tbl_parametroprog "
-				+ "WHERE UPPER( vcrCodParametro ) = UPPER( :CODIGO )", resultSetMapping = "ParametroProg.implicit") })
+				+ "FROM  id_gen "
+				+ "WHERE UPPER( nome_id ) = UPPER( :codigo )", resultSetMapping = "ParametroProg.implicit") })
 public class ParametroProg implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "vcrCodParametro", nullable = false)
+	@Column(name = "nome_id", nullable = false)
 	private String codParametro;
 
-	@Column(name = "vcrDescricao", nullable = false)
-	private String descricao;
-
-	@Column(name = "vcrValor", nullable = false)
-	private String valor;
-
-	@Version
-	@Column(name = "tspVersao")
-	private Timestamp versao;
+	@Column(name = "val_id", nullable = false)
+	private Integer valor;
 
 	public ParametroProg() {
 	}
 
-	public ParametroProg(String codParametro, String descricao, String valor) {
+	public ParametroProg(String codParametro, Integer valor) {
 		this.codParametro = codParametro;
-		this.descricao = descricao;
 		this.valor = valor;
 	}
 
-	public ParametroProg(String descricao, String valor) {
-		this.descricao = descricao;
-		this.valor = valor;
+	public ParametroProg(String codParametro) {
+		this.codParametro = codParametro;
+		this.valor = 0;
 	}
 
 	public String getCodParametro() {
@@ -63,28 +52,18 @@ public class ParametroProg implements Serializable {
 		this.codParametro = codParametro;
 	}
 
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public String getValor() {
+	public Integer getValor() {
 		return valor;
 	}
 
-	public void setValor(String valor) {
+	public void setValor(Integer valor) {
 		this.valor = valor;
 	}
-
-	public Timestamp getVersao() {
-		return versao;
-	}
-
-	public void setVersao(Timestamp versao) {
-		this.versao = versao;
+	
+	public String getCodParametroFormatado(){
+		int valorGEN = codParametro.indexOf("_GEN");
+		String retorno = codParametro.substring(0,valorGEN);
+		return retorno;
 	}
 
 	public static long getSerialversionuid() {
@@ -97,7 +76,6 @@ public class ParametroProg implements Serializable {
 		int result = 1;
 		result = prime * result
 				+ ((codParametro == null) ? 0 : codParametro.hashCode());
-		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
 		return result;
 	}
 
@@ -115,11 +93,6 @@ public class ParametroProg implements Serializable {
 				return false;
 		} else if (!codParametro.equals(other.codParametro))
 			return false;
-		if (versao == null) {
-			if (other.versao != null)
-				return false;
-		} else if (!versao.equals(other.versao))
-			return false;
 		return true;
 	}
 
@@ -128,7 +101,6 @@ public class ParametroProg implements Serializable {
 		return "ParametroProg ["
 				+ (codParametro != null ? "codParametro=" + codParametro + ", "
 						: "")
-				+ (descricao != null ? "descricao=" + descricao + ", " : "")
 				+ (valor != null ? "valor=" + valor : "") + "]";
 	}
 

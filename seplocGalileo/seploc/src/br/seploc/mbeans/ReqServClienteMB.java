@@ -636,7 +636,7 @@ public class ReqServClienteMB implements Serializable {
 							valorPapel = papel.getImpShade();
 	
 						double valorUnit = (linhaReqServ.getDimensao() * linhaReqServ
-								.getFormato()) + valorPapel;
+								.getFormato()) * valorPapel;
 						linhaReqServ.setValorSubUnit(valorUnit);
 						linhaReqServ.setValorUnit(valorUnit
 								* linhaReqServ.getQuant());
