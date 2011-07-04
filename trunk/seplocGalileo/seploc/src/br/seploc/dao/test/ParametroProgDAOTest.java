@@ -18,8 +18,7 @@ public class ParametroProgDAOTest {
 		ParametroProgDAO dao = new ParametroProgDAO();
 		ParametroProg p = new ParametroProg();
 		p.setCodParametro("teste1");
-		p.setDescricao("teste1");
-		p.setValor("tesla1");
+		p.setValor(2);
 		
 		dao.adiciona(p);
 		
@@ -27,7 +26,6 @@ public class ParametroProgDAOTest {
 		p = dao.recupera("teste1");
 		Assert.assertNotNull(p);
 		Assert.assertTrue(p.getCodParametro().equals("teste1"));
-		Assert.assertTrue(p.getDescricao().equals("teste1"));
 		Assert.assertTrue(p.getValor().equals("tesla1"));
 		
 	}
@@ -35,11 +33,11 @@ public class ParametroProgDAOTest {
 	@Test
 	public void testRecuperaString() throws Exception {
 		ParametroProgDAO dao = new ParametroProgDAO();
-		ParametroProg p = dao.recupera("teste1");
+		ParametroProg p = dao.recupera("CLIENTE_GEN");
+		System.out.println(p.getCodParametroFormatado());
 		Assert.assertNotNull(p);
-		Assert.assertTrue(p.getCodParametro().equals("teste1"));
-		Assert.assertTrue(p.getDescricao().equals("teste1"));
-		Assert.assertTrue(p.getValor().equals("tesla1"));
+		Assert.assertTrue(p.getCodParametro().equals("CLIENTE_GEN"));
+		Assert.assertTrue(p.getValor().equals(2));
 		
 	}
 
@@ -47,7 +45,7 @@ public class ParametroProgDAOTest {
 	public void testAlteraParametroProg() throws Exception {
 		ParametroProgDAO dao = new ParametroProgDAO();
 		ParametroProg p = dao.recupera("teste1");
-		p.setDescricao("teste de novo22223");
+		p.setValor(3);
 		
 		dao.altera(p);
 		
@@ -55,8 +53,7 @@ public class ParametroProgDAOTest {
 		p = dao.recupera("teste1");
 		Assert.assertNotNull(p);
 		Assert.assertTrue(p.getCodParametro().equals("teste1"));
-		Assert.assertTrue(p.getDescricao().equals("teste de novo22223"));
-		Assert.assertTrue(p.getValor().equals("tesla1"));
+		Assert.assertTrue(p.getValor().equals(3));
 	}
 
 	@Test
@@ -98,8 +95,7 @@ public class ParametroProgDAOTest {
 		ParametroProgDAO dao = new ParametroProgDAO();
 		ParametroProg p = new ParametroProg();
 		p.setCodParametro("teste1");
-		p.setDescricao("teste1");
-		p.setValor("tesla1");
+		p.setValor(3);
 		
 		try {
 			dao.adiciona(p);

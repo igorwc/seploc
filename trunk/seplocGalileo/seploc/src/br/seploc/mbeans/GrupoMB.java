@@ -24,7 +24,7 @@ public class GrupoMB implements Serializable {
 	}
 	
 	/**
-	 * Metodo de inicialização
+	 * Metodo de inicializaï¿½ï¿½o
 	 */
 	public void init(){
 		quantidade++;	
@@ -62,7 +62,7 @@ public class GrupoMB implements Serializable {
 		if (grupo.getCodGrupo() == null || grupo.getCodGrupo() == 0) {
 			try {
 				grupoDAO.adiciona(grupo);
-				addGlobalMessage("Inclusão feita com sucesso!");
+				addGlobalMessage("Inclusao feita com sucesso!");
 			} catch (Exception e) {
 				addGlobalMessage(e.getMessage());
 			}
@@ -75,7 +75,7 @@ public class GrupoMB implements Serializable {
 								
 				try {
 					grupoDAO.altera(temp);
-					addGlobalMessage("Atualização feita com sucesso!");					
+					addGlobalMessage("Atualizacao feita com sucesso!");					
 				} catch (Exception e) {
 					addGlobalMessage(e.getMessage());
 				}
@@ -96,7 +96,7 @@ public class GrupoMB implements Serializable {
 	public void apagar(){
 		try {
 			grupoDAO.remove(grupo.getCodGrupo());
-			addGlobalMessage("Excluído com sucesso!");
+			addGlobalMessage("Excluido com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}

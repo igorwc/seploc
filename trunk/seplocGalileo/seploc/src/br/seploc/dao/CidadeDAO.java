@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Query;
 
 import br.seploc.pojos.Cidade;
-import br.seploc.pojos.Estado;
 import br.seploc.util.GenericDAO;
 
 public class CidadeDAO extends GenericDAO<Cidade, Integer> implements
