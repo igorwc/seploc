@@ -66,10 +66,7 @@
 									<h:outputText value="#{msgs['menu.raiz.seploc']}" />
 								</h:panelGroup>
 							</f:facet>
-							<!--<rich:menuItem disabled="#{sessionScope.PARAMETROS}"  submitMode="ajax" value="#{msgs['menu.raiz.seploc.parametro']}" action="#"
-								icon="../imgs/icons/create_doc.gif">
-							</rich:menuItem>-->
-							<rich:menuItem disabled="true"  submitMode="ajax" value="#{msgs['menu.raiz.seploc.parametro']}" action="#" icon="../imgs/icons/create_doc.gif"/>
+							<rich:menuItem disabled="#{sessionScope.PARAMETROS}"  submitMode="ajax" value="#{msgs['menu.raiz.seploc.parametro']}" onclick="document.location.href='../paginas/parametros.jsf'" icon="../imgs/icons/create_doc.gif"/>
 							<rich:menuItem disabled="true" submitMode="ajax" value="#{msgs['menu.raiz.seploc.sobre']}" onclick="document.location.href='../paginas/sobre.xhtml'" icon="../imgs/icons/open.gif"  />
 							<rich:menuSeparator id="menuSeparator1" />
 							<rich:menuItem submitMode="ajax" value="#{msgs['menu.raiz.seploc.sair']}" icon="../imgs/icons/sair.png" action="#{login.logoff}"  >

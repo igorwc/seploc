@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="../templatepage/masterpage.xhtml">
+
+    <!-- TAXINOMIA -->
+    <ui:define name="taxinomia">
+        <h:outputText value="#{msgs.tax_sis_root}" />
+        <img src="../imgs/ponto.png" />
+        <rich:spacer width="5px" />
+        <h:outputText value="#{msgs.tax_sis_parametro}" />
+    </ui:define>
+
+    <!-- CONTEUDO -->
+    <ui:define name="conteudo">
+        <style type="text/css">
+.row1 {
+    background-color: #EDEBEB;
+    font-size: 10px;
+}
+
+.row2 {
+    background-color: #ffffff;
+    font-size: 10px;
+}
+
+.col1 {
+    text-align: center;
+}
+
+.col2 {
+    text-align: left;
+}
+
+.texto {
+    font-family: arial, tahoma;
+    font-size: 10pt;
+    color: #00008B;
+}
+
+.error {
+    font-weight: bold;
+    font-style: normal;
+    color: #FF0000;
+    font-size: 8pt;
+    font-family: tahoma, arial;
+}
+
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+
+.formulario,.formulario TD,.formulario TH {
+    background-color: #f2f2f5;
+}
+</style>
+
+
+
+   <f:view>  
+   	   <h:form id="parametroForm" enctype="UTF-8" prependId="false" >
+           <rich:panel header="Parametros">
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel header="Parametros do Sistema" style="width: 500px" bodyClass="formulario">
+                 
+               <table border="0">                 
+				<tr align="left">
+					<td><h:outputText value="Parametro: " styleClass="texto"/></td>
+					<td><h:inputText value="#{parametroCB.parametroMB.parametro.codParametro}"
+								     disabled="true" 
+									 id="cod"/></td>                    
+				</tr>
+				<tr align="left">
+					<td><h:outputText value="Valor: " styleClass="texto"/></td>
+					<td><h:inputText value="#{parametroCB.parametroMB.parametro.valor}"
+									 required="true"
+									 requiredMessage="O valor deve ser informado"									 
+									 id="val"/></td>                    
+				</tr>				
+			   </table> 
+               	<br/>
+					<a4j:commandButton value="#{msgs['botao.salvar']}" 
+					    action="#{parametroCB.parametroMB.alterar}"
+						reRender="parametroList,parametroForm" 
+						oncomplete="#{rich:component('confirmationMessage')}.show()"/>
+					<a4j:commandButton value="#{msgs['botao.limpar']}" 
+                   action="#{parametroCB.parametroMB.limpar}"
+                   reRender="parametroList,parametroForm" />
+               </rich:panel>
+               </center>
+               
+               <!-- GRID -->
+               <rich:dataTable value="#{parametroCB.lista}" var="par"    
+                   rowClasses="row1, row2" rows="8"  
+                   columnClasses="400,50,50" 
+                   onRowMouseOver="this.style.backgroundColor='#E0EEEE'"  
+                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+                   width="500"
+                   align="center"
+                   id="parametroList">  
+                   <f:facet name="header">  
+                       <rich:columnGroup>  
+  
+                           <rich:column colspan="3">  
+                               <h:outputText value="Lista de Parametros" />  
+                           </rich:column>  
+  
+                           <rich:column breakBefore="true">  
+                               <h:outputText value="Parametros" />  
+                           </rich:column>  
+
+                           <rich:column>  
+                               <h:outputText value="Valor" />  
+                           </rich:column>  
+                             
+                           <rich:column/>  
+                           
+                       </rich:columnGroup>  
+                   </f:facet>  
+  
+                   <rich:column>  
+		               <h:outputText value="#{par.codParametroFormatado}" />  
+                   </rich:column>  
+
+                   <rich:column>  
+		               <h:outputText value="#{par.valor}" />  
+                   </rich:column>  
+                       
+                   <rich:column styleClass="col1">
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink"
+						                 reRender="parametroForm" 
+						                 action="#{parametroCB.parametroMB.editar}"
+						                 disabled="#{sessionScope.GRUPO_ESC}" >
+							<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />
+							<f:setPropertyActionListener value="#{par}"
+								target="#{parametroCB.parametroMB.parametro}" />
+						</a4j:commandLink>
+						<rich:toolTip for="editlink" value="#{sessionScope.PARAMETROS_ESC  == true ? 'Nao tem permissao' : 'Editar Registro'}" />
+					</rich:column> 
+                    <f:facet name="footer">
+               			<rich:datascroller id="dsParametro" maxPages="2" renderIfSinglePage="true"/>
+                  	</f:facet>   
+               </rich:dataTable>  
+               
+           </rich:panel>
+       </h:form>  
+              
+        <!-- Modal -->
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Parametros"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="../imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
+
+       
+   </f:view>
+
+    </ui:define>
+</ui:composition>
