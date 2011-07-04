@@ -148,6 +148,17 @@
   <managed-bean-class>br.seploc.controllers.GrupoCB</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
  </managed-bean>
+ <!-- Parametro Programa -->
+ <managed-bean>
+  <managed-bean-name>parametroMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.ParametroProgMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>parametroCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.ParametroProgCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean> 
  <!-- Requisicao Cliente-->
  <managed-bean>
   <managed-bean-name>reqServClienteMB</managed-bean-name>
@@ -169,7 +180,7 @@
   <managed-bean-name>reqClientePeriodoMB</managed-bean-name>
   <managed-bean-class>br.seploc.mbeans.ReqServClientePeriodoMB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
- </managed-bean>
+ </managed-bean> 
  <!-- Relatorio Requisicao por Cobrador -->
  <managed-bean>
   <managed-bean-name>relCobradorCB</managed-bean-name>

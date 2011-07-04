@@ -1,16 +1,17 @@
---
+﻿--
 -- Extraindo dados da tabela `id_gen`
 --
 
 INSERT INTO `id_gen` (`NOME_ID`, `VAL_ID`) VALUES
-('ENTREGA_GEN', 0),
+('ENTREGA_GEN', 24),
 ('COBRADOR_GEN', 0),
-('REQ_SERV_GEN', 0),
+('REQ_SERV_GEN', 7144),
 ('PROJETO_GEN', 0),
 ('CLIENTE_GEN', 0),
 ('SAIDA_MOTOQUEIRO_GEN', 0),
-('PAPEL_GEN',0),
-('OP_REQ_SERV_GEN', 0);
+('PAPEL_GEN', 17),
+('OP_REQ_SERV_GEN', 67),
+('USUARIO_GEN', 7);
 
 
 --
@@ -269,442 +270,961 @@ INSERT INTO `tbl_usuario` (`intCodUsr`, `vcrLogin`, `vcrPassword`, `vcrCpf`, `in
 (17, 'igor', '9xmbH4dcN9U=', '2222222222222', 0, '11.11.11.11', 3, 'Igor Cavalcanti');
 
 INSERT INTO `tbl_cidades` (`intCod`, `vcrNome`, `intCodUF`) VALUES
+
 (1, 'Abreu e Lima', 17),
+
 (2, 'Afogados da Ingazeira', 17),
+
 (3, 'Afrânio', 17),
+
 (4, 'Agrestina', 17),
+
 (5, 'Água Preta', 17),
+
 (6, 'Águas Belas', 17),
+
 (7, 'Alagoinha', 17),
+
 (8, 'Aliança', 17),
+
 (9, 'Altinho', 17),
+
 (10, 'Amaraji', 17),
+
 (11, 'Angelim', 17),
+
 (12, 'Araçoiaba', 17),
+
 (13, 'Araripina', 17),
+
 (14, 'Arcoverde', 17),
+
 (15, 'Barra de Guabiraba', 17),
+
 (16, 'Barreiros', 17),
+
 (17, 'Belém de Maria', 17),
+
 (18, 'Belém de São Francisco', 17),
+
 (19, 'Belo Jardim', 17),
+
 (20, 'Betânia', 17),
+
 (21, 'Bezerros', 17),
+
 (22, 'Bodocó', 17),
+
 (23, 'Bom Conselho', 17),
+
 (24, 'Bom Jardim', 17),
+
 (25, 'Bonito', 17),
+
 (26, 'Brejão', 17),
+
 (27, 'Brejinho', 17),
+
 (28, 'Brejo da Madre de Deus', 17),
+
 (29, 'Buenos Aires', 17),
+
 (30, 'Buíque', 17),
+
 (31, 'Cabo de Santo Agostinho', 17),
+
 (32, 'Cabrobó', 17),
+
 (33, 'Cachoeirinha', 17),
+
 (34, 'Caetés', 17),
+
 (35, 'Calçado', 17),
+
 (36, 'Calumbi', 17),
+
 (37, 'Camaragibe', 17),
+
 (38, 'Camocim de São Félix', 17),
+
 (39, 'Camutanga', 17),
+
 (40, 'Canhotinho', 17),
+
 (41, 'Capoeiras', 17),
+
 (42, 'Carnaúba', 17),
+
 (43, 'Carnaubeira da Penha', 17),
+
 (44, 'Carpina', 17),
+
 (45, 'Caruaru', 17),
+
 (46, 'Casinhas', 17),
+
 (47, 'Catende', 17),
 (48, 'Cedro', 17),
+
 (49, 'Chã de Alegria', 17),
+
 (50, 'Chã Grande', 17),
+
 (51, 'Condado', 17),
+
 (52, 'Correntes', 17),
+
 (53, 'Cortês', 17),
+
 (54, 'Cumaru', 17),
+
 (55, 'Cupira', 17),
+
 (56, 'Custódia', 17),
+
 (57, 'Dormentes', 17),
+
 (58, 'Escada', 17),
+
 (59, 'Exu', 17),
+
 (60, 'Feira Nova', 17),
+
 (61, 'Fernando de Noronha', 17),
+
 (62, 'Ferreiros', 17),
+
 (63, 'Flores', 17),
+
 (64, 'Floresta', 17),
+
 (65, 'Frei Miguelinho', 17),
+
 (66, 'Gameleira', 17),
+
 (67, 'Garanhuns', 17),
+
 (68, 'Glória do Goitá', 17),
+
 (69, 'Goiana', 17),
+
 (70, 'Granito', 17),
+
 (71, 'Gravatá', 17),
+
 (72, 'Iati', 17),
+
 (73, 'Ibimirim', 17),
+
 (74, 'Ibirajuba', 17),
+
 (75, 'Igarassu', 17),
+
 (76, 'Iguaraci', 17),
+
 (77, 'Inajá', 17),
+
 (78, 'Ingazeira', 17),
+
 (79, 'Ipojuca', 17),
+
 (80, 'Ipubi', 17),
+
 (81, 'Itacuruba', 17),
+
 (82, 'Itaíba', 17),
+
 (83, 'Itamaracá', 17),
+
 (84, 'Itambé', 17),
+
 (85, 'Itapetim', 17),
+
 (86, 'Itapissuma', 17),
+
 (87, 'Itaquitinga', 17),
+
 (88, 'Jaboatão dos Guararapes', 17),
+
 (89, 'Jaqueira', 17),
+
 (90, 'Jataóba', 17),
+
 (91, 'Jatobá', 17),
+
 (92, 'João Alfredo', 17),
+
 (93, 'Joaquim Nabuco', 17),
+
 (94, 'Jucati', 17),
+
 (95, 'Jupi', 17),
+
 (96, 'Jurema', 17),
+
 (97, 'Lagoa do Carro', 17),
+
 (98, 'Lagoa do Itaenga', 17),
+
 (99, 'Lagoa do Ouro', 17),
+
 (100, 'Lagoa dos Gatos', 17),
+
 (101, 'Lagoa Grande', 17),
+
 (102, 'Lajedo', 17),
+
 (103, 'Limoeiro', 17),
+
 (104, 'Macaparana', 17),
+
 (105, 'Machados', 17),
+
 (106, 'Manari', 17),
+
 (107, 'Maraial', 17),
+
 (108, 'Mirandiba', 17),
+
 (109, 'Moreilândia', 17),
+
 (110, 'Moreno', 17),
+
 (111, 'Nazaré da Mata', 17),
+
 (112, 'Olinda', 17),
+
 (113, 'Orobó', 17),
+
 (114, 'Orocó', 17),
+
 (115, 'Ouricuri', 17),
+
 (116, 'Palmares', 17),
+
 (117, 'Palmeirina', 17),
+
 (118, 'Panelas', 17),
+
 (119, 'Paranatama', 17),
+
 (120, 'Parnamirim', 17),
+
 (121, 'Passira', 17),
+
 (122, 'Paudalho', 17),
+
 (123, 'Paulista', 17),
+
 (124, 'Pedra', 17),
+
 (125, 'Pesqueira', 17),
+
 (126, 'Petrolândia', 17),
+
 (127, 'Petrolina', 17),
+
 (128, 'Poção', 17),
+
 (129, 'Pombos', 17),
+
 (130, 'Primavera', 17),
+
 (131, 'Quipapá', 17),
+
 (132, 'Quixaba', 17),
+
 (133, 'Recife', 17),
+
 (134, 'Riacho das Almas', 17),
+
 (135, 'Ribeirão', 17),
+
 (136, 'Rio Formoso', 17),
+
 (137, 'Sairé', 17),
+
 (138, 'Salgadinho', 17),
+
 (139, 'Salgueiro', 17),
+
 (140, 'Saloé', 17),
+
 (141, 'Sanharó', 17),
+
 (142, 'Santa Cruz', 17),
+
 (143, 'Santa Cruz da Baixa Verde', 17),
+
 (144, 'Santa Cruz do Capibaribe', 17),
+
 (145, 'Santa Filomena', 17),
+
 (146, 'Santa Maria da Boa Vista', 17),
+
 (147, 'Santa Maria do Cambucí', 17),
+
 (148, 'Santa Terezinha', 17),
+
 (149, 'São Benedito do Sul', 17),
+
 (150, 'São Bento do Una', 17),
+
 (151, 'São Caitano', 17),
+
 (152, 'São João', 17),
+
 (153, 'São Joaquim do Monte', 17),
+
 (154, 'São José da Coroa Grande', 17),
+
 (155, 'São José do Belmonte', 17),
+
 (156, 'São José do Egito', 17),
+
 (157, 'São Lourenço da Mata', 17),
+
 (158, 'São Vicente Ferrer', 17),
+
 (159, 'Serra Talhada', 17),
+
 (160, 'Serrita', 17),
+
 (161, 'Sertânia', 17),
+
 (162, 'Sirinhaêm', 17),
+
 (163, 'Solidão', 17),
+
 (164, 'Surubim', 17),
+
 (165, 'Tabira', 17),
+
 (166, 'Tacaimbó', 17),
+
 (167, 'Tacaratu', 17),
+
 (168, 'Tamandaré', 17),
+
 (169, 'Taquaritinga do Norte', 17),
+
 (170, 'Terezinha', 17),
+
 (171, 'Terra Nova', 17),
+
 (172, 'Timbaíba', 17),
+
 (173, 'Toritama', 17),
+
 (174, 'Tracunhaêm', 17),
+
 (175, 'Trindade', 17),
+
 (176, 'Triunfo', 17),
+
 (177, 'Tupanatinga', 17),
+
 (178, 'Tuparetama', 17),
+
 (179, 'Venturosa', 17),
+
 (180, 'Verdejante', 17),
+
 (181, 'Vertente do Lírio', 17),
+
 (182, 'Vertentes', 17),
+
 (183, 'Vicência', 17),
+
 (184, 'Vitória de Santo Antão', 17),
+
 (185, 'Xexéu', 17),
+
 (186, 'Agua Branca', 17),
+
 (187, 'Aguiar', 15),
+
 (188, 'Alagoa Grande', 15),
+
 (189, 'Alagoa Nova', 15),
+
 (190, 'Alagoinha', 15),
+
 (191, 'Alcantil', 15),
+
 (192, 'Algodao de Jandaira', 15),
+
 (193, 'Alhandra', 15),
+
 (194, 'Amparo', 15),
+
 (195, 'Aparecida', 15),
+
 (196, 'Aracagi', 15),
+
 (197, 'Arara', 15),
+
 (198, 'Araruna', 15),
+
 (199, 'Areia de Baraunas', 15),
+
 (200, 'Areia', 15),
+
 (201, 'Areial', 15),
+
 (202, 'Aroeiras', 15),
+
 (203, 'Assuncao', 15),
+
 (204, 'Baia da Traicao', 15),
+
 (205, 'Bananeiras', 15),
+
 (206, 'Barauna', 15),
+
 (207, 'Barra de Santa Rosa', 15),
+
 (208, 'Barra de Santana', 15),
+
 (209, 'Barra de São Miguel', 15),
+
 (210, 'Bayeux', 15),
+
 (211, 'Belem do Brejo do Cruz', 15),
+
 (212, 'Belem', 15),
+
 (213, 'Bernardino Batista', 15),
+
 (214, 'Boa Ventura', 15),
+
 (215, 'Boa Vista', 15),
+
 (216, 'Bom Jesus', 15),
+
 (217, 'Bom Sucesso', 15),
+
 (218, 'Bonito de Santa Fe', 15),
+
 (219, 'Boqueirao', 15),
+
 (220, 'Borborema', 15),
+
 (221, 'Brejo do Cruz', 15),
+
 (222, 'Brejo dos Santos', 15),
+
 (223, 'Caapora', 15),
+
 (224, 'Cabaceiras', 15),
+
 (225, 'Cabedelo', 15),
+
 (226, 'Cachoeira dos Índios', 15),
+
 (227, 'Cacimba de Areia', 15),
+
 (228, 'Cacimba de Dentro', 15),
+
 (229, 'Cacimbas', 15),
+
 (230, 'Caicara', 15),
+
 (231, 'Cajazeiras', 15),
+
 (232, 'Cajazeirinhas', 15),
+
 (233, 'Caldas Brandao', 15),
+
 (234, 'Camalau', 15),
+
 (235, 'Campina Grande', 15),
+
 (236, 'Capim', 15),
+
 (237, 'Caraubas', 15),
+
 (238, 'Carrapateira', 15),
+
 (239, 'Casserengue', 15),
+
 (240, 'Catingueira', 15),
+
 (241, 'Catole do Rocha', 15),
+
 (242, 'Caturite', 15),
+
 (243, 'Conceicao', 15),
+
 (244, 'Condado', 15),
+
 (245, 'Conde', 15),
+
 (246, 'Congo', 15),
+
 (247, 'Coremas', 15),
+
 (248, 'Coxixola', 15),
+
 (249, 'Cruz do Espirito Santo', 15),
+
 (250, 'Cubati', 15),
+
 (251, 'Cuite de Mamanguape', 15),
+
 (252, 'Cuite', 15),
+
 (253, 'Cuitegi', 15),
+
 (254, 'Curral Velho', 15),
+
 (255, 'Curral de Cima', 15),
+
 (256, 'Damiao', 15),
+
 (257, 'Desterro', 15),
+
 (258, 'Diamante', 15),
+
 (259, 'Dona Ines', 15),
+
 (260, 'Duas Estradas', 15),
+
 (261, 'Emas', 15),
+
 (262, 'Esperanca', 15),
+
 (263, 'Fagundes', 15),
+
 (264, 'Frei Martinho', 15),
+
 (265, 'Gado Bravo', 15),
+
 (266, 'Guarabira', 15),
+
 (267, 'Gurinhem', 15),
+
 (268, 'Gurjao', 15),
+
 (269, 'Ibiara', 15),
+
 (270, 'Igaracy', 15),
+
 (271, 'Imaculada', 15),
+
 (272, 'Inga', 15),
+
 (273, 'Itabaiana', 15),
+
 (274, 'Itaporanga', 15),
+
 (275, 'Itapororoca', 15),
+
 (276, 'Itatuba', 15),
+
 (277, 'Jacarau', 15),
+
 (278, 'Jerico', 15),
+
 (279, 'João Pessoa', 15),
+
 (280, 'Juarez Tavora', 15),
+
 (281, 'Juazeirinho', 15),
+
 (282, 'Junco do Serido', 15),
+
 (283, 'Juripiranga', 15),
+
 (284, 'Juru', 15),
+
 (285, 'Lagoa Seca', 15),
+
 (286, 'Lagoa de Dentro', 15),
+
 (287, 'Lagoa', 15),
 (288, 'Lastro', 15),
+
 (289, 'Livramento', 15),
+
 (290, 'Logradouro', 15),
+
 (291, 'Lucena', 15),
+
 (292, 'Mae d''Agua', 15),
+
 (293, 'Malta', 15),
+
 (294, 'Mamanguape', 15),
+
 (295, 'Manaira', 15),
+
 (296, 'Marcacao', 15),
+
 (297, 'Mari', 15),
+
 (298, 'Marizopolis', 15),
+
 (299, 'Massaranduba', 15),
+
 (300, 'Mataraca', 15),
+
 (301, 'Matinhas', 15),
+
 (302, 'Mato Grosso', 15),
+
 (303, 'Matureia', 15),
+
 (304, 'Mogeiro', 15),
+
 (305, 'Montadas', 15),
+
 (306, 'Monte Horebe', 15),
+
 (307, 'Monteiro', 15),
+
 (308, 'Mulungu', 15),
+
 (309, 'Natuba', 15),
+
 (310, 'Nazarezinho', 15),
+
 (311, 'Nova Floresta', 15),
+
 (312, 'Nova Olinda', 15),
+
 (313, 'Nova Palmeira', 15),
+
 (314, 'Olho d''Agua', 15),
+
 (315, 'Olivedos', 15),
+
 (316, 'Ouro Velho', 15),
+
 (317, 'Parari', 15),
 (318, 'Passagem', 15),
+
 (319, 'Patos', 15),
+
 (320, 'Paulista', 15),
+
 (321, 'Pedra Branca', 15),
+
 (322, 'Pedra Lavrada', 15),
+
 (323, 'Pedras de Fogo', 15),
+
 (324, 'Pedro Regio', 15),
+
 (325, 'Pianco', 15),
+
 (326, 'Picui', 15),
+
 (327, 'Pilar', 15),
+
 (328, 'Piloes', 15),
+
 (329, 'Piloezinhos', 15),
+
 (330, 'Pirpirituba', 15),
+
 (331, 'Pitimbu', 15),
+
 (332, 'Pocinhos', 15),
+
 (333, 'Poco Dantas', 15),
+
 (334, 'Poco de José de Moura', 15),
+
 (335, 'Pombal', 15),
+
 (336, 'Prata', 15),
+
 (337, 'Princesa Isabel', 15),
+
 (338, 'Puxinana', 15),
+
 (339, 'Queimadas', 15),
+
 (340, 'Quixaba', 15),
+
 (341, 'Remigio', 15),
+
 (342, 'Riachao do Bacamarte', 15),
+
 (343, 'Riachao do Poco', 15),
+
 (344, 'Riachao', 15),
+
 (345, 'Riacho de Santo Antonio', 15),
+
 (346, 'Riacho dos Cavalos', 15),
+
 (347, 'Rio Tinto', 15),
+
 (348, 'Salgadinho', 15),
+
 (349, 'Salgado de São Felix', 15),
+
 (350, 'Santa Cecilia', 15),
+
 (351, 'Santa Cruz', 15),
+
 (352, 'Santa Helena', 15),
+
 (353, 'Santa Ines', 15),
+
 (354, 'Santa Luzia', 15),
+
 (355, 'Santa Rita', 15),
+
 (356, 'Santa Teresinha', 15),
+
 (357, 'Santana de Mangueira', 15),
+
 (358, 'Santana dos Garrotes', 15),
 (359, 'Santarem', 15),
+
 (360, 'Santo Andre', 15),
+
 (361, 'São Bento de Pombal', 15),
+
 (362, 'São Bento', 15),
+
 (363, 'São Domingos de Pombal', 15),
+
 (364, 'São Domingos do Cariri', 15),
+
 (365, 'São Francisco', 15),
+
 (366, 'São João do Cariri', 15),
+
 (367, 'São João do Rio do Peixe', 15),
+
 (368, 'São João do Tigre', 15),
+
 (369, 'São José da Lagoa Tapada', 15),
+
 (370, 'São José de Caiana', 15),
+
 (371, 'São José de Espinharas', 15),
+
 (372, 'São José de Piranhas', 15),
+
 (373, 'São José de Princesa', 15),
+
 (374, 'São José do Bonfim', 15),
+
 (375, 'São José do Brejo do Cruz', 15),
+
 (376, 'São José do Sabugi', 15),
+
 (377, 'São José dos Cordeiros', 15),
+
 (378, 'São José dos Ramos', 15),
+
 (379, 'São Mamede', 15),
+
 (380, 'São Miguel de Taipu', 15),
+
 (381, 'São Sebastiao de Lagoa de Roca', 15),
+
 (382, 'São Sebastiao do Umbuzeiro', 15),
+
 (383, 'Sape', 15),
+
 (384, 'Serido', 15),
+
 (385, 'Serra Branca', 15),
+
 (386, 'Serra Grande', 15),
+
 (387, 'Serra Redonda', 15),
+
 (388, 'Serra da Raiz', 15),
+
 (389, 'Serraria', 15),
+
 (390, 'Sertaozinho', 15),
+
 (391, 'Sobrado', 15),
+
 (392, 'Solanea', 15),
+
 (393, 'Soledade', 15),
+
 (394, 'Sossego', 15),
+
 (395, 'Sousa', 15),
+
 (396, 'Sume', 15),
+
 (397, 'Tacima', 15),
+
 (398, 'Taperoa', 15),
+
 (399, 'Tavares', 15),
+
 (400, 'Teixeira', 15),
+
 (401, 'Tenorio', 15),
+
 (402, 'Triunfo', 15),
+
 (403, 'Uirauna', 15),
+
 (404, 'Umbuzeiro', 15),
+
 (405, 'Varzea', 15),
+
 (406, 'Vieiropolis', 15),
+
 (407, 'Vista Serrana', 15),
 (408, 'Zabele', 15);
 
 
+
+
 INSERT INTO `tbl_estados` (`intCod`, `vcrNome`, `vcrSigla`) VALUES
+
 (20, 'Rio Grande do Norte', 'RN'),
+
 (19, 'Rio de Janeiro', 'RJ'),
+
 (18, 'Piauí', 'PI'),
+
 (17, 'Pernambuco', 'PE'),
+
 (16, 'Paraná', 'PR'),
+
 (15, 'Paraíba', 'PB'),
 (14, 'Pará', 'PA'),
+
 (13, 'Minas Gerais', 'MG'),
+
 (12, 'Mato Grosso do Sul', 'MS'),
+
 (11, 'Mato Grosso', 'MT'),
+
 (10, 'Maranhão', 'MA'),
+
 (9, 'Goiás', 'GO'),
+
 (8, 'Espírito Santo', 'ES'),
+
 (7, 'Distrito Federal', 'DF'),
+
 (6, 'Ceará', 'CE'),
+
 (5, 'Bahia', 'BA'),
+
 (4, 'Amazonas', 'AM'),
+
 (3, 'Amapá', 'AP'),
+
 (2, 'Alagoas', 'AL'),
+
 (1, 'Acre', 'AC'),
+
 (21, 'Rio Grande do Sul', 'RS'),
+
 (22, 'Rondônia', 'RO'),
+
 (23, 'Roraima', 'RR'),
+
 (24, 'Santa Catarina', 'SC'),
+
 (25, 'São Paulo', 'SP'),
+
 (26, 'Sergipe', 'SE'),
+
 (27, 'Tocantins', 'TO');
 
+
+INSERT INTO `tbl_papel` (`intCodPap`, `vcrNome`, `dblImpMono`, `dblImpColor`, `dblImpShade`) VALUES
+(1,  'PAPEL COUCHE-A3 115G', 2, 3, 3),
+(2,  'PAPEL SULFITE 2', 6, 6, 13),
+(3,  'PAPEL 90GRAMAS/A4', 1.2, 1.7, 1.7),
+(4,  'PAPEL VEGETAL', 16, 16, 21),
+(5,  'PAPEL FORMATO A3', 1.4, 2.8, 2.8),
+(6,  'PAPEL 120G POWER PO', 32, 32, 32),
+(7,  'PAPEL GLOSS PAPER', 50, 50, 50),
+(8,  'PAPEL SULFITE 1', 7, 7, 13),
+(9,  'PAPEL HP 6122 A4', 0.7, 1.4, 1.4),
+(10, 'PAPEL COUCHE-A4 230G', 1.8, 3.2, 3.2),
+(11, 'PAPEL EM TAMANHO A4', 1.4, 1, 1.4),
+(12, 'PAPEL A3-EXCEL', 1.2, 2.5, 2.5),
+(13, 'PAPEL COUCHE A4-115G', 1, 2, 2),
+(14, 'PAPEL COUCHE- A3-170', 2.6, 3.2, 2),
+(15, 'PAPEL COUCHE- A4 170', 1.3, 2.6, 2.6),
+(16, 'PAPEL 90GRAMAS A3', 2.4, 4.8, 4.8),
+(17, 'PAPEL COUCHE-A3 230G', 3.6, 4.6, 4.6);
+
+INSERT INTO `tbl_opcionaisreqserv` (`intCod`, `vcrNomeItem`, `dblValorItem`) VALUES
+(1,  'ENCADERNAÇÃO', 1),
+(2,  'GRAVAÇÃO DE CD', 10),
+(3,  'SACO PLÁSTICO', 0.6),
+(4,  'VETORIZAÇÃO', 4),
+(5,  'SCANEAMENTO DE IMAGENS', 3),
+(6,  'ROLO DE PAPEL', 31.5),
+(7,  'IMPRESSÕES', 0),
+(8,  'NOVO ITEM', 0.7),
+(9,  'CANALETA', 6),
+(10, 'OUTROS...', 0),
+(11, 'ENCADERNAÇÃO DE 1 ATÉ 50 FOLHAS', 3),
+(12, 'IMPRESSÃO 6122 WORD FOTO', 3),
+(13, 'ENCADERNAÇÃO DE 51 ATÉ 100 FOLHAS', 4),
+(14, 'ENCADERNAÇÃO DE 101 ATÉ 200 FOLHAS', 5),
+(15, 'ENCADERNAÇÃO DE 201 ATÉ 250 FOLHAS', 6),
+(16, 'ENCADERNAÇÃO DE 251 ATÉ  300 FOLHAS', 7),
+(17, 'IMPRESSÕES DE 1 ATÉ  50 FOLHAS', 4),
+(18, 'XEROX A4', 0.15),
+(19, 'ENVIO DE FAX', 1.5),
+(20, 'VEGETAL', 12),
+(21, 'ARQUIVOS GERADOA EM', 0.8),
+(22, 'PLASTIFICAÇÃO', 42),
+(23, 'POWER POINT A3 NORMA', 1),
+(24, 'SCANEAMENTO A2', 12),
+(25, 'FORMATO A3', 1.2),
+(26, 'CANALETA', 6),
+(27, 'FOTOCOPIA DIGITAL', 10),
+(28, 'CAPA', 5),
+(29, 'XEROX A4 OPÇÃO 2', 0.1),
+(30, 'ENTREGA DE SERVIÇO', 3),
+(31, 'ENVIO DE E-MAIL', 1.5),
+(32, 'ENCADERNAÇÃO', 3),
+(33, 'GRAVAÇÃO DE CD (DES.)', 3),
+(34, 'PASTA CAPA DURA', 12),
+(35, 'ESCANEAMENTO', 20),
+(36, 'ESTACIONAMENTO SHOPP', 3),
+(37, 'ESPIRAL', 2.5),
+(38, 'DIGITALIZAÇÃO E CORR', 35),
+(39, 'TRANSPARÊNCIA A4', 3),
+(40, 'ROLO DE PAPEL', 38),
+(41, 'ENCADERNAÇÃO TAM A3', 5),
+(42, 'RECEBIMENTO DE FAX', 1.5),
+(43, 'XEROX A3', 0.5),
+(44, 'PASTA AZ', 10),
+(45, 'SACOS PLASTICOS', 0.6),
+(46, 'REDUÇÃO A4', 0.25),
+(47, 'AMPLIAÇÃO A4', 0.25),
+(48, 'PLASTIFICAÇÃO TAM A4', 4),
+(49, 'PLASTIFICAÇÃO TAM A3', 8),
+(50, 'ENVELOPE', 1),
+(51, 'XEROX COUCHE- A4 170', 1),
+(52, 'CAPA PVC', 2.5),
+(53, 'DES. ALCOA A3', 0.74),
+(54, 'DESENHOS TAM A3 (ALC)', 20),
+(55, 'XEROX A3 90G', 0.7),
+(56, 'AMPLIAÇÃO A3', 0.5),
+(57, 'XEROX COLORIDA A3', 3.2),
+(58, 'PASTA A-Z CHIES', 12),
+(59, 'SACOS PLASTI-CHIES', 0.25),
+(60, 'A4-240G-RECLICADO', 0.8),
+(61, 'PLASTIFICAÇÃO IDENTI', 1),
+(62, 'CARTÃO DE VISITA COU', 0.15),
+(63, 'ENCADERNAÇÃO A4-ACET', 5),
+(64, 'ENCADERNAÇÃO A4', 3.5),
+(65, 'TRANSPARENCIA 2', 2),
+(66, 'CRIAÇÃO PLT/PDF', 2),
+(67, 'ADESIVOS', 9);
