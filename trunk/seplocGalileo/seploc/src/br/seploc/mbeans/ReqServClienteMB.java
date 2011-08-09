@@ -683,14 +683,14 @@ public class ReqServClienteMB implements Serializable {
 								valorPapel = papel.getImpShade();
 	
 							double valorUnit = (linhaReqServ.getDimensao() * 
-												linhaReqServ.getFormato()) + valorPapel;
+												linhaReqServ.getFormato()) * valorPapel;
 							linhaReqServ.setValorSubUnit(valorUnit);
 							linhaReqServ.setValorUnit(valorUnit	* linhaReqServ.getQuant());
 	
 							reqServicoDAO.addLinha(temp, linhaReqServ);
 						}
 						// verificar se existe alteracao na entrega
-						if (entrega != null){
+						if (entrega.getLocal() != null){
 							if (temp.getEntrega() == null){
 								temp.setEntrega(entrega);
 								System.out.println("Entrega: "+entrega.getLocal());

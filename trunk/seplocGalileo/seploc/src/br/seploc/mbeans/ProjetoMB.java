@@ -168,6 +168,7 @@ public class ProjetoMB implements Serializable {
 			projetoDAO.adiciona(projeto);
 
 			addGlobalMessage("Inclusão feita com sucesso!");
+			
 			FacesContext context = FacesContext.getCurrentInstance();
 			ReqServClienteMB reqServMB = (ReqServClienteMB) context.getApplication()
 	        .evaluateExpressionGet(context, "#{reqServClienteMB}", ReqServClienteMB.class);

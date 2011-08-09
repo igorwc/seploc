@@ -72,7 +72,7 @@ public class ParametroProgDAO extends GenericDAO<ParametroProg, String> {
 	protected void ajustaPojo(ParametroProg pojo) throws Exception {
 		// em.getTransaction().begin();
 		Query q = em.createNamedQuery("ParametroProg.BuscaParametro")
-				.setParameter("CODIGO", pojo.getCodParametro());
+				.setParameter("codigo", pojo.getCodParametro());
 		// em.getTransaction().commit();
 		try {
 			// ParametroProg resultado = (ParametroProg)
