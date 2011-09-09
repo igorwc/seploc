@@ -139,7 +139,7 @@
                         width="700" align="center">
                         <f:facet name="header">
                             <rich:columnGroup>
-                                <rich:column colspan="5">
+                                <rich:column colspan="6">
                                     <h:outputText value="Plotadores Encontrados" />
                                 </rich:column>
 
@@ -147,7 +147,7 @@
                                     <h:outputText value="Item" />
                                 </rich:column>
 
-                                <rich:column width="40%">
+                                <rich:column width="20%">
                                     <h:outputText value="Plotador" />
                                 </rich:column>
 
@@ -157,6 +157,10 @@
                                 
                                 <rich:column width="20%">
                                     <h:outputText value="Valor Total c/ Desconto" />
+                                </rich:column>
+                                
+                                <rich:column width="20%">
+                                    <h:outputText value="Gratificacao" />
                                 </rich:column>
                                 
                                 <rich:column width="10%">
@@ -184,7 +188,13 @@
                             <h:outputText value="#{plotadores.valorMoeda}">
                                <f:convertNumber type="currency" currencySymbol="R$" />
                             </h:outputText>
+                        </rich:column>                 
+                        <rich:column styleClass="col1">
+                            <h:outputText value="#{plotadores.gratificacao}">
+                               <f:convertNumber type="currency" currencySymbol="R$" />
+                            </h:outputText>
                         </rich:column>                        
+                               
                         <rich:column styleClass="col1">
                             <a4j:commandLink ajaxSingle="true" id="printlinkreq"
                                 reRender="plotadorList"
