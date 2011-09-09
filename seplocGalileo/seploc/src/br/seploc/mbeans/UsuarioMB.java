@@ -89,7 +89,7 @@ public class UsuarioMB implements Serializable {
 				} else {
 					usuario.setPermissao(0);
 					usuarioDAO.adiciona(usuario);
-					addGlobalMessage("Inclus�o feita com sucesso!");
+					addGlobalMessage("Inclusao feita com sucesso!");
 				}
 			} else {
 				Usuario temp;
@@ -98,7 +98,7 @@ public class UsuarioMB implements Serializable {
 					throw new RecordNotFound("Usuario Inexistente");
 				}
 				if(!temp.getLogin().equals(usuario.getLogin())){
-					addGlobalMessage("O login do usu�rio n�o pode ser modificado!");
+					addGlobalMessage("O login do usuario nao pode ser modificado!");
 					this.limpar();
 					return;
 				}
@@ -107,14 +107,14 @@ public class UsuarioMB implements Serializable {
 				temp.setGrupo(usuario.getGrupo());
 				temp.setPermissao(usuario.getPermissao());
 				usuarioDAO.altera(temp);
-				addGlobalMessage("Atualiza��o feita com sucesso!");
+				addGlobalMessage("Atualizacao feita com sucesso!");
 			}
 		} catch (RecordNotFound e) {
 			addGlobalMessage(e.getMessage());
 		} catch (LoginExistenteException e) {
 			addGlobalMessage(e.getMessage());
 		} catch (Exception e) {
-			addGlobalMessage("A opera��o n�o p�de ser realizada.");
+			addGlobalMessage("A operacao nao pode ser realizada.");
 			e.printStackTrace();
 		}
 		this.limpar();

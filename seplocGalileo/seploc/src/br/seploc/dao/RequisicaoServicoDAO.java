@@ -138,6 +138,19 @@ public class RequisicaoServicoDAO extends
 		return (List<Object>) q.getResultList();
 	}	
 	
+	public double getGratificacao(String login,Date dataInicio, Date dataFim) {
+		Query q = em.createNamedQuery("RequisicaoServico.GratificacaoUsuario");
+		q.setParameter("login", login);
+		q.setParameter("dataIni", dataInicio);
+		q.setParameter("dataFim", dataFim);
+		Double retorno = (Double) q.getSingleResult();
+		if (retorno == null) {
+			retorno = 0.0;
+		}
+		
+		return retorno;
+	}	
+	
 	public List<ReqServProducaoBeanGrid> getListaProducaoGrid(int balcao) {
 		List<Object> l = this.getListaProducao(balcao);
 		List<ReqServProducaoBeanGrid> listOrdenada = new ArrayList<ReqServProducaoBeanGrid>();
