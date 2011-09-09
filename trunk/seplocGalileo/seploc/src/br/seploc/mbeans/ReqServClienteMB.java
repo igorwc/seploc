@@ -3,11 +3,14 @@ package br.seploc.mbeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.sql.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+
+import com.mysql.jdbc.Util;
 
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.LinhaRequisicao;
@@ -29,7 +32,7 @@ import br.seploc.dao.RequisicaoServicoDAO;
 import br.seploc.dao.UsuarioDAO;
 import br.seploc.dao.pagedqueries.AllClientsPager;
 import br.seploc.dao.pagedqueries.FilteredNameClientesPager;
-
+import br.seploc.util.Utils;
 
 public class ReqServClienteMB implements Serializable {
 
@@ -55,13 +58,13 @@ public class ReqServClienteMB implements Serializable {
 	private int quantidadeOpcional;
 	private int numReqAtual;
 	private int numReqBusca;
-	private int orcamento;
+	private int orcamento;	
 	private Integer numReqSessao;
 	private ReqServUsuario reqServUsuario;
 	private String quantLinha;
 	private boolean resetaFiltroCliente;
 	private int clienteCurrentPage;
-	private int clientePages;
+	private int clientePages;	
 	private AllClientsPager clientesPager = new AllClientsPager();
 	private FilteredNameClientesPager clientePager;	
 
@@ -644,6 +647,7 @@ public class ReqServClienteMB implements Serializable {
 						reqServicoDAO.addLinha(reqServico, linhaReqServ);					
 					}
 					reqServico.setValorTotal(calcularTotal(reqServico));
+					reqServico.setValorDesconto(calcularTotal(reqServico));
 					reqServicoDAO.altera(reqServico);					
 					setValorTotalReq(reqServico.getValorTotal());				
 					addGlobalMessage("Inclusão feita com sucesso!");
@@ -724,7 +728,11 @@ public class ReqServClienteMB implements Serializable {
 						temp.setValorTotal(this.calcularTotal(temp));					
 						reqServicoDAO.altera(temp);
 						reqServico = reqServicoDAO.recupera(temp.getNumReq());
-						setValorTotalReq(reqServico.getValorTotal());				
+						setValorTotalReq(reqServico.getValorTotal());
+						//se o Desconto for igual a zero ou null atribuir valor do total
+						if (reqServico.getDesconto() == null || reqServico.getDesconto() == 0){
+							reqServico.setValorDesconto(reqServico.getValorTotal());
+						}
 						usuarioAlterouReqServ(reqServico);
 						addGlobalMessage("Atualização feita com sucesso!");
 					}
@@ -890,6 +898,16 @@ public class ReqServClienteMB implements Serializable {
 			System.out.println("Usuario: "+u.getLogin());
 			reqServicoDAO.registraUsuarioAlterador(u, r);
 		}
+	}
+
+	public double getGratificacao() {
+		Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");
+		Date dataInicio = Utils.getDataInicioMesCorrente();
+		Date dataFinal = Utils.getDataFinalMesCorrente();
+		double gratificacao = reqServicoDAO.getGratificacao(user.getLogin(),dataInicio,dataFinal);
+		System.out.println("Usuario: "+user.getLogin()+" tem gratificacao de "+gratificacao);
+				
+		return gratificacao;
 	}
 
 	public static void addGlobalMessage(String message) {

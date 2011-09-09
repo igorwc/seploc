@@ -29,35 +29,46 @@ import br.seploc.util.DesEncrypter;
 @SqlResultSetMapping(name = "Usuario.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Usuario.class))
 @NamedNativeQueries( {
 		@NamedNativeQuery(name = "Usuario.RetornaUsuarios", query = " SELECT * "
-				+ "FROM tbl_usuario u", resultSetMapping = "Usuario.implicit"),
+				+ "FROM tbl_usuario u "
+				+ "WHERE chrAtivo = 'S' ", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuariosSemGrupo", query = " SELECT * "
-				+ "FROM tbl_usuario u where u.intGrupo is null ", resultSetMapping = "Usuario.implicit"),
+				+ "FROM tbl_usuario u where chrAtivo = 'S' and u.intGrupo is null ", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuariosPorGrupo", query = " SELECT * "
-				+ "FROM tbl_usuario u " + "where intGrupo = :grupo", resultSetMapping = "Usuario.implicit"),
+				+ "FROM tbl_usuario u " 
+				+ "WHERE chrAtivo = 'S' and intGrupo = :grupo", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaRequisicoesPorUsuario", query = " SELECT * "
 				+ "FROM tbl_usuario u "
-				+ "where vcrLogin in "
+				+ "WHERE chrAtivo = 'S' and vcrLogin in "
 				+ "(SELECT vcrLogin FROM tbl_reqservusuario "
 				+ " WHERE vcrLogin = :login)", resultSetMapping = "Usuario.implicit"),
+		@NamedNativeQuery(name = "Usuario.RetornaUsuariosPorID", query = " SELECT * "
+				+ "FROM tbl_usuario u " 
+				+ "WHERE chrAtivo = 'S' and intCodUsr = :id", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuariosPorNome", query = " SELECT * "
-				+ "FROM tbl_usuario u " + "where vcrNome like :nome", resultSetMapping = "Usuario.implicit"),
+				+ "FROM tbl_usuario u " 
+				+ "WHERE chrAtivo = 'S' and vcrNome like :nome", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuariosPorLogin", query = " SELECT * "
-				+ "FROM tbl_usuario u " + "where vcrlogin like :login", resultSetMapping = "Usuario.implicit"),
+				+ "FROM tbl_usuario u " 
+				+ "WHERE chrAtivo = 'S' and vcrlogin like :login", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuarioPorLogin", query = " SELECT * "
-				+ "FROM tbl_usuario u " + "where vcrlogin = :login", resultSetMapping = "Usuario.implicit"),
+				+ "FROM tbl_usuario u " 
+				+ "WHERE chrAtivo = 'S' and vcrlogin = :login", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RetornaUsuarioPorCpf", query = " SELECT * "
-				+ "FROM tbl_usuario u " + "where vcrcpf = :cpf", resultSetMapping = "Usuario.implicit"),
+				+ "FROM tbl_usuario u " 
+				+ "WHERE chrAtivo = 'S' and vcrcpf = :cpf", resultSetMapping = "Usuario.implicit"),
 		@NamedNativeQuery(name = "Usuario.RecuperaLogin", query = "SELECT *"
 				+ " FROM tbl_usuario "
-				+ "WHERE vcrLogin = ? and vcrPassword = ?", resultSetMapping = "Usuario.implicit"),
-		@NamedNativeQuery(name = "Usuario.RecuperaCriadorReqServ", query = "select * from  tbl_usuario  " +
-																  "where intCodUsr in " +
-																  "(  SELECT intCodUsr   FROM tbl_reqservusuario   " +
-																  "WHERE intNumReq = :reqNum )" , resultSetMapping = "Usuario.implicit"),
-	    @NamedNativeQuery(name = "Usuario.RecuperaUserUltimaReqServ", query = "select * from  tbl_usuario  " +
-																			  "where intCodUsr in " +
-																			  "(  SELECT intCodUsrAlter   FROM tbl_reqservusuario   " +
-																			  "WHERE intNumReq = :reqNum )" , resultSetMapping = "Usuario.implicit")
+				+ "WHERE chrAtivo = 'S' and vcrLogin = ? and vcrPassword = ?", resultSetMapping = "Usuario.implicit"),
+		@NamedNativeQuery(name = "Usuario.RecuperaCriadorReqServ", query = "select * "
+			    + "FROM tbl_usuario  " 
+				+ "WHERE chrAtivo = 'S' and intCodUsr in " 
+				+ "(  SELECT intCodUsr   FROM tbl_reqservusuario   " 
+				+ "WHERE intNumReq = :reqNum )" , resultSetMapping = "Usuario.implicit"),
+	    @NamedNativeQuery(name = "Usuario.RecuperaUserUltimaReqServ", query = "select * " 
+	    		+ "FROM tbl_usuario  " 
+				+ "WHERE chrAtivo = 'S' and intCodUsr in " 
+				+ "(  SELECT intCodUsrAlter FROM tbl_reqservusuario   " 
+				+ "    WHERE intNumReq = :reqNum )" , resultSetMapping = "Usuario.implicit")
 })
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -82,7 +93,13 @@ public class Usuario implements Serializable {
 
 	@Column(name = "vcrIpMaquina", length = 20)
 	private String ipMaquina;
+	
+	@Column(name = "intGratificacao")
+	private int gratificacao;	
 
+	@Column(name = "chrAtivo")
+	private char ativo;	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "intGrupo", referencedColumnName = "intGrupo")
 	private Grupo grupo;
@@ -112,11 +129,12 @@ public class Usuario implements Serializable {
 		this.ipMaquina = ipMaquina;
 		this.versao = versao;
 		this.grupo = grupo;
+		this.gratificacao = 0;
 	}
 
 	public Usuario(Integer id) {
 		this();
-		this.id = id;
+		this.id = id;		
 	}
 
 	public Usuario(Integer id, String login, String cpf, String nome) {
@@ -125,6 +143,7 @@ public class Usuario implements Serializable {
 		this.login = login;
 		this.cpf = cpf;
 		this.nome = nome;
+		this.gratificacao = 0;
 	}
 
 	public Usuario(Integer id, String login, String password, String cpf,
@@ -137,6 +156,7 @@ public class Usuario implements Serializable {
 		this.permissao = permissao;
 		this.ipMaquina = ipMaquina;
 		this.nome = nome;
+		this.gratificacao = 0;
 	}
 
 	public Usuario(String login, String nome, String password, String cpf) {
@@ -145,6 +165,7 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 		this.setPassword(password);
 		this.cpf = cpf;
+		this.gratificacao = 0;
 	}
 
 	@Override
@@ -162,6 +183,7 @@ public class Usuario implements Serializable {
 		this.cpf = cpf;
 		this.permissao = permissao;
 		this.ipMaquina = ipMaquina;
+		this.gratificacao = 0;
 	}
 
 	public Usuario(String login, String nome, String password, String cpf,
@@ -174,6 +196,7 @@ public class Usuario implements Serializable {
 		this.permissao = permissao;
 		this.ipMaquina = ipMaquina;
 		this.grupo = grupo;
+		this.gratificacao = 0;
 	}
 
 	/**
@@ -249,6 +272,22 @@ public class Usuario implements Serializable {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public int getGratificacao() {
+		return gratificacao;
+	}
+
+	public void setGratificacao(int gratificacao) {
+		this.gratificacao = gratificacao;
+	}
+
+	public void setAtivo(char ativo) {
+		this.ativo = ativo;
+	}
+
+	public char getAtivo() {
+		return ativo;
 	}
 
 	public String getIpMaquina() {

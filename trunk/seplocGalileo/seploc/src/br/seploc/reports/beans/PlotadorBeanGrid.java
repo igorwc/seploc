@@ -6,6 +6,7 @@ public class PlotadorBeanGrid implements Comparable<PlotadorBeanGrid>{
 	private int quantidade;
 	private int id;
 	private double valorMoeda;
+	private double gratificacao;
 	
 	public PlotadorBeanGrid() {
 		// TODO Auto-generated constructor stub
@@ -24,6 +25,14 @@ public class PlotadorBeanGrid implements Comparable<PlotadorBeanGrid>{
 		this.valorMoeda = valorMoeda;
 	}
 	
+	public PlotadorBeanGrid(int seq, String nome, int quantidade, double valorMoeda, double gratificacao) {
+		this.seq = seq;
+		this.nome = nome;
+		this.quantidade = quantidade;
+		this.valorMoeda = valorMoeda;
+		this.gratificacao = gratificacao;
+	}
+		
 	public PlotadorBeanGrid(String nome, int quantidade) {
 		this.nome = nome;
 		this.quantidade = quantidade;
@@ -33,6 +42,13 @@ public class PlotadorBeanGrid implements Comparable<PlotadorBeanGrid>{
 		this.nome = nome;
 		this.quantidade = quantidade;
 		this.valorMoeda = valorMoeda;
+	}
+
+	public PlotadorBeanGrid(String nome, int quantidade, double valorMoeda, double gratificacao) {
+		this.nome = nome;
+		this.quantidade = quantidade;
+		this.valorMoeda = valorMoeda;
+		this.gratificacao = gratificacao;
 	}
 
 	public PlotadorBeanGrid(String nome, int quantidade, int id) {
@@ -46,6 +62,14 @@ public class PlotadorBeanGrid implements Comparable<PlotadorBeanGrid>{
 		this.quantidade = quantidade;
 		this.id = id;
 		this.valorMoeda = valorMoeda;		
+	}
+	
+	public PlotadorBeanGrid(String nome, int quantidade, int id, double valorMoeda, double gratificacao) {
+		this.nome = nome;
+		this.quantidade = quantidade;
+		this.id = id;
+		this.valorMoeda = valorMoeda;		
+		this.gratificacao = gratificacao;
 	}
 	
 	public int getSeq() {
@@ -86,6 +110,14 @@ public class PlotadorBeanGrid implements Comparable<PlotadorBeanGrid>{
 
 	public void setValorMoeda(double valorMoeda) {
 		this.valorMoeda = valorMoeda;
+	}
+
+	public void setGratificacao(double gratificacao) {
+		this.gratificacao = gratificacao;
+	}
+
+	public double getGratificacao() {
+		return gratificacao;
 	}
 
 	@Override

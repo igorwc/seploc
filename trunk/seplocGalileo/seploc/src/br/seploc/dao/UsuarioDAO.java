@@ -35,13 +35,8 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 	@Override
 	public Usuario altera(Usuario t) throws LoginExistenteException {
 		em.getTransaction().begin();		
-	//	if (!this.existeLogin(t.getLogin())) {
 			em.merge(t);
 			em.getTransaction().commit();
-	//	} else {
-//			em.getTransaction().rollback();
-//			throw new LoginExistenteException("Login já em uso");			
-		//}
 		return t;
 	}
 
@@ -59,7 +54,11 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 			em.getTransaction().rollback();
 			throw new RecordNotFound("Usuario Inexistente");
 		} else {
+			usuario.setAtivo('N');
+			em.merge(usuario);
 
+/*
+ * comentado pois nao sera mais removido e sim alterado o atributo Ativo para NAO
 			if (verificaFilhos(id)) {
 				em.getTransaction().rollback();
 				throw new ParentDeleteException(
@@ -67,6 +66,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 			} else {
 				em.remove(usuario);
 			}
+*/
 		}
 		em.getTransaction().commit();
 
@@ -75,6 +75,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 
 	@Override
 	protected boolean verificaFilhos(Integer id) throws ParentDeleteException {
+		System.out.println("verificaFilhos");
 		 Query q = em.createQuery(
 		 "SELECT count(rsu.usuario) FROM br.seploc.pojos.ReqServUsuario rsu"
 		 + " where rsu.usuario.intCodUsr = :id").setParameter(
@@ -135,6 +136,19 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 		return (List<Usuario>) q.getResultList();
 	}
 
+	public Usuario getUsuariosPorID(int ID) {
+		boolean flag = em.getTransaction().isActive();
+		if (!flag) {
+			em.getTransaction().begin();
+		}
+		Query q = em.createNamedQuery("Usuario.RetornaUsuariosPorID")
+				.setParameter("id", ID);
+		if (!flag) {
+			em.getTransaction().commit();
+		}
+		return (Usuario) q.getSingleResult();
+	}	
+	
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getListaUsuariosPorLogin(String login) {
 		boolean flag = em.getTransaction().isActive();
@@ -277,19 +291,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 			}
 			return null;
 		}
-		 
-//		if (q.getResultList() == null || q.getResultList().size() == 0)
-//		    return retorno;
-//		else{
-//			retorno = (Usuario)q.getResultList().get(0);
-//			System.out.println(retorno.getPassword());
-//			em.refresh(retorno);
-//			if (flag) {
-//				retorno = recupera(retorno.getId());
-//				em.getTransaction().commit();
-//			}
-//			return retorno;
-//		}
+		
 	}
 	
 	public List<PlotadorBeanGrid> getListaPlotadoresGrid(Date dataInicio,
@@ -300,7 +302,8 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 			Usuario p = listaPlotadores.get(i);
 			Integer resultadoQtd = this.getQuantidadeRequisicoesPlotador(p.getId().intValue(), dataInicio, dataFim);
 			Double  resultadoVlr = this.getValorTotalRequisicoesPlotador(p.getId().intValue(), dataInicio, dataFim);
-			listaOrdenada.add(new PlotadorBeanGrid(p.getNome(), resultadoQtd, p.getId(), resultadoVlr));
+			Double  resultadoGra = this.getValorGratificacaoPlotador(p.getId().intValue(), dataInicio, dataFim);
+			listaOrdenada.add(new PlotadorBeanGrid(p.getNome(), resultadoQtd, p.getId(), resultadoVlr, resultadoGra));
 		}
 		Collections.sort(listaOrdenada);
 		int i = 1;
@@ -361,6 +364,17 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 		if (totalReqServUsuario == null) totalReqServUsuario = 0.0;
 		return totalReqServUsuario;
 	}	
+	
+	public Double getValorGratificacaoPlotador(Integer id, Date dataInicio, Date dataFim){
+		double retorno;
+		RequisicaoServicoDAO dao = new RequisicaoServicoDAO();
+		Usuario u = this.getUsuariosPorID(id);  
+		java.sql.Date dataI = new java.sql.Date(dataInicio.getTime());
+		java.sql.Date dataF = new java.sql.Date(dataFim.getTime());
+		retorno = dao.getGratificacao(u.getLogin(), dataI, dataF);
+		
+		return retorno;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public List<RequisicaoServico> getListaReqServPorPlotador(Integer plotadorID, Date dataInicio,
