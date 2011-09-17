@@ -440,7 +440,8 @@
 		   	</tr>
 		   	<tr>
 		   		<td>
-		   			<h:outputText value="#{reqServClienteCB.reqServMB.gratificacao}" ><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText> de gratificacao no mes.
+		   			<h:outputText value="#{reqServClienteCB.reqServMB.gratificacao > 0 ? reqServClienteCB.reqServMB.gratificacao : ''}" ><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText>
+		   			<h:outputText value="#{reqServClienteCB.reqServMB.gratificacao > 0 ? ' de gratificacao no mes.' : ''}" />
 		   		</td>
 		   	</tr>		   	
 		   </table>
