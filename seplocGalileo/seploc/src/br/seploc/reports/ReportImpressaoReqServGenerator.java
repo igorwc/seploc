@@ -462,14 +462,28 @@ public class ReportImpressaoReqServGenerator {
 //			this.valorTotal += this.entrega;
 			ArrayList<ImpressaoBean> ultimaPagina = dados.get(dados.size() - 1);
 			if (ultimaPagina != null) {
-				ImpressaoBean temp = ultimaPagina.get(ultimaPagina.size() - 1);
-				if (temp != null) {
-					int seq = Integer.parseInt(temp.getSeq());
+				if (!ultimaPagina.isEmpty()) {
+					ImpressaoBean temp = ultimaPagina
+							.get(ultimaPagina.size() - 1);
+					if (temp != null) {
+						int seq = Integer.parseInt(temp.getSeq());
+						if (ultimaPagina.size() < 14) {
+							while (ultimaPagina.size() != 14) {
+								seq++;
+								ultimaPagina
+										.add(generateDummyImpressaoBean(seq));
+
+							}
+						}
+					}
+				} else {
+					int seq = 1;
 					if (ultimaPagina.size() < 14) {
 						while (ultimaPagina.size() != 14) {
 							seq++;
-							ultimaPagina.add(generateDummyImpressaoBean(seq));
-							
+							ultimaPagina
+									.add(generateDummyImpressaoBean(seq));
+
 						}
 					}
 				}
@@ -554,7 +568,7 @@ public class ReportImpressaoReqServGenerator {
 //		rr.setNumRequisicao(76430);
 //		rr.setNumRequisicao(112453);
 //		rr.setNumRequisicao(73635); 
-		rr.setNumRequisicao(76430);
+		rr.setNumRequisicao(112453);
 		
 		
  
