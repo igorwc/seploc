@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<ui:composition xmlns="http://www.worg/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      template="../templatepage/masterpage.xhtml">
+
+<!-- TAXINOMIA -->      
+<ui:define name="taxinomia">
+   	<h:outputText value="#{msgs.tax_cad_root}"/> 
+   	<img src="../imgs/ponto.png"/><rich:spacer width="5px"/>
+   	<h:outputText value="#{msgs.tax_cad_lona}"/>
+</ui:define>      
+
+<!-- CONTEUDO -->      
+<ui:define name="conteudo"> 
+<style type="text/css">  
+.row1 {   
+    background-color: #EEF3E2;   
+    font-size: 10px;   
+}   
+.row2 {   
+    background-color: #ffffff;   
+    font-size: 10px;   
+}   
+.col1 {
+	text-align: center;
+}  
+.texto {
+	font-family: arial,tahoma;
+	font-size: 10pt;
+	color: #00008B;
+}  
+.error { 
+	font-weight: bold;
+	font-style:normal;
+	color:#FF0000;
+	font-size: 8pt;
+	font-family: tahoma, arial;
+}
+.scrollerCell {
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 15pt;
+}
+.formulario, .formulario TD, .formulario TH
+{
+	background-color : #f2f2f5;	
+}
+
+</style> 
+
+
+
+   <f:view>  
+   	   <h:form id="cadLona" enctype="UTF-8" prependId="false" >
+   	       <script type="text/javascript" >
+             (function($j){
+                  $j(function(){
+    	              $j('.seploccurrency').setMask();
+                     }
+                   );
+              })(jQuery);  
+           </script>
+           <rich:panel >
+           	   <f:facet name="header" >
+           		<h:outputText value="#{msgs['forms.lona.panel']}"/>
+          	   </f:facet>
+			   <!-- Formulario -->
+			   <center>
+               <rich:panel  style="width: 600px" bodyClass="formulario">
+                 <f:facet name="header" >
+           		<h:outputText value="#{msgs['forms.lona.panelInterno']}"/>
+          	    </f:facet>
+                 <table	border="0" >               
+					<tr align="left">
+					<td><h:outputText value="#{msgs['forms.lona.nome']}" styleClass="texto"/></td>
+					<td><h:inputText value="#{lonaCB.lonaMB.papel.nome}" 
+									 required="true"
+									 requiredMessage="O nome deve ser informado"
+									 validator="#{lonaCB.validateNome}" 
+									 id="nomeLona">                             
+                             <rich:ajaxValidator event="onkeyup"  />                            
+                        </h:inputText>
+                        <h:inputHidden value="#{lonaCB.lonaMB.papel.codPapel}"  />
+                    </td>                    
+					</tr>
+					<tr>
+					<td colspan="2"><rich:message for="nomePapel" styleClass="error" /></td>
+					</tr>
+					<tr align="left">
+					<td><h:outputText value="#{msgs['forms.lona.impressao']}" styleClass="texto"/></td>
+					<td><h:inputText value="#{lonaCB.lonaMB.papel.impColor}" 
+					                 id="color"
+					                 converterMessage="valor deve ser um numero"
+					                 validatorMessage="valor deve ser numero."
+					                 alt="signed-decimal" 
+					                 styleClass="seploccurrency">
+					          <f:converter converterId="SeplocCurrencyConverter" />
+					          <rich:ajaxValidator event="onkeyup"/>
+					     </h:inputText></td>
+					</tr>
+					<tr>
+					<td colspan="2"><rich:message for="color" styleClass="error"/> </td>
+					</tr>		
+				  </table> 
+                  <br/>
+                  <a4j:commandButton value="#{msgs['botao.salvar']}"
+                  action="#{lonaCB.lonaMB.cadastra}" 
+                  reRender="papelList,cadLona"
+                  oncomplete="#{rich:component('confirmationMessage')}.show()" />                                              
+                  <a4j:commandButton value="#{msgs['botao.limpar']}" 
+                   action="#{lonaCB.lonaMB.limpar}"
+                   reRender="papelList,cadLona" />
+               </rich:panel>
+               </center>
+               <!-- grid -->
+               <rich:dataTable value="#{lonaCB.listaPapeis}" var="papel"    
+                   rowClasses="row1, row2" id="papelList" rows="8"  
+                   columnClasses="400,50,50,50,50"  
+                   onRowMouseOver="this.style.backgroundColor='#E0EEEE'"  
+                   onRowMouseOut="this.style.backgroundColor='#{a4jSkin.rowBackgroundColor}'"  
+                   width="600"
+                   align="center">  
+                   <f:facet name="header">  
+                       <rich:columnGroup>  
+  
+                           <rich:column colspan="5">  
+                               <h:outputText value="#{msgs['forms.lona.table.header']}" />  
+                           </rich:column>  
+  
+                           <rich:column breakBefore="true">  
+                               <h:outputText value="#{msgs['forms.lona.panel']}" />  
+                           </rich:column>  
+   
+                           <rich:column>  
+                               <h:outputText value="#{msgs['forms.lona.impressao']}" />  
+                           </rich:column>  
+    
+
+                           <rich:column/>  
+                       </rich:columnGroup>  
+                   </f:facet>  
+  
+                   <rich:column filterBy="#{papel.nome}" 
+							 	filterEvent="onkeyup"
+							 	filterValue="#{lonaCB.lonaMB.filtroPapel}">  
+		               <h:outputText value="#{papel.nome}" />  
+                   </rich:column>  
+   
+                   <rich:column styleClass="col1">  
+                       <h:outputText value="#{papel.impColor}"><f:convertNumber type="currency" currencySymbol="R$"/></h:outputText>  
+                   </rich:column>  
+   
+                   <rich:column styleClass="col1">
+						<a4j:commandLink ajaxSingle="true" 
+						                 id="editlink" 
+					    				 reRender="cadLona" 
+					    				 action="#{lonaCB.lonaMB.editar}"
+					    				 disabled="#{sessionScope.LONA_ESC}"
+					    				 >
+							<h:graphicImage value="../imgs/botao-editar.png" style="border:0" />
+							<f:setPropertyActionListener value="#{papel}"
+								target="#{lonaCB.lonaMB.papel}" />
+						</a4j:commandLink>
+						<rich:toolTip for="editlink" value="#{sessionScope.LONA_ESC  == true ? 'Nao tem permissao' : 'Editar Registro'}" />
+						<rich:spacer width="5px"/>
+						<a4j:commandLink ajaxSingle="true"
+						                 id="deletelink" 
+						                 immediate="true"  
+						                 bypassUpdates="true"
+							             reRender="papelList" 
+							             action="#{lonaCB.lonaMB.apaga}" 
+							             oncomplete="#{rich:component('confirmationMessage')}.show()"
+							             disabled="#{sessionScope.LONA_ESC}">
+							<h:graphicImage value="../imgs/delete_icon.gif" style="border:0" />
+							<f:setPropertyActionListener value="#{papel}"
+								target="#{lonaCB.lonaMB.papel}" />
+						</a4j:commandLink>
+						<rich:toolTip for="deletelink" value="#{sessionScope.LONA_ESC  == true ? 'Nao tem permissao' : 'Apagar Registro'}" />
+					</rich:column>  
+					<f:facet name="footer">
+               			<rich:datascroller id="dsPapel" maxPages="3" renderIfSinglePage="true"/>
+                  	</f:facet> 
+               </rich:dataTable>  
+               
+           </rich:panel>  
+       </h:form>  
+       
+        <!-- Mensagens -->
+        <rich:modalPanel id="confirmationMessage" autosized="true" width="200">
+        <f:facet name="header">
+            <h:outputText value="Cadastro de lonas e adesivos"
+                style="padding-right:15px;" />
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="../imgs/icons/close.png"
+                    styleClass="hidelink" id="hidelink2" />
+                <rich:componentControl for="deletePanel" attachTo="hidelink2"
+                    operation="hide" event="onclick" />
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td align="center" width="100%">
+                           	<rich:messages   showDetail="false" showSummary="true" styleClass="texto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="100%"><a4j:commandButton
+                            value="OK"
+                            onclick="#{rich:component('confirmationMessage')}.hide();return false;" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </h:form>
+    </rich:modalPanel>
+       
+       
+       
+   </f:view>  
+   
+</ui:define>
+</ui:composition>
