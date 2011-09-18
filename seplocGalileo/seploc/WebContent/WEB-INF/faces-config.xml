@@ -68,7 +68,18 @@
  </managed-bean>
  <managed-bean>
   <managed-bean-name>papelMB</managed-bean-name>
-  <managed-bean-class>br.seploc.mbeans.tests.PapelMB</managed-bean-class>
+  <managed-bean-class>br.seploc.mbeans.PapelMB</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+  <!--   Cadastro Lona -->
+ <managed-bean>
+  <managed-bean-name>lonaCB</managed-bean-name>
+  <managed-bean-class>br.seploc.controllers.LonaCB</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+ </managed-bean> 
+ <managed-bean>
+  <managed-bean-name>lonaMB</managed-bean-name>
+  <managed-bean-class>br.seploc.mbeans.LonaMB</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
  <!-- Cadastro Opcional -->
