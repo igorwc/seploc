@@ -42,7 +42,7 @@ public class PapelDAO extends GenericDAO<Papel, Integer> implements Serializable
 		Papel papel = em.find(Papel.class, id);
 		if (papel == null) {
 			em.getTransaction().rollback();
-			throw new RecordNotFound("Papel não cadastrado");
+			throw new RecordNotFound("Papel nï¿½o cadastrado");
 		} else {
 
 			if (verificaFilhos(id)) {
@@ -78,7 +78,32 @@ public class PapelDAO extends GenericDAO<Papel, Integer> implements Serializable
 		em.getTransaction().commit();
 		return (List<Papel>) q.getResultList();
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public List<Papel> getListaSohPapeis() {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Papel.RetornaSohPapeis");
+		em.getTransaction().commit();
+		return (List<Papel>) q.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Papel> getListaLona() {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Papel.RetornaLonaAdesivos");
+		em.getTransaction().commit();
+		return (List<Papel>) q.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Papel> getListaLonaPorNome(String nome) {
+		em.getTransaction().begin();
+		Query q = em.createNamedQuery("Papel.RetornaLonasPorNome")
+				.setParameter("nome", "%" + nome + "%");
+		;
+		em.getTransaction().commit();
+		return (List<Papel>) q.getResultList();
+	}
 	@SuppressWarnings("unchecked")
 	public List<Papel> getListaPapelPorNome(String nome) {
 		em.getTransaction().begin();
@@ -91,7 +116,7 @@ public class PapelDAO extends GenericDAO<Papel, Integer> implements Serializable
 	@SuppressWarnings("unchecked")
 	public List<String> getPapeis() {
 		em.getTransaction().begin();
-		Query q = em.createNativeQuery("select vcrNome from tbl_papel");
+		Query q = em.createNativeQuery("select vcrNome from tbl_papel where blEhPapel = 1");
 		em.getTransaction().commit();
 		return (List<String>) q.getResultList();
 	}

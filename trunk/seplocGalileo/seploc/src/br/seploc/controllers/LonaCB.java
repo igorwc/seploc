@@ -13,7 +13,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
-import br.seploc.mbeans.PapelMB;
+import br.seploc.mbeans.LonaMB;
 import br.seploc.pojos.Papel;
 import br.seploc.util.Utils;
 
@@ -21,47 +21,46 @@ import br.seploc.util.Utils;
  * @author Igor
  * 
  */
-public class PapelCB implements Serializable {
+public class LonaCB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private PapelMB papelMB;
+	private LonaMB lonaMB;
 
 	// CONSTRUTOR
 	/**
 	 * Construtor 
 	 */
-	public PapelCB() {
-		this.setPapelMB(loadPapelMB());
-		System.out.println(loadPapelMB());
+	public LonaCB() {
+		this.setLonaMB(loadLonaMB());
 	}
 	
 	// SETTERS AND GETTERS
 	/**
 	 * @return the papelMB
 	 */
-	public PapelMB getPapelMB() {
-		return papelMB;
+	public LonaMB getLonaMB() {
+		return lonaMB;
 	}
 	public List<Papel> getListaPapeis() {
-		 List<Papel> lista = papelMB.getLista();
+		 List<Papel> lista = lonaMB.getLista();
 		 for(Papel p : lista){
 			 System.out.println(p);
 		 }
 		return lista;
 	}
-	public PapelMB loadPapelMB(){
+	public LonaMB loadLonaMB(){
 		FacesContext context = FacesContext.getCurrentInstance();
-		PapelMB papelMB = (PapelMB) context.getApplication()
-            .evaluateExpressionGet(context, "#{papelMB}", PapelMB.class);
-		return papelMB;
+		LonaMB lonaMB = (LonaMB) context.getApplication()
+            .evaluateExpressionGet(context, "#{lonaMB}", LonaMB.class);
+		return lonaMB;
 	}
 
 	/**
 	 * @param papelMB
 	 *            the papelMB to set
 	 */
-	public void setPapelMB(PapelMB papelMB) {
-		this.papelMB = papelMB;
+	public void setLonaMB(LonaMB lonaMB) {
+		this.lonaMB = lonaMB;
 	}
 
 	// VALIDADORES
@@ -102,7 +101,7 @@ public class PapelCB implements Serializable {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (nome.length() >= 60) {
+		if (nome.length() > 30) {
 			errorMsg = Utils.getMessageResourceString("messages",
 					"nome.invalido.maior", null, context.getViewRoot()
 							.getLocale());

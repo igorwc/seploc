@@ -94,8 +94,39 @@ public class PapelDAOTest {
 		PapelDAO papelDAO = new PapelDAO();
 		List<Papel> retorno = papelDAO.getLista();
 		for (Papel l : retorno){
-			System.out.println(l.getNome()+"\n");
+			System.out.println(l.getNome());
 		}
 	}
-
+	@Test
+	public final void testGetListaSohPapeis() {
+		PapelDAO papelDAO = new PapelDAO();
+		List<Papel> retorno = papelDAO.getListaSohPapeis();
+		for (Papel l : retorno){
+			System.out.println(l.getNome());
+		}
+	}
+	
+	@Test
+	public final void testGetListaLona() {
+		PapelDAO papelDAO = new PapelDAO();
+		List<Papel> retorno = papelDAO.getListaLona();
+		for (Papel l : retorno){
+			System.out.println(l.getNome());
+		}
+	}
+	@Test
+	public final void testGetListaLonaPorNome() {
+		PapelDAO papelDAO = new PapelDAO();
+		List<Papel> retorno = papelDAO.getLista();
+		for (Papel l : retorno){
+			System.out.println(l.getNome());
+		}
+	}
+	public final void testGetListaPapelPorNome() {
+		PapelDAO papelDAO = new PapelDAO();
+		List<Papel> retorno = papelDAO.getLista();
+		for (Papel l : retorno){
+			System.out.println(l.getNome());
+		}
+	}
 }

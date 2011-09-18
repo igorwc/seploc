@@ -9,6 +9,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityResult;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,26 +23,37 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Version;
 
+import br.seploc.util.SIMNAO01;
+
 @Entity
 @Table(name = "tbl_papel")
 @SqlResultSetMapping(name = "Papel.implicit", entities = @EntityResult(entityClass = br.seploc.pojos.Papel.class))
-		@NamedNativeQueries( { 
-			@NamedNativeQuery(name = "Papel.RetornaPapeis", 
-					query = " SELECT p.intCodPap, p.vcrNome, "
-							+ "p.dblImpMono, p.dblImpColor, p.dblImpShade, p.tspVersao "
-							+ "FROM tbl_papel p", resultSetMapping = "Papel.implicit"),
-//			@NamedNativeQuery(name = "Papel.ContaPapelLinhaRequisicao", 
-//					query = " SELECT count(*) as contagem "
-//							+ "FROM tbl_papel p "
-//							+ "WHERE intCodPap in (" 
-//							                      +"SELECT intCodPap " 
-//							                      +"FROM tbl_linhareq lr " 
-//							                      +"WHERE lr = :codPapel " 
-//							+")", resultSetMapping = "Papel.implicit"),
-			@NamedNativeQuery(name = "Papel.RetornaPapeisPorNome", 
-					query = " SELECT * "
-							+ "FROM tbl_papel p where p.vcrNome like :nome ", resultSetMapping = "Papel.implicit"),
-		})
+@NamedNativeQueries( {
+		@NamedNativeQuery(name = "Papel.RetornaPapeis", 
+						 query = " SELECT p.intCodPap, p.vcrNome, "
+							   + "p.dblImpMono, p.dblImpColor, p.dblImpShade,p.blEhPapel, p.tspVersao "
+							   + "FROM tbl_papel p "  , resultSetMapping = "Papel.implicit"),
+		@NamedNativeQuery(name = "Papel.RetornaSohPapeis", 
+						 query = " SELECT p.intCodPap, p.vcrNome, "
+							   + "p.dblImpMono, p.dblImpColor, p.dblImpShade,p.blEhPapel, p.tspVersao "
+							   + "FROM tbl_papel p " 
+							   + "WHERE p.blEhPapel = 1", resultSetMapping = "Papel.implicit"),
+		@NamedNativeQuery(name = "Papel.RetornaLonaAdesivos", 
+				          query = " SELECT p.intCodPap, p.vcrNome, "
+				                + "p.dblImpMono, p.dblImpColor, p.dblImpShade,p.blEhPapel, p.tspVersao "
+				                + "FROM tbl_papel p " 
+				                + "WHERE p.blEhPapel = 0", resultSetMapping = "Papel.implicit"),
+		@NamedNativeQuery(name = "Papel.RetornaPapeisPorNome", 
+				          query = " SELECT * "
+				        	  	+ "FROM tbl_papel p " 
+				        	  	+ "WHERE p.blEhPapel = 1 AND p.vcrNome like :nome "
+				        	  	, resultSetMapping = "Papel.implicit"), 
+	     @NamedNativeQuery(name = "Papel.RetornaLonasPorNome", 
+						   query = " SELECT * "
+							   	 + "FROM tbl_papel p " 
+								 + "WHERE p.blEhPapel = 1 AND p.vcrNome like :nome "
+								 , resultSetMapping = "Papel.implicit") 
+})
 public class Papel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -63,6 +76,9 @@ public class Papel implements Serializable {
 
 	@Column(name = "dblImpShade")
 	private Double ImpShade;
+	
+	@Column(name = "blEhPapel")
+	private Integer ehpapel;
 
 	@Version
 	@Column(name = "tspVersao")
@@ -79,6 +95,7 @@ public class Papel implements Serializable {
 	public Papel() {
 		setLinhaRequisicao(new ArrayList<LinhaRequisicao>());
 		setClientes(new ArrayList<Cliente>());
+		setEhpapel(SIMNAO01.SIM);
 	}
 
 	public Papel(String nome, Double impMono, Double impColor, Double impShade) {
@@ -157,5 +174,14 @@ public class Papel implements Serializable {
 		return serialVersionUID;
 	}
 
+	public Integer getEhpapel() {
+		return ehpapel;
+	}
+
+	public void setEhpapel(Integer ehpapel) {
+		this.ehpapel = ehpapel;
+	}
+
+	 
 	
 }

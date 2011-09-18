@@ -1,4 +1,4 @@
-package br.seploc.mbeans.tests;
+package br.seploc.mbeans;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,8 +8,10 @@ import javax.faces.context.FacesContext;
 
 import br.seploc.dao.PapelDAO;
 import br.seploc.pojos.Papel;
+import br.seploc.util.SIMNAO01;
+import br.seploc.util.Utils;
 
-public class PapelMB implements Serializable {
+public class LonaMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Papel papel;
@@ -18,19 +20,31 @@ public class PapelMB implements Serializable {
 	static int quantidade = 0;
 
 	public void cadastra() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		String msg = "";
 		if (papel.getCodPapel() == null || papel.getCodPapel() == 0) {
+			papel.setEhpapel(SIMNAO01.NAO);
+			papel.setImpMono(0.0);
+			papel.setImpShade(0.0);
 			papelDAO.adiciona(papel);
-			addGlobalMessage("Inclus�o feita com sucesso!");
+			msg = Utils.getMessageResourceString("messages",
+					"mensagens.inclusao.sucesso", null, context.getViewRoot()
+							.getLocale());
+			addGlobalMessage(msg);
 		} else {
 			Papel temp;
 			temp = papelDAO.recupera(papel.getCodPapel());
 			if (temp != null) {
 				temp.setNome(papel.getNome().trim());
 				temp.setImpColor(papel.getImpColor());
-				temp.setImpMono(papel.getImpMono());
-				temp.setImpShade(papel.getImpShade());
+				temp.setImpMono(0.0);
+				temp.setImpShade(0.0);
+				temp.setEhpapel(SIMNAO01.NAO);
 				papelDAO.altera(temp);
-				addGlobalMessage("Atualiza��o feita com sucesso!");
+				msg = Utils.getMessageResourceString("messages",
+						"mensagens.atualizacao.sucesso", null, context.getViewRoot()
+								.getLocale());
+				addGlobalMessage(msg);
 			}
 
 		}
@@ -40,11 +54,10 @@ public class PapelMB implements Serializable {
 
 	public void limpar() {
 		papel = new Papel();
-		System.out.println("Limpar Papel");
 	}
 
 	/**
-	 * M�todo para incluir mensagens globais no formul�rio de cadastro
+	 * Metodo para incluir mensagens globais no formulario de cadastro
 	 * 
 	 * @param String
 	 *            message
@@ -55,9 +68,13 @@ public class PapelMB implements Serializable {
 	}
 
 	public void apaga() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		String msg = Utils.getMessageResourceString("messages",
+				"mensagens.exclusao.sucesso", null, context.getViewRoot()
+						.getLocale());
 		try {
 			papelDAO.remove(papel.getCodPapel());
-			addGlobalMessage("Papel excluido com sucesso!");
+			addGlobalMessage(msg);
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
@@ -72,18 +89,15 @@ public class PapelMB implements Serializable {
 		}
 	}
 
-	
 	// CONSTRUTOR
-	public PapelMB() {
+	public LonaMB() {
 		init();
 	}
 
 	public void init(){
 		quantidade++;
-		System.out.println("quantidade:  " +quantidade);
 		papel = new Papel();
 		papelDAO = new PapelDAO();
-		System.out.println("\n\n\n\n\n\n\nContrui PapelMB\n\n\n\n\n\n\n\n\n\n\n");
 	}
 	public void setFiltroPapel(String filtroPapel) {
 		this.filtroPapel = filtroPapel;
@@ -95,11 +109,10 @@ public class PapelMB implements Serializable {
 
 	// SETTERS AND GETTERS
 	public List<Papel> getLista() {
-		return papelDAO.getLista();
+		return papelDAO.getListaLona();
 	}
 
 	public Papel getPapel() {
-		System.out.println("Get Papel");
 		return papel;
 	}
 
