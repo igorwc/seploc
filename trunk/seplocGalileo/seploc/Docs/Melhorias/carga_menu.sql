@@ -29,7 +29,8 @@ INSERT INTO `tbl_menu` (`intMenu`, `vcrMenu`, `vcrAcao`, `intMenupai`, `chrHabil
 (24, 'REL_COBRADOR',     'Motoqueiro por Periodo',   4,    'S', 0, 2, CURRENT_TIMESTAMP),
 (25, 'REL_PLOTADOR',     'Plotador por Periodo',     4,    'S', 0, 3, CURRENT_TIMESTAMP),
 (26, 'REL_PRODUCAO',     'Producao Requisicao',      4,    'S', 0, 4, CURRENT_TIMESTAMP),
-(27, 'REQ_PAGAMENTO',    'Requisicoes Pagamento',    2,    'S', 0, 5, CURRENT_TIMESTAMP);
+(27, 'REQ_PAGAMENTO',    'Requisicoes Pagamento',    2,    'S', 0, 5, CURRENT_TIMESTAMP),
+(28, 'LONA',             'lona',                     3,    'S', 0, 8, CURRENT_TIMESTAMP);
 -- tbl_grupo
 INSERT INTO tbl_grupo (intGrupo,vcrGrupo)  VALUES
 (1,'SISTEMA'),
@@ -68,6 +69,7 @@ INSERT INTO `tbl_grupomenu` (`intGrupo`, `intMenu`, `chrEscrita`, `chrVisivel`) 
 (1, 25, 'S', 'S'),
 (1, 26, 'S', 'S'),
 (1, 27, 'S', 'S'),
+(1, 28, 'S', 'S'),
 (2, 1, 'S', 'S'),
 (2, 2, 'S', 'S'),
 (2, 3, 'S', 'S'),
@@ -95,6 +97,7 @@ INSERT INTO `tbl_grupomenu` (`intGrupo`, `intMenu`, `chrEscrita`, `chrVisivel`) 
 (2, 25, 'S', 'S'),
 (2, 26, 'S', 'S'),
 (2, 27, 'S', 'S'),
+(2, 28, 'S', 'S'),
 (3, 1, 'N', 'S'),
 (3, 2, 'N', 'S'),
 (3, 3, 'N', 'N'),
@@ -122,6 +125,7 @@ INSERT INTO `tbl_grupomenu` (`intGrupo`, `intMenu`, `chrEscrita`, `chrVisivel`) 
 (3, 25, 'N', 'N'),
 (3, 26, 'N', 'N'),
 (3, 27, 'N', 'N'),
+(3, 28, 'N', 'N'),
 (4, 1, 'N', 'S'),
 (4, 2, 'N', 'S'),
 (4, 3, 'N', 'N'),
@@ -149,6 +153,7 @@ INSERT INTO `tbl_grupomenu` (`intGrupo`, `intMenu`, `chrEscrita`, `chrVisivel`) 
 (4, 25, 'N', 'N'),
 (4, 26, 'N', 'N'),
 (4, 27, 'N', 'N'),
+(4, 28, 'N', 'N'),
 (5, 1, 'N', 'N'),
 (5, 2, 'N', 'N'),
 (5, 3, 'N', 'N'),
@@ -176,6 +181,7 @@ INSERT INTO `tbl_grupomenu` (`intGrupo`, `intMenu`, `chrEscrita`, `chrVisivel`) 
 (5, 25, 'N', 'N'),
 (5, 26, 'N', 'N'),
 (5, 27, 'N', 'N'),
+(5, 28, 'N', 'N'),
 (6, 1, 'N', 'N'),
 (6, 2, 'N', 'N'),
 (6, 3, 'N', 'N'),
@@ -202,4 +208,5 @@ INSERT INTO `tbl_grupomenu` (`intGrupo`, `intMenu`, `chrEscrita`, `chrVisivel`) 
 (6, 24, 'N', 'N'),
 (6, 25, 'N', 'N'),
 (6, 26, 'N', 'N'),
-(6, 27, 'N', 'N');
+(6, 27, 'N', 'N'),
+(6, 28, 'N', 'N');
