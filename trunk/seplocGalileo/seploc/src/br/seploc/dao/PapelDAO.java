@@ -35,14 +35,31 @@ public class PapelDAO extends GenericDAO<Papel, Integer> implements Serializable
 		Papel papel = em.find(Papel.class, id);
 		return papel;
 	}
-
+	
+	public boolean existe(Papel papel) {
+		boolean retorno = false;
+		Number count = 0;		
+		Query q = em.createNativeQuery(" SELECT count(1) "
+				+ "FROM tbl_papel p "
+				+ "WHERE p.vcrNome = :nomePapel")
+		.setParameter("nomePapel", papel.getNome());
+		
+		count = (Number) q.getSingleResult();
+		// se retornar diferente de zero setar para verdadeiro
+		if (count.intValue() != 0) {
+			retorno = true;
+		}
+		
+		return retorno;
+	}	
+	
 	@Override
 	public Papel remove(Integer id) throws Exception {
 		em.getTransaction().begin();
 		Papel papel = em.find(Papel.class, id);
 		if (papel == null) {
 			em.getTransaction().rollback();
-			throw new RecordNotFound("Papel n�o cadastrado");
+			throw new RecordNotFound("Papel nao cadastrado");
 		} else {
 
 			if (verificaFilhos(id)) {

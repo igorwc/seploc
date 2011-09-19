@@ -18,8 +18,10 @@ import br.seploc.dao.pagedqueries.FilteredReqServPager;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.LinhaRequisicao;
 import br.seploc.pojos.Projeto;
+import br.seploc.pojos.ReqServUsuario;
 import br.seploc.pojos.ReqServicosOpcionais;
 import br.seploc.pojos.RequisicaoServico;
+import br.seploc.pojos.Usuario;
 import br.seploc.util.SessionObjectsManager;
 
 public class ReqServListaMB implements Serializable {
@@ -545,6 +547,13 @@ public class ReqServListaMB implements Serializable {
 			reqServicoDAO.adiciona(temp);
 			// recuperar a requisicao
 			temp = reqServicoDAO.recupera(temp.getNumReq());
+			
+			// registrar usuario que duplicou a requisicao
+			Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");			
+			ReqServUsuario reqServUsuario = new ReqServUsuario(user, reqServico);
+			reqServUsuario.setData(hoje);
+			temp.setRequisicaoUsuario(reqServUsuario);
+			
 			// opcionais
 			if (reqServico.getOpcionais() != null) {
 				for (ReqServicosOpcionais ro : reqServico.getOpcionais()) {

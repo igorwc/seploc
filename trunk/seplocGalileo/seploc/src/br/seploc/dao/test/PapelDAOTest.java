@@ -1,7 +1,5 @@
 package br.seploc.dao.test;
 
-import static org.junit.Assert.fail;
-
 import java.util.List;
 
 import junit.framework.Assert;
@@ -46,6 +44,17 @@ public class PapelDAOTest {
 		Assert.assertNotNull(papel);
 		Assert.assertEquals(10.33, papel.getImpShade().doubleValue());
 		Assert.assertEquals("B4", papel.getNome());
+	}
+	
+	@Test
+	public final void testExistePapel(){
+		PapelDAO dao = new PapelDAO();
+		Papel papel = new Papel();
+		papel.setNome("NN");
+		papel.setImpColor(10.0);
+		boolean r = dao.existe(papel);
+		
+		Assert.assertEquals(true,r);
 	}
 
 	@Test

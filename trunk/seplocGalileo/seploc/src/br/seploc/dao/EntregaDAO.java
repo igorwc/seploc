@@ -42,7 +42,7 @@ public class EntregaDAO extends GenericDAO<Entrega,Integer> {
 		Entrega entrega = em.find(Entrega.class, id);
 		if (entrega == null) {
 			em.getTransaction().rollback();
-			throw new RecordNotFound("Região de Entrega Inexistente");
+			throw new RecordNotFound("Regiao de Entrega Inexistente");
 		} else {
 			if (verificaFilhos(id)) {
 				em.getTransaction().rollback();
@@ -82,7 +82,7 @@ public class EntregaDAO extends GenericDAO<Entrega,Integer> {
 	@Override
 	protected void ajustaPojo(Entrega pojo) throws FieldNotNullException {
 		if(pojo.getLocal() == null){
-			throw new FieldNotNullException("Local de Entrega não pode ser nulo");
+			throw new FieldNotNullException("Local de Entrega nao pode ser nulo");
 		}
 		
 	}
