@@ -75,7 +75,8 @@
 									 required="true"
 									 requiredMessage="O nome deve ser informado"
 									 validator="#{papelCB.validateNome}" 
-									 id="nomePapel">                             
+									 id="nomePapel"
+									 maxlength="20">                             
                              <rich:ajaxValidator event="onkeyup"  />                            
                         </h:inputText>
                         <h:inputHidden value="#{papelCB.papelMB.papel.codPapel}"  />
