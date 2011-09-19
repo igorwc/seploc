@@ -23,11 +23,17 @@ public class PapelMB implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 		String msg = "";
 		if (papel.getCodPapel() == null || papel.getCodPapel() == 0) {
-			papel.setEhpapel(SIMNAO01.SIM);
-			papelDAO.adiciona(papel);
-			msg = Utils.getMessageResourceString("messages",
-					"mensagens.inclusao.sucesso", null, context.getViewRoot()
-							.getLocale());
+			if (!existe(papel)) {
+				papel.setEhpapel(SIMNAO01.SIM);
+				papelDAO.adiciona(papel);
+				msg = Utils.getMessageResourceString("messages",
+						"mensagens.inclusao.sucesso", null, context.getViewRoot()
+								.getLocale());
+				papelDAO.adiciona(papel);
+				//addGlobalMessage("Inclusao feita com sucesso!");
+			} else {
+				addGlobalMessage("Nome do papel já existe!");
+			}			
 		} else {
 			Papel temp;
 			temp = papelDAO.recupera(papel.getCodPapel());
@@ -82,6 +88,9 @@ public class PapelMB implements Serializable {
 		}
 	}
 
+	private boolean existe(Papel papel){
+		return papelDAO.existe(papel);
+	}
 	
 	// CONSTRUTOR
 	public PapelMB() {
