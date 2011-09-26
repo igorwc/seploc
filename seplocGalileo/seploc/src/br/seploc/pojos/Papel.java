@@ -9,8 +9,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityResult;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -180,6 +178,16 @@ public class Papel implements Serializable {
 
 	public void setEhpapel(Integer ehpapel) {
 		this.ehpapel = ehpapel;
+	}
+	
+	public String getEhPapel(){
+		String retorno;
+		if (this.getEhpapel() == 1) {
+			retorno = "S";
+		} else {
+			retorno = "N";
+		}
+		return retorno;
 	}
 
 	 

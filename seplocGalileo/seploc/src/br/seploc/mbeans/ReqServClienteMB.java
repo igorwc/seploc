@@ -10,8 +10,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
-import com.mysql.jdbc.Util;
-
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.LinhaRequisicao;
 import br.seploc.pojos.OpcionaisReqServ;
@@ -630,6 +628,12 @@ public class ReqServClienteMB implements Serializable {
 						papel = papelDAO.recupera(papel.getCodPapel());
 						linhaReqServ.setPapel(papel);
 						double valorPapel = 0.0;
+						
+						//verificaar se eh papel ou lona/adesivo e alterar a impressao
+						if (papel.getEhPapel() == "N"){						
+							linhaReqServ.setImpressao("COLOR");
+						}
+
 						// verificar a cor em uso
 						if (linhaReqServ.getImpressao().equalsIgnoreCase("Mono"))
 							valorPapel = papel.getImpMono();
