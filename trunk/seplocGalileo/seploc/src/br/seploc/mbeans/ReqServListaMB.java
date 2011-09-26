@@ -548,12 +548,6 @@ public class ReqServListaMB implements Serializable {
 			// recuperar a requisicao
 			temp = reqServicoDAO.recupera(temp.getNumReq());
 			
-			// registrar usuario que duplicou a requisicao
-			Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");			
-			ReqServUsuario reqServUsuario = new ReqServUsuario(user, reqServico);
-			reqServUsuario.setData(hoje);
-			temp.setRequisicaoUsuario(reqServUsuario);
-			
 			// opcionais
 			if (reqServico.getOpcionais() != null) {
 				for (ReqServicosOpcionais ro : reqServico.getOpcionais()) {
@@ -579,6 +573,16 @@ public class ReqServListaMB implements Serializable {
 			// totais			
 			temp.setValorTotal(reqServico.getValorTotal());
 			temp.setValorDesconto(reqServico.getValorDesconto());
+			
+			if ((temp.getRequisicaoUsuario() == null) || (temp.getRequisicaoUsuario().getUsuario() == null)) {
+				// registrar usuario que duplicou a requisicao
+				Usuario user = (Usuario) SessionObjectsManager.recuperaObjetoSessao("usuarioSessao");
+				System.out.println("Usuario Criador: "+user.getLogin());
+				ReqServUsuario reqServUsuario = new ReqServUsuario(user, temp);
+				reqServUsuario.setData(hoje);
+				temp.setRequisicaoUsuario(reqServUsuario);				
+			} 		
+			
 			reqServicoDAO.altera(temp);
 			FacesContext.getCurrentInstance().getExternalContext()
 					.getSessionMap().put("numReqServ", temp.getNumReq());

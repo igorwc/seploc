@@ -123,6 +123,18 @@ public class PapelDAOTest {
 			System.out.println(l.getNome());
 		}
 	}
+
+	@Test
+	public final void testGetEhPapel() {
+		PapelDAO papelDAO = new PapelDAO();
+		Papel p1 = papelDAO.recupera(6);
+	    System.out.println(p1.getNome() + " Eh papel? " + p1.getEhPapel());
+		Papel p2 = papelDAO.recupera(98);
+	    System.out.println(p2.getNome() + " Eh papel? " + p2.getEhPapel());
+		
+	}
+	
+	
 	@Test
 	public final void testGetListaLonaPorNome() {
 		PapelDAO papelDAO = new PapelDAO();
