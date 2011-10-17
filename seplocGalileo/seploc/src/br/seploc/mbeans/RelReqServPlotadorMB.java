@@ -35,6 +35,7 @@ public class RelReqServPlotadorMB  implements Serializable {
 		urlPlotadorImpressao = "";
 		urlPlotadorGridImpressao = "";
 		setPlotadorImpressao(new PlotadorBeanGrid());
+		buscaRequisicoes();
 	}
 	
 	// METODOS NEGOCIO
@@ -69,6 +70,10 @@ public class RelReqServPlotadorMB  implements Serializable {
 		urlPlotadorImpressao = scontext.getContextPath()
 				+ "/RelPlotadorImpressaoReqServ.report";
 	}	
+	
+	public void limpar(){
+		this.load();
+	}
 	
 	// GETTERS AND SETTERS
 	public Date getDataInicio() {
@@ -126,4 +131,5 @@ public class RelReqServPlotadorMB  implements Serializable {
 	public void setListaPlotadores(List<PlotadorBeanGrid> listaPlotadores) {
 		this.listaPlotadores = listaPlotadores;
 	}	
+	
 }

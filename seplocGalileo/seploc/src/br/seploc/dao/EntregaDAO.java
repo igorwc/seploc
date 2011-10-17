@@ -90,9 +90,9 @@ public class EntregaDAO extends GenericDAO<Entrega,Integer> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Entrega> getLista() {
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		Query q = em.createNamedQuery("Entrega.RetornaEntregas");
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 		return (List<Entrega>) q.getResultList();
 	}
 	
@@ -112,4 +112,20 @@ public class EntregaDAO extends GenericDAO<Entrega,Integer> {
 		return (List<String>) q.getResultList();
 	}
 
+	public boolean existe(Entrega entrega) {
+		boolean retorno = false;
+		Number count = 0;		
+		Query q = em.createNativeQuery(" SELECT count(1) "
+				+ "FROM tbl_entrega e "
+				+ "WHERE e.vcrLocal = :nome")
+		.setParameter("nome", entrega.getLocal());
+		
+		count = (Number) q.getSingleResult();
+		// se retornar diferente de zero setar para verdadeiro
+		if (count.intValue() != 0) {
+			retorno = true;
+		}
+		
+		return retorno;
+	}	
 }

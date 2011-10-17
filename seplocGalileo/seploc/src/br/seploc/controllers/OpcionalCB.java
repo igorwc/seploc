@@ -114,7 +114,7 @@ public class OpcionalCB implements Serializable {
 		}
 		if (nomeOpcional.length() > 20) {
 			errorMsg = Utils.getMessageResourceString("messages",
-					"nome.invalido.maior", null, context.getViewRoot()
+					"nome.invalido.maior20", null, context.getViewRoot()
 							.getLocale());
 			FacesMessage message = new FacesMessage(errorMsg);	
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);

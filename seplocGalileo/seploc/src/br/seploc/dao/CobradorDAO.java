@@ -183,5 +183,23 @@ public class CobradorDAO extends GenericDAO<Cobrador, Integer> {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public boolean existe(Cobrador c) {
+		boolean retorno = false;
+		Number count = 0;		
+		Query q = em.createNativeQuery(" SELECT count(1) "
+				+ "FROM tbl_cobrador c "
+				+ "WHERE c.vcrNome = :nome")
+		.setParameter("nome", c.getNome());
+		
+		count = (Number) q.getSingleResult();
+		// se retornar diferente de zero setar para verdadeiro
+		if (count.intValue() != 0) {
+			retorno = true;
+		}
+		
+		
+		return retorno;
+	}	
 
 }

@@ -698,7 +698,7 @@ public class ReqServClienteMB implements Serializable {
 							reqServicoDAO.addLinha(temp, linhaReqServ);
 						}
 						// verificar se existe alteracao na entrega
-						if (entrega.getLocal() != null){
+						if (entrega != null){ // || entrega.getLocal() != null
 							if (temp.getEntrega() == null){
 								temp.setEntrega(entrega);
 								System.out.println("Entrega: "+entrega.getLocal());

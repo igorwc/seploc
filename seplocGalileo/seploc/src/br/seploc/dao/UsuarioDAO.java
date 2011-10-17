@@ -328,9 +328,10 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 		Query q = em.createQuery(
 				"SELECT count(sm) FROM br.seploc.pojos.ReqServUsuario sm"
 						+ " where sm.usuario.id = :plotadorID and "
-						+ "sm.data between :dataInicio and " 
-						+ "  :dataFim  " 
-						+ " and sm.reqServico.numReq in (SELECT s.numReq from br.seploc.pojos.RequisicaoServico s )" )
+						+ " sm.reqServico.numReq in "
+						+ "(SELECT s.numReq from br.seploc.pojos.RequisicaoServico s "
+						+ "  WHERE s.orcamento = 'N' and "
+						+ "        s.data between :dataInicio and :dataFim) ")						
 						.setParameter(
 				            "plotadorID", id)
 				        .setParameter(
@@ -349,8 +350,9 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 		Query q = em.createQuery(
 				"SELECT sum(rs.valorDesconto) FROM br.seploc.pojos.RequisicaoServico rs"
 					+ " where rs.numReq in (SELECT ru.numReqServ FROM br.seploc.pojos.ReqServUsuario ru " 
-					+ "                      WHERE ru.usuario.id = :plotadorID) and " 
-					+ " rs.data between :dataInicio and " 
+					+ "                      WHERE ru.usuario.id = :plotadorID) and "
+					+ " rs.orcamento = 'N' and "
+					+ " rs.data between :dataInicio and "					
 					+ "  :dataFim  " )
 						.setParameter(
 				            "plotadorID", id)
@@ -384,7 +386,8 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
 
 		Query q = em.createQuery(
 				"SELECT rs FROM br.seploc.pojos.RequisicaoServico rs"
-						+ " where rs.data between :dataInicio and  :dataFim "						 
+						+ " where rs.data between :dataInicio and  :dataFim "		
+						+ " and rs.orcamento = 'N' "
 						+ " and rs.numReq in (SELECT ru.numReqServ FROM br.seploc.pojos.ReqServUsuario ru " 
 					    + "                    WHERE ru.usuario.id = :plotadorID)" )
 						.setParameter(

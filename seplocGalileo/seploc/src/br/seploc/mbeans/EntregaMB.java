@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 
 import br.seploc.dao.EntregaDAO;
 import br.seploc.pojos.Entrega;
+import br.seploc.util.Utils;
 
 public class EntregaMB implements Serializable {
 
@@ -15,6 +16,8 @@ public class EntregaMB implements Serializable {
 	static int quantidade = 0;
 	private Entrega entrega;
 	private EntregaDAO entregaDAO;	
+	private FacesContext context;
+	private String msg;
 	
 	//CONSTRUTOR
 	/**
@@ -31,7 +34,8 @@ public class EntregaMB implements Serializable {
 		quantidade++;		
 		entrega = new Entrega();
 		entregaDAO = new EntregaDAO();
-		System.out.println("\n\n\n\n\n\n\nContrui EntregaMB\n\n\n\n\n\n\n\n\n\n\n");
+		System.out.println("\n\n\n\n\n\n\nContrui EntregaMB\n\n\n\n\n\n\n\n\n\n\n");		
+		msg = "";
 	}
 
 	// SETTERS AND GETTERS
@@ -80,10 +84,21 @@ public class EntregaMB implements Serializable {
 	 * Cadastrar ou alterar o entrega
 	 */
 	public void cadastrar() {
+		context = FacesContext.getCurrentInstance();
 		if (entrega.getCodEntrega() == null || entrega.getCodEntrega() == 0) {
 			try {
-				entregaDAO.adiciona(entrega);
-				addGlobalMessage("Inclus�o feita com sucesso!");			
+				if(!existe(entrega)){
+					entregaDAO.adiciona(entrega);
+					msg = Utils.getMessageResourceString("messages",
+							"mensagens.inclusao.sucesso", null, context.getViewRoot()
+									.getLocale());				
+					//addGlobalMessage("Inclus�o feita com sucesso!");
+				} else {
+					msg = Utils.getMessageResourceString("messages",
+							"mensagens.existe.nome", null, context.getViewRoot()
+									.getLocale());					
+				}		
+				addGlobalMessage(msg);
 			} catch (Exception e) {
 				addGlobalMessage(e.getMessage());
 			}
@@ -97,7 +112,11 @@ public class EntregaMB implements Serializable {
 				
 				try {
 					entregaDAO.altera(temp);
-					addGlobalMessage("Atualiza��o feita com sucesso!");					
+					msg = Utils.getMessageResourceString("messages",
+							"mensagens.atualizacao.sucesso", null, context.getViewRoot()
+									.getLocale());
+					addGlobalMessage(msg);
+					//addGlobalMessage("Atualiza��o feita com sucesso!");					
 				} catch (Exception e) {
 					addGlobalMessage(e.getMessage());
 				}
@@ -129,14 +148,23 @@ public class EntregaMB implements Serializable {
 	 * Excluir entrega
 	 */
 	public void apagar() {
+		context = FacesContext.getCurrentInstance();
 		try {
 			entregaDAO.remove(entrega.getCodEntrega());
-			addGlobalMessage("Exclu�do com sucesso!");
+			msg = Utils.getMessageResourceString("messages",
+					"mensagens.exclusao.sucesso", null, context.getViewRoot()
+							.getLocale());	
+			addGlobalMessage(msg);
+			//addGlobalMessage("Exclu�do com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
 		entrega = new Entrega();
 	}	
+	
+	public boolean existe(Entrega entrega) {
+		return entregaDAO.existe(entrega);
+	}
 	
 	public List<Entrega> getListaPorLocal(){
 		List<Entrega> retorno = entregaDAO.getEntregasPorLocal(entrega.getLocal());
