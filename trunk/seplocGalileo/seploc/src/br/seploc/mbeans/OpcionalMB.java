@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 
 import br.seploc.dao.OpcionaisReqServDAO;
 import br.seploc.pojos.OpcionaisReqServ;
+import br.seploc.util.Utils;
 
 public class OpcionalMB implements Serializable {
 
@@ -16,6 +17,8 @@ public class OpcionalMB implements Serializable {
 	private OpcionaisReqServ opcional;
 	private OpcionaisReqServDAO opcionalDAO;
 	private String filtroOpcional;
+	private FacesContext context;
+	private String msg; 
 	
 	//CONSTRUTOR
 	/**
@@ -31,7 +34,8 @@ public class OpcionalMB implements Serializable {
 	public void init(){
 		quantidade++;
 		opcional = new OpcionaisReqServ();
-		opcionalDAO = new OpcionaisReqServDAO();
+		opcionalDAO = new OpcionaisReqServDAO();		
+		msg = "";
 	}
 
 	public void setFiltroOpcional(String filtroOpcional) {
@@ -87,10 +91,21 @@ public class OpcionalMB implements Serializable {
 	 * Cadastrar o Opcional
 	 */
 	public void cadastrar() {
+		context = FacesContext.getCurrentInstance();
 		try {
 			if (opcional.getCodOpReqServ() == null	|| opcional.getCodOpReqServ() == 0) {
-				opcionalDAO.adiciona(opcional);
-				addGlobalMessage("Inclusao feita com sucesso!");
+				if (!existe(opcional)){
+					opcionalDAO.adiciona(opcional);
+					msg = Utils.getMessageResourceString("messages",
+							"mensagens.inclusao.sucesso", null, context.getViewRoot()
+									.getLocale());
+					//addGlobalMessage("Inclusao feita com sucesso!");			
+				} else {
+					msg = Utils.getMessageResourceString("messages",
+							"mensagens.existe.nome", null, context.getViewRoot()
+									.getLocale());	
+					//addGlobalMessage("Nome do opcional já existe!");
+				}
 			} else {
 				OpcionaisReqServ temp;
 				temp = opcionalDAO.recupera(opcional.getCodOpReqServ());
@@ -99,11 +114,16 @@ public class OpcionalMB implements Serializable {
 					temp.setNomeItem(opcional.getNomeItem().trim().toUpperCase());
 					temp.setValorItem(opcional.getValorItem());
 					opcionalDAO.altera(temp);
-					addGlobalMessage("Atualizacao feita com sucesso!");
+					//addGlobalMessage("Atualizacao feita com sucesso!");
+					msg = Utils.getMessageResourceString("messages",
+							"mensagens.atualizacao.sucesso", null, context.getViewRoot()
+									.getLocale());					
 				}
 			}
+			// apresentar mensagem
+			addGlobalMessage(msg);
 		} catch (Exception e) {
-			addGlobalMessage("Nao foi possivel realizar a operacao!");
+			addGlobalMessage("Nao foi possivel realizar a operacao!");			
 		}
 		this.limpar();
 
@@ -113,9 +133,14 @@ public class OpcionalMB implements Serializable {
 	 * Excluir opcional
 	 */
 	public void apagar() {
+		context = FacesContext.getCurrentInstance();
 		try {
 			opcionalDAO.remove(opcional.getCodOpReqServ());
-			addGlobalMessage("Opcional exclu�do com sucesso!");
+			msg = Utils.getMessageResourceString("messages",
+					"mensagens.exclusao.sucesso", null, context.getViewRoot()
+							.getLocale());	
+			addGlobalMessage(msg);
+			//addGlobalMessage("Opcional exclu�do com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
@@ -140,6 +165,9 @@ public class OpcionalMB implements Serializable {
 		opcional = new OpcionaisReqServ();
 	}	
 
+	public boolean existe(OpcionaisReqServ op) {
+		return opcionalDAO.existe(op);
+	}
 	
 	/**
 	 * M�todo para incluir mensagens globais no formul�rio de cadastro

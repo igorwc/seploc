@@ -18,10 +18,10 @@ public class PapelMB implements Serializable {
 	private PapelDAO papelDAO;
 	private String filtroPapel;
 	static int quantidade = 0;
+	private FacesContext context;
+	private String msg;
 
 	public void cadastra() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		String msg = "";
 		if (papel.getCodPapel() == null || papel.getCodPapel() == 0) {
 			if (!existe(papel)) {
 				papel.setEhpapel(SIMNAO01.SIM);
@@ -30,9 +30,12 @@ public class PapelMB implements Serializable {
 						"mensagens.inclusao.sucesso", null, context.getViewRoot()
 								.getLocale());
 				papelDAO.adiciona(papel);
-				//addGlobalMessage("Inclusao feita com sucesso!");
+				//addGlobalMessage("Inclusao feita com sucesso!");				
 			} else {
-				addGlobalMessage("Nome do papel já existe!");
+				msg = Utils.getMessageResourceString("messages",
+						"mensagens.existe.nome", null, context.getViewRoot()
+								.getLocale());				
+				//addGlobalMessage("Nome do papel ja existe!");
 			}			
 		} else {
 			Papel temp;
@@ -46,11 +49,13 @@ public class PapelMB implements Serializable {
 				papelDAO.altera(temp);
 				msg = Utils.getMessageResourceString("messages",
 						"mensagens.atualizacao.sucesso", null, context.getViewRoot()
-								.getLocale());
-				addGlobalMessage(msg);
+								.getLocale());				
 			}
 
 		}
+		//apresentar mensagem
+		addGlobalMessage(msg);
+		
 		//papel = new Papel();
 		this.limpar();
 	}
@@ -73,7 +78,11 @@ public class PapelMB implements Serializable {
 	public void apaga() {
 		try {
 			papelDAO.remove(papel.getCodPapel());
-			addGlobalMessage("Papel excluido com sucesso!");
+			msg = Utils.getMessageResourceString("messages",
+					"mensagens.exclusao.sucesso", null, context.getViewRoot()
+							.getLocale());	
+			addGlobalMessage(msg);
+			//addGlobalMessage("Papel excluido com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
@@ -103,6 +112,8 @@ public class PapelMB implements Serializable {
 		papel = new Papel();
 		papelDAO = new PapelDAO();
 		System.out.println("\n\n\n\n\n\n\nContrui PapelMB\n\n\n\n\n\n\n\n\n\n\n");
+		context = FacesContext.getCurrentInstance();
+		msg = "";
 	}
 	public void setFiltroPapel(String filtroPapel) {
 		this.filtroPapel = filtroPapel;

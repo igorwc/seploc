@@ -101,9 +101,9 @@ public class LonaCB implements Serializable {
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}
-		if (nome.length() > 30) {
+		if (nome.length() > 20) {
 			errorMsg = Utils.getMessageResourceString("messages",
-					"nome.invalido.maior", null, context.getViewRoot()
+					"nome.invalido.maior20", null, context.getViewRoot()
 							.getLocale());
 			FacesMessage message = new FacesMessage(errorMsg);
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);

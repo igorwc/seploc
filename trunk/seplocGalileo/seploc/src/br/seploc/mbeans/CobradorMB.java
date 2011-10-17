@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 
 import br.seploc.dao.CobradorDAO;
 import br.seploc.pojos.Cobrador;
+import br.seploc.util.Utils;
 
 public class CobradorMB implements Serializable {
 
@@ -16,6 +17,8 @@ public class CobradorMB implements Serializable {
 	private Cobrador cobrador;
 	private CobradorDAO cobradorDAO;
 	private String filtroCobrador;
+	private FacesContext context;
+	private String msg;
 	
 	//CONSTRUTOR
 	/**
@@ -33,7 +36,8 @@ public class CobradorMB implements Serializable {
 		System.out.println("quantidade:  " +quantidade);
 		cobrador = new Cobrador();
 		cobradorDAO = new CobradorDAO();
-		System.out.println("\n\n\n\n\n\n\nContrui CobradorMB\n\n\n\n\n\n\n\n\n\n\n");
+		System.out.println("\n\n\n\n\n\n\nContrui CobradorMB\n\n\n\n\n\n\n\n\n\n\n");		
+		msg = "";
 	}
 
 	public void setFiltroCobrador(String filtroCobrador) {
@@ -90,10 +94,21 @@ public class CobradorMB implements Serializable {
 	 * Cadastrar ou alterar o cobrador
 	 */
 	public void cadastrar() {
+		context = FacesContext.getCurrentInstance();
 		if (cobrador.getCodCobrador() == null || cobrador.getCodCobrador() == 0) {
-			Cobrador c = new Cobrador(cobrador.getNome(),cobrador.getFoneContato(),cobrador.getAtivo());
-			cobradorDAO.adiciona(c);
-			addGlobalMessage("Inclusao feita com sucesso!");
+			if (!existe(cobrador)){
+				Cobrador c = new Cobrador(cobrador.getNome(),cobrador.getFoneContato(),cobrador.getAtivo());
+				cobradorDAO.adiciona(c);
+				msg = Utils.getMessageResourceString("messages",
+						"mensagens.inclusao.sucesso", null, context.getViewRoot()
+								.getLocale());				
+			} else {
+				msg = Utils.getMessageResourceString("messages",
+						"mensagens.existe.nome", null, context.getViewRoot()
+								.getLocale());				
+			}
+			addGlobalMessage(msg);
+			//addGlobalMessage("Inclusao feita com sucesso!");
 		} else {
 			Cobrador temp;
 			temp = cobradorDAO.recupera(cobrador.getCodCobrador());
@@ -104,7 +119,11 @@ public class CobradorMB implements Serializable {
 				temp.setFoneContato(cobrador.getFoneContato());	
 				
 				cobradorDAO.altera(temp);
-				addGlobalMessage("Atualização feita com sucesso!");
+				msg = Utils.getMessageResourceString("messages",
+						"mensagens.atualizacao.sucesso", null, context.getViewRoot()
+								.getLocale());
+				addGlobalMessage(msg);
+				//addGlobalMessage("Atualização feita com sucesso!");
 			}
 		}
 		cobrador = new Cobrador();
@@ -144,13 +163,21 @@ public class CobradorMB implements Serializable {
 	 * Excluir o cobrador
 	 */
 	public void apagar() {
+		context = FacesContext.getCurrentInstance();
 		try {
 			cobradorDAO.remove(cobrador.getCodCobrador());
-			addGlobalMessage("Excluido com sucesso!");
+			msg = Utils.getMessageResourceString("messages",
+					"mensagens.exclusao.sucesso", null, context.getViewRoot()
+							.getLocale());	
+			addGlobalMessage(msg);
+			//addGlobalMessage("Excluido com sucesso!");
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
 		}
 		cobrador = new Cobrador();
 	}
 	
+	private boolean existe(Cobrador c){
+		return cobradorDAO.existe(c);
+	}
 }

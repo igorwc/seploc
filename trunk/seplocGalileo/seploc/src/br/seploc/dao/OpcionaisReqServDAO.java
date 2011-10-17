@@ -17,7 +17,6 @@ public class OpcionaisReqServDAO extends
 		em.getTransaction().begin();
 		em.persist(t);
 		em.getTransaction().commit();
-		
 	}
 
 	@Override
@@ -36,9 +35,9 @@ public class OpcionaisReqServDAO extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<OpcionaisReqServ> getLista() {
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		Query q = em.createNamedQuery("OpcionaisReqServ.RetornaOpcionais");
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 		return (List<OpcionaisReqServ>) q.getResultList();
 	}
 	
@@ -87,6 +86,24 @@ public class OpcionaisReqServDAO extends
 		return op;
 	}
 
+	public boolean existe(OpcionaisReqServ op) {
+		boolean retorno = false;
+		Number count = 0;		
+		Query q = em.createNativeQuery(" SELECT count(1) "
+				+ "FROM tbl_opcionaisreqserv op "
+				+ "WHERE op.vcrNomeItem = :nome")
+		.setParameter("nome", op.getNomeItem());
+		count = (Number) q.getSingleResult();
+
+		// se retornar diferente de zero setar para verdadeiro
+		if (count.intValue() != 0) {
+			retorno = true;
+		}
+		
+		return retorno;
+		
+	}
+	
 	@Override
 	protected boolean verificaFilhos(Integer id) throws Exception {
 		Number contagemRequisicoes = 0;
