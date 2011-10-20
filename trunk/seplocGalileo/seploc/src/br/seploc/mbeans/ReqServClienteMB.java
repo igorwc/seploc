@@ -707,6 +707,7 @@ public class ReqServClienteMB implements Serializable {
 								System.out.println("Entrega: "+entrega.getLocal());
 							}					
 						}
+						
 						// verificar se foi alterado o projeto
 						Projeto p = this.projeto;
 						if (!temp.getProjeto().equals(p)){
@@ -841,6 +842,18 @@ public class ReqServClienteMB implements Serializable {
 			addGlobalMessage(e.getMessage());
 		}
 	}	
+	
+	public void apagarEntrega(){
+		try {
+			//remove a entrega do objeto
+			entrega = null;
+			reqServico.setEntrega(entrega);
+			reqServico.setValorEnt(0.0);
+		} catch (Exception e) {
+			e.printStackTrace();
+			addGlobalMessage(e.getMessage());
+		}
+	}
 	
 	public void limpar() {
 		cliente = new Cliente();
