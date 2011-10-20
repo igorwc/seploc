@@ -123,14 +123,25 @@
 	                   		<td>
 	                   			<h:inputText value="#{reqServClienteCB.reqServMB.entrega.local}"									 						 
 										 id="entrega" 
-										 size="35"
-										 readonly="true" /></td>
-							<td>
+										 size="30"
+										 readonly="true" />
 						   		<a4j:commandLink ajaxSingle="true" 
 						   						 id="editlinkent" 
 												 oncomplete="#{rich:component('modalEntrega')}.show();return false;">
 									<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
-								</a4j:commandLink></td> 
+								</a4j:commandLink>
+								<rich:toolTip for="editlinkent" value="Adicionar Entrega" />
+								<rich:spacer />
+								<a4j:commandLink ajaxSingle="true" 
+											 id="deletelinkent"
+											 reRender="entrega" 
+											 action="#{reqServClienteCB.reqServMB.apagarEntrega}"											 
+											 disabled="#{sessionScope.REQ_CLIENTE_ESC}">
+									<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+									<rich:toolTip for="deletelinkent" value="#{sessionScope.REQ_CLIENTE_ESC == true ? 'Nao tem permissao' : 'Remover Entrega'}" />
+								</a4j:commandLink>										 
+							</td>
+							<td></td> 
 							
 						</tr>
 						<tr align="left">					
