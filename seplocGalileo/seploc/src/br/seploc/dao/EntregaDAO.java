@@ -98,17 +98,17 @@ public class EntregaDAO extends GenericDAO<Entrega,Integer> {
 	
 	@SuppressWarnings("unchecked")
 	public List<Entrega> getEntregasPorLocal(String nome) {
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		Query q = em.createNamedQuery("Entrega.BuscaEntregas").setParameter(
 				"nome", "%" + nome + "%");
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 		return (List<Entrega>) q.getResultList();
 	}
 	@SuppressWarnings("unchecked")
 	public List<String> getLocaisEntrega() {
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		Query q = em.createNativeQuery("select vcrLocal from tbl_entrega");
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 		return (List<String>) q.getResultList();
 	}
 

@@ -84,8 +84,8 @@ public class RequisicaoServicoDAO extends
 
 	@Override
 	public RequisicaoServico altera(RequisicaoServico t) throws Exception {
-		em.getTransaction().begin();
 		ajustaPojo(t);
+		em.getTransaction().begin();
 		em.merge(t);
 		em.getTransaction().commit();
 		return t;
@@ -93,9 +93,9 @@ public class RequisicaoServicoDAO extends
 
 	@SuppressWarnings("unchecked")
 	public List<RequisicaoServico> getLista() {
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		Query q = em.createNamedQuery("RequisicaoServico.RetornaRequisicoes");
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 		return (List<RequisicaoServico>) q.getResultList();
 	}
 
@@ -111,12 +111,12 @@ public class RequisicaoServicoDAO extends
 	
 	@SuppressWarnings("unchecked")
 	public List<RequisicaoServico> getListaPorProjeto(Cliente cliente) {
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		Query q = em.createNamedQuery(
 				"SELECT * FROM br.seploc.pojos.RequisicaoServico rs"
 						+ " where rs.projeto.cliente.idCliente = :id")
 				.setParameter("id", cliente.getIdCliente());
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 		return (List<RequisicaoServico>) q.getResultList();
 	}
 	
