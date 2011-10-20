@@ -94,7 +94,9 @@
 							<td width="3%"></td>							
 							<td width="5%" rowspan="2">
 								<h:outputText value="Orcamento:" styleClass="texto"/>
-								<h:selectOneRadio value="#{reqServClienteCB.reqServMB.reqServico.orcamento}" id="orcamento" >
+								<h:selectOneRadio value="#{reqServClienteCB.reqServMB.reqServico.orcamento}" 
+									id="orcamento" 
+									disabled="#{reqServClienteCB.reqServMB.reqServico.numReq > 0 ? 'true' : 'false'}">
 									<f:selectItem itemLabel="SIM" itemValue="S"/>
 									<f:selectItem itemLabel="NAO" itemValue="N"/>				             		
 								</h:selectOneRadio>
@@ -121,14 +123,25 @@
 	                   		<td>
 	                   			<h:inputText value="#{reqServClienteCB.reqServMB.entrega.local}"									 						 
 										 id="entrega" 
-										 size="35"
-										 readonly="true" /></td>																												
-							<td>
+										 size="30"
+										 readonly="true" />
 						   		<a4j:commandLink ajaxSingle="true" 
 						   						 id="editlinkent" 
 												 oncomplete="#{rich:component('modalEntrega')}.show();return false;">
 									<h:graphicImage value="/imgs/botao-editar.png" style="border:0" />					
-								</a4j:commandLink></td>									
+								</a4j:commandLink>
+								<rich:toolTip for="editlinkent" value="Adicionar Entrega" />
+								<rich:spacer />
+								<a4j:commandLink ajaxSingle="true" 
+											 id="deletelinkent"
+											 reRender="entrega" 
+											 action="#{reqServClienteCB.reqServMB.apagarEntrega}"											 
+											 disabled="#{sessionScope.BALCAO_ESC}">
+									<h:graphicImage value="/imgs/delete_icon.gif" style="border:0" />
+									<rich:toolTip for="deletelinkent" value="#{sessionScope.BALCAO_ESC == true ? 'Nao tem permissao' : 'Remover Entrega'}" />
+								</a4j:commandLink>										 
+							</td>																												
+							<td></td>									
 											            				
 						</tr>
 						<tr align="left">					
@@ -144,16 +157,17 @@
 											<th><h:outputText value="Impressao"/></th>
 											<th><h:outputText value="Quant"/></th>							
 										</tr>
-										<tr>
-										    <script type="text/javascript" >
+										<tr>										    
+											<td>
+											<script type="text/javascript" >
 										          (function($j){
 										        	  $j(function(){
 										        		    $j('.seploccurrency').setMask();
 										        		    }
 										        	    );
 										          })(jQuery);  
-                                            </script>
-											<td><h:inputText id="desc" 
+                                            </script>											
+											<h:inputText id="desc" 
 											value="#{reqServClienteCB.reqServMB.linhaReqServ.nomeArquivo}" 
 											size="55"
 											onkeyup="javascript:this.value=this.value.toUpperCase();"/></td>
@@ -263,7 +277,7 @@
 	                   reRender="reqServ,linhaList,opList"/>
 	                  <a4j:commandButton value="#{msgs['botao.finalizar']}"  
 	                   action="#{reqServClienteCB.reqServMB.limpar}" 
-	                   reRender="reqServ,linhaList,opList"/>	                   
+	                   reRender="reqServ,linhaList,opList"/>          
 	                  </center> 
 	               </rich:panel>		                             
 	               <!-- fim Formulario --> 
@@ -349,7 +363,7 @@
 								<f:setPropertyActionListener value="#{linha}"
 									target="#{reqServClienteCB.reqServMB.linhaReqServ}" />
 							</a4j:commandLink>
-							<rich:toolTip for="editlinklinha" value="#{sessionScope.BALCAO_ESC == true ? 'Nao tem permissao' : 'Editar Requisicao'}" />
+							<rich:toolTip for="editlinklinha" value="#{sessionScope.BALCAO_ESC == true ? 'Nao tem permissao' : 'Editar Linha'}" />
 							<a4j:commandLink ajaxSingle="true" 
 											 id="deletelinklinha"
 											 reRender="linhaList" 
@@ -360,7 +374,7 @@
 								<f:setPropertyActionListener value="#{linha}"
 									target="#{reqServClienteCB.reqServMB.linhaReqServ}" />
 							</a4j:commandLink>
-							<rich:toolTip for="deletelinklinha" value="#{sessionScope.BALCAO_ESC == true ? 'Nao tem permissao' : 'Apagar Requisicao'}" />
+							<rich:toolTip for="deletelinklinha" value="#{sessionScope.BALCAO_ESC == true ? 'Nao tem permissao' : 'Apagar Linha'}" />
 						</rich:column> 
 	                    <f:facet name="footer">
 	               			<rich:datascroller id="dslinha" maxPages="3" renderIfSinglePage="true"/>
@@ -417,7 +431,7 @@
 								<f:setPropertyActionListener value="#{op}"
 									target="#{reqServClienteCB.reqServMB.opcionalReqServ}" />
 							</a4j:commandLink>
-							<rich:toolTip for="editlinklinha" value="#{sessionScope.BALCAO_ESC == true ? 'Nao tem permissao' : 'Editar Requisicao'}" />
+							<rich:toolTip for="editlinklinha" value="#{sessionScope.BALCAO_ESC == true ? 'Nao tem permissao' : 'Editar Opcional'}" />
 							<a4j:commandLink ajaxSingle="true"
 											 id="deletelinkop"
 											 reRender="opList" 
@@ -428,7 +442,7 @@
 								<f:setPropertyActionListener value="#{op}"
 									target="#{reqServClienteCB.reqServMB.opcionalReqServ}" />
 							</a4j:commandLink>
-							<rich:toolTip for="deletelinklinha" value="#{sessionScope.BALCAO_ESC == true ? 'Nao tem permissao' : 'Apagar Requisicao'}" />
+							<rich:toolTip for="deletelinklinha" value="#{sessionScope.BALCAO_ESC == true ? 'Nao tem permissao' : 'Apagar Opcional'}" />
 						</rich:column> 
 	                    <f:facet name="footer">
 	               			<rich:datascroller id="dsop" maxPages="3" renderIfSinglePage="true"/>
