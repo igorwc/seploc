@@ -682,6 +682,12 @@ public class ReqServClienteMB implements Serializable {
 							papel = papelDAO.recupera(papel.getCodPapel());						
 							linhaReqServ.setPapel(papel);
 							double valorPapel = 0.0;
+							
+							//verificaar se eh papel ou lona/adesivo e alterar a impressao
+							if (papel.getEhPapel() == "N"){						
+								linhaReqServ.setImpressao("COLOR");
+							}
+							
 							// verificar a cor em uso
 							if (linhaReqServ.getImpressao().equalsIgnoreCase("Mono"))
 								valorPapel = papel.getImpMono();
@@ -698,14 +704,20 @@ public class ReqServClienteMB implements Serializable {
 							reqServicoDAO.addLinha(temp, linhaReqServ);
 						}
 						// verificar se existe alteracao na entrega
-						if (entrega != null){ // || entrega.getLocal() != null
-							if (temp.getEntrega() == null){
-								temp.setEntrega(entrega);
-								System.out.println("Entrega: "+entrega.getLocal());
-							} else if (!temp.getEntrega().equals(entrega)){
-								temp.setEntrega(entrega);
-								System.out.println("Entrega: "+entrega.getLocal());
-							}					
+						if (entrega != null) {
+							if (entrega.getLocal() != null){  
+								if (temp.getEntrega() == null){
+									temp.setEntrega(entrega);									
+								} else if (!temp.getEntrega().equals(entrega)){
+									temp.setEntrega(entrega);									
+								}					
+							} else {
+								temp.setEntrega(null);
+							}
+						} else {
+							if (!temp.getEntrega().equals(entrega)){
+								temp.setEntrega(null);
+							}
 						}
 						
 						// verificar se foi alterado o projeto
@@ -847,8 +859,6 @@ public class ReqServClienteMB implements Serializable {
 		try {
 			//remove a entrega do objeto
 			entrega = null;
-			reqServico.setEntrega(entrega);
-			reqServico.setValorEnt(0.0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			addGlobalMessage(e.getMessage());

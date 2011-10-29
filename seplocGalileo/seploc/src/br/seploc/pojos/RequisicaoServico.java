@@ -64,7 +64,7 @@ import javax.persistence.Version;
 				+ "where r.intCodProj = p.intCodProj and p.intClienteID = c.intClienteID "
 				+ "and c.intBalcao = :balcao and r.datData between :dataIni and :dataFim and chrOrcamento = 'N' "
 				+ "group by MONTH(r.datData) ", resultSetMapping = "SQLNativo"),				
-		@NamedNativeQuery(name = "RequisicaoServico.GratificacaoUsuario", query = " SELECT IFNULL( SUM( r.dblValorTotal ), 0) * (u.intGratificacao/100) "
+		@NamedNativeQuery(name = "RequisicaoServico.GratificacaoUsuario", query = " SELECT IFNULL( SUM( r.dblValorTotal - r.dblValorEnt ), 0) * (u.intGratificacao/100) "
 				+ "FROM tbl_reqserv r, tbl_reqservusuario ru, tbl_usuario u " 
 				+ "where r.intNumReq = ru.intNumReq and ru.intCodUsr = u.intCodUsr "
 				+ "and u.vcrLogin = :login and r.datData between :dataIni and :dataFim and r.chrOrcamento = 'N' "
