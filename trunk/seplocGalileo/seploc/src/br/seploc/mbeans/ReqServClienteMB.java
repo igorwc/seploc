@@ -467,16 +467,26 @@ public class ReqServClienteMB implements Serializable {
 		if (this.cliente == null || this.cliente.getIdCliente().intValue() == 0) {
 			retorno = new ArrayList<Projeto>();
 		} else {
-			if(this.cliente.getProjetos().isEmpty()){
+			// verifica se existem pendencias financeiras
+			if (this.cliente.getPendente().charAt(0) == 'S'){
 				retorno = new ArrayList<Projeto>();
 				Projeto p = new Projeto();
 				p.setCodProj(0);
-				p.setProjeto("Cliente não tem projetos");
-				retorno.add(p);
-			}else{
-				retorno = this.cliente.getProjetos();
-				System.out.println("cli: "+this.cliente.getFantasia().toString());
-			}
+				p.setProjeto("Existem pendencias com este Cliente. Favor Verificar com a Administracao!");
+				retorno.add(p);				
+			} else {
+				//verifica se existem projetos
+				if(this.cliente.getProjetos().isEmpty()){
+					retorno = new ArrayList<Projeto>();
+					Projeto p = new Projeto();
+					p.setCodProj(0);
+					p.setProjeto("Cliente não tem projetos");
+					retorno.add(p);
+				}else{
+					retorno = this.cliente.getProjetos();
+					System.out.println("cli: "+this.cliente.getFantasia().toString());
+				}
+			} 
 		}
 		return retorno;
 	}
@@ -707,9 +717,11 @@ public class ReqServClienteMB implements Serializable {
 						if (entrega != null) {
 							if (entrega.getLocal() != null){  
 								if (temp.getEntrega() == null){
-									temp.setEntrega(entrega);									
+									temp.setEntrega(entrega);					
+									reqServico.setValorEnt(entrega.getPreco());
 								} else if (!temp.getEntrega().equals(entrega)){
-									temp.setEntrega(entrega);									
+									temp.setEntrega(entrega);					
+									reqServico.setValorEnt(entrega.getPreco());
 								}					
 							} else {
 								temp.setEntrega(null);
