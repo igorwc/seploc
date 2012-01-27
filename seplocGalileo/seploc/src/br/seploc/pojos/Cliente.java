@@ -103,6 +103,9 @@ public class Cliente implements Serializable {
 
 	@Column(name = "vcrMapa")
 	private String mapa;
+	
+	@Column(name = "chrPendente")
+	private String pendente;	
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "intEntregaPadrao", referencedColumnName = "intCodEnt")
@@ -294,6 +297,16 @@ public class Cliente implements Serializable {
 	public void setMapa(String mapa) {
 		this.mapa = mapa;
 	}
+
+	public void setPendente(String pendente) {
+		this.pendente = pendente;
+	}
+
+
+	public String getPendente() {
+		return pendente;
+	}
+
 
 	public Entrega getEntregaPadrao() {
 		return entregaPadrao;

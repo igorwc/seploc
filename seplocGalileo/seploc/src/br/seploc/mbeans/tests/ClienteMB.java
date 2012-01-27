@@ -74,9 +74,11 @@ public class ClienteMB {
 			if(papelPadrao != null){
 				cliente.setPapelPadrao(papelPadrao);
 			}
+			//setar pendencias financeiras
+			cliente.setPendente("N");
 			clienteDAO.adiciona(cliente);
 			limpar();
-			addGlobalMessage("Inclus�o feita com sucesso!");
+			addGlobalMessage("Inclusao feita com sucesso!");
 
 		} catch (Exception e) {
 			addGlobalMessage(e.getMessage());
@@ -127,6 +129,20 @@ public class ClienteMB {
 		}
 	}
 	
+	public void pendente(){
+		try {
+			Cliente clienteTemp = clienteDAO.recupera(cliente.getIdCliente());
+			if (clienteTemp.getPendente() == "S") {
+				clienteTemp.setPendente("N");
+			} else {
+				clienteTemp.setPendente("S");
+			}
+			clienteDAO.altera(clienteTemp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	
 	public List<Cidade> getTodasCidades() {
 
