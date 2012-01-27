@@ -449,6 +449,10 @@
                              <h:outputText value="Fantasia" />  
                          </rich:column>  
 
+                         <rich:column>  
+                             <h:outputText value="Pendencia" />  
+                         </rich:column>  
+
                          <rich:column/>  
                      </rich:columnGroup>  
                  </f:facet>  
@@ -464,6 +468,10 @@
                     <h:outputText value="#{cliente.fantasia}" />  
                  </rich:column>  
 
+                 <rich:column styleClass="col1">  
+                    <h:outputText value="#{cliente.pendente == 'S' ? 'SIM' : 'NAO'}" />  
+                 </rich:column>  
+                 
                  <rich:column styleClass="col1">
 				<a4j:commandLink ajaxSingle="true" 
 				                 id="editlink" 
@@ -475,7 +483,17 @@
 						target="#{clienteCB.clienteMB.cliente}" />
 				</a4j:commandLink>
 				<rich:toolTip for="editlink" value="#{sessionScope.CLIENTE_ESC  == true ? 'Nao tem permissao' : 'Editar Registro'}" />
-
+				
+				<a4j:commandLink ajaxSingle="true" 
+				                 id="deblink" 
+			    				 reRender="cadCliente" 
+			    				 action="#{clienteCB.clienteMB.pendente}" 
+			    				 disabled="#{sessionScope.CLIENTE_ESC}" >
+					<h:graphicImage value="../imgs/cifrao_icon.gif" style="border:0" />
+					<f:setPropertyActionListener value="#{cliente}"
+						target="#{clienteCB.clienteMB.cliente}" />
+				</a4j:commandLink>
+				<rich:toolTip for="deblink" value="#{sessionScope.CLIENTE_ESC  == true ? 'Nao tem permissao' : 'Alterar Pendencia'}" />
 			</rich:column>			
 			<f:facet name="footer">
        			<rich:datascroller id="dsCliente" maxPages="3" renderIfSinglePage="true"/>
