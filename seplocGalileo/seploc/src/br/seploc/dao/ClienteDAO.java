@@ -21,7 +21,7 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 
 	@Override
 	public void adiciona(Cliente t) throws Exception {
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		try{
 		ajustaPojo(t);
 		if (t.getFoneCliente() == null) {
@@ -37,18 +37,18 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 			em.merge(t);
 
 		}}catch (Exception e) {
-			em.getTransaction().rollback();
+//			em.getTransaction().rollback();
 			throw e;
 		}
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 
 	}
 
 	@Override
 	public Cliente altera(Cliente t) {
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		em.merge(t);
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 		return t;
 	}
 
@@ -59,30 +59,30 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 	}
 	
 	public Cliente recupera(String fantasia) {		
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		Query q = em.createNamedQuery("Cliente.RetornaClientePorFantasia").setParameter(
 				"nome", fantasia);
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 		return (Cliente) q.getSingleResult();
 	}	
 
 	@Override
 	public Cliente remove(Integer id) throws Exception {
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		Cliente cliente = em.find(Cliente.class, id);
 		if (cliente == null) {
-			em.getTransaction().rollback();
+//			em.getTransaction().rollback();
 			throw new RecordNotFound("Cliente Inexistente");
 		} else {
 			if (verificaFilhos(id)) {
-				em.getTransaction().rollback();
+//				em.getTransaction().rollback();
 				throw new ParentDeleteException(
 						"Cliente tem registros depedentes...");
 			} else {
 				em.remove(cliente);
 			}
 		}
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 
 		return cliente;
 	}
@@ -116,10 +116,10 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 
 	@SuppressWarnings("unchecked")
 	public List<Cliente> getListaClientesPorNomeFantasia(String nome){
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		Query q = em.createNamedQuery("Cliente.BuscaClientesPorFantasia").setParameter(
 				 "nome", "%" + nome + "%");
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 		return (List<Cliente>) q.getResultList();
 	}
 	
@@ -136,48 +136,48 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 	}
 	@SuppressWarnings("unchecked")
 	public List<Cliente> getClientesPorNome(String nome) {
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		Query q = em.createNamedQuery("Cliente.BuscaClientes").setParameter(
 				"nome", "%" + nome + "%");
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 		return (List<Cliente>) q.getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Cliente> getClientesPorFantasia(String nome) {
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		Query q = em.createNamedQuery("Cliente.BuscaClientesPorFantasia").setParameter(
 				"nome", "%" + nome + "%");
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 		return (List<Cliente>) q.getResultList();
 	}	
 	
 	@SuppressWarnings("unchecked")
 	public List<Cliente> getClientesPorCPF(String CPF) {
-		boolean flag = false;
-		if(!em.getTransaction().isActive()){
-			em.getTransaction().begin();
-			flag = true;
-		}
+//		boolean flag = false;
+//		if(!em.getTransaction().isActive()){
+//			em.getTransaction().begin();
+//			flag = true;
+//		}
 		Query q = em.createNamedQuery("Cliente.BuscaClientesPorCPF").setParameter(
 				"CPF", "%" + CPF + "%");
-		if(flag){
-			em.getTransaction().commit();
-		}
+//		if(flag){
+//			em.getTransaction().commit();
+//		}
 		return (List<Cliente>) q.getResultList();
 	}
 	@SuppressWarnings("unchecked")
 	public List<Cliente> getClientesPorCNPJ(String CNPJ) {
-		boolean flag = false;
-		if(!em.getTransaction().isActive()){
-			em.getTransaction().begin();
-			flag = true;
-		}
+//		boolean flag = false;
+//		if(!em.getTransaction().isActive()){
+//			em.getTransaction().begin();
+//			flag = true;
+//		}
 		Query q = em.createNamedQuery("Cliente.BuscaClientesPorCNPJ").setParameter(
 				"CNPJ", "%" + CNPJ + "%");
-		if(flag){
-			em.getTransaction().commit();
-		}
+//		if(flag){
+//			em.getTransaction().commit();
+//		}
 		return (List<Cliente>) q.getResultList();
 	}
 	@Override
@@ -214,9 +214,9 @@ public class ClienteDAO extends GenericDAO<Cliente, Integer> implements Serializ
 
 	@SuppressWarnings("unchecked")	
 	public List<String> getNomesCliente() {
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		Query q = em.createNativeQuery("select vcrFantasia from tbl_clientes");
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 		return (List<String>) q.getResultList();
 	}	
 }

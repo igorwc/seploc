@@ -7,10 +7,10 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.ProjetoDAO;
 import br.seploc.dao.exceptions.FieldNotNullException;
 import br.seploc.dao.pagedqueries.FilteredNameClientesPager;
+import br.seploc.dao.services.ClienteDAOService;
 import br.seploc.pojos.Cliente;
 import br.seploc.pojos.Projeto;
 
@@ -21,7 +21,7 @@ public class ProjetoMB implements Serializable {
 	private Projeto projeto;
 	private Cliente cliente;
 	private ProjetoDAO projetoDAO;	
-	ClienteDAO clienteDAO;
+	ClienteDAOService clienteDAO;
 	private String filtroCliente;
 	private String filtroClienteAnterior;	
 	private boolean resetaFiltroCliente;
@@ -48,7 +48,7 @@ public class ProjetoMB implements Serializable {
 		cliente = new Cliente();
 		cliente.setIdCliente(0);
 		projetoDAO = new ProjetoDAO();
-		clienteDAO = new ClienteDAO();
+		clienteDAO = new ClienteDAOService();
 		filtroCliente = "";
 		filtroClienteAnterior = "";
 		clientePager = new FilteredNameClientesPager();
@@ -172,7 +172,7 @@ public class ProjetoMB implements Serializable {
 			FacesContext context = FacesContext.getCurrentInstance();
 			ReqServClienteMB reqServMB = (ReqServClienteMB) context.getApplication()
 	        .evaluateExpressionGet(context, "#{reqServClienteMB}", ReqServClienteMB.class);
-			ClienteDAO cDao = new ClienteDAO();
+			ClienteDAOService cDao = new ClienteDAOService();
 			reqServMB.setCliente(cDao.recupera(reqServMB.getCliente().getIdCliente()));
 			
 		} catch (Exception e) {
@@ -282,7 +282,7 @@ public class ProjetoMB implements Serializable {
 	 */
 	public void limpar() {
 		projeto = new Projeto();
-		clienteDAO = new ClienteDAO();
+		clienteDAO = new ClienteDAOService();
 	}	
 	
 	/**

@@ -18,12 +18,10 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 
 import br.seploc.dao.CidadeDAO;
-import br.seploc.dao.ClienteDAO;
 import br.seploc.dao.EntregaDAO;
+import br.seploc.dao.services.ClienteDAOService;
 import br.seploc.pojos.Cidade;
 import br.seploc.pojos.Cliente;
-import br.seploc.pojos.Entrega;
-import br.seploc.pojos.Estado;
 import br.seploc.pojos.FoneCliente;
 
 public class ClienteBean implements Serializable {
@@ -34,7 +32,7 @@ public class ClienteBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Cliente cliente;
 	private FoneCliente foneCliente;
-	private ClienteDAO clienteDAO;
+	private ClienteDAOService clienteDAO;
 	private List<String> bairros;
 	private String bairroCliente;
 	private HtmlInputText inputCNPJ;
@@ -54,7 +52,7 @@ public class ClienteBean implements Serializable {
 	public ClienteBean() {
 		cliente = new Cliente();
 		foneCliente = new FoneCliente();
-		clienteDAO = new ClienteDAO();
+		clienteDAO = new ClienteDAOService();
 		EntregaDAO entregaDAO = new EntregaDAO();
 		bairros = entregaDAO.getLocaisEntrega();
 		if (cliente.getEntregaPadrao() != null)
@@ -186,11 +184,11 @@ public class ClienteBean implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public ClienteDAO getClienteDAO() {
+	public ClienteDAOService getClienteDAOService() {
 		return clienteDAO;
 	}
 
-	public void setClienteDAO(ClienteDAO clienteDAO) {
+	public void setClienteDAOService(ClienteDAOService clienteDAO) {
 		this.clienteDAO = clienteDAO;
 	}
 
